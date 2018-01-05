@@ -1,0 +1,45 @@
+{
+  "name": "BigBox_Boilerplate",
+  "version": "1.0.2",
+  "private": true,
+  "dependencies": {
+    "compression": "^1.7.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
+    "next": "^3.0.3",
+    "next-routes": "^1.1.0",
+    "node-sass": "^4.5.3",
+    "nprogress": "^0.2.0",
+    "raw-loader": "^0.5.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-image-lightbox": "^4.2.2",
+    "react-jsonschema-form": "^0.50.1",
+    "react-moment": "^0.6.5",
+    "react-scroll": "^1.5.5",
+    "sass-loader": "^6.0.6",
+    "superagent": "^3.5.2",
+    "superagent-defaults": "^0.1.14",
+    "superagent-jsonapify": "^1.4.5",
+    "superagent-prefix": "^0.0.2",
+    "yandex-map-react": "^1.1.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "7.0.0",
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "scripts": {
+    "build": "next build",
+    "start": "PORT=3000 NODE_ENV=production node server.js",
+    "start:dev": "PORT=3000 NODE_ENV=development node server.js"
+  }
+}

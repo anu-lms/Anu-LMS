@@ -1,0 +1,39 @@
+uuid: 16c4a2c0-70b7-4f75-aa3b-ce054b34b481
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.analytics
+    - field.field.config_pages.analytics.field_google_analytics
+    - field.field.config_pages.analytics.field_google_tag_manager
+    - field.field.config_pages.analytics.field_yandex_metrika
+id: config_pages.analytics.default
+targetEntityType: config_pages
+bundle: analytics
+mode: default
+content:
+  field_google_analytics:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_google_tag_manager:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_yandex_metrika:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

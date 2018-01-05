@@ -1,0 +1,22 @@
+.text-align-right {
+  text-align: right;
+}
+.text-align-center {
+  text-align: center;
+}
+.text-align-left {
+  text-align: left;
+}
+.text-align-justify {
+  text-align: justify;
+}
+img[data-align="center"] {
+  display: block;
+  margin: 0 auto;
+}
+img[data-align="left"] {
+  float: left;
+}
+img[data-align="right"] {
+  float: right;
+}

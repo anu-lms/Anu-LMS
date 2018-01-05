@@ -1,0 +1,5 @@
+name: Boilerplate Manager Toolbar
+type: module
+description: Provides toolbar usable for managers.
+core: 8.x
+package: Boilerplate

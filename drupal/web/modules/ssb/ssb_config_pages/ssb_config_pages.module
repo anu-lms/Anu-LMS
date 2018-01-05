@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Contains ssb_config_pages.module.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function ssb_config_pages_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (substr_compare($form_id, 'config_pages_', 0, 13) === 0 ) {
+    if (substr_compare($form_id,'_form', -5) === 0) {
+      // Remove "Clear Values" button from all pages.
+      $form['actions']['reset']['#access'] = false;
+    }
+  }
+}

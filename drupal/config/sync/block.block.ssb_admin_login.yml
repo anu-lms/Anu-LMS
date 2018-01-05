@@ -1,0 +1,22 @@
+uuid: 96dc4eee-c809-46a8-be53-936ed09ca6ec
+langcode: en
+status: false
+dependencies:
+  module:
+    - user
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: 862sIulDdHmF0vBU1s2j2_a_CwkxursrL0pIrMDzzOg
+id: ssb_admin_login
+theme: ssb_admin
+region: content
+weight: -1
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'Вход на сайт'
+  provider: user
+  label_display: visible
+visibility: {  }

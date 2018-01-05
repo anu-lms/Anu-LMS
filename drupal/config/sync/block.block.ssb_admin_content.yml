@@ -1,0 +1,22 @@
+uuid: 09114f14-42cf-4c86-8db0-331d33e128dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: 80N66GdzEvwqi1m-_GZ-ulkk8AJG9beoXcZ4-pMVKjI
+id: ssb_admin_content
+theme: ssb_admin
+region: content
+weight: -2
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Содержимое страницы'
+  provider: system
+  label_display: '0'
+visibility: {  }

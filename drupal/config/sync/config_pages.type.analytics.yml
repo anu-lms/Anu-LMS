@@ -1,0 +1,14 @@
+uuid: ab03c2e8-badf-4812-b80e-70f7e3ee7be4
+langcode: en
+status: true
+dependencies: {  }
+id: analytics
+label: 'Configure analytics'
+context:
+  show_warning: 1
+  group:
+    language: 0
+menu:
+  path: /analytics
+  weight: '2'
+  description: 'Add or change analytics tracking codes.'

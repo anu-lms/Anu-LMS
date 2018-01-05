@@ -1,0 +1,11 @@
+uuid: 47982aea-0688-4069-a395-c0a5b2a6ef0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.site_menu.site_menu_item
+id: site_menu.site_menu_item
+target_entity_type_id: site_menu
+target_bundle: site_menu_item
+default_langcode: site_default
+language_alterable: false

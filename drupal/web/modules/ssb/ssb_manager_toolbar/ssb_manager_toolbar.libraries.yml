@@ -1,0 +1,6 @@
+ssb_manager_toolbar:
+  version: 1.x
+  css:
+    theme:
+      css/ssb-manager-toolbar.css: {}
+      css/fontawesome-5.0.0/css/fontawesome-all.min.css: {}

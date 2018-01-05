@@ -1,0 +1,11 @@
+services:
+
+  ssb_routes.user_edit_redirect_subscriber:
+    class: Drupal\ssb_routes\UserEditRedirectSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  ssb_routes.node_view_redirect_subscriber:
+    class: Drupal\ssb_routes\NodeRedirectSubscriber
+    tags:
+      - { name: event_subscriber }

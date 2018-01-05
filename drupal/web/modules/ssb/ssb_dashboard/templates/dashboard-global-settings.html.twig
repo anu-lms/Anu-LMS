@@ -1,0 +1,13 @@
+{{ attach_library('ssb_dashboard/ssb_dashboard') }}
+<div>
+  {% if pages %}
+    <ul>
+      {% for page in pages %}
+        <li>
+          <a href="{{ path(page.routeName, page.routeParam) }}">{{ page.name }}</a>
+          {% if page.description %}<div>{{ page.description }}</div>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>

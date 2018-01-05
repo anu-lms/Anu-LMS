@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Form edit customization for menu items edit.
+ * Get title from Link text. 
+ * Make title hidden and non required.
+ *
+ * @param $entity_form
+ * @param $form_state
+ */
+function ssb_inline_entity_form_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'site_menu') {
+
+    // Make link text required.
+    $entity_form['field_menu_item_link']['widget'][0]['title']['#required'] = true;
+
+    // Make title hidden and not required.
+    $entity_form['title']['#type'] = 'hidden';
+    $entity_form['title']['widget'][0]['#required'] = false;
+    $entity_form['title']['widget']['#required'] = false;
+    $entity_form['title']['widget'][0]['value']['#required'] = false;
+    $entity_form['title']['widget'][0]['value']['#default_value'] = t('No name');
+
+    $input = $form_state->getUserInput();
+    if (array_key_exists('field_site_menu', $input )){
+      $value_title_url = $input['field_site_menu']['form']['inline_entity_form']['field_menu_item_link'][0]['title'];
+      if ($value_title_url){
+        $input['field_site_menu']['form']['inline_entity_form']['title'][0]['value'] = $value_title_url;
+        $form_state->setUserInput($input);
+      }
+      if (array_key_exists('entities', $input['field_site_menu']['form']['inline_entity_form'])) {
+        foreach ($input['field_site_menu']['form']['inline_entity_form']['entities'] as $key => $entity) {
+          $input['field_site_menu']['form']['inline_entity_form']['entities'][$key]['form']['title'][0]['value'] = $entity['form']['field_menu_item_link'][0]['title'];
+        }
+        $form_state->setUserInput($input);
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Contains main entry points for the module.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ssb_images_preprocess_image_widget(&$variables) {
+  $element = &$variables['element'];
+  // Hide image filename & size.
+  if (!empty($element['fids']['#value'])) {
+    $file = reset($element['#files']);
+    $variables['data']['file_' . $file->id()]['#access'] = FALSE;
+  }
+}

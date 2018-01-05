@@ -1,0 +1,5 @@
+name: Boilerplate Inline Entity Form
+type: module
+description: Customizations of Inline Entity Form module.
+core: 8.x
+package: Boilerplate

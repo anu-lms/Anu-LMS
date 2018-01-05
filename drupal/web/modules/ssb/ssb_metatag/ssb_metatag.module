@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains ssb_metatag.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ssb_metatag_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'entity_base_field_info_alter') {
+    // Move ssb_metatag_entity_base_field_info_alter() to the end of the list.
+    $group = $implementations['ssb_metatag'];
+    unset($implementations['ssb_metatag']);
+    $implementations['ssb_metatag'] = $group;
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ */
+function ssb_metatag_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+  // By default Metatag module adds additional metatag field to any entity output,
+  // We remove this field to avoid issues, we can get metatag info from added field anyway.
+  if (!empty($fields['metatag'])) {
+    unset($fields['metatag']);
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function ssb_metatag_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  // Add a css class to widget form elements for all fields of type mytype.
+  $field_definition = $context['items']->getFieldDefinition();
+  if ($field_definition->getType() == 'metatag') {
+    // Be sure not to overwrite existing attributes.
+    $element['advanced']['#access'] = false;
+    $element['basic']['abstract']['#access'] = false;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ssb_metatag_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $formId) {
+  // Add a css class to widget form elements for all fields of type mytype.
+
+  if ($formId == 'metatag_defaults_edit_form') {
+    // Be sure not to overwrite existing attributes.
+    $element['advanced']['#access'] = false;
+    $element['basic']['abstract']['#access'] = false;
+  }
+}

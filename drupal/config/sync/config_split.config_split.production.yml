@@ -1,0 +1,16 @@
+uuid: 38120974-8bed-4575-9bb9-c70f68b12df0
+langcode: en
+status: true
+dependencies: {  }
+id: production
+label: 'Production changes'
+folder: ../config/production
+module: {  }
+theme: {  }
+blacklist: {  }
+graylist:
+  - contact.form.contact_form
+  - system.site
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

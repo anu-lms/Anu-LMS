@@ -1,0 +1,36 @@
+{{ attach_library('ssb_manager_toolbar/ssb_manager_toolbar') }}
+<div class="ssb-manager-toolbar">
+  <span class="ssb-menu-left">
+    <ul>
+      <li>
+        <a href={{ path('<front>')|replace({'/admin': ''}) }}>
+          <i class="fas fa-arrow-alt-circle-left"></i>
+          <span>To the site</span>
+        </a>
+      </li>
+      <li>
+        <a href={{ path('<front>') }}>
+          <i class="fas fa-align-justify"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+    </ul>
+  </span>
+  <span class="ssb-menu-right">
+    <ul>
+      <!--<li class="user-name">{{ user_name }}</li>-->
+      <li>
+        <a href={{ path('entity.user.edit_form', id_user) }}>
+          <i class="fas fa-edit"></i>
+          <span>Account settings</span>
+        </a>
+      </li>
+      <li>
+        <a href={{ path('user.logout') }}>
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Log Out</span>
+        </a>
+      </li>
+    </ul>
+  </span>
+</div>

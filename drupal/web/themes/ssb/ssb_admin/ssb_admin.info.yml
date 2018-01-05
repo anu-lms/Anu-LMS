@@ -1,0 +1,8 @@
+name: Boilerplate Admin
+type: theme
+description: Boilerplate theme for admin UI
+core: 8.x
+base theme: adminimal_theme
+
+libraries:
+  - ssb_admin/global-styling

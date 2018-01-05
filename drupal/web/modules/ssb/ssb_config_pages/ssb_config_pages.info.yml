@@ -1,0 +1,7 @@
+name: Boilerplate Config Pages
+type: module
+description: Customizations for config pages settings.
+core: 8.x
+package: Boilerplate
+dependencies:
+  - config_pages

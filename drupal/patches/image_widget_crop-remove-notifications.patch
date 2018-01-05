@@ -1,0 +1,35 @@
+diff --git a/src/ImageWidgetCropManager.php b/src/ImageWidgetCropManager.php
+index d6ffd17..18e24d1 100644
+--- a/src/ImageWidgetCropManager.php
++++ b/src/ImageWidgetCropManager.php
+@@ -104,7 +104,7 @@ class ImageWidgetCropManager implements ImageWidgetCropInterface {
+         }
+ 
+         $this->updateCropProperties($crop, $crop_properties);
+-        drupal_set_message(t('The crop "@cropType" were successfully updated for image "@filename".', ['@cropType' => $crop_type->label(), '@filename' => $this->fileStorage->load($field_value['file-id'])->getFilename()]));
++        //drupal_set_message(t('The crop "@cropType" were successfully updated for image "@filename".', ['@cropType' => $crop_type->label(), '@filename' => $this->fileStorage->load($field_value['file-id'])->getFilename()]));
+       }
+     }
+   }
+@@ -129,7 +129,7 @@ class ImageWidgetCropManager implements ImageWidgetCropInterface {
+     $crop->save();
+ 
+     if ($notify) {
+-      drupal_set_message(t('The crop "@cropType" was successfully added for image "@filename".', ['@cropType' => $crop_type->label(), '@filename' => $this->fileStorage->load($field_value['file-id'])->getFilename()]));
++      //drupal_set_message(t('The crop "@cropType" was successfully added for image "@filename".', ['@cropType' => $crop_type->label(), '@filename' => $this->fileStorage->load($field_value['file-id'])->getFilename()]));
+     }
+   }
+ 
+@@ -144,10 +144,10 @@ class ImageWidgetCropManager implements ImageWidgetCropInterface {
+     ]);
+     $this->cropStorage->delete($crop);
+     $this->imageStylesOperations($image_styles, $file_uri);
+-    drupal_set_message(t('The crop "@cropType" was successfully deleted for image "@filename".', [
++    /*drupal_set_message(t('The crop "@cropType" was successfully deleted for image "@filename".', [
+       '@cropType' => $crop_type->label(),
+       '@filename' => $this->fileStorage->load($file_id)->getFilename(),
+-    ]));
++    ]));*/
+   }
+ 
+   /**

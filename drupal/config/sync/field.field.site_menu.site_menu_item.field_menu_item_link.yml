@@ -1,0 +1,23 @@
+uuid: 88b28d9c-b3aa-4bde-99cb-2b08a7938cf4
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.site_menu.site_menu_item
+    - field.storage.site_menu.field_menu_item_link
+  module:
+    - link
+id: site_menu.site_menu_item.field_menu_item_link
+field_name: field_menu_item_link
+entity_type: site_menu
+bundle: site_menu_item
+label: 'Ссылка пункта меню'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 2
+field_type: link

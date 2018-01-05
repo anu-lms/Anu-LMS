@@ -1,0 +1,20 @@
+uuid: 035cde34-5b48-49d7-91f0-6dcf8ac25b65
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'access user profiles'
+  - 'create record_forms entities'
+  - 'issue subrequests'
+  - 'restful post contact_message'
+  - 'view any site_menu entities'
+  - 'view commerce_product'
+  - 'view files'

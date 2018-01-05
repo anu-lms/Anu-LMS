@@ -1,0 +1,6 @@
+services:
+  ssb_jsonapi_normalizer:
+    class: Drupal\ssb_jsonapi\Normalizer\NormalizerAddEditPath
+    arguments: ['@jsonapi.link_manager', '@jsonapi.resource_type.repository', '@entity_type.manager']
+    tags:
+      - { name: normalizer, priority: 24 }

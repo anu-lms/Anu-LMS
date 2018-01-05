@@ -1,0 +1,9 @@
+uuid: e763d280-b6ae-4366-9cb3-1c8893dc00fa
+langcode: en
+status: true
+dependencies: {  }
+id: social_networks
+label: 'Социальные сети'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,5 @@
+name: Boilerplate Dashboard
+type: module
+description: Site's main dashboard.
+core: 8.x
+package: Boilerplate

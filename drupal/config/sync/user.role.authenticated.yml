@@ -1,0 +1,20 @@
+uuid: 9402e25a-6a8b-47a2-bf1e-4e8a00d80dff
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'access user profiles'
+  - 'create record_forms entities'
+  - 'issue subrequests'
+  - 'restful post contact_message'
+  - 'view any site_menu entities'
+  - 'view commerce_product'
+  - 'view files'

@@ -1,0 +1,15 @@
+uuid: 7fa85e74-8fa6-473c-8b84-91507f6d5093
+name: 'Anu LMS'
+mail: info@systemseed.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /dashboard
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: AyT9s8OUcclfALRE_imByOMgtZ19eOlqdF6zI3p7yqo
+mail_notification: ''

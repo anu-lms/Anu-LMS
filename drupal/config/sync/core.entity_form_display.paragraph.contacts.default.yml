@@ -1,0 +1,40 @@
+uuid: 526de73a-f887-4ff7-afc8-afd02d60ca3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.contacts.field_info_prefix
+    - field.field.paragraph.contacts.field_info_type
+    - field.field.paragraph.contacts.field_info_value
+    - paragraphs.paragraphs_type.contacts
+id: paragraph.contacts.default
+targetEntityType: paragraph
+bundle: contacts
+mode: default
+content:
+  field_info_prefix:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_info_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_info_value:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

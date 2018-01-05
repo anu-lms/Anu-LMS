@@ -1,0 +1,73 @@
+uuid: c97159c1-9425-404a-87bb-6bec69894638
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.wysiwyg
+  module:
+    - ckeditor
+format: wysiwyg
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Форматирование
+          items:
+            - Bold
+            - Italic
+            - Underline
+            - Strike
+            - Format
+        -
+          name: Выравнивание
+          items:
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - JustifyBlock
+        -
+          name: Ссылки
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Списки
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Таблица
+          items:
+            - Table
+        -
+          name: Вставка
+          items:
+            - PasteFromWord
+            - Embed
+            - DrupalImage
+        -
+          name: Разделитель
+          items:
+            - HorizontalRule
+            - ImceImage
+        -
+          name: 'Просмотр кода'
+          items:
+            - Source
+  plugins:
+    stylescombo:
+      styles: ''
+    language:
+      language_list: un
+    autoembed:
+      status: ''
+image_upload:
+  status: true
+  scheme: public
+  directory: inline-images
+  max_size: '5 MB'
+  max_dimensions:
+    width: 900
+    height: null

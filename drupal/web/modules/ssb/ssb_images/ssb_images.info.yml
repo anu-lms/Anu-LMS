@@ -1,0 +1,5 @@
+name: Boilerplate Images
+type: module
+description: Tweaks for images.
+core: 8.x
+package: Boilerplate

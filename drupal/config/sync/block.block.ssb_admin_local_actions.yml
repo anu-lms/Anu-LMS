@@ -1,0 +1,20 @@
+uuid: fc9af1cd-5282-416f-8d39-216abc05c860
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: ik4PTMlBD0MWansnSMpSXq5SUlWRJ1IVVt6C7AIbQmc
+id: ssb_admin_local_actions
+theme: ssb_admin
+region: content
+weight: -3
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

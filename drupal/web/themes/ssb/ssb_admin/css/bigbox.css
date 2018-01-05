@@ -1,0 +1,82 @@
+/*******************************************/
+/*********** IMAGE WIDGET ******************/
+/*******************************************/
+
+.image-widget .image-preview {
+  padding-right: 20px;
+}
+
+.image-widget .image-widget-data {
+  max-width: 70%;
+}
+
+.image-widget .image-widget-data .form-item {
+  margin-top: 0;
+}
+
+input.edit-crop {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.field--widget-image-crop-browser table {
+  margin-top: 1em;
+}
+
+.field--widget-image-crop-browser tr:last-child {
+  border: none;
+}
+
+.field--widget-image-crop-browser td {
+  vertical-align: top;
+}
+
+.field--widget-image-crop-browser td:first-child {
+  text-align: right;
+  width: 200px;
+}
+
+.field--widget-image-crop-browser .form-submit.entity-browser-processed {
+  margin: 10px 0 10px;
+}
+
+.ajax-progress-throbber .throbber {
+  padding: 3px 7px 2px;
+}
+
+@media screen and (max-width: 1250px) and (min-width: 992px) {
+  .entities-list tbody td {
+    display: table-cell;
+  }
+
+  .entities-list input.form-submit,
+  .entities-list .ajax-progress {
+    display: inline-block;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .entities-list tbody td,
+  .entities-list tbody tr {
+    display: block;
+  }
+
+  .entities-list input.form-submit,
+  .entities-list .ajax-progress {
+    display: inline-block;
+    margin-right: 0;
+    font-size: 1em;
+  }
+}
+
+.field--widget-image-crop-browser .form-item.form-type-textfield {
+  margin: 0 0 0.75em;
+}
+
+/*******************************************/
+/*********** WEIGHT TOGGLE *****************/
+/*******************************************/
+
+.tabledrag-toggle-weight {
+  display: none !important;
+}

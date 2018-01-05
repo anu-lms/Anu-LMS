@@ -1,0 +1,19 @@
+uuid: 1e3ee007-efb1-4290-b571-e76f104e6818
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.global_settings
+    - field.storage.config_pages.field_site_name
+id: config_pages.global_settings.field_site_name
+field_name: field_site_name
+entity_type: config_pages
+bundle: global_settings
+label: 'Site name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,31 @@
+uuid: cc01be32-95f8-4bfa-b78b-004b61256f51
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: CyX_aDKAka2_eihevNLscCHDYrzDgIqwWzFVEFRKIww
+id: ssb_admin_primary_local_tasks
+theme: ssb_admin
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Главные вкладки'
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: false
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

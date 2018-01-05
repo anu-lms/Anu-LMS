@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Contains ssb_manager_toolbar.module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ssb_manager_toolbar_theme() {
+  return [
+    'manager_toolbar' => [
+      'variables' => [
+        'id_user' => null,
+        'user_name' => null,
+        ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_top().
+ */
+function ssb_manager_toolbar_page_top(array &$page_top) {
+  $user = \Drupal::currentUser();
+  if ($user->hasPermission('access manager toolbar')) {
+    $page_top['ssb_manager_toolbar'] = [
+      '#theme' => 'manager_toolbar',
+      '#id_user' => ['user' => $user->id()],
+      '#user_name' => $user->getAccountName(),
+    ];
+  };
+}

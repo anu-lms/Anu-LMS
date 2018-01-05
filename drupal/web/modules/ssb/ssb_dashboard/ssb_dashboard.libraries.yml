@@ -1,0 +1,6 @@
+ssb_dashboard:
+  version: 1.x
+  css:
+    theme:
+      css/dashboard.css: {}
+      css/fontawesome-5.0.0/css/fontawesome-all.min.css: {}

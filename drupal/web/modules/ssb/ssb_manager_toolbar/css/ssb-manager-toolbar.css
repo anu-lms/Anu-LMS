@@ -1,0 +1,58 @@
+.ssb-manager-toolbar {
+  background-color: #272727;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ssb-manager-toolbar > .ssb-menu-left {
+  padding-left: 30px ;
+}
+
+.ssb-manager-toolbar > .ssb-menu-right {
+  padding-right: 30px ;
+}
+
+.ssb-manager-toolbar > span > ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.ssb-manager-toolbar > span > ul > li {
+  list-style: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 5px;
+}
+
+.ssb-manager-toolbar > span > ul > li:hover {
+  background: black;
+}
+
+.ssb-manager-toolbar .user-name {
+  margin-right: 20px;
+}
+
+.ssb-manager-toolbar .user-name:first-letter {
+  text-transform: uppercase;
+}
+
+.ssb-manager-toolbar > span > ul > li > a {
+  color: #e8e8e8;
+  padding: 10px 8px;
+  font-size: 14px;
+}
+
+.ssb-manager-toolbar > span > ul > li > a:hover {
+  text-decoration: none;
+}
+
+.ssb-manager-toolbar > span > ul > li > a > span {
+  padding-left: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .ssb-manager-toolbar > span > ul > li > a > span {
+    display: none;
+  }
+}
