@@ -12,8 +12,8 @@ At the end of configuration journey you'll get the following hosts available:
 # Installation
 
    ```
-   sudo chmod +x ./local-prepare.sh 
-   ./local-prepare.sh
+   sudo chmod +x ./local-install.sh 
+   ./local-install.sh
    ```
    
    That's it! Now you can visit your applications using the URLs from the previous section.
