@@ -1,0 +1,108 @@
+.block-page-title-block {
+  text-align: center;
+}
+
+.page-content {
+  display: flex;
+  justify-content: center;
+}
+
+.region-content {
+  flex-basis: 87%;
+}
+
+.block-region-first-above,
+.block-region-second-above {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.block-ssb-dashboard {
+  margin: 30px 20px 0 20px;
+  padding: 0 5px;
+  /*border: solid 1px;*/
+  /*border-radius: 5px;*/
+}
+
+.block-ssb-dashboard h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #0074bd;
+}
+
+.block-ssb-dashboard h2:before {
+  font-size: 16px;
+  font-family: "Font Awesome 5 Free";
+  margin-right: 5px;
+}
+
+.block-ssb-dashboard-global-settings h2:before {
+  content: "\f0ac";
+}
+.block-ssb-dashboard-settings-pages h2:before {
+  content: "\f0ad";
+}
+.block-ssb-dashboard-edit h2:before {
+  content: "\f303";
+}
+.block-ssb-dashboard-add h2:before {
+  content: "\f15c";
+}
+
+.block-ssb-dashboard ul li {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+.block-ssb-dashboard > div > ul {
+  background-color: #f9f9f9;
+  border: solid 1px grey;
+  margin: 0px;
+  padding: 0px;
+}
+
+.block-ssb-dashboard > div > ul > li {
+  border-bottom: solid 1px #aaaaaa;
+  margin: 10px 15px 5px 15px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+}
+.block-ssb-dashboard > div > ul > li:last-child {
+  border: none;
+}
+.block-ssb-dashboard > div a {
+  font-size: 16px;
+  color: #333;
+}
+
+.block-ssb-dashboard ul li > div {
+  color: #5e5e55;
+  font-size: 12px;
+}
+
+.block-ssb-dashboard li > ul {
+  margin-top: 10px;
+  margin-left: 15px;
+  padding: 0px;
+}
+
+.block-ssb-dashboard li > ul > li {
+  border-bottom: solid 1px #eee;
+}
+.block-ssb-dashboard li > ul > li > i {
+  font-size: 9px;
+  vertical-align: middle;
+}
+
+.block-ssb-dashboard li > ul > li:last-child {
+  border: none;
+}
+
+@media only screen and (max-width: 975px) {
+  .layout--twocol-bricks {
+    display: block;
+  }
+}

@@ -1,0 +1,11 @@
+uuid: ccbab3ce-ea44-49ec-ad94-7779652ad1ea
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.user
+target_entity_type_id: user
+target_bundle: user
+default_langcode: site_default
+language_alterable: false

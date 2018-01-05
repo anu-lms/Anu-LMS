@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Contains ssb_dashboard.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function ssb_dashboard_theme($existing, $type, $theme, $path) {
+  return [
+    'dashboard_add' => [
+      'variables' => ['nodes' => NULL],
+    ],
+    'dashboard_edit' => [
+      'variables' => [
+        'categories' => NULL,
+        'pages' => NULL,
+      ],
+    ],
+    'dashboard_global_settings' => [
+      'variables' => ['pages' => NULL],
+    ],
+    'dashboard_settings_pages' => [
+      'variables' => ['pages' => NULL],
+    ],
+  ];
+}
+
+/**
+ * hook_form_FORM_ID_alter()
+ *
+ * Add submit redirect to the front page.
+ *
+ * @param $form
+ * @param FormStateInterface $form_state
+ */
+function ssb_dashboard_form_user_login_form_alter(&$form, FormStateInterface $form_state) {
+  $form['#submit'][]  = 'ssb_dashboard_form_submit_handler';
+}
+
+/**
+ * Login form submit handler.
+ *
+ * @param $form
+ * @param FormStateInterface $form_state
+ */
+function ssb_dashboard_form_submit_handler($form, FormStateInterface $form_state) {
+  $form_state->setRedirect('<front>');
+}

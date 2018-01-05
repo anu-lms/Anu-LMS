@@ -1,0 +1,19 @@
+uuid: 6dd2a729-43ca-48ad-bf7a-ed412602a632
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_info_prefix
+    - paragraphs.paragraphs_type.contacts
+id: paragraph.contacts.field_info_prefix
+field_name: field_info_prefix
+entity_type: paragraph
+bundle: contacts
+label: Префикс
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

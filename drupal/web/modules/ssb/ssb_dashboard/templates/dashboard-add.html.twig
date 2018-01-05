@@ -1,0 +1,11 @@
+{{ attach_library('ssb_dashboard/ssb_dashboard') }}
+<div class="dashboard-left-block">
+  <ul>
+    {% for item in nodes %}
+      <li>
+        <a href="{{ path('node.add', item.type) }}">{{ item.name }}</a>
+        <div>{{ item.description }}</div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

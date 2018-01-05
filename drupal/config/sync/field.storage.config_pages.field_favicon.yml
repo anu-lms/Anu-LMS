@@ -1,0 +1,23 @@
+uuid: 945c299e-8d6f-440c-a9f2-6e1afe17cce8
+langcode: en
+status: true
+dependencies:
+  module:
+    - config_pages
+    - file
+id: config_pages.field_favicon
+field_name: field_favicon
+entity_type: config_pages
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

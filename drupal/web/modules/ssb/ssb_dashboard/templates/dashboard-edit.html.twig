@@ -1,0 +1,29 @@
+{{ attach_library('ssb_dashboard/ssb_dashboard') }}
+<div>
+  <ul>
+    <li>
+      <a href="{{ path("system.admin_content") }}">Edit content</a>
+      <div>Edit existing content in the system.</div>
+    </li>
+
+    {# Categories edit links. #}
+    {% if categories %}
+      {% for category in categories %}
+        <li>
+          <a href="{{ path(category.routeName, category.routeParam) }}" >Edit {{ category.name|lower }}</a>
+          {% if category.description %}<div>{{ category.description }}</div>{% endif %}
+        </li>
+      {% endfor %}
+    {% endif %}
+
+    {# Menu edit links #}
+    {% if pages %}
+      {% for page in pages %}
+        <li>
+          <a href="{{ path(page.routeName, page.routeParam) }}">{{ page.name }}</a>
+          {% if page.description %}<div>{{ page.description }}</div>{% endif %}
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>

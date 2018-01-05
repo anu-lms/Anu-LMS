@@ -1,0 +1,20 @@
+uuid: 8b3e7c50-8842-4bf9-82fb-0b9d0ab3bef1
+langcode: en
+status: true
+dependencies:
+  theme:
+    - adminimal_theme
+_core:
+  default_config_hash: Z3nlZUh2mSJP3apMrJWt-duS-aLyP79rcfu_0wpPmDs
+id: adminimal_theme_page_title
+theme: adminimal_theme
+region: header
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Заголовок страницы'
+  provider: core
+  label_display: '0'
+visibility: {  }

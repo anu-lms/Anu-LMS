@@ -1,0 +1,11 @@
+uuid: f91f9b9d-5223-49b3-b9bb-a2a88b84703a
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.contacts
+id: paragraph.contacts
+target_entity_type_id: paragraph
+target_bundle: contacts
+default_langcode: site_default
+language_alterable: false

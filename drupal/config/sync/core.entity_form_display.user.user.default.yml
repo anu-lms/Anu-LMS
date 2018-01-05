@@ -1,0 +1,25 @@
+uuid: e6eaee5b-f02b-446a-8cdd-52a2c8f030f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  timezone:
+    weight: 6
+    region: content
+hidden:
+  commerce_remote_id: true
+  contact: true
+  langcode: true
+  language: true
+  path: true

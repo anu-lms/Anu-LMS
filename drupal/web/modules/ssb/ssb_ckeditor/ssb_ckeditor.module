@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Contains ssb_ckeditor.module.
+ */
+
+/**
+ * Implements hook_page_attachments().
+ */
+function ssb_ckeditor_page_attachments(array &$attachments){
+  $attachments['#attached']['library'][] = 'ssb_ckeditor/ssb_ckeditor';
+}

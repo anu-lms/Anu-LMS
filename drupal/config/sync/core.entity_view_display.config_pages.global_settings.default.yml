@@ -1,0 +1,45 @@
+uuid: 2598f5c0-ba68-4149-9722-8e939065b853
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.global_settings
+    - field.field.config_pages.global_settings.field_favicon
+    - field.field.config_pages.global_settings.field_logo
+    - field.field.config_pages.global_settings.field_site_name
+    - image.style.thumbnail
+  module:
+    - file
+    - image
+_core:
+  default_config_hash: BqKkppbUQ-kzb3gNz5ksDkQz3CIVo7XCPjIFlt_rw1Y
+id: config_pages.global_settings.default
+targetEntityType: config_pages
+bundle: global_settings
+mode: default
+content:
+  field_favicon:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_logo:
+    weight: 1
+    label: hidden
+    settings:
+      image_style: thumbnail
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_site_name:
+    weight: 0
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

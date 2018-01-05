@@ -1,0 +1,30 @@
+uuid: 6e22a6b1-2deb-41f0-9ac3-dd0a60407467
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - user
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: 8by5KRsb7ZpmjHj0ms1d7xAG_xH54AWsOX6spDLJ59U
+id: ssb_admin_breadcrumbs
+theme: ssb_admin
+region: breadcrumb
+weight: -3
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: 'Строка навигации'
+  provider: system
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

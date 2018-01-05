@@ -1,0 +1,19 @@
+uuid: 81bb09b0-33d0-43c2-bd58-b1e3dacf96b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.analytics
+    - field.storage.config_pages.field_google_tag_manager
+id: config_pages.analytics.field_google_tag_manager
+field_name: field_google_tag_manager
+entity_type: config_pages
+bundle: analytics
+label: 'Google Tag Manager'
+description: 'Example: "GTM-XXXXX".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

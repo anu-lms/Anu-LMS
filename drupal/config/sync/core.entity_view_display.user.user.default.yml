@@ -1,0 +1,23 @@
+uuid: 97789057-fe8c-4a22-bd1f-7f35a2205ffd
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  masquerade:
+    weight: 50
+    region: content
+  member_for:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  commerce_remote_id: true
+  langcode: true
+  profile_customer: true

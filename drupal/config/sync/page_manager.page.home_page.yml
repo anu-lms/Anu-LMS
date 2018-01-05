@@ -1,0 +1,12 @@
+uuid: a28760f7-c4d1-4f2d-90a6-1f5f2367197f
+langcode: en
+status: true
+dependencies: {  }
+id: home_page
+label: 'Главная страница'
+description: ''
+use_admin_theme: true
+path: /dashboard
+access_logic: and
+access_conditions: {  }
+parameters: {  }

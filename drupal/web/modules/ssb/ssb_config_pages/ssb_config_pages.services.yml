@@ -1,0 +1,5 @@
+services:
+  ssb_config_pages.route_subscriber:
+    class: Drupal\ssb_config_pages\Routing\SsbRouteSubscriber
+    tags:
+      - { name: event_subscriber }

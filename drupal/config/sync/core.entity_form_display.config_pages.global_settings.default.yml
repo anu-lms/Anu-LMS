@@ -1,0 +1,76 @@
+uuid: d1938016-e9ff-4b42-96dd-122301b944e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.global_settings
+    - field.field.config_pages.global_settings.field_favicon
+    - field.field.config_pages.global_settings.field_logo
+    - field.field.config_pages.global_settings.field_site_name
+    - image.style.thumbnail
+  module:
+    - field_group
+    - file
+    - image
+third_party_settings:
+  field_group:
+    group_globalnye_nastroiki_saita:
+      children:
+        - group_obsie_nastroiki
+      parent_name: ''
+      weight: 20
+      format_type: tabs
+      format_settings:
+        label: 'Global site settings'
+        direction: vertical
+        id: ''
+        classes: ''
+      label: 'Global site settings'
+    group_obsie_nastroiki:
+      children:
+        - field_site_name
+        - field_logo
+        - field_favicon
+      parent_name: group_globalnye_nastroiki_saita
+      weight: 21
+      format_type: tab
+      format_settings:
+        label: 'General settings'
+        formatter: open
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: 'General settings'
+_core:
+  default_config_hash: xDBiUHAGwN9bykqvOATpratZda97WfJZakg5zUChffA
+id: config_pages.global_settings.default
+targetEntityType: config_pages
+bundle: global_settings
+mode: default
+content:
+  field_favicon:
+    weight: 31
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_logo:
+    weight: 30
+    settings:
+      preview_image_style: thumbnail
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_site_name:
+    weight: 29
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  label: true

@@ -1,0 +1,41 @@
+uuid: 5a4342d2-9dc5-43e6-a001-c350a11dcdae
+langcode: en
+status: true
+dependencies: {  }
+id: moderator
+label: Manager
+weight: 4
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'access manager toolbar'
+  - 'administer node form display'
+  - 'administer nodes'
+  - 'administer taxonomy'
+  - 'change own username'
+  - 'create article content'
+  - 'create edu content'
+  - 'create employee content'
+  - 'create expert content'
+  - 'create site_menu entities'
+  - 'create traning content'
+  - 'delete any article content'
+  - 'delete any edu content'
+  - 'delete any employee content'
+  - 'delete any expert content'
+  - 'delete any traning content'
+  - 'delete config_pages entity'
+  - 'delete terms in tags'
+  - 'dropzone upload files'
+  - 'edit any article content'
+  - 'edit any edu content'
+  - 'edit any employee content'
+  - 'edit any expert content'
+  - 'edit any site_menu entities'
+  - 'edit any traning content'
+  - 'edit config_pages entity'
+  - 'edit terms in tags'
+  - 'use text format wysiwyg'
+  - 'view any record_forms entities'
+  - 'view any site_menu entities'
+  - 'view config_pages entity'

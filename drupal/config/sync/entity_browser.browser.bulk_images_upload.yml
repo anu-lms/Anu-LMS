@@ -1,0 +1,37 @@
+uuid: 7fb338e6-f283-442b-81a0-62ee0f520762
+langcode: en
+status: true
+dependencies:
+  module:
+    - dropzonejs_eb_widget
+name: bulk_images_upload
+label: 'Bulk images upload'
+display: modal
+display_configuration:
+  width: '650'
+  height: '500'
+  link_text: 'Выбрать изображения'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: single
+widget_selector_configuration: {  }
+widgets:
+  2b684ab2-9d9b-4a90-be4b-49bd471d7e7c:
+    settings:
+      upload_location: 'public://pictures/[date:custom:Y]-[date:custom:m]'
+      dropzone_description: 'Перетащите изображения сюда для загрузки'
+      max_filesize: 5M
+      extensions: 'jpg jpeg gif png'
+      clientside_resize: false
+      resize_width: null
+      resize_height: null
+      resize_quality: !!float 1
+      resize_method: contain
+      thumbnail_method: contain
+      submit_text: Готово
+      auto_select: false
+    uuid: 2b684ab2-9d9b-4a90-be4b-49bd471d7e7c
+    weight: 1
+    label: dropzonejs
+    id: dropzonejs

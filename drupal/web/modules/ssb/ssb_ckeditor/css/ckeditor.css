@@ -1,0 +1,3 @@
+.editor-image-dialog > div > div > div[aria-label="Status message"]{
+  display: none;
+}

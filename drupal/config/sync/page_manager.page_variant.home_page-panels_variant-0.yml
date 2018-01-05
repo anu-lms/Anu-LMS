@@ -1,0 +1,65 @@
+uuid: 6c8c4c48-ef99-48e7-8099-5cd850136fe5
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.home_page
+  module:
+    - panels
+    - ssb_dashboard
+id: home_page-panels_variant-0
+label: 'Main page'
+variant: panels_variant
+variant_settings:
+  blocks:
+    0f714bf2-07b4-4282-96f5-1fab2291b280:
+      id: ssb_dashboard_add
+      label: 'Add content'
+      provider: ssb_dashboard
+      label_display: visible
+      region: first_above
+      weight: -1
+      uuid: 0f714bf2-07b4-4282-96f5-1fab2291b280
+      context_mapping: {  }
+    3f8b73d0-9706-42ff-8d7a-45e5e13614e5:
+      id: ssb_dashboard_edit
+      label: 'Edit content'
+      provider: ssb_dashboard
+      label_display: visible
+      region: first_above
+      weight: 0
+      uuid: 3f8b73d0-9706-42ff-8d7a-45e5e13614e5
+      context_mapping: {  }
+    f722280b-bc17-4c64-8cb4-9929e3a22062:
+      id: ssb_dashboard_global_settings
+      label: 'Global settings'
+      provider: ssb_dashboard
+      label_display: visible
+      region: second_above
+      weight: -1
+      uuid: f722280b-bc17-4c64-8cb4-9929e3a22062
+      context_mapping: {  }
+    42fd4475-0e28-433b-a335-ff98feb0ff3e:
+      id: ssb_dashboard_settings_pages
+      label: 'Pages settings'
+      provider: ssb_dashboard
+      label_display: visible
+      region: second_above
+      weight: 0
+      uuid: 42fd4475-0e28-433b-a335-ff98feb0ff3e
+      context_mapping: {  }
+  id: panels_variant
+  uuid: 0ccd810a-bf7e-4e13-bba4-4a9aca0d5f5c
+  label: null
+  weight: 0
+  layout: layout_twocol_bricks
+  layout_settings: {  }
+  page_title: ''
+  storage_type: page_manager
+  storage_id: home_page-panels_variant-0
+  builder: standard
+page: home_page
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }

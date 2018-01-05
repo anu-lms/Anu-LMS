@@ -1,0 +1,11 @@
+services:
+  serializer.ssb_metatag.metatags_field:
+    class: Drupal\ssb_metatag\Normalizer\MetatagsContentEntityNormalizer
+    arguments: ['@jsonapi.link_manager', '@jsonapi.resource_type.repository', '@entity_type.manager']
+    tags:
+      - { name: normalizer, priority: 23 }
+
+  metatag.normalizer.metatag_field_custom:
+    class: Drupal\ssb_metatag\Normalizer\FieldItemNormalizer
+    tags:
+      - { name: normalizer, priority: 31 }

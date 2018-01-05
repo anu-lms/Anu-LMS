@@ -1,0 +1,36 @@
+uuid: 36599e37-412a-4b83-a1ca-cb41c5c9fcc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.site_menu.site_menu_item
+    - field.field.site_menu.site_menu_item.field_menu_item_link
+  module:
+    - link
+id: site_menu.site_menu_item.default
+targetEntityType: site_menu
+bundle: site_menu_item
+mode: default
+content:
+  field_menu_item_link:
+    weight: -4
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  langcode: true

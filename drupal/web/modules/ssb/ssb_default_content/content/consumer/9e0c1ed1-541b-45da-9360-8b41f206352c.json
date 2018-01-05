@@ -1,0 +1,52 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/admin\/config\/services\/consumer\/1?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/consumer\/consumer"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/consumer\/consumer\/owner_id": [
+            {
+                "href": "http:\/\/default\/user\/1?_format=hal_json",
+                "lang": "und"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1
+        }
+    ],
+    "uuid": [
+        {
+            "value": "9e0c1ed1-541b-45da-9360-8b41f206352c"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/consumer\/consumer\/owner_id": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "f5f5257c-6fc4-45e6-8f73-327272814686"
+                    }
+                ],
+                "lang": "und"
+            }
+        ]
+    },
+    "label": [
+        {
+            "value": "consumer",
+            "lang": "und"
+        }
+    ]
+}

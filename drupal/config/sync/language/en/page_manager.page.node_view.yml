@@ -1,0 +1,5 @@
+label: 'Node view'
+description: 'When enabled, this overrides the default Drupal behavior for displaying nodes at <em>/node/{node}</em>. If you add variants, you may use selection criteria such as node type or language or user access to provide different views of nodes. If no variant is selected, the default Drupal node view will be used. This page only affects nodes viewed as pages, it will not affect nodes viewed in lists or at other locations.'
+parameters:
+  node:
+    label: Node

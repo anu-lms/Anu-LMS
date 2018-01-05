@@ -1,0 +1,7 @@
+name: Boilerplate JSON API
+type: module
+description: JSON API module customizations.
+core: 8.x
+package: Boilerplate
+dependencies:
+ - jsonapi

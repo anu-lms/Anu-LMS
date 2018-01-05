@@ -1,0 +1,7 @@
+name: Boilerplate Default Content
+type: module
+description: Import default content.
+core: 8.x
+package: Boilerplate
+dependencies:
+  - default_content

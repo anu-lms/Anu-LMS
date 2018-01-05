@@ -1,0 +1,5 @@
+name: Boilerplate Routes
+type: module
+description: Alterations to the existing routes in the system.
+core: 8.x
+package: Boilerplate

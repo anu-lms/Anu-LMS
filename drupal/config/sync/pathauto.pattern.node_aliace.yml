@@ -1,0 +1,27 @@
+uuid: 4a3d0667-ba1d-4a9e-a420-e6f869849b4f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node_aliace
+label: NodeAliace
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  2e638442-a2e2-4ca9-b6ee-b10cd6f9f474:
+    id: node_type
+    bundles:
+      article: article
+      edu: edu
+      employee: employee
+      expert: expert
+      schedule: schedule
+      traning: traning
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 2e638442-a2e2-4ca9-b6ee-b10cd6f9f474
+selection_logic: and
+weight: -5
+relationships: {  }

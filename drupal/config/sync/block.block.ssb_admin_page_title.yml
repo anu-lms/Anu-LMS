@@ -1,0 +1,20 @@
+uuid: 35314dbb-4e84-4672-a063-8fd3e37e9cef
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ssb_admin
+_core:
+  default_config_hash: Z3nlZUh2mSJP3apMrJWt-duS-aLyP79rcfu_0wpPmDs
+id: ssb_admin_page_title
+theme: ssb_admin
+region: header
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Заголовок страницы'
+  provider: core
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,19 @@
+uuid: 660d3eb7-c17c-4b88-982e-e631602e7e45
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.analytics
+    - field.storage.config_pages.field_yandex_metrika
+id: config_pages.analytics.field_yandex_metrika
+field_name: field_yandex_metrika
+entity_type: config_pages
+bundle: analytics
+label: 'Yandex Metrika'
+description: 'Example: "11111111".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

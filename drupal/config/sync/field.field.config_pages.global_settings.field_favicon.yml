@@ -1,0 +1,27 @@
+uuid: c3b4f866-b50c-47dc-94ae-60709a63e1d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.global_settings
+    - field.storage.config_pages.field_favicon
+  module:
+    - file
+id: config_pages.global_settings.field_favicon
+field_name: field_favicon
+entity_type: config_pages
+bundle: global_settings
+label: Favicon
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: global
+  file_extensions: 'ico png jpeg jpg'
+  max_filesize: '50 KB'
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

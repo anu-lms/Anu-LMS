@@ -1,0 +1,31 @@
+uuid: a8ff2c40-c609-4135-881c-9da4afdf9e84
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+  theme:
+    - adminimal_theme
+_core:
+  default_config_hash: CyX_aDKAka2_eihevNLscCHDYrzDgIqwWzFVEFRKIww
+id: adminimal_theme_primary_local_tasks
+theme: adminimal_theme
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Главные вкладки'
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: false
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

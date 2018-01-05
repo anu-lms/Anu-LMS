@@ -1,0 +1,9 @@
+uuid: 06dfcff5-fdd9-4b56-8d5b-d5f23e83b8db
+langcode: en
+status: true
+dependencies: {  }
+id: contacts
+label: Контакты
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

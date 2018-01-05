@@ -1,0 +1,1038 @@
+diff --git a/README.md b/README.md
+index 6183efc..a531d5f 100644
+--- a/README.md
++++ b/README.md
+@@ -147,6 +147,7 @@ $form['image_crop'] = [
+   '#crop_preview_image_style' => $crop_config->get('settings.crop_preview_
+    image_style'),
+   '#show_default_crop' => $crop_config->get('settings.show_default_crop'),
++  '#show_reset_crop' => $crop_config->get('settings.show_reset_crop'),
+   '#show_crop_area' => $crop_config->get('settings.show_crop_area'),
+   '#warn_mupltiple_usages' => $crop_config->get('settings.warn_
+    mupltiple_usages'),
+@@ -160,6 +161,7 @@ $form['image_crop'] = [
+   '#crop_type_list' => ['crop_16_9', 'crop_free'],
+   '#crop_preview_image_style' => 'crop_thumbnail',
+   '#show_default_crop' => FALSE,
++  '#show_reset_crop' => FALSE,
+   '#show_crop_area' => FALSE,
+   '#warn_mupltiple_usages' => FALSE,
+ ];
+diff --git a/config/install/image_widget_crop.settings.yml b/config/install/image_widget_crop.settings.yml
+index 1886598..6268e51 100644
+--- a/config/install/image_widget_crop.settings.yml
++++ b/config/install/image_widget_crop.settings.yml
+@@ -5,3 +5,4 @@ settings:
+   crop_list: []
+   warn_multiple_usages: FALSE
+   show_default_crop: TRUE
++  show_reset_crop: TRUE
+diff --git a/config/schema/image_widget_crop.schema.yml b/config/schema/image_widget_crop.schema.yml
+index 3838b64..cd5dc78 100644
+--- a/config/schema/image_widget_crop.schema.yml
++++ b/config/schema/image_widget_crop.schema.yml
+@@ -27,6 +27,9 @@ field.widget.settings.image_widget_crop:
+     show_default_crop:
+       type: boolean
+       label: 'Show default crop area'
++    show_reset_crop:
++      type: boolean
++      label: 'Show "Reset crop" button'
+ 
+ image_widget_crop.settings:
+   type: config_object
+@@ -55,6 +58,55 @@ image_widget_crop.settings:
+         show_default_crop:
+           type: boolean
+           label: 'Show default crop area'
++        show_reset_crop:
++          type: boolean
++          label: 'Show "Reset crop" button'
+         show_crop_area:
+           type: boolean
+           label: 'Always expand crop area'
++
++field.widget.settings.image_widget_modal_crop:
++  type: mapping
++  label: 'Image field display format settings'
++  mapping:
++    progress_indicator:
++      type: string
++      label: 'Progress indicator'
++    preview_image_style:
++      type: string
++      label: 'Preview image style'
++    crop_preview_image_style:
++      type: string
++      label: 'Preview crop image style'
++    crop_list:
++      type: sequence
++      label: 'The preview image will be cropped'
++      sequence:
++        type: string
++    warn_multiple_usages:
++      type: boolean
++      label: 'Warn user when a file have multiple usages'
++    show_crop_area:
++      type: boolean
++      label: 'Always expand crop area'
++    show_default_crop:
++      type: boolean
++      label: 'Show default crop area'
++    show_reset_crop:
++      type: boolean
++      label: 'Show "Reset crop" button'
++    modal_title:
++      type: string
++      label: 'Modal dialog title'
++    modal_width:
++      type: integer
++      label: 'Modal dialog width'
++    modal_height:
++      type: integer
++      label: 'Modal dialog height'
++    modal_min_width:
++      type: integer
++      label: 'Modal dialog min width'
++    modal_min_height:
++      type: integer
++      label: 'Modal dialog min height'
+diff --git a/image_widget_crop.libraries.yml b/image_widget_crop.libraries.yml
+index 0c50bce..3f1d362 100644
+--- a/image_widget_crop.libraries.yml
++++ b/image_widget_crop.libraries.yml
+@@ -19,3 +19,9 @@ cropper.integration:
+     - core/drupal
+     - core/drupal.debounce
+     - image_widget_crop/cropper
++
++modal:
++  js:
++    js/ImageWidgetModalCrop.js: {}
++  dependencies:
++    - core/drupal.dialog.ajax
+diff --git a/image_widget_crop.module b/image_widget_crop.module
+index 0078b58..e9153a0 100644
+--- a/image_widget_crop.module
++++ b/image_widget_crop.module
+@@ -154,6 +154,7 @@ function image_widget_crop_form_file_form_alter(&$form, FormStateInterface $form
+       '#crop_type_list' => $crop_config->get('settings.crop_list'),
+       '#crop_preview_image_style' => $crop_config->get('settings.crop_preview_image_style'),
+       '#show_default_crop' => $crop_config->get('settings.show_default_crop'),
++      '#show_reset_crop' => $crop_config->get('settings.show_reset_crop'),
+       '#warn_mupltiple_usages' => $crop_config->get('settings.warn_mupltiple_usages'),
+     ];
+     $form['actions']['submit']['#submit'][] = 'image_widget_crop_form_submit';
+diff --git a/js/ImageWidgetModalCrop.js b/js/ImageWidgetModalCrop.js
+new file mode 100644
+index 0000000..80cdc08
+--- /dev/null
++++ b/js/ImageWidgetModalCrop.js
+@@ -0,0 +1,30 @@
++/**
++ * @file
++ * Defines the behaviors needed for modal widget integration.
++ */
++
++(function ($, Drupal) {
++  'use strict';
++
++  Drupal.behaviors.imageWidgetModalCrop = {
++    attach: function (context) {
++
++      // Handle click on "Apply" button in dialog.
++      $('.image-crop-apply', context).click(function() {
++        var $wrapper = $('.crop-preview-wrapper__value', context);
++
++        // Copy crop values from the dialog inside the real form.
++        $.each($('input', $wrapper), function(key, input) {
++          var name = $(input).attr('name');
++          var value = $(input).attr('value');
++          $('input[name="' + name + '"]').val(value);
++        });
++
++        // Close the modal dialog.
++        Drupal.dialog('#drupal-modal').close();
++      });
++
++    }
++  };
++
++}(jQuery, Drupal));
+diff --git a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.media.image_with_crop.default.yml b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.media.image_with_crop.default.yml
+index e48b260..a13c70a 100644
+--- a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.media.image_with_crop.default.yml
++++ b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.media.image_with_crop.default.yml
+@@ -23,6 +23,7 @@ content:
+   field_media_image:
+     settings:
+       show_default_crop: true
++      show_reset_crop: true
+       warn_multiple_usages: true
+       preview_image_style: thumbnail
+       crop_preview_image_style: crop_thumbnail
+diff --git a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_responsive_example.default.yml b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_responsive_example.default.yml
+index dbbbb8e..67037bf 100644
+--- a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_responsive_example.default.yml
++++ b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_responsive_example.default.yml
+@@ -36,6 +36,7 @@ content:
+     weight: 1
+     settings:
+       show_default_crop: true
++      show_reset_crop: true
+       warn_multiple_usages: true
+       preview_image_style: thumbnail
+       crop_preview_image_style: crop_thumbnail
+diff --git a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_simple_example.default.yml b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_simple_example.default.yml
+index e033fcb..57fe341 100644
+--- a/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_simple_example.default.yml
++++ b/modules/image_widget_crop_examples/config/optional/core.entity_form_display.node.crop_simple_example.default.yml
+@@ -37,6 +37,7 @@ content:
+     settings:
+       show_crop_area: true
+       show_default_crop: true
++      show_reset_crop: true
+       warn_multiple_usages: true
+       preview_image_style: thumbnail
+       crop_preview_image_style: crop_thumbnail
+diff --git a/modules/image_widget_crop_examples/config/optional/image_widget_crop.settings.yml b/modules/image_widget_crop_examples/config/optional/image_widget_crop.settings.yml
+index 2478f47..4844a9a 100644
+--- a/modules/image_widget_crop_examples/config/optional/image_widget_crop.settings.yml
++++ b/modules/image_widget_crop_examples/config/optional/image_widget_crop.settings.yml
+@@ -8,6 +8,7 @@ settings:
+     crop_free_ratio: crop_free_ratio
+   warn_multiple_usages: false
+   show_default_crop: true
++  show_reset_crop: true
+ _core:
+   default_config_hash: QjLJUHJAzic-efSYtJnhoz7in-eT3A1PriLW3i11DFg
+ langcode: en
+diff --git a/modules/image_widget_crop_examples/image_widget_crop_examples.install b/modules/image_widget_crop_examples/image_widget_crop_examples.install
+index 70a79de..c7bf94b 100644
+--- a/modules/image_widget_crop_examples/image_widget_crop_examples.install
++++ b/modules/image_widget_crop_examples/image_widget_crop_examples.install
+@@ -20,6 +20,7 @@ function image_widget_crop_examples_install() {
+     ->getEditable('image_widget_crop.settings')
+     ->set('settings.crop_preview_image_style', 'crop_thumbnail')
+     ->set('settings.show_default_crop', TRUE)
++    ->set('settings.show_reset_crop', TRUE)
+     ->set('settings.warn_multiple_usages', FALSE)
+     ->set('settings.crop_list', [
+       'crop_16_9' => 'crop_16_9',
+diff --git a/modules/image_widget_crop_examples/src/Form/ImageWidgetCropExamplesForm.php b/modules/image_widget_crop_examples/src/Form/ImageWidgetCropExamplesForm.php
+index f3b796a..d805de8 100644
+--- a/modules/image_widget_crop_examples/src/Form/ImageWidgetCropExamplesForm.php
++++ b/modules/image_widget_crop_examples/src/Form/ImageWidgetCropExamplesForm.php
+@@ -122,6 +122,7 @@ class ImageWidgetCropExamplesForm extends ConfigFormBase {
+         '#crop_type_list' => ['crop_16_9'],
+         '#crop_preview_image_style' => 'crop_thumbnail',
+         '#show_default_crop' => TRUE,
++        '#show_reset_crop' => TRUE,
+         '#show_crop_area' => FALSE,
+         '#warn_mupltiple_usages' => TRUE,
+       ];
+diff --git a/src/Element/ImageCrop.php b/src/Element/ImageCrop.php
+index 7b33de9..14d048b 100644
+--- a/src/Element/ImageCrop.php
++++ b/src/Element/ImageCrop.php
+@@ -33,9 +33,10 @@ class ImageCrop extends FormElement {
+       '#crop_type_list' => [],
+       '#warn_multiple_usages' => FALSE,
+       '#show_default_crop' => TRUE,
++      '#show_reset_crop' => TRUE,
+       '#show_crop_area' => FALSE,
+       '#attached' => [
+-        'library' => 'image_widget_crop/cropper.integration',
++        'library' => ['image_widget_crop/cropper.integration'],
+       ],
+       '#tree' => TRUE,
+     ];
+@@ -95,6 +96,12 @@ class ImageCrop extends FormElement {
+         $available_crop_types = $iwc_manager->getAvailableCropType(CropType::getCropTypeNames());
+         $crop_type_list = array_keys($available_crop_types);
+       }
++
++      // In some cases we restrict crope list to be a single value.
++      if (!is_array($crop_type_list)) {
++        $crop_type_list = [$crop_type_list];
++      }
++
+       $element['crop_wrapper'] = [
+         '#type' => 'details',
+         '#title' => t('Crop image'),
+@@ -172,15 +179,17 @@ class ImageCrop extends FormElement {
+             '#weight' => -10,
+           ];
+ 
+-          $element['crop_wrapper'][$type]['crop_container']['reset'] = [
+-            '#type' => 'button',
+-            '#value' => t('Reset crop'),
+-            '#attributes' => [
+-              'class' => ['crop-preview-wrapper__crop-reset'],
+-              'data-drupal-iwc' => 'reset',
+-            ],
+-            '#weight' => -10,
+-          ];
++          if ($element['#show_reset_crop']) {
++            $element['crop_wrapper'][$type]['crop_container']['reset'] = [
++              '#type' => 'button',
++              '#value' => t('Reset crop'),
++              '#attributes' => [
++                'class' => ['crop-preview-wrapper__crop-reset'],
++                'data-drupal-iwc' => 'reset',
++              ],
++              '#weight' => -10,
++            ];
++          }
+ 
+           // Generation of html List with image & crop information.
+           $element['crop_wrapper'][$type]['crop_container']['values'] = [
+@@ -396,7 +405,7 @@ class ImageCrop extends FormElement {
+             '@hard_limit' => $hard_limit[$element_name],
+             '@crop_name' => $crop_type->label(),
+           ]
+-          ));
++        ));
+       }
+     }
+   }
+diff --git a/src/Element/ImageCropModal.php b/src/Element/ImageCropModal.php
+new file mode 100644
+index 0000000..52e4bfa
+--- /dev/null
++++ b/src/Element/ImageCropModal.php
+@@ -0,0 +1,180 @@
++<?php
++
++namespace Drupal\image_widget_crop\Element;
++
++use Drupal\Component\Utility\NestedArray;
++use Drupal\Core\Ajax\AjaxResponse;
++use Drupal\Core\Ajax\OpenModalDialogCommand;
++use Drupal\Core\Render\Element;
++use Drupal\Core\Form\FormStateInterface;
++
++/**
++ * Provides a form element for crop in modal.
++ *
++ * @FormElement("image_crop_modal")
++ */
++class ImageCropModal extends ImageCrop {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getInfo() {
++    $info = parent::getInfo();
++    $info['#modal_title'] = t('Crop the image');
++    $info['#modal_width'] = 0;
++    $info['#modal_height'] = 0;
++    $info['#modal_min_width'] = 200;
++    $info['#modal_min_height'] = 0;
++    $info['#attached']['library'][] = 'image_widget_crop/modal';
++    return $info;
++  }
++
++  /**
++   * Render API callback: Expands the image_crop element type.
++   *
++   * @param array $element
++   *   An associative array containing the properties and children of the
++   *   form actions container.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   * @param array $complete_form
++   *   The complete form structure.
++   *
++   * @return array
++   *   The processed element.
++   */
++  public static function processCrop(array &$element, FormStateInterface $form_state, array &$complete_form) {
++    parent::processCrop($element, $form_state, $complete_form);
++
++    // If parent didn't provide crop wrapper then obviously something went
++    // terribly wrong.
++    if (empty($element['crop_wrapper'])) {
++      return $element;
++    }
++
++    // Convert existing "details" form field to container to remove collapsible
++    // fieldsets.
++    $element['crop_wrapper']['#type'] = 'container';
++
++    // Slightly enhance the UX on forms.
++    $element['crop_wrapper']['#weight'] = -1;
++
++    // Don't show the warning in the form, we'll show it later in modal dialog
++    // if necessary.
++    if (!empty($element['crop_reuse'])) {
++      $element['crop_reuse']['#access'] = FALSE;
++    }
++
++    // Add a simple button which opens a modal with image crop selection.
++    $id_prefix = implode('-', $element['#parents']);
++    $element['modal_button'] = [
++      '#type' => 'button',
++      '#value' => t('Edit crop'),
++      '#name' => strtr($id_prefix, '-', '_') . '_modal',
++      '#attributes' => [
++        'class' => ['edit-crop'],
++      ],
++      '#ajax' => [
++        'callback' => '\Drupal\image_widget_crop\Element\ImageCropModal::ajaxModal',
++      ],
++    ];
++
++    // Modify the display of the crop area in the default Image Crop Widget.
++    // We render only "values" here, because this form item is necessary to
++    // submit form values. All other elements will be shown in the modal dialog.
++    foreach (Element::children($element['crop_wrapper']) as $crop_type) {
++      if (empty($element['crop_wrapper'][$crop_type]['crop_container'])) {
++        if ($element['crop_wrapper'][$crop_type]['#type'] == 'vertical_tabs') {
++          $element['crop_wrapper'][$crop_type]['#access'] = FALSE;
++        }
++        continue;
++      }
++      $crop_item = &$element['crop_wrapper'][$crop_type];
++
++      // Covert tab with every crop type into container to avoid visual
++      // rendering of it in the main form.
++      $crop_item['#type'] = 'container';
++
++
++      // That's a small trick to generate (if not exist) & preload image in
++      // crop image style ahead of display in popup. It prevents popup from
++      // jump on load and users from waiting for image to generate.
++      $crop_item['crop_container']['image_preload'] = $crop_item['crop_container']['image'];
++      unset($crop_item['crop_container']['image_preload']['#attributes']['data-drupal-iwc']);
++      $crop_item['crop_container']['image_preload']['#attributes']['style'] = 'display:none';
++
++      // Hide image with crop selection & reset button from the main form.
++      // We'll show those items in the modal dialog.
++      $crop_item['crop_container']['image']['#access'] = FALSE;
++      if (!empty($crop_item['crop_container']['reset'])) {
++        $crop_item['crop_container']['reset']['#access'] = FALSE;
++      }
++    }
++
++    return $element;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function ajaxModal(array &$form, FormStateInterface $form_state) {
++
++    // Get parents of triggering elements.
++    $parents = $form_state->getTriggeringElement()['#array_parents'];
++    array_pop($parents);
++
++    $image_crop = NestedArray::getValue($form, $parents);
++
++    // Restore access to crop_reuse message.
++    if (!empty($image_crop['crop_reuse'])) {
++      $image_crop['crop_reuse']['#access'] = TRUE;
++    }
++
++    // We don't want to show the modal button any more.
++    $image_crop['modal_button']['#access'] = FALSE;
++
++    // Remove "display:none" style recently added to hide it on the main form.
++    // Now we do need to show it in the modal dialog.
++    unset($image_crop['crop_wrapper']['#attributes']['style']);
++
++    // Restore access to image crop and "Reset" button of every crop type.
++    foreach (Element::children($image_crop['crop_wrapper']) as $crop_type) {
++      if (empty($image_crop['crop_wrapper'][$crop_type]['crop_container'])) {
++        continue;
++      }
++      $crop_item = &$image_crop['crop_wrapper'][$crop_type]['crop_container'];
++      $crop_item['image']['#access'] = TRUE;
++      if (!empty($crop_item['reset'])) {
++        $crop_item['reset']['#access'] = TRUE;
++      }
++    }
++
++    $image_crop['actions']['submit'] = [
++      '#type' => 'submit',
++      '#value' => t('Apply'),
++      '#prefix' => '<div class="form-actions">',
++      '#suffix' => '</div>',
++      '#attributes' => [
++        'class' => ['button--primary', 'image-crop-apply'],
++      ],
++    ];
++
++    // Build out dialog.ui settings.
++    $settings = [];
++    $options = ['width', 'height', 'min_width', 'min_height'];
++    foreach ($options as $option) {
++      if (!empty($image_crop['#modal_' . $option])) {
++        $dialogOption = str_replace(['min_width', 'min_height'], ['minWidth', 'minHeight'], $option);
++        $settings[$dialogOption] = $image_crop['#modal_' . $option];
++      }
++    }
++
++    // Get dialog title.
++    $title = $image_crop['#modal_title'];
++
++    $response = new AjaxResponse();
++    $response->addCommand(new OpenModalDialogCommand($title, $image_crop, $settings));
++    return $response;
++  }
++
++}
+diff --git a/src/Form/CropWidgetForm.php b/src/Form/CropWidgetForm.php
+index e9df20d..03c9608 100644
+--- a/src/Form/CropWidgetForm.php
++++ b/src/Form/CropWidgetForm.php
+@@ -181,6 +181,12 @@ class CropWidgetForm extends ConfigFormBase {
+       '#default_value' => $this->settings->get('settings.show_default_crop'),
+     ];
+ 
++    $form['image_crop']['show_reset_crop'] = [
++      '#title' => $this->t('Show "Reset crop" button'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->settings->get('settings.show_reset_crop'),
++    ];
++
+     return parent::buildForm($form, $form_state);
+   }
+ 
+@@ -243,6 +249,7 @@ class CropWidgetForm extends ConfigFormBase {
+       ->set("settings.css_url", $form_state->getValue('css_url'))
+       ->set("settings.crop_preview_image_style", $form_state->getValue('crop_preview_image_style'))
+       ->set("settings.show_default_crop", $form_state->getValue('show_default_crop'))
++      ->set("settings.show_reset_crop", $form_state->getValue('show_reset_crop'))
+       ->set("settings.show_crop_area", $form_state->getValue('show_crop_area'))
+       ->set("settings.warn_multiple_usages", $form_state->getValue('warn_multiple_usages'))
+       ->set("settings.crop_list", $form_state->getValue('crop_list'));
+diff --git a/src/Plugin/Field/FieldWidget/ImageCropBrowserWidget.php b/src/Plugin/Field/FieldWidget/ImageCropBrowserWidget.php
+new file mode 100755
+index 0000000..1011287
+--- /dev/null
++++ b/src/Plugin/Field/FieldWidget/ImageCropBrowserWidget.php
+@@ -0,0 +1,293 @@
++<?php
++
++namespace Drupal\image_widget_crop\Plugin\Field\FieldWidget;
++
++use Drupal\Component\Utility\SortArray;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Render\Element;
++use Drupal\crop\Entity\CropType;
++use Drupal\entity_browser\Plugin\Field\FieldWidget\FileBrowserWidget;
++
++/**
++ * ImageCrop browser file widget.
++ *
++ * @FieldWidget(
++ *   id = "image_crop_browser",
++ *   label = @Translation("ImageCrop browser"),
++ *   provider = "image_widget_crop",
++ *   multiple_values = TRUE,
++ *   field_types = {
++ *     "image"
++ *   }
++ * )
++ */
++class ImageCropBrowserWidget extends FileBrowserWidget {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $deleteDepth = 4;
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function defaultSettings() {
++    return [
++        'crop_preview_image_style' => 'crop_thumbnail',
++        'crop_list' => NULL,
++        'show_crop_area' => FALSE,
++        'show_default_crop' => TRUE,
++        'show_reset_crop' => TRUE,
++        'warn_multiple_usages' => TRUE,
++        'modal_title' => t('Crop the image'),
++        'modal_width' => 0,
++        'modal_height' => 0,
++        'modal_min_width' => 200,
++        'modal_min_height' => 0,
++      ] + parent::defaultSettings();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function settingsForm(array $form, FormStateInterface $form_state) {
++    $element = parent::settingsForm($form, $form_state);
++
++    $element['crop_preview_image_style'] = [
++      '#title' => $this->t('Crop preview image style'),
++      '#type' => 'select',
++      '#options' => image_style_options(FALSE),
++      '#default_value' => $this->getSetting('crop_preview_image_style'),
++      '#description' => $this->t('The preview image will be shown while editing the content.'),
++      '#weight' => 15,
++    ];
++
++    $iwc_manager = \Drupal::service('image_widget_crop.manager');
++    $element['crop_list'] = [
++      '#title' => $this->t('Crop Type'),
++      '#type' => 'select',
++      '#options' => $iwc_manager->getAvailableCropType(CropType::getCropTypeNames()),
++      '#empty_option' => $this->t('<@no-preview>', ['@no-preview' => $this->t('no preview')]),
++      '#default_value' => $this->getSetting('crop_list'),
++      '#multiple' => TRUE,
++      '#required' => TRUE,
++      '#description' => $this->t('The type of crop to apply to your image. If your Crop Type not appear here, set an image style use your Crop Type'),
++      '#weight' => 16,
++    ];
++
++    $element['show_crop_area'] = [
++      '#title' => $this->t('Always expand crop area'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->getSetting('show_crop_area'),
++    ];
++
++    $element['show_default_crop'] = [
++      '#title' => $this->t('Show default crop area'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->getSetting('show_default_crop'),
++    ];
++
++    $element['show_reset_crop'] = [
++      '#title' => $this->t('Show "Reset crop" button'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->getSetting('show_reset_crop'),
++    ];
++
++    $element['warn_multiple_usages'] = [
++      '#title' => $this->t('Warn the user if the crop is used more than once.'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->getSetting('warn_multiple_usages'),
++    ];
++
++    $element['modal_title'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog title'),
++      '#default_value' => $this->getSetting('modal_title'),
++    ];
++
++    $element['modal_width'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog width, px'),
++      '#description' => t('Leave 0 or blank to calculate width automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_width'),
++    ];
++
++    $element['modal_height'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog height, px'),
++      '#description' => t('Leave 0 or blank to calculate height automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_height'),
++    ];
++
++    $element['modal_min_width'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog min width, px'),
++      '#description' => t('Leave 0 or blank to calculate min width automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_min_width'),
++    ];
++
++    $element['modal_min_height'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog min height, px'),
++      '#description' => t('Leave 0 or blank to calculate min height automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_min_height'),
++    ];
++
++    return $element;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function settingsSummary() {
++    $preview = parent::settingsSummary();
++
++    $image_styles = image_style_options(FALSE);
++    // Unset possible 'No defined styles' option.
++    unset($image_styles['']);
++
++    // Styles could be lost because of enabled/disabled modules that defines
++    // their styles in code.
++    $image_style_setting = $this->getSetting('preview_image_style');
++    $crop_preview = $image_styles[$this->getSetting('crop_preview_image_style')];
++    $crop_list = $this->getSetting('crop_list');
++    $crop_show_button = $this->getSetting('show_crop_area');
++    $show_default_crop = $this->getSetting('show_default_crop');
++    $show_reset_crop = $this->getSetting('show_reset_crop');
++    $warn_multiple_usages = $this->getSetting('warn_multiple_usages');
++
++    $preview[] = $this->t('Always expand crop area: @bool', ['@bool' => ($crop_show_button) ? 'Yes' : 'No']);
++    $preview[] = $this->t('Show default crop area: @bool', ['@bool' => ($show_default_crop) ? 'Yes' : 'No']);
++    $preview[] = $this->t('Show crop reset button: @bool', ['@bool' => ($show_reset_crop) ? 'Yes' : 'No']);
++    $preview[] = $this->t('Warn the user if the crop is used more than once: @bool', ['@bool' => ($warn_multiple_usages) ? 'Yes' : 'No']);
++
++    if (isset($image_styles[$image_style_setting])) {
++      $preview[] = $this->t('Preview image style: @style', ['@style' => $image_style_setting]);
++    }
++    else {
++      $preview[] = $this->t('No preview image style');
++    }
++
++    if (isset($crop_preview)) {
++      $preview[] = $this->t('Preview crop zone image style: @style', ['@style' => $crop_preview]);
++    }
++
++    if (!empty($crop_list)) {
++      $preview[] = $this->t('Crop Type used: @list', ['@list' => is_array($crop_list) ? implode(", ", $crop_list) : $crop_list]);
++    }
++
++    // Get modal widget settings.
++    $modal_title = $this->getSetting('modal_title');
++    $modal_width = $this->getSetting('modal_width');
++    $modal_height = $this->getSetting('modal_height');
++    $modal_min_width = $this->getSetting('modal_min_width');
++    $modal_min_height = $this->getSetting('modal_min_height');
++
++    // Format messages for each setting.
++    $preview[] = $this->t('Modal title: @title', ['@title' => $modal_title]);
++    $preview[] = $this->t('Modal width: @width', ['@width' => $modal_width ? $modal_width . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal height: @height', ['@height' => $modal_height ? $modal_height . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal min width: @width', ['@width' => $modal_min_width ? $modal_min_width . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal min height: @height', ['@height' => $modal_min_height ? $modal_min_height . 'px' : t('Auto')]);
++
++    return $preview;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function displayCurrentSelection($details_id, $field_parents, $entities) {
++    $current = parent::displayCurrentSelection($details_id, $field_parents, $entities);
++
++    unset($current['#header']);
++
++    $extras = ['meta', 'edit_button', 'remove_button'];
++    foreach (Element::children($current) as $key) {
++      $row = &$current[$key];
++
++      $row['widget'] = [
++        '#type' => 'container',
++      ];
++
++      foreach ($extras as $extra) {
++        $row['widget'][$extra] = $row[$extra];
++        unset($row[$extra]);
++      }
++
++      $row['widget']['crop_button'] = [
++        '#type' => 'image_crop_modal',
++        '#file' => $row['display']['#file'],
++        '#crop_type_list' => $this->getSetting('crop_list'),
++        '#crop_preview_image_style' => 'crop_thumbnail',
++        '#show_default_crop' => $this->getSetting('show_default_crop'),
++        '#show_reset_crop' => $this->getSetting('show_reset_crop'),
++        '#show_crop_area' => $this->getSetting('show_crop_area'),
++        '#warn_mupltiple_usages' => $this->getSetting('warn_multiple_usages'),
++        '#modal_title' => $this->getSetting('modal_title'),
++        '#modal_width' => $this->getSetting('modal_width'),
++        '#modal_height' => $this->getSetting('modal_height'),
++        '#modal_min_width' => $this->getSetting('modal_min_width'),
++        '#modal_min_height' => $this->getSetting('modal_min_height'),
++        '#weight' => 10,
++      ];
++
++      $row['widget']['edit_button']['#weight'] = 9;
++      $row['widget']['remove_button']['#weight'] = 11;
++    }
++
++    return $current;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
++    $ids = empty($values['target_id']) ? [] : explode(' ', trim($values['target_id']));
++    $return = [];
++    foreach ($ids as $id) {
++      $id = explode(':', $id)[1];
++      if (is_array($values['current']) && isset($values['current'][$id])) {
++        $item_values = [
++          'target_id' => $id,
++          '_weight' => $values['current'][$id]['_weight'],
++        ];
++        if ($this->fieldDefinition->getType() == 'file') {
++          if (isset($values['current'][$id]['meta']['description'])) {
++            $item_values['description'] = $values['current'][$id]['widget']['meta']['description'];
++          }
++          if ($this->fieldDefinition->getSetting('display_field') && isset($values['current'][$id]['widget']['meta']['display_field'])) {
++            $item_values['display'] = $values['current'][$id]['widget']['meta']['display_field'];
++          }
++        }
++        if ($this->fieldDefinition->getType() == 'image') {
++          if (isset($values['current'][$id]['widget']['meta']['alt'])) {
++            $item_values['alt'] = $values['current'][$id]['widget']['meta']['alt'];
++          }
++          if (isset($values['current'][$id]['widget']['meta']['title'])) {
++            $item_values['title'] = $values['current'][$id]['widget']['meta']['title'];
++          }
++          if (isset($values['current'][$id]['widget']['crop_button'])) {
++            $item_values['image_crop'] = $values['current'][$id]['widget']['crop_button'];
++          }
++        }
++        $return[] = $item_values;
++      }
++    }
++
++    // Return ourself as the structure doesn't match the default.
++    usort($return, function ($a, $b) {
++      return SortArray::sortByKeyInt($a, $b, '_weight');
++    });
++
++    return array_values($return);
++  }
++
++}
+diff --git a/src/Plugin/Field/FieldWidget/ImageCropModalWidget.php b/src/Plugin/Field/FieldWidget/ImageCropModalWidget.php
+new file mode 100644
+index 0000000..7d8cde0
+--- /dev/null
++++ b/src/Plugin/Field/FieldWidget/ImageCropModalWidget.php
+@@ -0,0 +1,161 @@
++<?php
++
++namespace Drupal\image_widget_crop\Plugin\Field\FieldWidget;
++
++use Drupal\Core\Field\FieldItemListInterface;
++use Drupal\Core\Form\FormStateInterface;
++
++/**
++ * Plugin implementation of the 'image_widget_modal_crop' widget.
++ *
++ * @FieldWidget(
++ *   id = "image_widget_modal_crop",
++ *   label = @Translation("ImageWidget Modal crop"),
++ *   field_types = {
++ *     "image"
++ *   }
++ * )
++ */
++class ImageCropModalWidget extends ImageCropWidget {
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function defaultSettings() {
++    return [
++        'modal_title' => t('Crop the image'),
++        'modal_width' => 0,
++        'modal_height' => 0,
++        'modal_min_width' => 200,
++        'modal_min_height' => 0,
++      ] + parent::defaultSettings();
++  }
++
++  /**
++   * Form API callback: Processes a image_crop_modal field element.
++   *
++   * Expands the image_image type to include the alt and title fields.
++   *
++   * This method is assigned as a #process callback in formElement() method.
++   *
++   * @return array
++   *   The elements with parents fields.
++   */
++  public static function process($element, FormStateInterface $form_state, $form) {
++    $element = parent::process($element, $form_state, $form);
++
++    // Add modal specific settings.
++    if (!empty($element['image_crop'])) {
++
++      // Change the form item type to modal crop.
++      $element['image_crop']['#type'] = 'image_crop_modal';
++
++      $element['image_crop'] += [
++        '#modal_title' => $element['#modal_title'],
++        '#modal_width' => $element['#modal_width'],
++        '#modal_height' => $element['#modal_height'],
++        '#modal_min_width' => $element['#modal_min_width'],
++        '#modal_min_height' => $element['#modal_min_height'],
++      ];
++    }
++
++    return $element;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function settingsForm(array $form, FormStateInterface $form_state) {
++    $element = parent::settingsForm($form, $form_state);
++
++    $element['modal_title'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog title'),
++      '#default_value' => $this->getSetting('modal_title'),
++    ];
++
++    $element['modal_width'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog width, px'),
++      '#description' => t('Leave 0 or blank to calculate width automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_width'),
++    ];
++
++    $element['modal_height'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog height, px'),
++      '#description' => t('Leave 0 or blank to calculate height automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_height'),
++    ];
++
++    $element['modal_min_width'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog min width, px'),
++      '#description' => t('Leave 0 or blank to calculate min width automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_min_width'),
++    ];
++
++    $element['modal_min_height'] = [
++      '#type' => 'textfield',
++      '#title' => $this->t('Modal dialog min height, px'),
++      '#description' => t('Leave 0 or blank to calculate min height automatically.'),
++      '#size' => 4,
++      '#element_validate' => ['element_validate_integer_positive'],
++      '#default_value' => $this->getSetting('modal_min_height'),
++    ];
++
++    // Currently we limit display of crop types to 1 in the modal dialog.
++    /// If someone will need more - it's a good place to start from.
++    $element['crop_list']['#multiple'] = FALSE;
++
++    return $element;
++  }
++
++  /**
++   * {@inheritdoc}
++   *
++   * @return \Drupal\Core\StringTranslation\TranslatableMarkup[]
++   *   A short summary of the widget settings.
++   */
++  public function settingsSummary() {
++    $preview = parent::settingsSummary();
++
++    // Get modal widget settings.
++    $modal_title = $this->getSetting('modal_title');
++    $modal_width = $this->getSetting('modal_width');
++    $modal_height = $this->getSetting('modal_height');
++    $modal_min_width = $this->getSetting('modal_min_width');
++    $modal_min_height = $this->getSetting('modal_min_height');
++
++    // Format messages for each setting.
++    $preview[] = $this->t('Modal title: @title', ['@title' => $modal_title]);
++    $preview[] = $this->t('Modal width: @width', ['@width' => $modal_width ? $modal_width . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal height: @height', ['@height' => $modal_height ? $modal_height . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal min width: @width', ['@width' => $modal_min_width ? $modal_min_width . 'px' : t('Auto')]);
++    $preview[] = $this->t('Modal min height: @height', ['@height' => $modal_min_height ? $modal_min_height . 'px' : t('Auto')]);
++
++    return $preview;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
++    $element = parent::formElement($items, $delta, $element, $form, $form_state);
++
++    // Add modal specific settings.
++    $options = ['title', 'width', 'height', 'min_width', 'min_height'];
++    foreach ($options as $option) {
++      $element['#modal_' . $option] = $this->getSetting('modal_' . $option);
++    }
++
++    return $element;
++  }
++
++}
+diff --git a/src/Plugin/Field/FieldWidget/ImageCropWidget.php b/src/Plugin/Field/FieldWidget/ImageCropWidget.php
+index 8d3eeb7..255e025 100644
+--- a/src/Plugin/Field/FieldWidget/ImageCropWidget.php
++++ b/src/Plugin/Field/FieldWidget/ImageCropWidget.php
+@@ -101,6 +101,7 @@ class ImageCropWidget extends ImageWidget {
+       'crop_list' => NULL,
+       'show_crop_area' => FALSE,
+       'show_default_crop' => TRUE,
++      'show_reset_crop' => TRUE,
+       'warn_multiple_usages' => TRUE,
+     ] + parent::defaultSettings();
+   }
+@@ -124,6 +125,7 @@ class ImageCropWidget extends ImageWidget {
+           '#crop_type_list' => $element['#crop_list'],
+           '#crop_preview_image_style' => $element['#crop_preview_image_style'],
+           '#show_default_crop' => $element['#show_default_crop'],
++          '#show_reset_crop' => $element['#show_reset_crop'],
+           '#show_crop_area' => $element['#show_crop_area'],
+           '#warn_multiple_usages' => $element['#warn_multiple_usages'],
+         ];
+@@ -204,6 +206,12 @@ class ImageCropWidget extends ImageWidget {
+       '#default_value' => $this->getSetting('show_default_crop'),
+     ];
+ 
++    $element['show_reset_crop'] = [
++      '#title' => $this->t('Show "Reset crop" button'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->getSetting('show_reset_crop'),
++    ];
++
+     $element['warn_multiple_usages'] = [
+       '#title' => $this->t('Warn the user if the crop is used more than once.'),
+       '#type' => 'checkbox',
+@@ -233,10 +241,12 @@ class ImageCropWidget extends ImageWidget {
+     $crop_list = $this->getSetting('crop_list');
+     $crop_show_button = $this->getSetting('show_crop_area');
+     $show_default_crop = $this->getSetting('show_default_crop');
++    $show_reset_crop = $this->getSetting('show_reset_crop');
+     $warn_multiple_usages = $this->getSetting('warn_multiple_usages');
+ 
+     $preview[] = $this->t('Always expand crop area: @bool', ['@bool' => ($crop_show_button) ? 'Yes' : 'No']);
+     $preview[] = $this->t('Show default crop area: @bool', ['@bool' => ($show_default_crop) ? 'Yes' : 'No']);
++    $preview[] = $this->t('Show crop reset button: @bool', ['@bool' => ($show_reset_crop) ? 'Yes' : 'No']);
+     $preview[] = $this->t('Warn the user if the crop is used more than once: @bool', ['@bool' => ($warn_multiple_usages) ? 'Yes' : 'No']);
+ 
+     if (isset($image_styles[$image_style_setting])) {
+@@ -251,7 +261,7 @@ class ImageCropWidget extends ImageWidget {
+     }
+ 
+     if (!empty($crop_list)) {
+-      $preview[] = $this->t('Crop Type used: @list', ['@list' => implode(", ", $crop_list)]);
++      $preview[] = $this->t('Crop Type used: @list', ['@list' => is_array($crop_list) ? implode(", ", $crop_list) : $crop_list]);
+     }
+ 
+     return $preview;
+@@ -269,6 +279,7 @@ class ImageCropWidget extends ImageWidget {
+     $element['#crop_preview_image_style'] = $this->getSetting('crop_preview_image_style');
+     $element['#show_crop_area'] = $this->getSetting('show_crop_area');
+     $element['#show_default_crop'] = $this->getSetting('show_default_crop');
++    $element['#show_reset_crop'] = $this->getSetting('show_reset_crop');
+     $element['#warn_multiple_usages'] = $this->getSetting('warn_multiple_usages');
+ 
+     return parent::formElement($items, $delta, $element, $form, $form_state);

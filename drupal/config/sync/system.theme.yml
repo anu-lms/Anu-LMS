@@ -1,0 +1,5 @@
+admin: ssb_admin
+default: ssb_admin
+_core:
+  default_config_hash: 6lQ55NXM9ysybMQ6NzJj4dtiQ1dAkOYxdDompa-r_kk
+langcode: en
