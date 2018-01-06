@@ -11,7 +11,6 @@ const fileURL = url => (
   url.replace(BACKEND_SERVER_URL, BACKEND_CLIENT_URL)
 );
 
-// Нормализация урл для получения сущности при использовании decoupled routes
 const decoupleURL = url => {
   if (process.env.NODE_ENV !== 'production') {
     url = url.replace(/^[a-zA-Z]{3,5}\:\/{2}[a-zA-Z0-9_.:-]+\//, '/');
@@ -22,20 +21,9 @@ const decoupleURL = url => {
   return url;
 };
 
-// URL for a product view page.
-const articleURL = url => (
-  `/blog${url}`
-);
-
-const tagUrl = url => (
-  `/blog?tag=${url.slice(1, url.length)}`
-);
-
 export {
   BACKEND_CLIENT_URL,
   BACKEND_SERVER_URL,
   fileURL,
-  articleURL,
   decoupleURL,
-  tagUrl,
 };

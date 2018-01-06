@@ -17,8 +17,7 @@ services:
     volumes:
       - ./reactjs:/app
       - ./drupal/web/sites/default/files/json_data:/json_data
-    command: sh -c 'yarn install'
-     #&& yarn run start:dev'
+    command: sh -c 'yarn install && yarn run start:dev'
 
   ##########################
   ### DRUPAL ###############

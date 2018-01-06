@@ -1847,10 +1847,6 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exenv@^1.2.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
-
 exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
@@ -3718,13 +3714,6 @@ react-hot-loader@3.0.0-beta.7:
     redbox-react "^1.3.6"
     source-map "^0.4.4"
 
-react-image-lightbox@^4.2.2:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/react-image-lightbox/-/react-image-lightbox-4.4.0.tgz#dc035a4f97d02fd2185a4e1280ce4869a73ac7a7"
-  dependencies:
-    prop-types "^15.5.8"
-    react-modal "^3.1.8"
-
 react-jsonschema-form@^0.50.1:
   version "0.50.1"
   resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-0.50.1.tgz#30652f701645f3af25435ec5f6c42260c426b881"
@@ -3733,14 +3722,6 @@ react-jsonschema-form@^0.50.1:
     lodash.topath "^4.5.2"
     prop-types "^15.5.8"
     setimmediate "^1.0.5"
-
-react-modal@^3.1.8:
-  version "3.1.10"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.1.10.tgz#8898b5cc4ebba78adbb8dea4c55a69818aa682cc"
-  dependencies:
-    exenv "^1.2.0"
-    prop-types "^15.5.10"
-    warning "^3.0.0"
 
 react-moment@^0.6.5:
   version "0.6.8"
@@ -3751,12 +3732,6 @@ react-proxy@^3.0.0-alpha.0:
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
   dependencies:
     lodash "^4.6.1"
-
-react-scroll@^1.5.5:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.7.4.tgz#9c418461f79c2ed69847ac91359af5ad7e9c0b7b"
-  dependencies:
-    prop-types "^15.5.8"
 
 react@^15.6.1:
   version "15.6.2"
@@ -4654,12 +4629,6 @@ walk@^2.3.9:
   dependencies:
     foreachasync "^3.0.0"
 
-warning@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
-  dependencies:
-    loose-envify "^1.0.0"
-
 watchpack@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.4.0.tgz#4a1472bcbb952bd0a9bb4036801f954dfb39faac"
@@ -4795,10 +4764,6 @@ y18n@^3.2.1:
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
-
-yandex-map-react@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/yandex-map-react/-/yandex-map-react-1.1.1.tgz#f26ac2f0108c83522e3acc0b0d6ec2794991ad1c"
 
 yargs-parser@^4.2.0:
   version "4.2.1"
