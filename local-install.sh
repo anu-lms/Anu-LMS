@@ -53,8 +53,8 @@ docker-compose run php drush --root="./web" config-import -y
 docker-compose run php drush --root="./web" config-import -y
 
 # Install default content and then disable the module.
-docker-compose run php drush --root="./web" drush en ssb_default_content
-docker-compose run php drush --root="./web" pmu default_content hal
+docker-compose run php drush --root="./web" en ssb_default_content -y
+docker-compose run php drush --root="./web" pmu default_content hal -y
 
 # Install all node.js packages.
 docker-compose run node yarn install

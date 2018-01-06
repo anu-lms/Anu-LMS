@@ -1,6 +1,5 @@
 module:
   require_login: -1000
-  address: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   block: 0
@@ -43,7 +42,6 @@ module:
   layout_discovery: 0
   link: 0
   locale: 0
-  masquerade: 0
   media_entity: 0
   media_entity_browser: 0
   media_entity_image: 0

@@ -13,7 +13,7 @@ settings:
     rows:
       -
         -
-          name: Форматирование
+          name: Format
           items:
             - Bold
             - Italic
@@ -21,39 +21,39 @@ settings:
             - Strike
             - Format
         -
-          name: Выравнивание
+          name: Alignment
           items:
             - JustifyLeft
             - JustifyCenter
             - JustifyRight
             - JustifyBlock
         -
-          name: Ссылки
+          name: Link
           items:
             - DrupalLink
             - DrupalUnlink
         -
-          name: Списки
+          name: List
           items:
             - BulletedList
             - NumberedList
         -
-          name: Таблица
+          name: Table
           items:
             - Table
         -
-          name: Вставка
+          name: Insert
           items:
             - PasteFromWord
             - Embed
             - DrupalImage
         -
-          name: Разделитель
+          name: Separator
           items:
             - HorizontalRule
             - ImceImage
         -
-          name: 'Просмотр кода'
+          name: 'Source'
           items:
             - Source
   plugins:
