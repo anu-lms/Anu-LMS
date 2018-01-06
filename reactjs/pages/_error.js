@@ -4,7 +4,7 @@ import HtmlHead from '../components/HtmlHead';
 import PageWithContext from '../components/PageWithContext';
 import ErrorPage from '../components/ErrorPage';
 
-class Error extends PageWithContext {
+class Error {
 
   static getInitialProps = async ({ res, pathname, xhr }) => {
     const statusCode = res ? res.statusCode : (xhr ? xhr.status : null);
