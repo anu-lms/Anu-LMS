@@ -15,7 +15,6 @@ if (process.env.PLATFORM_PROJECT) {
 
   // Override environment port.
   process.env.PORT = config.port;
-  console.log('PORT: ' + process.env.PORT);
 
   for (let url in config.routes) {
     let route = config.routes[url];
@@ -24,7 +23,6 @@ if (process.env.PLATFORM_PROJECT) {
       process.env.BASE_URL = url.substring(0, url.length - 7);
     }
   }
-  console.log('BASE URL: ' + process.env.BASE_URL);
 }
 else {
   // Load environment variables from .env (for production) or
@@ -34,6 +32,10 @@ else {
     path: dotEnvFilePath,
   });
 }
+
+// Log some basic data.
+console.log('PORT: ' + process.env.PORT);
+console.log('BASE URL: ' + process.env.BASE_URL);
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = nextjs({ dev });
