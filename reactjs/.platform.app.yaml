@@ -1,0 +1,36 @@
+name: frontend
+type: nodejs:6.9
+
+dependencies:
+  nodejs:
+    yarn: "*"
+    pm2: "^2.4.0"
+
+web:
+
+  commands:
+    start: "PM2_HOME=$PLATFORM_APP_DIR/run NODE_ENV=production pm2 start server.js --no-daemon"
+
+  locations:
+    "/":
+      passthru: true
+    "/static":
+      passthru: false
+      root: "static"
+      allow: false
+      # Rules for specific URI patterns.
+      rules:
+        # Allow access to common static files.
+        '\.(jpe?g|png|gif|svgz?|css|txt|js|map|ico|bmp|eot|woff2?|otf|ttf)$':
+          allow: true
+
+hooks:
+  build: |
+    yarn install
+    yarn run build
+disk: 512
+
+mounts:
+  # Make whole build folder writeble for build scripts purposes.
+  '/build': 'shared:files/build'
+  '/run': 'shared:files/run'
