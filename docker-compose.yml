@@ -17,7 +17,8 @@ services:
     volumes:
       - ./reactjs:/app
       - ./drupal/web/sites/default/files/json_data:/json_data
-    command: sh -c 'yarn install && yarn run start:dev'
+    command: sh -c 'yarn install'
+     #&& yarn run start:dev'
 
   ##########################
   ### DRUPAL ###############
@@ -46,7 +47,11 @@ services:
       - ./drupal:/var/www/html
       # - d4d-unison-sync:/var/www/html:rw # Replace volume to this to use docker-sync for macOS users
 
-  nginx:
+  # nginx container.
+  # name of container matches the URL of the site in order to be
+  # able to make requests from node server by http to the backend
+  # server using the same name as frontend.
+  app.docker.localhost:
     image: wodby/drupal-nginx:8-1.13-2.4.2
     depends_on:
       - php
