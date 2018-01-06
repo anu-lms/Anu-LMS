@@ -5,7 +5,7 @@ import { articleURL } from '../lib/url';
 import ErrorPage from '../components/ErrorPage';
 import getDomain from '../lib/getDomain';
 
-class SiteMapPage extends PageWithContext {
+class SiteMapPage {
   render() {
     return (
       <ErrorPage code={this.props.statusCode} />

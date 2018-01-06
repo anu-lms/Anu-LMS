@@ -1,11 +1,10 @@
 import React from 'react';
 import superagent from '../lib/request';
-import PageWithContext from '../components/PageWithContext';
 import App from '../components/App/index';
 import HtmlHead from '../components/HtmlHead';
 import ErrorPage from '../components/ErrorPage';
 
-class FrontPage extends PageWithContext {
+class FrontPage {
   render() {
     return (
       <App>
