@@ -105,12 +105,12 @@ hooks:
    #   composer install
 
     # The deploy hook runs after your application has been deployed and started.
-    deploy: |
-      cd web
-      time drush -y cache-rebuild
-      time drush -y updatedb
-      time drush -y config-import
-      time drush -y entup
+    #deploy: |
+    #  cd web
+    #  time drush -y cache-rebuild
+    #  time drush -y updatedb
+    #  time drush -y config-import
+    #  time drush -y entup
 # The configuration of scheduled execution.
 crons:
     # Run cron every hour.
