@@ -52,7 +52,6 @@ jobs:
           name: Build a new environment on platform.sh using db/files from the MASTER environment
           command: platform environment:activate -y --project $PLATFORM_PROJECT_NAME --parent=master $CIRCLE_BRANCH
 
-
       - run:
           name: Clone database & files if [db sync] is presented in the commit message.
           shell: /bin/bash

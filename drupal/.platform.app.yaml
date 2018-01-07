@@ -97,7 +97,7 @@ mounts:
 #    '/tests/codeception/tests/_output': 'shared:files/unit-tests_output'
 
 # The hooks executed at various points in the lifecycle of the application.
-hooks:
+#hooks:
 
    # The build hook runs to build all dependencies together.
    # build: |
