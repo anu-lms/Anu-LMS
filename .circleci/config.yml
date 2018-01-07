@@ -1,0 +1,95 @@
+# Default configs for all jobs.
+defaults: &defaults
+  working_directory: ~/anu-lms
+  docker:
+    - image: circleci/php:7.1-cli-browsers
+
+# Step to install Platform.sh. Reusable across different jobs.
+install_platform_cli: &install_platform_cli
+  name: Install and configure Platform.sh CLI
+  command: |
+    curl -sS https://platform.sh/cli/installer | php
+    sudo ln -s ~/.platformsh/bin/platform /usr/local/bin/platform
+    echo $PLATFORM_TOKEN > ~/.platformsh/token
+    cp .platform/config.yaml ~/.platformsh/config.yaml
+    # Add platform.sh remote to git.
+    if ! git config remote.platform.url > /dev/null; then
+      git remote add platform $PLATFORM_PROJECT_NAME@git.us.platform.sh:$PLATFORM_PROJECT_NAME.git
+    fi
+
+version: 2
+jobs:
+
+  ##########################################
+  #### PREPARE PLATFORM.SH #################
+  ##########################################
+  prepare_platformsh:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          <<: *install_platform_cli
+
+      #- run:
+      #    name: Create backup of production database and force push it to S3.
+      #    command: |
+      #      if [ $CIRCLE_BRANCH == "production" ]; then
+      #        platform ssh -- "cd public && drush sql-dump --gzip --result-file && drush @syc sql-dump  --gzip --result-file"
+      #        platform ssh "php jobs/upload_backups.php" || true
+      #      fi
+
+      - run:
+          name: Avoid dynamic hosts issue for git push to platform
+          command: echo "StrictHostKeyChecking no" > ~/.ssh/config
+
+      - run:
+          name: Push branch changes to platform's git repository
+          command: git push --force platform $CIRCLE_BRANCH
+          no_output_timeout: 20m
+
+      - run:
+          name: Build a new environment on platform.sh using db/files from the MASTER environment
+          command: platform environment:activate -y --project $PLATFORM_PROJECT_NAME --parent=master $CIRCLE_BRANCH
+
+
+      - run:
+          name: Clone database & files if [db sync] is presented in the commit message.
+          shell: /bin/bash
+          command: |
+            git log --format=%B -n 1 $CIRCLE_SHA1 | grep "\[db sync\]"
+            if [[ $? -ne 1 ]]; then
+              platform sync data -y
+            fi
+
+  ###########################################
+  ############## PREPARE THE SITE ###########
+  ###########################################
+  prepare_site:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          <<: *install_platform_cli
+
+      - run:
+          name: Rebuild caches
+          command: platform ssh -e backend "cd web && drush cr"
+
+      - run:
+          name: Apply database updates
+          command: platform ssh -e backend "cd web && drush updb -y"
+
+      - run:
+          name: Import new configurations
+          command: platform ssh -e backend "cd web && drush cim -y"
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - prepare_platformsh
+      - prepare_site:
+          requires:
+            - prepare_platformsh
