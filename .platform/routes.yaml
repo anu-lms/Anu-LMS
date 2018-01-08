@@ -1,3 +1,15 @@
+# Frontend.
+"http://{default}/":
+    type: redirect
+    to: "https://{default}/"
+
 "https://{default}/":
     type: upstream
     upstream: "frontend:http"
+
+# Backend.
+"https://{default}/admin/":
+    type: upstream
+    upstream: "backend:http"
+    cache:
+        enabled: false
