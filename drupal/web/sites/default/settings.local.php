@@ -18,19 +18,8 @@ $settings['trusted_host_patterns'] = [
   '^nginx$',
 ];
 
-// Enable development configs.
-$config['config_split.config_split.development']['status'] = TRUE;
-$config['config_split.config_split.production']['status'] = FALSE;
-
 // Set writable folder for temp file storage.
 $config['system.file']['path']['temporary'] = '/tmp';
 
 // Disable SMTP usage on all local environments.
 $config['smtp.settings']['smtp_on'] = FALSE;
-
-// Disable CSS preprocess on all local environments.
-$config['system.performance']['css']['preprocess'] = FALSE;
-$config['system.performance']['js']['preprocess'] = FALSE;
-
-// Make logging verbose.
-$config['system.logging']['error_level'] = 'verbose';
