@@ -25,6 +25,9 @@ $config['system.performance']['js']['preprocess'] = FALSE;
 $config['config_split.config_split.development']['status'] = TRUE;
 $config['config_split.config_split.production']['status'] = FALSE;
 
+// Default hash salt.
+$settings['hash_salt'] = 'pmh6LA6706mDIFTHfM5Seiy6PFp-3qIK2DWwWy5MtsHulxYxyzjsXDvrvAgTFZCmncUB76lnEA';
+
 /**
  * Settings for Platform.sh environments.
  */
