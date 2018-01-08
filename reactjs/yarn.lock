@@ -4168,6 +4168,10 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+platformsh@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/platformsh/-/platformsh-1.0.0.tgz#8d4eb5959fef3ff05ffaf6e0d5d03205a304d6d9"
+
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
