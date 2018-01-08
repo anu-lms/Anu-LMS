@@ -74,15 +74,15 @@ jobs:
 
       - run:
           name: Rebuild caches
-          command: platform ssh -e backend "cd web && drush cr"
+          command: platform ssh -A backend "cd web && drush cr"
 
       - run:
           name: Apply database updates
-          command: platform ssh -e backend "cd web && drush updb -y"
+          command: platform ssh -A backend "cd web && drush updb -y"
 
       - run:
           name: Import new configurations
-          command: platform ssh -e backend "cd web && drush cim -y"
+          command: platform ssh -A backend "cd web && drush cim -y"
 
 workflows:
   version: 2
