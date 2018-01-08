@@ -28,18 +28,23 @@ $config['config_split.config_split.production']['status'] = FALSE;
 /**
  * Settings for Platform.sh environments.
  */
+echo 'settings.php';
+echo "\r\n";
+print $_ENV['PLATFORM_BRANCH'];
 if (!empty($_ENV['PLATFORM_BRANCH'])) {
+  echo 'in platform';
   // Include Platform.sh specific configs to connect
   // Drupal to Platform.sh servers.
   require_once(__DIR__ . '/settings.platformsh.php');
 
-  if ($_ENV['PLATFORM_BRANCH'] == 'master') {
+  /*if ($_ENV['PLATFORM_BRANCH'] == 'master') {
     // Include production-only configs which override
     // development settings.
     require_once(__DIR__ . '/settings.env_production.php');
-  }
+  }*/
 }
 // Local settings. These come last so that they can override anything.
 else {
+  echo 'using local';
   require_once(__DIR__ . '/settings.local.php');
 }
