@@ -31,11 +31,7 @@ $settings['hash_salt'] = 'pmh6LA6706mDIFTHfM5Seiy6PFp-3qIK2DWwWy5MtsHulxYxyzjsXD
 /**
  * Settings for Platform.sh environments.
  */
-echo 'settings.php';
-echo "\r\n";
-print $_ENV['PLATFORM_BRANCH'];
 if (!empty($_ENV['PLATFORM_BRANCH'])) {
-  echo 'in platform';
   // Include Platform.sh specific configs to connect
   // Drupal to Platform.sh servers.
   require_once(__DIR__ . '/settings.platformsh.php');
@@ -48,6 +44,5 @@ if (!empty($_ENV['PLATFORM_BRANCH'])) {
 }
 // Local settings. These come last so that they can override anything.
 else {
-  echo 'using local';
   require_once(__DIR__ . '/settings.local.php');
 }
