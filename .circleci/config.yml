@@ -16,6 +16,8 @@ install_platform_cli: &install_platform_cli
     if ! git config remote.platform.url > /dev/null; then
       git remote add platform $PLATFORM_PROJECT_NAME@git.us.platform.sh:$PLATFORM_PROJECT_NAME.git
     fi
+    # Avoid dynamic hosts issue for git push to platform.
+    echo "StrictHostKeyChecking no" > ~/.ssh/config
 
 version: 2
 jobs:
@@ -38,10 +40,6 @@ jobs:
       #        platform ssh -- "cd public && drush sql-dump --gzip --result-file && drush @syc sql-dump  --gzip --result-file"
       #        platform ssh "php jobs/upload_backups.php" || true
       #      fi
-
-      - run:
-          name: Avoid dynamic hosts issue for git push to platform
-          command: echo "StrictHostKeyChecking no" > ~/.ssh/config
 
       - run:
           name: Push branch changes to platform's git repository
