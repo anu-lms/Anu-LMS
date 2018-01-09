@@ -82,6 +82,10 @@ jobs:
           name: Import new configurations
           command: platform ssh -A backend "cd web && drush cim -y"
 
+      - run:
+          name: Apply entity updates
+          command: platform ssh -A backend "cd web && drush entup -y"
+
 workflows:
   version: 2
   workflow:
