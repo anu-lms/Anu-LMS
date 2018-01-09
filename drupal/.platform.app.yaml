@@ -30,6 +30,7 @@ dependencies:
     php:
         'drush/drush': '^8.0'
         'drupal/console': '@stable'
+        'platformsh/cli': '3.26.1'
 
 # The configuration of app when it is exposed to the web.
 web:
