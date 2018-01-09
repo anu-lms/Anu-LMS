@@ -1,5 +1,5 @@
 name: frontend
-type: nodejs:6.9
+type: nodejs:8.9
 
 dependencies:
   nodejs:
