@@ -121,5 +121,5 @@ crons:
         cmd: 'cd web ; drush core-cron'
     # Run automatic snapshot creation every 12th hour.
     snapshot:
-        spec: '0 */12 * * *'
+        spec: '1 */12 * * *'
         cmd: 'if [ "$PLATFORM_BRANCH" = master ]; then platform snapshot:create --yes --no-wait; fi'
