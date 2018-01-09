@@ -53,7 +53,7 @@ settings:
             - HorizontalRule
             - ImceImage
         -
-          name: 'Source'
+          name: Source
           items:
             - Source
   plugins:
