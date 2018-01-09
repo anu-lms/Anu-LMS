@@ -29,7 +29,8 @@ relationships:
 dependencies:
     php:
         'drush/drush': '^8.0'
-        'drupal/console': '@stable'
+        # Comment out drupal console for now because it conflicts with `platformsh/cli` in Drupal 8.
+        # 'drupal/console': '@stable'
         'platformsh/cli': '3.26.1'
 
 # The configuration of app when it is exposed to the web.
