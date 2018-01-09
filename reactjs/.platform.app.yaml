@@ -32,5 +32,4 @@ disk: 512
 
 mounts:
   # Make whole build folder writeble for build scripts purposes.
-  '/build': 'shared:files/build'
   '/run': 'shared:files/run'
