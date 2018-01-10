@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Rewrites URL for subdirectory usage.
+ */
+if (!empty($GLOBALS['request'])) {
+  $requestUri = $GLOBALS['request']->server->get('REQUEST_URI');
+  if (strpos($requestUri, '/admin') === 0) {
+    $scriptName = $GLOBALS['request']->server->get('SCRIPT_NAME');
+    $GLOBALS['request']->server->set('SCRIPT_NAME', '/admin' . $scriptName);
+  }
+}
+
 // Database connection credentials.
 $databases['default']['default'] = array (
   'database' => 'drupal',
