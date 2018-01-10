@@ -1,0 +1,18 @@
+uuid: 74223879-e59c-463b-a823-89eab8342aca
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.lesson
+  module:
+    - user
+id: node.lesson.default
+targetEntityType: node
+bundle: lesson
+mode: default
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

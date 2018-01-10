@@ -11,6 +11,9 @@ if (!empty($GLOBALS['request'])) {
   }
 }
 
+// Include local services.
+$settings['container_yamls'][] = $app_root . '/' . $site_path . '/local.services.yml';
+
 // Database connection credentials.
 $databases['default']['default'] = array (
   'database' => 'drupal',

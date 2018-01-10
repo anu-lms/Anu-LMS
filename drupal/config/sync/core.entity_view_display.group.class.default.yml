@@ -1,0 +1,24 @@
+uuid: 6e0ea527-b4aa-4675-b424-f12611e607c1
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.class
+id: group.class.default
+targetEntityType: group
+bundle: class
+mode: default
+content:
+  label:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  changed: true
+  created: true
+  langcode: true
+  uid: true

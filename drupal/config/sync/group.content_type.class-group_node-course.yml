@@ -1,0 +1,19 @@
+uuid: f40c8d0e-d580-4676-bb33-06845e0686ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.class
+    - node.type.course
+  module:
+    - gnode
+    - node
+id: class-group_node-course
+label: 'Class: Group node (Course)'
+description: 'Adds <em class="placeholder">Course</em> content to groups both publicly and privately.'
+group_type: class
+content_plugin: 'group_node:course'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

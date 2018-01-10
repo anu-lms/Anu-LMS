@@ -1,0 +1,18 @@
+uuid: 10460b65-fdfe-4411-a249-561e5cf7b9bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.course
+  module:
+    - user
+id: node.course.default
+targetEntityType: node
+bundle: course
+mode: default
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

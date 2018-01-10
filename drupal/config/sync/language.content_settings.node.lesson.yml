@@ -1,0 +1,11 @@
+uuid: decd46af-db35-42b8-a3e1-636c5f9ee628
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.lesson
+id: node.lesson
+target_entity_type_id: node
+target_bundle: lesson
+default_langcode: site_default
+language_alterable: false

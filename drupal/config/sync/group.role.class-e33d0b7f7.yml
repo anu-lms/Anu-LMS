@@ -1,0 +1,17 @@
+uuid: 8b5a31e0-2ef6-41a7-bcbe-ef63cead3298
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.class
+  enforced:
+    config:
+      - user.role.teacher
+id: class-e33d0b7f7
+label: Teacher
+weight: 6
+internal: true
+audience: outsider
+group_type: class
+permissions_ui: false
+permissions: {  }

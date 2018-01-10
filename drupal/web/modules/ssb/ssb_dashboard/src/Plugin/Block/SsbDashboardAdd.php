@@ -18,22 +18,40 @@ class SsbDashboardAdd extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $node_types = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple();
-    $nodes = [];
 
+    $entities = [];
+    $entityTypeManager = \Drupal::entityTypeManager();
+
+    $node_types = $entityTypeManager->getStorage('node_type')->loadMultiple();
     foreach ($node_types as $entity) {
-      $nodes[] = [
-        'type' => ['node_type' => $entity->getOriginalId()],
-        'name' => $entity->get('name'),
-        'description' => $entity->get('description'),
-      ];
+      if ($entity->access('create')) {
+        $entities[] = [
+          'url' => \Drupal\Core\Url::fromRoute('node.add', ['node_type' => $entity->id()])->toString(),
+          'name' => $entity->get('name'),
+          'description' => $entity->get('description'),
+        ];
+      }
     }
 
-    $build = [];
-    $build['#theme'] = 'dashboard_add';
-    $build['#nodes'] = $nodes;
+    $class_types = $entityTypeManager->getStorage('group_type')->loadMultiple();
+    foreach ($class_types as $entity) {
+      if ($entityTypeManager->getAccessControlHandler('group')->createAccess($entity->id())) {
+        $entities[] = [
+          'url' => \Drupal\Core\Url::fromRoute('entity.group.add_form', ['group_type' => $entity->id()]),
+          'name' => $entity->label(),
+          'description' => $entity->get('description'),
+        ];
+      }
+    }
 
-    return $build;
+    if (empty($entities)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'dashboard_add',
+      '#nodes' => $entities,
+    ];
   }
 
 }

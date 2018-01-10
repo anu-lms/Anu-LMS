@@ -1,0 +1,19 @@
+uuid: 087a1cae-6f5f-42d1-89b3-8b021e0a1675
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.class
+    - node.type.lesson
+  module:
+    - gnode
+    - node
+id: class-group_node-lesson
+label: 'Class: Group node (Lesson)'
+description: 'Adds <em class="placeholder">Lesson</em> content to groups both publicly and privately.'
+group_type: class
+content_plugin: 'group_node:lesson'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

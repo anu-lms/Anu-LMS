@@ -19,6 +19,7 @@ function ssb_dashboard_theme($existing, $type, $theme, $path) {
       'variables' => [
         'categories' => NULL,
         'pages' => NULL,
+        'groups' => NULL,
       ],
     ],
     'dashboard_global_settings' => [
