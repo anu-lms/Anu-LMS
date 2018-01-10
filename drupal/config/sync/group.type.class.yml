@@ -1,0 +1,11 @@
+uuid: bbe7ec3b-e33e-4287-b8bc-f9725d712890
+langcode: en
+status: true
+dependencies: {  }
+id: class
+label: Class
+description: 'Define a new class within the system.'
+creator_membership: true
+creator_wizard: false
+creator_roles:
+  - class-admin

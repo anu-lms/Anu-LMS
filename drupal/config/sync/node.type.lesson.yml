@@ -1,0 +1,11 @@
+uuid: 3778e047-3cf9-4abe-b079-efb18fe6c784
+langcode: en
+status: true
+dependencies: {  }
+name: Lesson
+type: lesson
+description: 'Create a new lesson within the system.'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

@@ -1,0 +1,14 @@
+uuid: 53040345-ddf4-4866-9102-f093fb887be1
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.class
+id: class-anonymous
+label: Anonymous
+weight: -102
+internal: true
+audience: anonymous
+group_type: class
+permissions_ui: true
+permissions: {  }

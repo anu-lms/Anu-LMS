@@ -28,12 +28,13 @@ class SsbDashboardGlobalSettings extends BlockBase {
     $class = new DashboardClass();
 
     $pages = $class->getRouteConfigPages($bundles);
+    if (empty($pages)) {
+      return [];
+    }
 
     $build = [];
-
     $build['#pages'] = $pages;
     $build['#theme'] = 'dashboard_global_settings';
-
     return $build;
   }
 

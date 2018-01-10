@@ -30,6 +30,11 @@ class DashboardClass {
     $types = ConfigPagesType::loadMultiple();
     foreach ($types as $type) {
 
+      // Check permission to create a content of this entity type.
+      if (!\Drupal::entityTypeManager()->getAccessControlHandler('config_pages')->createAccess($type->id())) {
+        continue;
+      }
+
       if (count($include_bundle)) {
         $condition = in_array($type->id(), $include_bundle);
       }
