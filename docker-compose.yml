@@ -6,7 +6,7 @@ services:
   ##########################
 
   node:
-    image: node:7-alpine
+    image: node:8.9-alpine
     working_dir: /app
     labels:
       - 'traefik.backend=node'
