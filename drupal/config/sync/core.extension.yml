@@ -54,6 +54,7 @@ module:
   panels: 0
   path: 0
   pathauto: 0
+  role_delegation: 0
   serialization: 0
   ssb_ckeditor: 0
   ssb_config_pages: 0

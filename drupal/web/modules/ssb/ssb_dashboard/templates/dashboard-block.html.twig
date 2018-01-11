@@ -1,0 +1,11 @@
+{{ attach_library('ssb_dashboard/ssb_dashboard') }}
+<div class="dashboard-block">
+    <ul>
+        {% for item in items %}
+            <li>
+                <a href="{{ item.url }}">{{ item.name }}</a>
+                {% if item.description %}<div>{{ item.description }}</div>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

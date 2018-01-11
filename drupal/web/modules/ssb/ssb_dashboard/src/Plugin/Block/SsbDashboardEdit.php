@@ -19,18 +19,31 @@ class SsbDashboardEdit extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $class = new DashboardClass();
+    $user = \Drupal::currentUser();
+    $items = [];
 
-    $categories = $class->getRouteTaxanomy();
+    if ($user->hasPermission('access content overview')) {
+      $items[] = [
+        'url' => \Drupal\Core\Url::fromRoute('system.admin_content')
+          ->toString(),
+        'name' => t('Edit content'),
+        'description' => t('Edit or delete existing content in the system.'),
+      ];
+    }
 
-    $pages = $class->getRouteConfigPages(['site_menu']);
-    $build = [];
+    if ($user->hasPermission('administer users')) {
+      $items[] = [
+        'url' => \Drupal\Core\Url::fromRoute('entity.user.collection')
+          ->toString(),
+        'name' => t('Manage people'),
+        'description' => t('Create, edit or delete users.'),
+      ];
+    }
 
-    $groups = [];
     $group_entities = \Drupal::entityTypeManager()->getStorage('group')->loadMultiple();
     foreach ($group_entities as $group) {
       if ($group->access('update')) {
-        $groups[] = [
+        $items[] = [
           'url' => \Drupal\Core\Url::fromRoute('entity.group.edit_form', ['group' => $group->id()]),
           'name' => t('Edit %group', ['%group' => $group->label()]),
           'description' => t('Change content of @group.', ['@group' => $group->bundle()]),
@@ -38,10 +51,9 @@ class SsbDashboardEdit extends BlockBase {
       }
     }
 
-    $build['#pages'] = $pages;
-    $build['#categories'] = $categories;
-    $build['#groups'] = $groups;
-    $build['#theme'] = 'dashboard_edit';
+    $build = [];
+    $build['#items'] = $items;
+    $build['#theme'] = 'dashboard_block';
     return $build;
   }
 
