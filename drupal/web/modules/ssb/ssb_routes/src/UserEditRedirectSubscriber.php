@@ -2,6 +2,7 @@
 
 namespace Drupal\ssb_routes;
 
+use Drupal\Core\Url;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -39,7 +40,9 @@ class UserEditRedirectSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $path = \Drupal\Core\Url::fromRoute('entity.user.edit_form', ['user' => \Drupal::currentUser()->id()]);
+    $account = $request->attributes->get('user');
+
+    $path = \Drupal\Core\Url::fromRoute('entity.user.edit_form', ['user' => $account->id()]);
     $response = new RedirectResponse($path->toString());
     $event->setResponse($response);
   }
