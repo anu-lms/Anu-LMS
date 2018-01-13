@@ -1,0 +1,28 @@
+uuid: 7d5ff7e0-b1da-469e-b84f-1b7b272383b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_video.field_paragraph_settings
+    - field.field.paragraph.media_video.field_paragraph_url
+    - paragraphs.paragraphs_type.media_video
+  module:
+    - link
+id: paragraph.media_video.default
+targetEntityType: paragraph
+bundle: media_video
+mode: default
+content:
+  field_paragraph_url:
+    weight: 0
+    settings:
+      placeholder_url: 'http://'
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  field_paragraph_settings: true
+  status: true
+  uid: true

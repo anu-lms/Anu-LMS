@@ -1,0 +1,21 @@
+uuid: 253c5b6e-7a8f-4a86-8a7b-f8a9ebd4f830
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_settings
+    - paragraphs.paragraphs_type.list_checkbox
+  module:
+    - json_field
+id: paragraph.list_checkbox.field_paragraph_settings
+field_name: field_paragraph_settings
+entity_type: paragraph
+bundle: list_checkbox
+label: Settings
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: json

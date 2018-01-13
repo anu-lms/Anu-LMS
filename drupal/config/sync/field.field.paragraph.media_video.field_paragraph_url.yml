@@ -1,0 +1,23 @@
+uuid: 66c6fb64-d2c1-4abd-a142-248f2a3b1622
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_url
+    - paragraphs.paragraphs_type.media_video
+  module:
+    - link
+id: paragraph.media_video.field_paragraph_url
+field_name: field_paragraph_url
+entity_type: paragraph
+bundle: media_video
+label: 'Youtube / Vimeo URL'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 0
+field_type: link

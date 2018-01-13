@@ -1,0 +1,21 @@
+uuid: c97877a4-5b57-4eb8-a1f5-dd1364019e22
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_description
+    - node.type.course
+  module:
+    - text
+id: node.course.field_course_description
+field_name: field_course_description
+entity_type: node
+bundle: course
+label: Description
+description: 'Describe the main benefits of the current course.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,9 @@
+uuid: c0a4a5c7-a1c4-4f95-8185-e658dcfcd6c1
+langcode: en
+status: true
+dependencies: {  }
+id: divider_numbered
+label: 'Numbered divider'
+icon_uuid: null
+description: 'Defines a numbered divider of blocks on a page.'
+behavior_plugins: {  }

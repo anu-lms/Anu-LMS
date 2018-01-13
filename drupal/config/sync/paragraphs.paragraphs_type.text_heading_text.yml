@@ -1,0 +1,9 @@
+uuid: 9ac13682-8196-44f4-b3a5-80fac6b2e2d5
+langcode: en
+status: true
+dependencies: {  }
+id: text_heading_text
+label: 'Heading + Text'
+icon_uuid: null
+description: 'Defines a combination of H1 and a text area.'
+behavior_plugins: {  }

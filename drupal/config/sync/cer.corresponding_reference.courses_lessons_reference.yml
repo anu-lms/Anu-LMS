@@ -1,0 +1,13 @@
+uuid: c57e5721-8b82-4e00-8e07-c44ad48a644d
+langcode: en
+status: true
+dependencies: {  }
+id: courses_lessons_reference
+label: 'Courses / lessons reference'
+enabled: true
+first_field: field_course_lessons
+second_field: field_lesson_course
+bundles:
+  node:
+    - course
+    - lesson

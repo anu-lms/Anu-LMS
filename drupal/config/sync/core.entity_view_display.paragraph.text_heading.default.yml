@@ -1,0 +1,31 @@
+uuid: dea6cbe6-b1ba-4661-b4d4-f0c1d6ae40eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.text_heading.field_paragraph_settings
+    - field.field.paragraph.text_heading.field_paragraph_title
+    - paragraphs.paragraphs_type.text_heading
+  module:
+    - json_field
+id: paragraph.text_heading.default
+targetEntityType: paragraph
+bundle: text_heading
+mode: default
+content:
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+  field_paragraph_title:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

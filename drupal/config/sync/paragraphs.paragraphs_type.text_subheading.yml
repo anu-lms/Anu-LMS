@@ -1,0 +1,9 @@
+uuid: 87060093-4bbb-4ea0-8640-2923f3703b33
+langcode: en
+status: true
+dependencies: {  }
+id: text_subheading
+label: Subheading
+icon_uuid: null
+description: 'Defines subheading block.'
+behavior_plugins: {  }

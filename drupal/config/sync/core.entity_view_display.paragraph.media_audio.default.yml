@@ -1,0 +1,31 @@
+uuid: 2ffead59-f5e5-411c-929c-b45f296b61ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_audio.field_paragraph_file
+    - field.field.paragraph.media_audio.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_audio
+  module:
+    - file
+    - json_field
+id: paragraph.media_audio.default
+targetEntityType: paragraph
+bundle: media_audio
+mode: default
+content:
+  field_paragraph_file:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+hidden: {  }

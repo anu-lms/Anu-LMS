@@ -1,0 +1,9 @@
+uuid: f327152b-cdb7-4c36-90b4-89d5ed3d2632
+langcode: en
+status: true
+dependencies: {  }
+id: list_bullet
+label: 'Bullet list'
+icon_uuid: null
+description: 'Defines a bullet list block.'
+behavior_plugins: {  }

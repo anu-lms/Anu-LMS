@@ -1,0 +1,21 @@
+uuid: ed0ae49f-df3d-4e23-8111-606098e6f9c9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_audio
+  module:
+    - json_field
+id: paragraph.media_audio.field_paragraph_settings
+field_name: field_paragraph_settings
+entity_type: paragraph
+bundle: media_audio
+label: Settings
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: json

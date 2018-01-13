@@ -1,0 +1,9 @@
+uuid: 8c6edc23-9ad4-4da9-bf99-b963bb7e59d7
+langcode: en
+status: true
+dependencies: {  }
+id: image_full_text
+label: 'Full width image + text'
+icon_uuid: null
+description: 'Defines full width image with text over it.'
+behavior_plugins: {  }

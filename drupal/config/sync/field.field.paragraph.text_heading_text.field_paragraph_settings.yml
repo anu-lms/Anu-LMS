@@ -1,0 +1,21 @@
+uuid: fda470ae-e45a-41e5-8280-e812d69ae44b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_settings
+    - paragraphs.paragraphs_type.text_heading_text
+  module:
+    - json_field
+id: paragraph.text_heading_text.field_paragraph_settings
+field_name: field_paragraph_settings
+entity_type: paragraph
+bundle: text_heading_text
+label: Settings
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: json

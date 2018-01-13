@@ -1,0 +1,9 @@
+uuid: 452f7d92-a38b-4e16-a5d7-2aa70c9a4c75
+langcode: en
+status: true
+dependencies: {  }
+id: media_audio
+label: Audio
+icon_uuid: null
+description: 'Defines an audio block on the page.'
+behavior_plugins: {  }

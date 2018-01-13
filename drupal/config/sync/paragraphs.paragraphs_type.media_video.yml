@@ -1,0 +1,9 @@
+uuid: 884e561f-3c5e-4364-bf94-7cd9b4ec0349
+langcode: en
+status: true
+dependencies: {  }
+id: media_video
+label: Video
+icon_uuid: null
+description: 'Defines a youtube / vimeo block.'
+behavior_plugins: {  }

@@ -1,0 +1,26 @@
+uuid: c60ea77e-9fdc-4cc1-9539-fb61c49647cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_bullet.field_paragraph_list
+    - field.field.paragraph.list_bullet.field_paragraph_settings
+    - paragraphs.paragraphs_type.list_bullet
+id: paragraph.list_bullet.default
+targetEntityType: paragraph
+bundle: list_bullet
+mode: default
+content:
+  field_paragraph_list:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  field_paragraph_settings: true
+  status: true
+  uid: true

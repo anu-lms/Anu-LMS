@@ -1,0 +1,9 @@
+uuid: 4cad8d49-61f2-46b1-bcac-a0aaa13cb537
+langcode: en
+status: true
+dependencies: {  }
+id: list_checkbox
+label: 'Checkbox list'
+icon_uuid: null
+description: 'Defines a checkboxes list block.'
+behavior_plugins: {  }

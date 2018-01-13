@@ -1,0 +1,31 @@
+uuid: ae5f3c25-2ddd-43f2-abcd-f5324904a7e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.text_subheading.field_paragraph_settings
+    - field.field.paragraph.text_subheading.field_paragraph_title
+    - paragraphs.paragraphs_type.text_subheading
+  module:
+    - json_field
+id: paragraph.text_subheading.default
+targetEntityType: paragraph
+bundle: text_subheading
+mode: default
+content:
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+  field_paragraph_title:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }
