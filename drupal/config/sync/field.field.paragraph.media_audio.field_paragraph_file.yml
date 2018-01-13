@@ -1,0 +1,27 @@
+uuid: 8590ec3e-161f-40ec-b832-6652797eff3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_file
+    - paragraphs.paragraphs_type.media_audio
+  module:
+    - file
+id: paragraph.media_audio.field_paragraph_file
+field_name: field_paragraph_file
+entity_type: paragraph
+bundle: media_audio
+label: 'Audio file'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'paragraphs/files/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'mp3 aac wma flac alac wav aiff pcm'
+  max_filesize: '50 MB'
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

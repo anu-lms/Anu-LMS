@@ -1,0 +1,31 @@
+uuid: 5fb1fc81-e9e3-4716-8f8f-38f0ce40c77b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_numbered.field_paragraph_list
+    - field.field.paragraph.list_numbered.field_paragraph_settings
+    - paragraphs.paragraphs_type.list_numbered
+  module:
+    - json_field
+id: paragraph.list_numbered.default
+targetEntityType: paragraph
+bundle: list_numbered
+mode: default
+content:
+  field_paragraph_list:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+hidden: {  }

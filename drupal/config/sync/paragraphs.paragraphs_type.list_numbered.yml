@@ -1,0 +1,9 @@
+uuid: 0176049b-b422-41ed-a965-f22e8127a36f
+langcode: en
+status: true
+dependencies: {  }
+id: list_numbered
+label: 'Numbered list'
+icon_uuid: null
+description: 'Defines a numbered list block.'
+behavior_plugins: {  }

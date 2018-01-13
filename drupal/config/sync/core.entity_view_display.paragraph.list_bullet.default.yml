@@ -1,0 +1,31 @@
+uuid: 60d12467-00de-4998-8d84-37cbe3ec9acc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_bullet.field_paragraph_list
+    - field.field.paragraph.list_bullet.field_paragraph_settings
+    - paragraphs.paragraphs_type.list_bullet
+  module:
+    - json_field
+id: paragraph.list_bullet.default
+targetEntityType: paragraph
+bundle: list_bullet
+mode: default
+content:
+  field_paragraph_list:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+hidden: {  }

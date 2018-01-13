@@ -1,0 +1,38 @@
+uuid: 1b6a4390-ca0f-41f9-802d-5388a5f06a0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_image
+    - paragraphs.paragraphs_type.image_centered_caption
+  module:
+    - image
+id: paragraph.image_centered_caption.field_paragraph_image
+field_name: field_paragraph_image
+entity_type: paragraph
+bundle: image_centered_caption
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'paragraphs/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: '10 MB'
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: false
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

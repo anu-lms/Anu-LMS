@@ -1,0 +1,9 @@
+uuid: 3e4eade2-7984-4494-9e37-67e25b575e0c
+langcode: en
+status: true
+dependencies: {  }
+id: text_text
+label: Text
+icon_uuid: null
+description: 'Defines a simple text area field.'
+behavior_plugins: {  }

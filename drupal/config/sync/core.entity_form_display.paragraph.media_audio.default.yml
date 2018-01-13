@@ -1,0 +1,27 @@
+uuid: 849046b1-b7c9-4ba1-9cd1-b334015f07c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_audio.field_paragraph_file
+    - field.field.paragraph.media_audio.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_audio
+  module:
+    - file
+id: paragraph.media_audio.default
+targetEntityType: paragraph
+bundle: media_audio
+mode: default
+content:
+  field_paragraph_file:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+hidden:
+  created: true
+  field_paragraph_settings: true
+  status: true
+  uid: true

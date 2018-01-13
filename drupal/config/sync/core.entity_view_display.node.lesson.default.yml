@@ -3,14 +3,34 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.lesson.field_lesson_blocks
+    - field.field.node.lesson.field_lesson_course
     - node.type.lesson
   module:
+    - entity_reference_revisions
     - user
 id: node.lesson.default
 targetEntityType: node
 bundle: lesson
 mode: default
 content:
+  field_lesson_blocks:
+    type: entity_reference_revisions_entity_view
+    weight: 102
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_lesson_course:
+    weight: 101
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   links:
     weight: 100
     region: content

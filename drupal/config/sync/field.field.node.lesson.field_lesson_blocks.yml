@@ -1,0 +1,32 @@
+uuid: 01b0250a-8060-4748-afb4-7dd160d5f832
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lesson_blocks
+    - node.type.lesson
+  module:
+    - entity_reference_revisions
+id: node.lesson.field_lesson_blocks
+field_name: field_lesson_blocks
+entity_type: node
+bundle: lesson
+label: Blocks
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles: null
+    target_bundles_drag_drop:
+      text_heading:
+        weight: 3
+        enabled: false
+      text_subheading:
+        weight: 4
+        enabled: false
+field_type: entity_reference_revisions

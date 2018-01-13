@@ -1,0 +1,38 @@
+uuid: 51d7b646-8707-483b-8e36-b4d6ee7f85b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_image
+    - node.type.course
+  module:
+    - image
+id: node.course.field_course_image
+field_name: field_course_image
+entity_type: node
+bundle: course
+label: 'Cover image'
+description: 'The cover image will be used as a primary image for the course representation.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'courses/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: '5 MB'
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: false
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

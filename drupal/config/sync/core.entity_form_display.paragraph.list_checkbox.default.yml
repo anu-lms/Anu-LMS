@@ -1,0 +1,26 @@
+uuid: 1a85bfe4-dc54-4226-a3be-a27b8925943d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_checkbox.field_paragraph_list
+    - field.field.paragraph.list_checkbox.field_paragraph_settings
+    - paragraphs.paragraphs_type.list_checkbox
+id: paragraph.list_checkbox.default
+targetEntityType: paragraph
+bundle: list_checkbox
+mode: default
+content:
+  field_paragraph_list:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  field_paragraph_settings: true
+  status: true
+  uid: true

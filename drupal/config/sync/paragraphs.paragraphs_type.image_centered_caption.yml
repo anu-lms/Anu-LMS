@@ -1,0 +1,9 @@
+uuid: d462624b-7354-4db9-96fb-edee141a3f4e
+langcode: en
+status: true
+dependencies: {  }
+id: image_centered_caption
+label: 'Centered image + caption'
+icon_uuid: null
+description: 'Defines image centered on a page with a caption beneath.'
+behavior_plugins: {  }

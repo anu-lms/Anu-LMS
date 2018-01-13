@@ -3,9 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_image
+    - field.field.node.course.field_course_lessons
+    - image.style.thumbnail
     - node.type.course
   module:
-    - path
+    - image
+    - text
 id: node.course.default
 targetEntityType: node
 bundle: course
@@ -13,47 +18,45 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
-  langcode:
-    type: language_select
+  field_course_description:
     weight: 2
-    region: content
     settings:
-      include_locked: true
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 30
+    type: text_textarea
     region: content
-    settings: {  }
-    third_party_settings: {  }
-  promote:
-    type: boolean_checkbox
+  field_course_image:
+    weight: 1
     settings:
-      display_label: true
-    weight: 15
-    region: content
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
+    type: image_image
+    region: content
+  field_course_lessons:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 120
-    region: content
-    third_party_settings: {  }
-  sticky:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 16
+    weight: 6
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -61,11 +64,15 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 4
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true
+  path: true
+  promote: true
+  sticky: true

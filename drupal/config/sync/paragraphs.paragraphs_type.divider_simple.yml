@@ -1,0 +1,9 @@
+uuid: 5c477a54-9bd4-480f-bd8d-c1eaee898399
+langcode: en
+status: true
+dependencies: {  }
+id: divider_simple
+label: 'Simple divider'
+icon_uuid: null
+description: 'Defines a divider of blocks on a page.'
+behavior_plugins: {  }
