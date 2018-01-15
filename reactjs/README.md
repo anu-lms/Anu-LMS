@@ -22,7 +22,7 @@ It allows for server side rendeing (SSR) as well as comes with pre-defined devel
   - `url.js`- Contains URLs of the backend for production and development. See below for example of usage.
 - `pages/` - Contains all available application pages.
   - `about.js` - A simple example of a page. 
-  - `index.js` - A simple example of front page.
+  - `ProgressBar.jsx` - A simple example of front page.
 - `static/` - Folder which stores any files accessible via web url. All files stored in this folder will be accessible at `http://app.docker.localhost/static/folder/filename.ext`
   - `images/` - Folder which stores images for the application.
   - `robots.txt` - [Robots.txt](http://www.robotstxt.org/robotstxt.html) file for search engines.
