@@ -16,7 +16,8 @@ services:
       - "3000"
     volumes:
       - ./reactjs:/app
-    command: sh -c 'yarn install && yarn run start:dev'
+    command: sh -c 'yarn install'
+     #&& yarn run start:dev'
 
   ##########################
   ### DRUPAL ###############

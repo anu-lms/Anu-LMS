@@ -1,0 +1,58 @@
+.page-login {
+
+  & > .row.content {
+    background: url('/static/img/background/page-login@mobile.jpg') no-repeat center center;
+    background-size: cover;
+    height: 90vh;
+
+    .overlay {
+      background: rgb(0, 0, 3);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    .col {
+      z-index: 1;
+    }
+  }
+
+  & > .row.footer {
+    background: black;
+    height: 10vh;
+    color: $grey-warm;
+
+    ul.links {
+      text-align: center;
+      margin: 0;
+      padding: 15px 10px 10px;
+      font-size: 0.9em;
+
+      li {
+        padding: 0 15px;
+        a {
+          color: $white;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    p {
+      font-size: 0.8em;
+      text-align: center;
+    }
+  }
+
+  h1 {
+    margin-top: 37px;
+    color: white;
+    text-align: center;
+  }
+}

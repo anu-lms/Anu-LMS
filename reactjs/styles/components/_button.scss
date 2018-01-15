@@ -1,0 +1,22 @@
+.btn {
+  border-radius: 8px;
+  border: 2px solid;
+
+  &.btn-primary {
+    background: $blue;
+    border-color: $blue-grey;
+    color: $white;
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  &.btn-lg {
+    padding: 15px;
+  }
+
+  &.btn-block {
+    display: block;
+    width: 100%;
+  }
+
+}

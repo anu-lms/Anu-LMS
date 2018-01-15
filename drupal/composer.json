@@ -54,6 +54,7 @@
     "drupal/pathauto": "^1.0",
     "drupal/require_login": "^1.10",
     "drupal/role_delegation": "^1.0@alpha",
+    "drupal/simple_oauth": "^3.4",
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",
     "drupal/toolbar_themes": "^1.0@alpha",

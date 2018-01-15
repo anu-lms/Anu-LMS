@@ -1,20 +1,52 @@
 import React from 'react';
-import request from '../lib/request';
-import App from '../components/App';
-import HtmlHead from '../components/HtmlHead';
-import Test from '../components/Test';
+import App from '../application/App';
+import Test from '../components/atoms/Test';
+import LoginForm from '../components/moleculas/Form/Login';
+import { isLogged } from '../utils/authentication';
 
-const FrontPage = ({ metaData, analytics, favicon }) => (
+const FrontPage = () => (
   <App>
 
-    <HtmlHead
-      metaData={metaData}
-      analytics={analytics}
-      favicon={favicon}
-    />
+    { isLogged() &&
+    <p>Logged in</p>
+    }
 
-    <div>Home page</div>
-    <Test />
+    { !isLogged() &&
+    <div className="container-fluid page-login">
+
+      <div className="row content">
+        <div className="overlay" />
+        <div className="col">
+
+          <img className="logo" src="/static/img/logo.png" />
+
+          <h1 className="heading">
+            This is your tagline.<br/>
+            Learn your way, your pace.
+          </h1>
+
+          <div className="login-block">
+            <LoginForm />
+          </div>
+
+
+        </div>
+      </div>
+
+      <div className="row footer">
+        <div className="col">
+         <ul className="links">
+           <li className="d-inline"><a href="#">About Us</a></li>
+           <li className="d-inline"><a href="#">Our Partners</a></li>
+           <li className="d-inline"><a href="#">Privacy</a></li>
+           <li className="d-inline"><a href="#">Legal</a></li>
+         </ul>
+          <p>Copyright 2018 Anu (c) All Rights Reserved</p>
+        </div>
+      </div>
+
+    </div>
+    }
 
   </App>
 );

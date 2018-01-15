@@ -1,0 +1,43 @@
+form {
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  input {
+    background: $white;
+    border: 2px solid $blue-grey;
+    border-radius: 8px;
+    padding: 15px;
+    color: $grey;
+    font-size: 1.1em;
+    width: 100%;
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px white inset;
+    }
+  }
+
+  .field {
+    margin-bottom: 10px;
+  }
+
+
+  // Style https://github.com/tonystar/bootstrap-float-label
+  /*.has-float-label label {
+    left: 25px;
+    color: #555;
+  }
+  .has-float-label .form-control:focus+label {
+    color: #4b8a9a;
+  }
+  .has-float-label .form-control:placeholder-shown:not(:focus)+label {
+    font-size: 14px;
+    top: 1.2em;
+    color: black;
+    opacity: 0.6;
+    left: 32px;
+  }*/
+}
