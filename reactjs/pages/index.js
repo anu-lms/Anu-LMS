@@ -15,34 +15,40 @@ const FrontPage = () => (
     { !isLogged() &&
     <div className="container-fluid page-login">
 
+      <div className="overlay" />
+
       <div className="row header">
         <div className="col">
           <img src={"/static/img/logo.png"} />
         </div>
       </div>
 
-      <div className="row content">
-        <div className="col col-12 col-lg-6">
-          <h1 className="heading">
-            This is your tagline.<br/>
-            Learn your way, your pace.
-          </h1>
-        </div>
+      <div className="container">
 
-        <div className="col col-12 col-lg-6">
-          <div className="login-block">
-            <LoginForm />
-
-            <a className="forgot-password" href="#">
-              Forgot username or password?
-            </a>
-
-            <Separator />
-
-            <Button block type={'secondary'}>
-              New? Register here
-            </Button>
+        <div className="row content">
+          <div className="col col-12 col-lg-6">
+            <h1 className="heading">
+              This is your tagline.<br/>
+              Learn your way, your pace.
+            </h1>
           </div>
+
+          <div className="col col-12 col-lg-6">
+            <div className="login-block">
+              <LoginForm />
+
+              <a className="forgot-password" href="#">
+                Forgot username or password?
+              </a>
+
+              <Separator />
+
+              <Button block type={'secondary'}>
+                New? Register here
+              </Button>
+            </div>
+          </div>
+
         </div>
 
       </div>
