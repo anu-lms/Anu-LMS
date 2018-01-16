@@ -10,21 +10,21 @@ form {
     background: $white-grey;
     border: 2px solid $blue-grey;
     border-radius: 8px;
-    padding: 1em;
+    font-family: $font-family-base;
+    padding: .8em;
     color: $grey;
-    font-size: 1.1em;
+    font-size: .9em;
     width: 100%;
     outline: none;
     transition: all .3s;
+    @include media-breakpoint-up(md) {
+      padding: 1.1em .95em;
+      font-size: 1.1em;
+    }
 
     &:-webkit-autofill {
       -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;
       -webkit-text-fill-color: $grey !important;
-    }
-
-    @include media-breakpoint-up(md) {
-      padding: 1.2em 1em;
-      font-size: 1.2em;
     }
   }
 
@@ -37,20 +37,24 @@ form {
 
     .form-control:placeholder-shown:not(:focus) + * {
       color: $grey;
-      font-size: 1.1em;
+      font-size: .9em;
       left: 1.1em;
-      top: 18px;
+      top: 1em;
       opacity: 1;
+      padding: 0;
       @include media-breakpoint-up(md) {
-        top: 24px;
-        font-size: 1.2em;
+        top: 1.4em;
+        font-size: 1.1em;
       }
     }
 
     label,
     & > span {
       color: $blue-grey;
-      font-size: .8em;
+      font-size: .7em;
+      top: 0;
+      background: $white-grey;
+      padding: 0 .3em;
       @include media-breakpoint-up(md) {
         top: 7px;
         left: 1.4em;

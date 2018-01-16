@@ -18,14 +18,13 @@
   }
 
   &.btn-lg {
-    padding: .7em;
-    font-size: 1.3em;
+    padding: .6em;
+    font-size: 1.1em;
     font-weight: bold;
-
     @include media-breakpoint-up(md) {
-      font-size: 1.6em;
+      font-size: 1.4em;
       font-weight: normal;
-      padding: .8em .7em;
+      padding: .75em .6em;
     }
   }
 
