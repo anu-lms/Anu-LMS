@@ -23,3 +23,13 @@ body {
   margin: 0;
   padding: 0;
 }
+
+// Links
+a {
+  text-decoration: underline;
+  color: white;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
