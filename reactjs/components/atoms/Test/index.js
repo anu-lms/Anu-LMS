@@ -57,7 +57,7 @@ class Test extends React.Component {
   render() {
     return (
       <div>
-        <a href='#' onClick={this.requestSubmit.bind(this)}>Fetch courses & lessons</a>
+        <a href='#' style={{color: 'black'}} onClick={this.requestSubmit.bind(this)}>Fetch courses & lessons</a>
         {this.state.classes.length > 0 &&
         <div>
           Classes:
