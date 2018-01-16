@@ -15,6 +15,7 @@ form {
     font-size: 1.1em;
     width: 100%;
     outline: none;
+    transition: all .3s;
 
     &:-webkit-autofill {
       -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;

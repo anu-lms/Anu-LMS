@@ -2,8 +2,10 @@
   background: url('/static/img/background/page-login@mobile.jpg') no-repeat center center;
   background-size: cover;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-  .row.header {
+  .header {
     background: rgba(0, 0, 0, 0.3);
     padding-top: 15px;
 
@@ -12,8 +14,19 @@
     }
   }
 
-  .row.content {
+  .content {
     background: rgba(0, 0, 0, 0.3);
+    flex-grow: 20;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1em;
+    @include media-breakpoint-up(md) {
+      padding-bottom: 3em;
+    }
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+    }
 
     .col {
       z-index: 1;
@@ -31,6 +44,7 @@
         margin: 0 auto;
         @include media-breakpoint-up(md) {
           padding: 3em;
+          max-width: 500px;
         }
 
         a.forgot-password {
@@ -46,10 +60,9 @@
     }
   }
 
-  .row.footer {
+  .footer {
     background: $black;
     color: $grey-warm;
-    overflow: hidden;
     padding: 1em;
 
     ul.links {

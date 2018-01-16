@@ -7,6 +7,7 @@ h1 {
   font-weight: 900;
   font-family: $font-family-base;
   margin-bottom: 1em;
+  transition: all .3s;
   @include media-breakpoint-up(md) {
     font-size: 2.5em;
     margin-bottom: 1.5em;
@@ -18,6 +19,7 @@ h1 {
 p {
   font-size: 0.8em;
   margin: 0 0 .5em 0;
+  transition: all .3s;
   @include media-breakpoint-up(md) {
     font-size: 1em;
   }
