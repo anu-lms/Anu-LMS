@@ -5,6 +5,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  @include media-breakpoint-up(lg) {
+    background-image: url('/static/img/background/page-login@desktop.jpg');
+  }
 
   & > .overlay {
     position: absolute;
