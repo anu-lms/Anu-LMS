@@ -1,5 +1,5 @@
 // Import Bootstrap 4 grid.
-@import "~bootstrap-4-grid/scss/grid";
+@import "../node_modules/bootstrap-4-grid/scss/grid";
 
 // Import all base styles.
 @import "base/variables";
@@ -9,8 +9,8 @@
 // Import components.
 @import "components/nprogress";
 @import "components/wysiwyg";
-@import "components/logo";
 @import "components/form";
+@import "components/separator";
 @import "components/button";
 
 // Import styles for float labels.

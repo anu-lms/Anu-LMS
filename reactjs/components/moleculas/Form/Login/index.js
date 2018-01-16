@@ -19,11 +19,11 @@ const schema = {
 
 const uiSchema = {
   'username': {
-    'ui:placeholder': 'Username...',
+    'ui:placeholder': ' ',
   },
   'password': {
     'ui:widget': 'password',
-    'ui:placeholder': 'Password...',
+    'ui:placeholder': ' ',
   }
 };
 

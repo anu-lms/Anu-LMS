@@ -1,17 +1,32 @@
 .btn {
   border-radius: 8px;
   border: 2px solid;
+  cursor: pointer;
+  outline: none;
+  transition: all .3s;
 
   &.btn-primary {
     background: $blue;
     border-color: $blue-grey;
     color: $white;
-    font-size: 1.3em;
-    font-weight: bold;
+  }
+
+  &.btn-secondary {
+    background: $white;
+    border-color: $white;
+    color: $orange;
   }
 
   &.btn-lg {
-    padding: 15px;
+    padding: .7em;
+    font-size: 1.3em;
+    font-weight: bold;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.6em;
+      font-weight: normal;
+      padding: .8em .7em;
+    }
   }
 
   &.btn-block {

@@ -7,37 +7,59 @@ form {
   }
 
   input {
-    background: $white;
+    background: $white-grey;
     border: 2px solid $blue-grey;
     border-radius: 8px;
-    padding: 15px;
+    padding: 1em;
     color: $grey;
     font-size: 1.1em;
     width: 100%;
+    outline: none;
 
     &:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 30px white inset;
+      -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;
+      -webkit-text-fill-color: $grey !important;
+    }
+
+    @include media-breakpoint-up(md) {
+      padding: 1.2em 1em;
+      font-size: 1.2em;
     }
   }
 
-  .field {
-    margin-bottom: 10px;
+  fieldset .field {
+    margin-bottom: 1em;
   }
-
 
   // Style https://github.com/tonystar/bootstrap-float-label
-  /*.has-float-label label {
-    left: 25px;
-    color: #555;
+  .has-float-label {
+
+    .form-control:placeholder-shown:not(:focus) + * {
+      color: $grey;
+      font-size: 1.1em;
+      left: 1.1em;
+      top: 18px;
+      opacity: 1;
+      @include media-breakpoint-up(md) {
+        top: 24px;
+        font-size: 1.2em;
+      }
+    }
+
+    label,
+    & > span {
+      color: $blue-grey;
+      font-size: .8em;
+      @include media-breakpoint-up(md) {
+        top: 7px;
+        left: 1.4em;
+      }
+      &:after {
+        background: $white-grey;
+        @include media-breakpoint-up(md) {
+          display: none;
+        }
+      }
+    }
   }
-  .has-float-label .form-control:focus+label {
-    color: #4b8a9a;
-  }
-  .has-float-label .form-control:placeholder-shown:not(:focus)+label {
-    font-size: 14px;
-    top: 1.2em;
-    color: black;
-    opacity: 0.6;
-    left: 32px;
-  }*/
 }
