@@ -69,12 +69,12 @@
           }
 
           a.forgot-password {
+            font-size: 0.9em;
             display: block;
             text-align: center;
             margin: 1.5em;
             @include media-breakpoint-up(md) {
-              margin: 2em;
-              font-size: 1.2em;
+              font-size: 1em;
             }
           }
         }
@@ -91,7 +91,7 @@
       text-align: center;
       margin: 0;
       padding: 0;
-      font-size: 0.9em;
+      font-size: 0.8em;
       @include media-breakpoint-up(md) {
         font-size: 1em;
       }

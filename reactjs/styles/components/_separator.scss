@@ -2,7 +2,4 @@
   height: 3px;
   background: $grey-cold;
   margin: 1.5em 0;
-  @include media-breakpoint-up(md) {
-    margin: 2em 0;
-  }
 }
