@@ -3,6 +3,7 @@ const express = require('express');
 const nextjs = require('next');
 const sass = require('node-sass');
 const routes = require('./routes');
+const cookieParser = require('cookie-parser')
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.PORT = process.env.PORT || 3000;
@@ -47,6 +48,9 @@ app.prepare()
 
     // Serve gzipped content where possible.
     server.use(compression());
+
+    // Convert cookies string into an object.
+    server.use(cookieParser());
 
     // Add route to serve compiled SCSS from /assets/{build id}/main.css
     // Note: This is only used in production, in development css is inline.
