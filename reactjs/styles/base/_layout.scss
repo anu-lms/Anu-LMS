@@ -1,0 +1,97 @@
+/* HELPER VARIABLES */
+$header-gutter: $grid-gutter-width;
+$home-icon-width: 24px;
+// Use larger sizes on desktop.
+$header-gutter-desktop: $grid-gutter-width * 2;
+$home-icon-width-desktop: 40px;
+
+/* HEADER */
+header {
+  @include make-row();
+  // Make header fill 100% of container.
+  margin-left: -15px;
+  margin-right: -15px;
+  background: #d8d8d8;
+  padding: 12px 16px;
+}
+
+/* ICONS IN HEADER */
+[class^=header__icon] {
+  display: inline-block;
+  background: #333;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+  width: $home-icon-width;
+  height: $home-icon-width;
+  margin-right: $header-gutter;
+  line-height: $home-icon-width;
+
+  @include media-breakpoint-up(lg) {
+    width: $home-icon-width-desktop;
+    height: $home-icon-width-desktop;
+    margin-right: $header-gutter-desktop;
+    line-height: $home-icon-width-desktop;
+  }
+}
+
+/* SEARCH */
+.header__search {
+  display: none;
+  vertical-align: top;
+
+  @include media-breakpoint-up(md) {
+    display: inline-block;
+  }
+}
+.header__search-input {
+  width: 200px;
+  padding: 1px 5px;
+	height: 46px;
+  border-radius: 8px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  margin-top: -2px;
+  margin-right: $header-gutter;
+
+  @include media-breakpoint-up(lg) {
+    margin-right: $header-gutter-desktop;
+  }
+}
+.header__icon-search {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.header__profile {
+  display: inline-block;
+  //width: $home-icon-width;
+  //height: $home-icon-width;
+
+  .header__profile-avatar {
+    width: $home-icon-width;
+    height: $home-icon-width;
+    border-radius: 50%;
+
+    @include media-breakpoint-up(lg) {
+      width: $home-icon-width-desktop;
+      height: $home-icon-width-desktop;
+    }
+  }
+}
+
+
+//TODO: move login footer styles here.
+footer {
+  @include make-row();
+  // Make footer fill 100% of container.
+  margin-left: -15px;
+  margin-right: -15px;
+  background: $black;
+  color: $grey-warm;
+  overflow: hidden;
+  padding: 1em;
+}
