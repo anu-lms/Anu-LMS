@@ -26,10 +26,10 @@ body {
 
 // Links
 a {
-  text-decoration: underline;
+  text-decoration: none;
   color: white;
 
   &:hover {
-    text-decoration: none;
+    text-decoration: underline;
   }
 }

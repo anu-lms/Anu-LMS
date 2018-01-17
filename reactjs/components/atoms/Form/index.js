@@ -4,26 +4,12 @@ import FieldTemplate from './FieldTemplate';
 
 class DefaultForm extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      formData: props.formData,
-      isSubmitting: false,
-    };
-
-    this.onSubmit.bind(this);
-    this.onError.bind(this);
-  }
-
-  onSubmit(data) {
-    console.log(data);
+  handleSubmit(data) {
     this.props.onSubmit(data);
 
   }
 
-  onError(data) {
-    console.log(data);
+  handleError(data) {
     this.props.onError(data);
   }
 
@@ -34,9 +20,9 @@ class DefaultForm extends React.Component {
         className={`form ${className}`}
         schema={schema}
         uiSchema={uiSchema}
-        onSubmit={this.onSubmit}
-        onError={this.onError}
-        formData={this.state.formData}
+        onSubmit={this.handleSubmit.bind(this)}
+        onError={this.handleError.bind(this)}
+        formData={this.props.formData}
         FieldTemplate={FieldTemplate}
         showErrorList={false}
         autocomplete={autocomplete}
