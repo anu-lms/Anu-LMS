@@ -1,5 +1,9 @@
 // Headings
 // -------------------------
+body {
+  color: $font-default;
+  font-size: $font-size-base;
+}
 
 h1 {
   font-size: 1.5em;
@@ -14,6 +18,33 @@ h1 {
   }
   @include media-breakpoint-up(xl) {
     font-size: 2.5em;
+  }
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+
+  @include media-breakpoint-up(md) {
+    font-size: 1.875em;
+    margin-top: $font-size-base;
+    margin-bottom: $font-size-base * 2;
+  }
+  @include media-breakpoint-up(lg) {
+    font-size: 2.25em;
+    margin-top: $font-size-base * 1.5;
+    margin-bottom: $font-size-base * 3;
+  }
+}
+
+h3 {
+  font-size: 1.375em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 1.5em;
   }
 }
 

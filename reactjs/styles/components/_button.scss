@@ -1,3 +1,21 @@
+// Button helper.
+@mixin button($background-color: $color-primary, $color: white) {
+  min-width: 140px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  padding: 1em 1em;
+  font-weight: 700;
+  border-radius: 7px;
+  background-color: $background-color;
+  color: $color;
+  border: solid 3px #12b3a4;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .btn {
   border-radius: 8px;
   border: 2px solid;
