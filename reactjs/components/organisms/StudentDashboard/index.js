@@ -6,55 +6,105 @@ class StudentDashboard extends Component {
 
     return (
       <div className="student-dashboard">
-        <h2>Recent courses</h2>
+        <h2>Recent Courses</h2>
         <div className="courses-list">
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292" alt="" /></a>
-            <h3>The Stars My Destination</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292" alt="" /></a>
-            <h3>Foundation and Empire</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292" alt="" /></a>
-            <h3>The Power of Habit</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
+
         </div>
 
         <h2>Big Foundations</h2>
         <div className="courses-list">
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292?t=1" alt="" /></a>
-            <h3>The Stars My Destination</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292?t=1" alt="" /></a>
-            <h3>Foundation and Empire</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292?t=1" alt="" /></a>
-            <h3>The Power of Habit</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
-          <div className="course-item">
-            <a className="course-item-link" href="#"><img src="https://spaceholder.cc/389x292?t=1" alt="" /></a>
-            <h3>The Power of Habit</h3>
-            <a href="#" className="course-item__secondary-button"></a>
-            <a href="#" className="course-item__primary-button"></a>
+
+          <div className="grid-item">
+            <div className="grid-card">
+              <a className="grid-card__cover" href="#"><img src="https://spaceholder.cc/389x292" alt="" />
+                <div className="progress-bar__small"></div>
+              </a>
+              <h3>The Stars My Destination</h3>
+              <div className="grid-card__buttons">
+                <a href="#" className="grid-card__secondary-button">Course Home</a>
+                <a href="#" className="grid-card__primary-button">Resume</a>
+              </div>
+            </div>
           </div>
+
         </div>
+
       </div>
     );
   }
