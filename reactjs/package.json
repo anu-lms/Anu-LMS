@@ -1,6 +1,6 @@
 {
-  "name": "BigBox_Boilerplate",
-  "version": "1.0.2",
+  "name": "Anu LMS",
+  "version": "1.03",
   "private": true,
   "dependencies": {
     "bootstrap-4-grid": "^2.2.0",
