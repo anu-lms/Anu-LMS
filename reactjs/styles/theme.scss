@@ -5,6 +5,7 @@
 @import "base/variables";
 @import "base/typography";
 @import "base/scaffolding";
+@import "base/layout";
 
 // Import components.
 @import "components/nprogress";
@@ -18,3 +19,4 @@
 
 // Import styles per page.
 @import "pages/login";
+@import "pages/dashboard";

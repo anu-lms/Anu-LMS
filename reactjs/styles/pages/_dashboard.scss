@@ -1,0 +1,39 @@
+.student-dashboard {
+  @include make-container();
+  @include make-container-max-widths();
+}
+
+.courses-list {
+  @include make-row();
+
+  @include media-breakpoint-up(md) {
+    // margins
+  }
+  @include media-breakpoint-up(lg) {
+    // margins
+  }
+}
+
+.course-item {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(md) {
+    @include make-col(2.9);
+    // paddings
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(3.8);
+    // paddings
+  }
+
+  min-width: 290px;
+  img {
+    max-width: 100%;
+  }
+}
+
+.course-item-link {
+  display: block;
+  width: 100%;
+}
