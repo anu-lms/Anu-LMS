@@ -58,6 +58,8 @@ module:
   pathauto: 0
   role_delegation: 0
   serialization: 0
+  simple_oauth: 0
+  simple_oauth_extras: 0
   ssb_ckeditor: 0
   ssb_config_pages: 0
   ssb_dashboard: 0

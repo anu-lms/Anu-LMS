@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import request from '../../../../utils/request';
-import { saveAuthData } from '../../../../utils/authentication';
+import { Router } from '../../../../routes'
+import Alert from 'react-s-alert';
 
 const schema = {
   'type': 'object',
@@ -31,8 +32,8 @@ const uiSchema = {
 
 class LoginForm extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       isSending: false,
@@ -42,42 +43,20 @@ class LoginForm extends React.Component {
     this.submitForm.bind(this);
   }
 
-  submitForm({ formData }) {
+  async submitForm({ formData }) {
 
     this.setState({
       isSending: true,
       formData,
     });
 
-    request
-      .post('/oauth/token')
-      .send({
-        'grant_type': 'password',
-        // TODO: Move to constants.
-        'client_id': '9e0c1ed1-541b-45da-9360-8b41f206352c',
-        'client_secret': '9uGSd3khRDf3bxQR',
-        'scope': '',
-        'username': formData.username,
-        'password': formData.password,
-      })
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .end((err, res) => {
-        this.setState({ isSending: false });
-        if (!err) {
-          saveAuthData(res.body.access_token, res.body.refresh_token, Date.now() + res.body.expires_in);
-          this.setState({ formData: {} });
-
-          // TODO: Remove.
-          alert('Successfull authentication!');
-        }
-        else {
-          // TODO: Handle error.
-          console.log(err);
-          console.log(res);
-          // TODO: Remove.
-          alert(res.body.message);
-        }
-      });
+    try {
+      await this.context.auth.login(formData.username, formData.password);
+      Router.push('/');
+    } catch (error) {
+      this.setState({ isSending: false });
+      Alert.error(error);
+    }
   }
 
   render() {
@@ -96,5 +75,11 @@ class LoginForm extends React.Component {
     );
   }
 }
+
+LoginForm.contextTypes = {
+  auth: PropTypes.shape({
+    login: PropTypes.func,
+  }),
+};
 
 export default LoginForm;
