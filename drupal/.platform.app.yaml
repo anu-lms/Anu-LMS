@@ -103,7 +103,7 @@ hooks:
 
    # The build hook runs to build all dependencies together.
    build: |
-    chmod 600 web/keys/private.key web/keys/public.key
+    chmod 600 keys/private.key keys/public.key
 
 
     # The deploy hook runs after your application has been deployed and started.
