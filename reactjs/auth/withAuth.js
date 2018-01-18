@@ -20,14 +20,19 @@ export default function withAuth(PageComponent) {
       return !!this.state.accessToken
     };
 
+    accessToken = () => {
+      return this.state.accessToken;
+    }
+
     render() {
-      return <PageComponent />;
+      return <PageComponent {...this.props} />;
     }
 
     static childContextTypes = {
       auth: PropTypes.shape({
         isLogged: PropTypes.bool,
         login: PropTypes.func,
+        accessToken: PropTypes.string,
       }),
     };
 
@@ -36,6 +41,7 @@ export default function withAuth(PageComponent) {
         auth: {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
+          accessToken: this.accessToken(),
         },
       }
     }
@@ -51,6 +57,8 @@ export default function withAuth(PageComponent) {
             'client_secret': '9uGSd3khRDf3bxQR',
             'username': username,
             'password': password,
+            // You must specify allowed scopes explicitly otherwise tokens won't get proper permissions.
+            'scope': ['authenticated', 'manager', 'teacher']
           })
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .end((error, response) => {
@@ -60,7 +68,7 @@ export default function withAuth(PageComponent) {
               console.log(response);
 
               const { body } = response;
-              const expiration =  new Date(new Date().getTime() + body.expires_in * 1000);
+              const expiration = new Date(new Date().getTime() + body.expires_in * 1000);
 
               jsCookie.set('accessToken', body.access_token, {
                 expires: expiration
@@ -90,7 +98,9 @@ export default function withAuth(PageComponent) {
       });
     };
 
-    static async getInitialProps({ req, res, pathname }) {
+    static async getInitialProps(ctx) {
+
+      const { req, res, pathname } = ctx;
 
       let cookies;
       if (req) {
@@ -134,7 +144,7 @@ export default function withAuth(PageComponent) {
           console.log('expiration body:');
           console.log(body);
 
-          const expiration =  new Date(new Date().getTime() + body.expires_in * 1000);
+          const expiration = new Date(new Date().getTime() + body.expires_in * 1000);
           accessToken = body.access_token;
           refreshToken = body.refresh_token;
 
@@ -169,10 +179,28 @@ export default function withAuth(PageComponent) {
         res.redirect('/');
       }
 
-      return {
+      const initialProps = {
         accessToken,
         refreshToken
       };
+
+      if (PageComponent.getInitialProps) {
+
+        // Awaint child initial props.
+        const childInitialProps = await PageComponent.getInitialProps(
+          // Pass accessToken into child method so it can be used in XHR requets.
+          { accessToken, ...ctx }
+        );
+
+        // Merge child and parent initial props and return.
+        return {
+          ...initialProps,
+          ...childInitialProps
+        }
+      }
+
+      // No child initial props found. Return only auth data.
+      return initialProps;
     }
 
   }
