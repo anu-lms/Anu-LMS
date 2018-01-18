@@ -147,7 +147,6 @@ export default function withAuth(PageComponent) {
             });
           }
           else {
-            // TODO: Untested case. Should be working for client auth.
             jsCookie.set('accessToken', accessToken, {
               expires: expiration
             });

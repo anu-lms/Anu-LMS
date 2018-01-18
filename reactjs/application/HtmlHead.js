@@ -35,7 +35,8 @@ HtmlHead.propTypes = {
 };
 
 HtmlHead.defaultProps = {
-  title: '',
+  title: 'Anu LMS',
+  favicon: '/static/img/favicon.ico',
 };
 
 export default HtmlHead;
