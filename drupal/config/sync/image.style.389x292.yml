@@ -1,0 +1,14 @@
+uuid: a8114072-45da-40ef-b4cd-e43d903d0ccc
+langcode: en
+status: true
+dependencies: {  }
+name: 389x292
+label: 389x292
+effects:
+  4756772f-d102-4892-bc18-cfdb3d2a5b9c:
+    uuid: 4756772f-d102-4892-bc18-cfdb3d2a5b9c
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 389
+      height: 292
