@@ -17,50 +17,32 @@ class ProgressBar extends Component {
   }
 }
 
-class CoursesList extends Component {
+const CourseItem = ({ course }) => (
+  <div className="grid-item">
+    <div className="grid-card">
+      <a className="grid-card__cover" href={course.url}><img src={course.imageUrl} alt={course.imageAlt} />
+        <ProgressBar progressPercent={course.progressPercent} />
+      </a>
+      <h3>{course.title}</h3>
+      <div className="grid-card__buttons">
+        <a href={course.url} className="grid-card__secondary-button">Course Home</a>
+        <a href={course.url} className="grid-card__primary-button">Resume</a>
+      </div>
+    </div>
+  </div>
+);
 
-  // Demo data (to be fetched from backend).
-  courses = [
-    {
-      title: 'Giant Toolshed',
-      url: 'course/giant-toolshed',
-      imageUrl: 'https://spaceholder.cc/389x292',
-      imageAlt: 'Giant Toolshed',
-      progressPercent: 70
-    },
-    {
-      title: 'Giant Toolshed',
-      url: 'course/giant-toolshed-2',
-      imageUrl: 'https://spaceholder.cc/389x292',
-      imageAlt: 'Introduction',
-      progressPercent: 10
-    },
-    {
-      title: 'Giant Toolshed',
-      url: 'course/giant-toolshed-3',
-      imageUrl: 'https://spaceholder.cc/389x292',
-      imageAlt: 'The 5 Gears',
-      progressPercent: 0
-    }
-  ]
+
+class CoursesList extends Component {
 
   // Render given list of couses as as grid.
   render() {
+
+    const { courses } = this.props;
     return (
       <div className="courses-list">
-        {this.courses.map(course => (
-          <div className="grid-item">
-            <div className="grid-card">
-              <a className="grid-card__cover" href={course.url}><img src={course.imageUrl} alt={course.imageAlt} />
-                <ProgressBar progressPercent={course.progressPercent} />
-              </a>
-              <h3>{course.title}</h3>
-              <div className="grid-card__buttons">
-                <a href={course.url} className="grid-card__secondary-button">Course Home</a>
-                <a href={course.url} className="grid-card__primary-button">Resume</a>
-              </div>
-            </div>
-          </div>
+        {courses.map(course => (
+          <CourseItem course={course} key={course.uuid} />
         ))}
       </div>
     )
@@ -71,8 +53,10 @@ class CoursesList extends Component {
 class RecentCoursesList extends Component {
 
   render() {
+    const recentCourses = this.props.recentCoursesIds.map(uuid => this.props.coursesById[uuid]);
+
     return (
-      <CoursesList />
+      <CoursesList courses={recentCourses} />
     )
   }
 }
@@ -85,10 +69,10 @@ class StudentDashboard extends Component {
     return (
       <div className="student-dashboard">
         <h2>Recent Courses</h2>
-        <RecentCoursesList />
+        <RecentCoursesList {...this.props} />
 
         <h2>Big Foundations</h2>
-        <RecentCoursesList />
+        <RecentCoursesList {...this.props} />
 
       </div>
     );
