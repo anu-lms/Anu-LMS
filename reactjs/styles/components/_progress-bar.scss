@@ -1,0 +1,6 @@
+// Styles for student progress bars.
+.progress-bar__small {
+  min-height: $grid-gutter-width / 2;
+  height: $grid-gutter-width / 2;
+  background-image: linear-gradient(90deg, $color-primary 0%, $white-grey-alternative 0%);
+}
