@@ -1,6 +1,6 @@
 // Button helper.
 @mixin button($background-color: $color-primary, $color: white) {
-  min-width: 140px;
+  min-width: 130px;
   display: inline-block;
   text-align: center;
   text-decoration: none;
@@ -9,10 +9,37 @@
   border-radius: 7px;
   background-color: $background-color;
   color: $color;
-  border: solid 3px #12b3a4;
 
   &:hover {
     text-decoration: none;
+    // TODO: replace HEX with darken/lighten or variable.
+    background-color: #368bcf;
+	  box-shadow: inset 0 0 3px 1px rgba(255, 255, 255, 0.5);
+  }
+  &:focus {
+    // TODO: replace HEX with darken/lighten or variable.
+    background-color: #368bcf;
+	  box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+}
+
+@mixin button-secondary() {
+  @include button(white, $color-primary);
+  padding: 13px 16px;
+  border: solid 3px $color-primary;
+
+  &:hover {
+    // Check with Luke if it's intentional.
+    background-color: #fdfdfd;
+    // TODO: replace HEX with darken/lighten or variable.
+	  box-shadow: inset 0 0 2px 1px #5aacff;
+	  border: solid 3px #377fb9;
+  }
+
+  &:focus {
+    background-color: #fdfdfd;
+    box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, 0.6);
+    border: solid 3px #368bcf;
   }
 }
 
