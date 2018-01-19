@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
-const colorPrimary = '#12b3a4';
+// TODO: break this file with 7 components into files.
+
+const colorSecondary = '#d07151';
 const colorWhiteGrayAlternative = '#eaeaea';
 
 // Render progress bar.
@@ -11,7 +13,7 @@ class ProgressBar extends Component {
 
     return (
       <div className="progress-bar__small" style={{
-        backgroundImage: `linear-gradient(90deg, ${colorPrimary} ${progressPercent}%, ${colorWhiteGrayAlternative} ${progressPercent}%)`
+        backgroundImage: `linear-gradient(90deg, ${colorSecondary} ${progressPercent}%, ${colorWhiteGrayAlternative} ${progressPercent}%)`
       }} title={`${progressPercent}% complete`}></div>
     );
   }
@@ -41,6 +43,7 @@ class CoursesList extends Component {
     const { courses } = this.props;
     return (
       <div className="courses-list">
+
         {courses.map(course => (
           <CourseItem course={course} key={course.uuid} />
         ))}
@@ -61,19 +64,58 @@ class RecentCoursesList extends Component {
   }
 }
 
+const Empty = ({ message }) => (
+  <div className="empty-message">{message}</div>
+);
+
+// Fetch recent courses and render with standard component.
+class StudentClassesCoursesList extends Component {
+
+  render() {
+    const { classes, coursesById, coursesInClassesIds } = this.props;
+
+    return (
+      <Fragment>
+        {classes.map(classItem => (
+          <Fragment key={classItem.uuid}>
+            <h2 key={`header-${classItem.uuid}`}>{classItem.label}</h2>
+            {coursesInClassesIds[classItem.uuid].length > 0
+              && <CoursesList
+                courses={coursesInClassesIds[classItem.uuid].map(courseId => coursesById[courseId])}
+                key={`course-list${classItem.uuid}`}
+              />
+            }
+            {coursesInClassesIds[classItem.uuid].length === 0
+              && <Empty message="No available courses yet." />
+            }
+          </Fragment>
+        ))}
+      </Fragment>
+    )
+  }
+}
+
+
 // Dashboard component.
 class StudentDashboard extends Component {
 
   render() {
 
+    const classesCount = this.props.classes.length;
+
     return (
       <div className="student-dashboard">
-        <h2>Recent Courses</h2>
-        <RecentCoursesList {...this.props} />
+        {classesCount > 0 &&
+          <Fragment>
+            <h2>Recent Courses</h2>
+            <RecentCoursesList {...this.props} />
 
-        <h2>Big Foundations</h2>
-        <RecentCoursesList {...this.props} />
-
+            <StudentClassesCoursesList {...this.props} />
+          </Fragment>
+        }
+        {classesCount === 0
+          && <Empty message="You haven't been added to any class yet. Please contact your instructor." />
+        }
       </div>
     );
   }
