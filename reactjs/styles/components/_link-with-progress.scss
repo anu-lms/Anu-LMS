@@ -4,9 +4,14 @@
   display: block;
   padding: 1em 3em 1em 1.5em;
   position: relative;
+  transition: all .2s;
 
   &:hover {
     text-decoration: none;
+    background: $white-grey;
+  }
+
+  &.active {
     background: $white-grey;
   }
 
@@ -18,8 +23,13 @@
     }
   }
 
-  &.active {
-    background: $white-grey;
+  .completed {
+    background: url('/static/img/icons/completed.svg');
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 1em;
+    top: .875em;
   }
 
   /**

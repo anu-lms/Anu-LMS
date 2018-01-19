@@ -10,10 +10,12 @@ const LinkWithProgress = ({ title, url, progress, active }) => (
       {progress > 0 && progress < 100 &&
       <CircularProgressbar
         percentage={progress}
-        initialAnimation
         textForPercentage={false}
         strokeWidth={15}
       />
+      }
+      {progress === 100 &&
+      <span className="completed" />
       }
     </a>
   </Link>
