@@ -22,11 +22,11 @@ export default function withAuth(PageComponent) {
 
     accessToken = () => {
       return this.state.accessToken;
-    }
+    };
 
     render() {
       return <PageComponent {...this.props} />;
-    }
+    };
 
     static childContextTypes = {
       auth: PropTypes.shape({
@@ -44,7 +44,7 @@ export default function withAuth(PageComponent) {
           accessToken: this.accessToken(),
         },
       }
-    }
+    };
 
     login(username, password) {
       return new Promise((resolve, reject) => {
@@ -105,13 +105,9 @@ export default function withAuth(PageComponent) {
       let cookies;
       if (req) {
         cookies = req.cookies;
-        console.log('server cookies');
-        console.log(cookies);
       }
       else {
         cookies = jsCookie.get();
-        console.log('client cookies');
-        console.log(cookies);
       }
 
       let accessToken = '';

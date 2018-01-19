@@ -1,0 +1,25 @@
+.collapsible-navigation {
+
+  .toggle {
+    background: url('/static/img/icons/toggle.svg') no-repeat center center;
+    cursor: pointer;
+    width: 30px;
+    height: 18px;
+    position: fixed;
+    top: 30px;
+    left: 250px;
+  }
+
+  .navigation {
+    width: 220px;
+    position: fixed;
+    height: 100vh;
+    background: $grey-cold;
+    overflow: hidden;;
+    transition: width .2s;
+
+    &.closed {
+      width: 0;
+    }
+  }
+}
