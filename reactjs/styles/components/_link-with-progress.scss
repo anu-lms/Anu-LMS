@@ -1,0 +1,44 @@
+.link-with-progress {
+  font-size: .75em;
+  color: $font-default;
+  display: block;
+  padding: 1em 3em 1em 1.5em;
+  position: relative;
+
+  &:hover {
+    text-decoration: none;
+    background: $white-grey;
+  }
+
+  &.completed {
+    background: $seafoam-blue;
+
+    &:hover {
+      background: darken($seafoam-blue, 15);
+    }
+  }
+
+  &.active {
+    background: $white-grey;
+  }
+
+  /**
+   * react-circular-progressbar styles
+   */
+  .CircularProgressbar {
+    width: 20px;
+    position: absolute;
+    right: 1em;
+    top: .875em;
+  }
+
+  .CircularProgressbar .CircularProgressbar-path {
+    stroke: $seafoam-blue-two;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease 0s;
+  }
+
+  /*.CircularProgressbar .CircularProgressbar-trail {
+    stroke: #d6d6d6;
+  }*/
+}

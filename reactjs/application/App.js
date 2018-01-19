@@ -6,7 +6,12 @@ import '../components/atoms/ProgressBar/ProgressBar';
 const App = ({ children }) => (
   <div>
     <HtmlHead />
-    <Alert stack={{ limit: 3 }} position="top-right" timeout={5000} effect="slide" />
+    <Alert
+      stack={{ limit: 3 }}
+      position="top-right"
+      timeout={5000}
+      effect="slide"
+    />
     { children }
   </div>
 );
