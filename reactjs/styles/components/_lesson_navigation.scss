@@ -6,10 +6,19 @@
   }
 
   .course-teaser {
+    color: white;
     height: 150px;
     position: relative;
     display: flex;
     flex-direction: column;
+    &:hover {
+      text-decoration: none;
+
+      .overlay {
+        background: rgba(0, 0, 0, 0.1);
+        transition: all .2s;
+      }
+    }
 
     .overlay {
       background: rgba(0, 0, 0, 0.3);
@@ -23,10 +32,6 @@
 
     h5.title {
       margin-bottom: auto;
-
-      a {
-        color: white;
-      }
     }
 
     .progress {
@@ -45,6 +50,7 @@
         .current-progress {
           height: 8px;
           background: $pale-red;
+          transition: width .3s;
         }
       }
     }
@@ -63,11 +69,6 @@
       padding-top: 0;
       font-size: 0.875em;
     }
-
-    .contents {
-
-    }
-
   }
 
 }

@@ -1,11 +1,9 @@
 export default (state = [], action) => {
 
-  console.log('lesson reducer');
-  console.log(state);
-  console.log(action);
-
   let index;
   let lesson;
+
+  //return [];
 
   switch (action.type) {
     case 'LESSON_PROGRESS_SET':
@@ -16,7 +14,11 @@ export default (state = [], action) => {
       // If the lesson was found, then we should update it.
       if (index !== -1) {
         lesson = state[index];
-        lesson.progress = action.progress;
+
+        // Never let the progress go back.
+        if (action.progress > lesson.progress) {
+          lesson.progress = action.progress;
+        }
 
         return [
           ...state.slice(0, index),
@@ -30,7 +32,7 @@ export default (state = [], action) => {
         ...state,
         {
           id: action.lessonId,
-          state: action.progress,
+          progress: action.progress,
         }
       ];
 
