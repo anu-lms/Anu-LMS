@@ -2,6 +2,7 @@
 
 .grid-card {
   display: block;
+  background: white;
   border: solid 2px #b2b2b2;
   margin-bottom: $grid-gutter-width;
   padding-bottom: $grid-gutter-width * 1.5;
@@ -41,5 +42,5 @@
 }
 
 .grid-card__secondary-button {
-  @include button(white, $color-primary);
+  @include button-secondary();
 }
