@@ -10,9 +10,9 @@ import * as courseHelper from '../../../helpers/course';
 const LessonNavigation = ({ toc, lessons, courses, course, router }) => (
   <CollapsibleNavigation className="lesson">
 
-    <Link to="/">
-      <a className="course-teaser" style={{ backgroundImage: 'url("' + course.image + '")' }}>
-        <div className="overlay" />
+    <Link to={course.url}>
+      <a className="course-teaser" style={{ backgroundImage: 'url("' + course.imageUrl + '")' }}>
+        <div className="image-overlay" />
         <h5 className="title">{course.title}</h5>
         <div className="progress">
           <div className="completion">{courseHelper.getProgress(courses, course.id)}% complete</div>

@@ -6,6 +6,7 @@
   }
 
   .course-teaser {
+    background-size: cover;
     color: white;
     height: 150px;
     position: relative;
@@ -20,7 +21,7 @@
       }
     }
 
-    .overlay {
+    .image-overlay {
       background: rgba(0, 0, 0, 0.3);
       position: absolute;
       left: 0;
@@ -39,9 +40,8 @@
 
       .completion {
         color: white;
-        padding: 1em;
+        padding: 0.2em 1.5em;
         font-size: 0.7em;
-        opacity: .8;
       }
 
       .progress-bar {
@@ -63,11 +63,12 @@
   }
 
   .table-of-contents {
-
     h5.title {
-      margin-top: 1.5em;
-      padding-top: 0;
+      margin: 1em 0;
+      padding: 0;
       font-size: 0.875em;
+      text-align: center;
+      transition: all .3s;
     }
   }
 

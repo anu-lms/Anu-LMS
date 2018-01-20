@@ -82,7 +82,7 @@ class LessonPage extends React.Component {
       course: {
         id: 1,
         title: 'The Five Gears',
-        image: '',
+        imageUrl: 'https://www.planwallpaper.com/static/images/6-house-in-green-field.jpg',
         url: getCourseUrl('/demo'),
       }
     }
