@@ -1,6 +1,7 @@
 import React from 'react';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
+import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
 import { getUrl as getLessonUrl } from '../helpers/lesson';
 import { getUrl as getCourseUrl } from '../helpers/course';
@@ -11,11 +12,14 @@ class LessonPage extends React.Component {
   render () {
     return (
       <App>
-        <LessonPageTemplate
-          toc={this.props.toc}
-          lesson={this.props.lesson}
-          course={this.props.course}
-        />
+        <Header />
+        <div className="page-with-header">
+          <LessonPageTemplate
+            toc={this.props.toc}
+            lesson={this.props.lesson}
+            course={this.props.course}
+          />
+        </div>
       </App>
     );
   }

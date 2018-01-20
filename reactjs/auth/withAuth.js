@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jsCookie from 'js-cookie';
 import request from "../utils/request";
+import { Router } from '../routes';
 
 export default function withAuth(PageComponent) {
 
@@ -170,9 +171,23 @@ export default function withAuth(PageComponent) {
         }
       }
 
-      // Redirect to the front page.
+      // Redirect to the front page if not authenticated.
       if (!accessToken && pathname !== '/') {
-        res.redirect('/');
+        if (res) {
+          res.redirect('/');
+        }
+        else {
+          Router.replace('/');
+        }
+      }
+      // Redirect to the dashboard if authenticated.
+      else if (accessToken && pathname === '/') {
+        if (res) {
+          res.redirect('/dashboard');
+        }
+        else {
+          Router.replace('/dashboard');
+        }
       }
 
       const initialProps = {

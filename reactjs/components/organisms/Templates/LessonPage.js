@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from "react-redux";
 import LessonNavigation from '../../../components/organisms/Lesson/Navigation';
 import LessonContent from '../../../components/organisms/Lesson/Content';
-import Header from '../Header';
 import * as lessonActions from "../../../actions/lesson";
 import * as courseActions from "../../../actions/course";
 import * as lessonHelpers from '../../../helpers/lesson';
@@ -66,10 +65,9 @@ class LessonPageTemplate extends React.Component {
 
   render () {
     return (
-      <div className="lesson-page">
-        <Header />
+      <div>
         <LessonNavigation toc={this.props.toc} course={this.props.course} />
-        <div className="page-with-header" ref="container">
+        <div ref="container">
           <LessonContent {...this.props.lesson} />
         </div>
       </div>

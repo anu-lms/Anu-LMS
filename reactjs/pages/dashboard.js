@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import request from "../utils/request";
-import * as dataProcessors from "../utils/dataProcessors";
+import request from '../utils/request';
+import * as dataProcessors from '../utils/dataProcessors';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
+import withRedux from '../store/withRedux';
 import StudentDashboard from '../components/organisms/StudentDashboard';
 import Header from '../components/organisms/Header';
 
+
 class DashboardPage extends Component {
+
+  render() {
+    return (
+      <App>
+        <Header />
+        <div className="page-with-header">
+          <StudentDashboard {...this.props} />
+        </div>
+      </App>
+    );
+  }
 
   static async getInitialProps({ accessToken }) {
 
@@ -20,7 +33,7 @@ class DashboardPage extends Component {
     try {
       // Fetch all classes available for this user.
       const responseAllClasses = await request
-        // TODO: how to move this header into ../utils/request?
+      // TODO: how to move this header into ../utils/request?
         .set('Authorization', `Bearer ${accessToken}`)
         .get('/jsonapi/group/class')
         .query({
@@ -80,19 +93,6 @@ class DashboardPage extends Component {
 
     return initialProps;
   }
-
-  render() {
-
-    return (
-      <App>
-        <div className="container-fluid page-container">
-          <Header />
-          <StudentDashboard {...this.props} />
-          <footer><p>Copyright 2018 Anu © All Rights Reserved</p></footer>
-        </div>
-      </App>
-    );
-  }
 }
 
-export default withAuth(DashboardPage);
+export default withRedux(withAuth(DashboardPage));

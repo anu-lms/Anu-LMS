@@ -52,7 +52,7 @@ class LoginForm extends React.Component {
 
     try {
       await this.context.auth.login(formData.username, formData.password);
-      Router.push('/');
+      Router.push('/dashboard');
     } catch (error) {
       this.setState({ isSending: false });
       Alert.error(error);

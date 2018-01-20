@@ -5,7 +5,7 @@ const Header = () => (
   <header>
 
     <div className="left">
-      <Link to="/">
+      <Link to="/dashboard">
         <a className="icon" rel="home">
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="29" viewBox="0 0 34 29">
             <g fill="none" fillRule="evenodd">
