@@ -6,10 +6,12 @@ $blue-grey: #65a9ad;
 $grey-cold: #e8e8e8;
 $grey: #a0a0a0;
 $grey-warm: #9b9b9b;
+$greeny-blue: #53b2b6;
 $orange: #f18008;
 $pale-red: #de6b48;
 $seafoam-blue: rgba(104, 204, 203, 0.5);
 $seafoam-blue-two: #68cccb;
+
 $white: #ffffff;
 $white-grey: #f1f1f1;
 $white-grey-alternative: #eaeaea;
@@ -18,6 +20,10 @@ $white-grey-alternative: #eaeaea;
 $font-default: #3e3e3e;
 $color-primary: #5b97c5;
 $color-secondary: #d07151;
+
+// Shadows
+// -------------------------
+$shadow1: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 
 
 // Font families
@@ -28,6 +34,10 @@ $font-family-base: 'Lato', sans-serif;
 // Font sizes
 // -------------------------
 $font-size-base: 16px;
+
+// Line heights
+// -------------------------
+$line-height-base: 24px;
 
 
 // Bootstrap Grid settings.
