@@ -1,46 +1,32 @@
-// Styles for Card view.
+.card {
+  border: 2px solid $greyish;
+  margin-bottom: 1.5em;
 
-.grid-card {
-  display: block;
-  background: white;
-  border: solid 2px #b2b2b2;
-  margin-bottom: $grid-gutter-width;
-  padding-bottom: $grid-gutter-width * 1.5;
-  padding-left: $grid-gutter-width;
-  padding-right: $grid-gutter-width;
-
-  @include media-breakpoint-up(md) {
-    margin-bottom: $grid-gutter-width * 2;
-  }
-
-  @include media-breakpoint-up(lg) {
-    margin-bottom: $grid-gutter-width * 3;
-  }
-
-  img {
+  .card-image {
     display: block;
+
+    img {
+      display: block;
+      width: 100%;
+    }
   }
-}
 
-.grid-card__cover {
-  display: block;
-  margin-left: -$grid-gutter-width;
-  margin-right: -$grid-gutter-width;
-}
+  .progress-bar {
+    height: .5em;
+    background: $white-grey-alternative;
 
-.grid-card__buttons {
-  // Fill in all space with two buttons.
-  display: flex;
-  a {
-    flex: 1;
+    .current-progress {
+      height: .5em;
+      background: $pale-red;
+    }
   }
-}
 
-.grid-card__primary-button {
-  @include button();
-  margin-left: $grid-gutter-width;
-}
+  .card-body {
+    padding: 1.5em 1em;
 
-.grid-card__secondary-button {
-  @include button-secondary();
+    h3 a {
+      color: $blackish;
+    }
+  }
+
 }

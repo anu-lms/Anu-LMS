@@ -1,7 +1,7 @@
 import React from 'react';
 import HtmlHead from './HtmlHead';
 import Alert from 'react-s-alert';
-import '../components/atoms/ProgressBar/ProgressBar';
+import '../components/atoms/ProgressBar/PageProgress';
 
 const App = ({ children }) => (
   <div>

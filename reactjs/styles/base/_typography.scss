@@ -8,6 +8,7 @@ body {
 
 h1 {
   font-size: 1.5em;
+  color: $blackish;
   line-height: 1.3em;
   font-weight: bold;
   font-family: $font-family-base;
@@ -24,6 +25,7 @@ h1 {
 
 h2 {
   font-size: 1.5em;
+  color: $blackish;
   margin-top: 0.5em;
   margin-bottom: 1em;
 
@@ -41,7 +43,8 @@ h2 {
 
 h3 {
   font-size: 1.375em;
-  margin-top: 1em;
+  color: $blackish;
+  margin-top: 0;
   margin-bottom: 1em;
 
   @include media-breakpoint-up(lg) {
@@ -50,10 +53,11 @@ h3 {
 }
 
 h4 {
-
+  color: $blackish;
 }
 
 h5 {
+  color: $blackish;
   font-size: 1em;
   margin-top: .5em;
   margin-bottom: .5em;
