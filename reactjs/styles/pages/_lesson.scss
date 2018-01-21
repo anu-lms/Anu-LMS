@@ -1,0 +1,11 @@
+.lesson-container {
+  transition: all .2s;
+
+  @include media-breakpoint-up(md) {
+    margin-left: 220px;
+  }
+
+  &.nav-collapsed {
+    margin-left: 0;
+  }
+}

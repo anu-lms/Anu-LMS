@@ -3,9 +3,8 @@ import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
-import { getUrl as getLessonUrl } from '../helpers/lesson';
-import { getUrl as getCourseUrl } from '../helpers/course';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
+import * as dataProcessors from "../utils/dataProcessors";
 
 class LessonPage extends React.Component {
 
@@ -15,7 +14,7 @@ class LessonPage extends React.Component {
         <Header />
         <div className="page-with-header">
           <LessonPageTemplate
-            toc={this.props.toc}
+            toc={this.props.course.lessons}
             lesson={this.props.lesson}
             course={this.props.course}
           />
@@ -24,74 +23,94 @@ class LessonPage extends React.Component {
     );
   }
 
-  static async getInitialProps({ accessToken, query }) {
+  static async getInitialProps({ request, query, res }) {
 
-    const toc = [
-      {
-        title: 'Introduction',
-        url: getLessonUrl('/demo', '/1'),
-        id: 1,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',
-      },
-      {
-        title: 'Fifth Gear',
-        url: getLessonUrl('/demo', '/2'),
-        id: 2,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',
-      },
-      {
-        title: 'Fourth Gear',
-        url: getLessonUrl('/demo', '/3'),
-        id: 3,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',
-      },
-      {
-        title: 'Third Gear',
-        url: getLessonUrl('/demo', '/4'),
-        id: 4,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',
-      },
-      {
-        title: 'Second Gear',
-        url: getLessonUrl('/demo', '/5'),
-        id: 5,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',      },
-      {
-        title: 'First Gear',
-        url: getLessonUrl('/demo', '/6'),
-        id: 6,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',      },
-      {
-        title: 'Reverse Gear',
-        url: getLessonUrl('/demo', '/7'),
-        id: 7,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',      },
-      {
-        title: 'Five Gears Assessment Gear',
-        url: getLessonUrl('/demo', '/8'),
-        id: 8,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',      },
-      {
-        title: 'Going Deeper: Five Gears',
-        url: getLessonUrl('/demo', '/9'),
-        id: 9,
-        content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget ultrices nunc, sit amet lobortis odio. Nullam a efficitur justo. Pellentesque pretium ante suscipit lectus convallis rhoncus. Ut sollicitudin nec augue nec finibus. Proin sollicitudin augue eget pulvinar gravida. Nulla sodales est non diam maximus consequat. Sed fringilla lacinia augue, vel venenatis tellus dignissim id. Aliquam pulvinar quam eu mauris blandit, vel lobortis metus blandit. Pellentesque id sem at lorem tincidunt ullamcorper. Morbi cursus vel arcu sed sollicitudin. Cras nulla neque, luctus quis pulvinar sed, rutrum id arcu</p>',      },
-    ];
+    const initialProps = {
+      course: {},
+      lesson: {},
+    };
 
-    const index = toc.findIndex(element => element.id + '' === query.lesson);
+    // TODO: Handle case when path alias was changed.
 
-    return {
-      toc,
-      lesson: toc[index],
-      course: {
-        id: 1,
-        title: 'The Five Gears',
-        imageUrl: 'https://www.planwallpaper.com/static/images/6-house-in-green-field.jpg',
-        url: getCourseUrl('/demo'),
+    // Get a course by path.
+    let response;
+    try {
+      response = await request
+        .get('/router/translate-path')
+        .query({
+          '_format': 'json',
+          'path': query.course
+        });
+
+      const { entity } = response.body;
+      // TODO: Test this case.
+      if (entity.type !== 'node' || entity.bundle !== 'course') {
+        throw new Error('The loading course entity is not of the expected type.');
       }
-    }
-  }
 
+      const responseCourse = await request
+        .get('/jsonapi/group_content/class-group_node-course')
+        .query({
+          // Include class group, course entity, course image.
+          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
+          // Course entity fields.
+          'fields[node--course]': 'title,path,nid,uuid,field_course_image,field_course_lessons,created',
+          // Lesson entity fields.
+          'fields[node--lesson]': 'title,path,nid',
+          // Course image fields.
+          'fields[file--image]': 'url',
+          // Class group fields.
+          'fields[group--class]': 'uuid,label',
+          // Filter by nid.
+          'filter[entity_id][value]': entity.id,
+        });
+
+      initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
+    } catch (error) {
+      if (res) res.statusCode = 404;
+      console.log(error);
+      return initialProps;
+    }
+
+    // Get a lesson by path.
+    try {
+      response = await request
+        .get('/router/translate-path')
+        .query({
+          '_format': 'json',
+          'path': query.lesson
+        });
+
+      const { entity } = response.body;
+      // TODO: Test this case.
+      if (entity.type !== 'node' || entity.bundle !== 'lesson') {
+        throw new Error('The loading lesson entity is not of the expected type.');
+      }
+
+      const responseLesson = await request
+        .get('/jsonapi/group_content/class-group_node-lesson')
+        .query({
+          // Include referenced fields.
+          'include': 'entity_id,entity_id.field_lesson_course',
+          // Lesson entity fields.
+          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course',
+          // Course entity fields.
+          'fields[node--course]': 'path,nid',
+          // Filter by nid.
+          'filter[entity_id][value]': entity.id,
+        });
+
+      initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
+    } catch (error) {
+      console.log(error);
+      if (res) res.statusCode = 404;
+      return initialProps;
+    }
+
+    // TODO: check if course is parent of lesson.
+
+    return initialProps;
+  }
 
 }
 

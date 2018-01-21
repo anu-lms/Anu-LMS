@@ -32,7 +32,7 @@ const LessonNavigation = ({ toc, lessons, courses, course, router }) => (
             title={item.title}
             url={item.url}
             progress={lessonHelper.getProgress(lessons, item.id)}
-            active={item.id + '' === router.query.lesson}
+            active={item.url === router.asPath}
           />
         ))}
       </div>

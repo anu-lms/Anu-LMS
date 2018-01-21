@@ -67,7 +67,10 @@ class LessonPageTemplate extends React.Component {
     return (
       <div>
         <LessonNavigation toc={this.props.toc} course={this.props.course} />
-        <div ref="container">
+        <div
+          ref="container"
+          className={`lesson-container ${this.props.navigation.isCollapsed ? 'nav-collapsed' : ''}`}
+        >
           <LessonContent {...this.props.lesson} />
         </div>
       </div>
@@ -75,9 +78,10 @@ class LessonPageTemplate extends React.Component {
   }
 }
 
-const mapStateToProps = ({ lesson }) => {
+const mapStateToProps = ({ lesson, navigation }) => {
   return {
     lessons: lesson,
+    navigation,
   };
 };
 

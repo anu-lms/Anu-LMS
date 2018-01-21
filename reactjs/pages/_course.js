@@ -26,9 +26,7 @@ class CoursePage extends React.Component {
     );
   }
 
-  static async getInitialProps({ request, query, res, store }) {
-
-    console.log(store);
+  static async getInitialProps({ request, query, res }) {
 
     const initialProps = {
       course: {},
@@ -58,7 +56,7 @@ class CoursePage extends React.Component {
           // Include class group, course entity, course image.
           'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
           // Course entity fields.
-          'fields[node--course]': 'title,uuid,path,field_course_image,field_course_lessons,created',
+          'fields[node--course]': 'title,nid,uuid,path,field_course_image,field_course_lessons,created',
           // Lesson entity fields.
           'fields[node--lesson]': 'title,path,nid',
           // Course image fields.
