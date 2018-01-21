@@ -162,10 +162,6 @@ export default function withAuth(PageComponent) {
               expires: 365
             });
           }
-
-          console.log('new access token:');
-          console.log(accessToken);
-
         } catch (error) {
           console.log('Could not refresh auth token:');
           console.log(error);
