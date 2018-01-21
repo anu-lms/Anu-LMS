@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import { Link } from '../../../../routes';
+import LinkWithClick from '../LinkWithClick';
 
-const LinkWithProgress = ({ title, url, progress, active }) => (
+const LinkWithProgress = ({ title, url, progress, active, onClick }) => (
   <Link to={url}>
-    <a className={`link-with-progress ${progress === 100 ? 'completed' : ''} ${active ? 'active' : ''}`}>
+    <LinkWithClick
+      href={url}
+      onCustomClick={onClick}
+      className={`link-with-progress ${progress === 100 ? 'completed' : ''} ${active ? 'active' : ''}`}
+    >
+
       {title}
+
       {progress > 0 && progress < 100 &&
       <CircularProgressbar
         percentage={progress}
@@ -14,6 +21,7 @@ const LinkWithProgress = ({ title, url, progress, active }) => (
         strokeWidth={15}
       />
       }
+
       {progress === 100 &&
       <span className="completed">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="6 0 20 20">
@@ -23,7 +31,7 @@ const LinkWithProgress = ({ title, url, progress, active }) => (
         </svg>
       </span>
       }
-    </a>
+    </LinkWithClick>
   </Link>
 );
 
@@ -32,6 +40,7 @@ LinkWithProgress.propTypes = {
   url: PropTypes.string.isRequired,
   active: PropTypes.bool,
   progress: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 LinkWithProgress.defaultProps = {
