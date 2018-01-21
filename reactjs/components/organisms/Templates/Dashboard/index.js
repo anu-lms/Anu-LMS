@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import Empty from '../../atoms/Empty';
-import Card from '../../moleculas/CardCourse';
+import Empty from '../../../atoms/Empty';
+import Card from '../../../moleculas/CardCourse';
 
 export default ({ classes, coursesInClassesIds, recentCoursesIds, coursesById }) => (
   <div className="student-dashboard container pb-5">

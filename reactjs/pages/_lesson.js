@@ -5,7 +5,7 @@ import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
 import { getUrl as getLessonUrl } from '../helpers/lesson';
 import { getUrl as getCourseUrl } from '../helpers/course';
-import LessonPageTemplate from '../components/organisms/Templates/LessonPage';
+import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 
 class LessonPage extends React.Component {
 

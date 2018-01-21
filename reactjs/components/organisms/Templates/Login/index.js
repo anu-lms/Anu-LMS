@@ -1,7 +1,7 @@
 import React from 'react';
-import LoginForm from '../../moleculas/Form/Login';
-import Button from '../../atoms/Button';
-import Separator from '../../atoms/Separator';
+import LoginForm from '../../../moleculas/Form/Login';
+import Button from '../../../atoms/Button';
+import Separator from '../../../atoms/Separator';
 
 const LoginPageTemplate = () => (
   <div className="container-fluid page-login">

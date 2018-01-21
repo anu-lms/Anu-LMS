@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import LessonNavigation from '../../../components/organisms/Lesson/Navigation';
-import LessonContent from '../../../components/organisms/Lesson/Content';
-import * as lessonActions from "../../../actions/lesson";
-import * as courseActions from "../../../actions/course";
-import * as lessonHelpers from '../../../helpers/lesson';
-import * as courseHelpers from '../../../helpers/course';
+import LessonNavigation from '../../../../components/organisms/Lesson/Navigation';
+import LessonContent from '../../../../components/organisms/Lesson/Content';
+import * as lessonActions from "../../../../actions/lesson";
+import * as courseActions from "../../../../actions/course";
+import * as lessonHelpers from '../../../../helpers/lesson';
+import * as courseHelpers from '../../../../helpers/course';
 
 class LessonPageTemplate extends React.Component {
 
