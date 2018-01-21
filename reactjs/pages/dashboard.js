@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import request from '../utils/request';
 import * as dataProcessors from '../utils/dataProcessors';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
-import StudentDashboard from '../components/organisms/StudentDashboard';
+import Dashboard from '../components/organisms/Templates/Dashboard';
 import Header from '../components/organisms/Header';
-
 
 class DashboardPage extends Component {
 
@@ -15,13 +13,13 @@ class DashboardPage extends Component {
       <App>
         <Header />
         <div className="page-with-header">
-          <StudentDashboard {...this.props} />
+          <Dashboard {...this.props} />
         </div>
       </App>
     );
   }
 
-  static async getInitialProps({ accessToken }) {
+  static async getInitialProps({ request }) {
 
     const initialProps = {
       classes: [],
@@ -33,8 +31,6 @@ class DashboardPage extends Component {
     try {
       // Fetch all classes available for this user.
       const responseAllClasses = await request
-      // TODO: how to move this header into ../utils/request?
-        .set('Authorization', `Bearer ${accessToken}`)
         .get('/jsonapi/group/class')
         .query({
           'fields[group--class]': 'uuid,label',
@@ -43,13 +39,12 @@ class DashboardPage extends Component {
 
       // Fetch all courses available for this user.
       const responseAllCourses = await request
-        .set('Authorization', `Bearer ${accessToken}`)
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
           // Include class group, course entity, course image.
           'include': 'gid,entity_id,entity_id.field_course_image',
           // Course entity fields.
-          'fields[node--course]': 'title,uuid,field_course_image,created',
+          'fields[node--course]': 'title,uuid,path,field_course_image,created',
           // Course image fields.
           'fields[file--image]': 'url',
           // Class group fields.
@@ -60,7 +55,6 @@ class DashboardPage extends Component {
 
       // Fetch three recent courses.
       const responseRecentCourses = await request
-        .set('Authorization', `Bearer ${accessToken}`)
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
           'include': 'entity_id',
@@ -83,8 +77,9 @@ class DashboardPage extends Component {
         initialProps.coursesInClassesIds[course.gid].push(course.uuid);
       });
 
-      initialProps.recentCoursesIds = responseRecentCourses.body.data.map(courseData => courseData.entityId.uuid);
-
+      initialProps.recentCoursesIds = responseRecentCourses.body.data.map(
+        courseData => courseData.entityId.uuid
+      );
     }
     catch (error) {
       console.error('Could not fetch recent courses.');

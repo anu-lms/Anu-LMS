@@ -21,9 +21,10 @@ export default function withAuth(PageComponent) {
       return !!this.state.accessToken
     };
 
-    accessToken = () => {
-      return this.state.accessToken;
-    };
+
+    getRequest() {
+      return request.set('Authorization', `Bearer ${this.state.accessToken}`);
+    }
 
     render() {
       return <PageComponent {...this.props} />;
@@ -33,8 +34,8 @@ export default function withAuth(PageComponent) {
       auth: PropTypes.shape({
         isLogged: PropTypes.bool,
         login: PropTypes.func,
-        accessToken: PropTypes.string,
       }),
+      request: PropTypes.object,
     };
 
     getChildContext() {
@@ -42,8 +43,8 @@ export default function withAuth(PageComponent) {
         auth: {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
-          accessToken: this.accessToken(),
         },
+        request: this.getRequest(),
       }
     };
 
@@ -197,10 +198,14 @@ export default function withAuth(PageComponent) {
 
       if (PageComponent.getInitialProps) {
 
-        // Awaint child initial props.
+        // Inject auth token into the request object.
+        request
+          .set('Authorization', `Bearer ${accessToken}`);
+
+        // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
-          // Pass accessToken into child method so it can be used in XHR requets.
-          { accessToken, ...ctx }
+          // Pass request object which includes authentication.
+          { request, ...ctx }
         );
 
         // Merge child and parent initial props and return.

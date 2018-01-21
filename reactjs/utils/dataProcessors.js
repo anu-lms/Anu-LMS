@@ -1,3 +1,4 @@
+import { getUrl } from '../helpers/course';
 
 function classData(classData) {
   return {
@@ -8,20 +9,18 @@ function classData(classData) {
 
 function courseData(courseData) {
 
-  const imageUrl = courseData.entityId.fieldCourseImage ? courseData.entityId.fieldCourseImage.meta.derivatives['389x292'] : 'http://via.placeholder.com/389x292';
+  const course = courseData.entityId;
+  const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['389x292'] : 'http://via.placeholder.com/389x292';
 
   return {
-    uuid: courseData.entityId.uuid,
+    uuid: course.uuid,
     gid: courseData.gid.uuid,
-    created: courseData.entityId.created,
-    title: courseData.entityId.title,
-    // TODO: which URL should be used?
-    url: '#',
+    created: course.created,
+    title: course.title,
+    url: getUrl(course.path.alias ? course.path.alias : '/'),
     imageUrl: imageUrl,
     // TODO: enable image alt.
-    imageAlt: courseData.entityId.title,
-    // TODO: implement progress on backend.
-    progressPercent: Math.floor(Math.random() * 100)
+    imageAlt: course.title,
   };
 }
 
