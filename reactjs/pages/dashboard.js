@@ -44,7 +44,7 @@ class DashboardPage extends Component {
           // Include class group, course entity, course image.
           'include': 'gid,entity_id,entity_id.field_course_image',
           // Course entity fields.
-          'fields[node--course]': 'title,uuid,path,field_course_image,created',
+          'fields[node--course]': 'title,nid,uuid,path,field_course_image,created',
           // Course image fields.
           'fields[file--image]': 'url',
           // Class group fields.
