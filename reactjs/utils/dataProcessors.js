@@ -1,5 +1,6 @@
 import * as courseHelper from '../helpers/course';
 import * as lessonHelper from '../helpers/lesson';
+import * as urlUtils from '../utils/url';
 
 export const classData = (classData) => {
   return {
@@ -29,7 +30,7 @@ export const courseData = (courseData) => {
     created: course.created,
     title: course.title,
     url: courseHelper.getUrl(course.path.alias),
-    imageUrl: imageUrl,
+    imageUrl: urlUtils.fileUrl(imageUrl),
     // TODO: enable image alt.
     imageAlt: course.title,
     lessons: lessons,
