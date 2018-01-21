@@ -133,7 +133,8 @@ export default function withAuth(PageComponent) {
               'refresh_token': refreshToken,
               // TODO: Move to constants.
               'client_id': '9e0c1ed1-541b-45da-9360-8b41f206352c',
-              'client_secret': '9uGSd3khRDf3bxQR'
+              'client_secret': '9uGSd3khRDf3bxQR',
+              'scope': ['authenticated', 'manager', 'teacher']
             })
             .set('Content-Type', 'application/x-www-form-urlencoded');
 
