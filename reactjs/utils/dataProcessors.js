@@ -12,7 +12,7 @@ export const classData = (classData) => {
 export const courseData = (courseData) => {
 
   const course = courseData.entityId;
-  const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['389x292'] : 'http://via.placeholder.com/389x292';
+  const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['576x450'] : 'http://via.placeholder.com/576x450';
 
   let lessons = [];
   if (course.fieldCourseLessons) {

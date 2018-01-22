@@ -1,0 +1,72 @@
+.container-course {
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 5em;
+  }
+
+  .course-header {
+    padding-bottom: 3.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .btn-block {
+      display: none;
+
+      @include media-breakpoint-up(md) {
+        display: block;
+        width: 168px;
+      }
+    }
+
+
+
+  }
+
+  .organisation {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .instructors {
+    font-size: 1.5em;
+    font-weight: 100;
+    color: #555;
+
+    strong {
+      color: black;
+      font-weight: 700;
+    }
+  }
+
+  .estimated-time {
+    margin: 1.5em 0 2em;
+    font-size: 1.125em;
+    color: $greeny-blue;
+  }
+
+  .course-image {
+    display: block;
+    max-width: 100%;
+  }
+
+  .progress-bar {
+    height: 1.5em;
+    background: white;
+    border: 1px solid $greeny-blue;
+
+    .current-progress {
+      height: 100%;
+      background: $greeny-blue;
+    }
+  }
+
+
+
+  .completion {
+    text-align: center;
+    font-weight: 700;
+    color: $greeny-blue;
+    line-height: 2em;
+  }
+}
