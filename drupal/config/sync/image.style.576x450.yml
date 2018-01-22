@@ -1,0 +1,14 @@
+uuid: 1b0c0b55-0f75-4d82-818a-2fb190096b8b
+langcode: en
+status: true
+dependencies: {  }
+name: 576x450
+label: 576x450
+effects:
+  68ce7bbd-7323-49a2-8c45-359dc43bad71:
+    uuid: 68ce7bbd-7323-49a2-8c45-359dc43bad71
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 576
+      height: 450

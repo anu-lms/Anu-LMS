@@ -9,7 +9,7 @@ export const BACKEND_CLIENT_URL = '/admin';
 export const fileUrl = (url) => {
   // For local development replaces the absolute URL the backend with
   // relative for front-end rendering.
-  if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
+  if (url && process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
     return url.replace(BACKEND_SERVER_URL, BACKEND_CLIENT_URL);
   }
   return url;
