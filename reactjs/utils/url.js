@@ -1,3 +1,5 @@
+import urlParse from 'url-parse';
+
 // Define URL to use when making requsts from node.js server
 // to the backend.
 export const BACKEND_SERVER_URL = process.env.NODE_ENV !== 'production' ? process.env.BASE_URL : `${process.env.BASE_URL}/admin`;
@@ -9,8 +11,12 @@ export const BACKEND_CLIENT_URL = '/admin';
 export const fileUrl = (url) => {
   // For local development replaces the absolute URL the backend with
   // relative for front-end rendering.
-  if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
-    return url.replace(BACKEND_SERVER_URL, BACKEND_CLIENT_URL);
-  }
+  if (process.env.NODE_ENV === 'development') {
+      let parser = urlParse(url);
+      if (parser.pathname.indexOf(BACKEND_CLIENT_URL) !== 0) {
+        parser.pathname = BACKEND_CLIENT_URL + parser.pathname;
+      }
+      return parser.toString();
+    }
   return url;
 };

@@ -67,9 +67,6 @@ class CoursePage extends React.Component {
           'filter[entity_id][value]': entity.id,
         });
 
-      console.log('PATH REQUEST RESPONSE:::');
-      console.log(response.body.entity);
-
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
     } catch (error) {
       if (res) res.statusCode = 404;

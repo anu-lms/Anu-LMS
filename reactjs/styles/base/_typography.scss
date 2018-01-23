@@ -46,6 +46,7 @@ h3 {
   color: $blackish;
   margin-top: 0;
   margin-bottom: 1em;
+  line-height: 1.375em;
 
   @include media-breakpoint-up(lg) {
     font-size: 1.5em;
