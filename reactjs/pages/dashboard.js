@@ -49,18 +49,8 @@ class DashboardPage extends Component {
           'fields[file--image]': 'url',
           // Class group fields.
           'fields[group--class]': 'uuid,label',
-          // Sort coused by class gid first to simplify grouping.
-          'sort': 'gid,created'
-        });
-
-      // Fetch three recent courses.
-      const responseRecentCourses = await request
-        .get('/jsonapi/group_content/class-group_node-course')
-        .query({
-          'include': 'entity_id',
-          'fields[node--course]': 'uuid',
-          'sort': '-created',
-          'page[limit]': 3
+          // Sort by created date.
+          'sort': 'created'
         });
 
       initialProps.classes = responseAllClasses.body.data.map(classData =>
@@ -71,18 +61,22 @@ class DashboardPage extends Component {
         initialProps.coursesInClassesIds[classItem.uuid] = [];
       });
 
+      const recentCoursesIds = [];
+
       responseAllCourses.body.data.forEach(courseData => {
         const course = dataProcessors.courseData(courseData);
         initialProps.coursesById[course.uuid] = course;
         initialProps.coursesInClassesIds[course.gid].push(course.uuid);
+
+        // Store all course ids in reverse orders.
+        recentCoursesIds.unshift(course.uuid);
       });
 
-      initialProps.recentCoursesIds = responseRecentCourses.body.data.map(
-        courseData => courseData.entityId.uuid
-      );
+      // Pass only three recent courses ids.
+      initialProps.recentCoursesIds = recentCoursesIds.slice(0, 3);
     }
     catch (error) {
-      console.error('Could not fetch recent courses.');
+      console.error('Could not fetch dashboard classes / courses.');
       console.error(error);
     }
 
