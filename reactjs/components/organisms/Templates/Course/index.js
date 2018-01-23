@@ -34,8 +34,8 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   if (remainingMinutes == 0) {
     return '';
   }
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
+  const hours = Math.floor(remainingMinutes / 60);
+  const minutes = remainingMinutes % 60;
 
   const parts = [];
   if (hours > 0) {
