@@ -9,3 +9,19 @@ export const getProgress = (lessons, id) => {
 export const getUrl = (coursePath, slug) => (
   '/course' + coursePath + slug
 );
+
+export const getPrevLesson = (lessons, lessonId) => {
+  const index = lessons.findIndex(lesson => lesson.id === lessonId);
+  if (index - 1 in lessons) {
+    return lessons[index - 1];
+  }
+  return false;
+};
+
+export const getNextLesson = (lessons, lessonId) => {
+  const index = lessons.findIndex(lesson => lesson.id === lessonId);
+  if (index + 1 in lessons) {
+    return lessons[index + 1];
+  }
+  return false;
+};

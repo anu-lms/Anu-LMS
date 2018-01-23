@@ -1,70 +1,108 @@
-form {
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 
-  fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  input {
-    background: $white-grey;
-    border: 2px solid $blue-grey;
-    border-radius: 8px;
-    font-family: $font-family-base;
-    padding: .8em;
-    color: $grey;
-    font-size: .9em;
-    width: 100%;
-    outline: none;
-    transition: all .3s;
-    @include media-breakpoint-up(md) {
-      padding: 1.1em .95em;
-      font-size: 1.1em;
-    }
-
-    &:-webkit-autofill {
-      -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;
-      -webkit-text-fill-color: $grey !important;
-    }
-  }
-
-  fieldset .field {
+  .field {
     margin-bottom: 1em;
   }
+}
 
-  // Style https://github.com/tonystar/bootstrap-float-label
-  .has-float-label {
+input[type="text"], input[type="password"] {
+  background: $white-grey;
+  border: 2px solid $blue-grey;
+  border-radius: 8px;
+  font-family: $font-family-base;
+  padding: .8em;
+  color: $grey;
+  font-size: .9em;
+  width: 100%;
+  outline: none;
+  transition: all .3s;
+  @include media-breakpoint-up(md) {
+    padding: 1.1em .95em;
+    font-size: 1.1em;
+  }
 
-    .form-control:placeholder-shown:not(:focus) + * {
-      color: $grey;
-      font-size: .9em;
-      left: 1.1em;
-      top: 1em;
-      opacity: 1;
-      padding: 0;
-      @include media-breakpoint-up(md) {
-        top: 1.4em;
-        font-size: 1.1em;
-      }
+  &:-webkit-autofill {
+    -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;
+    -webkit-text-fill-color: $grey !important;
+  }
+}
+
+.checkbox {
+  padding-bottom: 1em;
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+
+    & + span {
+      border-radius: 2px;
+      display: inline-block;
+      position: relative;
+      float: left;
+      width: 1.5em;
+      height: 1.5em;
+      margin: 0 1em 0 0;
+      vertical-align: middle;
+      background: white left top no-repeat;
+      border: 2px solid $anu-blue;
+      cursor: pointer;
     }
 
-    label,
-    & > span {
-      color: $blue-grey;
-      font-size: .7em;
-      top: 0;
+    &:checked + span {
+      background: $anu-blue;
+    }
+  }
+
+  label {
+    display: block;
+    margin-left: 2.5em;
+  }
+
+  svg {
+    position: relative;
+    top: -1px;
+    left: 2px;
+  }
+}
+
+// Style https://github.com/tonystar/bootstrap-float-label
+.has-float-label {
+
+  .form-control:placeholder-shown:not(:focus) + * {
+    color: $grey;
+    font-size: .9em;
+    left: 1.1em;
+    top: 1em;
+    opacity: 1;
+    padding: 0;
+    @include media-breakpoint-up(md) {
+      top: 1.4em;
+      font-size: 1.1em;
+    }
+  }
+
+  label,
+  & > span {
+    color: $blue-grey;
+    font-size: .7em;
+    top: 0;
+    background: $white-grey;
+    padding: 0 .3em;
+    @include media-breakpoint-up(md) {
+      top: 7px;
+      left: 1.4em;
+    }
+    &:after {
       background: $white-grey;
-      padding: 0 .3em;
       @include media-breakpoint-up(md) {
-        top: 7px;
-        left: 1.4em;
-      }
-      &:after {
-        background: $white-grey;
-        @include media-breakpoint-up(md) {
-          display: none;
-        }
+        display: none;
       }
     }
   }
 }
+
