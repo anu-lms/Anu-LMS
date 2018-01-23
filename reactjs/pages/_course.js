@@ -54,15 +54,19 @@ class CoursePage extends React.Component {
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
           // Include class group, course entity, course image.
-          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
+          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons,entity_id.field_course_organisation,entity_id.field_course_instructors,entity_id.field_time_to_complete_minutes',
           // Course entity fields.
-          'fields[node--course]': 'title,nid,uuid,path,field_course_image,field_course_lessons,created',
+          'fields[node--course]': 'title,nid,uuid,path,field_course_image,field_course_lessons,created,field_course_organisation,field_course_instructors,field_time_to_complete_minutes',
           // Lesson entity fields.
           'fields[node--lesson]': 'title,path,nid',
           // Course image fields.
           'fields[file--image]': 'url',
           // Class group fields.
           'fields[group--class]': 'uuid,label',
+          // Organisation fields.
+          'fields[taxonomy_term--organisations]': 'uuid,name',
+          // User fields.
+          'fields[user--user]': 'uuid,field_first_name,field_last_name',
           // Filter by nid.
           'filter[entity_id][value]': entity.id,
         });

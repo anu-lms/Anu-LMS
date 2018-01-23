@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
 import { Link } from '../../../../routes';
+import { plural } from '../../../../utils/string';
 import * as lessonHelper from "../../../../helpers/lesson";
 import { getProgress } from '../../../../helpers/course';
 
@@ -14,14 +15,52 @@ const ResumeButton = ({ url, progressPercent }) => (
   </Link>
 );
 
+const Instructors = ({ instructors }) => (
+  <p className="instructors">
+    {plural(instructors.length, 'Instructor', 'Instructors')}:{' '}
+    <span>{
+      instructors
+        .map(instructor => instructor.realname).join(', ')
+    }</span>
+  </p>
+);
+
+const TimeToComplete = ({ totalMinutes, progressPercent }) => {
+  if (!totalMinutes) {
+    return '';
+  }
+
+  const remainingMinutes = Math.ceil(totalMinutes * progressPercent * 0.01);
+  if (remainingMinutes == 0) {
+    return '';
+  }
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  const parts = [];
+  if (hours > 0) {
+    parts.push(hours + ' ' + plural(hours, 'hour', 'hours'));
+  }
+  if (minutes > 0) {
+    parts.push(minutes + ' ' + plural(minutes, 'minute', 'minutes'));
+  }
+
+  return (
+    <p className="estimated-time">
+      {parts.join(' and ')} remaining
+    </p>
+  );
+};
+
+
 const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
   <div className="container container-course">
     <div className="row">
       <div className="col-md-6 course-header">
         <h1>{course.title}</h1>
         <p class="organisation">GiANT Worldwide</p>
-        <p class="instructors">Instructor: <span>Case Keenum</span></p>
-        <p className="estimated-time">2 hours and 17 minutes remaining</p>
+        <Instructors instructors={course.instructors} />
+        <TimeToComplete progressPercent={progressPercent} totalMinutes={course.totalMinutes} />
         <ResumeButton progressPercent={progressPercent} url={course.url} />
       </div>
       <div className="col-md-6 course-cover">
@@ -34,7 +73,7 @@ const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
       </div>
       <div className="col-md-6 course-lessons">
         <h3>Course Contents</h3>
-        <div class="lessons-list">
+        <div className="lessons-list">
           {course.lessons.map(lesson => (
             <LinkWithProgress
               key={lesson.id}

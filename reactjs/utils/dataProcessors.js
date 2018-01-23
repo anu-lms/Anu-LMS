@@ -23,6 +23,11 @@ export const courseData = (courseData) => {
     }));
   }
 
+  const instructors = course.fieldCourseInstructors.map(user => ({
+    uuid: user.uuid,
+    realname: `${user.fieldFirstName} ${user.fieldLastName}`
+  }));
+
   return {
     id: course.nid,
     uuid: course.uuid,
@@ -34,6 +39,9 @@ export const courseData = (courseData) => {
     // TODO: enable image alt.
     imageAlt: course.title,
     lessons: lessons,
+    organisation: course.fieldCourseOrganisation.name,
+    instructors: instructors,
+    totalMinutes: course.fieldTimeToCompleteMinutes
   };
 };
 
