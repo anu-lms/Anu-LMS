@@ -124,13 +124,14 @@
 
 .audio {
   height: 20px;
+  margin: 3em 0 !important;
 
   .player {
     position: relative;
 
     .controls {
       position: absolute;
-      left: 0;
+      left: 12px;
       top: 0;
       width: 20px;
       height: 20px;
