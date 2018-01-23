@@ -1,0 +1,29 @@
+uuid: e9d30a66-7648-48e5-b128-c55ad202ccc3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_organisation
+    - node.type.course
+    - taxonomy.vocabulary.organisations
+id: node.course.field_course_organisation
+field_name: field_course_organisation
+entity_type: node
+bundle: course
+label: Organization
+description: 'Create a new or pick one from suggestions.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      organisations: organisations
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference
