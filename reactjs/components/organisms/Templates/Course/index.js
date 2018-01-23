@@ -30,7 +30,7 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
     return null;
   }
 
-  const remainingMinutes = Math.ceil(totalMinutes * progressPercent * 0.01);
+  const remainingMinutes = Math.ceil(totalMinutes * (100 - progressPercent) * 0.01);
   if (remainingMinutes == 0) {
     return null;
   }
