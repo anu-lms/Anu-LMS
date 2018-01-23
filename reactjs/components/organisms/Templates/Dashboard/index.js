@@ -12,7 +12,7 @@ export default ({ classes, coursesInClassesIds, recentCoursesIds, coursesById })
 
       <div className="row">
         {recentCoursesIds.map(courseId => (
-          <div key={courseId} className="col-12 col-md-6 col-lg-4">
+          <div key={courseId} className="col-12 col-md-6 col-lg-4 mb-5">
             <Card course={coursesById[courseId]} />
           </div>
         ))}
