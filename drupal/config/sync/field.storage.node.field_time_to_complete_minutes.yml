@@ -1,0 +1,20 @@
+uuid: b838969b-8094-4790-a90f-aa27b9d074c8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_time_to_complete_minutes
+field_name: field_time_to_complete_minutes
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
