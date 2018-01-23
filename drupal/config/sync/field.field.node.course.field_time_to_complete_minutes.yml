@@ -1,0 +1,23 @@
+uuid: cd44e7d3-1285-4088-bc31-6869c0603349
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_time_to_complete_minutes
+    - node.type.course
+id: node.course.field_time_to_complete_minutes
+field_name: field_time_to_complete_minutes
+entity_type: node
+bundle: course
+label: 'Time to complete'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: min
+field_type: integer
