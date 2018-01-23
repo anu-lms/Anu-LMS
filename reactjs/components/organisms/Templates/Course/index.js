@@ -27,12 +27,12 @@ const Instructors = ({ instructors }) => (
 
 const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   if (!totalMinutes) {
-    return '';
+    return null;
   }
 
   const remainingMinutes = Math.ceil(totalMinutes * progressPercent * 0.01);
   if (remainingMinutes == 0) {
-    return '';
+    return null;
   }
   const hours = Math.floor(remainingMinutes / 60);
   const minutes = remainingMinutes % 60;
