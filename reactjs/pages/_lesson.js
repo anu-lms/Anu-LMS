@@ -91,7 +91,7 @@ class LessonPage extends React.Component {
         .get('/jsonapi/group_content/class-group_node-lesson')
         .query({
           // Include referenced fields.
-          'include': 'entity_id,entity_id.field_lesson_course,entity_id.field_lesson_blocks,entity_id.field_lesson_blocks.field_paragraph_image',
+          'include': 'entity_id,entity_id.field_lesson_course,entity_id.field_lesson_blocks,entity_id.field_lesson_blocks.field_paragraph_image,entity_id.field_lesson_blocks.field_paragraph_file',
           // Lesson entity fields.
           'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks',
           // Course entity fields.
