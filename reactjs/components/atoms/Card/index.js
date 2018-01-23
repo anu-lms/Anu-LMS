@@ -14,16 +14,16 @@ const Card = ({ imageUrl, title, url, children, progressPercent }) => (
       <div className="current-progress" style={{ width: progressPercent + '%' }} />
     </div>
 
-    <div className="card-body">
-
-      <h3 className="title">
+    <div className="heading">
+      <h3>
         <Link to={url}>
           <a>{title}</a>
         </Link>
       </h3>
+    </div>
 
+    <div className="card-body">
       {children}
-
     </div>
 
   </div>
