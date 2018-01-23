@@ -1,6 +1,6 @@
 {
   "name": "AnuLMS",
-  "version": "1.03",
+  "version": "1.04",
   "private": true,
   "dependencies": {
     "bootstrap-4-grid": "^2.2.0",
@@ -20,8 +20,10 @@
     "react": "^16.2.0",
     "react-circular-progressbar": "^0.6.0",
     "react-dom": "^16.2.0",
+    "react-howler": "^3.7.0",
     "react-jsonschema-form": "^1.0.0",
     "react-moment": "^0.6.8",
+    "react-player": "^1.1.1",
     "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
     "redux": "^3.7.2",
@@ -31,7 +33,8 @@
     "superagent": "^3.5.2",
     "superagent-defaults": "^0.1.14",
     "superagent-jsonapify": "^1.4.5",
-    "superagent-prefix": "^0.0.2"
+    "superagent-prefix": "^0.0.2",
+    "url-parse": "^1.2.0"
   },
   "devDependencies": {
     "babel-eslint": "7.0.0",

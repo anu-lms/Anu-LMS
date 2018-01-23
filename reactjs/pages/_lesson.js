@@ -12,7 +12,7 @@ class LessonPage extends React.Component {
     return (
       <App>
         <Header />
-        <div className="page-with-header">
+        <div className="page-with-header lesson">
           <LessonPageTemplate
             toc={this.props.course.lessons}
             lesson={this.props.lesson}
@@ -91,9 +91,9 @@ class LessonPage extends React.Component {
         .get('/jsonapi/group_content/class-group_node-lesson')
         .query({
           // Include referenced fields.
-          'include': 'entity_id,entity_id.field_lesson_course',
+          'include': 'entity_id,entity_id.field_lesson_course,entity_id.field_lesson_blocks,entity_id.field_lesson_blocks.field_paragraph_image,entity_id.field_lesson_blocks.field_paragraph_file',
           // Lesson entity fields.
-          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course',
+          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks',
           // Course entity fields.
           'fields[node--course]': 'path,nid',
           // Filter by nid.

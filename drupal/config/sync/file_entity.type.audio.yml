@@ -1,0 +1,26 @@
+uuid: d8322db0-51d8-47bd-84a0-1bb824c4298c
+langcode: en
+status: true
+dependencies: {  }
+id: audio
+label: Audio
+description: ''
+mimetypes:
+  - audio/basic
+  - audio/midi
+  - audio/mp4
+  - audio/mpeg
+  - audio/ogg
+  - audio/prs.sid
+  - audio/webm
+  - audio/x-aiff
+  - audio/x-gsm
+  - audio/x-matroska
+  - audio/x-mpegurl
+  - audio/x-ms-wax
+  - audio/x-ms-wma
+  - audio/x-pn-realaudio
+  - audio/x-realaudio
+  - audio/x-scpls
+  - audio/x-sd2
+  - audio/x-wav
