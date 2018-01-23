@@ -52,13 +52,12 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   );
 };
 
-
 const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
   <div className="container container-course">
     <div className="row">
       <div className="col-md-6 course-header">
         <h1>{course.title}</h1>
-        <p class="organisation">GiANT Worldwide</p>
+        <p className="organisation">GiANT Worldwide</p>
         <Instructors instructors={course.instructors} />
         <TimeToComplete progressPercent={progressPercent} totalMinutes={course.totalMinutes} />
         <ResumeButton progressPercent={progressPercent} url={course.url} />

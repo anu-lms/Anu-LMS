@@ -33,6 +33,7 @@ h2 {
   color: $blackish;
   margin-top: 0.5em;
   margin-bottom: 1em;
+  line-height: 1.375em;
 
   @include media-breakpoint-up(md) {
     font-size: 1.875em;

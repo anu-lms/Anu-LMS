@@ -54,6 +54,10 @@ class Audio extends React.Component {
   render() {
     const { file, isNavCollapsed } = this.props;
 
+    if (typeof file === 'undefined') {
+      return null;
+    }
+
     return (
       <div className="container audio">
         <div className="row">

@@ -23,10 +23,23 @@ export const courseData = (courseData) => {
     }));
   }
 
-  const instructors = course.fieldCourseInstructors.map(user => ({
-    uuid: user.uuid,
-    realname: `${user.fieldFirstName} ${user.fieldLastName}`
-  }));
+  let instructors = [];
+  if (course.fieldCourseInstructors) {
+    instructors = course.fieldCourseInstructors.map(user => ({
+      uuid: user.uuid,
+      realname: `${user.fieldFirstName} ${user.fieldLastName}`
+    }));
+  }
+
+  let organizationName = '';
+  if (course.fieldCourseOrganisation) {
+    organizationName = course.fieldCourseOrganisation.name;
+  }
+
+  let estimation = 0;
+  if (course.fieldTimeToCompleteMinutes) {
+    estimation = course.fieldTimeToCompleteMinutes;
+  }
 
   return {
     id: course.nid,
@@ -39,9 +52,9 @@ export const courseData = (courseData) => {
     // TODO: enable image alt.
     imageAlt: course.title,
     lessons: lessons,
-    organisation: course.fieldCourseOrganisation.name,
+    organisation: organizationName,
     instructors: instructors,
-    totalMinutes: course.fieldTimeToCompleteMinutes
+    totalMinutes: estimation,
   };
 };
 
