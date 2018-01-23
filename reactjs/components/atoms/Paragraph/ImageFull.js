@@ -5,15 +5,15 @@ import { fileUrl } from '../../../utils/url';
 const ImageFull = ({ image, text, isNavCollapsed }) => (
   <div className="image-full" style={{ backgroundImage: `url("${fileUrl(image.meta.derivatives['w1400'])}")`}}>
     <div className="overlay" />
-    {text &&
     <div className="container">
       <div className="row">
         <div className={`col-12 offset-md-1 col-md-10 offset-lg-${isNavCollapsed ? '2' : '1'} col-lg-8`}>
+          {text &&
           <div className="text" dangerouslySetInnerHTML={{ __html: text.value }} />
+          }
         </div>
       </div>
     </div>
-    }
   </div>
 );
 
