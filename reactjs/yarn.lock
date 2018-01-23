@@ -2739,6 +2739,10 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.4.2:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
 
+howler@2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.7.tgz#65d035e36cd975365c9e03bf46db3f2f7722788b"
+
 html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
@@ -4477,6 +4481,13 @@ react-hot-loader@3.1.1:
     react-proxy "^3.0.0-alpha.0"
     redbox-react "^1.3.6"
     source-map "^0.6.1"
+
+react-howler@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/react-howler/-/react-howler-3.7.0.tgz#8054cfea581f67c6f37de82eda388ded677046a5"
+  dependencies:
+    howler "2.0.7"
+    prop-types "^15.5.6"
 
 react-jsonschema-form@^1.0.0:
   version "1.0.0"
