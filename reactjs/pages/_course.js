@@ -8,7 +8,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 
 class CoursePage extends React.Component {
 
-  render () {
+  render() {
 
     const { course } = this.props;
 
@@ -20,7 +20,7 @@ class CoursePage extends React.Component {
       <App>
         <Header />
         <div className="page-with-header">
-          <CoursePageTemplate course={course}/>
+          <CoursePageTemplate course={course} />
         </div>
       </App>
     );
