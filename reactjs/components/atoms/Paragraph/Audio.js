@@ -72,7 +72,11 @@ class Audio extends React.Component {
                 }
                 {this.state.isPlaying &&
                 <div onClick={this.pause}>
-                  Pause
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
+                    <g fill="none" fillRule="evenodd">
+                      <path fill="#2C2C2C" fillRule="nonzero" d="M0 19.333h5.333V.667H0v18.666zM10.667.667v18.666H16V.667h-5.333z"/>
+                    </g>
+                  </svg>
                 </div>
                 }
               </div>
