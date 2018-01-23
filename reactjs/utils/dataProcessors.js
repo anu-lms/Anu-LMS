@@ -55,6 +55,7 @@ export const courseData = (courseData) => {
     organisation: organizationName,
     instructors: instructors,
     totalMinutes: estimation,
+    description: course.fieldCourseDescription ? course.fieldCourseDescription.value : ''
   };
 };
 
