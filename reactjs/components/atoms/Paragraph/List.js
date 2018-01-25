@@ -16,7 +16,7 @@ const List = ({ list, type, isNavCollapsed}) => {
   return (
     <div className="container list">
       <div className="row">
-        <div className={`col-12 offset-md-1 col-md-10 offset-lg-${isNavCollapsed ? '2' : '1'} col-lg-8`}>
+        <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
           <Wrapper>
             {list.map((item, index) => (
               type === 'list_checkbox' ?

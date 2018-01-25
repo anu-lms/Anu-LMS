@@ -42,7 +42,7 @@ class LessonNavigation extends React.Component {
         </Link>
 
         <div className="table-of-contents">
-          <h5 className="title">Course Contents</h5>
+          <h5 className="title">Course Content</h5>
           <div className="contents">
             {toc.map(item => (
               <LinkWithProgress

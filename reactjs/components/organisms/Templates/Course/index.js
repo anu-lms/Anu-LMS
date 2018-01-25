@@ -71,7 +71,7 @@ const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
         <ResumeButton progressPercent={progressPercent} url={course.url} />
       </div>
       <div className="col-md-6 course-lessons">
-        <h3>Course Contents</h3>
+        <h3>Course Content</h3>
         <div className="lessons-list">
           {course.lessons.map(lesson => (
             <LinkWithProgress

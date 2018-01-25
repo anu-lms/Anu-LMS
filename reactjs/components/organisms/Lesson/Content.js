@@ -13,7 +13,7 @@ const LessonContent = ({ lesson, course, isNavCollapsed }) => {
 
       <div className="container">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-${isNavCollapsed ? '2' : '1'} col-lg-8`}>
+          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
             <h1>{lesson.title}</h1>
           </div>
         </div>
@@ -28,7 +28,7 @@ const LessonContent = ({ lesson, course, isNavCollapsed }) => {
 
       <div className="lesson-navigation container">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-${isNavCollapsed ? '2' : '1'} col-lg-8`}>
+          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
             {nextLesson !== false &&
             <Link to={nextLesson.url}>
               <a className="btn btn-primary btn-lg btn-block">Next: {nextLesson.title}</a>
