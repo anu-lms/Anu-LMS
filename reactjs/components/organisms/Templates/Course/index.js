@@ -9,8 +9,9 @@ import { getProgress } from '../../../../helpers/course';
 const ResumeButton = ({ url, progressPercent }) => (
   <Link to={url}>
     <a className="btn btn-primary btn-lg btn-block">
-      {progressPercent == 0 && 'Start'}
-      {progressPercent > 0 && 'Resume'}
+      {progressPercent === 0 && 'Start'}
+      {progressPercent > 0 && progressPercent < 100 && 'Resume'}
+      {progressPercent === 100 && 'View'}
     </a>
   </Link>
 );
@@ -28,6 +29,10 @@ const Instructors = ({ instructors }) => (
 const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   if (!totalMinutes) {
     return null;
+  }
+
+  if (progressPercent === 100) {
+    return (<p className="estimated-time">You've completed this course.</p>);
   }
 
   const remainingMinutes = Math.ceil(totalMinutes * (100 - progressPercent) * 0.01);
@@ -83,10 +88,12 @@ const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
           ))}
         </div>
       </div>
-      <div className="col-md-6 course-overview">
-        <h3>Overview</h3>
-        <p>How to be present and productive when there is never enough time.</p>
-      </div>
+      {course.description &&
+        <div className="col-md-6 course-overview">
+          <h3>Overview</h3>
+          <div dangerouslySetInnerHTML={{ __html: course.description }} />
+        </div>
+      }
     </div>
   </div>
 );
