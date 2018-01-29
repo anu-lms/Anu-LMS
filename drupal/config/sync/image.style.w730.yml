@@ -1,0 +1,15 @@
+uuid: 2b48d314-e756-41b7-a97b-6822ec0316ff
+langcode: en
+status: true
+dependencies: {  }
+name: w730
+label: w730
+effects:
+  0d84533d-523b-44c5-b43c-6f4d093bd6bd:
+    uuid: 0d84533d-523b-44c5-b43c-6f4d093bd6bd
+    id: image_scale
+    weight: 1
+    data:
+      width: 730
+      height: null
+      upscale: false

@@ -3,16 +3,23 @@
 body {
   color: $font-default;
   font-size: $font-size-base;
+  line-height: $line-height-base;
 }
 
 h1 {
   font-size: 1.5em;
+  color: $blackish;
   line-height: 1.3em;
   font-weight: bold;
   font-family: $font-family-base;
   margin-bottom: 1em;
   transition: all .3s;
+
   @include media-breakpoint-up(md) {
+    font-size: 1.875em;
+  }
+
+  @include media-breakpoint-up(lg) {
     font-size: 2.2em;
     margin-bottom: 1.5em;
   }
@@ -23,8 +30,10 @@ h1 {
 
 h2 {
   font-size: 1.5em;
+  color: $blackish;
   margin-top: 0.5em;
   margin-bottom: 1em;
+  line-height: 1.375em;
 
   @include media-breakpoint-up(md) {
     font-size: 1.875em;
@@ -40,21 +49,31 @@ h2 {
 
 h3 {
   font-size: 1.375em;
-  margin-top: 1em;
+  color: $blackish;
+  margin-top: 0;
   margin-bottom: 1em;
+  line-height: 1.375em;
 
   @include media-breakpoint-up(lg) {
     font-size: 1.5em;
   }
 }
 
+h4 {
+  color: $blackish;
+}
+
+h5 {
+  color: $blackish;
+  font-size: 1em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
 // Paragraphs
 // -------------------------
 p {
-  font-size: 0.7em;
+  font-size: 1em;
   margin: 0 0 .5em 0;
   transition: all .3s;
-  @include media-breakpoint-up(md) {
-    font-size: 0.875em;
-  }
 }

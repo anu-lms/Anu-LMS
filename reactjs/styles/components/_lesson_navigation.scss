@@ -1,0 +1,76 @@
+.collapsible-navigation.lesson {
+
+  h5.title {
+    margin-top: 0;
+    padding: 1em;
+  }
+
+  .course-teaser {
+    background-size: cover;
+    color: white;
+    height: 150px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    &:hover {
+      text-decoration: none;
+
+      .image-overlay {
+        background: rgba(0, 0, 0, 0.4);
+        transition: all .2s;
+      }
+    }
+
+    .image-overlay {
+      background: rgba(0, 0, 0, 0.3);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+
+    h5.title {
+      color: $white;
+      margin-bottom: auto;
+    }
+
+    .progress {
+      margin-top: auto;
+
+      .completion {
+        color: white;
+        padding: 0.2em 1.5em;
+        font-size: 0.7em;
+      }
+
+      .progress-bar {
+        background-color: rgba(255, 255, 255, .4);
+
+        .current-progress {
+          height: 8px;
+          background: $pale-red;
+          transition: width .3s;
+        }
+      }
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+  }
+
+  .table-of-contents {
+    h5.title {
+      margin: 1em 0;
+      padding: 0;
+      font-size: 0.875em;
+      text-align: center;
+      transition: all .3s;
+    }
+  }
+
+}

@@ -1,7 +1,7 @@
 import NProgress from 'nprogress';
-import Router from 'next/router';
+import { Router } from '../../../routes';
 
-Router.onRouteChangeStart = (url) => {
+Router.onRouteChangeStart = () => {
   NProgress.start()
 };
 

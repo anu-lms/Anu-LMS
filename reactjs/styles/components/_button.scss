@@ -1,28 +1,14 @@
-// Button helper.
-@mixin button($background-color: $color-primary, $color: white) {
-  min-width: 140px;
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  padding: 1em 1em;
-  font-weight: 700;
-  border-radius: 7px;
-  background-color: $background-color;
-  color: $color;
-  border: solid 3px #12b3a4;
-
+.btn {
+  font-size: 1em;
+  border-radius: 8px;
+  border: 3px solid;
+  cursor: pointer;
+  outline: none;
+  transition: all .2s;
+  position: relative;
   &:hover {
     text-decoration: none;
   }
-}
-
-.btn {
-  border-radius: 8px;
-  border: 2px solid;
-  cursor: pointer;
-  outline: none;
-  transition: all .3s;
-  position: relative;
 
   svg.progress-circle {
     height: 20px;
@@ -44,12 +30,13 @@
   }
 
   &.btn-primary {
-    background: $blue;
-    border-color: $blue-grey;
+    background: $anu-blue;
+    border-color: $anu-blue;
     color: $white;
 
     &:hover {
       background: darken($blue, 10%);
+      border-color: darken($blue, 10%);
     }
   }
 
@@ -63,15 +50,22 @@
     }
   }
 
+  &.btn-link {
+    background: $white;
+    border-color: $anu-blue;
+    color: $anu-blue;
+
+    &:hover {
+      background: $whiteish;
+      border-color: $windows-blue;
+      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), inset 0 0 6px 1px #5aacff;
+    }
+  }
+
   &.btn-lg {
     padding: .6em;
-    font-size: 1.1em;
-    font-weight: bold;
-    @include media-breakpoint-up(md) {
-      font-size: 1.4em;
-      font-weight: normal;
-      padding: .75em .6em;
-    }
+    font-size: 1em;
+    font-weight: normal;
 
     svg.progress-circle {
       height: 40px;
@@ -82,6 +76,7 @@
   &.btn-block {
     display: block;
     width: 100%;
+    text-align: center;
   }
 
   &.btn-disabled {

@@ -2,6 +2,9 @@ uuid: e6eaee5b-f02b-446a-8cdd-52a2c8f030f2
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
   module:
     - user
 id: user.user.default
@@ -14,6 +17,22 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_first_name:
+    weight: 7
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_last_name:
+    weight: 8
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   timezone:
     weight: 6
     region: content
