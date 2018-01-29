@@ -66,6 +66,7 @@ module:
   ssb_images: 0
   ssb_inline_entity_form: 0
   ssb_jsonapi: 0
+  ssb_mail: 0
   ssb_manager_toolbar: 0
   ssb_metatag: 0
   ssb_routes: 0

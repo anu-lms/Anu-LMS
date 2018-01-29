@@ -1,4 +1,4 @@
 reroute_email_enable: true
-reroute_email_address: dev+anu@systemseed.com
+reroute_email_address: test+anu@systemseed.com
 reroute_email_enable_message: true
 langcode: en
