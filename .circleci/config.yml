@@ -51,11 +51,11 @@ jobs:
           command: platform environment:activate -y --project $PLATFORM_PROJECT_NAME --parent=master $CIRCLE_BRANCH
 
       - run:
-          name: Clone database & files if [db sync] is presented in the commit message.
+          name: Clone database & files for stage branch or if [db sync] is presented in the commit message.
           shell: /bin/bash
           command: |
             git log --format=%B -n 1 $CIRCLE_SHA1 | grep "\[db sync\]"
-            if [[ $? -ne 1 ]]; then
+            if [ $? -ne 1 ] || [ $CIRCLE_BRANCH == "stage" ]; then
               platform sync data -y
             fi
 
