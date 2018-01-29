@@ -1,6 +1,6 @@
 hotlink: false
 origin: 'https://master-7rqtwti-lx26djloxt64m.us.platform.sh/admin'
-origin_dir: 'sites/default/files'
+origin_dir: sites/default/files
 use_imagecache_root: true
 verify: false
 _core:
