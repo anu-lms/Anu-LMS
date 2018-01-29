@@ -1,4 +1,9 @@
-reroute_email_enable: true
-reroute_email_address: test+anu@systemseed.com
-reroute_email_enable_message: true
+enable: true
+address: test+anu@systemseed.com
+whitelist: ''
+description: true
+message: true
+mailkeys: ''
+_core:
+  default_config_hash: CQLKbL2AgHGqE2ilC8yF4Mhg142d5_lgO6nJF7Ws66w
 langcode: en
