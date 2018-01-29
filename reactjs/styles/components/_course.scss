@@ -1,0 +1,124 @@
+.container-course {
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 5em;
+  }
+
+  .course-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: 2.5em;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 3.5em;
+      justify-content: center;
+    }
+
+    .btn-block {
+      display: none;
+
+      @include media-breakpoint-up(md) {
+        display: block;
+        width: 168px;
+      }
+    }
+  }
+
+  .organisation, .instructors {
+    font-size: 1.125em;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.25em;
+    }
+    @include media-breakpoint-up(lg) {
+      font-size: 1.5em;
+    }
+  }
+
+  .organisation {
+    font-weight: bold;
+  }
+
+  .instructors {
+    font-weight: 100;
+    color: #555;
+
+    span {
+      color: $font-default;
+      font-weight: 700;
+    }
+  }
+
+  .estimated-time {
+    font-size: 0.875em;
+    color: $greeny-blue;
+    margin-bottom: 1em;
+
+    @include media-breakpoint-up(md) {
+      margin: 0.5em 0 1em;
+      font-size: 1.125em;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin: 1.5em 0 2em;
+    }
+  }
+
+  .course-cover {
+    .course-image {
+      display: block;
+      max-width: 100%;
+    }
+
+    .progress-bar {
+      height: 1.5em;
+      background: white;
+      border: 1px solid $greeny-blue;
+
+      .current-progress {
+        height: 100%;
+        background: $greeny-blue;
+      }
+    }
+
+    .btn-block {
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
+
+    .completion {
+      font-size: 0.875em;
+      text-align: center;
+      font-weight: 700;
+      color: $greeny-blue;
+      line-height: 2.25em;
+
+      @include media-breakpoint-up(md) {
+        font-size: 1em;
+      }
+    }
+  }
+
+  .course-lessons {
+    padding-top: 1em;
+
+    .lessons-list {
+      max-width: 389px;
+      a {
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+    }
+
+  }
+
+  .course-overview {
+    padding-top: 1em;
+    padding-bottom: 3em;
+  }
+}

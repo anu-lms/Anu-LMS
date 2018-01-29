@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jsCookie from 'js-cookie';
 import request from "../utils/request";
+import { Router } from '../routes';
 
 export default function withAuth(PageComponent) {
 
@@ -20,20 +21,21 @@ export default function withAuth(PageComponent) {
       return !!this.state.accessToken
     };
 
-    accessToken = () => {
-      return this.state.accessToken;
+
+    getRequest() {
+      return request.set('Authorization', `Bearer ${this.state.accessToken}`);
     }
 
     render() {
       return <PageComponent {...this.props} />;
-    }
+    };
 
     static childContextTypes = {
       auth: PropTypes.shape({
         isLogged: PropTypes.bool,
         login: PropTypes.func,
-        accessToken: PropTypes.string,
       }),
+      request: PropTypes.object,
     };
 
     getChildContext() {
@@ -41,10 +43,10 @@ export default function withAuth(PageComponent) {
         auth: {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
-          accessToken: this.accessToken(),
         },
+        request: this.getRequest(),
       }
-    }
+    };
 
     login(username, password) {
       return new Promise((resolve, reject) => {
@@ -105,13 +107,9 @@ export default function withAuth(PageComponent) {
       let cookies;
       if (req) {
         cookies = req.cookies;
-        console.log('server cookies');
-        console.log(cookies);
       }
       else {
         cookies = jsCookie.get();
-        console.log('client cookies');
-        console.log(cookies);
       }
 
       let accessToken = '';
@@ -164,19 +162,29 @@ export default function withAuth(PageComponent) {
               expires: 365
             });
           }
-
-          console.log('new access token:');
-          console.log(accessToken);
-
         } catch (error) {
           console.log('Could not refresh auth token:');
           console.log(error);
         }
       }
 
-      // Redirect to the front page.
+      // Redirect to the front page if not authenticated.
       if (!accessToken && pathname !== '/') {
-        res.redirect('/');
+        if (res) {
+          res.redirect('/');
+        }
+        else {
+          Router.replace('/');
+        }
+      }
+      // Redirect to the dashboard if authenticated.
+      else if (accessToken && pathname === '/') {
+        if (res) {
+          res.redirect('/dashboard');
+        }
+        else {
+          Router.replace('/dashboard');
+        }
       }
 
       const initialProps = {
@@ -186,10 +194,14 @@ export default function withAuth(PageComponent) {
 
       if (PageComponent.getInitialProps) {
 
-        // Awaint child initial props.
+        // Inject auth token into the request object.
+        request
+          .set('Authorization', `Bearer ${accessToken}`);
+
+        // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
-          // Pass accessToken into child method so it can be used in XHR requets.
-          { accessToken, ...ctx }
+          // Pass request object which includes authentication.
+          { request, ...ctx }
         );
 
         // Merge child and parent initial props and return.

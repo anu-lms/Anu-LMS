@@ -8,6 +8,7 @@
 @import "base/layout";
 
 // Import components.
+@import "components/header";
 @import "components/nprogress";
 @import "components/wysiwyg";
 @import "components/form";
@@ -15,11 +16,16 @@
 @import "components/button";
 @import "components/card";
 @import "components/progress-bar";
+@import "components/paragraphs";
 @import "components/alert";
+@import "components/collapsible_navigation";
+@import "components/lesson_navigation";
+@import "components/link-with-progress";
+@import "components/course";
 
 // Import styles for float labels.
 @import "vendor/bootstrap-float-label";
 
 // Import styles per page.
 @import "pages/login";
-@import "pages/dashboard";
+@import "pages/lesson";

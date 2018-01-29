@@ -1,6 +1,6 @@
 {
-  "name": "Anu_LMS",
-  "version": "1.03",
+  "name": "AnuLMS",
+  "version": "1.05",
   "private": true,
   "dependencies": {
     "bootstrap-4-grid": "^2.2.0",
@@ -18,15 +18,23 @@
     "platformsh": "^1.0.0",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
+    "react-circular-progressbar": "^0.6.0",
     "react-dom": "^16.2.0",
+    "react-howler": "^3.7.0",
     "react-jsonschema-form": "^1.0.0",
     "react-moment": "^0.6.8",
+    "react-player": "^1.1.1",
+    "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-persist": "^5.4.0",
     "sass-loader": "^6.0.6",
     "superagent": "^3.5.2",
     "superagent-defaults": "^0.1.14",
     "superagent-jsonapify": "^1.4.5",
-    "superagent-prefix": "^0.0.2"
+    "superagent-prefix": "^0.0.2",
+    "url-parse": "^1.2.0"
   },
   "devDependencies": {
     "babel-eslint": "7.0.0",
