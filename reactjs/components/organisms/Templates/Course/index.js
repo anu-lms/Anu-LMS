@@ -4,16 +4,28 @@ import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
 import { Link } from '../../../../routes';
 import { plural } from '../../../../utils/string';
 import * as lessonHelper from "../../../../helpers/lesson";
-import { getProgress } from '../../../../helpers/course';
+import {getLessonToResume, getProgress} from '../../../../helpers/course';
 
-const ResumeButton = ({ url, progressPercent }) => (
-  <Link to={url}>
-    <a className="btn btn-primary btn-lg btn-block">
-      {progressPercent === 0 && 'Start'}
-      {progressPercent > 0 && progressPercent < 100 && 'Resume'}
-      {progressPercent === 100 && 'View'}
-    </a>
-  </Link>
+const ResumeButton = ({ lessonToResume, courseLessons, progressPercent }) => (
+  <Fragment>
+
+    {lessonToResume !== false &&
+    <Link to={lessonToResume.url}>
+      <a className="btn btn-primary btn-lg btn-block">
+        Resume
+      </a>
+    </Link>
+    }
+
+    {lessonToResume === false && courseLessons.length > 0 && progressPercent < 100 &&
+    <Link to={courseLessons[0].url}>
+      <a className="btn btn-primary btn-lg btn-block">
+        Start
+      </a>
+    </Link>
+    }
+
+  </Fragment>
 );
 
 const Instructors = ({ instructors }) => (
@@ -57,24 +69,43 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   );
 };
 
-const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
+const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }) => (
   <div className="container container-course">
     <div className="row">
+
       <div className="col-md-6 course-header">
         <h1>{course.title}</h1>
         <p className="organisation">GiANT Worldwide</p>
         <Instructors instructors={course.instructors} />
-        <TimeToComplete progressPercent={progressPercent} totalMinutes={course.totalMinutes} />
-        <ResumeButton progressPercent={progressPercent} url={course.url} />
+
+        <TimeToComplete
+          progressPercent={progressPercent}
+          totalMinutes={course.totalMinutes}
+        />
+
+        <ResumeButton
+          progressPercent={progressPercent}
+          lessonToResume={lessonToResume}
+          courseLessons={course.lessons}
+        />
+
       </div>
+
       <div className="col-md-6 course-cover">
         <img className="course-image" src={course.imageUrl} />
         <div className="progress-bar">
           <div className="current-progress" style={{ width: progressPercent + '%' }} />
         </div>
         <div className="completion">{progressPercent}% complete</div>
-        <ResumeButton progressPercent={progressPercent} url={course.url} />
+
+        <ResumeButton
+          progressPercent={progressPercent}
+          lessonToResume={lessonToResume}
+          courseLessons={course.lessons}
+        />
+
       </div>
+
       <div className="col-md-6 course-lessons">
         <h3>Course Content</h3>
         <div className="lessons-list">
@@ -88,11 +119,12 @@ const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
           ))}
         </div>
       </div>
+
       {course.description &&
-        <div className="col-md-6 course-overview">
-          <h3>Overview</h3>
-          <div dangerouslySetInnerHTML={{ __html: course.description }} />
-        </div>
+      <div className="col-md-6 course-overview">
+        <h3>Overview</h3>
+        <div dangerouslySetInnerHTML={{ __html: course.description }} />
+      </div>
       }
     </div>
   </div>
@@ -100,6 +132,7 @@ const CoursePageTemplate = ({ course, lessons, progressPercent }) => (
 
 const mapStateToProps = (store, { course }) => ({
   lessons: store.lesson,
+  lessonToResume: getLessonToResume(store.lesson, course.lessons),
   progressPercent: getProgress(store.course, course.id)
 });
 
