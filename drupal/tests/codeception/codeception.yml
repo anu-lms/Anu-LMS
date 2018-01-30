@@ -1,0 +1,24 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+actor_suffix: Tester
+settings:
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+        - CustomUrlsExtension
+        - PlatformExtension
+
+modules:
+    config:
+        WebDriver:
+          url: https://stage-y77w3ti-lx26djloxt64m.us.platform.sh/admin
+          frontend_url: https://stage-y77w3ti-lx26djloxt64m.us.platform.sh
+        REST:
+          url: https://be_gifts_nginx
+        PhpBrowser:
+          url: https://be_gifts_nginx
