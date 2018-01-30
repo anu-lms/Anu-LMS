@@ -1,4 +1,5 @@
 .heading {
+  margin-bottom: 1.5em !important;
 
   h1, h2, h3, h4, h5, h6 {
     margin-top: .5em;
@@ -124,7 +125,8 @@
 
 .audio {
   height: 20px;
-  margin: 3em 0 !important;
+  margin-top: 3em !important;
+  margin-bottom: 3em !important;
 
   .player {
     position: relative;
