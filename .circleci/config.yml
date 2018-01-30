@@ -127,8 +127,9 @@ jobs:
           shell: /bin/bash
           command: |
             FRONTEND_URL="$(platform route:get -A frontend -P url https://\{default\}/)"
+            BACKEND_URL="$(platform route:get -A frontend -P url https://\{default\}/admin/)"
             echo "FRONTEND_URL=$FRONTEND_URL" >> $BASH_ENV
-            echo "BACKEND_URL=$FRONTEND_URL/admin/" >> $BASH_ENV
+            echo "BACKEND_URL=$BACKEND_URL" >> $BASH_ENV
             source $BASH_ENV
 
       - run:
