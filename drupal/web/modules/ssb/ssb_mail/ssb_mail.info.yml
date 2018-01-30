@@ -1,0 +1,5 @@
+name: Boilerplate Mail
+type: module
+description: Mail system enhancements.
+core: 8.x
+package: Boilerplate

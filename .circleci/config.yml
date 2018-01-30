@@ -51,11 +51,11 @@ jobs:
           command: platform environment:activate -y --project $PLATFORM_PROJECT_NAME --parent=master $CIRCLE_BRANCH
 
       - run:
-          name: Clone database & files if [db sync] is presented in the commit message.
+          name: Clone database & files for stage branch or if [db sync] is presented in the commit message.
           shell: /bin/bash
           command: |
             git log --format=%B -n 1 $CIRCLE_SHA1 | grep "\[db sync\]"
-            if [[ $? -ne 1 ]]; then
+            if [ $? -ne 1 ] || [ $CIRCLE_BRANCH == "stage" ]; then
               platform sync data -y
             fi
 
@@ -86,6 +86,85 @@ jobs:
           name: Apply entity updates
           command: platform ssh -A backend "cd web && drush entup -y"
 
+  ###########################################
+  ################# RUN TESTS ###############
+  ###########################################
+  run_tests:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          <<: *install_platform_cli
+
+      - run:
+          name: Start ChromeDriver
+          command: chromedriver --url-base=wd/hub --port=9515 --ignore-certificate-errors
+          background: true
+
+      - run:
+          name: Install PHP libzip-dev lib for codeception to get installed
+          command: |
+            sudo apt-get install -y libzip-dev
+            sudo docker-php-ext-install zip pcntl pdo_mysql
+
+      - restore_cache:
+          keys:
+            - composer-cache-{{ arch }}-{{ .Branch }}
+            - composer-cache
+
+      - run:
+          name: Install test dependencies
+          command: composer require codeception/codeception:^2.3.8
+
+      - save_cache:
+          key: composer-cache-{{ arch }}-{{ .Branch }}
+          paths:
+            - vendor
+
+      - run:
+          name: Expose app URLs as environment variables
+          shell: /bin/bash
+          command: |
+            FRONTEND_URL="$(platform route:get -A frontend -P url https://\{default\}/)"
+            BACKEND_URL="$(platform route:get -A frontend -P url https://\{default\}/admin/)"
+            echo "FRONTEND_URL=$FRONTEND_URL" >> $BASH_ENV
+            echo "BACKEND_URL=$BACKEND_URL" >> $BASH_ENV
+            source $BASH_ENV
+
+      - run:
+          name: Run Codeception tests
+          shell: /bin/bash
+          command: |
+            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug || true
+
+      - run:
+          name: Re-run failed Codeception tests
+          shell: /bin/bash
+          command: |
+            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug -g failed
+
+      - store_artifacts:
+          path: drupal/tests/codeception/tests/_output
+
+
+  ######################################
+  ###### CHECK SECURITY UPDATES ########
+  ######################################
+  check_security_updates:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          <<: *install_platform_cli
+
+      - run:
+          name: Check security updates for Drupal backend
+          # Connect via SSH and output result of drush pm-updatestatus as a list | count output lines | make sure there are exactly zero lines which means "No security updates found".
+          command: platform ssh -q -A drupal "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
+
+
 workflows:
   version: 2
   workflow:
@@ -94,3 +173,24 @@ workflows:
       - prepare_site:
           requires:
             - prepare_platformsh
+      - run_tests:
+          requires:
+            - prepare_site
+          filters:
+            branches:
+              ignore:
+                - master
+
+  security_updates_scheduled:
+    triggers:
+      - schedule:
+          cron: "0 0 * * 4"
+          filters:
+            branches:
+              only: stage
+    jobs:
+      - prepare_platformsh
+      - prepare_site:
+          requires:
+            - prepare_platformsh
+      - check_security_updates

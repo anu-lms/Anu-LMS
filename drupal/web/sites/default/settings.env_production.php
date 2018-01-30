@@ -1,6 +1,7 @@
 <?php
 
-// Example production settings.
+// Send emails on production only.
+$config['ssb_mail.settings']['send'] = TRUE;
 
 // Disable development configs.
 $config['config_split.config_split.development']['status'] = FALSE;
