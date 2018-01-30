@@ -54,7 +54,7 @@ const LoginPageTemplate = () => (
         </ul>
       </div>
       <div className="col-12">
-        <p>Copyright 2018 Anu © All Rights Reserved</p>
+        <p className="caption">Copyright 2018 Anu © All Rights Reserved</p>
       </div>
     </div>
 

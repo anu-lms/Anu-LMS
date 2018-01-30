@@ -92,10 +92,14 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
       </div>
 
       <div className="col-md-6 course-cover">
-        <img className="course-image" src={course.imageUrl} />
-        <div className="progress-bar">
-          <div className="current-progress" style={{ width: progressPercent + '%' }} />
+
+        <div className="cover-image">
+          <img className="course-image" src={course.imageUrl} />
+          <div className="progress-bar">
+            <div className="current-progress" style={{ width: progressPercent + '%' }} />
+          </div>
         </div>
+
         <div className="completion">{progressPercent}% complete</div>
 
         <ResumeButton
@@ -106,6 +110,7 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
 
       </div>
 
+      {course.lessons.length > 0 &&
       <div className="col-md-6 course-lessons">
         <h5>Course Content</h5>
         <div className="lessons-list">
@@ -119,6 +124,7 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
           ))}
         </div>
       </div>
+      }
 
       {course.description &&
       <div className="col-md-6 course-overview">

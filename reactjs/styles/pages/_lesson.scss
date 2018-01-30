@@ -3,10 +3,12 @@
 
   .lesson-container {
     transition: all .2s;
-    margin-bottom: 3em;
-
+    margin-bottom: 4em;
     @include media-breakpoint-up(md) {
       margin-left: 220px;
+    }
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 6em;
     }
 
     &.nav-collapsed {
@@ -28,7 +30,10 @@
     }
 
     .lesson-content > div {
-      margin-bottom: 1.5em;
+      margin-bottom: 3em;
+      @include media-breakpoint-up(md) {
+        margin-bottom: 4em;
+      }
     }
 
     .lesson-navigation {
