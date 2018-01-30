@@ -48,14 +48,14 @@
     color: #555;
 
     span {
-      color: $font-default;
+      color: $anu-black;
       font-weight: 700;
     }
   }
 
   .estimated-time {
     font-size: 0.875em;
-    color: $greeny-blue;
+    color: $seafoam-green;
     margin-bottom: 1em;
 
     @include media-breakpoint-up(md) {
@@ -77,11 +77,11 @@
     .progress-bar {
       height: 1.5em;
       background: white;
-      border: 1px solid $greeny-blue;
+      border: 1px solid $seafoam-green;
 
       .current-progress {
         height: 100%;
-        background: $greeny-blue;
+        background: $seafoam-green;
       }
     }
 
@@ -95,7 +95,7 @@
       font-size: 0.875em;
       text-align: center;
       font-weight: 700;
-      color: $greeny-blue;
+      color: $seafoam-green;
       line-height: 2.25em;
 
       @include media-breakpoint-up(md) {

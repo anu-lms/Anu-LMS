@@ -8,7 +8,7 @@ const TextWithHeading = ({ text, title, isNavCollapsed }) => (
         <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
 
           {title &&
-          <h3>{title}</h3>
+          <h4>{title}</h4>
           }
 
           {text &&

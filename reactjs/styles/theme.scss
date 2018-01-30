@@ -7,6 +7,9 @@
 @import "base/scaffolding";
 @import "base/layout";
 
+// Import styles for float labels.
+@import "vendor/bootstrap-float-label";
+
 // Import components.
 @import "components/header";
 @import "components/nprogress";
@@ -15,16 +18,12 @@
 @import "components/separator";
 @import "components/button";
 @import "components/card";
-@import "components/progress-bar";
 @import "components/paragraphs";
 @import "components/alert";
 @import "components/collapsible_navigation";
 @import "components/lesson_navigation";
 @import "components/link-with-progress";
 @import "components/course";
-
-// Import styles for float labels.
-@import "vendor/bootstrap-float-label";
 
 // Import styles per page.
 @import "pages/login";

@@ -19,7 +19,7 @@
 }
 
 .text-with-heading {
-  background: $dark-grey-blue;
+  background: $navy;
   padding: 1em 0;
   color: white;
   @include media-breakpoint-up(md) {
@@ -54,7 +54,7 @@
 
       span {
         font-weight: normal;
-        color: $font-default;
+        color: $anu-black;
       }
     }
   }
@@ -151,7 +151,7 @@
       height: 20px;
 
       .bar {
-        background: $white-greyish;
+        background: $gray91;
         position: absolute;
         left: 0;
         right: 0;

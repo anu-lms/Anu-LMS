@@ -1,13 +1,97 @@
 .btn {
-  font-size: 1em;
-  border-radius: 8px;
+  box-shadow: $shadow1;
+  font-size: 1.125em;
+  font-family: $font-family-base;
+  line-height: 1.125em;
+  border-radius: 7px;
   border: 3px solid;
   cursor: pointer;
   outline: none;
   transition: all .2s;
   position: relative;
+  height: 56px;
   &:hover {
     text-decoration: none;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.btn-primary {
+    background: $anu-blue;
+    color: $white;
+    border: none;
+    padding: 3px;
+
+    &:hover {
+      background: $windows-blue;
+      box-shadow: $shadow1, inset 0 0 4px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    &:active {
+      box-shadow: $shadow1, inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    &.btn-lg {
+      padding: .9375em .5em;
+    }
+  }
+
+  &.btn-secondary {
+    background: $white;
+    color: $clay-orange;
+    padding: 3px;
+    border: none;
+
+    &:hover {
+      background: $eggshell-white;
+      box-shadow: $shadow1, inset 0 0 4px 1px $clay-orange;
+    }
+
+    &:active {
+      box-shadow: $shadow1, inset 0 0 4px 0 $clay-orange;
+    }
+
+    &.btn-lg {
+      padding: .9375em .5em;
+    }
+  }
+
+  &.btn-link {
+    background: $white;
+    border-color: $anu-blue;
+    color: $anu-blue;
+
+    &:hover {
+      background: $eggshell-white;
+      border-color: $windows-blue;
+      box-shadow: $shadow1, inset 0 0 6px 1px $windows-blue;
+    }
+
+    &:active {
+      background: $eggshell-white;
+      border-color: $windows-blue;
+      box-shadow: $shadow1, inset 0 0 6px 0 $windows-blue;
+    }
+  }
+
+  &.btn-lg {
+    padding: .75em .5em;
+
+    svg.progress-circle {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  &.btn-block {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  &.btn-disabled {
+    opacity: .8;
   }
 
   svg.progress-circle {
@@ -27,60 +111,6 @@
       stroke: currentColor;
       stroke-width: 5;
     }
-  }
-
-  &.btn-primary {
-    background: $anu-blue;
-    border-color: $anu-blue;
-    color: $white;
-
-    &:hover {
-      background: darken($blue, 10%);
-      border-color: darken($blue, 10%);
-    }
-  }
-
-  &.btn-secondary {
-    background: $white;
-    border-color: $white;
-    color: $orange;
-
-    &:hover {
-      background: darken($white, 10%);
-    }
-  }
-
-  &.btn-link {
-    background: $white;
-    border-color: $anu-blue;
-    color: $anu-blue;
-
-    &:hover {
-      background: $whiteish;
-      border-color: $windows-blue;
-      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), inset 0 0 6px 1px #5aacff;
-    }
-  }
-
-  &.btn-lg {
-    padding: .6em;
-    font-size: 1em;
-    font-weight: normal;
-
-    svg.progress-circle {
-      height: 40px;
-      width: 40px;
-    }
-  }
-
-  &.btn-block {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-
-  &.btn-disabled {
-    opacity: .8;
   }
 }
 

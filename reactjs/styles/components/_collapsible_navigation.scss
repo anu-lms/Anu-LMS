@@ -23,7 +23,7 @@
     z-index: $zindex-fixed;
     transition: all .3s;
     @include media-breakpoint-up(md) {
-      background: $greeny-blue;
+      background: $seafoam-green;
       width: 3em;
       height: 2.7em;
       padding: 0.75em 0.45em;
@@ -50,7 +50,7 @@
     top: 3em;
     padding-bottom: 3em;
     height: 100vh;
-    background: $grey-cold;
+    background: $gray91;
     overflow-y: scroll;
     transition: left .2s;
     z-index: $zindex-fixed;
@@ -76,7 +76,7 @@
     }
 
     .toggle {
-      background: $greeny-blue;
+      background: $seafoam-green;
       @include media-breakpoint-up(md) {
         background: none;
       }

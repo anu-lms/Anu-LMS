@@ -1,5 +1,5 @@
 header {
-  background-color: $font-default;
+  background-color: $carbon;
   position: fixed;
   top: 0;
   left: 0;
@@ -50,7 +50,7 @@ header {
         margin: 0;
 
         path {
-          fill: $font-default;
+          fill: $carbon;
         }
       }
     }

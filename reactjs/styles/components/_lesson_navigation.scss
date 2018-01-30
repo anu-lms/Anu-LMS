@@ -8,7 +8,7 @@
   .course-teaser {
     background-size: cover;
     color: white;
-    height: 150px;
+    min-height: 150px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -31,7 +31,10 @@
       z-index: 1;
     }
 
-    h5.title {
+    .title {
+      padding: 1em;
+      font-size: 1em;
+      font-weight: bold;
       color: $white;
       margin-bottom: auto;
     }
@@ -40,9 +43,8 @@
       margin-top: auto;
 
       .completion {
-        color: white;
+        color: $white;
         padding: 0.2em 1.5em;
-        font-size: 0.7em;
       }
 
       .progress-bar {
@@ -50,7 +52,7 @@
 
         .current-progress {
           height: 8px;
-          background: $pale-red;
+          background: $clay-orange;
           transition: width .3s;
         }
       }

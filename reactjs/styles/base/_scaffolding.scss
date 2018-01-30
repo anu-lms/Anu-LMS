@@ -11,26 +11,11 @@ html {
 }
 
 body {
-  font-family: $font-family-base;
+  font-family: $carbon;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  background-color: $body-bg;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow-x: hidden;
-  overflow-y: auto;
+  background: $body-bg;
   margin: 0;
   padding: 0;
   min-width: 250px;
-}
-
-// Links
-a {
-  text-decoration: none;
-  color: white;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
