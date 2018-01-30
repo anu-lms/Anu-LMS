@@ -28,21 +28,28 @@ $config['config_split.config_split.production']['status'] = FALSE;
 // Default hash salt.
 $settings['hash_salt'] = 'pmh6LA6706mDIFTHfM5Seiy6PFp-3qIK2DWwWy5MtsHulxYxyzjsXDvrvAgTFZCmncUB76lnEA';
 
+
+// Do not send emails by default.
+// If you want to send emails from dev environment you should either:
+// 1. Enable and configure reroute_email.
+// 2. Disable reroute_email AND set config below to TRUE.
+$config['ssb_mail.settings']['send'] = FALSE;
+
 /**
  * Settings for Platform.sh environments.
  */
 if (!empty($_ENV['PLATFORM_BRANCH'])) {
   // Include Platform.sh specific configs to connect
   // Drupal to Platform.sh servers.
-  require_once(__DIR__ . '/settings.platformsh.php');
+  require_once __DIR__ . '/settings.platformsh.php';
 
-  /*if ($_ENV['PLATFORM_BRANCH'] == 'master') {
+  if ($_ENV['PLATFORM_BRANCH'] == 'master') {
     // Include production-only configs which override
     // development settings.
-    require_once(__DIR__ . '/settings.env_production.php');
-  }*/
+    require_once __DIR__ . '/settings.env_production.php';
+  }
 }
 // Local settings. These come last so that they can override anything.
 else {
-  require_once(__DIR__ . '/settings.local.php');
+  require_once __DIR__ . '/settings.local.php';
 }
