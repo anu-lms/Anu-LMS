@@ -72,6 +72,7 @@
           }
 
           a.forgot-password {
+            color: $white;
             font-size: 0.9em;
             display: block;
             text-align: center;
@@ -86,8 +87,8 @@
   }
 
   & > .footer {
-    background: $black;
-    color: $grey-warm;
+    background: $anu-black;
+    color: $london-sky;
     padding: 1em;
 
     ul.links {

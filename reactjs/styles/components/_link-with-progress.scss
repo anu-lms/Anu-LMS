@@ -1,6 +1,6 @@
 .link-with-progress {
   font-size: .75em;
-  color: $font-default;
+  color: $anu-black;
   display: block;
   padding: 0.75em 3em 0.75em 1em;
   position: relative;
@@ -11,19 +11,19 @@
 
   &:hover {
     text-decoration: none;
-    background: $white-grey;
+    background: darken($gray91, 10);
   }
 
   &.active {
-    background: $white-grey;
+    background: darken($gray91, 10);
   }
 
   &.completed {
-    background: $seafoam-blue;
+    background: $growth-green-transparent;
 
     &:hover,
     &.active {
-      background: darken($seafoam-blue, 15);
+      background: darken($growth-green-transparent, 15);
     }
   }
 
@@ -46,7 +46,7 @@
   }
 
   .CircularProgressbar .CircularProgressbar-path {
-    stroke: $seafoam-blue-two;
+    stroke: $seafoam-green;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.5s ease 0s;
   }

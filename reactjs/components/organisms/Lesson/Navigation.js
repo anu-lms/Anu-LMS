@@ -31,9 +31,9 @@ class LessonNavigation extends React.Component {
         <Link to={course.url}>
           <a className="course-teaser" style={{ backgroundImage: 'url("' + course.imageUrl + '")' }}>
             <div className="image-overlay" />
-            <h5 className="title">{course.title}</h5>
+            <div className="title">{course.title}</div>
             <div className="progress">
-              <div className="completion">{courseHelper.getProgress(courses, course.id)}% complete</div>
+              <div className="completion caption sm">{courseHelper.getProgress(courses, course.id)}% complete</div>
               <div className="progress-bar">
                 <div className="current-progress" style={{ width: courseHelper.getProgress(courses, course.id) + '%' }} />
               </div>

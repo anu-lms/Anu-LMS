@@ -8,7 +8,7 @@ export default ({ classes, coursesInClassesIds, recentCoursesIds, coursesById })
     {recentCoursesIds.length > 0 &&
     <Fragment>
 
-      <h2>Recent Courses</h2>
+      <h4>Recent Courses</h4>
 
       <div className="row">
         {recentCoursesIds.map(courseId => (
@@ -24,12 +24,12 @@ export default ({ classes, coursesInClassesIds, recentCoursesIds, coursesById })
     {classes.length > 0 && classes.map(classItem => (
       <Fragment key={classItem.uuid}>
 
-        <h2>{classItem.label}</h2>
+        <h4>{classItem.label}</h4>
 
         <div className="row">
           {coursesInClassesIds[classItem.uuid].length > 0 &&
           coursesInClassesIds[classItem.uuid].map(courseId => (
-            <div key={courseId} className="col-12 col-md-6 col-lg-4">
+            <div key={courseId} className="col-12 col-md-6 col-lg-4 mb-5">
               <Card course={coursesById[courseId]} />
             </div>
           ))}

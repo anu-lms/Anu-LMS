@@ -48,7 +48,7 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
   }
 
   const remainingMinutes = Math.ceil(totalMinutes * (100 - progressPercent) * 0.01);
-  if (remainingMinutes == 0) {
+  if (remainingMinutes === 0) {
     return null;
   }
   const hours = Math.floor(remainingMinutes / 60);
@@ -74,7 +74,7 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
     <div className="row">
 
       <div className="col-md-6 course-header">
-        <h1>{course.title}</h1>
+        <h4>{course.title}</h4>
         <p className="organisation">GiANT Worldwide</p>
         <Instructors instructors={course.instructors} />
 
@@ -107,7 +107,7 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
       </div>
 
       <div className="col-md-6 course-lessons">
-        <h3>Course Content</h3>
+        <h5>Course Content</h5>
         <div className="lessons-list">
           {course.lessons.map(lesson => (
             <LinkWithProgress
@@ -122,7 +122,7 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
 
       {course.description &&
       <div className="col-md-6 course-overview">
-        <h3>Overview</h3>
+        <h5>Overview</h5>
         <div dangerouslySetInnerHTML={{ __html: course.description }} />
       </div>
       }
