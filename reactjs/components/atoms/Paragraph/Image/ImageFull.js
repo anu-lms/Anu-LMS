@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fileUrl } from '../../../utils/url';
+import { fileUrl } from '../../../../utils/url';
 
 const ImageFull = ({ image, text, isNavCollapsed }) => (
   <div className="image-full" style={{ backgroundImage: `url("${fileUrl(image.meta.derivatives['w1400'])}")`}}>

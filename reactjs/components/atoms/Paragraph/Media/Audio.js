@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactHowler from 'react-howler';
-import { fileUrl } from '../../../utils/url';
+import { fileUrl } from '../../../../utils/url';
 
 class Audio extends React.Component {
 
@@ -61,7 +61,7 @@ class Audio extends React.Component {
     return (
       <div className="container audio">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
 
             {this.state.duration !== '' &&
             <div className="player">
