@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '../FormElement/Checkbox';
+import Checkbox from '../../FormElement/CheckBox';
 
-const List = ({ list, type, isNavCollapsed}) => {
+const List = ({ list, type, isNavCollapsed }) => {
 
   let Wrapper = 'ul';
 

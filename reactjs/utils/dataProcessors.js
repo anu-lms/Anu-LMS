@@ -93,6 +93,63 @@ export const lessonData = (lessonData) => {
     });
   }
 
+  // TODO: REMOVE TEST BLOCKS WHEN BACKEND IS DONE.
+  blocks.push({
+    type: 'quiz_checkboxes',
+    title: 'Test Checkbox Quiz',
+    id: '1232131313',
+    list: [
+      {
+        id: '12312983671',
+        label: 'Option 1',
+      },
+      {
+        id: '123129836713',
+        label: 'Option 2',
+      },
+      {
+        id: '123129836712',
+        label: 'Option 3',
+      },
+    ],
+  });
+
+  blocks.push({
+    type: 'quiz_comboboxes',
+    title: 'Test Combo Box Quiz',
+    id: '1232131313',
+    list: [
+      {
+        id: '12312983671123',
+        label: 'Option 1',
+      },
+      {
+        id: '123129836711234',
+        label: 'Option 2',
+      },
+      {
+        id: '123129836711235',
+        label: 'Option 3',
+      },
+    ],
+  });
+
+  blocks.push({
+    type: 'quiz_textarea',
+    title: 'Test Free Text Quiz',
+    id: '1232131313',
+  });
+
+  blocks.push({
+    type: 'quiz_linear_scale',
+    title: 'Test Linear Scale Quiz',
+    id: '123213131343',
+    from: 0,
+    to: 100,
+    labelFrom: 'Label from',
+    labelTo: 'Label to',
+  });
+
   return {
     id: lesson.nid,
     uuid: lesson.id,

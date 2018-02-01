@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import md5 from '../../../../utils/md5';
 
 class Checkbox extends React.Component {
@@ -14,17 +15,27 @@ class Checkbox extends React.Component {
   }
 
   toggleCheck() {
-    this.setState(prevState => ({
-      isChecked: !prevState.isChecked
-    }));
+    this.setState(prevState => {
+      const newState = !prevState.isChecked;
+
+      if (this.props.onChange) {
+        this.props.onChange(this.props.id, newState);
+      }
+
+      return { isChecked: newState };
+    });
   }
 
   render() {
-    const { label } = this.props;
+    let { id, label } = this.props;
+
+    if (!id) {
+      id = md5(label);
+    }
 
     return (
       <div className="checkbox">
-        <input type="checkbox" id={md5(label)} checked={this.state.isChecked} />
+        <input type="checkbox" id={id} checked={this.state.isChecked} value={this.state.isChecked + 0} />
         <span onClick={this.toggleCheck}>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14">
             <g fill="none" fillRule="evenodd">
@@ -32,10 +43,20 @@ class Checkbox extends React.Component {
             </g>
           </svg>
         </span>
-        <label onClick={this.toggleCheck} htmlFor={md5(label)}>{label}</label>
+        <label onClick={this.toggleCheck} htmlFor={id}>{label}</label>
       </div>
     );
   }
 }
+
+Checkbox.propTypes = {
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+Checkbox.defaultProps = {
+  id: '',
+};
 
 export default Checkbox;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fileUrl } from '../../../utils/url';
+import { fileUrl } from '../../../../utils/url';
 
 const ImageCentered = ({ image, title, isNavCollapsed }) => (
   <div className="container image-centered">
