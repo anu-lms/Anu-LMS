@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implements hook_mail_alter().
+ */
+function ssb_mail_mail_alter(&$message) {
+
+  // Dev mode: reroute email is enabled.
+  $send_dev = \Drupal::moduleHandler()->moduleExists('reroute_email')
+    && \Drupal::config('reroute_email.settings')->get('enable');
+
+  // Live mode: sending is enabled in settings.php and reroute email is off.
+  $send_live = \Drupal::config('ssb_mail.settings')->get('send') && !$send_dev;
+
+  $send = $send_live || $send_dev;
+
+  // Disable email sending if neither dev nor live sending is enabled.
+  // You can reach this case when you download live database (edge debug cases!)
+  // on local machine and do not force revert configuration in development
+  // state.
+  if ($send !== TRUE) {
+    $message['send'] = FALSE;
+  }
+}

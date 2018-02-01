@@ -1,0 +1,5 @@
+name: Boilerplate Development
+type: module
+description: Enhancements for local and dev environments.
+core: 8.x
+package: Boilerplate

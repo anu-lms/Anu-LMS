@@ -1,45 +1,33 @@
 // Colors
 // -------------------------
 
+// Greyscale
+$white: #FFFFFF;
+$eggshell-white: #FDFDFD;
+$gray91: #E8E8E8;
+$london-sky: #B2B2B2;
+$carbon: #3E3E3E;
+$anu-black: #2C2C2C;
+
+// Color palette
 $anu-blue: #4698c9;
-
-$black: #0e0e0e;
-$blackish: #2c2c2c;
-$blue: #387ecb;
-$blue-grey: #65a9ad;
-$dark-grey-blue: #2a4d66;
-$grey-cold: #e8e8e8;
-$grey: #a0a0a0;
-$greyish: #b2b2b2;
-$grey-warm: #9b9b9b;
-$greeny-blue: #53b2b6;
-$orange: #f18008;
-$pale-red: #de6b48;
-$seafoam-blue: rgba(104, 204, 203, 0.5);
-$seafoam-blue-two: #68cccb;
-
-$white: #ffffff;
-$whiteish: #fdfdfd;
-$white-grey: #f1f1f1;
-$white-grey-alternative: #eaeaea;
-$white-greyish: #d8d8d8;
-
+$clay-orange: #de6b48;
+$growth-green: #68cccb;
+$growth-green-transparent: rgba(104, 204, 203, 0.5);
+$seafoam-green: #12b3a4;
+$alizarin-crimson: #e61e26;
+$navy: #2a4d66;
 $windows-blue: #368bcf;
-
-
-$font-default: #3e3e3e;
-$color-primary: #5b97c5;
-$color-secondary: #d07151;
 
 // Shadows
 // -------------------------
-$shadow1: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 
+$shadow1: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+$shadow2: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 
 // Font families
 // -------------------------
 $font-family-base: 'Lato', sans-serif;
-
 
 // Font sizes
 // -------------------------
@@ -48,7 +36,6 @@ $font-size-base: 16px;
 // Line heights
 // -------------------------
 $line-height-base: 24px;
-
 
 // Bootstrap Grid settings.
 // -------------------------

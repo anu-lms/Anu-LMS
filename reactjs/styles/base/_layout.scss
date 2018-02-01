@@ -32,8 +32,7 @@ $home-icon-width-desktop: 40px;
 //TODO: move login footer styles here.
 footer {
   @include make-row();
-  background: $black;
-  color: $grey-warm;
+  background: $anu-black;
   overflow: hidden;
   padding: 1em;
 

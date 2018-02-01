@@ -15,11 +15,11 @@ const Card = ({ imageUrl, title, url, children, progressPercent }) => (
     </div>
 
     <div className="heading">
-      <h3>
+      <h5>
         <Link to={url}>
           <a>{title}</a>
         </Link>
-      </h3>
+      </h5>
     </div>
 
     <div className="card-body">

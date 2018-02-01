@@ -1,8 +1,8 @@
 hotlink: false
-origin: ''
-origin_dir: ''
+origin: 'https://master-7rqtwti-lx26djloxt64m.us.platform.sh/admin'
+origin_dir: sites/default/files
 use_imagecache_root: true
-verify: true
+verify: false
 _core:
   default_config_hash: CQLKbL2AgHGqE2ilC8yF4Mhg142d5_lgO6nJF7Ws66w
 langcode: en

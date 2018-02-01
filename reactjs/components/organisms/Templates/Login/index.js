@@ -47,14 +47,13 @@ const LoginPageTemplate = () => (
     <div className="row footer">
       <div className="col-12">
         <ul className="links">
-          <li className="d-inline-block"><a href="#">About Us</a></li>
-          <li className="d-inline-block"><a href="#">Our Partners</a></li>
+          <li className="d-inline-block"><a href="https://anu.solutions/" target="_blank">About Us</a></li>
           <li className="d-inline-block"><a href="#">Privacy</a></li>
-          <li className="d-inline-block"><a href="#">Legal</a></li>
+          <li className="d-inline-block"><a href="https://www.krengeltech.com/legal" target="_blank">Legal</a></li>
         </ul>
       </div>
       <div className="col-12">
-        <p>Copyright 2018 Anu © All Rights Reserved</p>
+        <p className="caption">Copyright 2018 Anu © All Rights Reserved</p>
       </div>
     </div>
 

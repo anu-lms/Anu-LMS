@@ -1,73 +1,92 @@
 // Headings
 // -------------------------
 body {
-  color: $font-default;
+  color: $anu-black;
   font-size: $font-size-base;
+  font-family: $font-family-base;
   line-height: $line-height-base;
 }
 
 h1 {
+  color: $anu-black;
   font-size: 1.5em;
-  color: $blackish;
-  line-height: 1.3em;
-  font-weight: bold;
+  line-height: 1.5em;
   font-family: $font-family-base;
-  margin-bottom: 1em;
+  font-weight: bold;
+  margin: 0 0 1em;
   transition: all .3s;
-
   @include media-breakpoint-up(md) {
-    font-size: 1.875em;
+    font-size: 2.25em;
   }
-
   @include media-breakpoint-up(lg) {
-    font-size: 2.2em;
-    margin-bottom: 1.5em;
-  }
-  @include media-breakpoint-up(xl) {
-    font-size: 2.5em;
+    font-size: 3em;
   }
 }
 
 h2 {
+  color: $anu-black;
   font-size: 1.5em;
-  color: $blackish;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
-  line-height: 1.375em;
-
+  line-height: 1.5em;
+  font-family: $font-family-base;
+  font-weight: bold;
+  margin: 0 0 1em;
+  transition: all .3s;
   @include media-breakpoint-up(md) {
     font-size: 1.875em;
-    margin-top: $font-size-base;
-    margin-bottom: $font-size-base * 2;
   }
   @include media-breakpoint-up(lg) {
-    font-size: 2.25em;
-    margin-top: $font-size-base * 1.5;
-    margin-bottom: $font-size-base * 3;
+    font-size: 2.5em;
   }
 }
 
 h3 {
-  font-size: 1.375em;
-  color: $blackish;
-  margin-top: 0;
-  margin-bottom: 1em;
-  line-height: 1.375em;
-
+  color: $anu-black;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  font-family: $font-family-base;
+  font-weight: bold;
+  margin: 0 0 1em;
+  transition: all .3s;
+  @include media-breakpoint-up(md) {
+    font-size: 1.875em;
+  }
   @include media-breakpoint-up(lg) {
-    font-size: 1.5em;
+    font-size: 2.25em;
   }
 }
 
 h4 {
-  color: $blackish;
+  color: $anu-black;
+  font-size: 1.25em;
+  line-height: 1.25em;
+  font-family: $font-family-base;
+  font-weight: bold;
+  margin: 0 0 1em;
+  transition: all .3s;
+  @include media-breakpoint-up(md) {
+    font-size: 1.5em;
+  }
+  @include media-breakpoint-up(lg) {
+    font-size: 2em;
+  }
 }
 
 h5 {
-  color: $blackish;
-  font-size: 1em;
-  margin-top: .5em;
-  margin-bottom: .5em;
+  color: $anu-black;
+  font-size: 1.125em;
+  line-height: 1.125em;
+  font-family: $font-family-base;
+  font-weight: 600;
+  margin: 0 0 1em;
+  transition: all .3s;
+  @include media-breakpoint-up(md) {
+    font-size: 1.25em;
+    line-height: 1.25em;
+  }
+  @include media-breakpoint-up(lg) {
+    font-size: 1.5em;
+    line-height: 1.5em;
+  }
 }
 
 // Paragraphs
@@ -76,4 +95,37 @@ p {
   font-size: 1em;
   margin: 0 0 .5em 0;
   transition: all .3s;
+
+  &.bold {
+    font-weight: bold;
+  }
+}
+
+.caption {
+  font-size: .75em;
+  @include media-breakpoint-up(md) {
+    font-size: .875em;
+  }
+
+  &.sm {
+    font-size: .75em;
+  }
+
+  &.xs {
+    font-size: .625em;
+  }
+
+  &.bold {
+    font-weight: bold;
+  }
+}
+
+// Links
+a {
+  text-decoration: none;
+  color: $anu-blue;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
