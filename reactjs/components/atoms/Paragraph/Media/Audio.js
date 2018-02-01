@@ -52,7 +52,7 @@ class Audio extends React.Component {
   }
 
   render() {
-    const { file, isNavCollapsed } = this.props;
+    const { file } = this.props;
 
     if (typeof file === 'undefined') {
       return null;
@@ -106,7 +106,6 @@ class Audio extends React.Component {
         </div>
       </div>
     );
-
   }
 }
 

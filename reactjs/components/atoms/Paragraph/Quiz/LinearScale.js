@@ -1,6 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import Slider  from 'rc-slider';
+import {paragraphComponents} from "../index";
 
 class LinearScale extends React.Component {
 
@@ -25,12 +26,22 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, labelFrom, labelTo } = this.props;
+    const { title, from, to, labelFrom, labelTo, blocks } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">
           <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
             <div className="title">{title}</div>
+
+            {blocks.length > 0 &&
+            <div className="blocks">
+              {blocks.map((block, index) => {
+                const Paragraph = paragraphComponents[block.type];
+                return <Paragraph key={index} {...block} />;
+              })}
+            </div>
+            }
+
             <Slider
               min={from}
               max={to}
@@ -38,13 +49,16 @@ class LinearScale extends React.Component {
               onChange={this.handleChange}
               onAfterChange={this.handleAfterChange}
             />
+
             <div className="labels">
               <div className="from">{labelFrom}</div>
               <div className="to">{labelTo}</div>
             </div>
+
             <div className="current-value">
               {this.state.value}
             </div>
+
           </div>
         </div>
       </div>
@@ -59,6 +73,11 @@ LinearScale.propTypes = {
   to: PropTypes.number.isRequired,
   labelFrom: PropTypes.string.isRequired,
   labelTo: PropTypes.string.isRequired,
+  blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+};
+
+LinearScale.defaultProps = {
+  blocks: [],
 };
 
 export default LinearScale;

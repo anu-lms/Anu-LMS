@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
-const ImageCentered = ({ image, title, isNavCollapsed }) => (
+const ImageCentered = ({ image, title }) => (
   <div className="container image-centered">
     <div className="row">
       <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
@@ -26,7 +26,6 @@ ImageCentered.propTypes = {
   }),
   title: PropTypes.string,
   type: PropTypes.string,
-  isNavCollapsed: PropTypes.bool,
   settings: PropTypes.object,
 };
 

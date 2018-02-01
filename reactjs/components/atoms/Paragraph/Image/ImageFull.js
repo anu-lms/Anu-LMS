@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
-const ImageFull = ({ image, text, isNavCollapsed }) => (
+const ImageFull = ({ image, text }) => (
   <div className="image-full" style={{ backgroundImage: `url("${fileUrl(image.meta.derivatives['w1400'])}")`}}>
     <div className="overlay" />
     <div className="container">
@@ -31,7 +31,6 @@ ImageFull.propTypes = {
     format: PropTypes.string,
   }),
   type: PropTypes.string,
-  isNavCollapsed: PropTypes.bool,
   settings: PropTypes.object,
 };
 
