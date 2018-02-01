@@ -47,7 +47,7 @@ const Button = ({ type, size, block, active, disabled, onClick, loading, childre
 };
 
 Button.propTypes = {
-  type: PropTypes.oneOf(['primary', 'secondary']),
+  type: PropTypes.oneOf(['primary', 'secondary', 'link']),
   size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
   block: PropTypes.bool,
   active: PropTypes.bool,

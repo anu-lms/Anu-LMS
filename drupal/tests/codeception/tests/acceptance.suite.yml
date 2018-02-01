@@ -1,0 +1,16 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver
+        - \Helper\Acceptance
+    config:
+      WebDriver:
+        port: 9515
+        wait: 0.1
+        browser: chrome
+        restart: true
+        window_size: 1280x960
+        connection_timeout: 60
+        request_timeout: 60
+        capabilities:
+            unexpectedAlertBehaviour: 'accept'

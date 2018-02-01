@@ -42,11 +42,13 @@ class DashboardPage extends Component {
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
           // Include class group, course entity, course image.
-          'include': 'gid,entity_id,entity_id.field_course_image',
+          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
           // Course entity fields.
-          'fields[node--course]': 'title,nid,uuid,path,field_course_image,created',
+          'fields[node--course]': 'title,nid,uuid,path,field_course_image,created,field_course_lessons',
           // Course image fields.
           'fields[file--image]': 'url',
+          // Limit lessons fields.
+          'fields[node--lesson]': 'nid,title,path',
           // Class group fields.
           'fields[group--class]': 'uuid,label',
           // Sort by created date.

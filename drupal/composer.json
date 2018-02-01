@@ -64,6 +64,7 @@
     "webmozart/path-util": "^2.3"
   },
   "require-dev": {
+    "codeception/codeception": "^2.3",
     "drupal/coder": "^8.2",
     "drupal/devel": "^1.2",
     "drupal/reroute_email": "^1.0@beta",

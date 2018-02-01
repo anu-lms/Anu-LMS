@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function ssb_development_install() {
+  // Make necessary environment switches here.
+  ssb_development_activate_test_users();
+}
+
+/**
+ * Activate test users on all development environments.
+ */
+function ssb_development_activate_test_users() {
+
+  /* @var $role \Drupal\user\Entity\Role */
+  foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
+    /* @var $account \Drupal\user\Entity\User */
+    if ($account = user_load_by_name($role->id() . '.test')) {
+      if ($account->isBlocked()) {
+        $account->activate();
+        $account->save();
+      }
+    }
+  }
+}

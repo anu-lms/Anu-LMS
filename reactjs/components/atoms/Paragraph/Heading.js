@@ -7,11 +7,11 @@ const Heading = ({ title, type, isNavCollapsed }) => (
       <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
 
         {title && type === 'text_heading' &&
-        <h3>{title}</h3>
+        <h4>{title}</h4>
         }
 
         {title && type !== 'text_heading' &&
-        <h4>{title}</h4>
+        <h5>{title}</h5>
         }
 
       </div>

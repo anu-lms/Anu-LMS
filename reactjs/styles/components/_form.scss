@@ -9,24 +9,25 @@ fieldset {
 }
 
 input[type="text"], input[type="password"] {
-  background: $white-grey;
-  border: 2px solid $blue-grey;
-  border-radius: 8px;
   font-family: $font-family-base;
-  padding: .8em;
-  color: $grey;
-  font-size: .9em;
+  background: $eggshell-white;
+  border: 2px solid $london-sky;
+  border-radius: 8px;
+  padding: 1em .8em .6em;
+  color: $carbon;
+  font-size: 1em;
   width: 100%;
   outline: none;
-  transition: all .3s;
-  @include media-breakpoint-up(md) {
-    padding: 1.1em .95em;
-    font-size: 1.1em;
-  }
+  transition: all .2s;
+  height: 56px;
 
   &:-webkit-autofill {
-    -webkit-box-shadow:  0 0 0 1000px $white-grey inset !important;
-    -webkit-text-fill-color: $grey !important;
+    -webkit-box-shadow:  0 0 0 1000px $eggshell-white inset !important;
+    -webkit-text-fill-color: $carbon !important;
+  }
+
+  &:focus {
+    border-color: $anu-blue;
   }
 }
 
@@ -74,35 +75,22 @@ input[type="text"], input[type="password"] {
 .has-float-label {
 
   .form-control:placeholder-shown:not(:focus) + * {
-    color: $grey;
-    font-size: .9em;
-    left: 1.1em;
-    top: 1em;
+    color: $london-sky;
+    font-size: 1em;
+    left: .5em;
+    top: 1.25em;
     opacity: 1;
     padding: 0;
-    @include media-breakpoint-up(md) {
-      top: 1.4em;
-      font-size: 1.1em;
-    }
+  }
+
+  .form-control:focus + * {
+    color: $anu-blue;
   }
 
   label,
   & > span {
-    color: $blue-grey;
-    font-size: .7em;
-    top: 0;
-    background: $white-grey;
-    padding: 0 .3em;
-    @include media-breakpoint-up(md) {
-      top: 7px;
-      left: 1.4em;
-    }
-    &:after {
-      background: $white-grey;
-      @include media-breakpoint-up(md) {
-        display: none;
-      }
-    }
+    color: $london-sky;
+    font-size: .625em;
+    top: .5em;
   }
 }
-
