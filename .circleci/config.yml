@@ -193,4 +193,6 @@ workflows:
       - prepare_site:
           requires:
             - prepare_platformsh
-      - check_security_updates
+      - check_security_updates:
+          requires:
+            - prepare_site
