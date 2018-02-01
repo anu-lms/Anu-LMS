@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Heading = ({ title, type, isNavCollapsed }) => (
+const Heading = ({ title, type }) => (
   <div className="container heading">
     <div className="row">
       <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
@@ -22,7 +22,6 @@ const Heading = ({ title, type, isNavCollapsed }) => (
 Heading.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
-  isNavCollapsed: PropTypes.bool,
   settings: PropTypes.object,
 };
 

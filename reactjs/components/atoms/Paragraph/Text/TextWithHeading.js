@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextWithHeading = ({ text, title, isNavCollapsed }) => (
+const TextWithHeading = ({ text, title }) => (
   <div className="text-with-heading">
     <div className="container">
       <div className="row">
@@ -27,7 +27,6 @@ TextWithHeading.propTypes = {
     format: PropTypes.string,
   }),
   title: PropTypes.string,
-  isNavCollapsed: PropTypes.bool,
   type: PropTypes.string,
   settings: PropTypes.object,
 };

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { paragraphComponents } from '../../atoms/Paragraph';
 import { Link } from '../../../routes';
-import { getPrevLesson, getNextLesson } from '../../../helpers/lesson';
+import { getNextLesson } from '../../../helpers/lesson';
 
 const LessonContent = ({ lesson, course, isNavCollapsed }) => {
 
@@ -22,7 +22,7 @@ const LessonContent = ({ lesson, course, isNavCollapsed }) => {
       <div className="lesson-content">
         {lesson.blocks.map((block, index) => {
           const Paragraph = paragraphComponents[block.type];
-          return <Paragraph key={index} {...block} isNavCollapsed={isNavCollapsed} />;
+          return <Paragraph key={index} {...block} />;
         })}
       </div>
 

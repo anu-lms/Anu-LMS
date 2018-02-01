@@ -1,6 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
+import { paragraphComponents } from '../index';
 
 class Checkboxes extends React.Component {
 
@@ -16,24 +17,30 @@ class Checkboxes extends React.Component {
   }
 
   render() {
-
-    const { title } = this.props;
-
-    const checkboxes = this.props.list.map(checkbox => (
-      <Checkbox
-        label={checkbox.label}
-        id={checkbox.id}
-        key={checkbox.id}
-        onChange={this.handleChange}
-      />
-    ));
-
+    const { title, blocks } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">
           <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
             <div className="title">{title}</div>
-            {checkboxes}
+
+            {blocks.length > 0 &&
+            <div className="blocks">
+              {blocks.map((block, index) => {
+                const Paragraph = paragraphComponents[block.type];
+                return <Paragraph key={index} {...block} />;
+              })}
+            </div>
+            }
+
+            {this.props.list.map(checkbox => (
+              <Checkbox
+                label={checkbox.label}
+                id={checkbox.id}
+                key={checkbox.id}
+                onChange={this.handleChange}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -47,6 +54,11 @@ Checkboxes.propTypes = {
     id: PropTypes.string,
     label: PropTypes.string,
   })),
+  blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+};
+
+Checkboxes.defaultProps = {
+  blocks: [],
 };
 
 export default Checkboxes;

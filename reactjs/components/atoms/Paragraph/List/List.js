@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 
-const List = ({ list, type, isNavCollapsed }) => {
+const List = ({ list, type }) => {
 
   let Wrapper = 'ul';
 
@@ -33,7 +33,6 @@ const List = ({ list, type, isNavCollapsed }) => {
 List.propTypes = {
   list: PropTypes.array,
   type: PropTypes.string,
-  isNavCollapsed: PropTypes.bool,
   settings: PropTypes.object,
 };
 

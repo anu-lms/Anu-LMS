@@ -233,6 +233,26 @@
     margin-bottom: 1em;
   }
 
+  /* Reset grid system within included paragraphs */
+  .blocks {
+    .container {
+      padding: 0;
+      margin: 0 0 1em;
+
+      .row {
+        padding: 0;
+        margin: 0;
+        display: block;
+
+        & > div {
+          padding: 0;
+          margin: 0;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
   &.linear-scale {
     position: relative;
 

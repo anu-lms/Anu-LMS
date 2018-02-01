@@ -112,6 +112,32 @@ export const lessonData = (lessonData) => {
         label: 'Option 3',
       },
     ],
+    blocks: [
+      {
+        type: 'image_centered_caption',
+        title: 'Some demo caption',
+        image: {
+          url: 'https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg',
+          meta: {
+            derivatives: {
+              w730: 'https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg',
+            },
+          },
+        },
+      },
+      {
+        type: 'image_centered_caption',
+        title: 'Some demo caption',
+        image: {
+          url: 'https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg',
+          meta: {
+            derivatives: {
+              w730: 'https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg',
+            },
+          },
+        },
+      }
+    ]
   });
 
   blocks.push({
