@@ -143,7 +143,7 @@ export const lessonData = (lessonData) => {
   blocks.push({
     type: 'quiz_comboboxes',
     title: 'Test Combo Box Quiz',
-    id: '1232131313',
+    id: '1232131313123',
     list: [
       {
         id: '12312983671123',
@@ -163,13 +163,13 @@ export const lessonData = (lessonData) => {
   blocks.push({
     type: 'quiz_textarea',
     title: 'Test Free Text Quiz',
-    id: '1232131313',
+    id: '12321313133213',
   });
 
   blocks.push({
     type: 'quiz_linear_scale',
     title: 'Test Linear Scale Quiz',
-    id: '123213131343',
+    id: '123213131343312',
     from: 0,
     to: 100,
     labelFrom: 'Label from',

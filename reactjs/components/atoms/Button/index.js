@@ -30,6 +30,7 @@ const Button = ({ type, size, block, active, disabled, onClick, loading, childre
       type="submit"
       onClick={onClick}
       className={classes.join(' ')}
+      disabled={disabled || loading}
     >
 
       {loading &&

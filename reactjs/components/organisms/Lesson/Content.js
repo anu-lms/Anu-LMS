@@ -1,49 +1,139 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import Alert from 'react-s-alert';
 import { paragraphComponents } from '../../atoms/Paragraph';
-import { Link } from '../../../routes';
-import { getNextLesson } from '../../../helpers/lesson';
+import { Link, Router } from '../../../routes';
+import { setQuizResult } from '../../../actions/lesson';
+import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData } from '../../../helpers/lesson';
+import Button from '../../atoms/Button';
 
-const LessonContent = ({ lesson, course, isNavCollapsed }) => {
+class LessonContent extends React.Component {
 
-  const nextLesson = getNextLesson(course.lessons, lesson.id);
+  constructor(props) {
+    super(props);
 
-  return (
-    <Fragment>
+    this.state = {
+      isSending: false,
+    };
 
-      <div className="container">
-        <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
-            <h1>{lesson.title}</h1>
+    this.handleQuizChange = this.handleQuizChange.bind(this);
+    this.submitAssessment = this.submitAssessment.bind(this);
+    this.submitQuizzesAndRedirect = this.submitQuizzesAndRedirect.bind(this);
+  }
+
+  handleQuizChange(quizId, quizValue) {
+    const { lesson } = this.props;
+    this.props.dispatch(setQuizResult(lesson.id, quizId, quizValue));
+  }
+
+  async submitAssessment() {
+    await this.submitQuizzes();
+    this.setState({ isSending: false });
+    Alert.success('Thank you, the assessment has been successfully submitted.');
+  }
+
+  async submitQuizzesAndRedirect() {
+    await this.submitQuizzes();
+    this.setState({ isSending: false });
+
+    Alert.success('Thank you, the quizzes have been successfully submitted.');
+
+    const { lesson, course } = this.props;
+    const nextLesson = getNextLesson(course.lessons, lesson.id);
+    if (nextLesson) {
+      Router.pushRoute(nextLesson.url).then(() => window.scrollTo(0, 0));
+    }
+  }
+
+  submitQuizzes() {
+    this.setState({ isSending: true });
+
+    // TODO: Remove when real backend request will land here.
+    return new Promise(resolve => {
+      console.log('Data to submit:');
+      console.log(this.props.quizzesData);
+      setTimeout(() => { resolve() }, 2000);
+    });
+  }
+
+  render() {
+    const { lesson, course } = this.props;
+    const nextLesson = getNextLesson(course.lessons, lesson.id);
+
+    let buttons = [];
+
+    // Add an extra button for assessments.
+    if (isAssessment(lesson)) {
+      buttons.push(
+        <Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
+          Submit Assessment
+        </Button>
+      )
+    }
+
+    // For lesson with quizzes we change default Next button to
+    // "Submit and Continue" button.
+    if (!isAssessment(lesson) && hasQuizzes(lesson)) {
+      buttons.push(
+        <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
+          {nextLesson &&
+          <Fragment>Submit and Continue</Fragment>
+          }
+          {!nextLesson &&
+          <Fragment>Submit</Fragment>
+          }
+        </Button>
+      );
+    }
+    else if (nextLesson) {
+      buttons.push(
+        <Link to={nextLesson.url} key="next" prefetch>
+          <a className="btn btn-primary btn-lg btn-block">
+            Next: {nextLesson.title}
+          </a>
+        </Link>
+      );
+    }
+
+    // List all lesson paragraphs.
+    const paragraphs = lesson.blocks.map((block, index) => {
+      const Paragraph = paragraphComponents[block.type];
+      if (block.type.indexOf('quiz_') === 0) {
+        return <Paragraph key={index} {...block} handleQuizChange={this.handleQuizChange} />;
+      }
+      return <Paragraph key={index} {...block} />;
+    });
+
+    return (
+      <Fragment>
+
+        <div className="container">
+          <div className="row">
+            <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+              <h1>{lesson.title}</h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="lesson-content">
-        {lesson.blocks.map((block, index) => {
-          const Paragraph = paragraphComponents[block.type];
-          return <Paragraph key={index} {...block} />;
-        })}
-      </div>
+        <div className="lesson-content">
+          {paragraphs}
+        </div>
 
-      <div className="lesson-navigation container">
-        <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
-            {nextLesson !== false &&
-            <Link to={nextLesson.url}>
-              <a className="btn btn-primary btn-lg btn-block">Next: {nextLesson.title}</a>
-            </Link>
-            }
+        <div className="lesson-navigation container">
+          <div className="row">
+            <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+              { buttons }
+            </div>
           </div>
         </div>
-      </div>
 
-    </Fragment>
-  );
-};
+      </Fragment>
+    );
+  }
+}
 
-const mapStateToProps = ({ navigation }) => ({
-  isNavCollapsed: navigation.isCollapsed,
+const mapStateToProps = (store, { lesson }) => ({
+  quizzesData: getQuizzesData(store.lesson, lesson.id),
 });
 
 export default connect(mapStateToProps)(LessonContent);

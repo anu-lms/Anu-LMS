@@ -21,8 +21,9 @@ class LinearScale extends React.Component {
   }
 
   handleAfterChange(value) {
-    console.log('id: ' + this.props.id);
-    console.log('value: ' + value);
+    if (this.props.handleQuizChange) {
+      this.props.handleQuizChange(this.props.id, value);
+    }
   }
 
   render() {
@@ -74,6 +75,7 @@ LinearScale.propTypes = {
   labelFrom: PropTypes.string.isRequired,
   labelTo: PropTypes.string.isRequired,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+  handleQuizChange: PropTypes.func,
 };
 
 LinearScale.defaultProps = {
