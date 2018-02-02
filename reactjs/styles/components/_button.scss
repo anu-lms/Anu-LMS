@@ -91,7 +91,11 @@
   }
 
   &.btn-disabled {
-    opacity: .8;
+    opacity: .5;
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 
   svg.progress-circle {

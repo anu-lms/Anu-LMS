@@ -12,8 +12,9 @@ class ComboBoxes extends React.Component {
   }
 
   handleChange(id, value) {
-    console.log('clicked id: ' + id);
-    console.log('clicked value: ' + value);
+    if (this.props.handleQuizChange) {
+      this.props.handleQuizChange(this.props.id, id);
+    }
   }
 
   render() {
@@ -58,6 +59,7 @@ ComboBoxes.propTypes = {
     label: PropTypes.string,
   })),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+  handleQuizChange: PropTypes.func,
 };
 
 ComboBoxes.defaultProps = {

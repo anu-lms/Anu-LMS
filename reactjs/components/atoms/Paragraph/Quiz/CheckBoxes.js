@@ -8,12 +8,24 @@ class Checkboxes extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {};
+    props.list.forEach(checkbox => {
+      this.state[checkbox.id] = 0;
+    });
+
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(id, value) {
-    console.log('clicked id: ' + id);
-    console.log('clicked value: ' + value);
+    this.setState(state => {
+      state[id] = value + 0; // Convert to int.
+
+      if (this.props.handleQuizChange) {
+        this.props.handleQuizChange(this.props.id, state);
+      }
+
+      return state;
+    });
   }
 
   render() {
@@ -50,11 +62,13 @@ class Checkboxes extends React.Component {
 
 Checkboxes.propTypes = {
   title: PropTypes.string,
+  id: PropTypes.string,
   list: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
   })),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+  handleQuizChange: PropTypes.func,
 };
 
 Checkboxes.defaultProps = {

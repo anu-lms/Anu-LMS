@@ -12,8 +12,9 @@ class TextArea extends React.Component {
   }
 
   handleChange() {
-    console.log('id: ' + this.props.id);
-    console.log(this.textarea.value);
+    if (this.props.handleQuizChange) {
+      this.props.handleQuizChange(this.props.id, this.textarea.value);
+    }
   }
 
   render() {
@@ -50,6 +51,7 @@ TextArea.propTypes = {
   title: PropTypes.string,
   id: PropTypes.string,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
+  handleQuizChange: PropTypes.func,
 };
 
 TextArea.defaultProps = {
