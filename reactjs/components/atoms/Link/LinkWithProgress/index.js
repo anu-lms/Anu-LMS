@@ -5,11 +5,10 @@ import { Link } from '../../../../routes';
 import LinkWithClick from '../LinkWithClick';
 
 const LinkWithProgress = ({ title, url, progress, active, onClick }) => (
-  <Link to={url}>
+  <Link to={url} prefetch>
     <LinkWithClick
       href={url}
       onCustomClick={onClick}
-      prefetch
       className={`link-with-progress ${progress === 100 ? 'completed' : ''} ${active ? 'active' : ''}`}
     >
 
