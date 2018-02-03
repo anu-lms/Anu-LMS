@@ -41,6 +41,8 @@ const Paragraphs = dynamic({
       })
     );
   },
+
+  loading: () => (null),
 });
 
 Paragraphs.defaultProps = {

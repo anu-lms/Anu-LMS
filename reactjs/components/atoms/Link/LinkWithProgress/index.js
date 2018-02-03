@@ -9,6 +9,7 @@ const LinkWithProgress = ({ title, url, progress, active, onClick }) => (
     <LinkWithClick
       href={url}
       onCustomClick={onClick}
+      prefetch
       className={`link-with-progress ${progress === 100 ? 'completed' : ''} ${active ? 'active' : ''}`}
     >
 
