@@ -33,16 +33,11 @@ const Paragraphs = dynamic({
     return neededComponents;
   },
 
-  render: ({ blocks, handleQuizChange }, components) => {
-
+  render: ({ blocks, ...props }, components) => {
     return (
       blocks.map((block, index) => {
         const Paragraph = components[block.type];
-
-        if (block.type.indexOf('quiz_') === 0) {
-          return <Paragraph key={index} {...block} handleQuizChange={handleQuizChange} />;
-        }
-        return <Paragraph key={index} {...block} />;
+        return <Paragraph key={index} {...block} {...props} />;
       })
     );
   },
@@ -50,7 +45,6 @@ const Paragraphs = dynamic({
 
 Paragraphs.defaultProps = {
   blocks: [],
-  handleQuizChange: {},
 };
 
 export default Paragraphs;
