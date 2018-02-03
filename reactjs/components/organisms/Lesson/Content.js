@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import { paragraphComponents } from '../../atoms/Paragraph';
+import Paragraphs from '../../atoms/Paragraph';
 import { Link, Router } from '../../../routes';
 import { setQuizResult } from '../../../actions/lesson';
 import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData } from '../../../helpers/lesson';
@@ -33,13 +33,18 @@ class LessonContent extends React.Component {
   }
 
   async submitQuizzesAndRedirect() {
-    await this.submitQuizzes();
-    this.setState({ isSending: false });
-
-    Alert.success('Thank you, the quizzes have been successfully submitted.');
-
     const { lesson, course } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
+
+    // Start prefetching before data is saved.
+    if (nextLesson) {
+      Router.prefetchRoute(nextLesson.url);
+    }
+
+    await this.submitQuizzes();
+    this.setState({ isSending: false });
+    Alert.success('Thank you, the quizzes have been successfully submitted.');
+
     if (nextLesson) {
       Router.pushRoute(nextLesson.url).then(() => window.scrollTo(0, 0));
     }
@@ -95,15 +100,6 @@ class LessonContent extends React.Component {
       );
     }
 
-    // List all lesson paragraphs.
-    const paragraphs = lesson.blocks.map((block, index) => {
-      const Paragraph = paragraphComponents[block.type];
-      if (block.type.indexOf('quiz_') === 0) {
-        return <Paragraph key={index} {...block} handleQuizChange={this.handleQuizChange} />;
-      }
-      return <Paragraph key={index} {...block} />;
-    });
-
     return (
       <Fragment>
 
@@ -116,7 +112,7 @@ class LessonContent extends React.Component {
         </div>
 
         <div className="lesson-content">
-          {paragraphs}
+          <Paragraphs blocks={lesson.blocks} handleQuizChange={this.handleQuizChange} />
         </div>
 
         <div className="lesson-navigation container">
