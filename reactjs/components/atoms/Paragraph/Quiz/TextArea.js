@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-autosize-textarea';
-import {paragraphComponents} from "../index";
+import Paragraphs from '../index';
 
 class TextArea extends React.Component {
 
@@ -27,10 +27,7 @@ class TextArea extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              {blocks.map((block, index) => {
-                const Paragraph = paragraphComponents[block.type];
-                return <Paragraph key={index} {...block} />;
-              })}
+              <Paragraphs blocks={blocks} />
             </div>
             }
 

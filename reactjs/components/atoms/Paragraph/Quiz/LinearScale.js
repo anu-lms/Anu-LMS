@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import Slider  from 'rc-slider';
-import {paragraphComponents} from "../index";
+import Paragraphs from '../index';
 
 class LinearScale extends React.Component {
 
@@ -36,10 +36,7 @@ class LinearScale extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              {blocks.map((block, index) => {
-                const Paragraph = paragraphComponents[block.type];
-                return <Paragraph key={index} {...block} />;
-              })}
+              <Paragraphs blocks={blocks} />
             </div>
             }
 

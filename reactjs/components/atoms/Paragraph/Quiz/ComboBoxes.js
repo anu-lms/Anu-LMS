@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import Radio from '../../FormElement/Radio';
-import {paragraphComponents} from "../index";
+import Paragraphs from '../index';
 
 class ComboBoxes extends React.Component {
 
@@ -28,10 +28,7 @@ class ComboBoxes extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              {blocks.map((block, index) => {
-                const Paragraph = paragraphComponents[block.type];
-                return <Paragraph key={index} {...block} />;
-              })}
+              <Paragraphs blocks={blocks} />
             </div>
             }
 
