@@ -16,6 +16,16 @@ export default function(PageComponent) {
     }
 
     componentDidMount() {
+      const state = store.getState();
+
+      // If storage was already rehydrated, then set state appropriately.
+      if (typeof state._persist !== 'undefined') {
+        if (state._persist.rehydrated) {
+          this.setState({ storageLoaded: true });
+          return;
+        }
+      }
+
       persistStore(store, null, () => {
         this.setState({ storageLoaded: true });
       });
