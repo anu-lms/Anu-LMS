@@ -1,6 +1,5 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
-import Radio from '../../FormElement/Radio';
 import Paragraphs from '../index';
 
 class ComboBoxes extends React.Component {
@@ -8,7 +7,11 @@ class ComboBoxes extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      active: 0,
+    };
+
+    this.handleAddSelection = this.handleAddSelection.bind(this);
   }
 
   componentDidMount() {
@@ -18,9 +21,11 @@ class ComboBoxes extends React.Component {
     }
   }
 
-  handleChange(id, value) {
+  handleAddSelection(radioId) {
+    this.setState({ active: radioId });
+
     if (this.props.handleQuizChange) {
-      this.props.handleQuizChange(this.props.id, id);
+      this.props.handleQuizChange(this.props.id, radioId);
     }
   }
 
@@ -40,13 +45,18 @@ class ComboBoxes extends React.Component {
             }
 
             {list.map(radio => (
-              <Radio
-                id={radio.id}
-                key={radio.id}
-                label={radio.label}
-                name={id}
-                onChange={this.handleChange}
-              />
+              <div className="radio" key={radio.id}>
+                <input
+                  type="radio"
+                  name={id}
+                  value={radio.id}
+                  checked={this.state.active === radio.id}
+                />
+                <span onClick={() => this.handleAddSelection(radio.id)} />
+                <label onClick={() => this.handleAddSelection(radio.id)}>
+                  {radio.label}
+                  </label>
+              </div>
             ))}
           </div>
         </div>
