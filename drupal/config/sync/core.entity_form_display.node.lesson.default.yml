@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.lesson.field_is_assessment
     - field.field.node.lesson.field_lesson_blocks
     - field.field.node.lesson.field_lesson_course
     - node.type.lesson
@@ -15,13 +16,20 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 4
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_is_assessment:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_lesson_blocks:
     type: paragraphs
-    weight: 2
+    weight: 3
     settings:
       title: Block
       title_plural: Blocks
@@ -46,7 +54,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 6
     region: content
     third_party_settings: {  }
   title:
@@ -59,7 +67,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 3
+    weight: 4
     settings:
       match_operator: CONTAINS
       size: 60

@@ -1,0 +1,85 @@
+uuid: 10002c1a-3fd9-4668-bbe5-7ee846220535
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_blocks
+    - paragraphs.paragraphs_type.image_centered_caption
+    - paragraphs.paragraphs_type.media_audio
+    - paragraphs.paragraphs_type.media_video
+    - paragraphs.paragraphs_type.quiz_free_answer
+    - paragraphs.paragraphs_type.text_text
+  module:
+    - entity_reference_revisions
+id: paragraph.quiz_free_answer.field_quiz_blocks
+field_name: field_quiz_blocks
+entity_type: paragraph
+bundle: quiz_free_answer
+label: 'Question details'
+description: 'Optionally add an image or any other media to your question. '
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_centered_caption: image_centered_caption
+      media_audio: media_audio
+      media_video: media_video
+      text_text: text_text
+    target_bundles_drag_drop:
+      quiz_linear_scale:
+        weight: 18
+        enabled: false
+      divider_numbered:
+        weight: 19
+        enabled: false
+      divider_simple:
+        weight: 20
+        enabled: false
+      image_centered_caption:
+        enabled: true
+        weight: 21
+      image_full_text:
+        weight: 22
+        enabled: false
+      list_bullet:
+        weight: 23
+        enabled: false
+      list_checkbox:
+        weight: 24
+        enabled: false
+      list_numbered:
+        weight: 25
+        enabled: false
+      media_audio:
+        enabled: true
+        weight: 26
+      media_video:
+        enabled: true
+        weight: 27
+      quiz_checkboxes:
+        weight: 28
+        enabled: false
+      quiz_comboboxes:
+        weight: 29
+        enabled: false
+      quiz_free_answer:
+        weight: 30
+        enabled: false
+      text_heading:
+        weight: 31
+        enabled: false
+      text_heading_text:
+        weight: 32
+        enabled: false
+      text_subheading:
+        weight: 33
+        enabled: false
+      text_text:
+        enabled: true
+        weight: 34
+field_type: entity_reference_revisions
