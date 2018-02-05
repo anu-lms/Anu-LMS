@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.lesson.field_is_assessment
     - field.field.node.lesson.field_lesson_blocks
     - field.field.node.lesson.field_lesson_course
     - node.type.lesson
@@ -14,6 +15,16 @@ targetEntityType: node
 bundle: lesson
 mode: default
 content:
+  field_is_assessment:
+    weight: 3
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_lesson_blocks:
     type: entity_reference_revisions_entity_view
     weight: 2

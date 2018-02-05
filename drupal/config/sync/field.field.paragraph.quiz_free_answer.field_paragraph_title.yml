@@ -1,0 +1,19 @@
+uuid: 8c3d8f23-7619-42f4-97d7-027009c6d0c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_title
+    - paragraphs.paragraphs_type.quiz_free_answer
+id: paragraph.quiz_free_answer.field_paragraph_title
+field_name: field_paragraph_title
+entity_type: paragraph
+bundle: quiz_free_answer
+label: Question
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
