@@ -28,6 +28,13 @@ class Audio extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   formatDuration(duration) {
     const minutes = Math.floor(duration / 60) + '';
     const seconds = Math.floor(duration % 60) + '';

@@ -39,7 +39,7 @@ const Paragraphs = dynamic({
         const Paragraph = components[block.type];
         return (
           <Fragment key={index}>
-            <div className="d-print-block">{block.id}</div>
+            <div style={{ display: 'none' }}>{block.id}</div>
             <Paragraph key={index} {...block} {...props} />
           </Fragment>
         );

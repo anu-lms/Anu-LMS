@@ -8,7 +8,14 @@ class Heading extends React.Component {
     if (this.props.handleParagraphLoaded) {
       this.props.handleParagraphLoaded(this.props.id);
     }
-  };
+  }
+
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
 
   render() {
     const { title, type } = this.props;

@@ -10,6 +10,13 @@ class Text extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   render() {
     const { text } = this.props;
     return (

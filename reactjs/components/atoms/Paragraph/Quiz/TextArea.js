@@ -18,6 +18,13 @@ class TextArea extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleChange() {
     if (this.props.handleQuizChange) {
       this.props.handleQuizChange(this.props.id, this.textarea.value);
