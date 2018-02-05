@@ -1,0 +1,110 @@
+uuid: 07fd197d-3f6d-40a7-9af5-33f5daa88aeb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_linear_scale.field_paragraph_title
+    - field.field.paragraph.quiz_linear_scale.field_quiz_blocks
+    - field.field.paragraph.quiz_linear_scale.field_quiz_linear_scale_from
+    - field.field.paragraph.quiz_linear_scale.field_quiz_linear_scale_to
+    - paragraphs.paragraphs_type.quiz_linear_scale
+  module:
+    - double_field
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_linear_scale_from_to:
+      children:
+        - field_quiz_linear_scale_from
+        - field_quiz_linear_scale_to
+      parent_name: ''
+      weight: 2
+      format_type: details
+      format_settings:
+        id: ''
+        classes: ''
+        open: true
+        required_fields: true
+      label: 'Linear scale From / To'
+id: paragraph.quiz_linear_scale.default
+targetEntityType: paragraph
+bundle: quiz_linear_scale
+mode: default
+content:
+  field_paragraph_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_quiz_blocks:
+    weight: 1
+    settings:
+      title: Block
+      title_plural: Blocks
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      add_mode: modal
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    type: paragraphs
+    region: content
+  field_quiz_linear_scale_from:
+    weight: 3
+    settings:
+      inline: true
+      first:
+        type: textfield
+        size: 6
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: Number
+        suffix: ''
+      second:
+        type: textfield
+        size: 30
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: '&nbsp;&nbsp;Label'
+        suffix: ''
+    third_party_settings: {  }
+    type: double_field
+    region: content
+  field_quiz_linear_scale_to:
+    weight: 4
+    settings:
+      inline: true
+      first:
+        type: textfield
+        size: 6
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: Number
+        suffix: ''
+      second:
+        type: textfield
+        size: 30
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: '&nbsp;&nbsp;Label'
+        suffix: ''
+    third_party_settings: {  }
+    type: double_field
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

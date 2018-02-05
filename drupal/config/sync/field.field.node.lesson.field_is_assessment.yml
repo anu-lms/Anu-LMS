@@ -1,0 +1,23 @@
+uuid: 79eb26bb-f083-4c03-b3bb-19700c692e29
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_assessment
+    - node.type.lesson
+id: node.lesson.field_is_assessment
+field_name: field_is_assessment
+entity_type: node
+bundle: lesson
+label: Assessment
+description: 'Tick off this option if this lesson is the course assessment.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

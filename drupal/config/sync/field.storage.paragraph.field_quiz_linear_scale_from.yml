@@ -1,0 +1,32 @@
+uuid: 69a555bb-5662-427c-8e3b-e8a7bc749fdd
+langcode: en
+status: true
+dependencies:
+  module:
+    - double_field
+    - paragraphs
+id: paragraph.field_quiz_linear_scale_from
+field_name: field_quiz_linear_scale_from
+entity_type: paragraph
+type: double_field
+settings:
+  storage:
+    first:
+      type: integer
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+    second:
+      type: string
+      maxlength: 255
+      precision: 10
+      scale: 2
+      datetime_type: datetime
+module: double_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

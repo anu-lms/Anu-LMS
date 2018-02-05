@@ -1,0 +1,37 @@
+uuid: d53899e4-9b08-456d-afc4-c4fbbab15dd2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_linear_scale_to
+    - paragraphs.paragraphs_type.quiz_linear_scale
+  module:
+    - double_field
+id: paragraph.quiz_linear_scale.field_quiz_linear_scale_to
+field_name: field_quiz_linear_scale_to
+entity_type: paragraph
+bundle: quiz_linear_scale
+label: To
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    required: true
+    list: false
+    allowed_values: {  }
+    min: null
+    max: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

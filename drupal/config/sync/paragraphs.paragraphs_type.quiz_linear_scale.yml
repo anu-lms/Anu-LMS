@@ -1,0 +1,9 @@
+uuid: 4e18a902-ef32-45c1-a9bd-5e00ad2833e3
+langcode: en
+status: true
+dependencies: {  }
+id: quiz_linear_scale
+label: 'Quiz (Linear scale)'
+icon_uuid: null
+description: 'Quiz for linear scale answers.'
+behavior_plugins: {  }
