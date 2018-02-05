@@ -48,7 +48,10 @@ class Radio extends React.Component {
 
 Radio.propTypes = {
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
 };

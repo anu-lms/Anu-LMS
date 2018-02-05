@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import dynamic from 'next/dynamic';
 
 const Paragraphs = dynamic({
@@ -37,7 +37,10 @@ const Paragraphs = dynamic({
     return (
       blocks.map((block, index) => {
         const Paragraph = components[block.type];
-        return <Paragraph key={index} {...block} {...props} />;
+        return <Fragment key={index}>
+          {block.id}
+          <Paragraph key={index} {...block} {...props} />
+        </Fragment>
       })
     );
   },

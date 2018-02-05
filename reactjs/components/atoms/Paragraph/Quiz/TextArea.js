@@ -11,6 +11,13 @@ class TextArea extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleChange() {
     if (this.props.handleQuizChange) {
       this.props.handleQuizChange(this.props.id, this.textarea.value);
@@ -18,7 +25,7 @@ class TextArea extends React.Component {
   }
 
   render() {
-    const { title, blocks } = this.props;
+    const { title, blocks, handleParagraphLoaded } = this.props;
     return (
       <div className="container quiz textarea">
         <div className="row">
@@ -27,7 +34,7 @@ class TextArea extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              <Paragraphs blocks={blocks} />
+              <Paragraphs blocks={blocks} handleParagraphLoaded={handleParagraphLoaded} />
             </div>
             }
 
@@ -46,9 +53,10 @@ class TextArea extends React.Component {
 
 TextArea.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.number,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
+  handleParagraphLoaded: PropTypes.func,
 };
 
 TextArea.defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
 import { fileUrl } from '../../../../utils/url';
 
@@ -18,6 +19,13 @@ class Audio extends React.Component {
     this.playerLoaded = this.playerLoaded.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
+  }
+
+  componentDidMount() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
   }
 
   formatDuration(duration) {
@@ -63,7 +71,6 @@ class Audio extends React.Component {
         <div className="row">
           <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
 
-            {this.state.duration !== '' &&
             <div className="player">
 
               <div className="controls">
@@ -94,7 +101,6 @@ class Audio extends React.Component {
                 {this.state.duration}
               </div>
             </div>
-            }
 
             <ReactHowler
               src={fileUrl(file.url)}
@@ -108,5 +114,15 @@ class Audio extends React.Component {
     );
   }
 }
+
+Audio.propTypes = {
+  id: PropTypes.number,
+  type: PropTypes.string,
+  settings: PropTypes.object,
+  handleParagraphLoaded: PropTypes.func,
+  file: PropTypes.shape({
+    url: PropTypes.string,
+  }),
+};
 
 export default Audio;
