@@ -114,6 +114,9 @@ class LessonContent extends React.Component {
         });
       }
     });
+
+    console.log('List of paragraphs on the page:');
+    console.log(this.paragraphsToLoad);
   }
 
   /**
@@ -125,6 +128,10 @@ class LessonContent extends React.Component {
     const index = this.paragraphsToLoad.findIndex(id => id === paragraphId);
     if (index !== -1) {
       this.paragraphsToLoad.splice(index, 1);
+
+      console.log('Paragraph ' + paragraphId + ' is loaded. Remaining:');
+      console.log(this.paragraphsToLoad);
+
       if (!this.paragraphsToLoad.length ) {
         console.log('All paragraphs loaded!');
         this.updateReadProgress();
