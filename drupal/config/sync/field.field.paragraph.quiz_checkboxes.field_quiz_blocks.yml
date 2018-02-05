@@ -1,0 +1,76 @@
+uuid: ef3f6a53-a16d-4df5-9932-bdaa8aa72663
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_blocks
+    - paragraphs.paragraphs_type.image_centered_caption
+    - paragraphs.paragraphs_type.media_audio
+    - paragraphs.paragraphs_type.media_video
+    - paragraphs.paragraphs_type.quiz_checkboxes
+    - paragraphs.paragraphs_type.text_text
+  module:
+    - entity_reference_revisions
+id: paragraph.quiz_checkboxes.field_quiz_blocks
+field_name: field_quiz_blocks
+entity_type: paragraph
+bundle: quiz_checkboxes
+label: 'Question details'
+description: 'Optionally add an image or any other media to your question. '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_centered_caption: image_centered_caption
+      media_audio: media_audio
+      media_video: media_video
+      text_text: text_text
+    target_bundles_drag_drop:
+      quiz_checkboxes:
+        weight: 15
+        enabled: false
+      divider_numbered:
+        weight: 16
+        enabled: false
+      divider_simple:
+        weight: 17
+        enabled: false
+      image_centered_caption:
+        enabled: true
+        weight: 18
+      image_full_text:
+        weight: 19
+        enabled: false
+      list_bullet:
+        weight: 20
+        enabled: false
+      list_checkbox:
+        weight: 21
+        enabled: false
+      list_numbered:
+        weight: 22
+        enabled: false
+      media_audio:
+        enabled: true
+        weight: 23
+      media_video:
+        enabled: true
+        weight: 24
+      text_heading:
+        weight: 25
+        enabled: false
+      text_heading_text:
+        weight: 26
+        enabled: false
+      text_subheading:
+        weight: 27
+        enabled: false
+      text_text:
+        enabled: true
+        weight: 28
+field_type: entity_reference_revisions
