@@ -11,6 +11,13 @@ class ComboBoxes extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleChange(id, value) {
     if (this.props.handleQuizChange) {
       this.props.handleQuizChange(this.props.id, id);
@@ -18,7 +25,7 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, list, title, blocks } = this.props;
+    const { id, list, title, blocks, handleParagraphLoaded } = this.props;
 
     return (
       <div className="container quiz comboboxes">
@@ -28,7 +35,7 @@ class ComboBoxes extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              <Paragraphs blocks={blocks} />
+              <Paragraphs blocks={blocks} handleParagraphLoaded={handleParagraphLoaded} />
             </div>
             }
 
@@ -50,13 +57,14 @@ class ComboBoxes extends React.Component {
 
 ComboBoxes.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.number,
   list: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
   })),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
+  handleParagraphLoaded: PropTypes.func,
 };
 
 ComboBoxes.defaultProps = {
