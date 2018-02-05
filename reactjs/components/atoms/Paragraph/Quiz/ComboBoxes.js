@@ -21,6 +21,13 @@ class ComboBoxes extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleAddSelection(radioId) {
     this.setState({ active: radioId });
 

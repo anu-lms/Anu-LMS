@@ -103,6 +103,9 @@ class LessonContent extends React.Component {
    */
   updateParagraphsList(props) {
 
+    // Clear paragraphs list.
+    this.paragraphsToLoad = [];
+
     // Mark all blocks as "needs to be loaded".
     props.lesson.blocks.forEach(block => {
       this.paragraphsToLoad.push(block.id);

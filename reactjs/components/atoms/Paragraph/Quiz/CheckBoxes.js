@@ -23,6 +23,13 @@ class Checkboxes extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleChange(id, value) {
     this.setState(state => {
       state[id] = value + 0; // Convert to int.
