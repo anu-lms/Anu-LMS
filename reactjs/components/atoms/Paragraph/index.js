@@ -37,7 +37,12 @@ const Paragraphs = dynamic({
     return (
       blocks.map((block, index) => {
         const Paragraph = components[block.type];
-        return <Paragraph key={index} {...block} {...props} />;
+        return (
+          <Fragment key={index}>
+            <div className="d-print-block">{block.id}</div>
+            <Paragraph key={index} {...block} {...props} />
+          </Fragment>
+        );
       })
     );
   },
