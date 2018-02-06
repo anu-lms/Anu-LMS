@@ -3,12 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.quiz_result.quiz_result_text
-    - field.storage.quiz_result.field_text_answer
-id: quiz_result.quiz_result_text.field_text_answer
-field_name: field_text_answer
+    - eck.eck_type.quiz_result.quiz_result_free_answer
+    - field.storage.quiz_result.field_free_answer_answer
+id: quiz_result.quiz_result_free_answer.field_free_answer_answer
+field_name: field_free_answer_answer
 entity_type: quiz_result
-bundle: quiz_result_text
+bundle: quiz_result_free_answer
 label: Answer
 description: ''
 required: true

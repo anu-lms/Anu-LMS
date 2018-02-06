@@ -3,15 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.quiz_result.quiz_result_text
-    - field.field.quiz_result.quiz_result_text.field_lesson
-    - field.field.quiz_result.quiz_result_text.field_question
-    - field.field.quiz_result.quiz_result_text.field_text_answer
+    - eck.eck_type.quiz_result.quiz_result_free_answer
+    - field.field.quiz_result.quiz_result_free_answer.field_lesson
+    - field.field.quiz_result.quiz_result_free_answer.field_question
+    - field.field.quiz_result.quiz_result_free_answer.field_free_answer_answer
   module:
     - entity_reference_revisions
-id: quiz_result.quiz_result_text.default
+id: quiz_result.quiz_result_free_answer.default
 targetEntityType: quiz_result
-bundle: quiz_result_text
+bundle: quiz_result_free_answer
 mode: default
 content:
   created:
@@ -38,7 +38,7 @@ content:
     third_party_settings: {  }
     type: entity_reference_revisions_autocomplete
     region: content
-  field_text_answer:
+  field_free_answer_answer:
     weight: 28
     settings:
       rows: 5

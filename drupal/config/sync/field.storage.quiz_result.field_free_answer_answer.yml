@@ -4,8 +4,8 @@ status: true
 dependencies:
   module:
     - eck
-id: quiz_result.field_text_answer
-field_name: field_text_answer
+id: quiz_result.field_free_answer_answer
+field_name: field_free_answer_answer
 entity_type: quiz_result
 type: string_long
 settings:
