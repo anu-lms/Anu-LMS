@@ -1,0 +1,20 @@
+uuid: ce9ba12e-075b-41eb-9ccd-a202d6daa381
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+id: quiz_result.field_linear_scale_answer
+field_name: field_linear_scale_answer
+entity_type: quiz_result
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

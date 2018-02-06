@@ -1,0 +1,21 @@
+uuid: a211aa63-b46a-4dc9-b75c-bb512629a20c
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+    - entity_reference_revisions
+    - paragraphs
+id: quiz_result.field_question
+field_name: field_question
+entity_type: quiz_result
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

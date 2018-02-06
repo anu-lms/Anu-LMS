@@ -1,0 +1,79 @@
+uuid: f8c8e70a-a548-4a3d-8d5c-f03a0be853ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_linear_scale
+    - field.storage.quiz_result.field_question
+    - paragraphs.paragraphs_type.quiz_linear_scale
+  module:
+    - entity_reference_revisions
+id: quiz_result.quiz_result_linear_scale.field_question
+field_name: field_question
+entity_type: quiz_result
+bundle: quiz_result_linear_scale
+label: Question
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      quiz_linear_scale: quiz_linear_scale
+    target_bundles_drag_drop:
+      divider_numbered:
+        weight: 18
+        enabled: false
+      divider_simple:
+        weight: 19
+        enabled: false
+      image_centered_caption:
+        weight: 20
+        enabled: false
+      image_full_text:
+        weight: 21
+        enabled: false
+      list_bullet:
+        weight: 22
+        enabled: false
+      list_checkbox:
+        weight: 23
+        enabled: false
+      list_numbered:
+        weight: 24
+        enabled: false
+      media_audio:
+        weight: 25
+        enabled: false
+      media_video:
+        weight: 26
+        enabled: false
+      quiz_checkboxes:
+        weight: 27
+        enabled: false
+      quiz_comboboxes:
+        weight: 28
+        enabled: false
+      quiz_free_answer:
+        weight: 29
+        enabled: false
+      quiz_linear_scale:
+        enabled: true
+        weight: 30
+      text_heading:
+        weight: 31
+        enabled: false
+      text_heading_text:
+        weight: 32
+        enabled: false
+      text_subheading:
+        weight: 33
+        enabled: false
+      text_text:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

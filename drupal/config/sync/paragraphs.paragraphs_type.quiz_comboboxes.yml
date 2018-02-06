@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: quiz_comboboxes
-label: 'Quiz (single option)'
+label: 'Quiz (comboboxes)'
 icon_uuid: null
 description: 'Quiz with a single option.'
 behavior_plugins: {  }

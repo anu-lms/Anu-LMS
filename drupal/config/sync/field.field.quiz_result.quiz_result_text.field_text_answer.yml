@@ -1,0 +1,19 @@
+uuid: 6f9c12ba-5f85-483e-8b6f-f2ba4ff47328
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_text
+    - field.storage.quiz_result.field_text_answer
+id: quiz_result.quiz_result_text.field_text_answer
+field_name: field_text_answer
+entity_type: quiz_result
+bundle: quiz_result_text
+label: Answer
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

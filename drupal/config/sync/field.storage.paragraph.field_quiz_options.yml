@@ -1,0 +1,22 @@
+uuid: b26760ce-c080-44ef-8af3-4d52d13b8f9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_quizzes
+    - paragraphs
+id: paragraph.field_quiz_options
+field_name: field_quiz_options
+entity_type: paragraph
+type: quiz_option
+settings:
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: anu_quizzes
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
