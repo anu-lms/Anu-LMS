@@ -3,15 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.quiz_result.quiz_result_text
+    - eck.eck_type.quiz_result.quiz_result_free_answer
     - field.storage.quiz_result.field_question
     - paragraphs.paragraphs_type.quiz_free_answer
   module:
     - entity_reference_revisions
-id: quiz_result.quiz_result_text.field_question
+id: quiz_result.quiz_result_free_answer.field_question
 field_name: field_question
 entity_type: quiz_result
-bundle: quiz_result_text
+bundle: quiz_result_free_answer
 label: Question
 description: ''
 required: true

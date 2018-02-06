@@ -3,13 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.quiz_result.quiz_result_text
+    - eck.eck_type.quiz_result.quiz_result_free_answer
     - field.storage.quiz_result.field_lesson
     - node.type.lesson
-id: quiz_result.quiz_result_text.field_lesson
+id: quiz_result.quiz_result_free_answer.field_lesson
 field_name: field_lesson
 entity_type: quiz_result
-bundle: quiz_result_text
+bundle: quiz_result_free_answer
 label: Lesson
 description: ''
 required: true

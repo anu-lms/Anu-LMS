@@ -5,5 +5,5 @@ dependencies:
   config:
     - eck.eck_entity_type.quiz_result
 name: 'Free answer'
-type: quiz_result_text
+type: quiz_result_free_answer
 description: ''

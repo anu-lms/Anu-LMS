@@ -8,7 +8,7 @@ dependencies:
     - field.storage.quiz_result.field_lesson
     - field.storage.quiz_result.field_linear_scale_answer
     - field.storage.quiz_result.field_options_answer
-    - field.storage.quiz_result.field_text_answer
+    - field.storage.quiz_result.field_free_answer_answer
   module:
     - eck
     - node
@@ -85,7 +85,7 @@ display:
           description: ''
           columns:
             field_paragraph_title: field_paragraph_title
-            field_text_answer: field_text_answer
+            field_free_answer_answer: field_free_answer_answer
             field_options_answer: field_options_answer
             field_linear_scale_answer: field_linear_scale_answer
             id: id
@@ -100,7 +100,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_text_answer:
+            field_free_answer_answer:
               align: ''
               separator: ''
               empty_column: false
@@ -213,10 +213,10 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_text_answer:
-          id: field_text_answer
-          table: quiz_result__field_text_answer
-          field: field_text_answer
+        field_free_answer_answer:
+          id: field_free_answer_answer
+          table: quiz_result__field_free_answer_answer
+          field: field_free_answer_answer
           relationship: none
           group_type: group
           admin_label: ''
@@ -413,7 +413,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ field_text_answer }}{{ field_options_answer }}{{ field_linear_scale_answer }}'
+            text: '{{ field_free_answer_answer }}{{ field_options_answer }}{{ field_linear_scale_answer }}'
             make_link: false
             path: ''
             absolute: false
@@ -907,7 +907,7 @@ display:
         - 'config:field.storage.quiz_result.field_lesson'
         - 'config:field.storage.quiz_result.field_linear_scale_answer'
         - 'config:field.storage.quiz_result.field_options_answer'
-        - 'config:field.storage.quiz_result.field_text_answer'
+        - 'config:field.storage.quiz_result.field_free_answer_answer'
   page_1:
     display_plugin: page
     id: page_1
@@ -939,4 +939,4 @@ display:
         - 'config:field.storage.quiz_result.field_lesson'
         - 'config:field.storage.quiz_result.field_linear_scale_answer'
         - 'config:field.storage.quiz_result.field_options_answer'
-        - 'config:field.storage.quiz_result.field_text_answer'
+        - 'config:field.storage.quiz_result.field_free_answer_answer'
