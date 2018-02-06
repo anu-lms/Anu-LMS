@@ -58,6 +58,8 @@ module:
   panels: 0
   path: 0
   pathauto: 0
+  rest: 0
+  restui: 0
   role_delegation: 0
   serialization: 0
   simple_oauth: 0
