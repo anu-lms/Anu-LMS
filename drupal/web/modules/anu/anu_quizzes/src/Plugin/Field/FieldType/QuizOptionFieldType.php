@@ -81,6 +81,15 @@ class QuizOptionFieldType extends StringItem {
   /**
    * {@inheritdoc}
    */
+  public static function defaultFieldSettings() {
+    $settings = ['type' => 'single'];
+
+    return $settings + parent::defaultFieldSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function fieldSettingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::fieldSettingsForm($form, $form_state);
     $settings = $this->getSettings();

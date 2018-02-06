@@ -13,9 +13,10 @@ entity_type: paragraph
 bundle: quiz_checkboxes
 label: Options
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  type: multiple
 field_type: quiz_option
