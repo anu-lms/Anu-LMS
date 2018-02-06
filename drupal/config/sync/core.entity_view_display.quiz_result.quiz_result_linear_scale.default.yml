@@ -1,0 +1,61 @@
+uuid: 03417a61-a08b-41f1-a6ba-70518252b8e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_linear_scale
+    - field.field.quiz_result.quiz_result_linear_scale.field_lesson
+    - field.field.quiz_result.quiz_result_linear_scale.field_linear_scale_answer
+    - field.field.quiz_result.quiz_result_linear_scale.field_question
+  module:
+    - user
+id: quiz_result.quiz_result_linear_scale.default
+targetEntityType: quiz_result
+bundle: quiz_result_linear_scale
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_lesson:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_linear_scale_answer:
+    weight: 1
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_question:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  changed: true
+  langcode: true

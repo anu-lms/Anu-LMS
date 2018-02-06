@@ -1,0 +1,19 @@
+uuid: 9dfc9d9c-6d33-4832-8bb7-27c7c4f44000
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+id: quiz_result.field_text_answer
+field_name: field_text_answer
+entity_type: quiz_result
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
