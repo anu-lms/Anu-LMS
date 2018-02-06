@@ -7,6 +7,8 @@ dependencies:
     - field.field.quiz_result.quiz_result_text.field_lesson
     - field.field.quiz_result.quiz_result_text.field_question
     - field.field.quiz_result.quiz_result_text.field_text_answer
+  module:
+    - entity_reference_revisions
 id: quiz_result.quiz_result_text.default
 targetEntityType: quiz_result
 bundle: quiz_result_text
@@ -28,13 +30,13 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_question:
-    weight: 12
+    weight: 14
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: entity_reference_revisions_autocomplete
     region: content
   field_text_answer:
     weight: 11

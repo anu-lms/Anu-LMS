@@ -6,6 +6,8 @@ dependencies:
     - eck.eck_type.quiz_result.quiz_result_checkboxes
     - field.field.quiz_result.quiz_result_checkboxes.field_lesson
     - field.field.quiz_result.quiz_result_checkboxes.field_question
+  module:
+    - paragraphs
 id: quiz_result.quiz_result_checkboxes.default
 targetEntityType: quiz_result
 bundle: quiz_result_checkboxes
@@ -27,13 +29,16 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_question:
-    weight: 11
+    type: entity_reference_paragraphs
+    weight: 13
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
     region: content
   langcode:
     type: language_select
