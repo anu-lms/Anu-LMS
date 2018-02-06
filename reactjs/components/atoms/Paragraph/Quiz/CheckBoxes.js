@@ -9,8 +9,8 @@ class Checkboxes extends React.Component {
     super(props);
 
     this.state = {};
-    props.list.forEach(checkbox => {
-      this.state[checkbox.id] = 0;
+    props.options.forEach(checkbox => {
+      this.state[checkbox.uuid] = 0;
     });
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,7 +43,7 @@ class Checkboxes extends React.Component {
   }
 
   render() {
-    const { title, blocks, handleParagraphLoaded } = this.props;
+    const { title, blocks, options, handleParagraphLoaded } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">
@@ -56,11 +56,11 @@ class Checkboxes extends React.Component {
             </div>
             }
 
-            {this.props.list.map(checkbox => (
+            {options.map(checkbox => (
               <Checkbox
-                label={checkbox.label}
-                id={checkbox.id}
-                key={checkbox.id}
+                label={checkbox.value}
+                id={checkbox.uuid}
+                key={checkbox.uuid}
                 onChange={this.handleChange}
               />
             ))}
@@ -74,9 +74,10 @@ class Checkboxes extends React.Component {
 Checkboxes.propTypes = {
   title: PropTypes.string,
   id: PropTypes.number,
-  list: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string,
+    value: PropTypes.string,
+    is_answer: PropTypes.number,
   })),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,

@@ -75,9 +75,9 @@ class LessonContent extends React.Component {
     const { storeLessons, lesson, course } = this.props;
 
     const readThrough = window.pageYOffset + window.innerHeight;
-    const containerHeight = this.refs.container.clientHeight;
+    const pageHeight = document.body.offsetHeight;
 
-    const progress = readThrough > containerHeight ? 100 : readThrough / containerHeight * 100;
+    const progress = readThrough >= pageHeight ? 100 : readThrough / pageHeight * 100;
 
     const existingProgress = lessonHelpers.getProgress(storeLessons, lesson.id);
     if (progress > existingProgress) {
@@ -190,6 +190,9 @@ class LessonContent extends React.Component {
   async submitQuizzes() {
     this.setState({ isSending: true });
 
+    console.log('Submitting data:');
+    console.log(this.props.quizzesData);
+
     // Get superagent request with authentication.
     const request = this.context.request();
 
@@ -257,7 +260,7 @@ class LessonContent extends React.Component {
 
     return (
       <div
-        ref="container"
+
         className={`lesson-container ${navigation.isCollapsed ? 'nav-collapsed' : ''}`}
       >
 
@@ -269,7 +272,7 @@ class LessonContent extends React.Component {
           </div>
         </div>
 
-        <div className="lesson-content">
+        <div className="lesson-content" ref={element => this.container = element}>
           <Paragraphs
             blocks={lesson.blocks}
             handleQuizChange={this.handleQuizChange}
