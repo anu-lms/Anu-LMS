@@ -59,6 +59,28 @@ export const courseData = (courseData) => {
   };
 };
 
+export const lessonData = (lessonData) => {
+
+  const lesson = lessonData.entityId;
+
+  let blocks = [];
+  if (lesson.fieldLessonBlocks) {
+    blocks = processParagraphs(lesson.fieldLessonBlocks);
+  }
+
+  return {
+    id: lesson.nid,
+    uuid: lesson.id,
+    url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
+    title: lesson.title,
+    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
+    blocks
+  };
+};
+
+/**
+ * Internal helper to process paragraphs data from the backend.
+ */
 const processParagraphs = (paragraphs) => {
   let blocks = [];
   let counter = 1;
@@ -89,48 +111,33 @@ const processParagraphs = (paragraphs) => {
           // Remove 'fieldParagraph' prefix.
           prop = property.substr(14).toLowerCase();
         }
-        else if (property.startsWith('fieldQuiz')) {
-          // Remove 'fieldQuiz' prefix.
-          prop = property.substr(9).toLowerCase();
+        else
+          if (property.startsWith('fieldQuiz')) {
+            // Remove 'fieldQuiz' prefix.
+            prop = property.substr(9).toLowerCase();
+          }
+
+        if (prop === 'blocks') {
+          blocks[order][prop] = processParagraphs(block[property]);
         }
 
-        if (prop) {
-
-          // Custom.
-          if (prop.startsWith('linearscale')) {
-            prop = prop.substr(11);
-          }
-
-          if (prop === 'blocks') {
-            blocks[order][prop] = processParagraphs(block[property]);
-          }
-          else {
-            blocks[order][prop] = block[property];
-          }
+        else if (prop) {
+          blocks[order][prop] = block[property];
         }
       }
     }
   });
 
+  // Custom mapping for linear scale fields.
+  blocks = blocks.map(block => {
+
+    if (block.type === 'quiz_linear_scale') {
+      block.from = block.linearscalefrom;
+      block.to = block.linearscaleto;
+    }
+
+    return block;
+  });
+
   return blocks;
 };
-
-export const lessonData = (lessonData) => {
-
-  const lesson = lessonData.entityId;
-
-  let blocks = [];
-  if (lesson.fieldLessonBlocks) {
-    blocks = processParagraphs(lesson.fieldLessonBlocks);
-  }
-
-  return {
-    id: lesson.nid,
-    uuid: lesson.id,
-    url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
-    title: lesson.title,
-    blocks
-  };
-};
-
-

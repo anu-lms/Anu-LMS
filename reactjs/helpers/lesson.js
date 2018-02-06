@@ -11,7 +11,7 @@ export const getUrl = (coursePath, slug) => (
 );
 
 export const isAssessment = lesson => (
-  false
+  lesson.isAssessment
 );
 
 export const hasQuizzes = lesson => {
