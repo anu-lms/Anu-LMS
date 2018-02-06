@@ -9,7 +9,7 @@ class LinearScale extends React.Component {
     super(props);
 
     this.state = {
-      value: Math.round(props.to / 2),
+      value: Math.round(props.to.first / 2),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -41,7 +41,7 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, labelFrom, labelTo, blocks, handleParagraphLoaded } = this.props;
+    const { title, from, to, blocks, handleParagraphLoaded } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">
@@ -55,16 +55,16 @@ class LinearScale extends React.Component {
             }
 
             <Slider
-              min={from}
-              max={to}
-              defaultValue={Math.round(to / 2)}
+              min={from.first}
+              max={to.first}
+              defaultValue={Math.round(to.first / 2)}
               onChange={this.handleChange}
               onAfterChange={this.handleAfterChange}
             />
 
             <div className="labels">
-              <div className="from">{labelFrom}</div>
-              <div className="to">{labelTo}</div>
+              <div className="from">{from.second}</div>
+              <div className="to">{to.second}</div>
             </div>
 
             <div className="current-value">
@@ -81,10 +81,14 @@ class LinearScale extends React.Component {
 LinearScale.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  from: PropTypes.number.isRequired,
-  to: PropTypes.number.isRequired,
-  labelFrom: PropTypes.string.isRequired,
-  labelTo: PropTypes.string.isRequired,
+  from: PropTypes.shape({
+    first: PropTypes.number,
+    second: PropTypes.string,
+  }).isRequired,
+  to: PropTypes.shape({
+    first: PropTypes.number,
+    second: PropTypes.string,
+  }).isRequired,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

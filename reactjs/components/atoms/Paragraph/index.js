@@ -21,7 +21,7 @@ const Paragraphs = dynamic({
       'quiz_checkboxes': import('./Quiz/CheckBoxes'),
       'quiz_comboboxes': import('./Quiz/ComboBoxes'),
       'quiz_linear_scale': import('./Quiz/LinearScale'),
-      'quiz_textarea': import('./Quiz/TextArea'),
+      'quiz_free_answer': import('./Quiz/FreeAnswer'),
     };
 
     // Gather list of components which are needed on the lesson page.

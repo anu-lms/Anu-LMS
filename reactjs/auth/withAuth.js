@@ -15,8 +15,6 @@ export default function withAuth(PageComponent) {
         accessToken: props.accessToken,
         refreshToken: props.refreshToken,
       };
-
-      this.getRequest = this.getRequest.bind(this);
     }
 
     isLogged = () => {
@@ -25,7 +23,6 @@ export default function withAuth(PageComponent) {
 
 
     getRequest() {
-      console.log(this.state.accessToken);
       return request.set('Authorization', `Bearer ${this.state.accessToken}`);
     }
 
@@ -38,7 +35,7 @@ export default function withAuth(PageComponent) {
         isLogged: PropTypes.bool,
         login: PropTypes.func,
       }),
-      request: PropTypes.object,
+      request: PropTypes.func,
     };
 
     getChildContext() {
