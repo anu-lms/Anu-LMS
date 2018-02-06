@@ -1,0 +1,28 @@
+uuid: 0f61448a-af1d-405d-bd20-e094c43af134
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_comboboxes
+    - field.storage.quiz_result.field_question
+    - node.type.course
+id: quiz_result.quiz_result_comboboxes.field_question
+field_name: field_question
+entity_type: quiz_result
+bundle: quiz_result_comboboxes
+label: Question
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      course: course
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

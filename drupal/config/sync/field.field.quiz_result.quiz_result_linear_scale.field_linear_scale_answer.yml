@@ -1,0 +1,23 @@
+uuid: 335994d6-88c9-4d13-95bf-78de2f2aa8e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_linear_scale
+    - field.storage.quiz_result.field_linear_scale_answer
+id: quiz_result.quiz_result_linear_scale.field_linear_scale_answer
+field_name: field_linear_scale_answer
+entity_type: quiz_result
+bundle: quiz_result_linear_scale
+label: Answer
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

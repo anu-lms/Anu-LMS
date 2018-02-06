@@ -1,0 +1,28 @@
+uuid: 7329a1dc-7966-4d1b-8ed6-2ecc3a26bcc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_checkboxes
+    - field.storage.quiz_result.field_lesson
+    - node.type.lesson
+id: quiz_result.quiz_result_checkboxes.field_lesson
+field_name: field_lesson
+entity_type: quiz_result
+bundle: quiz_result_checkboxes
+label: Lesson
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      lesson: lesson
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

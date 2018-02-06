@@ -1,0 +1,10 @@
+uuid: 95af5668-d65f-4211-8663-c6dc437ebf2d
+langcode: en
+status: true
+dependencies: {  }
+id: quiz_result
+label: 'Quiz result'
+created: true
+changed: true
+uid: true
+title: false

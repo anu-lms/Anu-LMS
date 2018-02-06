@@ -1,0 +1,51 @@
+uuid: b12e5290-c719-4244-b7c5-69ddb5493a76
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_comboboxes
+    - field.field.quiz_result.quiz_result_comboboxes.field_lesson
+    - field.field.quiz_result.quiz_result_comboboxes.field_question
+  module:
+    - user
+id: quiz_result.quiz_result_comboboxes.default
+targetEntityType: quiz_result
+bundle: quiz_result_comboboxes
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_lesson:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_question:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  changed: true
+  langcode: true

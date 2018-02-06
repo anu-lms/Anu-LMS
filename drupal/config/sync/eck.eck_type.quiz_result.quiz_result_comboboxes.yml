@@ -1,0 +1,9 @@
+uuid: 585f7266-e427-46c6-819f-67eba8fc2e34
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.quiz_result
+name: Comboboxes
+type: quiz_result_comboboxes
+description: ''

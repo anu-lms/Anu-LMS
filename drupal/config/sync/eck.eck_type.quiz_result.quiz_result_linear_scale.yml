@@ -1,0 +1,9 @@
+uuid: 9963ddde-5829-4a2f-a0fd-6ad9a9be6cc1
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.quiz_result
+name: 'Linear scale'
+type: quiz_result_linear_scale
+description: ''
