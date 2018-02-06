@@ -6,6 +6,8 @@ dependencies:
     - eck.eck_type.quiz_result.quiz_result_comboboxes
     - field.field.quiz_result.quiz_result_comboboxes.field_lesson
     - field.field.quiz_result.quiz_result_comboboxes.field_question
+  module:
+    - entity_reference_revisions
 id: quiz_result.quiz_result_comboboxes.default
 targetEntityType: quiz_result
 bundle: quiz_result_comboboxes
@@ -27,13 +29,13 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_question:
-    weight: 11
+    weight: 13
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: entity_reference_revisions_autocomplete
     region: content
   langcode:
     type: language_select

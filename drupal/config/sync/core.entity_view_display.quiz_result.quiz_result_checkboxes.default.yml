@@ -7,6 +7,7 @@ dependencies:
     - field.field.quiz_result.quiz_result_checkboxes.field_lesson
     - field.field.quiz_result.quiz_result_checkboxes.field_question
   module:
+    - entity_reference_revisions
     - user
 id: quiz_result.quiz_result_checkboxes.default
 targetEntityType: quiz_result
@@ -32,12 +33,13 @@ content:
     type: entity_reference_label
     region: content
   field_question:
-    weight: 1
+    type: entity_reference_revisions_entity_view
+    weight: 3
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: entity_reference_label
     region: content
   uid:
     label: hidden

@@ -7,6 +7,8 @@ dependencies:
     - field.field.quiz_result.quiz_result_linear_scale.field_lesson
     - field.field.quiz_result.quiz_result_linear_scale.field_linear_scale_answer
     - field.field.quiz_result.quiz_result_linear_scale.field_question
+  module:
+    - entity_reference_revisions
 id: quiz_result.quiz_result_linear_scale.default
 targetEntityType: quiz_result
 bundle: quiz_result_linear_scale
@@ -35,13 +37,13 @@ content:
     type: number
     region: content
   field_question:
-    weight: 12
+    weight: 14
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: entity_reference_revisions_autocomplete
     region: content
   langcode:
     type: language_select

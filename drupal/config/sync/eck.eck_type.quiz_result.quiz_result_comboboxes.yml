@@ -4,6 +4,6 @@ status: true
 dependencies:
   config:
     - eck.eck_entity_type.quiz_result
-name: Comboboxes
+name: 'Single option'
 type: quiz_result_comboboxes
 description: ''
