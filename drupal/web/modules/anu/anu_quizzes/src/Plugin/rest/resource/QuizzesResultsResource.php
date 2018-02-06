@@ -85,11 +85,6 @@ class QuizzesResultsResource extends ResourceBase {
       if (empty($lesson)) {
         throw new \Exception('Wrong lesson id: ' . $data['lessonId']);
       }
-      foreach ($lesson->field_lesson_blocks as $field_lesson_block) {
-        if (!in_array($field_lesson_block->id(), $quiz_ids)) {
-          throw new \Exception("Lesson doesn't contain submitted Quiz: " . $field_lesson_block->id());
-        }
-      }
 
       $quizzes = \Drupal::entityTypeManager()->getStorage('paragraph')->loadMultiple($quiz_ids);
       foreach ($quizzes as $quiz) {
