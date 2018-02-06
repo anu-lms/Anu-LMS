@@ -80,6 +80,16 @@ class QuizzesResultsResource extends ResourceBase {
     //$this->logger->debug(print_r($data, 1));
 
     try {
+//      $entity_type_mgr = \Drupal::getContainer()->get('entity_type.manager');
+//
+//      $entity = $entity_type_mgr->getStorage('quiz_result')->create(
+//        array(
+//          'type' => 'quiz_result_text',
+//          'uid' => '1',
+//        )
+//      );
+//      $entity->setNewRevision(TRUE);
+//      $entity->save();
 
       // TODO: Check that lesson exists.
 
