@@ -73,6 +73,7 @@ export const lessonData = (lessonData) => {
     uuid: lesson.id,
     url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
     title: lesson.title,
+    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
     blocks
   };
 };
