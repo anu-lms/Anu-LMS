@@ -5,6 +5,7 @@ dependencies:
   config:
     - eck.eck_type.quiz_result.quiz_result_checkboxes
     - field.field.quiz_result.quiz_result_checkboxes.field_lesson
+    - field.field.quiz_result.quiz_result_checkboxes.field_options_answer
     - field.field.quiz_result.quiz_result_checkboxes.field_question
   module:
     - paragraphs
@@ -27,6 +28,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_options_answer:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_question:
     type: entity_reference_paragraphs
