@@ -155,8 +155,8 @@ class LessonContent extends React.Component {
   /**
    * Handle click on "Submit Assessment" button.
    */
-  submitAssessment() {
-    const result = this.submitQuizzes();
+  async submitAssessment() {
+    const result = await this.submitQuizzes();
     if (result) {
       Alert.success('Thank you, the assessment has been successfully submitted.');
     }
@@ -168,11 +168,11 @@ class LessonContent extends React.Component {
   /**
    * Handle click on "Submit and Continue" button.
    */
-  submitQuizzesAndRedirect() {
+  async submitQuizzesAndRedirect() {
     const { lesson, course } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
 
-    const result = this.submitQuizzes();
+    const result = await this.submitQuizzes();
     if (result) {
       Alert.success('Thank you, the quizzes have been successfully submitted.');
       if (nextLesson) {
@@ -198,6 +198,8 @@ class LessonContent extends React.Component {
 
     try {
       const tokenResponse = await request.get('/session/token');
+
+      // TODO: Test case when auth token has expired.
       await request
         .post('/quizzes/results')
         .set('Content-Type', 'application/json')
