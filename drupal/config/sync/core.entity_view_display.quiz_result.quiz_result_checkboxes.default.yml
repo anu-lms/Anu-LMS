@@ -42,13 +42,13 @@ content:
     type: string
     region: content
   field_question:
-    type: entity_reference_revisions_entity_view
-    weight: 3
+    weight: 5
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
     region: content
   uid:
     label: hidden
