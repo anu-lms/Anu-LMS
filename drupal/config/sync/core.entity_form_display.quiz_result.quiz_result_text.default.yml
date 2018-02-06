@@ -1,4 +1,4 @@
-uuid: 0d9f1a68-640f-4845-b1f6-82f15cd7a505
+uuid: 425019a1-4944-4298-879e-b09b76d604b6
 langcode: en
 status: true
 dependencies:
@@ -21,7 +21,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_lesson:
-    weight: 13
+    weight: 27
     settings:
       match_operator: CONTAINS
       size: 60
@@ -39,7 +39,7 @@ content:
     type: entity_reference_revisions_autocomplete
     region: content
   field_text_answer:
-    weight: 11
+    weight: 28
     settings:
       rows: 5
       placeholder: ''
