@@ -111,6 +111,9 @@
     "patches": {
       "drupal/require_login": {
         "Make redirect happen to the right place": "patches/require_login-destination-fix.patch"
+      },
+      "drupal/eck": {
+        "Add revision support": "https://www.drupal.org/files/issues/eck_revisions-2788507-52.patch"
       }
     }
   }
