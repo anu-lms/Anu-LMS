@@ -37,7 +37,7 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, list, title, blocks, handleParagraphLoaded } = this.props;
+    const { id, options, title, blocks, handleParagraphLoaded } = this.props;
 
     return (
       <div className="container quiz comboboxes">
@@ -51,17 +51,17 @@ class ComboBoxes extends React.Component {
             </div>
             }
 
-            {list.map(radio => (
-              <div className="radio" key={radio.id}>
+            {options.map(radio => (
+              <div className="radio" key={radio.uuid}>
                 <input
                   type="radio"
                   name={id}
-                  value={radio.id}
-                  checked={this.state.active === radio.id}
+                  value={radio.uuid}
+                  checked={this.state.active === radio.uuid}
                 />
-                <span onClick={() => this.handleAddSelection(radio.id)} />
-                <label onClick={() => this.handleAddSelection(radio.id)}>
-                  {radio.label}
+                <span onClick={() => this.handleAddSelection(radio.uuid)} />
+                <label onClick={() => this.handleAddSelection(radio.uuid)}>
+                  {radio.value}
                   </label>
               </div>
             ))}
@@ -73,11 +73,12 @@ class ComboBoxes extends React.Component {
 }
 
 ComboBoxes.propTypes = {
-  title: PropTypes.string,
-  id: PropTypes.number,
-  list: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string,
+    value: PropTypes.string,
+    is_answer: PropTypes.number,
   })),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
