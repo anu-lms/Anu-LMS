@@ -70,6 +70,8 @@ class QuizzesResultsResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
+   * Creates or updates Quiz results entity by given POST data.
+   *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
@@ -77,43 +79,64 @@ class QuizzesResultsResource extends ResourceBase {
     // Make sure all necessary fields are there.
     $data = array_replace_recursive($this->defaults, $data);
 
-    //$this->logger->debug(print_r($data, 1));
-
     try {
-      $node_storage = \Drupal::entityTypeManager()->getStorage('node');
-
+      $quiz_ids = array_keys($data['quizzes']);
       $lesson = \Drupal::entityTypeManager()->getStorage('node')->load($data['lessonId']);
       if (empty($lesson)) {
-
+        throw new \Exception('Wrong lesson id: ' . $data['lessonId']);
+      }
+      foreach ($lesson->field_lesson_blocks as $field_lesson_block) {
+        if (!in_array($field_lesson_block->id(), $quiz_ids)) {
+          throw new \Exception("Lesson doesn't contain submitted Quiz: " . $field_lesson_block->id());
+        }
       }
 
-      $quiz_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+      $quizzes = \Drupal::entityTypeManager()->getStorage('paragraph')->loadMultiple($quiz_ids);
+      foreach ($quizzes as $quiz) {
+        $quiz_id = $quiz->id();
+        $raw_type = substr($quiz->bundle(), 5); // One of checkboxes, comboboxes, free_answer or linear_scale.
+        $quiz_result_type = 'quiz_result_' . $raw_type;
 
-      $quizzes = $quiz_storage->loadMultiple(array_keys($data['quizzes']));
+        // Search for existing quiz result entity.
+        $entities = \Drupal::entityTypeManager()->getStorage('quiz_result')->loadByProperties([
+          'uid' => \Drupal::currentUser()->id(),
+          'type' => $quiz_result_type,
+          'field_lesson' => $data['lessonId'],
+          'field_question' => $quiz_id
+        ]);
 
-      foreach ($quizzes as $quizze) {
-        $quiz_id = $quizze->id();
-        $raw_type = substr($quizze->bundle(), 5);
+        // Create a revision for existing entity or create a new one.
+        if (!empty($entities)) {
+          $entity = reset($entities);
+        }
+        else {
+          $entity = \Drupal::entityTypeManager()->getStorage('quiz_result')->create([
+              'type' => $quiz_result_type,
+              'field_lesson' => $data['lessonId'],
+            ]
+          );
+        }
 
-        $entity = \Drupal::entityTypeManager()->getStorage('quiz_result')->create([
-            'type' => 'quiz_result_' . $raw_type,
-          ]
-        );
-        $entity->field_lesson = $data['lessonId'];
+        // Fill Question field.
         $entity->field_question = [
-          'target_id' => $quizze->id(),
-          'target_revision_id' => $quizze->getRevisionId()
+          'target_id' => $quiz->id(),
+          'target_revision_id' => $quiz->getRevisionId()
         ];
 
+        // Fill Answer field. Format of the field depends on Quiz result bundle.
         $answer_value = $data['quizzes'][$quiz_id];
         if ($raw_type == 'checkboxes') {
+          // Converts ["key1":1, "key2":0, "key3":1] to ["key1":1, "key3":1].
+          // Remove zero values.
           $not_empty_values = array_filter($answer_value);
           $entity->field_options_answer = array_keys($not_empty_values);
         }
         elseif ($raw_type == 'comboboxes') {
+          // Converts "val1" to ["val1"].
           $entity->field_options_answer = [$answer_value];
         }
         else {
+          // Save other fields as is.
           $answer_field_name = 'field_' . $raw_type . '_answer';
           $entity->{$answer_field_name} = $data['quizzes'][$quiz_id];
         }
@@ -121,19 +144,12 @@ class QuizzesResultsResource extends ResourceBase {
         $entity->setNewRevision(TRUE);
         $entity->save();
       }
-
-
-      // Create a new revision
-
-      // TODO: Check that lesson exists.
-
-      // TODO: Check that all quizzes belong to lesson.
-
-      // TODO: Save results to ECK entities.
-
     } catch(\Exception $e) {
       // Log an error.
-      $message = new FormattableMarkup('Could not submit quizzes.', []);
+      $message = $e->getMessage();
+      if (empty($message)) {
+        $message = new FormattableMarkup('Could not submit quizzes.', []);
+      }
       $this->logger->critical($message);
       throw new HttpException(406, $message);
     }
