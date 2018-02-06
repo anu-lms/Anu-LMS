@@ -3,3 +3,6 @@
 
 # Docker mapped folders.
 drupal/mysql
+
+# Development folders.
+dev
