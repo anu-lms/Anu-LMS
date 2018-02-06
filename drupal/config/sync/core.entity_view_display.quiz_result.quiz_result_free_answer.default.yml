@@ -25,6 +25,13 @@ content:
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
+  field_free_answer_answer:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
   field_lesson:
     weight: 2
     label: above
@@ -41,13 +48,6 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    region: content
-  field_free_answer_answer:
-    weight: 3
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
     region: content
   uid:
     label: hidden

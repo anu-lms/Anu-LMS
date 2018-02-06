@@ -5,11 +5,12 @@ dependencies:
   config:
     - field.storage.node.field_lesson_course
     - field.storage.paragraph.field_paragraph_title
+    - field.storage.quiz_result.field_free_answer_answer
     - field.storage.quiz_result.field_lesson
     - field.storage.quiz_result.field_linear_scale_answer
     - field.storage.quiz_result.field_options_answer
-    - field.storage.quiz_result.field_free_answer_answer
   module:
+    - anu_quizzes
     - eck
     - node
     - paragraphs
@@ -324,9 +325,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
+          type: quiz_option_formatter
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -904,10 +904,10 @@ display:
       tags:
         - 'config:field.storage.node.field_lesson_course'
         - 'config:field.storage.paragraph.field_paragraph_title'
+        - 'config:field.storage.quiz_result.field_free_answer_answer'
         - 'config:field.storage.quiz_result.field_lesson'
         - 'config:field.storage.quiz_result.field_linear_scale_answer'
         - 'config:field.storage.quiz_result.field_options_answer'
-        - 'config:field.storage.quiz_result.field_free_answer_answer'
   page_1:
     display_plugin: page
     id: page_1
@@ -936,7 +936,7 @@ display:
       tags:
         - 'config:field.storage.node.field_lesson_course'
         - 'config:field.storage.paragraph.field_paragraph_title'
+        - 'config:field.storage.quiz_result.field_free_answer_answer'
         - 'config:field.storage.quiz_result.field_lesson'
         - 'config:field.storage.quiz_result.field_linear_scale_answer'
         - 'config:field.storage.quiz_result.field_options_answer'
-        - 'config:field.storage.quiz_result.field_free_answer_answer'
