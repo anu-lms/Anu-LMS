@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import Paragraphs from '../../atoms/Paragraph';
@@ -154,45 +155,65 @@ class LessonContent extends React.Component {
   /**
    * Handle click on "Submit Assessment" button.
    */
-  async submitAssessment() {
-    await this.submitQuizzes();
-    this.setState({ isSending: false });
-    Alert.success('Thank you, the assessment has been successfully submitted.');
+  submitAssessment() {
+    const result = this.submitQuizzes();
+    if (result) {
+      Alert.success('Thank you, the assessment has been successfully submitted.');
+    }
+    else {
+      Alert.error('We could not submit your assessment. Please, contact site administrator.');
+    }
   }
 
   /**
    * Handle click on "Submit and Continue" button.
    */
-  async submitQuizzesAndRedirect() {
+  submitQuizzesAndRedirect() {
     const { lesson, course } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
 
-    // Start prefetching before data is saved.
-    if (nextLesson) {
-      Router.prefetchRoute(nextLesson.url);
+    const result = this.submitQuizzes();
+    if (result) {
+      Alert.success('Thank you, the quizzes have been successfully submitted.');
+      if (nextLesson) {
+        Router.pushRoute(nextLesson.url).then(() => window.scrollTo(0, 0));
+      }
     }
-
-    await this.submitQuizzes();
-    this.setState({ isSending: false });
-    Alert.success('Thank you, the quizzes have been successfully submitted.');
-
-    if (nextLesson) {
-      Router.pushRoute(nextLesson.url).then(() => window.scrollTo(0, 0));
+    else {
+      Alert.error('We could not submit your data. Please, contact site administrator.');
     }
   }
 
   /**
    * Submit all quizzes within lesson to the backend.
    */
-  submitQuizzes() {
+  async submitQuizzes() {
     this.setState({ isSending: true });
 
-    // TODO: Remove when real backend request will land here.
-    return new Promise(resolve => {
-      console.log('Data to submit:');
-      console.log(this.props.quizzesData);
-      setTimeout(() => { resolve() }, 2000);
-    });
+    // Get superagent request with authentication.
+    const request = this.context.request();
+
+    try {
+      const tokenResponse = await request.get('/session/token');
+      await request
+        .post('/quizzes/results')
+        .set('Content-Type', 'application/json')
+        .set('X-CSRF-Token', tokenResponse.text)
+        .send({
+          lessonId: this.props.lesson.id,
+          quizzes: this.props.quizzesData,
+        });
+
+      this.setState({ isSending: false });
+      return true;
+    }
+    catch (error) {
+      console.log('error during request:');
+      console.log(error);
+
+      this.setState({ isSending: false });
+      return false;
+    }
   }
 
   render() {
@@ -274,5 +295,9 @@ const mapStateToProps = (store, ownProps) => ({
   navigation: store.navigation,
   storeLessons: store.lesson,
 });
+
+LessonContent.contextTypes = {
+  request: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(LessonContent);
