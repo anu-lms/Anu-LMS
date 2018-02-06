@@ -1,4 +1,4 @@
-uuid: cd84ba0e-8ece-41c9-9fc8-a19d69430583
+uuid: 520f2d6b-d899-4d5d-a577-6a4064091d1e
 langcode: en
 status: true
 dependencies:
@@ -15,7 +15,7 @@ bundle: quiz_result_text
 label: Question
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
