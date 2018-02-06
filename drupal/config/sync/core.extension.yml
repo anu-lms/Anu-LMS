@@ -2,6 +2,7 @@ module:
   require_login: -1000
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  anu_quizzes: 0
   block: 0
   breakpoint: 0
   cer: 0
@@ -57,6 +58,8 @@ module:
   panels: 0
   path: 0
   pathauto: 0
+  rest: 0
+  restui: 0
   role_delegation: 0
   serialization: 0
   simple_oauth: 0
