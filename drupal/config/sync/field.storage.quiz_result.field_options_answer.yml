@@ -1,0 +1,21 @@
+uuid: 3ca56cd2-66f6-468b-a666-78e89b55dc0a
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+id: quiz_result.field_options_answer
+field_name: field_options_answer
+entity_type: quiz_result
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
