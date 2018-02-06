@@ -1,0 +1,85 @@
+uuid: 14cba103-a1f3-4f14-860f-a67b2c0ab293
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_blocks
+    - paragraphs.paragraphs_type.image_centered_caption
+    - paragraphs.paragraphs_type.media_audio
+    - paragraphs.paragraphs_type.media_video
+    - paragraphs.paragraphs_type.quiz_comboboxes
+    - paragraphs.paragraphs_type.text_text
+  module:
+    - entity_reference_revisions
+id: paragraph.quiz_comboboxes.field_quiz_blocks
+field_name: field_quiz_blocks
+entity_type: paragraph
+bundle: quiz_comboboxes
+label: 'Question details'
+description: 'Optionally add an image or any other media to your question. '
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_centered_caption: image_centered_caption
+      media_audio: media_audio
+      media_video: media_video
+      text_text: text_text
+    target_bundles_drag_drop:
+      quiz_comboboxes:
+        weight: 16
+        enabled: false
+      divider_numbered:
+        weight: 17
+        enabled: false
+      quiz_linear_scale:
+        weight: 18
+        enabled: false
+      divider_simple:
+        weight: 18
+        enabled: false
+      image_centered_caption:
+        enabled: true
+        weight: 19
+      image_full_text:
+        weight: 20
+        enabled: false
+      list_bullet:
+        weight: 21
+        enabled: false
+      list_checkbox:
+        weight: 22
+        enabled: false
+      list_numbered:
+        weight: 23
+        enabled: false
+      media_audio:
+        enabled: true
+        weight: 24
+      media_video:
+        enabled: true
+        weight: 25
+      quiz_checkboxes:
+        weight: 26
+        enabled: false
+      text_heading:
+        weight: 27
+        enabled: false
+      text_heading_text:
+        weight: 28
+        enabled: false
+      text_subheading:
+        weight: 29
+        enabled: false
+      quiz_free_answer:
+        weight: 30
+        enabled: false
+      text_text:
+        enabled: true
+        weight: 30
+field_type: entity_reference_revisions

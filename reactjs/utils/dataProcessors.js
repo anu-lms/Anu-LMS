@@ -73,7 +73,10 @@ export const lessonData = (lessonData) => {
       // have to use this workaround to get the paragraph type from the
       // link to fetch the current paragraph.
       const type = regExp.exec(block.links.self);
-      blocks[order] = { type: type[1] };
+      blocks[order] = {
+        type: type[1],
+        id: block.id,
+      };
 
       // For numbered divider we add automated counter.
       if (type[1] === 'divider_numbered') {
@@ -97,7 +100,7 @@ export const lessonData = (lessonData) => {
   blocks.push({
     type: 'quiz_checkboxes',
     title: 'Test Checkbox Quiz',
-    id: '1232131313',
+    id: 1232131313,
     list: [
       {
         id: '12312983671',
@@ -114,6 +117,7 @@ export const lessonData = (lessonData) => {
     ],
     blocks: [
       {
+        id: 12321313131111,
         type: 'image_centered_caption',
         title: 'Some demo caption',
         image: {
@@ -126,6 +130,7 @@ export const lessonData = (lessonData) => {
         },
       },
       {
+        id: 1232131313222222,
         type: 'image_centered_caption',
         title: 'Some demo caption',
         image: {
@@ -143,7 +148,7 @@ export const lessonData = (lessonData) => {
   blocks.push({
     type: 'quiz_comboboxes',
     title: 'Test Combo Box Quiz',
-    id: '1232131313123',
+    id: 1232131313123,
     list: [
       {
         id: '12312983671123',
@@ -163,13 +168,13 @@ export const lessonData = (lessonData) => {
   blocks.push({
     type: 'quiz_textarea',
     title: 'Test Free Text Quiz',
-    id: '12321313133213',
+    id: 12321313133213,
   });
 
   blocks.push({
     type: 'quiz_linear_scale',
     title: 'Test Linear Scale Quiz',
-    id: '123213131343312',
+    id: 123213131343312,
     from: 0,
     to: 100,
     labelFrom: 'Label from',

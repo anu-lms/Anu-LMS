@@ -31,6 +31,7 @@
     "drupal/core": "~8.0",
     "drupal/decoupled_router": "^1.0@beta",
     "drupal/default_content": "^1.0@alpha",
+    "drupal/double_field": "^3.1",
     "drupal/dropzonejs": "^2.0@alpha",
     "drupal/eck": "^1.0@alpha",
     "drupal/entity_browser": "^1.3",

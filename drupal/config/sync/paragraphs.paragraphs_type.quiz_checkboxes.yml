@@ -1,0 +1,9 @@
+uuid: 03a32b06-6760-4344-8fcd-fe5ce7d1e75b
+langcode: en
+status: true
+dependencies: {  }
+id: quiz_checkboxes
+label: 'Quiz (checkboxes)'
+icon_uuid: null
+description: 'Quiz with multiple answers.'
+behavior_plugins: {  }
