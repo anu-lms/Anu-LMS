@@ -13,9 +13,10 @@ entity_type: paragraph
 bundle: quiz_comboboxes
 label: Options
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  type: single
 field_type: quiz_option
