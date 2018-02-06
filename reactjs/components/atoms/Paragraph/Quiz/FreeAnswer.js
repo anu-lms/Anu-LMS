@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-autosize-textarea';
 import Paragraphs from '../index';
 
-class TextArea extends React.Component {
+class FreeAnswer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -58,7 +58,7 @@ class TextArea extends React.Component {
   };
 }
 
-TextArea.propTypes = {
+FreeAnswer.propTypes = {
   title: PropTypes.string,
   id: PropTypes.number,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
@@ -66,8 +66,8 @@ TextArea.propTypes = {
   handleParagraphLoaded: PropTypes.func,
 };
 
-TextArea.defaultProps = {
+FreeAnswer.defaultProps = {
   blocks: [],
 };
 
-export default TextArea;
+export default FreeAnswer;
