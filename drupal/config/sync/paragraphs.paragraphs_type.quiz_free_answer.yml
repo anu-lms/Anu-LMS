@@ -1,0 +1,9 @@
+uuid: a019218f-a4b8-453e-b2ad-362387ccd443
+langcode: en
+status: true
+dependencies: {  }
+id: quiz_free_answer
+label: 'Quiz (Free answer)'
+icon_uuid: null
+description: 'Quiz for free answers.'
+behavior_plugins: {  }

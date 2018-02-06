@@ -1,0 +1,41 @@
+uuid: 49f54ce8-83a6-4556-ae67-5431e8995346
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_checkboxes.field_paragraph_title
+    - field.field.paragraph.quiz_checkboxes.field_quiz_blocks
+    - paragraphs.paragraphs_type.quiz_checkboxes
+  module:
+    - paragraphs
+id: paragraph.quiz_checkboxes.default
+targetEntityType: paragraph
+bundle: quiz_checkboxes
+mode: default
+content:
+  field_paragraph_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_quiz_blocks:
+    type: paragraphs
+    weight: 1
+    settings:
+      title: Block
+      title_plural: Blocks
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      add_mode: modal
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

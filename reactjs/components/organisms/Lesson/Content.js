@@ -2,10 +2,14 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import Paragraphs from '../../atoms/Paragraph';
+import Button from '../../atoms/Button';
 import { Link, Router } from '../../../routes';
 import { setQuizResult } from '../../../actions/lesson';
 import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData } from '../../../helpers/lesson';
-import Button from '../../atoms/Button';
+import * as lessonActions from "../../../actions/lesson";
+import * as lessonHelpers from "../../../helpers/lesson";
+import * as courseActions from "../../../actions/course";
+import * as courseHelpers from "../../../helpers/course";
 
 class LessonContent extends React.Component {
 
@@ -16,22 +20,149 @@ class LessonContent extends React.Component {
       isSending: false,
     };
 
+    // Get a list of course lessons from table of contents.
+    this.courseLessonIds = props.toc.map(lesson => lesson.id);
+
+    // List of paragraphs ids from this lesson which have to report to this
+    // component that they have been loaded.
+    this.paragraphsToLoad = [];
+
+    // Method is responsible for handling lesson read progress.
+    this.updateReadProgress = this.updateReadProgress.bind(this);
+
+    // These methods handle loading of paragraphs on the page.
+    this.updateParagraphsList = this.updateParagraphsList.bind(this);
+    this.handleParagraphLoaded = this.handleParagraphLoaded.bind(this);
+
+    // Method is being invoked on each quiz update.
     this.handleQuizChange = this.handleQuizChange.bind(this);
+
+    // Quizzes submit handling methods.
     this.submitAssessment = this.submitAssessment.bind(this);
     this.submitQuizzesAndRedirect = this.submitQuizzesAndRedirect.bind(this);
   }
 
+  componentWillMount() {
+    this.updateParagraphsList(this.props);
+  }
+
+  componentWillUpdate(nextProps) {
+    // Gather list of paragraphs once per lesson page load.
+    if (nextProps.lesson.id !== this.props.lesson.id) {
+      this.updateParagraphsList(nextProps);
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateReadProgress);
+    window.addEventListener('scroll', this.updateReadProgress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateReadProgress);
+    window.removeEventListener('scroll', this.updateReadProgress);
+  }
+
+  updateReadProgress() {
+
+    // It's important to wait for the whole page to load before we can
+    // start relying on container's height.
+    if (this.paragraphsToLoad.length > 0) {
+      return;
+    }
+
+    const { storeLessons, lesson, course } = this.props;
+
+    const readThrough = window.pageYOffset + window.innerHeight;
+    const containerHeight = this.refs.container.clientHeight;
+
+    const progress = readThrough > containerHeight ? 100 : readThrough / containerHeight * 100;
+
+    const existingProgress = lessonHelpers.getProgress(storeLessons, lesson.id);
+    if (progress > existingProgress) {
+      this.props.dispatch(lessonActions.setProgress(lesson.id, progress));
+
+      const index = storeLessons.findIndex(element => element.id === lesson.id);
+      if (index !== -1) {
+        storeLessons[index].progress = progress;
+      }
+      else {
+        storeLessons.push({ id: lesson.id, progress: progress });
+      }
+
+      const courseProgress = courseHelpers.calculateProgress(storeLessons, this.courseLessonIds);
+      this.props.dispatch(courseActions.setProgress(course.id, courseProgress));
+    }
+  }
+
+  /**
+   * We gather list of paragraphs available on the current lesson page.
+   * It's needed to require each paragraph to report back that it's loaded.
+   * When all paragraphs will be loaded - we can calculate the lesson progress
+   * by getting the accurate page height.
+   */
+  updateParagraphsList(props) {
+
+    // Clear paragraphs list.
+    this.paragraphsToLoad = [];
+
+    // Mark all blocks as "needs to be loaded".
+    props.lesson.blocks.forEach(block => {
+      this.paragraphsToLoad.push(block.id);
+
+      // Handle nested blocks.
+      if (typeof block.blocks !== 'undefined') {
+        block.blocks.forEach(subblock => {
+          this.paragraphsToLoad.push(subblock.id);
+        });
+      }
+    });
+
+    console.log('List of paragraphs on the page:');
+    console.log(this.paragraphsToLoad);
+  }
+
+  /**
+   * We require every paragraph to report that it's content was loaded.
+   * It is necessary to precisely calculate page read progress without having
+   * to rely on timeouts or being dependant from other data loading stuff.
+   */
+  handleParagraphLoaded(paragraphId) {
+    const index = this.paragraphsToLoad.findIndex(id => id === paragraphId);
+    if (index !== -1) {
+      this.paragraphsToLoad.splice(index, 1);
+
+      console.log('Paragraph ' + paragraphId + ' is loaded. Remaining:');
+      console.log(this.paragraphsToLoad);
+
+      if (!this.paragraphsToLoad.length ) {
+        console.log('All paragraphs loaded!');
+        this.updateReadProgress();
+      }
+    }
+  }
+
+  /**
+   * Reflects each change in quiz.
+   * Being executed from inside of the quiz component.
+   */
   handleQuizChange(quizId, quizValue) {
     const { lesson } = this.props;
     this.props.dispatch(setQuizResult(lesson.id, quizId, quizValue));
   }
 
+  /**
+   * Handle click on "Submit Assessment" button.
+   */
   async submitAssessment() {
     await this.submitQuizzes();
     this.setState({ isSending: false });
     Alert.success('Thank you, the assessment has been successfully submitted.');
   }
 
+  /**
+   * Handle click on "Submit and Continue" button.
+   */
   async submitQuizzesAndRedirect() {
     const { lesson, course } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
@@ -50,6 +181,9 @@ class LessonContent extends React.Component {
     }
   }
 
+  /**
+   * Submit all quizzes within lesson to the backend.
+   */
   submitQuizzes() {
     this.setState({ isSending: true });
 
@@ -62,7 +196,7 @@ class LessonContent extends React.Component {
   }
 
   render() {
-    const { lesson, course } = this.props;
+    const { lesson, course, navigation } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
@@ -101,7 +235,10 @@ class LessonContent extends React.Component {
     }
 
     return (
-      <Fragment>
+      <div
+        ref="container"
+        className={`lesson-container ${navigation.isCollapsed ? 'nav-collapsed' : ''}`}
+      >
 
         <div className="container">
           <div className="row">
@@ -112,7 +249,11 @@ class LessonContent extends React.Component {
         </div>
 
         <div className="lesson-content">
-          <Paragraphs blocks={lesson.blocks} handleQuizChange={this.handleQuizChange} />
+          <Paragraphs
+            blocks={lesson.blocks}
+            handleQuizChange={this.handleQuizChange}
+            handleParagraphLoaded={this.handleParagraphLoaded}
+          />
         </div>
 
         <div className="lesson-navigation container">
@@ -123,13 +264,15 @@ class LessonContent extends React.Component {
           </div>
         </div>
 
-      </Fragment>
+      </div>
     );
   }
 }
 
-const mapStateToProps = (store, { lesson }) => ({
-  quizzesData: getQuizzesData(store.lesson, lesson.id),
+const mapStateToProps = (store, ownProps) => ({
+  quizzesData: getQuizzesData(store.lesson, ownProps.lesson.id),
+  navigation: store.navigation,
+  storeLessons: store.lesson,
 });
 
 export default connect(mapStateToProps)(LessonContent);

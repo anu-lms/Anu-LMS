@@ -16,6 +16,20 @@ class LinearScale extends React.Component {
     this.handleAfterChange = this.handleAfterChange.bind(this);
   }
 
+  componentDidMount() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
+  componentDidUpdate() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
   handleChange(value) {
     this.setState({ value });
   }
@@ -27,7 +41,7 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, labelFrom, labelTo, blocks } = this.props;
+    const { title, from, to, labelFrom, labelTo, blocks, handleParagraphLoaded } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">
@@ -36,7 +50,7 @@ class LinearScale extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              <Paragraphs blocks={blocks} />
+              <Paragraphs blocks={blocks} handleParagraphLoaded={handleParagraphLoaded} />
             </div>
             }
 
@@ -66,13 +80,14 @@ class LinearScale extends React.Component {
 
 LinearScale.propTypes = {
   title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired,
   labelFrom: PropTypes.string.isRequired,
   labelTo: PropTypes.string.isRequired,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
+  handleParagraphLoaded: PropTypes.func,
 };
 
 LinearScale.defaultProps = {
