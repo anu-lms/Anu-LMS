@@ -2,6 +2,7 @@ module:
   require_login: -1000
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  anu_quizzes: 0
   block: 0
   breakpoint: 0
   cer: 0
