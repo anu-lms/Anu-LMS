@@ -15,7 +15,7 @@ use Drupal\Core\TypedData\DataDefinition;
  *   id = "quiz_option",
  *   label = @Translation("Quiz option"),
  *   description = @Translation("Quiz Option field to store option id, label and is_answer flag."),
- *   default_widget = "string_textfield",
+ *   default_widget = "quiz_option",
  *   default_formatter = "string"
  * )
  */
@@ -27,6 +27,9 @@ class QuizOptionFieldType extends StringItem {
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     $schema = parent::schema($field_definition);
 
+    // BE AWARE: uuid doesn't have SQL-level unique index due to Field Storage
+    // API caveats. Developers must use reliable UUID generators to avoid
+    // duplicated UUID values.
     $schema['columns']['uuid'] = [
       'type' => 'varchar_ascii',
       'length' => 128,
@@ -41,21 +44,24 @@ class QuizOptionFieldType extends StringItem {
       'default' => 0,
     ];
 
-    // Index is required for auto_increment fields.
-    $schema['unique keys'][] = 'uuid';
-
     return $schema;
 
   }
 
-  //  public function setValue($values, $notify = TRUE) {
-  //    parent::setValue($values, $notify);
-  //  }
-  //
-  //  public function preSave() {
-  //    parent::preSave();
-  //  }
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave() {
+    parent::preSave();
 
+    // Generate UUID for new items.
+    // BE AWARE: previous UUID will be overwritten by new one unless it's
+    // explicitly passed into save function.
+    if (empty($this->uuid)) {
+      $this->uuid = \Drupal::service('uuid')->generate();
+    }
+
+  }
 
   /**
    * {@inheritdoc}
