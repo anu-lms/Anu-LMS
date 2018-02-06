@@ -13,6 +13,7 @@ dependencies:
     - eck
     - node
     - paragraphs
+    - user
 id: quiz_results
 label: 'Quiz results'
 module: views
@@ -29,8 +30,9 @@ display:
     position: 0
     display_options:
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'access content overview'
       cache:
         type: tag
         options: {  }
@@ -72,6 +74,79 @@ display:
             next: ››
       style:
         type: table
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          override: true
+          sticky: false
+          caption: ''
+          summary: ''
+          description: ''
+          columns:
+            field_paragraph_title: field_paragraph_title
+            field_text_answer: field_text_answer
+            field_options_answer: field_options_answer
+            field_linear_scale_answer: field_linear_scale_answer
+            id: id
+            field_lesson_course: field_lesson_course
+            field_lesson: field_lesson
+            uid: uid
+          info:
+            field_paragraph_title:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_text_answer:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_options_answer:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_linear_scale_answer:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_lesson_course:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_lesson:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            uid:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: '-1'
+          empty_table: false
       row:
         type: fields
       fields:
@@ -584,7 +659,131 @@ display:
           entity_type: quiz_result
           entity_field: uid
           plugin_id: field
-      filters: {  }
+      filters:
+        field_paragraph_title_value:
+          id: field_paragraph_title_value
+          table: paragraph__field_paragraph_title
+          field: field_paragraph_title_value
+          relationship: field_question
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_paragraph_title_value_op
+            label: Question
+            description: ''
+            use_operator: false
+            operator: field_paragraph_title_value_op
+            identifier: field_paragraph_title_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: string
+        title_1:
+          id: title_1
+          table: node_field_data
+          field: title
+          relationship: field_lesson_course
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_1_op
+            label: Course
+            description: ''
+            use_operator: false
+            operator: title_1_op
+            identifier: title_1
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: field_lesson
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: Lesson
+            description: ''
+            use_operator: false
+            operator: title_op
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: title
+          plugin_id: string
       sorts:
         changed:
           id: changed
@@ -624,14 +823,30 @@ display:
           admin_label: 'field_lesson: Content'
           required: false
           plugin_id: standard
+        field_lesson_course:
+          id: field_lesson_course
+          table: node__field_lesson_course
+          field: field_lesson_course
+          relationship: field_lesson
+          group_type: group
+          admin_label: 'field_lesson_course: Content'
+          required: false
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      use_ajax: true
     cache_metadata:
       max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_lesson_course'
         - 'config:field.storage.paragraph.field_paragraph_title'
@@ -661,7 +876,9 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_lesson_course'
         - 'config:field.storage.paragraph.field_paragraph_title'
