@@ -80,16 +80,50 @@ class QuizzesResultsResource extends ResourceBase {
     //$this->logger->debug(print_r($data, 1));
 
     try {
-//      $entity_type_mgr = \Drupal::getContainer()->get('entity_type.manager');
-//
-//      $entity = $entity_type_mgr->getStorage('quiz_result')->create(
-//        array(
-//          'type' => 'quiz_result_text',
-//          'uid' => '1',
-//        )
-//      );
-//      $entity->setNewRevision(TRUE);
-//      $entity->save();
+      $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+      $lesson = \Drupal::entityTypeManager()->getStorage('node')->load($data['lessonId']);
+      if (empty($lesson)) {
+
+      }
+
+      $quiz_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+
+      $quizzes = $quiz_storage->loadMultiple(array_keys($data['quizzes']));
+
+      foreach ($quizzes as $quizze) {
+        $quiz_id = $quizze->id();
+        $raw_type = substr($quizze->bundle(), 5);
+
+        $entity = \Drupal::entityTypeManager()->getStorage('quiz_result')->create([
+            'type' => 'quiz_result_' . $raw_type,
+          ]
+        );
+        $entity->field_lesson = $data['lessonId'];
+        $entity->field_question = [
+          'target_id' => $quizze->id(),
+          'target_revision_id' => $quizze->getRevisionId()
+        ];
+
+        $answer_value = $data['quizzes'][$quiz_id];
+        if ($raw_type == 'checkboxes') {
+          $not_empty_values = array_filter($answer_value);
+          $entity->field_options_answer = array_keys($not_empty_values);
+        }
+        elseif ($raw_type == 'comboboxes') {
+          $entity->field_options_answer = [$answer_value];
+        }
+        else {
+          $answer_field_name = 'field_' . $raw_type . '_answer';
+          $entity->{$answer_field_name} = $data['quizzes'][$quiz_id];
+        }
+
+        $entity->setNewRevision(TRUE);
+        $entity->save();
+      }
+
+
+      // Create a new revision
 
       // TODO: Check that lesson exists.
 
