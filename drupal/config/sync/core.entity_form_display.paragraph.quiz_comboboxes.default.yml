@@ -3,25 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.quiz_comboboxes.field_paragraph_list
     - field.field.paragraph.quiz_comboboxes.field_paragraph_title
     - field.field.paragraph.quiz_comboboxes.field_quiz_blocks
+    - field.field.paragraph.quiz_comboboxes.field_quiz_options
     - paragraphs.paragraphs_type.quiz_comboboxes
   module:
+    - anu_quizzes
     - paragraphs
 id: paragraph.quiz_comboboxes.default
 targetEntityType: paragraph
 bundle: quiz_comboboxes
 mode: default
 content:
-  field_paragraph_list:
-    weight: 2
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_paragraph_title:
     weight: 0
     settings:
@@ -40,9 +33,17 @@ content:
       autocollapse: none
       add_mode: modal
       form_display_mode: default
-      default_paragraph_type: image_centered_caption
+      default_paragraph_type: _none
     third_party_settings: {  }
     type: paragraphs
+    region: content
+  field_quiz_options:
+    weight: 2
+    settings:
+      size: '80'
+      placeholder: ''
+    third_party_settings: {  }
+    type: quiz_option
     region: content
 hidden:
   created: true

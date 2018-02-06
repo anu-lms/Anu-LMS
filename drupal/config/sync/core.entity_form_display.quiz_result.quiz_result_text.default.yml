@@ -1,0 +1,65 @@
+uuid: 0d9f1a68-640f-4845-b1f6-82f15cd7a505
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_text
+    - field.field.quiz_result.quiz_result_text.field_lesson
+    - field.field.quiz_result.quiz_result_text.field_question
+    - field.field.quiz_result.quiz_result_text.field_text_answer
+  module:
+    - entity_reference_revisions
+id: quiz_result.quiz_result_text.default
+targetEntityType: quiz_result
+bundle: quiz_result_text
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_lesson:
+    weight: 13
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_question:
+    weight: 14
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_autocomplete
+    region: content
+  field_text_answer:
+    weight: 11
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }
