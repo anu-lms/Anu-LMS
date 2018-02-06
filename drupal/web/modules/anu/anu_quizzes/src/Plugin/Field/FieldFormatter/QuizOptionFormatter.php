@@ -23,14 +23,6 @@ class QuizOptionFormatter extends FormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function settingsForm(array $form, FormStateInterface $form_state) {
-    // We don't call the parent in order to bypass the link to file form.
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
     $connection = \Drupal::database();
