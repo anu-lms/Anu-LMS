@@ -113,10 +113,12 @@ class QuizzesResultsResource extends ResourceBase {
         }
 
         // Fill Question field.
-        $entity->field_question = [
-          'target_id' => $quiz->id(),
-          'target_revision_id' => $quiz->getRevisionId()
-        ];
+        $quiz_entity = clone $quiz;
+        // Set additional dontSave property, because by default when Quiz result entity saving, it also
+        // resaves Quiz referenced in question field. It updates parent_type and parent_id,
+        // because new parent is quiz instead of node.
+        $quiz_entity->dontSave = TRUE;
+        $entity->field_question = $quiz_entity;
 
         // Fill Answer field. Format of the field depends on Quiz result bundle.
         $answer_value = $data['quizzes'][$quiz_id];
