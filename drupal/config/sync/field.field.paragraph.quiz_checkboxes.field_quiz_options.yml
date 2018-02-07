@@ -1,0 +1,22 @@
+uuid: ad594ca9-d87a-4d96-a828-de4071eb3a89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_options
+    - paragraphs.paragraphs_type.quiz_checkboxes
+  module:
+    - anu_quizzes
+id: paragraph.quiz_checkboxes.field_quiz_options
+field_name: field_quiz_options
+entity_type: paragraph
+bundle: quiz_checkboxes
+label: Options
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  type: multiple
+field_type: quiz_option

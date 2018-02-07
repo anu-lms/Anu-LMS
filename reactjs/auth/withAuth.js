@@ -14,7 +14,7 @@ export default function withAuth(PageComponent) {
       this.state = {
         accessToken: props.accessToken,
         refreshToken: props.refreshToken,
-      }
+      };
     }
 
     isLogged = () => {
@@ -35,7 +35,7 @@ export default function withAuth(PageComponent) {
         isLogged: PropTypes.bool,
         login: PropTypes.func,
       }),
-      request: PropTypes.object,
+      request: PropTypes.func,
     };
 
     getChildContext() {
@@ -44,7 +44,7 @@ export default function withAuth(PageComponent) {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
         },
-        request: this.getRequest(),
+        request: this.getRequest.bind(this),
       }
     };
 

@@ -1,0 +1,9 @@
+uuid: f37cf345-c095-41af-a699-ffc1b063a68e
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.quiz_result
+name: 'Free answer'
+type: quiz_result_free_answer
+description: ''

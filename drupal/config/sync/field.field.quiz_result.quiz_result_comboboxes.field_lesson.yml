@@ -1,0 +1,28 @@
+uuid: 17b6e95c-08b7-43c2-bd48-303d49d71b79
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_comboboxes
+    - field.storage.quiz_result.field_lesson
+    - node.type.lesson
+id: quiz_result.quiz_result_comboboxes.field_lesson
+field_name: field_lesson
+entity_type: quiz_result
+bundle: quiz_result_comboboxes
+label: Lesson
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      lesson: lesson
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

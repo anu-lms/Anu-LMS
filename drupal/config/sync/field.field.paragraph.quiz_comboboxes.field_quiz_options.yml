@@ -1,0 +1,22 @@
+uuid: 77dcedef-35eb-4165-9361-fd6b079878f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_options
+    - paragraphs.paragraphs_type.quiz_comboboxes
+  module:
+    - anu_quizzes
+id: paragraph.quiz_comboboxes.field_quiz_options
+field_name: field_quiz_options
+entity_type: paragraph
+bundle: quiz_comboboxes
+label: Options
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  type: single
+field_type: quiz_option

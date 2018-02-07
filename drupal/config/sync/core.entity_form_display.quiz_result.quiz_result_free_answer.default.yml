@@ -1,0 +1,65 @@
+uuid: 425019a1-4944-4298-879e-b09b76d604b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.quiz_result.quiz_result_free_answer
+    - field.field.quiz_result.quiz_result_free_answer.field_lesson
+    - field.field.quiz_result.quiz_result_free_answer.field_question
+    - field.field.quiz_result.quiz_result_free_answer.field_free_answer_answer
+  module:
+    - entity_reference_revisions
+id: quiz_result.quiz_result_free_answer.default
+targetEntityType: quiz_result
+bundle: quiz_result_free_answer
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_free_answer_answer:
+    weight: 28
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_lesson:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_question:
+    weight: 14
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }
