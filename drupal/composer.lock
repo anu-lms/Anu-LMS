@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e2c660102ad92cfc894d940aa9fd607",
+    "content-hash": "ba3454beae2233d889dbc1da6801303f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2550,6 +2550,9 @@
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
                     }
+                },
+                "patches_applied": {
+                    "Add revision support": "https://www.drupal.org/files/issues/eck_revisions-2788507-52.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -2776,6 +2779,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
