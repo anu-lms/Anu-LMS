@@ -60,6 +60,7 @@
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",
     "drupal/toolbar_themes": "^1.0@alpha",
+    "drupal/verf": "^1.0@beta",
     "drupal/views_bulk_operations": "^1.0@RC",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
@@ -115,6 +116,9 @@
       },
       "drupal/eck": {
         "Add revision support": "https://www.drupal.org/files/issues/eck_revisions-2788507-52.patch"
+      },
+      "drupal/entity_reference_revisions": {
+        "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
       }
     }
   }
