@@ -8,3 +8,4 @@ weight: -8
 is_admin: null
 permissions:
   - 'create class group'
+  - 'view own quiz_result entities'

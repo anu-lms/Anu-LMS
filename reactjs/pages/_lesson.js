@@ -91,9 +91,17 @@ class LessonPage extends React.Component {
         .get('/jsonapi/group_content/class-group_node-lesson')
         .query({
           // Include referenced fields.
-          'include': 'entity_id,entity_id.field_lesson_course,entity_id.field_lesson_blocks,entity_id.field_lesson_blocks.field_paragraph_image,entity_id.field_lesson_blocks.field_paragraph_file',
+          'include': '' +
+          'entity_id,' +
+          'entity_id.field_lesson_course,' +
+          'entity_id.field_lesson_blocks,' +
+          'entity_id.field_lesson_blocks.field_paragraph_image,' +
+          'entity_id.field_lesson_blocks.field_paragraph_file,' +
+          'entity_id.field_lesson_blocks.field_quiz_blocks,' +
+          'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_image,' +
+          'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_file',
           // Lesson entity fields.
-          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks',
+          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks,field_is_assessment',
           // Course entity fields.
           'fields[node--course]': 'path,nid',
           // Filter by nid.

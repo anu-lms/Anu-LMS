@@ -65,32 +65,7 @@ export const lessonData = (lessonData) => {
 
   let blocks = [];
   if (lesson.fieldLessonBlocks) {
-    let counter = 1;
-    const regExp = /\/paragraph\/(.+)\//;
-    lesson.fieldLessonBlocks.map((block, order) => {
-
-      // Couldn't get paragraph type out of the jsonapi request, therefore
-      // have to use this workaround to get the paragraph type from the
-      // link to fetch the current paragraph.
-      const type = regExp.exec(block.links.self);
-      blocks[order] = { type: type[1] };
-
-      // For numbered divider we add automated counter.
-      if (type[1] === 'divider_numbered') {
-        blocks[order].counter = counter++;
-      }
-
-      // Find all props starting with "fieldParagraph" and save their values.
-      for (let property in block) {
-        if (block.hasOwnProperty(property)) {
-          if (property.startsWith('fieldParagraph')) {
-            // Remove 'fieldParagraph' prefix.
-            const prop = property.substr(14).toLowerCase();
-            blocks[order][prop] = block[property];
-          }
-        }
-      }
-    });
+    blocks = processParagraphs(lesson.fieldLessonBlocks);
   }
 
   return {
@@ -98,6 +73,71 @@ export const lessonData = (lessonData) => {
     uuid: lesson.id,
     url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
     title: lesson.title,
+    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
     blocks
   };
+};
+
+/**
+ * Internal helper to process paragraphs data from the backend.
+ */
+const processParagraphs = (paragraphs) => {
+  let blocks = [];
+  let counter = 1;
+  const regExp = /\/paragraph\/(.+)\//;
+  paragraphs.forEach((block, order) => {
+
+    // Couldn't get paragraph type out of the jsonapi request, therefore
+    // have to use this workaround to get the paragraph type from the
+    // link to fetch the current paragraph.
+    const type = regExp.exec(block.links.self);
+
+    blocks[order] = {
+      type: type[1],
+      id: block.id,
+    };
+
+    // For numbered divider we add automated counter.
+    if (type[1] === 'divider_numbered') {
+      blocks[order].counter = counter++;
+    }
+
+    // Find all props starting with "fieldParagraph" and save their values.
+    for (let property in block) {
+      if (block.hasOwnProperty(property)) {
+        let prop = '';
+
+        if (property.startsWith('fieldParagraph')) {
+          // Remove 'fieldParagraph' prefix.
+          prop = property.substr(14).toLowerCase();
+        }
+        else
+          if (property.startsWith('fieldQuiz')) {
+            // Remove 'fieldQuiz' prefix.
+            prop = property.substr(9).toLowerCase();
+          }
+
+        if (prop === 'blocks') {
+          blocks[order][prop] = processParagraphs(block[property]);
+        }
+
+        else if (prop) {
+          blocks[order][prop] = block[property];
+        }
+      }
+    }
+  });
+
+  // Custom mapping for linear scale fields.
+  blocks = blocks.map(block => {
+
+    if (block.type === 'quiz_linear_scale') {
+      block.from = block.linearscalefrom;
+      block.to = block.linearscaleto;
+    }
+
+    return block;
+  });
+
+  return blocks;
 };

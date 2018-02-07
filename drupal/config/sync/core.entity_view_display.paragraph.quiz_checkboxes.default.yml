@@ -1,0 +1,42 @@
+uuid: f498e0d0-cde5-4048-8f76-c0f45abdb3ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_checkboxes.field_paragraph_title
+    - field.field.paragraph.quiz_checkboxes.field_quiz_blocks
+    - field.field.paragraph.quiz_checkboxes.field_quiz_options
+    - paragraphs.paragraphs_type.quiz_checkboxes
+  module:
+    - entity_reference_revisions
+id: paragraph.quiz_checkboxes.default
+targetEntityType: paragraph
+bundle: quiz_checkboxes
+mode: default
+content:
+  field_paragraph_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_quiz_blocks:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_options:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

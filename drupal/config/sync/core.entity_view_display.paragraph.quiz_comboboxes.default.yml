@@ -1,0 +1,42 @@
+uuid: 7714c163-fd03-4355-84d7-8d10327febb9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_comboboxes.field_paragraph_title
+    - field.field.paragraph.quiz_comboboxes.field_quiz_blocks
+    - field.field.paragraph.quiz_comboboxes.field_quiz_options
+    - paragraphs.paragraphs_type.quiz_comboboxes
+  module:
+    - entity_reference_revisions
+id: paragraph.quiz_comboboxes.default
+targetEntityType: paragraph
+bundle: quiz_comboboxes
+mode: default
+content:
+  field_paragraph_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_quiz_blocks:
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  field_quiz_options:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

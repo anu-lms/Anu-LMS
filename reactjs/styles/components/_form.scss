@@ -8,7 +8,9 @@ fieldset {
   }
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"],
+textarea {
   font-family: $font-family-base;
   background: $eggshell-white;
   border: 2px solid $london-sky;
@@ -31,13 +33,23 @@ input[type="text"], input[type="password"] {
   }
 }
 
-.checkbox {
+textarea {
+  height: auto;
+  resize: none;
+  overflow: hidden !important;
+  padding-top: .6em;
+  line-height: 1.5em;
+}
+
+.checkbox,
+.radio {
   padding-bottom: 1em;
   &:last-child {
     padding-bottom: 0;
   }
 
-  input[type="checkbox"] {
+  input[type="checkbox"],
+  input[type="radio"] {
     display: none;
 
     & + span {
@@ -47,11 +59,12 @@ input[type="text"], input[type="password"] {
       float: left;
       width: 1.5em;
       height: 1.5em;
-      margin: 0 1em 0 0;
+      margin: 0 1.3em 0 0;
       vertical-align: middle;
       background: white left top no-repeat;
       border: 2px solid $anu-blue;
       cursor: pointer;
+      transition: all .2s;
     }
 
     &:checked + span {
@@ -60,14 +73,22 @@ input[type="text"], input[type="password"] {
   }
 
   label {
+    cursor: pointer;
     display: block;
-    margin-left: 2.5em;
   }
 
   svg {
     position: relative;
     top: -1px;
     left: 2px;
+  }
+}
+
+.radio {
+  input[type="radio"] {
+    & + span {
+      border-radius: 50%;
+    }
   }
 }
 

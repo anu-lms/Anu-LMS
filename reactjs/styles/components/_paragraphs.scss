@@ -113,7 +113,7 @@
 .image-centered {
 
   img {
-    max-width: 100%;
+    width: 100%;
     display: block;
     margin: 0 auto;
   }
@@ -222,6 +222,116 @@
       h1, h2, h3, h4, h5, h6 {
         color: white;
         margin: 0;
+      }
+    }
+  }
+}
+
+.quiz {
+
+  .title {
+    margin-bottom: 1em;
+  }
+
+  /* Reset grid system within included paragraphs */
+  .blocks {
+    .container {
+      padding: 0;
+      margin: 0 0 1em;
+
+      .row {
+        padding: 0;
+        margin: 0;
+        display: block;
+
+        & > div {
+          padding: 0;
+          margin: 0;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  &.linear-scale {
+    position: relative;
+
+    .current-value {
+      text-align: center;
+      font-size: 1.25em;
+      color: $anu-blue;
+      font-weight: bold;
+      padding-top: 2em;
+    }
+
+    .labels {
+      position: relative;
+
+      .from {
+        position: absolute;
+        left: 0;
+        top: .5em;
+        font-size: .875em;
+      }
+      .to {
+        position: absolute;
+        right: 0;
+        top: .5em;
+        font-size: .875em;
+      }
+    }
+
+    .rc-slider {
+      position: relative;
+      height: 2.5em;
+      padding-top: 1em;
+      border-radius: 10px;
+      touch-action: none;
+
+      &-rail {
+        position: absolute;
+        width: 100%;
+        background-color: $london-sky;
+        height: .5em;
+        border-radius: 3px;
+        margin-right: .5em;
+      }
+
+      &-track {
+        position: absolute;
+        left: 0;
+        height: .5em;
+        border-radius: 3px;
+        background-color: $london-sky;
+      }
+
+      &-handle {
+        position: absolute;
+        margin-top: -1em;
+        margin-left: -.5em;
+        width: 1em;
+        height: 2.5em;
+        cursor: pointer;
+        cursor: -webkit-grab;
+        cursor: grab;
+        border-radius: 2px;
+        background-color: $anu-blue;
+        touch-action: pan-x;
+
+        &:hover {
+          border-color: $anu-blue;
+        }
+        &:active {
+          border-color: $anu-blue;
+          box-shadow: 0 0 5px $anu-blue;
+          cursor: -webkit-grabbing;
+          cursor: grabbing;
+        }
+        &:focus {
+          border-color: $anu-blue;
+          box-shadow: 0 0 0 5px $anu-blue;
+          outline: none;
+        }
       }
     }
   }

@@ -1,0 +1,9 @@
+uuid: 4a0e91c1-d3c2-4d3e-befc-790e226cea9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.quiz_result
+name: Checkboxes
+type: quiz_result_checkboxes
+description: ''

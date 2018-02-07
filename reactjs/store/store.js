@@ -4,8 +4,8 @@ import React from 'react';
 import { createStore } from 'redux';
 
 // Persistent storage.
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 // Debug.
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -25,7 +25,6 @@ const persistConfig = {
 const persistedReducers = persistReducer(persistConfig, reducers);
 
 // Build store.
+// TODO: Disable dev tools on production.
 export const store = createStore(persistedReducers, {}, composeWithDevTools());
 
-// Build store persistor to rehydrate storage.
-export const persistor = persistStore(store);

@@ -13,7 +13,9 @@ export const fileUrl = (url) => {
   // relative for front-end rendering.
   if (url && process.env.NODE_ENV === 'development') {
       let parser = urlParse(url);
-      if (parser.pathname.indexOf(BACKEND_CLIENT_URL) !== 0) {
+      const includesClientUrl = parser.pathname.indexOf(BACKEND_CLIENT_URL) === 0;
+      const drupalUrl = parser.pathname.indexOf('/sites/default/files/') !== -1;
+      if (!includesClientUrl && drupalUrl) {
         parser.pathname = BACKEND_CLIENT_URL + parser.pathname;
       }
       return parser.toString();

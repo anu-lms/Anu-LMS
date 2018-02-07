@@ -1,0 +1,9 @@
+uuid: 1e4d3b9e-3b02-4db3-8ec9-0e084dbbcb15
+langcode: en
+status: true
+dependencies: {  }
+id: quiz_comboboxes
+label: 'Quiz (comboboxes)'
+icon_uuid: null
+description: 'Quiz with a single option.'
+behavior_plugins: {  }

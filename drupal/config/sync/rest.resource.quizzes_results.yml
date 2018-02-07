@@ -1,0 +1,18 @@
+uuid: a47efc79-abd8-4139-8b9b-b55bfd9ad63f
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_quizzes
+    - serialization
+    - simple_oauth
+id: quizzes_results
+plugin_id: quizzes_results
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2
