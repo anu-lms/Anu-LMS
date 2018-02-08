@@ -44,6 +44,8 @@ textarea {
 .checkbox,
 .radio {
   padding-bottom: 1em;
+  position: relative;
+
   &:last-child {
     padding-bottom: 0;
   }
@@ -55,11 +57,12 @@ textarea {
     & + span {
       border-radius: 2px;
       display: inline-block;
-      position: relative;
+      position: absolute;
+      left: 0;
+      top: 0;
       float: left;
       width: 1.5em;
       height: 1.5em;
-      margin: 0 1.3em 0 0;
       vertical-align: middle;
       background: white left top no-repeat;
       border: 2px solid $anu-blue;
@@ -75,6 +78,7 @@ textarea {
   label {
     cursor: pointer;
     display: block;
+    margin-left: 3em;
   }
 
   svg {
