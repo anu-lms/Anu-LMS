@@ -1,0 +1,9 @@
+uuid: c2dd4426-20ec-4133-85fa-5e35a058acb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.notebook
+name: Notebook
+type: notebook
+description: ''

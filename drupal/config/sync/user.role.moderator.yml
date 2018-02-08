@@ -52,6 +52,7 @@ permissions:
   - 'edit own lesson content'
   - 'edit own quiz_result entities'
   - 'edit terms in tags'
+  - 'use text format filtered_html'
   - 'use text format wysiwyg'
   - 'view any quiz_result entities'
   - 'view any record_forms entities'
