@@ -1,6 +1,6 @@
 {
   "name": "AnuLMS",
-  "version": "1.06",
+  "version": "1.07",
   "private": true,
   "dependencies": {
     "bootstrap-4-grid": "^2.2.0",
