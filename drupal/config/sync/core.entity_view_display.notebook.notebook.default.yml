@@ -1,0 +1,51 @@
+uuid: a928ecaa-0a41-485f-b4fe-6cf1e9fab91d
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.notebook.notebook
+    - field.field.notebook.notebook.field_notebook_body
+    - field.field.notebook.notebook.field_notebook_title
+  module:
+    - text
+    - user
+id: notebook.notebook.default
+targetEntityType: notebook
+bundle: notebook
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_notebook_body:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_notebook_title:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  changed: true
+  langcode: true
