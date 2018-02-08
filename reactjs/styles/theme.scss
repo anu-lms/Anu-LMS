@@ -24,8 +24,10 @@
 @import "components/collapsible_navigation";
 @import "components/lesson_navigation";
 @import "components/link-with-progress";
+@import "components/note-item";
 
 // Import styles per page.
 @import "pages/login";
 @import "pages/lesson";
 @import "pages/course";
+@import "pages/notebook";

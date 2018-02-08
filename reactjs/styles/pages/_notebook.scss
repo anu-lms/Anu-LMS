@@ -1,0 +1,39 @@
+.page-notebook {
+  background: $eggshell-white;
+
+  .heading {
+    height: 56px;
+    background: $squash;
+    padding: 1em;
+    color: $white;
+    position: relative;
+
+    .title {
+      font-size: 1.25em;
+      font-weight: bold;
+    }
+
+    .add-note {
+      position: absolute;
+      right: .875em;
+      top: .875em;
+
+      .caption {
+        display: none;
+      }
+    }
+  }
+
+  .notes-list {
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 48px;
+    width: 100%;
+    bottom: 0;
+    @include media-breakpoint-up(md) {
+      top: 80px;
+      width: 33%;
+    }
+  }
+}
