@@ -1,0 +1,21 @@
+.page-notebook {
+  background: $eggshell-white;
+
+  .notes-list-column {
+    background-color: $gray91;
+    position: fixed;
+    left: 0;
+    top: 48px;
+    width: 100%;
+    bottom: 0;
+    @include media-breakpoint-up(md) {
+      top: 80px;
+      width: 33%;
+    }
+  }
+
+  .note-content-column {
+    margin-left: 33%;
+    padding: 1em;
+  }
+}

@@ -1,6 +1,4 @@
-.page-notebook {
-  background: $eggshell-white;
-
+.notes-list-sidebar {
   .heading {
     height: 56px;
     background: $squash;
@@ -23,22 +21,9 @@
       }
     }
   }
-
   .notes-list {
-    background: #000;
-    position: fixed;
-    left: 0;
-    top: 48px;
-    width: 100%;
-    bottom: 0;
-    @include media-breakpoint-up(md) {
-      top: 80px;
-      width: 33%;
+    .notes-list-item {
+      border-bottom: 2px solid $white;
     }
-  }
-
-  .note-content {
-    margin-left: 33%;
-    padding: 1em;
   }
 }
