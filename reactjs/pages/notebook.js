@@ -30,17 +30,17 @@ class NotebookPage extends Component {
   static async getInitialProps({ request, query, res }) {
 
     const initialProps = {
-      notebook: {},
+      notebook: [],
     };
 
     try {
-      const responseNotebook = await request
+     /* const responseNotebook = await request
         .get('/jsonapi/notebook/notebook')
         .query({
           // Sort by changed date.
           'sort': 'changed'
         });
-      initialProps.notebook = dataProcessors.notebookData(responseNotebook.body.data);
+      initialProps.notebook = dataProcessors.notebookData(responseNotebook.body.data);*/
     } catch (error) {
       if (res) res.statusCode = 404;
       console.log(error);
