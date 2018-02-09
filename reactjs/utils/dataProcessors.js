@@ -154,7 +154,7 @@ export const notebookData = (notebookData) => {
       uuid: note.uuid,
       created: note.created,
       changed: note.changed,
-      title: note.title,
+      title: note.title ? note.title : '',
       body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
     };
   });

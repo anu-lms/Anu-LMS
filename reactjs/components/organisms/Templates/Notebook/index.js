@@ -1,4 +1,5 @@
 import React, { Fragment } from'react';
+import * as notebookHelpers from "../../../../helpers/notebook";
 import NotesListItem from '../../../atoms/Notebook/NotesListItem';
 
 const NotebookTemplate = (props) => (
@@ -19,8 +20,9 @@ const NotebookTemplate = (props) => (
       <div className="notes">
         {props.notebook.map(notebook => (
           <NotesListItem
+            key={notebook.id}
             title={notebook.title}
-            teaser={notebook.body}
+            teaser={notebookHelpers.getTeaser(notebook.body)}
             date={notebook.changed}
           />
         ))}
