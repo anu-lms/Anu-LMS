@@ -3,7 +3,7 @@ import Empty from '../../../atoms/Empty';
 import Card from '../../../moleculas/CardCourse';
 
 export default ({ classes, coursesInClassesIds, recentCoursesIds, coursesById }) => (
-  <div className="student-dashboard container pb-5">
+  <div className="student-dashboard container pb-5 pt-3 pt-md-5">
 
     {recentCoursesIds.length > 0 &&
     <Fragment>
