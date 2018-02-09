@@ -1,6 +1,9 @@
 // Import Bootstrap 4 grid.
 @import "../node_modules/bootstrap-4-grid/scss/grid";
 
+// Import all mixins.
+@import "mixins/*.scss";
+
 // Import all base styles.
 @import "base/variables";
 @import "base/typography";
@@ -24,12 +27,10 @@
 @import "components/collapsible_navigation";
 @import "components/lesson_navigation";
 @import "components/link-with-progress";
-@import "components/note-item";
 
 // Import styles per page.
 @import "pages/login";
 @import "pages/lesson";
 @import "pages/course";
-@import "pages/notebook";
 
 @import "../components/**/**/*.scss";
