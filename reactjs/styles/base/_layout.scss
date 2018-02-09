@@ -23,9 +23,9 @@ $home-icon-width-desktop: 40px;
 }
 
 .page-with-header {
-  padding-top: 4em;
+  padding-top: 3em;
   @include media-breakpoint-up(md) {
-    padding-top: 7em;
+    padding-top: 5em;
   }
 }
 
