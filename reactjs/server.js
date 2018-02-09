@@ -3,7 +3,8 @@ const express = require('express');
 const nextjs = require('next');
 const sass = require('node-sass');
 const routes = require('./routes');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const globImporter = require('node-sass-glob-importer');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.PORT = process.env.PORT || 3000;
@@ -54,7 +55,7 @@ app.prepare()
 
     // Add route to serve compiled SCSS from /assets/{build id}/main.css
     // Note: This is only used in production, in development css is inline.
-    const sassResult = sass.renderSync({ file: './styles/theme.scss', outputStyle: 'compressed' });
+    const sassResult = sass.renderSync({ file: './styles/theme.scss', outputStyle: 'compressed', importer: globImporter() });
     server.get('/assets/:id/main.css', (req, res) => {
       res.setHeader('Content-Type', 'text/css');
       res.setHeader('Cache-Control', 'public, max-age=2592000');
