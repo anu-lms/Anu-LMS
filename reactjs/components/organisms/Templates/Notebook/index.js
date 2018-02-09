@@ -1,5 +1,5 @@
 import React, { Fragment } from'react';
-import NoteItem from '../../../atoms/Notebook/NoteItem';
+import NotesListItem from '../../../atoms/Notebook/NotesListItem';
 
 const NotebookTemplate = (props) => (
   <Fragment>
@@ -16,17 +16,15 @@ const NotebookTemplate = (props) => (
           <span className="caption">Add New</span>
         </div>
       </div>
-
-      <NoteItem
-        title={"Outline of an article on Paul R…"}
-        teaser={"Paul Rand is best remembered today for his …"}
-        date={"02/06/18"}
-      />
-      <NoteItem
-        title={"Outline of an article on Paul R…"}
-        teaser={"Paul Rand is best remembered today for his …"}
-        date={"02/06/18"}
-      />
+      <div className="notes">
+        {props.notebook.map(notebook => (
+          <NotesListItem
+            title={notebook.title}
+            teaser={notebook.body}
+            date={notebook.changed}
+          />
+        ))}
+      </div>
     </div>
 
     <div className="note-content d-none d-md-block">
