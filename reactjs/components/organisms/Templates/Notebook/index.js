@@ -1,4 +1,5 @@
 import React, { Fragment } from'react';
+import moment from 'moment';
 import * as notebookHelpers from "../../../../helpers/notebook";
 import NotesListItem from '../../../atoms/Notebook/NotesListItem';
 
@@ -23,7 +24,7 @@ const NotebookTemplate = (props) => (
             key={notebook.id}
             title={notebook.title ? notebook.title : notebookHelpers.getTeaser(notebook.body)}
             teaser={notebookHelpers.getTeaser(notebook.body)}
-            date={notebook.changed}
+            date={moment(notebook.changed * 1000).format('MM/DD/YYYY')}
           />
         ))}
       </div>
