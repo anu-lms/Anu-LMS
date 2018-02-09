@@ -29,9 +29,14 @@ const NotebookTemplate = (props) => (
       />
     </div>
 
-
     <div className="note-content d-none d-md-block">
-      Hey, I'm a note content
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            Hey, I'm a note content
+          </div>
+        </div>
+      </div>
     </div>
 
   </Fragment>
