@@ -1,0 +1,24 @@
+.editor-menu {
+  margin-bottom: 1em;
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 1em;
+    padding: 1px;
+    text-align: center;
+
+    path {
+      fill: $london-sky;
+    }
+
+    &:hover,
+    &[data-active=true] {
+      path {
+        fill: $carbon;
+      }
+    }
+  }
+}
