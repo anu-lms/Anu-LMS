@@ -15,7 +15,7 @@ class NotebookPage extends Component {
       <App>
         <Header />
         <div className="page-with-header page-notebook">
-          <NotebookTemplate course={notebook} />
+          <NotebookTemplate notebook={notebook} />
         </div>
       </App>
     );
