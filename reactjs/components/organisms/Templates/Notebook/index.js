@@ -21,7 +21,7 @@ const NotebookTemplate = (props) => (
         {props.notebook.map(notebook => (
           <NotesListItem
             key={notebook.id}
-            title={notebook.title}
+            title={notebook.title ? notebook.title : notebookHelpers.getTeaser(notebook.body)}
             teaser={notebookHelpers.getTeaser(notebook.body)}
             date={notebook.changed}
           />
