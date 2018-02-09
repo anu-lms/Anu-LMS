@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
+import { store } from '../store/store';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
+import * as notebookActions from '../actions/notebook';
 
 class NotebookPage extends Component {
+  componentDidMount() {
+    this.props.notebook.forEach(note => {
+      store.dispatch(notebookActions.AddNote(note));
+    });
+  }
 
   render() {
     const { notebook } = this.props;
-    console.log(notebook);
     return (
       <App>
         <Header />
