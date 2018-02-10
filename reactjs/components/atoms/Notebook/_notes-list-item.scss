@@ -1,20 +1,28 @@
 .notes-list-item {
-  background-color: #e8e8e8;
-  padding: 20px 40px;
+  $date-width: 100px;
+  padding: 1em;
+  background-color: $gray91;
+  color: $carbon;
 
   &.active {
-    background-color: #ffd796;
+    background-color: $pale-peach;
+  }
+  .item-heading {
+    display: flex;
+    margin-bottom: 6px;
   }
   .title {
     @include trancate-text();
-    font-size: 18px;
+    width: calc(100% - #{$date-width});
     font-weight: bold;
   }
   .date {
-    font-size: 14px;
+    width: $date-width;
+    color: $warm-grey-two;
+    text-align: right;
+    font-size: 0.875em;
   }
   .teaser {
     @include trancate-text();
-    font-size: 18px;
   }
 }
