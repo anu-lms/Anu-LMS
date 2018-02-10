@@ -147,15 +147,12 @@ const processParagraphs = (paragraphs) => {
  */
 export const notebookData = (notebookData) => {
   // Custom mapping for notebook notes.
-  return notebookData.map(note => {
-
-    return {
-      id: note.id,
-      uuid: note.uuid,
-      created: note.created,
-      changed: note.changed,
-      title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
-      body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
-    };
-  });
+  return notebookData.map(note => ({
+    id: note.id,
+    uuid: note.uuid,
+    created: note.created,
+    changed: note.changed,
+    title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
+    body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
+  }));
 };

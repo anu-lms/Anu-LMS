@@ -12,6 +12,64 @@
       top: 80px;
       width: 33%;
     }
+
+    .notes-list-sidebar .notes-list-heading {
+      display: flex;
+      padding: 0 1em;
+      height: 56px;
+      background: $squash;
+      color: $white;
+      justify-content: space-between;
+      align-items: center;
+      @include media-breakpoint-up(md) {
+        height: 80px;
+      }
+      @include media-breakpoint-up(lg) {
+        padding: 0 2em;
+        height: 96px;
+      }
+
+      .title {
+        font-size: 1.25em;
+        font-weight: bold;
+        @include media-breakpoint-up(lg) {
+          font-size: 1.5em;
+        }
+      }
+
+      .add-note-icon {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .add-note {
+        cursor: pointer;
+        transition: all .2s;
+        @include media-breakpoint-up(md) {
+          text-align: center;
+        }
+        @include media-breakpoint-up(lg) {
+          margin-top: .75em;
+        }
+
+        &:hover {
+          color: $gray91;
+          path {
+            fill: $gray91;
+          }
+        }
+
+        .caption {
+          display: none;
+          margin-top: 6px;
+          font-size: .75em;
+          line-height: normal;
+          @include media-breakpoint-up(md) {
+            display: block;
+          }
+        }
+      }
+    }
   }
 
   .note-content-column {
