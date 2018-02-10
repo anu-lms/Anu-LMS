@@ -1,21 +1,21 @@
 .notes-list-sidebar {
-  .heading {
+  .notes-list-heading {
     height: 56px;
     background: $squash;
-    padding: 1em;
     color: $white;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
 
     .title {
       font-size: 1.25em;
       font-weight: bold;
     }
-
+    .add-note-icon {
+      display: block;
+    }
     .add-note {
-      position: absolute;
-      right: .875em;
-      top: .875em;
-
       .caption {
         display: none;
       }
