@@ -37,4 +37,22 @@
       width: calc(100% - #{$date-width});
     }
   }
+
+  @include media-breakpoint-up(lg) {
+    $date-width: 90px;
+    padding: 1.125em 2em;
+
+    .item-heading {
+      margin-bottom: 10px;
+    }
+    .date, .title, .teaser {
+      font-size: 1.125em;
+    }
+    .date {
+      width: $date-width;
+    }
+    .title {
+      width: calc(100% - #{$date-width});
+    }
+  }
 }
