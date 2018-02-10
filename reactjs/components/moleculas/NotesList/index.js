@@ -24,7 +24,7 @@ const NotesList = (props) => (
           key={notebook.id}
           title={notebook.title ? notebook.title : notebookHelpers.getTeaser(notebook.body)}
           teaser={notebookHelpers.getTeaser(notebook.body)}
-          date={moment(notebook.changed * 1000).format('MM/DD/YYYY')}
+          date={moment(notebook.changed * 1000).format('MM/DD/YY')}
         />
       ))}
     </div>
