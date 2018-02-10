@@ -3,9 +3,19 @@
   padding: 0.813em 1em;
   background-color: $gray91;
   color: $carbon;
+  border-bottom: 2px solid $white;
+  cursor: pointer;
+
+  &:hover {
+    background: $pale-peach;
+  }
 
   &.active {
-    background-color: $pale-peach;
+    background: $pale-peach;
+
+    &:hover {
+      background: darken($pale-peach, 5);
+    }
   }
   .item-heading {
     display: flex;
@@ -45,7 +55,7 @@
     .item-heading {
       margin-bottom: 10px;
     }
-    .date, .title, .teaser {
+    .title, .teaser {
       font-size: 1.125em;
     }
     .date {

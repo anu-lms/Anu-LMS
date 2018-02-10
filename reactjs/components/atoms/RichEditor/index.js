@@ -1,8 +1,6 @@
 import React from 'react';
 import { Editor } from 'slate-react';
-import { Value } from 'slate';
 import { isKeyHotkey } from 'is-hotkey';
-import initialValue from './value.json'; // TODO: Get rid of this.
 import isUrl from 'is-url';
 
 /**
@@ -55,22 +53,13 @@ const isCodeHotkey = isKeyHotkey('mod+`');
 class RichEditor extends React.Component {
 
   /**
-   * Deserialize the initial editor value.
-   *
-   * @type {Object}
-   */
-  state = {
-    value: Value.fromJSON(initialValue),
-  };
-
-  /**
    * Check if the current selection has a mark with `type` in it.
    *
    * @param {String} type
    * @return {Boolean}
    */
   hasMark = type => {
-    const { value } = this.state;
+    const { value } = this.props;
     return value.activeMarks.some(mark => mark.type === type)
   };
 
@@ -81,7 +70,7 @@ class RichEditor extends React.Component {
    * @return {Boolean}
    */
   hasBlock = type => {
-    const { value } = this.state;
+    const { value } = this.props;
     return value.blocks.some(node => node.type === type);
   };
 
@@ -91,7 +80,7 @@ class RichEditor extends React.Component {
    * @return {Boolean} hasLinks
    */
   hasLinks = () => {
-    const { value } = this.state;
+    const { value } = this.props;
     return value.inlines.some(inline => inline.type == 'link');
   };
 
@@ -101,7 +90,9 @@ class RichEditor extends React.Component {
    * @param {Change} change
    */
   onChange = ({ value }) => {
-    this.setState({ value });
+    if (this.props.onChange) {
+      this.props.onChange(value);
+    }
   };
 
   /**
@@ -112,7 +103,7 @@ class RichEditor extends React.Component {
    */
   onClickLink = event => {
     event.preventDefault();
-    const { value } = this.state;
+    const { value } = this.props;
     const hasLinks = this.hasLinks();
     const change = value.change();
 
@@ -196,7 +187,7 @@ class RichEditor extends React.Component {
    */
   onClickMark = (event, type) => {
     event.preventDefault();
-    const { value } = this.state;
+    const { value } = this.props;
     const change = value.change().toggleMark(type);
     this.onChange(change);
   };
@@ -209,7 +200,7 @@ class RichEditor extends React.Component {
    */
   onClickBlock = (event, type) => {
     event.preventDefault();
-    const { value } = this.state;
+    const { value } = this.props;
     const change = value.change();
     const { document } = value;
 
@@ -397,7 +388,7 @@ class RichEditor extends React.Component {
       <div className="editor">
         <Editor
           placeholder="Type something..."
-          value={this.state.value}
+          value={this.props.value}
           onChange={this.onChange}
           onPaste={this.onPaste}
           onKeyDown={this.onKeyDown}

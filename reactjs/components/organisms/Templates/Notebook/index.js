@@ -1,40 +1,108 @@
 import React, { Fragment } from'react';
-import NotesList from '../../../moleculas/NotesList';
-import Button from '../../../atoms/Button';
-import Editor from '../../../atoms/RichEditor';
+import { connect } from 'react-redux';
+import NotesList from '../../../moleculas/Notebook/NotesList';
+import NoteContent from '../../../moleculas/Notebook/NoteContent';
+import { AddNote } from '../../../../actions/notebook';
 
-const NotebookTemplate = (props) => (
-  <Fragment>
+class NotebookTemplate extends React.Component {
 
-    <div className="notes-list-column">
-      <NotesList notebook={props.notebook}/>
-    </div>
+  constructor(props) {
+    super(props);
 
-    <div className="note-content d-none d-md-block">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+    // Get the first note from sorted array and assume it's the active one.
+    let firstNote = {};
+    if (props.notes.length > 1) {
+      firstNote = props.notes[0];
+    }
 
-            <div className="caption sm">
-              Updated February 6, 2018 at 5:26pm
+    this.state = {
+      activeNote: firstNote,
+    };
+
+    this.addNote = this.addNote.bind(this);
+    this.openNote = this.openNote.bind(this);
+  }
+
+  addNote() {
+
+    // TODO: Move to helpers.
+    const note = {
+      id: 0,
+      uuid: '',
+      created: Math.floor(Date.now() / 1000),
+      changed: Math.floor(Date.now() / 1000),
+      title: 'Untitled',
+      body: '',
+    };
+
+    this.props.dispatch(AddNote(note));
+
+    this.setState({ activeNote: note });
+  }
+
+  openNote(id) {
+    const index = this.props.notes.findIndex(note => note.id === id);
+    const note = this.props.notes[index];
+    this.setState({ activeNote: note });
+  }
+
+  render() {
+
+    return (
+      <Fragment>
+
+        <div className="notes-list-column">
+          <div className="notes-list-sidebar">
+
+            <div className="notes-list-heading">
+
+              <div className="title">My Notebook</div>
+
+              <div className="add-note" onClick={this.addNote}>
+                <svg className="add-note-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="10 0 30 30">
+                  <g fill="none" fillRule="evenodd">
+                    <path fill="#FFF" fillRule="nonzero" d="M36.667 0H13.333C11.483 0 10 1.5 10 3.333v23.334A3.332 3.332 0 0 0 13.333 30h23.334C38.5 30 40 28.5 40 26.667V3.333C40 1.5 38.5 0 36.667 0zm-3.334 16.667h-6.666v6.666h-3.334v-6.666h-6.666v-3.334h6.666V6.667h3.334v6.666h6.666v3.334z"/>
+                  </g>
+                </svg>
+                <span className="caption">Add New</span>
+              </div>
+
             </div>
 
-            <h4 className="title editable">
-              Outline of an article on Paul Rand’s Thoughts on Design
-            </h4>
-
-            <Editor />
-
-            <div className="mb-5" />
-
-            <Button block className="mt-3">Save</Button>
+            <NotesList
+              notes={this.props.notes}
+              activeNote={this.state.activeNote}
+              onClick={this.openNote}
+            />
 
           </div>
         </div>
-      </div>
-    </div>
 
-  </Fragment>
-);
+        <div className="note-content d-none d-md-block">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <NoteContent note={this.state.activeNote} />
+              </div>
+            </div>
+          </div>
+        </div>
 
-export default NotebookTemplate;
+      </Fragment>
+    );
+  }
+}
+
+const mapStateToProps = ({ notebook }) => ({
+  notes: notebook.map(note => note.data).sort((a, b) => {
+    if (a.changed < b.changed) {
+      return 1;
+    }
+    if (a.changed > b.changed) {
+      return -1;
+    }
+    return 0;
+  }),
+});
+
+export default connect(mapStateToProps)(NotebookTemplate);

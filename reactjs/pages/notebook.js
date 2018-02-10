@@ -1,46 +1,67 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
-import { store } from '../store/store';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
-import * as notebookActions from '../actions/notebook';
+import * as notebookActions from "../actions/notebook";
 
-class NotebookPage extends Component {
-  componentDidMount() {
-    this.props.notebook.forEach(note => {
-      store.dispatch(notebookActions.AddNote(note));
-    });
-  }
+// TODO: Figure out how to merge this class into the page.
+@connect(mapStateToProps)
+class NotebookPageStore extends React.Component {
+
+  componentDidUpdate = (prevProps) => {
+    const { isStoreRehydrated, notes, dispatch } = this.props;
+    if (prevProps.isStoreRehydrated !== isStoreRehydrated) {
+      notes.forEach(note => {
+        dispatch(notebookActions.AddNote(note));
+      });
+    }
+  };
 
   render() {
-    const { notebook } = this.props;
+    return <NotebookTemplate />;
+  }
+}
+
+const mapStateToProps = (store) => {
+  let state = {
+    isStoreRehydrated: false,
+  };
+
+  if (typeof store._persist !== 'undefined') {
+    state.isStoreRehydrated = store._persist.rehydrated;
+  }
+
+  return state;
+};
+
+class NotebookPage extends Component {
+
+  render() {
     return (
       <App>
         <Header />
         <div className="page-with-header page-notebook">
-          <NotebookTemplate notebook={notebook} />
+          <NotebookPageStore notes={this.props.notes} />
         </div>
       </App>
     );
   }
 
-  static async getInitialProps({ request, query, res }) {
+  static async getInitialProps({ request, res }) {
 
-    const initialProps = {
-      notebook: [],
+    let initialProps = {
+      notes: [],
     };
 
     try {
-     const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook')
-        .query({
-          // Sort by changed date.
-          'sort': 'changed'
-        });
-      initialProps.notebook = dataProcessors.notebookData(responseNotebook.body.data);
+      const responseNotebook = await request
+        .get('/jsonapi/notebook/notebook');
+
+      initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
     } catch (error) {
       if (res) res.statusCode = 404;
       console.log(error);
