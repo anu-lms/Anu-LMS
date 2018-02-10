@@ -1,12 +1,12 @@
 .notes-list-sidebar {
   .notes-list-heading {
+    display: flex;
+    padding: 0 1em;
     height: 56px;
     background: $squash;
     color: $white;
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1em;
 
     .title {
       font-size: 1.25em;
@@ -14,11 +14,13 @@
     }
     .add-note-icon {
       display: block;
+      margin: 0 auto;
     }
-    .add-note {
-      .caption {
-        display: none;
-      }
+    .add-note .caption {
+      display: none;
+      margin-top: 6px;
+      font-size: .75em;
+      line-height: normal;
     }
   }
   .notes-list {
@@ -26,5 +28,27 @@
       border-bottom: 2px solid $white;
     }
   }
-
+  @include media-breakpoint-up(md) {
+    .notes-list-heading {
+      height: 80px;
+      .add-note {
+        text-align: center;
+        .caption {
+          display: block;
+        }
+      }
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    .notes-list-heading {
+      padding: 0 2em;
+      height: 96px;
+      .title {
+        font-size: 1.5em;
+      }
+      .add-note {
+        margin-top: 12px;
+      }
+    }
+  }
 }
