@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
+import { html } from './serializer';
 import isUrl from 'is-url';
 
 /**
@@ -49,8 +51,25 @@ const isCodeHotkey = isKeyHotkey('mod+`');
  *
  * @type {Component}
  */
-
 class RichEditor extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: false,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ value: html.deserialize(this.props.initialValue) });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.initialValue !== this.props.initialValue) {
+      this.setState({ value: html.deserialize(this.props.initialValue) });
+    }
+  }
 
   /**
    * Check if the current selection has a mark with `type` in it.
@@ -59,7 +78,7 @@ class RichEditor extends React.Component {
    * @return {Boolean}
    */
   hasMark = type => {
-    const { value } = this.props;
+    const { value } = this.state;
     return value.activeMarks.some(mark => mark.type === type)
   };
 
@@ -70,7 +89,7 @@ class RichEditor extends React.Component {
    * @return {Boolean}
    */
   hasBlock = type => {
-    const { value } = this.props;
+    const { value } = this.state;
     return value.blocks.some(node => node.type === type);
   };
 
@@ -80,8 +99,8 @@ class RichEditor extends React.Component {
    * @return {Boolean} hasLinks
    */
   hasLinks = () => {
-    const { value } = this.props;
-    return value.inlines.some(inline => inline.type == 'link');
+    const { value } = this.state;
+    return value.inlines.some(inline => inline.type === 'link');
   };
 
   /**
@@ -90,8 +109,11 @@ class RichEditor extends React.Component {
    * @param {Change} change
    */
   onChange = ({ value }) => {
+    this.setState({ value });
+
+    // Trigger any external handler.
     if (this.props.onChange) {
-      this.props.onChange(value);
+      this.props.onChange(html.serialize(value));
     }
   };
 
@@ -103,7 +125,7 @@ class RichEditor extends React.Component {
    */
   onClickLink = event => {
     event.preventDefault();
-    const { value } = this.props;
+    const { value } = this.state;
     const hasLinks = this.hasLinks();
     const change = value.change();
 
@@ -137,7 +159,7 @@ class RichEditor extends React.Component {
 
     const transfer = getEventTransfer(event);
     const { type, text } = transfer;
-    if (type != 'text' && type != 'html') return;
+    if (type !== 'text' && type !== 'html') return;
     if (!isUrl(text)) return;
 
     if (this.hasLinks()) {
@@ -187,7 +209,7 @@ class RichEditor extends React.Component {
    */
   onClickMark = (event, type) => {
     event.preventDefault();
-    const { value } = this.props;
+    const { value } = this.state;
     const change = value.change().toggleMark(type);
     this.onChange(change);
   };
@@ -200,7 +222,7 @@ class RichEditor extends React.Component {
    */
   onClickBlock = (event, type) => {
     event.preventDefault();
-    const { value } = this.props;
+    const { value } = this.state;
     const change = value.change();
     const { document } = value;
 
@@ -223,7 +245,7 @@ class RichEditor extends React.Component {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type == type);
+        return !!document.getClosest(block.key, parent => parent.type === type);
       });
 
       if (isList && isType) {
@@ -254,30 +276,36 @@ class RichEditor extends React.Component {
    */
   render() {
     return (
-      <div>
-        {this.renderToolbar()}
-        {this.renderEditor()}
-      </div>
-    )
-  }
+      <Fragment>
+        {this.state.value &&
+        <Fragment>
 
-  /**
-   * Render the toolbar.
-   *
-   * @return {Element}
-   */
-  renderToolbar = () => {
-    return (
-      <div className="editor-menu">
-        {this.renderMarkButton('bold')}
-        {this.renderMarkButton('italic')}
-        {this.renderMarkButton('underlined')}
-        {this.renderBlockButton('numbered-list')}
-        {this.renderBlockButton('bulleted-list')}
-        {this.renderLinkButton()}
-      </div>
-    )
-  };
+          <div className="editor-menu">
+            {this.renderMarkButton('bold')}
+            {this.renderMarkButton('italic')}
+            {this.renderMarkButton('underlined')}
+            {this.renderBlockButton('numbered-list')}
+            {this.renderBlockButton('bulleted-list')}
+            {this.renderLinkButton()}
+          </div>
+
+          <div className="editor">
+            <Editor
+              placeholder={this.props.placeholder}
+              value={this.state.value}
+              onChange={this.onChange}
+              onPaste={this.onPaste}
+              onKeyDown={this.onKeyDown}
+              renderNode={this.renderNode}
+              renderMark={this.renderMark}
+            />
+          </div>
+
+        </Fragment>
+        }
+      </Fragment>
+    );
+  }
 
   /**
    * Render a mark-toggling toolbar button.
@@ -377,28 +405,6 @@ class RichEditor extends React.Component {
     );
   };
 
-
-  /**
-   * Render the Slate editor.
-   *
-   * @return {Element}
-   */
-  renderEditor = () => {
-    return (
-      <div className="editor">
-        <Editor
-          placeholder="Type something..."
-          value={this.props.value}
-          onChange={this.onChange}
-          onPaste={this.onPaste}
-          onKeyDown={this.onKeyDown}
-          renderNode={this.renderNode}
-          renderMark={this.renderMark}
-        />
-      </div>
-    );
-  };
-
   /**
    * Render a Slate node.
    *
@@ -439,5 +445,17 @@ class RichEditor extends React.Component {
     }
   }
 }
+
+RichEditor.propTypes = {
+  placeholder: PropTypes.string,
+  initialValue: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+RichEditor.defaultProps = {
+  placeholder: 'Type something...',
+  initialValue: '',
+  onChange: () => {},
+};
 
 export default RichEditor;

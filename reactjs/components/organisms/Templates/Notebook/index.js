@@ -2,48 +2,63 @@ import React, { Fragment } from'react';
 import { connect } from 'react-redux';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
-import { AddNote } from '../../../../actions/notebook';
+import { addNote } from '../../../../actions/notebook';
 
 class NotebookTemplate extends React.Component {
 
   constructor(props) {
     super(props);
 
-    // Get the first note from sorted array and assume it's the active one.
-    let firstNote = {};
-    if (props.notes.length > 1) {
-      firstNote = props.notes[0];
-    }
-
     this.state = {
-      activeNote: firstNote,
+      activeNoteId: -1
     };
 
     this.addNote = this.addNote.bind(this);
     this.openNote = this.openNote.bind(this);
   }
 
+  componentDidMount() {
+    // Set the first note as opened by default.
+    if (this.props.notes.length > 0 && this.state.activeNoteId === -1) {
+      this.setState({ activeNoteId: this.props.notes[0].id });
+    }
+  }
+
+  componentDidUpdate() {
+    // Set the first note as opened by default.
+    if (this.props.notes.length > 0 && this.state.activeNoteId === -1) {
+      this.setState({ activeNoteId: this.props.notes[0].id });
+    }
+  }
+
   addNote() {
 
-    // TODO: Move to helpers.
+    // Do not add a new note there is already existing one which is not
+    // yet saved.
+    const index = this.props.notes.findIndex(note => note.id === 0);
+    if (index !== -1) {
+      return;
+    }
+
+    // TODO: Move to reducer.
     const note = {
       id: 0,
       uuid: '',
       created: Math.floor(Date.now() / 1000),
       changed: Math.floor(Date.now() / 1000),
-      title: 'Untitled',
+      title: '',
       body: '',
     };
 
-    this.props.dispatch(AddNote(note));
+    this.props.dispatch(addNote(note));
 
-    this.setState({ activeNote: note });
+    this.setState({ activeNoteId: note.id });
   }
 
   openNote(id) {
     const index = this.props.notes.findIndex(note => note.id === id);
     const note = this.props.notes[index];
-    this.setState({ activeNote: note });
+    this.setState({ activeNoteId: note.id });
   }
 
   render() {
@@ -71,7 +86,7 @@ class NotebookTemplate extends React.Component {
 
             <NotesList
               notes={this.props.notes}
-              activeNote={this.state.activeNote}
+              activeNoteId={this.state.activeNoteId}
               onClick={this.openNote}
             />
 
@@ -82,7 +97,9 @@ class NotebookTemplate extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <NoteContent note={this.state.activeNote} />
+                { this.state.activeNoteId !== -1 &&
+                <NoteContent activeNoteId={this.state.activeNoteId}/>
+                }
               </div>
             </div>
           </div>

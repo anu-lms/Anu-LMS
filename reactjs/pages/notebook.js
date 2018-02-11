@@ -8,24 +8,6 @@ import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from "../actions/notebook";
 
-// TODO: Figure out how to merge this class into the page.
-@connect(mapStateToProps)
-class NotebookPageStore extends React.Component {
-
-  componentDidUpdate = (prevProps) => {
-    const { isStoreRehydrated, notes, dispatch } = this.props;
-    if (prevProps.isStoreRehydrated !== isStoreRehydrated) {
-      notes.forEach(note => {
-        dispatch(notebookActions.AddNote(note));
-      });
-    }
-  };
-
-  render() {
-    return <NotebookTemplate />;
-  }
-}
-
 const mapStateToProps = (store) => {
   let state = {
     isStoreRehydrated: false,
@@ -37,6 +19,25 @@ const mapStateToProps = (store) => {
 
   return state;
 };
+
+// TODO: Figure out how to merge this class into the page.
+@connect(mapStateToProps)
+class NotebookPageStore extends React.Component {
+
+  componentDidUpdate = () => {
+    const { isStoreRehydrated, notes, dispatch } = this.props;
+    if (isStoreRehydrated) {
+      dispatch(notebookActions.clear());
+      notes.forEach(note => {
+        dispatch(notebookActions.addNote(note));
+      });
+    }
+  };
+
+  render() {
+    return <NotebookTemplate />;
+  }
+}
 
 class NotebookPage extends Component {
 
