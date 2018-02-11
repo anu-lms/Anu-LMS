@@ -63,44 +63,45 @@ class NoteContent extends React.Component {
 
     const data = {
       data: {
-        type: "notebook--notebook",
+        type: 'notebook--notebook',
+        id: note.uuid,
         attributes: {
-          field_notebook_title: note.title ? note.title : '',
+          field_notebook_title: note.title,
           field_notebook_body: {
             value: note.body,
             format: 'filtered_html',
           },
+          // TODO: Changed prop can't be patched somewhy.
+          //changed: Math.floor(Date.now() / 1000),
         }
       }
     };
 
-    let promise;
+    // If note exists, then we should send update request to the backend.
     if (note.uuid) {
-      data.data.id = note.uuid;
-      promise = request
+      request
         .patch('/jsonapi/notebook/notebook/' + note.uuid)
-        .send(data);
+        .send(data)
+        .then(response => {
+          const data = dataProcessors.notebookData([response.body.data]);
+          console.log('Saved entity');
+          console.log(data[0]);
+          dispatch(notebookActions.addNote(data[0]))
+        })
+        .catch(error => console.log(error));
     }
+    // If this is a new note, send post request to create one.
     else {
-      promise = request
+      request
         .post('/jsonapi/notebook/notebook')
         .send(data)
+        .then(response => {
+          const data = dataProcessors.notebookData([response.body.data]);
+          dispatch(notebookActions.replaceNewNote(data[0]));
+          dispatch(notebookActions.setActiveNote(data[0].id));
+        })
+        .catch(error => console.log(error));
     }
-
-    promise
-      .then(response => {
-        let formattedResponse = [response.body.data];
-        const notes = dataProcessors.notebookData(formattedResponse);
-        const note = notes[0];
-
-        // TODO: Set or update new.
-        dispatch(notebookActions.addNote(note));
-        console.log('response:');
-        console.log(note);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   render() {
@@ -108,7 +109,11 @@ class NoteContent extends React.Component {
       <Fragment>
 
         <div className="caption sm">
-          Updated {moment(this.props.note.changed * 1000).format('LLL')}
+          {this.props.note &&
+          <Fragment>
+            Updated {moment(this.props.note.changed * 1000).format('LLL')}
+          </Fragment>
+          }
         </div>
 
         <h5 className="title">
@@ -127,7 +132,7 @@ class NoteContent extends React.Component {
 
         <div className="mb-5"/>
 
-        <Button block className="mt-3" onClick={this.onContentSave}>Save</Button>
+        <Button block onClick={this.onContentSave}>Save</Button>
 
       </Fragment>
     );
@@ -138,12 +143,4 @@ NoteContent.contextTypes = {
   request: PropTypes.func,
 };
 
-const mapStateToProps = ({ notebook }, { activeNoteId }) => {
-  // Find currently active note in the store by id.
-  const index = notebook.findIndex(note => note.id === activeNoteId);
-  return {
-    note: notebook[index].data,
-  }
-};
-
-export default connect(mapStateToProps)(NoteContent);
+export default connect()(NoteContent);

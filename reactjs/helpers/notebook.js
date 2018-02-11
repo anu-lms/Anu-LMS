@@ -15,5 +15,5 @@ export const getTeaser = (body) => {
   // Paragraph replacement should be empty space.
   teaser = striptags(teaser, [], ' ');
 
-  return teaser;
+  return teaser.trim();
 };
