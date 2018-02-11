@@ -1,0 +1,21 @@
+.note-content {
+
+  .title {
+    min-height: 1.125em;
+    @include media-breakpoint-up(md) {
+      min-height: 1.25em;
+    }
+    @include media-breakpoint-up(lg) {
+      min-height: 1.5em;
+    }
+
+    .placeholder {
+      color: $london-sky;
+      display: block;
+    }
+
+    span {
+      outline: none;
+    }
+  }
+}

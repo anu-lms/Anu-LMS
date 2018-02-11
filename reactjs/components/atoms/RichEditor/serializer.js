@@ -1,3 +1,5 @@
+import Html from "slate-html-serializer";
+
 const BLOCK_TAGS = {
   p: 'paragraph',
   ul: 'bulleted-list',
@@ -16,10 +18,10 @@ const MARK_TAGS = {
   u: 'underlined',
 };
 
-export const rules = [
+const rules = [
   {
     deserialize: function(el, next) {
-      const type = BLOCK_TAGS[el.tagName];
+      const type = BLOCK_TAGS[el.tagName.toLowerCase()];
       if (!type) { return; }
       return {
         object: 'block',
@@ -46,7 +48,7 @@ export const rules = [
   // Add a new rule that handles marks...
   {
     deserialize: function(el, next) {
-      const type = MARK_TAGS[el.tagName];
+      const type = MARK_TAGS[el.tagName.toLowerCase()];
       if (!type) { return; }
       return {
         object: 'mark',
@@ -69,7 +71,7 @@ export const rules = [
   {
     deserialize: function (el, next) {
       if (el.tagName !== 'a') { return; }
-      const type = INLINE_TAGS[el.tagName];
+      const type = INLINE_TAGS[el.tagName.toLowerCase()];
 
       if (!type) {
         return;
@@ -94,3 +96,5 @@ export const rules = [
     }
   },
 ];
+
+export const html = new Html({ rules });

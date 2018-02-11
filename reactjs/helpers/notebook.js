@@ -1,11 +1,19 @@
 import striptags from 'striptags';
 
 export const getTeaser = (body) => {
-  const maxTeaserLenght = 128;
-  // Strip HTML tags from the body.
-  let teaser = striptags(body);
-  // Trim text, remove whitespaces, new line and tabs chars.
-  teaser = teaser.trim().replace(/[&nbsp;]+/g, ' ').replace(/[\n\r\t ]+/g, ' ');
+  const maxTeaserLength = 256;
+
   // Set max length for the text.
-  return teaser.substring(0, maxTeaserLenght);
+  let teaser = body;
+  if (teaser.length > maxTeaserLength) {
+    teaser.substring(0, maxTeaserLength);
+  }
+
+  // Strip all tags apart from paragraph without replacement.
+  teaser = striptags(body, ['p']);
+
+  // Paragraph replacement should be empty space.
+  teaser = striptags(teaser, [], ' ');
+
+  return teaser;
 };
