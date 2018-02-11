@@ -10,7 +10,8 @@ const NotesListItem = ({ id, title, date, teaser, isActive, onClick }) => (
     <div className="teaser">
       {teaser}
       {!teaser &&
-      <Fragment>&nbsp;</Fragment>}
+      <Fragment>&nbsp;</Fragment>
+      }
       </div>
   </div>
 );

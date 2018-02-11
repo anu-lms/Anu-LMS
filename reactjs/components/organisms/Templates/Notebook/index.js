@@ -2,63 +2,40 @@ import React, { Fragment } from'react';
 import { connect } from 'react-redux';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
-import { addNote } from '../../../../actions/notebook';
+import { addNewNote, setActiveNote } from '../../../../actions/notebook';
 
 class NotebookTemplate extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      activeNoteId: -1
-    };
-
     this.addNote = this.addNote.bind(this);
     this.openNote = this.openNote.bind(this);
   }
 
   componentDidMount() {
     // Set the first note as opened by default.
-    if (this.props.notes.length > 0 && this.state.activeNoteId === -1) {
-      this.setState({ activeNoteId: this.props.notes[0].id });
+    const { notes, dispatch } = this.props;
+    if (notes.length > 0) {
+      dispatch(setActiveNote(notes[0].id));
     }
   }
 
   componentDidUpdate() {
     // Set the first note as opened by default.
-    if (this.props.notes.length > 0 && this.state.activeNoteId === -1) {
-      this.setState({ activeNoteId: this.props.notes[0].id });
+    const { notes, activeNote, dispatch } = this.props;
+    if (!activeNote && notes.length > 0) {
+      dispatch(setActiveNote(notes[0].id));
     }
   }
 
   addNote() {
-
-    // Do not add a new note there is already existing one which is not
-    // yet saved.
-    const index = this.props.notes.findIndex(note => note.id === 0);
-    if (index !== -1) {
-      return;
-    }
-
-    // TODO: Move to reducer.
-    const note = {
-      id: 0,
-      uuid: '',
-      created: Math.floor(Date.now() / 1000),
-      changed: Math.floor(Date.now() / 1000),
-      title: '',
-      body: '',
-    };
-
-    this.props.dispatch(addNote(note));
-
-    this.setState({ activeNoteId: note.id });
+    const { dispatch } = this.props;
+    dispatch(addNewNote());
   }
 
   openNote(id) {
-    const index = this.props.notes.findIndex(note => note.id === id);
-    const note = this.props.notes[index];
-    this.setState({ activeNoteId: note.id });
+    const { dispatch } = this.props;
+    dispatch(setActiveNote(id));
   }
 
   render() {
@@ -86,7 +63,7 @@ class NotebookTemplate extends React.Component {
 
             <NotesList
               notes={this.props.notes}
-              activeNoteId={this.state.activeNoteId}
+              activeNoteId={this.props.activeNote.id}
               onClick={this.openNote}
             />
 
@@ -97,8 +74,8 @@ class NotebookTemplate extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                { this.state.activeNoteId !== -1 &&
-                <NoteContent activeNoteId={this.state.activeNoteId}/>
+                {this.props.activeNote &&
+                <NoteContent note={this.props.activeNote}/>
                 }
               </div>
             </div>
@@ -110,8 +87,9 @@ class NotebookTemplate extends React.Component {
   }
 }
 
-const mapStateToProps = ({ notebook }) => ({
-  notes: notebook.map(note => note.data).sort((a, b) => {
+const mapStateToProps = ({ notebook }) => {
+  // Automatically sort all notes by changed date.
+  const notes = notebook.notes.sort((a, b) => {
     if (a.changed < b.changed) {
       return 1;
     }
@@ -119,7 +97,16 @@ const mapStateToProps = ({ notebook }) => ({
       return -1;
     }
     return 0;
-  }),
-});
+  });
+
+  // Search for active note in the list of notes.
+  const index = notebook.notes.findIndex(note => note.id === notebook.activeNoteId);
+  const activeNote = index !== -1 ? notebook.notes[index] : {};
+
+  return {
+    notes,
+    activeNote,
+  }
+};
 
 export default connect(mapStateToProps)(NotebookTemplate);
