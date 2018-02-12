@@ -3,8 +3,6 @@ export default (state = [], action) => {
   let index;
   let course;
 
-//  return [];
-
   switch (action.type) {
     case 'COURSE_PROGRESS_SET':
 

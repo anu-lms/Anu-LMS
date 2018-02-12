@@ -6,25 +6,6 @@ export const addNote = (note) => ({
   note,
 });
 
-/**
- * Adds a new note to the notebook.
- * Yet unsaved.
- */
-export const addNewNote = (title = '', body = '') => ({
-  type: 'NOTE_ADD_NEW',
-  title,
-  body,
-});
-
-/**
- * Gets triggered when the new note is saved
- * and got an id from the backend.
- */
-export const replaceNewNote = (note) => ({
-  type: 'NOTE_REPLACE_NEW',
-  note,
-});
-
 export const clear = () => ({
   type: 'NOTEBOOK_CLEAR',
 });

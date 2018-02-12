@@ -30,51 +30,6 @@ export default (state = { notes: [], activeNoteId: -1 }, action) => {
         ],
       };
 
-    case 'NOTE_ADD_NEW':
-
-      // Do not add a new note there is already existing one which is not
-      // yet saved.
-      index = state.notes.findIndex(note => note.id === 0);
-      if (index !== -1) {
-        console.log('The unsaved note already exist, so not adding a new one.');
-        return state;
-      }
-
-      return {
-        ...state,
-        notes: [
-          ...state.notes,
-          {
-            id: 0,
-            uuid: '',
-            title: action.title,
-            body: action.body,
-            created: Math.floor(Date.now() / 1000),
-            changed: Math.floor(Date.now() / 1000),
-          }
-        ],
-        activeNoteId: 0,
-      };
-
-    case 'NOTE_REPLACE_NEW':
-
-      // Find unsaved note in the notebook and replace it with saved note.
-      // It happens when unsaved note was saved the first time.
-      index = state.notes.findIndex(note => note.id === 0);
-      if (index !== -1) {
-        return {
-          ...state,
-          notes: [
-            ...state.notes.slice(0, index),
-            ...state.notes.slice(index + 1),
-            action.note,
-          ],
-        }
-      }
-
-      // If unsaved note was not found then do nothing.
-      return state;
-
     case 'NOTE_UPDATE_TITLE':
 
       // Search for the existing note.
@@ -130,21 +85,12 @@ export default (state = { notes: [], activeNoteId: -1 }, action) => {
         activeNoteId: action.id,
       };
 
+    // Return to the initial state.
     case 'NOTEBOOK_CLEAR':
-
-      // We should clear all notes apart from unsaved one.
-      index = state.notes.findIndex(element => element.id === 0);
-      if (index !== -1) {
-        return {
-          notes: [{ ...state.notes[index] }],
-          activeNoteId: 0, // Automatically set active note to unsaved note.
-        }
-      }
-
-      // If no unsaved note - then return to the initial state.
       return {
         ...state,
         notes: [],
+        activeNoteId: -1,
       };
 
     default:
