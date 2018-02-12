@@ -1,6 +1,6 @@
 import striptags from 'striptags';
 
-export const getTeaser = (body) => {
+export const getTeaser = body => {
   const maxTeaserLength = 256;
 
   // Set max length for the text.
@@ -16,4 +16,19 @@ export const getTeaser = (body) => {
   teaser = striptags(teaser, [], ' ');
 
   return teaser.trim();
+};
+
+/**
+ * Get state of note sync with backend.
+ */
+export const getSavedState = note => {
+  // Default state if nothing else is stated.
+  let state = 'Saved';
+  if (typeof note.isSaving !== 'undefined' && note.isSaving) {
+    state = 'Saving...';
+  }
+  else if (typeof note.isSaved !== 'undefined') {
+    state = note.isSaved ? 'Saved' : 'Not saved';
+  }
+  return state;
 };

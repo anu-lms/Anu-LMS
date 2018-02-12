@@ -29,3 +29,19 @@ export const setActiveNote = id => ({
   type: 'NOTE_SET_ACTIVE',
   id,
 });
+
+/**
+ * Set note state to "Is Saving".
+ */
+export const setNoteStateSaving = id => ({
+  type: 'NOTE_SET_STATE_SAVING',
+  id,
+});
+
+/**
+ * Set note state to "Is Saving".
+ */
+export const setNoteStateSaved = id => ({
+  type: 'NOTE_SET_STATE_SAVED',
+  id,
+});

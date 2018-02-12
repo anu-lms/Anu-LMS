@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
 import Editor from '../../../atoms/RichEditor';
 import EditableElement from '../../../atoms/EditableElement';
-import * as notebookActions from "../../../../actions/notebook";
-import * as dataProcessors from "../../../../utils/dataProcessors";
+import * as notebookHelpers from '../../../../helpers/notebook';
+import * as notebookActions from '../../../../actions/notebook';
+import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class NoteContent extends React.Component {
 
@@ -48,7 +49,9 @@ class NoteContent extends React.Component {
 
   onContentChange(value) {
     const { note, dispatch } = this.props;
-    dispatch(notebookActions.updateNoteBody(note.id, value));
+    if (note.body !== value) {
+      dispatch(notebookActions.updateNoteBody(note.id, value));
+    }
   }
 
   onTitleChange(value) {
@@ -60,6 +63,9 @@ class NoteContent extends React.Component {
     // TODO: Authentication may drop if expired.
     const request = this.context.request();
     const { note, dispatch } = this.props;
+
+    // Set the note's state to "Is saving".
+    dispatch(notebookActions.setNoteStateSaving(note.id));
 
     request
       .patch('/jsonapi/notebook/notebook/' + note.uuid)
@@ -73,17 +79,17 @@ class NoteContent extends React.Component {
               value: note.body,
               format: 'filtered_html',
             },
-            // TODO: Changed prop can't be patched somewhy.
-            //changed: Math.floor(Date.now() / 1000),
           }
         }
       })
       .then(response => {
         const data = dataProcessors.notebookData([response.body.data]);
-        console.log('Saved entity');
-        console.log(data[0]);
+
+        // Replace the old note with saved one.
         dispatch(notebookActions.addNote(data[0]));
-        dispatch(notebookActions.setActiveNote(data[0].id));
+
+        // Set the note's state to "Saved".
+        dispatch(notebookActions.setNoteStateSaved(note.id));
       })
       .catch(error => console.log(error));
 
@@ -94,6 +100,11 @@ class NoteContent extends React.Component {
       <Fragment>
 
         <div className="caption sm">
+
+          <div>
+          {notebookHelpers.getSavedState(this.props.note)}
+          </div>
+
           {this.props.note &&
           <Fragment>
             Updated {moment(this.props.note.changed * 1000).format('LLL')}
