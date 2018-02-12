@@ -28,7 +28,7 @@ class NotebookPageStore extends React.Component {
     const { isStoreRehydrated, notes, dispatch } = this.props;
     if (isStoreRehydrated) {
 
-      // Reset all existing notes in the notebook (apart from unsaved).
+      // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
@@ -36,11 +36,9 @@ class NotebookPageStore extends React.Component {
         dispatch(notebookActions.addNote(note));
       });
 
-      // If no notes available on the backend - add a welcome note by default.
-      if (notes.length === 0) {
-        const title = 'Taking Notes';
-        const body = '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers.</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>';
-        dispatch(notebookActions.addNewNote(title, body));
+      // Automatically set the first note as active for editing.
+      if (notes.length > 0) {
+        dispatch(notebookActions.setActiveNote(notes[0].id));
       }
     }
   };
@@ -71,11 +69,40 @@ class NotebookPage extends Component {
 
     try {
       const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook');
+        .get('/jsonapi/notebook/notebook')
+        .query({
+          // Sort by changed date.
+          'sort': '-changed'
+        });
 
       initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
     } catch (error) {
       if (res) res.statusCode = 404;
+      console.log(error);
+    }
+
+    // If no notes available on the backend - add a welcome note by default.
+    try {
+      if (initialProps.notes.length === 0) {
+        const response = await request
+          .post('/jsonapi/notebook/notebook')
+          .send({
+            data: {
+              type: 'notebook--notebook',
+              attributes: {
+                field_notebook_title: 'Taking Notes',
+                field_notebook_body: {
+                  value: '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers!</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>',
+                  format: 'filtered_html',
+                },
+              }
+            }
+          });
+
+        initialProps.notes = dataProcessors.notebookData([response.body.data]);
+      }
+    } catch (error) {
+      console.log('Could not create a welcome note.');
       console.log(error);
     }
 
