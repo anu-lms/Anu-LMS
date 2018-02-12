@@ -71,14 +71,11 @@
       }
     }
     .notes-list {
-      $header-heigh: 48px;
-      $notes-heading: 56px;
-      max-height: calc(100vh - #{$header-heigh + $notes-heading});
-      overflow-y: auto;
       @include media-breakpoint-up(md) {
         $header-heigh: 80px;
         $notes-heading: 80px;
         max-height: calc(100vh - #{$header-heigh + $notes-heading});
+        overflow-y: auto;
       }
       @include media-breakpoint-up(lg) {
         $header-heigh: 80px;
