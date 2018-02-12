@@ -5,6 +5,7 @@
   color: $carbon;
   border-bottom: 2px solid $white;
   cursor: pointer;
+  transition: background-color .1s;
 
   &:hover {
     background: $pale-peach;
