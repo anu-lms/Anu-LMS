@@ -19,6 +19,7 @@ class NoteContent extends React.Component {
       initialTitle: '',
     };
 
+    this.showNotes = this.showNotes.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentSave = this.onContentSave.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
@@ -45,6 +46,11 @@ class NoteContent extends React.Component {
         initialContent: note.body,
       });
     }
+  }
+
+  showNotes() {
+    const { dispatch } = this.props;
+    dispatch(notebookActions.toggleMobileVisibility());
   }
 
   onContentChange(value) {
@@ -92,17 +98,23 @@ class NoteContent extends React.Component {
         dispatch(notebookActions.setNoteStateSaved(note.id));
       })
       .catch(error => console.log(error));
-
   }
 
   render() {
     return (
       <Fragment>
 
+        <div className="show-notebook d-md-none" onClick={this.showNotes}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
+          </svg>
+          <span>Back to Notebook</span>
+        </div>
+
         <div className="caption sm">
 
           <div>
-          {notebookHelpers.getSavedState(this.props.note)}
+            {notebookHelpers.getSavedState(this.props.note)}
           </div>
 
           {this.props.note &&
@@ -117,6 +129,7 @@ class NoteContent extends React.Component {
             initialValue={this.state.initialTitle}
             placeholder={"Untitled"}
             onChange={this.onTitleChange}
+            maxLength={255}
           />
         </h5>
 
