@@ -1,6 +1,16 @@
 .note-content {
 
+  @include media-breakpoint-up(md) {
+    margin-left: 33%;
+    padding: 1.5em 1em;
+  }
+
+  .caption {
+    color: $london-sky;
+  }
+
   .title {
+    margin-top: 1em;
     min-height: 1.125em;
     @include media-breakpoint-up(md) {
       min-height: 1.25em;

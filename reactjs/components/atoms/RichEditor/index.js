@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { StickyContainer, Sticky } from 'react-sticky';
 import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { html } from './serializer';
@@ -278,16 +279,23 @@ class RichEditor extends React.Component {
     return (
       <Fragment>
         {this.state.value &&
-        <Fragment>
+        <StickyContainer>
 
-          <div className="editor-menu">
-            {this.renderMarkButton('bold')}
-            {this.renderMarkButton('italic')}
-            {this.renderMarkButton('underlined')}
-            {this.renderBlockButton('numbered-list')}
-            {this.renderBlockButton('bulleted-list')}
-            {this.renderLinkButton()}
-          </div>
+          <Sticky topOffset={-80}>
+            {({ isSticky }) => {
+              return (
+                <div className={`editor-menu ${isSticky ? 'sticky' : ''}`}>
+                  {this.renderMarkButton('bold')}
+                  {this.renderMarkButton('italic')}
+                  {this.renderMarkButton('underlined')}
+                  {this.renderBlockButton('numbered-list')}
+                  {this.renderBlockButton('bulleted-list')}
+                  {this.renderLinkButton()}
+                </div>
+
+              )
+            }}
+          </Sticky>
 
           <div className="editor">
             <Editor
@@ -301,7 +309,7 @@ class RichEditor extends React.Component {
             />
           </div>
 
-        </Fragment>
+        </StickyContainer>
         }
       </Fragment>
     );
