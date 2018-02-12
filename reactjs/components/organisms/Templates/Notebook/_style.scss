@@ -3,14 +3,13 @@
 
   .notes-list-column {
     background-color: $gray91;
-    position: fixed;
-    left: 0;
-    top: 48px;
     width: 100%;
-    bottom: 0;
     @include media-breakpoint-up(md) {
       top: 80px;
       width: 33%;
+      bottom: 0;
+      position: fixed;
+      left: 0;
     }
 
     .notes-list-heading {
@@ -38,14 +37,11 @@
       }
     }
     .notes-list {
-      $header-heigh: 48px;
-      $notes-heading: 56px;
-      max-height: calc(100vh - #{$header-heigh + $notes-heading});
-      overflow-y: auto;
       @include media-breakpoint-up(md) {
         $header-heigh: 80px;
         $notes-heading: 80px;
         max-height: calc(100vh - #{$header-heigh + $notes-heading});
+        overflow-y: auto;
       }
       @include media-breakpoint-up(lg) {
         $header-heigh: 80px;
