@@ -9,9 +9,11 @@
   }
 
   &:hover {
-    color: $gray91;
+    color: $carbon;
+    transition: all .2s;
     path {
-      fill: $gray91;
+      transition: all .2s;
+      fill: $carbon;
     }
   }
 

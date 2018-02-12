@@ -32,9 +32,17 @@ class EditableElement extends React.Component {
   }
 
   handleElementChange() {
-    if (this.props.onChange) {
-      this.props.onChange(this.refs.element.innerText);
+    const { onChange, maxLength } = this.props;
+    const text = this.refs.element.innerText;
+
+    // Trim the text down to max length if set.
+    if (maxLength && text.length > maxLength) {
+      this.refs.element.innerText = text.substr(0, maxLength);
+      this.setCursorToTheEnd();
     }
+
+    // Pass set text to the external handler.
+    onChange(text);
   }
 
   handleElementBlur() {
@@ -54,11 +62,8 @@ class EditableElement extends React.Component {
     }
   }
 
-  handlePlaceholderClick() {
-
-    // TODO: Bug - possible to click next to the placeholder.
-
-    // Set the cursor to the element.
+  setCursorToTheEnd() {
+    // Set the cursor to the end of the element.
     let range, selection;
     range = document.createRange();
     range.selectNodeContents(this.refs.element);
@@ -66,6 +71,14 @@ class EditableElement extends React.Component {
     selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+  }
+
+  handlePlaceholderClick() {
+
+    // TODO: Bug - so far it's' possible to click next to the placeholder.
+    // So far solved in css.
+
+    this.setCursorToTheEnd();
 
     // Hide clicked placeholder.
     this.setState({ isPlaceholderVisible: false });

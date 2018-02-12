@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
-import { setActiveNote } from '../../../../actions/notebook';
+import * as notebookActions from '../../../../actions/notebook';
 
 class NotebookTemplate extends React.Component {
 
@@ -14,15 +14,17 @@ class NotebookTemplate extends React.Component {
 
   openNote(id) {
     const { dispatch } = this.props;
-    dispatch(setActiveNote(id));
+    dispatch(notebookActions.setActiveNote(id));
+    dispatch(notebookActions.toggleMobileVisibility());
   }
 
   render() {
+    const { notes, activeNote, isMobileContentVisible } = this.props;
 
     return (
       <Fragment>
 
-        <div className="notes-list-column">
+        <div className={`notes-list-column ${isMobileContentVisible ? 'hidden' : 'visible'}`}>
 
           <div className="notes-list-heading">
             <div className="title">My Notebook</div>
@@ -30,19 +32,19 @@ class NotebookTemplate extends React.Component {
           </div>
 
           <NotesList
-            notes={this.props.notes}
-            activeNoteId={this.props.activeNote.id}
+            notes={notes}
+            activeNoteId={activeNote.id}
             onClick={this.openNote}
           />
 
         </div>
 
-        <div className="note-content d-none d-md-block">
+        <div className={`note-content mb-4 ${isMobileContentVisible ? 'visible' : 'hidden'}`}>
           <div className="container">
             <div className="row">
               <div className="col-12">
-                {this.props.activeNote &&
-                <NoteContent note={this.props.activeNote}/>
+                {activeNote &&
+                <NoteContent note={activeNote}/>
                 }
               </div>
             </div>
@@ -73,6 +75,7 @@ const mapStateToProps = ({ notebook }) => {
   return {
     notes,
     activeNote,
+    isMobileContentVisible: notebook.isMobileContentVisible,
   }
 };
 

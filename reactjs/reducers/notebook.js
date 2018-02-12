@@ -1,4 +1,11 @@
-export default (state = { notes: [], activeNoteId: -1 }, action) => {
+export default (state = {
+  // List of all notes.
+  notes: [],
+  // ID of note which is currently being edited.
+  activeNoteId: -1,
+  // Defines if notes list or note edit is visible on mobile.
+  isMobileContentVisible: false
+}, action) => {
   let index;
 
   switch (action.type) {
@@ -156,9 +163,17 @@ export default (state = { notes: [], activeNoteId: -1 }, action) => {
     // Return to the initial state.
     case 'NOTEBOOK_CLEAR':
       return {
-        ...state,
         notes: [],
         activeNoteId: -1,
+        isMobileContentVisible: false,
+      };
+
+    // Show notes list or note edit form on the mobile.
+    // This action toggles this behavior.
+    case 'NOTEBOOK_MOBILE_TOGGLE_VISIBILITY':
+      return {
+        ...state,
+        isMobileContentVisible: !state.isMobileContentVisible,
       };
 
     default:

@@ -46,6 +46,7 @@ class AddNoteButton extends React.Component {
         const data = dataProcessors.notebookData([response.body.data]);
         dispatch(notebookActions.addNote(data[0]));
         dispatch(notebookActions.setActiveNote(data[0].id));
+        dispatch(notebookActions.toggleMobileVisibility());
         this.setState({ isSaving: false });
       })
       .catch(error => {
