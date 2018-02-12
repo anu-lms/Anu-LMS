@@ -290,7 +290,7 @@ class RichEditor extends React.Component {
                   {this.renderMarkButton('underlined')}
                   {this.renderBlockButton('numbered-list')}
                   {this.renderBlockButton('bulleted-list')}
-                  {this.renderLinkButton()}
+                  {/*this.renderLinkButton()*/}
                 </div>
 
               )
