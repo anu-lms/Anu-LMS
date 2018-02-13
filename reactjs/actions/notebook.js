@@ -62,3 +62,11 @@ export const setNoteStateSaved = id => ({
 export const toggleMobileVisibility = () => ({
   type: 'NOTEBOOK_MOBILE_TOGGLE_VISIBILITY',
 });
+
+/**
+ * Delete specified note.
+ */
+export const deleteNote = id => ({
+  type: 'NOTE_DELETE',
+  id,
+});

@@ -176,6 +176,24 @@ export default (state = {
         isMobileContentVisible: !state.isMobileContentVisible,
       };
 
+    case 'NOTE_DELETE':
+      // Search for the existing note.
+      index = state.notes.findIndex(element => element.id === action.id);
+
+      // If the note is found (which is expected), then delete this note from state
+      // and set new active note.
+      const activeNoteIndex = state.notes.length > (index + 1) ? (index + 1) : (index - 1);
+      if (index !== -1) {
+        return {
+          ...state,
+          notes: [
+            ...state.notes.slice(0, index),
+            ...state.notes.slice(index + 1)
+          ],
+          activeNoteId: state.notes[activeNoteIndex].id,
+        }
+      }
+
     default:
       return state;
   }

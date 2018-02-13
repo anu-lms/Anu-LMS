@@ -4,6 +4,7 @@ import moment from 'moment/moment';
 import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
 import Editor from '../../../atoms/RichEditor';
+import NoteMenu from '../NoteMenu';
 import EditableElement from '../../../atoms/EditableElement';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import * as notebookActions from '../../../../actions/notebook';
@@ -111,17 +112,24 @@ class NoteContent extends React.Component {
           <span>Back to Notebook</span>
         </div>
 
-        <div className="caption sm">
+        <div className="row">
+          <div className="caption sm col-auto mr-auto">
 
-          <div>
-            {notebookHelpers.getSavedState(this.props.note)}
+            <div>
+              {notebookHelpers.getSavedState(this.props.note)}
+            </div>
+
+            {this.props.note &&
+            <Fragment>
+              Updated {moment(this.props.note.changed * 1000).format('LLL')}
+            </Fragment>
+            }
           </div>
 
-          {this.props.note &&
-          <Fragment>
-            Updated {moment(this.props.note.changed * 1000).format('LLL')}
-          </Fragment>
-          }
+          <div className="col-auto">
+            {this.props.count > 1 && <NoteMenu note={this.props.note} />}
+          </div>
+
         </div>
 
         <h5 className="title">
@@ -139,7 +147,7 @@ class NoteContent extends React.Component {
           onChange={this.onContentChange}
         />
 
-        <div className="mb-5"/>
+        <div className="mb-5" />
 
         <Button block onClick={this.onContentSave}>Save</Button>
 
@@ -152,4 +160,8 @@ NoteContent.contextTypes = {
   request: PropTypes.func,
 };
 
-export default connect()(NoteContent);
+const mapStateToProps = ({ notebook }) => ({
+  count: notebook.notes.length
+})
+
+export default connect(mapStateToProps)(NoteContent);

@@ -1,4 +1,4 @@
-import React, { Fragment } from'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
@@ -42,9 +42,9 @@ class NotebookTemplate extends React.Component {
         <div className={`note-content mb-4 ${isMobileContentVisible ? 'visible' : 'hidden'}`}>
           <div className="container">
             <div className="row">
-              <div className="col-12">
+              <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
-                <NoteContent note={activeNote}/>
+                  <NoteContent note={activeNote} />
                 }
               </div>
             </div>

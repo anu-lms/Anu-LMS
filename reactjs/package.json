@@ -3,6 +3,7 @@
   "version": "1.08",
   "private": true,
   "dependencies": {
+    "@trendmicro/react-dropdown": "^1.2.0",
     "bootstrap-4-grid": "^2.2.0",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
