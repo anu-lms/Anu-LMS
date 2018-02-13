@@ -26,6 +26,7 @@ export const DeleteIcon = () => (
 export const ImportantMenuItem = styled(MenuItem) `
 && {
   > div {
+    transition: all .2s;
     &:hover {
       background-color: #e59394 !important;
     }
