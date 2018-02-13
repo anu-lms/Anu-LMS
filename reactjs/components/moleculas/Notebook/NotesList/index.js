@@ -9,8 +9,8 @@ const NotesList = ({ notes, activeNoteId, ...props }) => (
       <NotesListItem
         key={note.id}
         id={note.id}
-        title={note.title ? note.title : notebookHelpers.getFirstTextLine(note.body)}
-        teaser={notebookHelpers.getTeaser(note.body)}
+        title={note.title ? note.title : notebookHelpers.getTeaser(note.body, 1)}
+        teaser={note.title ? notebookHelpers.getTeaser(note.body, 1): notebookHelpers.getTeaser(note.body, 2)}
         date={moment(note.changed * 1000).format('MM/DD/YY')}
         isActive={note.id === activeNoteId}
         {...props}
