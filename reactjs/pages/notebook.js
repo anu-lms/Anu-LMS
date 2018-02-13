@@ -8,21 +8,7 @@ import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from "../actions/notebook";
 
-const mapStateToProps = (store) => {
-  let state = {
-    isStoreRehydrated: false,
-  };
-
-  if (typeof store._persist !== 'undefined') {
-    state.isStoreRehydrated = store._persist.rehydrated;
-  }
-
-  return state;
-};
-
-// TODO: Figure out how to merge this class into the page.
-@connect(mapStateToProps)
-class NotebookPageStore extends React.Component {
+class NotebookPage extends Component {
 
   componentDidUpdate = () => {
     const { isStoreRehydrated, notes, dispatch } = this.props;
@@ -44,27 +30,21 @@ class NotebookPageStore extends React.Component {
   };
 
   render() {
-    return <NotebookTemplate />;
-  }
-}
-
-class NotebookPage extends Component {
-
-  render() {
     return (
       <App>
         <Header />
         <div className="page-with-header page-notebook">
-          <NotebookPageStore notes={this.props.notes} />
+          <NotebookTemplate />
         </div>
       </App>
     );
   }
 
-  static async getInitialProps({ request, res }) {
+  static async getInitialProps({ request, res, dispatch }) {
 
     let initialProps = {
       notes: [],
+      dispatch,
     };
 
     try {
@@ -110,4 +90,16 @@ class NotebookPage extends Component {
   }
 }
 
-export default withRedux(withAuth(NotebookPage));
+const mapStateToProps = (store) => {
+  let state = {
+    isStoreRehydrated: false,
+  };
+
+  if (typeof store._persist !== 'undefined') {
+    state.isStoreRehydrated = store._persist.rehydrated;
+  }
+
+  return state;
+};
+
+export default withRedux(connect(mapStateToProps)(withAuth(NotebookPage)));
