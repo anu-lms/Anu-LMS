@@ -12,7 +12,7 @@
     right: 0;
     z-index: 1050;
     @include media-breakpoint-up(md) {
-      padding-left: calc(1em + 15px); // padding + grid gutter width.
+      padding-left: 7.5%; /* Pontentially recalculate this value */
       top: 80px;
       left: 33%;
     }
