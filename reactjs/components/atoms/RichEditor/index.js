@@ -67,7 +67,9 @@ class RichEditor extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.initialValue !== this.props.initialValue) {
+    console.log('prev initial id: ' + prevProps.id);
+    console.log('new initial id: ' + this.props.id);
+    if (prevProps.id !== this.props.id) {
       this.setState({ value: html.deserialize(this.props.initialValue) });
     }
   }

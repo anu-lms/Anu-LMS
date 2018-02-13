@@ -23,7 +23,7 @@ class EditableElement extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.initialValue !== this.props.initialValue) {
+    if (prevProps.id !== this.props.id) {
       this.refs.element.innerText = this.props.initialValue;
 
       const placeholderVisible = !this.props.initialValue;
@@ -111,6 +111,7 @@ class EditableElement extends React.Component {
 }
 
 EditableElement.propTypes = {
+  id: PropTypes.number.isRequired,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
   maxLength: PropTypes.number, // TODO: Implement max length for element.
