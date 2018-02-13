@@ -56,6 +56,14 @@ export const setNoteStateSaved = id => ({
 });
 
 /**
+ * Set note state to "Not Saved".
+ */
+export const setNoteStateNotSaved = id => ({
+  type: 'NOTE_SET_STATE_NOT_SAVED',
+  id,
+});
+
+/**
  *  Show notes list or note edit form on the mobile.
  *  This action toggles this behavior.
  */

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as notebookActions from '../../../../actions/notebook';
+import * as notebookHelpers from '../../../../helpers/notebook';
 
 class AddNoteButton extends React.Component {
 
@@ -17,7 +17,7 @@ class AddNoteButton extends React.Component {
     this.addNewNote = this.addNewNote.bind(this);
   }
 
-  addNewNote() {
+  async addNewNote() {
 
     // Don't allow to send requests twice before the previous one is completed.
     if (this.state.isSaving) {
@@ -28,32 +28,18 @@ class AddNoteButton extends React.Component {
     const { dispatch } = this.props;
     this.setState({ isSaving: true });
 
-    request
-      .post('/jsonapi/notebook/notebook')
-      .send({
-        data: {
-          type: 'notebook--notebook',
-          attributes: {
-            field_notebook_title: '',
-            field_notebook_body: {
-              value: '',
-              format: 'filtered_html',
-            },
-          }
-        }
-      })
-      .then(response => {
-        const data = dataProcessors.notebookData([response.body.data]);
-        dispatch(notebookActions.addNote(data[0]));
-        dispatch(notebookActions.setActiveNote(data[0].id));
-        dispatch(notebookActions.toggleMobileVisibility());
-        this.setState({ isSaving: false });
-      })
-      .catch(error => {
-        this.setState({ isSaving: false });
-        Alert.error('Could not create a new note. Please, try refreshing the page.');
-        console.log(error);
-      });
+    try {
+      const note = await notebookHelpers.createNote(request);
+      dispatch(notebookActions.addNote(note));
+      dispatch(notebookActions.setActiveNote(note.id));
+      dispatch(notebookActions.toggleMobileVisibility());
+      this.setState({ isSaving: false });
+    }
+    catch (error) {
+      this.setState({ isSaving: false });
+      Alert.error('Could not create a new note. Please, try refreshing the page.');
+      console.log(error);
+    }
   }
 
   render() {

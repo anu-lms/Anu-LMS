@@ -7,6 +7,7 @@ import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from "../actions/notebook";
+import * as notebookHelpers from "../helpers/notebook";
 
 class NotebookPage extends Component {
 
@@ -15,6 +16,7 @@ class NotebookPage extends Component {
     if (isStoreRehydrated) {
 
       // Reset all existing notes in the notebook.
+      // TODO: Skip unsaved?
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
@@ -40,11 +42,10 @@ class NotebookPage extends Component {
     );
   }
 
-  static async getInitialProps({ request, res, dispatch }) {
+  static async getInitialProps({ request, res }) {
 
     let initialProps = {
-      notes: [],
-      dispatch,
+      notes: []
     };
 
     try {
@@ -62,28 +63,16 @@ class NotebookPage extends Component {
     }
 
     // If no notes available on the backend - add a welcome note by default.
-    try {
-      if (initialProps.notes.length === 0) {
-        const response = await request
-          .post('/jsonapi/notebook/notebook')
-          .send({
-            data: {
-              type: 'notebook--notebook',
-              attributes: {
-                field_notebook_title: 'Taking Notes',
-                field_notebook_body: {
-                  value: '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers!</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>',
-                  format: 'filtered_html',
-                },
-              }
-            }
-          });
-
-        initialProps.notes = dataProcessors.notebookData([response.body.data]);
+    if (initialProps.notes.length === 0) {
+      try {
+        const title = 'Taking Notes';
+        const body = '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers!</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>';
+        const note = await notebookHelpers.createNote(request, title, body);
+        initialProps.notes = [note];
+      } catch (error) {
+        console.log('Could not create a welcome note.');
+        console.log(error);
       }
-    } catch (error) {
-      console.log('Could not create a welcome note.');
-      console.log(error);
     }
 
     return initialProps;

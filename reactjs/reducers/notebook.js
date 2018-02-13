@@ -153,6 +153,30 @@ export default (state = {
       // Otherwise return unchanged state.
       return state;
 
+    case 'NOTE_SET_STATE_NOT_SAVED':
+
+      // Search for the existing note.
+      index = state.notes.findIndex(element => element.id === action.id);
+
+      // If the note is found (which is expected), then just set the right state.
+      if (index !== -1) {
+        return {
+          ...state,
+          notes: [
+            ...state.notes.slice(0, index),
+            {
+              ...state.notes[index],
+              isSaving: false,
+              isSaved: false,
+            },
+            ...state.notes.slice(index + 1),
+          ],
+        }
+      }
+
+      // Otherwise return unchanged state.
+      return state;
+
     // Set ID of active note to display for editing.
     case 'NOTE_SET_ACTIVE':
       return {

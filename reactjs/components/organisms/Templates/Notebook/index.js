@@ -1,15 +1,84 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
+import * as notebookHelpers from "../../../../helpers/notebook";
 
 class NotebookTemplate extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      timerId: 0,
+    };
+
     this.openNote = this.openNote.bind(this);
+    this.autoSaveNote = this.autoSaveNote.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      timerId: setInterval(this.autoSaveNote, 5000),
+    })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.timerId);
+  }
+
+  async autoSaveNote() {
+    const { notes, dispatch } = this.props;
+
+    // We're interested only in notes which are not yet saved and not being
+    // in the saving process already. Usually it's a quick operation, but you
+    // can never count on this.
+    const unsavedNotes = notes.filter(note => {
+      const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
+      const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
+      return !isSaved && !isSaving;
+    });
+
+    // If all notes are saved - great, nothing to do here any more.
+    if (unsavedNotes.length === 0) {
+      return;
+    }
+
+    // TODO: Authentication may drop if expired.
+    const request = this.context.request();
+
+    console.log('Notes to save:');
+    console.log(unsavedNotes);
+
+    // Execute all saving operations in parallel.
+    // Normally here is just one note to save, but you never know how fast
+    // the users these days can be!
+    Promise.all(unsavedNotes.map(async note => {
+
+      // Set the note's state to "Is saving".
+      dispatch(notebookActions.setNoteStateSaving(note.id));
+
+      try {
+        const savedNote = await
+          notebookHelpers.updateNote(request, note.title, note.body, note.uuid);
+
+        // Replace the old note with saved one.
+        dispatch(notebookActions.addNote(savedNote));
+
+        // Set the note's state to "Saved".
+        dispatch(notebookActions.setNoteStateSaved(note.id));
+
+        console.log('Saved note:');
+        console.log(note);
+      }
+      catch (error) {
+        // Set the note's state to "Not Saved".
+        dispatch(notebookActions.setNoteStateNotSaved(note.id));
+      }
+    }));
   }
 
   openNote(id) {
@@ -77,6 +146,10 @@ const mapStateToProps = ({ notebook }) => {
     activeNote,
     isMobileContentVisible: notebook.isMobileContentVisible,
   }
+};
+
+NotebookTemplate.contextTypes = {
+  request: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(NotebookTemplate);

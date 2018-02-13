@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment/moment';
 import { connect } from 'react-redux';
-import Button from '../../../atoms/Button';
 import Editor from '../../../atoms/RichEditor';
 import NoteMenu from '../NoteMenu';
 import EditableElement from '../../../atoms/EditableElement';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import * as notebookActions from '../../../../actions/notebook';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class NoteContent extends React.Component {
 
@@ -22,7 +19,6 @@ class NoteContent extends React.Component {
 
     this.showNotes = this.showNotes.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
-    this.onContentSave = this.onContentSave.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
   }
 
@@ -64,41 +60,6 @@ class NoteContent extends React.Component {
   onTitleChange(value) {
     const { note, dispatch } = this.props;
     dispatch(notebookActions.updateNoteTitle(note.id, value));
-  }
-
-  onContentSave() {
-    // TODO: Authentication may drop if expired.
-    const request = this.context.request();
-    const { note, dispatch } = this.props;
-
-    // Set the note's state to "Is saving".
-    dispatch(notebookActions.setNoteStateSaving(note.id));
-
-    request
-      .patch('/jsonapi/notebook/notebook/' + note.uuid)
-      .send({
-        data: {
-          type: 'notebook--notebook',
-          id: note.uuid,
-          attributes: {
-            field_notebook_title: note.title,
-            field_notebook_body: {
-              value: note.body,
-              format: 'filtered_html',
-            },
-          }
-        }
-      })
-      .then(response => {
-        const data = dataProcessors.notebookData([response.body.data]);
-
-        // Replace the old note with saved one.
-        dispatch(notebookActions.addNote(data[0]));
-
-        // Set the note's state to "Saved".
-        dispatch(notebookActions.setNoteStateSaved(note.id));
-      })
-      .catch(error => console.log(error));
   }
 
   render() {
@@ -147,21 +108,13 @@ class NoteContent extends React.Component {
           onChange={this.onContentChange}
         />
 
-        <div className="mb-5" />
-
-        <Button block onClick={this.onContentSave}>Save</Button>
-
       </Fragment>
     );
   }
 }
 
-NoteContent.contextTypes = {
-  request: PropTypes.func,
-};
-
 const mapStateToProps = ({ notebook }) => ({
   count: notebook.notes.length
-})
+});
 
 export default connect(mapStateToProps)(NoteContent);
