@@ -16,8 +16,23 @@ export const getTeaser = body => {
   // Paragraph replacement should be empty space.
   teaser = striptags(teaser, [], ' ');
 
-  // Replace html representation of quotes.
-  teaser = teaser.replace(new RegExp("&"+"#"+"x27;", "g"), "'");
+  return teaser.trim();
+};
+
+export const getFirstTextLine = body => {
+  const maxTeaserLength = 256;
+
+  // Set max length for the text.
+  let teaser = body;
+  if (teaser.length > maxTeaserLength) {
+    teaser = teaser.substring(0, maxTeaserLength);
+  }
+
+  // Strip all tags apart from paragraph without replacement.
+  teaser = striptags(teaser, ['p']);
+
+  // Paragraph replacement should be empty space.
+  teaser = striptags(teaser, [], ' ');
 
   return teaser.trim();
 };
