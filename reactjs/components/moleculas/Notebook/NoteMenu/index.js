@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import Dropdown, { MenuItem, MenuIcon, DeleteIcon } from '../../../atoms/DropdownMenu';
+import Dropdown, { ImportantMenuItem, MenuIcon, DeleteIcon } from '../../../atoms/DropdownMenu';
 import * as notebookActions from "../../../../actions/notebook";
 
 class NoteMenu extends Component {
@@ -40,9 +40,9 @@ class NoteMenu extends Component {
         </Dropdown.Toggle>
         <Dropdown.MenuWrapper pullRight>
           <Dropdown.Menu pullRight>
-            <MenuItem onSelect={() => { this.onDelete() }} >
+            <ImportantMenuItem onSelect={() => { this.onDelete() }} >
               <DeleteIcon /> Delete Note
-        </MenuItem>
+            </ImportantMenuItem>
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>
       </Dropdown>
