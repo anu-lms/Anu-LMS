@@ -5,6 +5,7 @@ import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { html } from './serializer';
 import isUrl from 'is-url';
+import he from 'he';
 
 /**
  * A change helper to standardize wrapping links.
@@ -67,8 +68,6 @@ class RichEditor extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('prev initial id: ' + prevProps.id);
-    console.log('new initial id: ' + this.props.id);
     if (prevProps.id !== this.props.id) {
       this.setState({ value: html.deserialize(this.props.initialValue) });
     }
@@ -116,7 +115,8 @@ class RichEditor extends React.Component {
 
     // Trigger any external handler.
     if (this.props.onChange) {
-      this.props.onChange(html.serialize(value));
+      const htmlValue = html.serialize(value);
+      this.props.onChange(he.decode(htmlValue));
     }
   };
 
@@ -457,6 +457,7 @@ class RichEditor extends React.Component {
 }
 
 RichEditor.propTypes = {
+  id: PropTypes.number,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
   onChange: PropTypes.func,

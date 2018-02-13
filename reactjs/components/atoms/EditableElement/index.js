@@ -111,10 +111,10 @@ class EditableElement extends React.Component {
 }
 
 EditableElement.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
-  maxLength: PropTypes.number, // TODO: Implement max length for element.
+  maxLength: PropTypes.number,
   onChange: PropTypes.func,
 };
 

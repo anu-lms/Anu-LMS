@@ -11,7 +11,15 @@ import * as notebookHelpers from "../helpers/notebook";
 
 class NotebookPage extends Component {
 
+  componentDidMount = () => {
+    this.initializeNotebook();
+  }
+
   componentDidUpdate = () => {
+    this.initializeNotebook();
+  }
+
+  initializeNotebook() {
     const { isStoreRehydrated, notes, dispatch } = this.props;
     if (isStoreRehydrated) {
 
@@ -29,7 +37,7 @@ class NotebookPage extends Component {
         dispatch(notebookActions.setActiveNote(notes[0].id));
       }
     }
-  };
+  }
 
   render() {
     return (
