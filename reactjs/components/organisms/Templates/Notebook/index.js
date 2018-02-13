@@ -7,6 +7,8 @@ import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from "../../../../helpers/notebook";
 
+
+
 class NotebookTemplate extends React.Component {
 
   constructor(props) {
@@ -23,7 +25,13 @@ class NotebookTemplate extends React.Component {
   componentDidMount() {
     this.setState({
       timerId: setInterval(this.autoSaveNote, 5000),
-    })
+    });
+
+    /*window.addEventListener("beforeunload", function (e) {
+      let confirmationMessage = 'Changes you made may not be saved.';
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });*/
   }
 
   componentWillUnmount() {
@@ -50,6 +58,7 @@ class NotebookTemplate extends React.Component {
     // TODO: Authentication may drop if expired.
     const request = this.context.request();
 
+    // TODO: Remove.
     console.log('Notes to save:');
     console.log(unsavedNotes);
 
@@ -71,6 +80,7 @@ class NotebookTemplate extends React.Component {
         // Set the note's state to "Saved".
         dispatch(notebookActions.setNoteStateSaved(note.id));
 
+        // TODO: Remove.
         console.log('Saved note:');
         console.log(note);
       }

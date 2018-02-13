@@ -12,37 +12,9 @@ class NoteContent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      initialContent: '',
-      initialTitle: '',
-    };
-
     this.showNotes = this.showNotes.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
-  }
-
-  componentDidMount() {
-    // Set the initial value for the editable note title element.
-    const { note } = this.props;
-
-    this.setState({
-      initialTitle: note.title,
-      initialContent: note.body,
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const prevNote = prevProps.note;
-    const note = this.props.note;
-
-    // Change the state of the component only when a new note is loaded.
-    if (prevNote.id !== note.id) {
-      this.setState({
-        initialTitle: note.title,
-        initialContent: note.body,
-      });
-    }
   }
 
   showNotes() {
@@ -95,7 +67,8 @@ class NoteContent extends React.Component {
 
         <h5 className="title">
           <EditableElement
-            initialValue={this.state.initialTitle}
+            id={this.props.note.id}
+            initialValue={this.props.note.title}
             placeholder={"Untitled"}
             onChange={this.onTitleChange}
             maxLength={255}
@@ -103,7 +76,8 @@ class NoteContent extends React.Component {
         </h5>
 
         <Editor
-          initialValue={this.state.initialContent}
+          id={this.props.note.id}
+          initialValue={this.props.note.body}
           placeholder={"Type something..."}
           onChange={this.onContentChange}
         />
