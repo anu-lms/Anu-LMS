@@ -1,7 +1,7 @@
 import striptags from 'striptags';
 import * as dataProcessors from '../utils/dataProcessors';
 
-export const getTeaser = body => {
+export const getTeaser = (body, rowNumber) => {
   const maxTeaserLength = 256;
 
   // Set max length for the text.
@@ -13,28 +13,20 @@ export const getTeaser = body => {
   // Strip all tags apart from paragraph without replacement.
   teaser = striptags(teaser, ['p']);
 
-  // Paragraph replacement should be empty space.
-  teaser = striptags(teaser, [], ' ');
+  let rows = [];
+  teaser.split('</p>').forEach(line => {
 
-  return teaser.trim();
-};
+    if (rows.length === rowNumber) {
+      return;
+    }
 
-export const getFirstTextLine = body => {
-  const maxTeaserLength = 256;
+    const plainLine = striptags(line.trim());
+    if (plainLine.length > 0) {
+      rows.push(plainLine);
+    }
+  });
 
-  // Set max length for the text.
-  let teaser = body;
-  if (teaser.length > maxTeaserLength) {
-    teaser = teaser.substring(0, maxTeaserLength);
-  }
-
-  // Strip all tags apart from paragraph without replacement.
-  teaser = striptags(teaser, ['p']);
-
-  // Paragraph replacement should be empty space.
-  teaser = striptags(teaser, [], ' ');
-
-  return teaser.trim();
+  return rows.length === rowNumber ? rows[rowNumber - 1] : '';
 };
 
 /**
