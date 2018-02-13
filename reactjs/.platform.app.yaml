@@ -6,10 +6,6 @@ dependencies:
     yarn: "*"
     pm2: "^2.4.0"
 
-variables:
-  php:
-    memory_limit: 256M
-
 web:
 
   commands:
