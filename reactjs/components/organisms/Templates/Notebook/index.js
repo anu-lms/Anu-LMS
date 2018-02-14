@@ -5,9 +5,9 @@ import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
-import * as notebookHelpers from "../../../../helpers/notebook";
-
-
+import * as notebookHelpers from '../../../../helpers/notebook';
+import { Router } from "../../../../routes";
+import routerEvents from "../../../../router-events";
 
 class NotebookTemplate extends React.Component {
 
@@ -20,6 +20,8 @@ class NotebookTemplate extends React.Component {
 
     this.openNote = this.openNote.bind(this);
     this.autoSaveNote = this.autoSaveNote.bind(this);
+    this.checkUnsavedNotesOnRouteChange = this.checkUnsavedNotesOnRouteChange.bind(this);
+    this.checkUnsavedNotesOnPageClose = this.checkUnsavedNotesOnPageClose.bind(this);
   }
 
   componentDidMount() {
@@ -27,15 +29,44 @@ class NotebookTemplate extends React.Component {
       timerId: setInterval(this.autoSaveNote, 5000),
     });
 
-    /*window.addEventListener("beforeunload", function (e) {
-      let confirmationMessage = 'Changes you made may not be saved.';
-      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-      return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });*/
+    window.addEventListener('beforeunload', this.checkUnsavedNotesOnPageClose);
+    routerEvents.on('routeChangeStart', this.checkUnsavedNotesOnRouteChange);
   }
 
   componentWillUnmount() {
     clearInterval(this.state.timerId);
+    routerEvents.off('routeChangeStart', this.checkUnsavedNotesOnRouteChange);
+    window.removeEventListener('beforeunload', this.checkUnsavedNotesOnRouteChange);
+  }
+
+  /**
+   * Triggers before page transition and aims to show an alert before user
+   * leaves the page if there are some unsaved notes.
+   * @see https://github.com/zeit/next.js/issues/2476
+   */
+  checkUnsavedNotesOnRouteChange() {
+    const unsavedNotes = notebookHelpers.getUnsavedNotes(this.props.notes);
+    if (unsavedNotes.length > 0) {
+      if (!confirm('You have some unsaved changes. Are you sure you want to leave the page?')) {
+        setTimeout(() => {
+          Router.router.abortComponentLoad();
+        });
+      }
+    }
+  }
+
+  /**
+   * Triggers before page is closed in browser and aims to show an alert before
+   * user leaves the page if there are some unsaved notes.
+   */
+  checkUnsavedNotesOnPageClose(event) {
+    const unsavedNotes = notebookHelpers.getUnsavedNotes(this.props.notes);
+    if (unsavedNotes.length > 0) {
+      console.log(unsavedNotes);
+      let confirmationMessage = 'Changes you made may not be saved.';
+      (event || window.event).returnValue = confirmationMessage; // Gecko + IE
+      return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
+    }
   }
 
   async autoSaveNote() {
@@ -44,11 +75,7 @@ class NotebookTemplate extends React.Component {
     // We're interested only in notes which are not yet saved and not being
     // in the saving process already. Usually it's a quick operation, but you
     // can never count on this.
-    const unsavedNotes = notes.filter(note => {
-      const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
-      const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
-      return !isSaved && !isSaving;
-    });
+    const unsavedNotes = notebookHelpers.getUnsavedNotes(notes);
 
     // If all notes are saved - great, nothing to do here any more.
     if (unsavedNotes.length === 0) {
@@ -57,10 +84,6 @@ class NotebookTemplate extends React.Component {
 
     // TODO: Authentication may drop if expired.
     const request = this.context.request();
-
-    // TODO: Remove.
-    console.log('Notes to save:');
-    console.log(unsavedNotes);
 
     // Execute all saving operations in parallel.
     // Normally here is just one note to save, but you never know how fast
@@ -79,10 +102,6 @@ class NotebookTemplate extends React.Component {
 
         // Set the note's state to "Saved".
         dispatch(notebookActions.setNoteStateSaved(note.id));
-
-        // TODO: Remove.
-        console.log('Saved note:');
-        console.log(note);
       }
       catch (error) {
         // Set the note's state to "Not Saved".

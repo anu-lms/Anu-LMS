@@ -1,10 +1,14 @@
 import NProgress from 'nprogress';
-import { Router } from '../../../routes';
+import routerEvents from '../../../router-events';
 
-Router.onRouteChangeStart = () => {
-  NProgress.start()
-};
+routerEvents.on('routeChangeStart', () => {
+  NProgress.start();
+});
 
-Router.onRouteChangeComplete = () => NProgress.done();
+routerEvents.on('routeChangeComplete', () => {
+  NProgress.done();
+});
 
-Router.onRouteChangeError = () => NProgress.done();
+routerEvents.on('routeChangeError', () => {
+  NProgress.done();
+});

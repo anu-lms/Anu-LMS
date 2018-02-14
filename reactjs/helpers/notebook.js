@@ -45,6 +45,17 @@ export const getSavedState = note => {
 };
 
 /**
+ * Returns an array of notes which are not yet synced with backend.
+ */
+export const getUnsavedNotes = notes => {
+  return notes.filter(note => {
+    const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
+    const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
+    return !isSaved && !isSaving;
+  });
+};
+
+/**
  * First time save the note.
  */
 export const createNote = (request, title = '', body = '') => {

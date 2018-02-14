@@ -47,6 +47,7 @@
     "superagent-defaults": "^0.1.14",
     "superagent-jsonapify": "^1.4.5",
     "superagent-prefix": "^0.0.2",
+    "tiny-emitter": "^2.0.2",
     "url-parse": "^1.2.0"
   },
   "devDependencies": {

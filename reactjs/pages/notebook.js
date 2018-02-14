@@ -6,16 +6,16 @@ import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
-import * as notebookActions from "../actions/notebook";
-import * as notebookHelpers from "../helpers/notebook";
+import * as notebookActions from '../actions/notebook';
+import * as notebookHelpers from '../helpers/notebook';
 
 class NotebookPage extends Component {
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.initializeNotebook();
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     this.initializeNotebook();
   }
 
