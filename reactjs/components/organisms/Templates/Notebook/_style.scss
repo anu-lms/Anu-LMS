@@ -4,19 +4,14 @@
   .notes-list-column {
     background-color: $gray91;
     width: 100%;
-    top: 48px;
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    z-index: 1010;
     transition: .2s all;
-    overflow-y: scroll;
     @include media-breakpoint-up(md) {
       top: 80px;
       width: 33%;
       bottom: 0;
       position: fixed;
       left: 0;
+      z-index: 1010;
     }
 
     &.hidden {
