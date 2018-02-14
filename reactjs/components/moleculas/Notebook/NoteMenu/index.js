@@ -21,6 +21,8 @@ class NoteMenu extends Component {
         .send()
         .then(response => {
           console.log('Deleted note ' + note.uuid);
+          // Go back to the list of notes on mobile.
+          dispatch(notebookActions.toggleMobileVisibility());
         })
         .catch(error => {
           console.log(error);
