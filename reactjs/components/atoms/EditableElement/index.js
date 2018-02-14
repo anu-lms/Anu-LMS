@@ -56,7 +56,8 @@ class EditableElement extends React.Component {
       this.setState({ isPlaceholderVisible: true });
     }
 
-    // If on blur there is
+    // If on blur there is a text and the current placeholder is visible,
+    // then we should hide the placeholder.
     else if (this.refs.element.innerText && isPlaceholderVisible) {
       this.setState({ isPlaceholderVisible: false });
     }

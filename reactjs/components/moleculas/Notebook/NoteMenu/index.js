@@ -11,7 +11,7 @@ class NoteMenu extends Component {
     const { note, dispatch } = this.props;
 
     if (window.confirm("Delete this note?")) {
-      // Hide the note immediately after confirmaiton.
+      // Hide the note immediately after confirmation.
       dispatch(notebookActions.deleteNote(note.id));
 
       // Make DELETE request.
