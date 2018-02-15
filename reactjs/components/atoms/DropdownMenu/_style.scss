@@ -1,0 +1,72 @@
+// Overwrites for https://github.com/trendmicro-frontend/react-dropdown
+
+.menu-icon-dropdown {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+
+  &:hover {
+    svg path {
+      fill: $carbon;
+      transition: all .2s;
+    }
+  }
+}
+
+.menu-icon {
+  display: inline-block;
+  height: 18px;
+  margin-right: 8px;
+  svg path {
+    transition: all .2s;
+  }
+}
+
+.menu-icon-delete {
+  position: relative;
+  top: 3px;
+}
+
+// TODO: figure out how to assign custom CSS classes instead of default approach (styled components).
+.dropdown---open---1ju75 {
+  .menu-icon-dropdown svg path {
+    fill: $carbon;
+  }
+}
+
+div[class^=dropdown---dropdown-menu-wrapper] {
+  right: -10px;
+  @include media-breakpoint-up(lg) {
+    right: -40px;
+  }
+  left: auto;
+  border: 0;
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+div[class^=dropdown---dropdown-menu---] {
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin-left: -0.5em;
+    top: 0;
+    z-index: -1;
+    box-sizing: border-box;
+    border: 6px solid black;
+    border-color: transparent transparent white white;
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+
+    right: 5px;
+    @include media-breakpoint-up(lg) {
+      right: 36px;
+    }
+  }
+}
+
+div[class^=dropdown---menu-item---] {
+  min-width: 200px;
+}

@@ -1,0 +1,58 @@
+.note-content {
+  @include media-breakpoint-up(md) {
+    margin-left: 33%;
+    padding: 1.5em 1em;
+  }
+
+  &.hidden {
+    display: none;
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+
+  .caption {
+    color: $london-sky;
+  }
+
+  .title {
+    margin-top: 1em;
+    min-height: 1.125em;
+    @include media-breakpoint-up(md) {
+      min-height: 1.25em;
+    }
+    @include media-breakpoint-up(lg) {
+      min-height: 1.5em;
+    }
+
+    .placeholder {
+      color: $london-sky;
+      display: block;
+    }
+
+    span {
+      outline: none;
+    }
+  }
+
+  .show-notebook {
+    color: $squash;
+    font-size: 0.875em;
+    margin: 1em 0 .5em;
+    position: relative;
+
+    span {
+      margin: 0 0 0 1.75em;
+    }
+
+    svg {
+      position: absolute;
+      left: 0;
+      top: 3px;
+
+      path {
+        fill: $squash;
+      }
+    }
+  }
+}

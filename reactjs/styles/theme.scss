@@ -1,6 +1,13 @@
 // Import Bootstrap 4 grid.
 @import "../node_modules/bootstrap-4-grid/scss/grid";
 
+// Import other thrird party libs.
+@import '../node_modules/@trendmicro/react-buttons/dist/react-buttons';
+@import '../node_modules/@trendmicro/react-dropdown/dist/react-dropdown';
+
+// Import all mixins.
+@import "mixins/*.scss";
+
 // Import all base styles.
 @import "base/variables";
 @import "base/typography";
@@ -29,3 +36,5 @@
 @import "pages/login";
 @import "pages/lesson";
 @import "pages/course";
+
+@import "../components/**/**/*.scss";

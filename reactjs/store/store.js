@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'root',
   storage: storage,
   // List reducers to store data for.
-  whitelist: ['lesson', 'course', 'navigation'],
+  whitelist: ['lesson', 'course', 'navigation', 'notebook'],
 };
 
 // Make reducers store persistent data.

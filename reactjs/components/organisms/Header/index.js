@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from '../../../routes';
 
+import Dropdown, { ImportantMenuItem } from '../../atoms/DropdownMenu';
+
 const Header = () => (
   <header>
 
@@ -10,7 +12,6 @@ const Header = () => (
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="29" viewBox="0 0 34 29">
             <g fill="none" fillRule="evenodd">
               <path fill="#FFF" fillRule="nonzero" d="M13.667 28.333v-10h6.666v10h8.334V15h5L17 0 .333 15h5v13.333z"/>
-              <path d="M-3-5h40v40H-3z"/>
             </g>
           </svg>
         </a>
@@ -30,19 +31,44 @@ const Header = () => (
         </div>
       </div>
 
-      <div className="icon notifications">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30">
-          <path fill="#FFF" fillRule="nonzero" d="M12 30c1.65 0 3-1.35 3-3H9a3 3 0 0 0 3 3zm9-9v-7.5c0-4.605-2.46-8.46-6.75-9.48V3A2.247 2.247 0 0 0 12 .75 2.247 2.247 0 0 0 9.75 3v1.02C5.445 5.04 3 8.88 3 13.5V21l-3 3v1.5h24V24l-3-3z"/>
-        </svg>
-      </div>
+      <Link to="/notebook">
+        <a className="icon notebook">
+          <svg xmlns="http://www.w3.org/2000/svg" width="29" height="34" viewBox="0 0 29 34">
+            <g fill="none" fillRule="evenodd">
+              <path fill="#FFF" fillRule="nonzero" d="M25 .333H5a3.333 3.333 0 0 0-3.333 3.334v1.666a1.667 1.667 0 1 0 0 3.334V12a1.667 1.667 0 0 0 0 3.333v3.334a1.667 1.667 0 1 0 0 3.333v3.333a1.667 1.667 0 0 0 0 3.334v1.666A3.333 3.333 0 0 0 5 33.667h20a3.333 3.333 0 0 0 3.333-3.334V3.667A3.333 3.333 0 0 0 25 .333zM6.667 7h10v2.5h-10V7zm16.666 17.5H6.667V22h16.666v2.5zm0-5H6.667V17h16.666v2.5zm0-5H6.667V12h16.666v2.5z"/>
+            </g>
+          </svg>
+        </a>
+      </Link>
 
-      <div className="icon profile">
-        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33">
-          <g fill="none" fillRule="evenodd">
-            <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z"/>
-          </g>
-        </svg>
-      </div>
+      {/*todo: move to separate component and pass icon, menu items etc. as params */}
+      <Dropdown>
+        <Dropdown.Toggle noCaret
+                         btnStyle="link"
+        >
+        <div className="icon profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33">
+            <g fill="none" fillRule="evenodd">
+              <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z"/>
+            </g>
+          </svg>
+        </div>
+
+        </Dropdown.Toggle>
+        <Dropdown.MenuWrapper pullRight>
+          <Dropdown.Menu pullRight>
+            <ImportantMenuItem onSelect={() => { console.log('Go to Edit profile page'); }} >
+              Edit Profile
+            </ImportantMenuItem>
+            <ImportantMenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
+              Edit Password
+            </ImportantMenuItem>
+            <ImportantMenuItem onSelect={() => { console.log('Logout'); }} >
+              Logout
+            </ImportantMenuItem>
+          </Dropdown.Menu>
+        </Dropdown.MenuWrapper>
+      </Dropdown>
 
     </div>
 

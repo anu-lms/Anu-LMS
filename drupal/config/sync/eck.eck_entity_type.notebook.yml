@@ -1,0 +1,11 @@
+uuid: 9c194f37-3908-4d3f-9827-c757904532ae
+langcode: en
+status: true
+dependencies: {  }
+id: notebook
+label: Notebook
+created: true
+changed: true
+uid: true
+title: false
+revisionable: true

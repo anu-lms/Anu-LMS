@@ -45,10 +45,12 @@ export default function(PageComponent) {
     }
 
     static async getInitialProps(ctx) {
-      let initialProps = {};
+      let initialProps = {
+        dispatch: store.dispatch,
+      };
 
       if (PageComponent.getInitialProps) {
-        const childInitialProps = await PageComponent.getInitialProps({ ...ctx });
+        const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
         return { ...initialProps, ...childInitialProps }
       }
 

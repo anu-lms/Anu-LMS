@@ -6,3 +6,6 @@ drupal/mysql
 
 # Development folders.
 dev
+
+# Docker Sync
+.docker-sync

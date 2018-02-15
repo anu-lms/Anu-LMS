@@ -1,0 +1,41 @@
+.editor-menu {
+  margin-bottom: 1em;
+  padding: .625em 0 .3125em;
+
+  &.sticky {
+    background: $white;
+    box-shadow: 1px 0 1px 0 rgba(0, 0, 0, 0.5);
+    padding-left: 15px;
+    position: fixed;
+    top: 48px;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    @include media-breakpoint-up(md) {
+      padding-left: 7.5%; /* Pontentially recalculate this value */
+      top: 80px;
+      left: 33%;
+    }
+  }
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 1em;
+    padding: 1px;
+    text-align: center;
+
+    path {
+      fill: $london-sky;
+    }
+
+    &:hover,
+    &[data-active=true] {
+      path {
+        fill: $anu-blue;
+      }
+    }
+  }
+}
