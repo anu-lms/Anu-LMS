@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '../../../routes';
-import ProfileMenu from './ProfileMenu';
+import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 
 const Header = () => (
   <header>

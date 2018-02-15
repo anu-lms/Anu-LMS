@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jsCookie from 'js-cookie';
 import request from "../utils/request";
-import * as userActions from '../actions/user';
 import { Router } from '../routes';
 
 export default function withAuth(PageComponent) {
@@ -104,17 +103,10 @@ export default function withAuth(PageComponent) {
     };
 
     logout() {
-      const { dispatch } = this.props;
-      console.log(this.props);
-      // jsCookie.remove('accessToken');
-      // jsCookie.remove('refreshToken');
-      // this.setState({
-      //   accessToken: '',
-      //   refreshToken: ''
-      // });
-      //
-      // dispatch(userActions.userLogout());
-      // Router.replace('/');
+      // Remove access cookies and redirect to the Front page.
+      jsCookie.remove('accessToken');
+      jsCookie.remove('refreshToken');
+      Router.replace('/');
     }
 
     static async getInitialProps(ctx) {
