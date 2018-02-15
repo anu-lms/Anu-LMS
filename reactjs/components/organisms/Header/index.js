@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '../../../routes';
 
-import Dropdown, { ImportantMenuItem } from '../../atoms/DropdownMenu';
+import Dropdown, { MenuItem } from '../../atoms/DropdownMenu';
 
 const Header = () => (
   <header>
@@ -57,15 +57,15 @@ const Header = () => (
         </Dropdown.Toggle>
         <Dropdown.MenuWrapper pullRight>
           <Dropdown.Menu pullRight>
-            <ImportantMenuItem onSelect={() => { console.log('Go to Edit profile page'); }} >
+            <MenuItem onSelect={() => { console.log('Go to Edit profile page'); }} >
               Edit Profile
-            </ImportantMenuItem>
-            <ImportantMenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
+            </MenuItem>
+            <MenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
               Edit Password
-            </ImportantMenuItem>
-            <ImportantMenuItem onSelect={() => { console.log('Logout'); }} >
+            </MenuItem>
+            <MenuItem onSelect={() => { console.log('Logout'); }} >
               Logout
-            </ImportantMenuItem>
+            </MenuItem>
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>
       </Dropdown>
