@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
-import md5 from '../../../../utils/md5';
 
 class List extends React.Component {
 
@@ -38,8 +37,8 @@ class List extends React.Component {
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
-                  <Checkbox key={md5(item)} label={item}/> :
-                  <li key={md5(item)}><span>{item}</span></li>
+                  <Checkbox key={this.props.id + '_' + index} label={item}/> :
+                  <li key={this.props.id + '_' + index}><span>{item}</span></li>
               ))}
             </Wrapper>
           </div>
