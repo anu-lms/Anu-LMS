@@ -33,6 +33,10 @@ dependencies:
         # 'drupal/console': '@stable'
         'platformsh/cli': '3.26.1'
 
+variables:
+  php:
+    memory_limit: 256M
+
 # The configuration of app when it is exposed to the web.
 web:
     # Specific parameters for different URL prefixes.

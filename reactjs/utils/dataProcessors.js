@@ -141,3 +141,18 @@ const processParagraphs = (paragraphs) => {
 
   return blocks;
 };
+
+/**
+ * Internal helper to normalize notebook notes data from the backend.
+ */
+export const notebookData = (notebookData) => {
+  // Custom mapping for notebook notes.
+  return notebookData.map(note => ({
+    id: note.id,
+    uuid: note.uuid,
+    created: note.created,
+    changed: note.changed,
+    title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
+    body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
+  }));
+};

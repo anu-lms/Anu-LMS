@@ -1,0 +1,69 @@
+.notes-list-item {
+  $date-width: 90px;
+  padding: 0.813em 1em;
+  background-color: $gray91;
+  color: $carbon;
+  border-bottom: 2px solid $white;
+  cursor: pointer;
+  transition: background-color .1s;
+
+  &:hover {
+    background: $pale-peach;
+  }
+
+  &.active {
+    background: $pale-peach;
+
+    &:hover {
+      background: darken($pale-peach, 5);
+    }
+  }
+  .item-heading {
+    display: flex;
+    margin-bottom: 4px;
+  }
+  .title {
+    @include trancate-text();
+    width: calc(100% - #{$date-width});
+    font-weight: bold;
+  }
+  .date {
+    width: $date-width;
+    color: $warm-grey-two;
+    text-align: right;
+    font-size: 0.875em;
+  }
+  .teaser {
+    @include trancate-text();
+  }
+
+  @include media-breakpoint-up(md) {
+    $date-width: 70px;
+
+    .date {
+      font-size: 0.75em;
+      width: $date-width;
+    }
+    .title {
+      width: calc(100% - #{$date-width});
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    $date-width: 90px;
+    padding: 1.125em 2em;
+
+    .item-heading {
+      margin-bottom: 10px;
+    }
+    .title, .teaser {
+      font-size: 1.125em;
+    }
+    .date {
+      width: $date-width;
+    }
+    .title {
+      width: calc(100% - #{$date-width});
+    }
+  }
+}

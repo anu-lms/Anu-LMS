@@ -1,0 +1,34 @@
+.add-note {
+  cursor: pointer;
+  transition: all .2s;
+  @include media-breakpoint-up(md) {
+    text-align: center;
+  }
+  @include media-breakpoint-up(lg) {
+    margin-top: .75em;
+  }
+
+  &:hover {
+    color: $carbon;
+    transition: all .2s;
+    path {
+      transition: all .2s;
+      fill: $carbon;
+    }
+  }
+
+  .add-note-icon {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .caption {
+    display: none;
+    margin-top: 6px;
+    font-size: .75em;
+    line-height: normal;
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+}

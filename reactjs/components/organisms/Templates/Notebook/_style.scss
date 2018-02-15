@@ -1,0 +1,75 @@
+.page-notebook {
+  background: $eggshell-white;
+
+  .notes-list-column {
+    background-color: $gray91;
+    width: 100%;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    z-index: 1010;
+    transition: .2s all;
+    overflow-y: scroll;
+    @include media-breakpoint-up(md) {
+      top: 80px;
+      width: 33%;
+      bottom: 0;
+      position: fixed;
+      left: 0;
+      overflow-y: hidden;
+    }
+
+    &.hidden {
+      left: -100%;
+      @include media-breakpoint-up(md) {
+        left: 0;
+      }
+    }
+
+    .notes-list-heading {
+      display: flex;
+      padding: 0 1em;
+      height: 56px;
+      background: $squash;
+      color: $white;
+      justify-content: space-between;
+      align-items: center;
+      @include media-breakpoint-up(md) {
+        height: 80px;
+      }
+      @include media-breakpoint-up(lg) {
+        padding: 0 2em;
+        height: 96px;
+      }
+
+      .title {
+        font-size: 1.25em;
+        font-weight: bold;
+        @include media-breakpoint-up(lg) {
+          font-size: 1.5em;
+        }
+      }
+    }
+    .notes-list {
+      @include media-breakpoint-up(md) {
+        $header-height: 80px;
+        $notes-heading: 80px;
+        max-height: calc(100vh - #{$header-height + $notes-heading});
+        overflow-y: auto;
+      }
+      @include media-breakpoint-up(lg) {
+        $header-height: 80px;
+        $notes-heading: 96px;
+        max-height: calc(100vh - #{$header-height + $notes-heading});
+      }
+    }
+  }
+
+  .note-content-column {
+    margin-left: 33%;
+    padding: 1em;
+    position: relative;
+    z-index: 10;
+  }
+}
