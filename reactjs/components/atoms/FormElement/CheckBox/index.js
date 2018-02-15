@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import md5 from '../../../../utils/md5';
 
 class Checkbox extends React.Component {
 
@@ -28,10 +27,6 @@ class Checkbox extends React.Component {
 
   render() {
     let { id, label } = this.props;
-
-    if (!id) {
-      id = md5(label);
-    }
 
     return (
       <div className="checkbox">
