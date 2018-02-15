@@ -1,8 +1,25 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Dropdown, { MenuItem } from '../../atoms/DropdownMenu';
+import * as userActions from '../../../../actions/user';
+import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 
 class ProfileMenu extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    // @todo: consider to move dispatch to auth.logout()
+    // currently dispatch isn't available there after page reload.
+
+    // Clean up persistent storage.
+    this.props.dispatch(userActions.userLogout());
+    // Clean up cookies and redirect to the frontpage.
+    this.context.auth.logout();
+  }
+
   render() {
 
     return (
@@ -25,7 +42,7 @@ class ProfileMenu extends React.Component {
             <MenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
               Edit Password
             </MenuItem>
-            <MenuItem onSelect={this.context.auth.logout} >
+            <MenuItem onSelect={this.logout} >
               Logout
             </MenuItem>
           </Dropdown.Menu>
