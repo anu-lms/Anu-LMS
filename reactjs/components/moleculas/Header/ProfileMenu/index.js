@@ -1,27 +1,9 @@
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as userActions from '../../../../actions/user';
+import * as userHelpers from '../../../../helpers/user';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 
 class ProfileMenu extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.logout = this.logout.bind(this);
-  }
-
-  logout() {
-    // @todo: consider to move dispatch to auth.logout()
-    // currently dispatch isn't available there after page reload.
-
-    // Clean up persistent storage.
-    this.props.dispatch(userActions.userLogout());
-    // Clean up cookies and redirect to the frontpage.
-    this.context.auth.logout();
-  }
-
   render() {
-
     return (
       <Dropdown>
         <Dropdown.Toggle noCaret btnStyle="link">
@@ -42,7 +24,7 @@ class ProfileMenu extends React.Component {
             <MenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
               Edit Password
             </MenuItem>
-            <MenuItem onSelect={this.logout} >
+            <MenuItem onSelect={() => { userHelpers.userLogout(this.props.dispatch) }} >
               Logout
             </MenuItem>
           </Dropdown.Menu>
@@ -51,11 +33,5 @@ class ProfileMenu extends React.Component {
     );
   }
 }
-
-ProfileMenu.contextTypes = {
-  auth: PropTypes.shape({
-    logout: PropTypes.func,
-  }),
-};
 
 export default connect()(ProfileMenu);

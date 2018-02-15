@@ -34,7 +34,6 @@ export default function withAuth(PageComponent) {
       auth: PropTypes.shape({
         isLogged: PropTypes.bool,
         login: PropTypes.func,
-        logout: PropTypes.func,
       }),
       request: PropTypes.func,
     };
@@ -44,7 +43,6 @@ export default function withAuth(PageComponent) {
         auth: {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
-          logout: this.logout.bind(this),
         },
         request: this.getRequest.bind(this),
       }
@@ -101,13 +99,6 @@ export default function withAuth(PageComponent) {
           });
       });
     };
-
-    logout() {
-      // Remove access cookies and redirect to the Front page.
-      jsCookie.remove('accessToken');
-      jsCookie.remove('refreshToken');
-      Router.replace('/');
-    }
 
     static async getInitialProps(ctx) {
 
