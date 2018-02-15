@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jsCookie from 'js-cookie';
 import request from "../utils/request";
+import * as userActions from '../actions/user';
 import { Router } from '../routes';
 
 export default function withAuth(PageComponent) {
@@ -34,6 +35,7 @@ export default function withAuth(PageComponent) {
       auth: PropTypes.shape({
         isLogged: PropTypes.bool,
         login: PropTypes.func,
+        logout: PropTypes.func,
       }),
       request: PropTypes.func,
     };
@@ -43,6 +45,7 @@ export default function withAuth(PageComponent) {
         auth: {
           isLogged: this.isLogged(),
           login: this.login.bind(this),
+          logout: this.logout.bind(this),
         },
         request: this.getRequest.bind(this),
       }
@@ -99,6 +102,20 @@ export default function withAuth(PageComponent) {
           });
       });
     };
+
+    logout() {
+      const { dispatch } = this.props;
+      console.log(this.props);
+      // jsCookie.remove('accessToken');
+      // jsCookie.remove('refreshToken');
+      // this.setState({
+      //   accessToken: '',
+      //   refreshToken: ''
+      // });
+      //
+      // dispatch(userActions.userLogout());
+      // Router.replace('/');
+    }
 
     static async getInitialProps(ctx) {
 
