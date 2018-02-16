@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from '../../../../routes';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 
 class ProfileMenu extends React.Component {
@@ -20,12 +21,14 @@ class ProfileMenu extends React.Component {
             <MenuItem onSelect={() => { console.log('Go to Edit profile page'); }} >
               Edit Profile
             </MenuItem>
-            <MenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
-              Edit Password
+            <MenuItem>
+              <Link to="/userpassword">Edit Password</Link>
             </MenuItem>
-            <MenuItem onSelect={this.context.auth.logout} >
-              Logout
-            </MenuItem>
+            {this.context.auth &&
+              <MenuItem onSelect={this.context.auth.logout}>
+                Logout
+              </MenuItem>
+            }
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>
       </Dropdown>

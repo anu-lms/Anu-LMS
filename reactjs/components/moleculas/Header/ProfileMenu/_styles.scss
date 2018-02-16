@@ -24,8 +24,15 @@
     font-size: 16px;
     line-height: 2;
     min-width: 0;
+    color: $anu-black;
     &:hover {
       background-color: $anu-blue-30;
+    }
+    a {
+      color: $anu-black;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
