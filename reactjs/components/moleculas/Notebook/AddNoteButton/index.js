@@ -24,11 +24,12 @@ class AddNoteButton extends React.Component {
       return;
     }
 
-    const request = this.context.request();
     const { dispatch } = this.props;
     this.setState({ isSaving: true });
 
     try {
+      // Get superagent request with authentication.
+      const { request } = await this.context.auth.getRequest();
       const note = await notebookHelpers.createNote(request);
       dispatch(notebookActions.addNote(note));
       dispatch(notebookActions.setActiveNote(note.id));
@@ -59,7 +60,9 @@ class AddNoteButton extends React.Component {
 }
 
 AddNoteButton.contextTypes = {
-  request: PropTypes.func,
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
 };
 
 export default connect()(AddNoteButton);
