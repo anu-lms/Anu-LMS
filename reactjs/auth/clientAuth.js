@@ -61,6 +61,8 @@ export default class extends Auth {
 
   logout() {
     // todo: add request to the backend to revoke tokens.
+    this.accessToken = '';
+    this.refreshToken = '';
     jsCookie.remove('accessToken');
     jsCookie.remove('refreshToken');
   }
