@@ -24,7 +24,7 @@ class ProfileMenu extends React.Component {
               </Link>
             </MenuItem>
             <MenuItem>
-              <Link to="/user/password">Edit Password</Link>
+              <Link to="/user/password"><a>Edit Password</a></Link>
             </MenuItem>
             {this.context.auth &&
               <MenuItem onSelect={this.context.auth.logout}>
