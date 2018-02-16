@@ -194,7 +194,7 @@ class LessonContent extends React.Component {
     console.log(this.props.quizzesData);
 
     // Get superagent request with authentication.
-    const request = this.context.request();
+    const { request } = await this.context.auth.getRequest();
 
     try {
       const tokenResponse = await request.get('/session/token');
@@ -302,7 +302,9 @@ const mapStateToProps = (store, ownProps) => ({
 });
 
 LessonContent.contextTypes = {
-  request: PropTypes.func,
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
 };
 
 export default connect(mapStateToProps)(LessonContent);

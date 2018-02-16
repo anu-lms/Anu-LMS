@@ -7,15 +7,17 @@ import * as notebookActions from "../../../../actions/notebook";
 
 class NoteMenu extends Component {
 
-  onDelete() {
+  async onDelete() {
     const { note, dispatch } = this.props;
 
-    if (window.confirm("Delete this note?")) {
+    if (window.confirm('Delete this note?')) {
       // Hide the note immediately after confirmation.
       dispatch(notebookActions.deleteNote(note.id));
 
+      // Get superagent request with authentication.
+      const { request } = await this.context.auth.getRequest();
+
       // Make DELETE request.
-      const request = this.context.request();
       request
         .delete('/jsonapi/notebook/notebook/' + note.uuid)
         .send()
@@ -35,7 +37,8 @@ class NoteMenu extends Component {
   render() {
     return (
       <Dropdown>
-        <Dropdown.Toggle noCaret
+        <Dropdown.Toggle
+          noCaret
           btnStyle="link"
         >
           <MenuIcon />
@@ -53,7 +56,9 @@ class NoteMenu extends Component {
 }
 
 NoteMenu.contextTypes = {
-  request: PropTypes.func,
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
 };
 
 export default connect()(NoteMenu);
