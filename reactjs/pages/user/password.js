@@ -5,7 +5,7 @@ import Header from '../components/organisms/Header';
 import OneColumnLayout from '../components/organisms/Templates/OneColumnLayout';
 import withAuth from '../auth/withAuth';
 
-class UserPassword extends Component {
+class UserPasswordPage extends Component {
 
   render() {
     return (
@@ -31,4 +31,4 @@ class UserPassword extends Component {
   }
 }
 
-export default withAuth(UserPassword);
+export default withAuth(UserPasswordPage);
