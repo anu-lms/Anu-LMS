@@ -7,7 +7,7 @@ import Alert from 'react-s-alert';
 
 const schema = {
   'type': 'object',
-  'required': ['username', 'password'],
+  'required': [],
   'properties': {
     'password': {
       'type': 'string',
@@ -60,8 +60,30 @@ class PasswordForm extends React.Component {
     });
 
     try {
-      await this.context.auth.login(formData.username, formData.password);
-      Router.push('/dashboard');
+      const { request } = await this.context.auth.getRequest();
+      const tokenResponse = await request.get('/session/token');
+
+      await request
+        .patch('/user/75')
+        .set('Content-Type', 'application/json')
+        .set('X-CSRF-Token', tokenResponse.text)
+        .send({
+          pass: [{
+            existing: "password1",
+            value: "password"
+          }],
+        })
+
+        .then(({ body }) => {
+          console.log('get response');
+          console.log('body', body);
+          this.setState({ isSending: false });
+
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({ isSending: false });
+        });
     } catch (error) {
       this.setState({ isSending: false });
       Alert.error(error);
@@ -88,7 +110,7 @@ class PasswordForm extends React.Component {
 
 PasswordForm.contextTypes = {
   auth: PropTypes.shape({
-    login: PropTypes.func,
+    getRequest: PropTypes.func,
   }),
 };
 
