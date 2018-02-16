@@ -59,6 +59,12 @@ export default class extends Auth {
     })
   );
 
+  logout() {
+    // todo: add request to the backend to revoke tokens.
+    jsCookie.remove('accessToken');
+    jsCookie.remove('refreshToken');
+  }
+
   refreshAuthenticationToken() {
     return new Promise((resolve, reject) => {
 
