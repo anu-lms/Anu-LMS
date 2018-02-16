@@ -1,5 +1,16 @@
 .one-column-layout {
-  h1 {
+  padding-top: 1.4em;
 
+  @include media-breakpoint-up(md) {
+    padding-top: 3.5em;
+  }
+
+  h1 {
+    font-size: 1.25em;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.5em;
+      margin-bottom: 1.3em;
+    }
   }
 }

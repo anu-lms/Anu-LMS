@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import App from '../application/App';
-import Header from '../components/organisms/Header';
-import OneColumnLayout from '../components/organisms/Templates/OneColumnLayout';
-import withAuth from '../auth/withAuth';
+import App from '../../application/App';
+import Header from '../../components/organisms/Header';
+import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
+import withAuth from '../../auth/withAuth';
+import LoginForm from '../../components/moleculas/Form/Login';
 
 class UserPasswordPage extends Component {
 
@@ -14,8 +15,7 @@ class UserPasswordPage extends Component {
         <div className="page-with-header page-password">
           <OneColumnLayout pageTitle="Edit Password">
 
-            <div>aaa</div>
-
+            <LoginForm />
           </OneColumnLayout>
         </div>
       </App>
