@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 
@@ -30,6 +30,8 @@ class List extends React.Component {
         Wrapper = 'div';
       }
 
+    const getKey = (index) => `${id}_${index}`;
+
     return (
       <div className="container list">
         <div className="row">
@@ -37,8 +39,8 @@ class List extends React.Component {
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
-                  <Checkbox key={id + '_' + index} label={item} id={id + '_' + index}/> :
-                  <li key={id + '_' + index}><span>{item}</span></li>
+                  <Checkbox key={getKey(index)} label={item} id={getKey(index)}/> :
+                  <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
           </div>
