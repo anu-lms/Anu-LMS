@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from '../../../../routes';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
-import { Link } from '../../../../routes';
 
 class ProfileMenu extends React.Component {
   render() {
