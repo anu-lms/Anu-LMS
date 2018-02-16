@@ -84,4 +84,20 @@ header {
     }
   }
 
+  button[class^=dropdown---dropdown-toggle---] {
+    font-size: 1em;
+    margin: 0;
+    padding-top: 0;
+  }
+  div[class^=dropdown---dropdown-menu---] {
+    &::after {
+      right: 3px;
+      @include media-breakpoint-up(md) {
+        right: 10px;
+      }
+      @include media-breakpoint-up(lg) {
+        right: 40px;
+      }
+    }
+  }
 }
