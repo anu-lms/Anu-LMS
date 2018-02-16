@@ -19,6 +19,7 @@
       }
     }
   }
+  // TODO: move to generic dropdown styles to keep all dropdowns consistent.
   div[class^=dropdown---menu-item---] {
     padding: 2px 16px;
     font-size: 16px;
@@ -26,6 +27,13 @@
     min-width: 0;
     &:hover {
       background-color: $anu-blue-30;
+    }
+  }
+
+  a {
+    color: inherit;
+    &:hover {
+      text-decoration: none;
     }
   }
 }
