@@ -19,7 +19,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { list, type } = this.props;
+    const { list, type, id } = this.props;
     let Wrapper = 'ul';
 
     if (type === 'list_numbered') {
@@ -30,6 +30,8 @@ class List extends React.Component {
         Wrapper = 'div';
       }
 
+    const getKey = (index) => `${id}_${index}`;
+
     return (
       <div className="container list">
         <div className="row">
@@ -37,8 +39,8 @@ class List extends React.Component {
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
-                  <Checkbox key={index} label={item}/> :
-                  <li key={index}><span>{item}</span></li>
+                  <Checkbox key={getKey(index)} label={item} id={getKey(index)}/> :
+                  <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
           </div>
