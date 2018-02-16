@@ -9,10 +9,10 @@ import * as userActions from '../actions/user';
  * currently dispatch isn't available there after page reload.
  */
 export function userLogout(dispatch) {
-  dispatch(userActions.userLogout());
-
   // Remove access cookies and redirect to the Front page.
   jsCookie.remove('accessToken');
   jsCookie.remove('refreshToken');
   Router.replace('/');
+  // Clear local storage.
+  dispatch(userActions.userLogout());
 }
