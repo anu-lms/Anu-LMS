@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import App from '../application/App';
 import Header from '../components/organisms/Header';
+import OneColumnLayout from '../components/organisms/Templates/OneColumnLayout';
 import withAuth from '../auth/withAuth';
 
 class UserPassword extends Component {
@@ -10,8 +11,12 @@ class UserPassword extends Component {
     return (
       <App>
         <Header />
-        <div className="page-with-header page-notebook">
-          <div>aaa</div>
+        <div className="page-with-header page-password">
+          <OneColumnLayout pageTitle="Edit Password">
+
+            <div>aaa</div>
+
+          </OneColumnLayout>
         </div>
       </App>
     );
