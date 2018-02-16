@@ -1,5 +1,4 @@
-import { connect } from 'react-redux';
-import * as userHelpers from '../../../../helpers/user';
+import PropTypes from 'prop-types';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 
 class ProfileMenu extends React.Component {
@@ -24,7 +23,7 @@ class ProfileMenu extends React.Component {
             <MenuItem onSelect={() => { console.log('Go to Edit password page'); }} >
               Edit Password
             </MenuItem>
-            <MenuItem onSelect={() => { userHelpers.userLogout(this.props.dispatch) }} >
+            <MenuItem onSelect={this.context.auth.logout} >
               Logout
             </MenuItem>
           </Dropdown.Menu>
@@ -34,4 +33,10 @@ class ProfileMenu extends React.Component {
   }
 }
 
-export default connect()(ProfileMenu);
+ProfileMenu.contextTypes = {
+  auth: PropTypes.shape({
+    logout: PropTypes.func,
+  }),
+};
+
+export default ProfileMenu;

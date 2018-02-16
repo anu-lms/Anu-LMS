@@ -15,6 +15,7 @@ export default function withAuth(PageComponent) {
     static childContextTypes = {
       auth: PropTypes.shape({
         login: PropTypes.func,
+        logout: PropTypes.func,
         getRequest: PropTypes.func,
       }),
     };
@@ -23,6 +24,7 @@ export default function withAuth(PageComponent) {
       return {
         auth: {
           login: this.login.bind(this),
+          logout: this.logout.bind(this),
           getRequest: this.getRequest.bind(this),
         },
       }
@@ -31,6 +33,18 @@ export default function withAuth(PageComponent) {
     login(username, password) {
       const auth = new ClientAuth();
       return auth.login(username, password);
+    }
+
+    logout() {
+      // Remove login cookies.
+      const auth = new ClientAuth();
+      auth.logout();
+
+      // Clear local storage.
+      localStorage.clear();
+
+      // Redirect to the frontpage.
+      Router.replace('/');
     }
 
     getRequest() {
