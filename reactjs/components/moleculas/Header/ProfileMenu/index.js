@@ -5,7 +5,7 @@ import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 class ProfileMenu extends React.Component {
   render() {
     return (
-      <Dropdown>
+      <Dropdown id="profile-menu">
         <Dropdown.Toggle noCaret btnStyle="link">
           <div className="icon profile">
             <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33">
