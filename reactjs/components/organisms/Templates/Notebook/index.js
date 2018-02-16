@@ -82,8 +82,8 @@ class NotebookTemplate extends React.Component {
       return;
     }
 
-    // TODO: Authentication may drop if expired.
-    const request = this.context.request();
+    // Get superagent request with authentication.
+    const { request } = await this.context.auth.getRequest();
 
     // Execute all saving operations in parallel.
     // Normally here is just one note to save, but you never know how fast
@@ -142,7 +142,7 @@ class NotebookTemplate extends React.Component {
             <div className="row">
               <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
-                  <NoteContent note={activeNote} />
+                <NoteContent note={activeNote} />
                 }
               </div>
             </div>
@@ -178,7 +178,9 @@ const mapStateToProps = ({ notebook }) => {
 };
 
 NotebookTemplate.contextTypes = {
-  request: PropTypes.func,
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
 };
 
 export default connect(mapStateToProps)(NotebookTemplate);
