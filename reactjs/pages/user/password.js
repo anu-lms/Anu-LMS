@@ -4,7 +4,7 @@ import App from '../../application/App';
 import Header from '../../components/organisms/Header';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 import withAuth from '../../auth/withAuth';
-import LoginForm from '../../components/moleculas/Form/Login';
+import Password from '../../components/organisms/Templates/Password';
 
 class UserPasswordPage extends Component {
 
@@ -15,7 +15,7 @@ class UserPasswordPage extends Component {
         <div className="page-with-header page-password">
           <OneColumnLayout pageTitle="Edit Password">
 
-            <LoginForm />
+            <Password />
           </OneColumnLayout>
         </div>
       </App>

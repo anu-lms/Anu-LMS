@@ -13,4 +13,10 @@
       margin-bottom: 1.3em;
     }
   }
+
+  form {
+    @include media-breakpoint-up(lg) {
+      max-width: 400px;
+    }
+  }
 }

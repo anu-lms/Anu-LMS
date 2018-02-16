@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import PasswordForm from '../../../moleculas/Form/Password';
 import { connect } from 'react-redux';
 import { Router } from "../../../../routes";
 
@@ -14,9 +15,7 @@ class PasswordTemplate extends React.Component {
 
     return (
       <Fragment>
-
-
-
+        <PasswordForm/>
       </Fragment>
     );
   }

@@ -1,0 +1,9 @@
+.edit-password-form {
+
+  button[type="submit"] {
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+      display: block;
+    }
+  }
+}

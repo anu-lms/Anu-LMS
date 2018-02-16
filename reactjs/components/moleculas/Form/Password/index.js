@@ -9,22 +9,31 @@ const schema = {
   'type': 'object',
   'required': ['username', 'password'],
   'properties': {
-    'username': {
-      'type': 'string',
-      'title': 'Username',
-    },
     'password': {
       'type': 'string',
-      'title': 'Password',
+      'title': 'Enter Current Password',
+    },
+    'password_new': {
+      'type': 'string',
+      'title': 'New Password',
+    },
+    'password_new_confirm': {
+      'type': 'string',
+      'title': 'Confirm New Password',
     },
   }
 };
 
 const uiSchema = {
-  'username': {
+  'password': {
+    'ui:widget': 'password',
     'ui:placeholder': ' ',
   },
-  'password': {
+  'password_new': {
+    'ui:widget': 'password',
+    'ui:placeholder': ' ',
+  },
+  'password_new_confirm': {
     'ui:widget': 'password',
     'ui:placeholder': ' ',
   }
@@ -67,9 +76,10 @@ class PasswordForm extends React.Component {
         formData={this.state.formData}
         autocomplete={'off'}
         onSubmit={this.submitForm.bind(this)}
+        className="edit-password-form"
       >
-        <Button block loading={this.state.isSending}>
-          Login
+        <Button loading={this.state.isSending}>
+          Save New Password
         </Button>
       </Form>
     );
