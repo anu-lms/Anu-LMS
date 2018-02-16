@@ -1,0 +1,30 @@
+// Using id here to override default dropdown styles.
+#profile-menu {
+  div[class^=dropdown---dropdown-menu-wrapper] {
+    right: -10px;
+    @include media-breakpoint-up(lg) {
+      right: -14px;
+    }
+  }
+  div[class^=dropdown---dropdown-menu---] {
+    padding: 12px 0 14px;
+    width: 160px;
+    &::after {
+      @include media-breakpoint-up(md) {
+        right: 11px;
+      }
+      @include media-breakpoint-up(lg) {
+        right: 15px;
+      }
+    }
+  }
+  div[class^=dropdown---menu-item---] {
+    padding: 2px 16px;
+    font-size: 16px;
+    line-height: 2;
+    min-width: 0;
+    &:hover {
+      background-color: $anu-blue-30;
+    }
+  }
+}
