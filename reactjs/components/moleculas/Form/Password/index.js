@@ -7,7 +7,7 @@ import Alert from 'react-s-alert';
 
 const schema = {
   'type': 'object',
-  'required': [],
+  'required': ['password', 'password_new', 'password_new_confirm'],
   'properties': {
     'password': {
       'type': 'string',
@@ -62,51 +62,32 @@ class PasswordForm extends React.Component {
     try {
       const { request } = await this.context.auth.getRequest();
       const tokenResponse = await request.get('/session/token');
+      const currentUser = await request.get('/current_user?_format=json');
 
-      // await request
-      //   .get('/user?_format=json')
-      //   .set('Content-Type', 'application/json')
-      //   .set('X-CSRF-Token', tokenResponse.text)
       await request
-        .get('/user/4?_format=json')
+        .patch('/user/' + currentUser.body.uid[0].value)
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
-
-      // await request
-      //   .patch('/user/4')
-      //   .set('Content-Type', 'application/json')
-      //   .set('X-CSRF-Token', tokenResponse.text)
-      //   .send({
-      //     field_first_name: [
-      //       {
-      //         value: 'qqqq2'
-      //       }
-      //     ]
-      //     // pass: [{
-      //     //   existing: "ukflbjkec1",
-      //     //   value: "ukflbjkec"
-      //     //   // existing: formData.password,
-      //     //   // value: formData.password_new
-      //     // }],
-      //   })
-      //
-      //   .then((response) => {
-      //     console.log('body', response);
-      //     return this.context.auth.refreshAuthenticationToken();
-      //   })
-        .then((response) => {
-          Alert.success('2Thank you, the assessment has been successfully submitted.');
-          console.log('2body', response);
-          this.setState({ isSending: false });
+        .send({
+          pass: [{
+            existing: formData.password,
+            value: formData.password_new
+          }],
+        })
+        .then(() => {
+          Alert.success('Your password has been successfully updated.');
+          this.setState({ isSending: false, formData: {} });
+          return this.context.auth.refreshAuthenticationToken();
         })
         .catch(error => {
-          Alert.error('We could not submit your assessment. Please, contact site administrator.');
-          console.log('error', error);
+          Alert.error('We could not update your password. Please, make sure current password is correct.');
+          console.log(error);
           this.setState({ isSending: false });
         });
     } catch (error) {
-      this.setState({ isSending: false });
       Alert.error(error);
+      console.error(error);
+      this.setState({ isSending: false });
     }
   }
 
