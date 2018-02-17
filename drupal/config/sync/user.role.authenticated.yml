@@ -21,6 +21,7 @@ permissions:
   - 'edit own notebook entities'
   - 'edit own quiz_result entities'
   - 'issue subrequests'
+  - 'restful get current_user'
   - 'restful post contact_message'
   - 'restful post quizzes_results'
   - 'update own simple_oauth entities'
