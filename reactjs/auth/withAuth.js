@@ -17,6 +17,7 @@ export default function withAuth(PageComponent) {
         login: PropTypes.func,
         logout: PropTypes.func,
         getRequest: PropTypes.func,
+        refreshAuthenticationToken: PropTypes.func,
       }),
     };
 
@@ -26,6 +27,7 @@ export default function withAuth(PageComponent) {
           login: this.login.bind(this),
           logout: this.logout.bind(this),
           getRequest: this.getRequest.bind(this),
+          refreshAuthenticationToken: this.refreshAuthenticationToken.bind(this),
         },
       }
     }
@@ -45,6 +47,11 @@ export default function withAuth(PageComponent) {
 
       // Redirect to the frontpage.
       Router.replace('/');
+    }
+
+    refreshAuthenticationToken() {
+      const auth = new ClientAuth();
+      return auth.refreshAuthenticationToken();
     }
 
     getRequest() {
