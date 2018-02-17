@@ -63,24 +63,44 @@ class PasswordForm extends React.Component {
       const { request } = await this.context.auth.getRequest();
       const tokenResponse = await request.get('/session/token');
 
+      // await request
+      //   .get('/user?_format=json')
+      //   .set('Content-Type', 'application/json')
+      //   .set('X-CSRF-Token', tokenResponse.text)
       await request
-        .patch('/user/75')
+        .get('/user/4?_format=json')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
-        .send({
-          pass: [{
-            existing: "password1",
-            value: "password"
-          }],
-        })
 
-        .then(({ body }) => {
-          console.log('get response');
-          console.log('body', body);
+      // await request
+      //   .patch('/user/4')
+      //   .set('Content-Type', 'application/json')
+      //   .set('X-CSRF-Token', tokenResponse.text)
+      //   .send({
+      //     field_first_name: [
+      //       {
+      //         value: 'qqqq2'
+      //       }
+      //     ]
+      //     // pass: [{
+      //     //   existing: "ukflbjkec1",
+      //     //   value: "ukflbjkec"
+      //     //   // existing: formData.password,
+      //     //   // value: formData.password_new
+      //     // }],
+      //   })
+      //
+      //   .then((response) => {
+      //     console.log('body', response);
+      //     return this.context.auth.refreshAuthenticationToken();
+      //   })
+        .then((response) => {
+          Alert.success('2Thank you, the assessment has been successfully submitted.');
+          console.log('2body', response);
           this.setState({ isSending: false });
-
         })
         .catch(error => {
+          Alert.error('We could not submit your assessment. Please, contact site administrator.');
           console.log('error', error);
           this.setState({ isSending: false });
         });
@@ -111,6 +131,7 @@ class PasswordForm extends React.Component {
 PasswordForm.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
+    refreshAuthenticationToken: PropTypes.func,
   }),
 };
 
