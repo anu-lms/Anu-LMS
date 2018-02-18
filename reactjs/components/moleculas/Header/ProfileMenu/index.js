@@ -28,7 +28,7 @@ class ProfileMenu extends React.Component {
             </MenuItem>
             {this.context.auth &&
               <MenuItem onSelect={this.context.auth.logout}>
-                Logout
+                <span>Logout</span>
               </MenuItem>
             }
           </Dropdown.Menu>

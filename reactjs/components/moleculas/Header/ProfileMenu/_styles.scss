@@ -21,13 +21,19 @@
   }
   // TODO: move to generic dropdown styles to keep all dropdowns consistent.
   div[class^=dropdown---menu-item---] {
-    padding: 2px 16px;
+    padding: 0;
     font-size: 16px;
     line-height: 2;
     min-width: 0;
     color: $anu-black;
     &:hover {
       background-color: $anu-blue-30;
+    }
+
+    & > span,
+    & > a {
+      display: block;
+      padding: 2px 16px;
     }
   }
 
