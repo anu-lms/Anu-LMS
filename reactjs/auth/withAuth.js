@@ -79,24 +79,28 @@ export default function withAuth(PageComponent) {
         } catch (error) {}
       }
 
-      // Redirect to the front page if not authenticated.
-      if (!auth.isLoggedIn() && pathname !== '/') {
-        console.log('Redirecting to the login page...');
-        if (res) {
-          res.redirect('/');
+      // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
+      if (!PageComponent.skipRedirect) {
+
+        // Redirect to the front page if not authenticated.
+        if (!auth.isLoggedIn() && pathname !== '/') {
+          console.log('Redirecting to the login page...');
+          if (res) {
+            res.redirect('/');
+          }
+          else {
+            Router.replace('/');
+          }
         }
-        else {
-          Router.replace('/');
-        }
-      }
-      // Redirect to the dashboard if authenticated.
-      else if (auth.isLoggedIn() && pathname === '/') {
-        console.log('Redirecting to the dashboard page...');
-        if (res) {
-          res.redirect('/dashboard');
-        }
-        else {
-          Router.replace('/dashboard');
+        // Redirect to the dashboard if authenticated.
+        else if (auth.isLoggedIn() && pathname === '/') {
+          console.log('Redirecting to the dashboard page...');
+          if (res) {
+            res.redirect('/dashboard');
+          }
+          else {
+            Router.replace('/dashboard');
+          }
         }
       }
 
