@@ -3,19 +3,18 @@ import { connect } from 'react-redux';
 import App from '../../application/App';
 import Header from '../../components/organisms/Header';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
-import withAuth from '../../auth/withAuth';
-import EditPassword from '../../components/organisms/Password/Edit';
+import ForgotPassword from '../../components/organisms/Password/Forgot';
 
 class UserPasswordPage extends Component {
 
   render() {
     return (
       <App>
-        <Header />
+        <Header isEmpty={true}/>
         <div className="page-with-header page-password">
-          <OneColumnLayout pageTitle="Edit Password">
+          <OneColumnLayout pageTitle="Forgot Password?">
 
-            <EditPassword />
+            <ForgotPassword />
           </OneColumnLayout>
         </div>
       </App>
@@ -31,4 +30,4 @@ class UserPasswordPage extends Component {
   }
 }
 
-export default withAuth(UserPasswordPage);
+export default UserPasswordPage;
