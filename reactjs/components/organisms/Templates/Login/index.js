@@ -1,7 +1,8 @@
 import React from 'react';
-import LoginForm from '../../../moleculas/Form/Login';
+import { Link } from '../../../../routes';
 import Button from '../../../atoms/Button';
 import Separator from '../../../atoms/Separator';
+import LoginForm from '../../../moleculas/Form/Login';
 
 const LoginPageTemplate = () => (
   <div className="container-fluid page-login">
@@ -28,9 +29,11 @@ const LoginPageTemplate = () => (
           <div className="login-block">
             <LoginForm />
 
-            <a className="forgot-password" href="#">
-              Forgot username or password?
-            </a>
+            <Link to="/user/reset">
+              <a className="forgot-password" href="#">
+                Forgot username or password?
+              </a>
+            </Link>
 
             <Separator />
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 
-const Header = () => (
+const Header = ({isEmpty = false}) => (
   <header>
-
+    {!isEmpty &&
     <div className="left">
       <Link to="/dashboard">
         <a className="icon" rel="home">
@@ -16,7 +16,9 @@ const Header = () => (
         </a>
       </Link>
     </div>
+    }
 
+    {!isEmpty &&
     <div className="right">
 
       <div className="search">
@@ -43,7 +45,7 @@ const Header = () => (
       <ProfileMenu />
 
     </div>
-
+  }
   </header>
 );
 

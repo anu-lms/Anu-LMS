@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import PasswordForm from '../../../moleculas/Form/Password';
+import PasswordForm from '../../moleculas/Form/Password';
 import { connect } from 'react-redux';
-import { Router } from "../../../../routes";
+import { Router } from "../../../routes";
 
-class PasswordTemplate extends React.Component {
+class ForgotPassword extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,4 +20,4 @@ class PasswordTemplate extends React.Component {
   }
 }
 
-export default PasswordTemplate;
+export default ForgotPassword;
