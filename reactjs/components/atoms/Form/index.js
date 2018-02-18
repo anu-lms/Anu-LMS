@@ -14,7 +14,7 @@ class DefaultForm extends React.Component {
   }
 
   render() {
-    const { schema, uiSchema, children, className, autocomplete } = this.props;
+    const { schema, uiSchema, children, className, autocomplete, ...attributes } = this.props;
     return (
       <Form
         className={`form ${className}`}
@@ -26,6 +26,7 @@ class DefaultForm extends React.Component {
         FieldTemplate={FieldTemplate}
         showErrorList={false}
         autocomplete={autocomplete}
+        {...attributes}
       >
         {children}
       </Form>

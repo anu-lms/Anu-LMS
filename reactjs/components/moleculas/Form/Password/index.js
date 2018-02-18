@@ -53,6 +53,10 @@ class PasswordForm extends React.Component {
   }
 
   async submitForm({ formData }) {
+    if (formData.password_new !== formData.password_new_confirm) {
+      Alert.error("New password and Confirm New Password fields don't match");
+      return;
+    }
 
     this.setState({
       isSending: true,
