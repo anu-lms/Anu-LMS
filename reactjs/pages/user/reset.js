@@ -5,7 +5,7 @@ import Header from '../../components/organisms/Header';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
-class UserPasswordPage extends Component {
+class ForgotPasswordPage extends Component {
 
   render() {
     return (
@@ -30,4 +30,4 @@ class UserPasswordPage extends Component {
   }
 }
 
-export default UserPasswordPage;
+export default ForgotPasswordPage;
