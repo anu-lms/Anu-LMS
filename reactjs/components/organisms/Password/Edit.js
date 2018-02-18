@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import EditPasswordForm from '../../moleculas/Form/Password';
 import { connect } from 'react-redux';
 import { Router } from "../../../routes";
+import OneColumnLayout from '../../../components/organisms/Templates/OneColumnLayout';
 
 class EditPassword extends React.Component {
 
@@ -10,12 +11,12 @@ class EditPassword extends React.Component {
   }
 
   render() {
-    const { notes, activeNote, isMobileContentVisible } = this.props;
+    const {  } = this.props;
 
     return (
-      <Fragment>
+      <OneColumnLayout pageTitle="Edit Password">
         <EditPasswordForm/>
-      </Fragment>
+      </OneColumnLayout>
     );
   }
 }
