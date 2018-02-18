@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import App from '../../application/App';
+import withAuth from '../../auth/withAuth';
 import Header from '../../components/organisms/Header';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
 class ForgotPasswordPage extends Component {
+  static skipAuthRedirect = true;
 
   render() {
     return (
@@ -30,4 +32,4 @@ class ForgotPasswordPage extends Component {
   }
 }
 
-export default ForgotPasswordPage;
+export default withAuth(ForgotPasswordPage);
