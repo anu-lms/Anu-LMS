@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Router } from "../../../routes";
 import OneColumnLayout from '../../../components/organisms/Templates/OneColumnLayout';
 
-class ForgotPassword extends React.Component {
+class ResetPassword extends React.Component {
 
   constructor(props) {
     super(props);
@@ -14,11 +14,11 @@ class ForgotPassword extends React.Component {
     const {  } = this.props;
 
     return (
-      <OneColumnLayout pageTitle="Forgot Password?">
+      <OneColumnLayout pageTitle="Set a New Password">
         <PasswordForm/>
       </OneColumnLayout>
     );
   }
 }
 
-export default ForgotPassword;
+export default ResetPassword;
