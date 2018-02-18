@@ -7,7 +7,6 @@ import withAuth from '../../auth/withAuth';
 import EditPassword from '../../components/organisms/Password/Edit';
 
 class UserPasswordPage extends Component {
-  static skipRedirect = true;
 
   render() {
     return (

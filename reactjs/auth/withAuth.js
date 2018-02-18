@@ -80,7 +80,7 @@ export default function withAuth(PageComponent) {
       }
 
       // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
-      if (!PageComponent.skipRedirect) {
+      if (!PageComponent.skipAuthRedirect) {
 
         // Redirect to the front page if not authenticated.
         if (!auth.isLoggedIn() && pathname !== '/') {
