@@ -6,6 +6,8 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
+use Drupal\Component\Utility\Crypt;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   label = @Translation("User Reset Password"),
  *   uri_paths = {
  *     "canonical" = "/user/password/reset/{uid}/{timestamp}/{hash}",
+ *     "https://www.drupal.org/link-relations/create" = "/user/password/reset",
  *   }
  * )
  */
@@ -82,8 +85,76 @@ class UserResetPasswordResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function get() {
-    $response = new ResourceResponse(true);
-    return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+  public function get($uid, $timestamp, $hash) {
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+
+    if ($this->isTokenValid($uid, $timestamp, $hash)) {
+      /** @var \Drupal\user\UserInterface $user */
+      $user = $user_storage->load($uid);
+
+      $response = new ResourceResponse($user, 200);
+      return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    }
+    else {
+      $message = $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.');
+      throw new HttpException(406, $message);
+    }
+  }
+
+  /**
+   * Responds to POST requests.
+   *
+   * Creates or updates Quiz results entity by given POST data.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
+   */
+  public function post($data) {
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+    /** @var \Drupal\user\UserInterface $user */
+    $user = $user_storage->load($data['uid']);
+
+    if ($this->isTokenValid($data['uid'], $data['timestamp'], $data['hash'])) {
+      $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $timestamp]);
+
+
+      $user->setPassword($data['password_new']);
+      $user->_skipProtectedUserFieldConstraint = true;
+      $user->save();
+
+      $response = new ResourceResponse($user, 200);
+      return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    }
+    else {
+      $message = $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.');
+      throw new HttpException(406, $message);
+    }
+  }
+
+  private function isTokenValid($uid, $timestamp, $hash) {
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+    // The current user is not logged in, so check the parameters.
+    $current = REQUEST_TIME;
+    /** @var \Drupal\user\UserInterface $user */
+    $user = $user_storage->load($uid);
+
+    // Verify that the user exists and is active.
+    if ($user === NULL || !$user->isActive()) {
+      // Blocked or invalid user ID, so deny access. The parameters will be in
+      // the watchdog's URL for the administrator to check.
+      return FALSE;
+    }
+
+    // Time out, in seconds, until login URL expires.
+    $timeout = \Drupal::config('user.settings')->get('password_reset_timeout');
+    // No time out for first time login.
+    if ($user->getLastLoginTime() && $current - $timestamp > $timeout) {
+      return FALSE;
+    }
+    elseif ($user->isAuthenticated() && ($timestamp >= $user->getLastLoginTime()) && ($timestamp <= $current) && Crypt::hashEquals($hash, user_pass_rehash($user, $timestamp))) {
+      return TRUE;
+    }
+
+    return FALSE;
   }
 }

@@ -53,9 +53,7 @@ class PasswordForm extends React.Component {
           username: formData.username,
         })
         .then((response) => {
-          console.log(response);
           this.setState({ isSending: false });
-          Alert.success('Your password has been successfully updated.');
 
           // @todo: Is it secure to show email by given username?
           this.props.recoveryEmailSent(response.body.email);
