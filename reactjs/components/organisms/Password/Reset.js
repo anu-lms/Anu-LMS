@@ -14,7 +14,7 @@ class ResetPassword extends React.Component {
     const {  } = this.props;
 
     return (
-      <OneColumnLayout pageTitle="Set a New Password">
+      <OneColumnLayout pageTitle="Set a New Password" className="short">
         <PasswordForm/>
       </OneColumnLayout>
     );

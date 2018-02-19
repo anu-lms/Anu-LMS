@@ -14,7 +14,7 @@ class EditPassword extends React.Component {
     const { } = this.props;
 
     return (
-      <OneColumnLayout pageTitle="Edit Password">
+      <OneColumnLayout pageTitle="Edit Password" className="short">
         <EditPasswordForm />
       </OneColumnLayout>
     );

@@ -35,6 +35,19 @@ $settings['hash_salt'] = 'pmh6LA6706mDIFTHfM5Seiy6PFp-3qIK2DWwWy5MtsHulxYxyzjsXD
 // 2. Disable reroute_email AND set config below to TRUE.
 $config['ssb_mail.settings']['send'] = FALSE;
 
+// TODO: REMOVE WHEN MIGRATION IS DONE AT
+// https://www.pivotaltracker.com/story/show/153993663
+$databases['migrate']['default'] = array (
+  'database' => 'pantheon',
+  'username' => 'pantheon',
+  'password' => 'bee772d00c6d43c4a09e5f1ee40443b2',
+  'prefix' => '',
+  'host' => 'dbserver.live.ef58050a-f7d9-4943-8ea9-8bf73f62efaf.drush.in',
+  'port' => '10209',
+  'namespace' => 'Drupal\Core\Database\Driver\mysql',
+  'driver' => 'mysql',
+);
+
 /**
  * Settings for Platform.sh environments.
  */
