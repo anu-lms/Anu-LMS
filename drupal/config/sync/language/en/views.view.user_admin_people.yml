@@ -23,8 +23,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
       fields:
-        user_bulk_form:
-          label: 'Bulk update'
         name:
           label: Username
         status:
