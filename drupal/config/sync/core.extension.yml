@@ -2,6 +2,7 @@ module:
   require_login: -1000
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  anu_migrate: 0
   anu_quizzes: 0
   anu_user: 0
   block: 0
@@ -51,6 +52,11 @@ module:
   media_entity_browser: 0
   media_entity_image: 0
   metatag: 0
+  migrate: 0
+  migrate_drupal: 0
+  migrate_drupal_ui: 0
+  migrate_plus: 0
+  migrate_tools: 0
   module_filter: 0
   node: 0
   options: 0
