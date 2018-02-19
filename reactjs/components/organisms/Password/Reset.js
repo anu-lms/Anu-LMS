@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import PasswordForm from '../../moleculas/Form/Password';
+import PasswordForm from '../../moleculas/Form/Password/Forgot';
 import { connect } from 'react-redux';
 import { Router } from "../../../routes";
 import OneColumnLayout from '../../../components/organisms/Templates/OneColumnLayout';
