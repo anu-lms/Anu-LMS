@@ -29,7 +29,7 @@ const LoginPageTemplate = () => (
           <div className="login-block">
             <LoginForm />
 
-            <Link to="/user/reset">
+            <Link to="/user/forgot">
               <a className="forgot-password" href="#">
                 Forgot username or password?
               </a>
