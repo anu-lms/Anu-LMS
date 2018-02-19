@@ -4,6 +4,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
 import Alert from 'react-s-alert';
+import request from "../../../../utils/request";
 
 const schema = {
   'type': 'object',
@@ -43,11 +44,23 @@ class PasswordForm extends React.Component {
     });
 
     try {
+      const tokenResponse = await request.get('/session/token');
+      await request
+        .post('/request-reset-password')
+        .set('Content-Type', 'application/json')
+        .set('X-CSRF-Token', tokenResponse.text)
+        .send({
+          name: [{
+            value: 'sergey@systemseed.com'
+          }],
+        })
+        .then((response) => {
+          console.log(response);
+        });
 
-      this.props.recoveryEmailSent(formData.username);
+      Alert.success('Your password has been successfully updated.');
       this.setState({ isSending: false });
     } catch (error) {
-
       Alert.error(error);
       console.error(error);
       this.setState({ isSending: false });
