@@ -16,6 +16,7 @@ permissions:
   - 'create record_forms entities'
   - 'issue subrequests'
   - 'restful post contact_message'
+  - 'restful post user_request_password'
   - 'update own simple_oauth entities'
   - 'view any site_menu entities'
   - 'view commerce_product'
