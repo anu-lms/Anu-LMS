@@ -66,7 +66,7 @@ class PasswordForm extends React.Component {
     try {
       const { request } = await this.context.auth.getRequest();
       const tokenResponse = await request.get('/session/token');
-      const currentUser = await request.get('/current_user?_format=json');
+      const currentUser = await request.get('/user/me?_format=json');
 
       await request
         .patch('/user/' + currentUser.body.uid[0].value)
