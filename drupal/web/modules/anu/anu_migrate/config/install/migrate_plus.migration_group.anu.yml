@@ -1,0 +1,8 @@
+id: anu
+label: Migrate D7 users to D8
+description:  Migrate D7 users to D8
+source_type: D7 database
+dependencies:
+  enforced:
+    module:
+      - anu_migrate
