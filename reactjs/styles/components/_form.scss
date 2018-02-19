@@ -9,6 +9,7 @@ fieldset {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 textarea {
   font-family: $font-family-base;
@@ -117,5 +118,15 @@ textarea {
     color: $london-sky;
     font-size: .625em;
     top: .5em;
+  }
+}
+
+// Errors
+.form-group.has-error {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    border: solid 2px $alizarin-crimson;
   }
 }

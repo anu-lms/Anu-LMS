@@ -14,19 +14,15 @@ class DefaultForm extends React.Component {
   }
 
   render() {
-    const { schema, uiSchema, children, className, autocomplete, ...attributes } = this.props;
+    const { children, className } = this.props;
     return (
       <Form
+        {...this.props}
         className={`form ${className}`}
-        schema={schema}
-        uiSchema={uiSchema}
         onSubmit={this.handleSubmit.bind(this)}
         onError={this.handleError.bind(this)}
-        formData={this.props.formData}
         FieldTemplate={FieldTemplate}
         showErrorList={false}
-        autocomplete={autocomplete}
-        {...attributes}
       >
         {children}
       </Form>
@@ -38,8 +34,8 @@ DefaultForm.defaultProps = {
   schema: {},
   uiSchema: {},
   formData: {},
-  onSubmit: () => {},
-  onError: () => {},
+  onSubmit: () => { },
+  onError: () => { },
   children: {},
   className: '',
   autocomplete: 'on',
