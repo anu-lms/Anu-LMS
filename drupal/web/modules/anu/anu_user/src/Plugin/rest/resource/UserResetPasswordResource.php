@@ -115,8 +115,7 @@ class UserResetPasswordResource extends ResourceBase {
     $user = $user_storage->load($data['uid']);
 
     if ($this->isTokenValid($data['uid'], $data['timestamp'], $data['hash'])) {
-      $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $timestamp]);
-
+      $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $data['timestamp']]);
 
       $user->setPassword($data['password_new']);
       $user->_skipProtectedUserFieldConstraint = true;
