@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _cloneDeep from 'lodash/cloneDeep';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
@@ -7,7 +8,7 @@ import Alert from 'react-s-alert';
 
 const schema = {
   'type': 'object',
-  'required': ['username', 'email', 'password'],
+  'required': ['username', 'email'],
   'properties': {
     'username': {
       'type': 'string',
@@ -30,15 +31,24 @@ const uiSchema = {
     'ui:placeholder': ' ',
   },
   'email': {
-    'classNames': 'with-password-description',
     'ui:placeholder': ' ',
-    'ui:description': 'Please confirm your password to update your profile:'
   },
   'password': {
+    'classNames': 'hide-password',
     'ui:widget': 'password',
-    'ui:placeholder': ' '
-  },
+    'ui:placeholder': ' ',
+    'ui:description': 'Please confirm your password to update your email address:',
+  }
 };
+
+// Clone of schema with password displayed.
+const schemaPass = _cloneDeep(schema);
+schemaPass.required = ['username', 'email', 'password'];
+
+// Clone of uiSchema with password displayed.
+const uiSchemaPass = _cloneDeep(uiSchema);
+uiSchemaPass.password.classNames = 'display-password';
+
 
 class UserEditForm extends React.Component {
 
@@ -50,19 +60,20 @@ class UserEditForm extends React.Component {
     this.state = {
       isSending: false,
       isChanged: false,
+      passwordRequired: false,
       user: user,
       formData: {
         username: user.name,
         email: user.mail,
-        password: ''
+        password: '',
       },
+      formKey: 0,
     };
 
     this.submitForm.bind(this);
   }
 
   async submitForm({ formData }) {
-
     this.setState({
       isSending: true,
       formData,
@@ -73,7 +84,6 @@ class UserEditForm extends React.Component {
       const { request } = await this.context.auth.getRequest();
       const { user } = this.state;
 
-      // Update user data.
       await request
         .patch('/jsonapi/user/user/' + user.uuid)
         .send({
@@ -84,18 +94,23 @@ class UserEditForm extends React.Component {
               name: formData.username,
               mail: formData.email,
               pass: {
-                existing: formData.password
+                // TODO: bug or feature?
+                // To update user name ANY non-empty password can be sent.
+                // To update email only valid current password should be sent.
+                existing: formData.password ? formData.password : 'anypass'
               }
             }
           }
         });
 
-      // Re-login required if user name has changed.
-      await this.context.auth.login(formData.username, formData.password);
+      // Re-login required if user data has changed.
+      await this.context.auth.refreshAuthenticationToken();
 
-      // Update state accourdingly to make further updates possible.
+      // Reset state after successful submit.
       this.setState({
         isSending: false,
+        isChanged: false,
+        passwordRequired: false,
         user: {
           ...user,
           name: formData.username,
@@ -104,7 +119,10 @@ class UserEditForm extends React.Component {
         formData: {
           ...formData,
           password: ''
-        }
+        },
+        // HACK: change React key after successful submit to "re-mount" component.
+        // Can be removed when https://github.com/mozilla-services/react-jsonschema-form/pull/177 is released.
+        formKey: this.state.formKey + 1,
       });
 
       Alert.success('Your profile has been successfully updated.');
@@ -119,28 +137,46 @@ class UserEditForm extends React.Component {
     const { user } = this.state;
 
     // Set isChanged flag based on user input to enable/disable Save button.
+    let isChanged = false;
+
+    // Set passwordRequired flag based on email field input.
+    let passwordRequired = false;
+
     if (formData.username !== user.name) {
-      this.setState({ isChanged: true, formData });
+      isChanged = true;
     }
-    else if (formData.email !== user.mail) {
-      this.setState({ isChanged: true, formData });
-      return formData;
+
+    if (formData.email !== user.mail) {
+      isChanged = true;
+      passwordRequired = true;
     }
-    else {
-      this.setState({ isChanged: false, formData });
-    }
+
+    this.setState({ isChanged, passwordRequired, formData });
+
   }
+
+  getSchema() {
+    if (!this.state.passwordRequired) {
+      return schema;
+    }
+
+    const schemaPass = _cloneDeep(schema);
+    schemaPass.required.push('pass')
+  }
+
 
   render() {
 
     return (
       <Form
-        schema={schema}
-        uiSchema={uiSchema}
+        key={this.state.formKey}
+        schema={this.state.passwordRequired ? schemaPass : schema}
+        uiSchema={this.state.passwordRequired ? uiSchemaPass : uiSchema}
         formData={this.state.formData}
-        autocomplete={'off'}
+        autocomplete="off"
         onChange={this.onChange.bind(this)}
         onSubmit={this.submitForm.bind(this)}
+        noHtml5Validate
       >
         <Button
           block
@@ -157,7 +193,7 @@ class UserEditForm extends React.Component {
 UserEditForm.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
-    login: PropTypes.func,
+    refreshAuthenticationToken: PropTypes.func,
   }),
 };
 
