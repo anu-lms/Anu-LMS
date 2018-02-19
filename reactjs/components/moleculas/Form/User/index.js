@@ -64,8 +64,7 @@ class UserEditForm extends React.Component {
       user: user,
       formData: {
         username: user.name,
-        email: user.mail,
-        password: '',
+        email: user.mail
       },
       formKey: 0,
     };
