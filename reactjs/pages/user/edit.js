@@ -13,7 +13,7 @@ class UserEditPage extends Component {
       <App>
         <Header />
         <div className="page-with-header">
-          <OneColumnLayout pageTitle="Edit Profile">
+          <OneColumnLayout pageTitle="Edit Profile" className="short">
             <UserEditForm user={this.props.user} />
           </OneColumnLayout>
         </div>
