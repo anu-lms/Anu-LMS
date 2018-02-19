@@ -5,5 +5,5 @@ const routes = module.exports = require('next-routes')();
 routes
   .add('_course', '/course/:course')
   .add('_lesson', '/course/:course/:lesson')
-  .add('user_reset', '/user/reset/:uid', 'user/reset');
+  .add('user_reset', '/user/reset/:uid/:timestamp/:hash', 'user/reset');
 
