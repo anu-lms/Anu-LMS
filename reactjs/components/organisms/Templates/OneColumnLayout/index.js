@@ -19,13 +19,15 @@ class OneColumnLayout extends React.Component {
         {this.props.pageTitle &&
           <div className="row justify-content-center title">
             <div className="col-12 col-md-8 col-lg-12">
-              <h1>{this.props.pageTitle}</h1>
+              <h1 className="page-title">{this.props.pageTitle}</h1>
             </div>
           </div>
         }
         <div className="row justify-content-center content">
           <div className="col-12 col-md-8 col-lg-8">
-            {this.props.children}
+            <div className="content-wrapper">
+              {this.props.children}
+            </div>
           </div>
         </div>
       </div>
