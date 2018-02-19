@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *   id = "user_request_password",
  *   label = @Translation("User Request Password"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/request-reset-password",
+ *     "https://www.drupal.org/link-relations/create" = "/user/password/request",
  *   }
  * )
  */
