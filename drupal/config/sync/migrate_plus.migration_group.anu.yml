@@ -1,0 +1,15 @@
+uuid: 24311a40-4f58-4c56-b38d-526a8578abc0
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - anu_migrate
+_core:
+  default_config_hash: Q3xMDgD1i-a_w8w0Y_XeDLuaY-Y59NmoeGNJK4iGl30
+id: anu
+label: 'Migrate D7 users to D8'
+description: 'Migrate D7 users to D8'
+source_type: 'D7 database'
+module: null
+shared_configuration: null

@@ -1,0 +1,8 @@
+name: Anu Migrate
+type: module
+description: Migrates users from D7 to D8.
+core: 8.x
+package: Anu
+dependencies:
+  - drupal:migrate
+  - migrate_plus:migrate_plus
