@@ -6,4 +6,7 @@
       display: block;
     }
   }
+  & > .form-group {
+    margin-bottom: 28px;
+  }
 }

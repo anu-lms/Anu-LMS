@@ -5,6 +5,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes';
 import request from "../../../../utils/request";
+import Password from '../../../atoms/Form/Password';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
 const schema = {
@@ -24,11 +25,13 @@ const schema = {
 
 const uiSchema = {
   'password_new': {
-    'ui:widget': 'password',
+    'ui:widget': Password,
     'ui:placeholder': ' ',
+    'ui:indicator': true,
+    'ui:with_confirm_field': true,
   },
   'password_new_confirm': {
-    'ui:widget': 'password',
+    'ui:widget': Password,
     'ui:placeholder': ' ',
   }
 };

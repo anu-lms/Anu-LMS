@@ -33,11 +33,12 @@ const uiSchema = {
   'password_new': {
     'ui:widget': Password,
     'ui:placeholder': ' ',
+    'ui:indicator': true,
+    'ui:with_confirm_field': true,
   },
   'password_new_confirm': {
     'ui:widget': Password,
     'ui:placeholder': ' ',
-    'ui:indicator': true,
   }
 };
 
