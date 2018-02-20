@@ -5,7 +5,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes';
 import request from "../../../../utils/request";
-import Password from '../../../atoms/Form/Password';
+import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
 const schema = {
@@ -25,13 +25,13 @@ const schema = {
 
 const uiSchema = {
   'password_new': {
-    'ui:widget': Password,
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
     'ui:indicator': true,
     'ui:with_confirm_field': true,
   },
   'password_new_confirm': {
-    'ui:widget': Password,
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
   }
 };
@@ -121,7 +121,7 @@ class PasswordForm extends React.Component {
       >
         <Button loading={this.state.isSending}
                 disabled={!this.state.canBeSubmited}>
-          Send Reset Email
+          Save New Password
         </Button>
       </Form>
     );

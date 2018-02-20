@@ -5,6 +5,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
 import Alert from 'react-s-alert';
+import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
   'type': 'object',
@@ -35,7 +36,7 @@ const uiSchema = {
   },
   'password': {
     'classNames': 'hide-password',
-    'ui:widget': 'password',
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
     'ui:description': 'Please confirm your password to update your email address:',
   }
