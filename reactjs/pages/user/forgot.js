@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Router } from '../../routes';
 import App from '../../application/App';
+import React, { Component } from 'react';
 import withAuth from '../../auth/withAuth';
 import Header from '../../components/organisms/Header';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
