@@ -10,7 +10,6 @@ use Drupal\Core\Url;
  * Implements hook_token_info().
  */
 function anu_user_token_info() {
-
   $info['tokens']['user']['frontend-one-time-login-url'] = array(
     'name' => t('One-time login URL to the Frontend'),
     'description' => t('The URL of the one-time login page for the user account.'),
@@ -57,8 +56,9 @@ function anu_user_pass_reset_url($account, $options = []) {
   $timestamp = \Drupal::time()->getRequestTime();
   $uid = $account->id();
   $hash = user_pass_rehash($account, $timestamp);
+  $frontend_domain = \Drupal\Core\Site\Settings::get('frontend_domain');
   $langcode = isset($options['langcode']) ? $options['langcode'] : $account->getPreferredLangcode();
-  $url = Url::fromUri("http://app.docker.localhost/user/reset/$uid/$timestamp/$hash",
+  $url = Url::fromUri($frontend_domain . "user/reset/$uid/$timestamp/$hash",
     [
       'absolute' => TRUE,
       'language' => \Drupal::languageManager()->getLanguage($langcode)

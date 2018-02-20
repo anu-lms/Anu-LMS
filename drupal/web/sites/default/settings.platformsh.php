@@ -56,6 +56,11 @@ if (isset($_ENV['PLATFORM_ROUTES']) && !isset($settings['trusted_host_patterns']
     if ($host !== FALSE && $route['type'] == 'upstream' && $route['upstream'] == $_ENV['PLATFORM_APPLICATION_NAME']) {
       $settings['trusted_host_patterns'][] = '^' . preg_quote($host) . '$';
     }
+
+    // Defines Frontend application domain.
+    if ($route['type'] == 'upstream' && !empty($route['upstream']) && $route['upstream'] == 'frontend') {
+      $settings['frontend_domain'] = $url;
+    }
   }
   $settings['trusted_host_patterns'] = array_unique($settings['trusted_host_patterns']);
 }
