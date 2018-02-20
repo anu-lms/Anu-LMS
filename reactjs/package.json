@@ -50,7 +50,8 @@
     "superagent-jsonapify": "^1.4.5",
     "superagent-prefix": "^0.0.2",
     "tiny-emitter": "^2.0.2",
-    "url-parse": "^1.2.0"
+    "url-parse": "^1.2.0",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "babel-eslint": "7.0.0",

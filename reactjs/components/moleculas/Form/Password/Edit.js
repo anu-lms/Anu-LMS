@@ -3,7 +3,7 @@ import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import Password from '../../../atoms/Form/Password';
+import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
 const schema = {
@@ -27,17 +27,17 @@ const schema = {
 
 const uiSchema = {
   'password': {
-    'ui:widget': Password,
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
   },
   'password_new': {
-    'ui:widget': Password,
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
     'ui:indicator': true,
     'ui:with_confirm_field': true,
   },
   'password_new_confirm': {
-    'ui:widget': Password,
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
   }
 };

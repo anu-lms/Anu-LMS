@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactPasswordStrength from 'react-password-strength';
+import Password from '../FormElement/Password';
 
-const Password = (props) => {
+const PasswordWidget = (props) => {
   let classes = [];
   if (props.options.indicator) {
     classes.push('with-indicator');
@@ -10,11 +10,11 @@ const Password = (props) => {
     classes.push('with-confirm-field');
   }
   return (
-    <ReactPasswordStrength
+    <Password
       className={classes.join(' ')}
-      style={{  }}
       minLength={3}
       minScore={2}
+      showIndicator={props.options.indicator}
       changeCallback={(state) => { props.onChange(state.password) }}
       scoreWords={['Weak', 'Okay', 'Good', 'Strong', 'Very Strong']}
       tooShortWord='Short'
@@ -23,4 +23,4 @@ const Password = (props) => {
   );
 }
 
-export default Password;
+export default PasswordWidget;
