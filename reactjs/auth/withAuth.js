@@ -80,7 +80,7 @@ export default function withAuth(PageComponent) {
       }
 
       // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
-      if (!PageComponent.skipAuthRedirect) {
+      if (!PageComponent.skipInitialAuthRedirect) {
 
         // Redirect to the front page if not authenticated.
         if (!auth.isLoggedIn() && pathname !== '/') {
@@ -113,7 +113,7 @@ export default function withAuth(PageComponent) {
         // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
           // Pass request object which includes authentication.
-          { request, ...ctx }
+          { request, auth, ...ctx }
         );
 
         // Merge child and parent initial props and return.

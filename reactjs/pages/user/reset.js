@@ -9,7 +9,7 @@ import ResetForm from '../../components/moleculas/Form/Password/Reset';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 
 class ResetPasswordPage extends Component {
-  static skipAuthRedirect = true;
+  static skipInitialAuthRedirect = true;
 
   render() {
     const { user } = this.props;
@@ -33,8 +33,18 @@ class ResetPasswordPage extends Component {
     );
   }
 
-  static async getInitialProps({ request, query, res }) {
+  static async getInitialProps({ request, auth, query, res }) {
     let initialProps = {};
+
+    // Don't allow Authentificated to access the page.
+    if (auth.isLoggedIn()) {
+      if (res) {
+        res.redirect('/');
+      }
+      else {
+        Router.replace('/');
+      }
+    }
 
     try {
       const response = await request.get(`/user/password/reset/${query.uid}/${query.timestamp}/${query.hash}?_format=json`);
