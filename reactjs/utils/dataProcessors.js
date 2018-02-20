@@ -158,7 +158,7 @@ export const notebookData = (notebookData) => {
 };
 
 /**
- * User data processor for core REST endpoint.
+ * Internal helper to normalize User data from the backend.
  */
 export const userData = (userData) => {
   let data = {
@@ -166,6 +166,7 @@ export const userData = (userData) => {
     uuid: userData.uuid[0].value,
     name: userData.name[0].value,
   };
+  // Anonymous don't get user object with mail property.
   if (userData.mail !== undefined) {
     data.mail = userData.mail[0].value;
   }
