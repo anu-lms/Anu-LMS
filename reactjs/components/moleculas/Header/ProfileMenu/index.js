@@ -20,7 +20,7 @@ class ProfileMenu extends React.Component {
           <Dropdown.Menu pullRight>
             <MenuItem>
               <Link to="/user/edit">
-                <a>Edit profile</a>
+                <a>Edit Profile</a>
               </Link>
             </MenuItem>
             <MenuItem>
