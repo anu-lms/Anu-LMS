@@ -1,9 +1,9 @@
 import React from 'react';
+import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
+import * as dataProcessors from '../../../../utils/dataProcessors';
 
 const schema = {
   'type': 'object',
@@ -64,32 +64,34 @@ class PasswordForm extends React.Component {
     });
 
     try {
+      // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
-      const tokenResponse = await request.get('/session/token');
-      const currentUser = await request.get('/user/me?_format=json');
+      const userResponse = await request.get('/user/me?_format=json');
+      const currentUser = dataProcessors.userData(userResponse.body);
 
       await request
-        .patch('/user/' + currentUser.body.uid[0].value)
-        .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', tokenResponse.text)
+        .patch('/jsonapi/user/user/' + currentUser.uuid)
         .send({
-          pass: [{
-            existing: formData.password,
-            value: formData.password_new
-          }],
-        })
-        .then(() => {
-          Alert.success('Your password has been successfully updated.');
-          this.setState({ isSending: false, formData: {} });
-          return this.context.auth.refreshAuthenticationToken();
-        })
-        .catch(error => {
-          Alert.error('We could not update your password. Please, make sure current password is correct.');
-          console.log(error);
-          this.setState({ isSending: false });
+          data: {
+            type: 'user--user',
+            id: currentUser.uuid,
+            attributes: {
+              pass: {
+                existing: formData.password,
+                value: formData.password_new
+              }
+            }
+          }
         });
+
+      Alert.success('Your password has been successfully updated.');
+      this.setState({ isSending: false, formData: {} });
+
+      // Re-login required if user data has changed.
+      // Use login instead of refresh token here, because refreshtoken is buggy sometimes.
+      await this.context.auth.login(currentUser.name, formData.password_new);
     } catch (error) {
-      Alert.error(error);
+      Alert.error('We could not update your password. Please, make sure current password is correct.');
       console.error(error);
       this.setState({ isSending: false });
     }
@@ -117,7 +119,7 @@ class PasswordForm extends React.Component {
 PasswordForm.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
-    refreshAuthenticationToken: PropTypes.func,
+    login: PropTypes.func,
   }),
 };
 
