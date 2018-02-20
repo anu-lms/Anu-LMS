@@ -20,12 +20,28 @@
   }
 
   & > .header {
-    padding-top: 15px;
+    padding-top: 1em;
     position: relative;
     z-index: 10;
+    @include media-breakpoint-up(md) {
+      padding-top: 2em;
+    }
+
+    .col {
+      padding-left: 1em;
+      @include media-breakpoint-up(md) {
+        padding-left: 2em;
+      }
+    }
 
     img {
-      width: 96px;
+      max-width: 96px;
+      @include media-breakpoint-up(md) {
+        max-width: 128px;
+      }
+      @include media-breakpoint-up(lg) {
+        max-width: 160px;
+      }
     }
   }
 
@@ -63,7 +79,7 @@
         }
 
         .login-block {
-          background: rgba(48, 48, 48, 0.8);
+          background: rgba(48, 48, 48, .5);
           padding: 2em;
           max-width: 416px;
           margin: 0 auto;
