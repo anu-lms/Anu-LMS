@@ -9,6 +9,7 @@ import ResetForm from '../../components/moleculas/Form/Password/Reset';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 
 class ResetPasswordPage extends Component {
+  // Skip initial redirection in withAuth module (to avoid redirects for pages that should be available for anonymous).
   static skipInitialAuthRedirect = true;
 
   render() {

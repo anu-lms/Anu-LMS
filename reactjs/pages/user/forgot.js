@@ -7,6 +7,7 @@ import Header from '../../components/organisms/Header';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
 class ForgotPasswordPage extends Component {
+  // Skip initial redirection in withAuth module (to avoid redirects for pages that should be available for anonymous).
   static skipInitialAuthRedirect = true;
 
   render() {
