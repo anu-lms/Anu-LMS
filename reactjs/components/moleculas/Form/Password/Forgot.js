@@ -8,7 +8,7 @@ import request from "../../../../utils/request";
 
 const schema = {
   'type': 'object',
-  'required': [],
+  'required': ['username'],
   'properties': {
     'username': {
       'type': 'string',
@@ -46,20 +46,18 @@ class PasswordForm extends React.Component {
     try {
       const tokenResponse = await request.get('/session/token');
       await request
-        .post('/request-reset-password')
+        .post('/user/password/request')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
-          name: [{
-            value: 'sergey@systemseed.com'
-          }],
+          username: formData.username,
         })
         .then((response) => {
-          console.log(response);
-        });
+          this.setState({ isSending: false });
 
-      Alert.success('Your password has been successfully updated.');
-      this.setState({ isSending: false });
+          // @todo: Is it secure to show email by given username?
+          this.props.recoveryEmailSent(response.body.email);
+        });
     } catch (error) {
       Alert.error(error);
       console.error(error);

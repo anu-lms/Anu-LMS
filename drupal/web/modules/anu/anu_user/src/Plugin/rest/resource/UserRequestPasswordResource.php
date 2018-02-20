@@ -7,6 +7,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -15,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "user_request_password",
  *   label = @Translation("User Request Password"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/request-reset-password",
+ *     "https://www.drupal.org/link-relations/create" = "/user/password/request",
  *   }
  * )
  */
@@ -68,7 +69,7 @@ class UserRequestPasswordResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
+      $container->get('logger.factory')->get('anu_user'),
       $container->get('config.factory')->get('user.settings'),
       $container->get('current_user')
     );
@@ -83,9 +84,35 @@ class UserRequestPasswordResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    \Drupal::logger('my_module')->notice('asdaaaaas');
+    $user_storage = \Drupal::entityManager()->getStorage('user');
 
-    $response = new ResourceResponse(['aaaasssa'], 200);
+    // Load by name if provided.
+    if (isset($data['username'])) {
+      $users = $user_storage->loadByProperties(['name' => trim($data['username'])]);
+    }
+    if (empty($users)) {
+      $users = $user_storage->loadByProperties(['mail' => trim($data['username'])]);
+    }
+
+    /** @var \Drupal\Core\Session\AccountInterface $account */
+    $account = reset($users);
+    if ($account && $account->id()) {
+      if (user_is_blocked($account->getAccountName())) {
+        throw new BadRequestHttpException('The user has not been activated or is blocked.');
+      }
+
+      // Send the password reset email.
+      $mail = _user_mail_notify('password_reset', $account, $account->getPreferredLangcode());
+      if (empty($mail)) {
+        throw new BadRequestHttpException('Unable to send email. Contact the site administrator if the problem persists.');
+      }
+      else {
+        $this->logger->notice('Password reset instructions mailed to %name at %email.', ['%name' => $account->getAccountName(), '%email' => $account->getEmail()]);
+        return new ResourceResponse(['email' => $account->getEmail()]);
+      }
+    }
+
+    $response = new ResourceResponse($data, 200);
     return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
   }
 }

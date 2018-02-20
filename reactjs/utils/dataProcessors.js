@@ -160,9 +160,14 @@ export const notebookData = (notebookData) => {
 /**
  * User data processor for core REST endpoint.
  */
-export const userData = (userData) => ({
-  uid: userData.uid[0].value,
-  uuid: userData.uuid[0].value,
-  name: userData.name[0].value,
-  mail: userData.mail[0].value
-})
+export const userData = (userData) => {
+  let data = {
+    uid: userData.uid[0].value,
+    uuid: userData.uuid[0].value,
+    name: userData.name[0].value,
+  };
+  if (userData.mail !== undefined) {
+    data.mail = userData.mail[0].value;
+  }
+  return data;
+}

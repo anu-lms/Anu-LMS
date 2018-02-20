@@ -4,15 +4,13 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
 import Alert from 'react-s-alert';
+import * as dataProcessors from '../../../../utils/dataProcessors';
+import request from "../../../../utils/request";
 
 const schema = {
   'type': 'object',
-  'required': ['password', 'password_new', 'password_new_confirm'],
+  'required': ['password_new', 'password_new_confirm'],
   'properties': {
-    'password': {
-      'type': 'string',
-      'title': 'Enter Current Password',
-    },
     'password_new': {
       'type': 'string',
       'title': 'New Password',
@@ -25,10 +23,6 @@ const schema = {
 };
 
 const uiSchema = {
-  'password': {
-    'ui:widget': 'password',
-    'ui:placeholder': ' ',
-  },
   'password_new': {
     'ui:widget': 'password',
     'ui:placeholder': ' ',
@@ -57,39 +51,34 @@ class PasswordForm extends React.Component {
       Alert.error("New password and Confirm New Password fields don't match");
       return;
     }
-
     this.setState({
       isSending: true,
       formData,
     });
 
     try {
-      const { request } = await this.context.auth.getRequest();
       const tokenResponse = await request.get('/session/token');
-      const currentUser = await request.get('/user/me?_format=json');
-
       await request
-        .patch('/user/' + currentUser.body.uid[0].value)
+        .post('/user/password/reset')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
-          pass: [{
-            existing: formData.password,
-            value: formData.password_new
-          }],
+          password_new: formData.password_new,
+          ...this.props.tokenParams
         })
-        .then(() => {
-          Alert.success('Your password has been successfully updated.');
-          this.setState({ isSending: false, formData: {} });
-          return this.context.auth.refreshAuthenticationToken();
-        })
-        .catch(error => {
-          Alert.error('We could not update your password. Please, make sure current password is correct.');
-          console.log(error);
+        .then((response) => {
           this.setState({ isSending: false });
+          const user = dataProcessors.userData(response.body);
+
+          // Re-login with new credentials.
+          return this.context.auth.login(user.name, formData.password_new);
         });
+
+      this.setState({ isSending: false });
+      Router.push('/dashboard');
+      Alert.success('Your password has been successfully updated.');
     } catch (error) {
-      Alert.error(error);
+      //Alert.error(error);
       console.error(error);
       this.setState({ isSending: false });
     }
@@ -106,7 +95,7 @@ class PasswordForm extends React.Component {
         className="edit-password-form"
       >
         <Button loading={this.state.isSending}>
-          Save New Password
+          Send Reset Email
         </Button>
       </Form>
     );
@@ -116,7 +105,7 @@ class PasswordForm extends React.Component {
 PasswordForm.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
-    refreshAuthenticationToken: PropTypes.func,
+    login: PropTypes.func,
   }),
 };
 
