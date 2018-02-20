@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
+import { Router } from '../../../../routes';
 import request from "../../../../utils/request";
 
 const schema = {
@@ -30,9 +29,11 @@ class PasswordForm extends React.Component {
 
     this.state = {
       isSending: false,
+      isEmpty: true,
       formData: {},
     };
 
+    this.onChange.bind(this);
     this.submitForm.bind(this);
   }
 
@@ -45,24 +46,37 @@ class PasswordForm extends React.Component {
 
     try {
       const tokenResponse = await request.get('/session/token');
-      await request
-        .post('/user/password/request')
+      const response = await request
+        .post('/user/password/request?_format=json')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
           username: formData.username,
-        })
-        .then((response) => {
-          this.setState({ isSending: false });
-
-          // @todo: Is it secure to show email by given username?
-          this.props.recoveryEmailSent(response.body.email);
         });
+
+      this.setState({ isSending: false });
+
+      // @todo: Is it secure to show email by given username?
+      this.props.recoveryEmailSent(response.body.email);
     } catch (error) {
-      Alert.error(error);
-      console.error(error);
+      if (error.response && error.response.body && error.response.body.message) {
+        console.error(error.response);
+        Alert.error(error.response.body.message);
+      }
+      else {
+        Alert.error('Could not send a request. Please, try again.');
+      }
       this.setState({ isSending: false });
     }
+  }
+
+  onChange({ formData }) {
+    let isEmpty = true;
+    if (formData.username !== undefined && formData.username !== '') {
+      isEmpty = false;
+    }
+
+    this.setState({isEmpty, formData});
   }
 
   render() {
@@ -72,22 +86,18 @@ class PasswordForm extends React.Component {
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
+        onChange={this.onChange.bind(this)}
         onSubmit={this.submitForm.bind(this)}
         className="edit-password-form"
+        noHtml5Validate
       >
-        <Button loading={this.state.isSending}>
+        <Button loading={this.state.isSending}
+                disabled={this.state.isEmpty}>
           Send Reset Email
         </Button>
       </Form>
     );
   }
 }
-
-PasswordForm.contextTypes = {
-  auth: PropTypes.shape({
-    getRequest: PropTypes.func,
-    refreshAuthenticationToken: PropTypes.func,
-  }),
-};
 
 export default PasswordForm;
