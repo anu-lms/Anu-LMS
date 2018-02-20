@@ -74,6 +74,7 @@ class PasswordForm extends React.Component {
         autocomplete={'off'}
         onSubmit={this.submitForm.bind(this)}
         className="edit-password-form"
+        noHtml5Validate
       >
         <Button loading={this.state.isSending}>
           Send Reset Email
