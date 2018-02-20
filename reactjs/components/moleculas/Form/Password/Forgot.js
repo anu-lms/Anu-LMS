@@ -29,9 +29,11 @@ class PasswordForm extends React.Component {
 
     this.state = {
       isSending: false,
+      isEmpty: true,
       formData: {},
     };
 
+    this.onChange.bind(this);
     this.submitForm.bind(this);
   }
 
@@ -68,6 +70,15 @@ class PasswordForm extends React.Component {
     }
   }
 
+  onChange({ formData }) {
+    let isEmpty = true;
+    if (formData.username !== undefined && formData.username !== '') {
+      isEmpty = false;
+    }
+
+    this.setState({isEmpty, formData});
+  }
+
   render() {
     return(
       <Form
@@ -75,11 +86,13 @@ class PasswordForm extends React.Component {
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
+        onChange={this.onChange.bind(this)}
         onSubmit={this.submitForm.bind(this)}
         className="edit-password-form"
         noHtml5Validate
       >
-        <Button loading={this.state.isSending}>
+        <Button loading={this.state.isSending}
+                disabled={this.state.isEmpty}>
           Send Reset Email
         </Button>
       </Form>

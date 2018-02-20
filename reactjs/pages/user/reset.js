@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import { Link } from '../../routes';
 import { connect } from 'react-redux';
 import App from '../../application/App';
+import React, { Component } from 'react';
 import withAuth from '../../auth/withAuth';
-import { Link } from '../../routes';
 import Header from '../../components/organisms/Header';
 import * as dataProcessors from '../../utils/dataProcessors';
 import ResetForm from '../../components/moleculas/Form/Password/Reset';
