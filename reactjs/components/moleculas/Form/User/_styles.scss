@@ -3,14 +3,15 @@
   font-style: italic;
 }
 
-.hide-password {
+.field.hide-password {
+  margin-bottom: 0;
   visibility: hidden;
   height: 0;
   opacity: 0;
   transition: height 0.7s, opacity 0s linear;
 }
 
-.display-password {
+.field.display-password {
   visibility: visible;
   height: auto;
   opacity: 1;

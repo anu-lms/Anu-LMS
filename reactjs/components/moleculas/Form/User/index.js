@@ -154,16 +154,6 @@ class UserEditForm extends React.Component {
 
   }
 
-  getSchema() {
-    if (!this.state.passwordRequired) {
-      return schema;
-    }
-
-    const schemaPass = _cloneDeep(schema);
-    schemaPass.required.push('pass')
-  }
-
-
   render() {
 
     return (
@@ -177,13 +167,15 @@ class UserEditForm extends React.Component {
         onSubmit={this.submitForm.bind(this)}
         noHtml5Validate
       >
-        <Button
-          block
-          loading={this.state.isSending}
-          disabled={!this.state.isChanged}
-        >
-          Save
-        </Button>
+        <div className="mt-3 mt-md-5">
+          <Button
+            block
+            loading={this.state.isSending}
+            disabled={!this.state.isChanged}
+          >
+            Save
+          </Button>
+        </div>
       </Form>
     );
   }
