@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
+import { Router } from '../../../../routes';
 import request from "../../../../utils/request";
 
 const schema = {
@@ -45,22 +44,26 @@ class PasswordForm extends React.Component {
 
     try {
       const tokenResponse = await request.get('/session/token');
-      await request
-        .post('/user/password/request')
+      const response = await request
+        .post('/user/password/request?_format=json')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
           username: formData.username,
-        })
-        .then((response) => {
-          this.setState({ isSending: false });
-
-          // @todo: Is it secure to show email by given username?
-          this.props.recoveryEmailSent(response.body.email);
         });
+
+      this.setState({ isSending: false });
+
+      // @todo: Is it secure to show email by given username?
+      this.props.recoveryEmailSent(response.body.email);
     } catch (error) {
-      Alert.error(error);
-      console.error(error);
+      if (error.response && error.response.body && error.response.body.message) {
+        console.error(error.response);
+        Alert.error(error.response.body.message);
+      }
+      else {
+        Alert.error('Could not send a request. Please, try again.');
+      }
       this.setState({ isSending: false });
     }
   }
@@ -83,12 +86,5 @@ class PasswordForm extends React.Component {
     );
   }
 }
-
-PasswordForm.contextTypes = {
-  auth: PropTypes.shape({
-    getRequest: PropTypes.func,
-    refreshAuthenticationToken: PropTypes.func,
-  }),
-};
 
 export default PasswordForm;

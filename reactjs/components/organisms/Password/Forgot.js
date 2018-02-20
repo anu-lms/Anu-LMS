@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import ForgotPasswordForm from '../../moleculas/Form/Password/Forgot';
 import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
 import { Router } from "../../../routes";
+import ForgotPasswordForm from '../../moleculas/Form/Password/Forgot';
 import OneColumnLayout from '../../../components/organisms/Templates/OneColumnLayout';
 
 class ForgotPassword extends React.Component {
