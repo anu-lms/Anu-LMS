@@ -14,6 +14,9 @@ if (!empty($GLOBALS['request'])) {
 // Include local services.
 $settings['container_yamls'][] = $app_root . '/' . $site_path . '/local.services.yml';
 
+// Frontend application domain.
+$settings['frontend_domain'] = 'http://app.docker.localhost/';
+
 // Database connection credentials.
 $databases['default']['default'] = array (
   'database' => 'drupal',
