@@ -39,6 +39,7 @@ class PasswordForm extends React.Component {
     super(props, context);
 
     this.state = {
+      canBeSubmited: false,
       isSending: false,
       formData: {},
     };
@@ -53,7 +54,6 @@ class PasswordForm extends React.Component {
       return;
     }
     this.setState({
-      canBeSubmited: false,
       isSending: true,
       formData,
     });

@@ -45,10 +45,12 @@ class PasswordForm extends React.Component {
     super(props, context);
 
     this.state = {
+      canBeSubmited: false,
       isSending: false,
       formData: {},
     };
 
+    this.onChange.bind(this);
     this.submitForm.bind(this);
   }
 
@@ -97,6 +99,21 @@ class PasswordForm extends React.Component {
     }
   }
 
+  onChange({ formData }) {
+    let canBeSubmited = true;
+    if (formData.password === undefined || formData.password == '') {
+      canBeSubmited = false;
+    }
+    if (formData.password_new === undefined || formData.password_new == '') {
+      canBeSubmited = false;
+    }
+    if (formData.password_new_confirm === undefined || formData.password_new_confirm == '') {
+      canBeSubmited = false;
+    }
+
+    this.setState({canBeSubmited, formData});
+  }
+
   render() {
     return(
       <Form
@@ -104,11 +121,13 @@ class PasswordForm extends React.Component {
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
+        onChange={this.onChange.bind(this)}
         onSubmit={this.submitForm.bind(this)}
         className="edit-password-form"
         noHtml5Validate
       >
-        <Button loading={this.state.isSending}>
+        <Button loading={this.state.isSending}
+                disabled={!this.state.canBeSubmited}>
           Save New Password
         </Button>
       </Form>
