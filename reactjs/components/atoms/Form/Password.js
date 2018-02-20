@@ -7,9 +7,9 @@ const Password = (props) => {
     <ReactPasswordStrength
       className={classes}
       style={{  }}
-      minLength={1}
+      minLength={3}
       minScore={2}
-      changeCallback={(state) => {console.log(props); props.onChange(state.password)}}
+      changeCallback={(state) => { props.onChange(state.password) }}
       scoreWords={['weak', 'okay', 'good', 'strong', 'stronger']}
       inputProps={{ className: 'form-control', id: props.id, label: props.label, required: props.required, placeholder: props.placeholder }}
     />
