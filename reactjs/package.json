@@ -31,6 +31,7 @@
     "react-howler": "^3.7.0",
     "react-jsonschema-form": "^1.0.0",
     "react-moment": "^0.6.8",
+    "react-password-strength": "2.2.0",
     "react-player": "^1.1.1",
     "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
