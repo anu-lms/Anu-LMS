@@ -67,9 +67,6 @@
       color: $seafoam-green;
     }
   }
-  .password-strength-input:not(:focus).is-password-invalid {
-    color: inherit;
-  }
 
   .show-password-button {
     position: absolute;
@@ -80,6 +77,7 @@
     display: block;
     cursor: pointer;
   }
+
   // Hide label from default template.
   & + label {
     display: none;

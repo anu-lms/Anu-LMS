@@ -186,7 +186,7 @@ PasswordStrength.defaultProps = {
   minLength: 3,
   minScore: 2,
   showIndicator: false,
-  tooShortWord: 'To Short',
+  tooShortWord: 'Too Short',
   scoreWords: ['Weak', 'Okay', 'Good', 'Strong', 'Very Strong'],
   userInputs: [],
 }
