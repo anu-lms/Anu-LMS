@@ -1,11 +1,11 @@
 import React from 'react';
+import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
-import * as dataProcessors from '../../../../utils/dataProcessors';
+import { Router } from '../../../../routes';
 import request from "../../../../utils/request";
+import * as dataProcessors from '../../../../utils/dataProcessors';
 
 const schema = {
   'type': 'object',
@@ -43,6 +43,7 @@ class PasswordForm extends React.Component {
       formData: {},
     };
 
+    this.onChange.bind(this);
     this.submitForm.bind(this);
   }
 
@@ -52,6 +53,7 @@ class PasswordForm extends React.Component {
       return;
     }
     this.setState({
+      canBeSubmited: false,
       isSending: true,
       formData,
     });
@@ -59,7 +61,7 @@ class PasswordForm extends React.Component {
     try {
       const tokenResponse = await request.get('/session/token');
       await request
-        .post('/user/password/reset')
+        .post('/user/password/reset?_format=json')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
@@ -75,13 +77,31 @@ class PasswordForm extends React.Component {
         });
 
       this.setState({ isSending: false });
-      Router.push('/dashboard');
+      Router.replace('/dashboard');
       Alert.success('Your password has been successfully updated.');
     } catch (error) {
-      //Alert.error(error);
-      console.error(error);
+      if (error.response && error.response.body && error.response.body.message) {
+        console.error(error.response);
+        Alert.error(error.response.body.message);
+      }
+      else {
+        Alert.error('Could not send a request. Please, try again.');
+        console.error(error);
+      }
       this.setState({ isSending: false });
     }
+  }
+
+  onChange({ formData }) {
+    let canBeSubmited = true;
+    if (formData.password_new === undefined || formData.password_new == '') {
+      canBeSubmited = false;
+    }
+    if (formData.password_new_confirm === undefined || formData.password_new_confirm == '') {
+      canBeSubmited = false;
+    }
+
+    this.setState({canBeSubmited, formData});
   }
 
   render() {
@@ -91,11 +111,13 @@ class PasswordForm extends React.Component {
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
+        onChange={this.onChange.bind(this)}
         onSubmit={this.submitForm.bind(this)}
         className="edit-password-form"
         noHtml5Validate
       >
-        <Button loading={this.state.isSending}>
+        <Button loading={this.state.isSending}
+                disabled={!this.state.canBeSubmited}>
           Send Reset Email
         </Button>
       </Form>
@@ -105,7 +127,6 @@ class PasswordForm extends React.Component {
 
 PasswordForm.contextTypes = {
   auth: PropTypes.shape({
-    getRequest: PropTypes.func,
     login: PropTypes.func,
   }),
 };

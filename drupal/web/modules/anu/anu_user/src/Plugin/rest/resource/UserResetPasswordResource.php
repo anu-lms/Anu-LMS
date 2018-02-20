@@ -1,17 +1,17 @@
 <?php
 namespace Drupal\anu_user\Plugin\rest\resource;
 
+use Psr\Log\LoggerInterface;
 use Drupal\rest\ResourceResponse;
+use Drupal\Component\Utility\Crypt;
+use Drupal\rest\Plugin\ResourceBase;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\rest\Plugin\ResourceBase;
-use Psr\Log\LoggerInterface;
-use Drupal\Component\Utility\Crypt;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a resource to get view modes by entity and bundle.
+ * Provides a resource to validate reset password link and reset password.
  *
  * @RestResource(
  *   id = "user_reset_password",
@@ -25,21 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class UserResetPasswordResource extends ResourceBase {
 
   /**
-   * User settings config instance.
-   *
-   * @var \Drupal\Core\Config\ImmutableConfig
-   */
-  protected $userSettings;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * Constructs a new UserRegistrationResource instance.
+   * Constructs a new UserResetPasswordResource instance.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -58,8 +44,6 @@ class UserResetPasswordResource extends ResourceBase {
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, ImmutableConfig $user_settings, AccountInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-    $this->userSettings = $user_settings;
-    $this->currentUser = $current_user;
   }
 
   /**
@@ -78,9 +62,9 @@ class UserResetPasswordResource extends ResourceBase {
   }
 
   /**
-   * Responds to POST requests.
+   * Responds to GET requests.
    *
-   * Creates or updates Quiz results entity by given POST data.
+   * Validates reset password link and return user object.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
@@ -96,15 +80,16 @@ class UserResetPasswordResource extends ResourceBase {
       return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
     }
     else {
-      $message = $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.');
-      throw new HttpException(406, $message);
+      return new ResourceResponse([
+        'message' => $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.')
+      ], 406);
     }
   }
 
   /**
    * Responds to POST requests.
    *
-   * Creates or updates Quiz results entity by given POST data.
+   * Validates reset password link and updates user password.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
@@ -116,17 +101,29 @@ class UserResetPasswordResource extends ResourceBase {
 
     if ($this->isTokenValid($data['uid'], $data['timestamp'], $data['hash'])) {
       $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $data['timestamp']]);
+      try {
 
-      $user->setPassword($data['password_new']);
-      $user->_skipProtectedUserFieldConstraint = true;
-      $user->save();
+        $user->setPassword($data['password_new']);
+        $user->_skipProtectedUserFieldConstraint = true;
+        $user->save();
+      } catch(\Exception $e) {
+
+        // Log an error.
+        $message = $e->getMessage();
+        if (empty($message)) {
+          $message = $this->t('Could not update password.');
+        }
+        $this->logger->critical($message);
+        throw new HttpException(406, $message);
+      }
 
       $response = new ResourceResponse($user, 200);
       return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
     }
     else {
-      $message = $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.');
-      throw new HttpException(406, $message);
+      return new ResourceResponse([
+        'message' => $this->t('Unable to reset password. Contact the site administrator if the problem persists.')
+      ], 406);
     }
   }
 
