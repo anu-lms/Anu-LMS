@@ -26,7 +26,8 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-    $group = \Drupal::entityTypeManager()->getStorage('group')->load(5);
+    $group_id = $this->configuration['setting_group'];
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load($group_id);
     $group->addContent($entity, 'group_membership');
   }
 
