@@ -77,8 +77,8 @@ class PasswordForm extends React.Component {
         });
 
       this.setState({ isSending: false });
-      Router.replace('/dashboard');
       Alert.success('Your password has been successfully updated.');
+      Router.replace('/dashboard');
     } catch (error) {
       if (error.response && error.response.body && error.response.body.message) {
         console.error(error.response);
