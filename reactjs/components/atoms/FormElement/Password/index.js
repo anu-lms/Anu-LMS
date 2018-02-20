@@ -33,10 +33,17 @@ class PasswordStrength extends Component {
 
   handleChange() {
     const { changeCallback, minScore, userInputs, minLength, showIndicator } = this.props;
+    const password = this.passwordStrengthInput.value;
     if (!showIndicator) {
+      this.setState({
+        password,
+      }, () => {
+        if (changeCallback !== null) {
+          changeCallback(this.state, result);
+        }
+      });
       return;
     }
-    const password = this.passwordStrengthInput.value;
 
     let score = 0;
     let result = null;
@@ -64,6 +71,7 @@ class PasswordStrength extends Component {
       fieldType: 'text'
     });
   }
+
   hidePasswordHandler() {
     this.setState({
       fieldType: 'password'
@@ -82,27 +90,33 @@ class PasswordStrength extends Component {
       showIndicator,
     } = this.props;
 
-    const inputClasses = ['password-strength-input'];
+    // Defines wrapper classes.
     const wrapperClasses = ['password-strength'];
     if (className) {
       wrapperClasses.push(className);
+    }
+    if (showIndicator) {
+      wrapperClasses.push('with-indicator');
     }
     if (password.length > 0) {
       wrapperClasses.push(`is-strength-${score}`);
     }
 
+    // Defines description.
     const strengthDesc = (
       this.isTooShort(password, minLength)
         ? tooShortWord
         : scoreWords[score]
     );
 
+    // Defines input classes.
+    const inputClasses = ['form-control'];
     if (isValid === true) {
       inputClasses.push('is-password-valid');
-    } else if (password.length > 0) {
+    }
+    else if (password.length > 0) {
       inputClasses.push('is-password-invalid');
     }
-
     if (inputProps && inputProps.className) {
       inputClasses.push(inputProps.className);
     }
@@ -120,7 +134,26 @@ class PasswordStrength extends Component {
         {inputProps.id && inputProps.label &&
           <label htmlFor={inputProps.id}>{inputProps.label}</label>
         }
-        <span className="password-strength-show-password" onMouseDown={this.showPasswordHandler.bind(this)} onMouseUp={this.hidePasswordHandler.bind(this)} />
+
+        <span className="show-password-button"
+              onMouseDown={this.showPasswordHandler.bind(this)}
+              onTouchStart={this.showPasswordHandler.bind(this)}
+              onMouseUp={this.hidePasswordHandler.bind(this)}
+              onTouchEnd={this.hidePasswordHandler.bind(this)}>
+
+          {this.state.fieldType == 'password' &&
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17">
+              <path fill="#B2B2B2" fill-rule="nonzero"
+                    d="M12 5.455A3.273 3.273 0 1 0 12 12a3.273 3.273 0 0 0 0-6.545zm0 8.727a5.455 5.455 0 1 1 0-10.91 5.455 5.455 0 0 1 0 10.91zM12 .545C6.545.545 1.887 3.938 0 8.727c1.887 4.79 6.545 8.182 12 8.182s10.113-3.393 12-8.182C22.113 3.938 17.455.545 12 .545z"/>
+            </svg>
+          }
+          {this.state.fieldType == 'text' &&
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17">
+              <path fill="#B2B2B2" fill-rule="nonzero"
+                    d="M12 5.455A3.273 3.273 0 1 0 12 12a3.273 3.273 0 0 0 0-6.545zm0 8.727a5.455 5.455 0 1 1 0-10.91 5.455 5.455 0 0 1 0 10.91zM12 .545C6.545.545 1.887 3.938 0 8.727c1.887 4.79 6.545 8.182 12 8.182s10.113-3.393 12-8.182C22.113 3.938 17.455.545 12 .545z"/>
+            </svg>
+          }
+        </span>
 
         {showIndicator &&
           <div className="password-strength-indicator">
@@ -152,7 +185,7 @@ PasswordStrength.defaultProps = {
   defaultValue: '',
   minLength: 3,
   minScore: 2,
-  showIndicator: true,
+  showIndicator: false,
   tooShortWord: 'To Short',
   scoreWords: ['Weak', 'Okay', 'Good', 'Strong', 'Very Strong'],
   userInputs: [],
