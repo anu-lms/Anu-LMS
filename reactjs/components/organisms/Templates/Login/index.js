@@ -37,9 +37,9 @@ const LoginPageTemplate = () => (
 
             <Separator />
 
-            <Button block type={'secondary'}>
+            {/*<Button block type={'secondary'}>
               New? Register here
-            </Button>
+            </Button>*/}
           </div>
         </div>
 
