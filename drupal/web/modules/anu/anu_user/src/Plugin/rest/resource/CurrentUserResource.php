@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
  *   id = "current_user",
  *   label = @Translation("Current User"),
  *   uri_paths = {
- *     "canonical" = "/current_user"
+ *     "canonical" = "/user/me"
  *   }
  * )
  */

@@ -1,7 +1,18 @@
-.with-password-description {
-  #root_email__description {
-    padding: 24px 0 0;
-    font-style: italic;
-  }
+#root_password__description {
+  padding: 8px 0 0;
+  font-style: italic;
 }
 
+.hide-password {
+  visibility: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.7s, opacity 0s linear;
+}
+
+.display-password {
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+  transition: height 0.7s, opacity 0.5s linear;
+}

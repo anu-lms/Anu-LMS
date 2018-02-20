@@ -23,9 +23,8 @@ class UserEditPage extends Component {
 
   static async getInitialProps({ request }) {
     // Fetch current user using custom endpoint.
-    // TODO: follow up in https://www.drupal.org/project/jsonapi/issues/2927037#comment-12486771
     try {
-      const response = await request.get('/current_user?_format=json');
+      const response = await request.get('/user/me?_format=json');
 
       return {
         user: dataProcessors.userData(response.body)
