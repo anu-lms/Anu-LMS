@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import App from '../../application/App';
-import Header from '../../components/organisms/Header';
+import React, { Component } from 'react';
 import withAuth from '../../auth/withAuth';
-import EditPassword from '../../components/organisms/Password/Edit';
+import Header from '../../components/organisms/Header';
+import EditPasswordForm from '../../components/moleculas/Form/Password/Edit';
+import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 
 class UserPasswordPage extends Component {
 
@@ -12,18 +13,12 @@ class UserPasswordPage extends Component {
       <App>
         <Header />
         <div className="page-with-header page-password">
-          <EditPassword />
+          <OneColumnLayout pageTitle="Edit Password" className="short">
+            <EditPasswordForm />
+          </OneColumnLayout>
         </div>
       </App>
     );
-  }
-
-  static async getInitialProps({ request, res }) {
-
-    let initialProps = {
-    };
-
-    return initialProps;
   }
 }
 
