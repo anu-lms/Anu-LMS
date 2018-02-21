@@ -5283,13 +5283,6 @@ react-moment@^0.6.8:
   version "0.6.9"
   resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-0.6.9.tgz#f13a0ccedaf65b5fb8b1467d9f91c5346d74c3e2"
 
-react-password-strength@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-password-strength/-/react-password-strength-2.2.0.tgz#46fe43afd55ba1950791bc7800e5986e08364744"
-  dependencies:
-    prop-types "^15.5.10"
-    zxcvbn "^4.3.0"
-
 react-player@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.1.2.tgz#486b87a3ee58c5ff9a76a32d039a8540db421d09"
@@ -6946,6 +6939,6 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-zxcvbn@^4.3.0, zxcvbn@^4.4.2:
+zxcvbn@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
