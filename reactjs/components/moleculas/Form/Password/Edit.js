@@ -90,7 +90,7 @@ class PasswordForm extends React.Component {
         });
 
       Alert.success('Your password has been successfully updated.');
-      this.setState({ isSending: false, formData: {} });
+      this.setState({ isSending: false });
 
       // Re-login required if user data has changed.
       // Use login instead of refresh token here, because refreshtoken is buggy sometimes.
