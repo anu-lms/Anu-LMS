@@ -6,6 +6,7 @@ import ServerAuth from './serverAuth';
 import { Router } from '../routes';
 import request from "../utils/request";
 import * as lock from '../utils/lock';
+import { store } from '../store/store';
 
 export default function withAuth(PageComponent) {
   return class AuthenticatedPage extends React.Component {
@@ -40,25 +41,27 @@ export default function withAuth(PageComponent) {
     }
 
     async logout() {
-      console.log('Logout started...');
 
       // Wait for the app to safely finish off before logging out.
       await lock.wait('logout');
+
+      // Clear alerts.
+      Alert.closeAll();
 
       // Remove login cookies.
       const auth = new ClientAuth();
       auth.logout();
 
-      // Clear alerts.
-      Alert.closeAll();
       // Clear local storage.
       localStorage.clear();
-
-      console.log('Logout completed. Redirecting.');
+      // Clear in-memory Redux storage otherwise there still will be data in it.
+      setTimeout(() => {
+        // Avoid UX jumps before redirect to delaying it a bit.
+        store.dispatch({ type: 'RESET_STORE' });
+      }, 300);
 
       // Redirect to the frontpage.
       Router.replace('/');
-
     }
 
     refreshAuthenticationToken() {
