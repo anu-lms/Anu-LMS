@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _cloneDeep from 'lodash/cloneDeep';
+import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
+import { Router } from '../../../../routes';
+import * as lock from '../../../../utils/lock';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
@@ -79,6 +80,9 @@ class UserEditForm extends React.Component {
       formData,
     });
 
+    // Lock logout until update operation is safely completed.
+    const lock_id = lock.add('logout');
+
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
@@ -131,6 +135,8 @@ class UserEditForm extends React.Component {
       this.setState({ isSending: false });
       Alert.error('We could not update your profile. Please, make sure current password is correct and try again.');
     }
+
+    lock.release('logout', lock_id);
   }
 
   onChange({ formData }) {

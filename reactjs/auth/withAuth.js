@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import  ClientAuth from './clientAuth';
-import  ServerAuth from './serverAuth';
+import Alert from 'react-s-alert';
+import ClientAuth from './clientAuth';
+import ServerAuth from './serverAuth';
 import { Router } from '../routes';
 import request from "../utils/request";
+import * as lock from '../utils/lock';
 
 export default function withAuth(PageComponent) {
   return class AuthenticatedPage extends React.Component {
@@ -37,16 +39,26 @@ export default function withAuth(PageComponent) {
       return auth.login(username, password);
     }
 
-    logout() {
+    async logout() {
+      console.log('Logout started...');
+
+      // Wait for the app to safely finish off before logging out.
+      await lock.wait('logout');
+
       // Remove login cookies.
       const auth = new ClientAuth();
       auth.logout();
 
+      // Clear alerts.
+      Alert.closeAll();
       // Clear local storage.
       localStorage.clear();
 
+      console.log('Logout completed. Redirecting.');
+
       // Redirect to the frontpage.
       Router.replace('/');
+
     }
 
     refreshAuthenticationToken() {
@@ -76,7 +88,7 @@ export default function withAuth(PageComponent) {
         try {
           console.log('Trying to handle page request and refresh tokens...');
           await auth.refreshAuthenticationToken();
-        } catch (error) {}
+        } catch (error) { }
       }
 
       // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
