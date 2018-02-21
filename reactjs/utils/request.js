@@ -18,9 +18,9 @@ const superagent = superagentDefaults(superagentJsonapify(superAgent));
 
 // Pre-define superagent client
 superagent
-// Set the right URL prefix so that the request always
-// gets to the right place despite of being executed on
-// the server or client level.
+  // Set the right URL prefix so that the request always
+  // gets to the right place despite of being executed on
+  // the server or client level.
   .use(prefix)
   // Default headers for JSON API ingegration in Drupal.
   .set('Content-Type', 'application/vnd.api+json')

@@ -11,6 +11,7 @@ import * as lessonActions from "../../../actions/lesson";
 import * as lessonHelpers from "../../../helpers/lesson";
 import * as courseActions from "../../../actions/course";
 import * as courseHelpers from "../../../helpers/course";
+import * as lock from "../../../utils/lock";
 
 class LessonContent extends React.Component {
 
@@ -136,7 +137,7 @@ class LessonContent extends React.Component {
       console.log('Paragraph ' + paragraphId + ' is loaded. Remaining:');
       console.log(this.paragraphsToLoad);
 
-      if (!this.paragraphsToLoad.length ) {
+      if (!this.paragraphsToLoad.length) {
         console.log('All paragraphs loaded!');
         this.updateReadProgress();
       }
@@ -193,13 +194,15 @@ class LessonContent extends React.Component {
     console.log('Submitting data:');
     console.log(this.props.quizzesData);
 
+    // Lock logout until post operation is safely completed.
+    const lock_id = lock.add('logout');
+
     // Get superagent request with authentication.
     const { request } = await this.context.auth.getRequest();
 
     try {
       const tokenResponse = await request.get('/session/token');
 
-      // TODO: Test case when auth token has expired.
       await request
         .post('/quizzes/results')
         .set('Content-Type', 'application/json')
@@ -219,6 +222,8 @@ class LessonContent extends React.Component {
       this.setState({ isSending: false });
       return false;
     }
+
+    lock.release('logout', lock_id);
   }
 
   render() {
@@ -242,10 +247,10 @@ class LessonContent extends React.Component {
       buttons.push(
         <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
           {nextLesson &&
-          <Fragment>Submit and Continue</Fragment>
+            <Fragment>Submit and Continue</Fragment>
           }
           {!nextLesson &&
-          <Fragment>Submit</Fragment>
+            <Fragment>Submit</Fragment>
           }
         </Button>
       );
@@ -285,7 +290,7 @@ class LessonContent extends React.Component {
         <div className="lesson-navigation container">
           <div className="row">
             <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
-              { buttons }
+              {buttons}
             </div>
           </div>
         </div>

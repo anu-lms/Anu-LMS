@@ -3,6 +3,13 @@ import { Link } from '../../../../routes';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 
 class ProfileMenu extends React.Component {
+
+  async onSelect() {
+    // Simply wait.
+    // In future we can add some sort of loader while user is waiting for logout.
+    await this.context.auth.logout();
+  }
+
   render() {
     return (
       <Dropdown id="profile-menu">
@@ -27,7 +34,7 @@ class ProfileMenu extends React.Component {
               <Link to="/user/password"><a>Edit Password</a></Link>
             </MenuItem>
             {this.context.auth &&
-              <MenuItem onSelect={this.context.auth.logout}>
+              <MenuItem onSelect={this.onSelect.bind(this)}>
                 <span>Logout</span>
               </MenuItem>
             }
