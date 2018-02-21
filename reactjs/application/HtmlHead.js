@@ -35,7 +35,7 @@ HtmlHead.propTypes = {
 };
 
 HtmlHead.defaultProps = {
-  title: 'Anu LMS',
+  title: 'Giant Worldwide',
   favicon: '/static/img/favicon.ico',
 };
 

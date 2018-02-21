@@ -4,6 +4,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
 import Alert from 'react-s-alert';
+import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
   'type': 'object',
@@ -25,7 +26,7 @@ const uiSchema = {
     'ui:placeholder': ' ',
   },
   'password': {
-    'ui:widget': 'password',
+    'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
   }
 };
