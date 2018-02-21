@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   module:
+    - anu_user
     - user
+    - views_bulk_operations
 _core:
   default_config_hash: wTJRNzsLVTenCALONNlVfgm_pBOlqucSPuVFLOD56ck
 id: user_admin_people
@@ -142,14 +144,14 @@ display:
       row:
         type: fields
       fields:
-        user_bulk_form:
-          id: user_bulk_form
-          table: users
-          field: user_bulk_form
+        views_bulk_operations_bulk_form_4:
+          id: views_bulk_operations_bulk_form_4
+          table: views
+          field: views_bulk_operations_bulk_form
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Массовое обновление'
+          label: Operations
           exclude: false
           alter:
             alter_text: false
@@ -190,8 +192,34 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: user_bulk_form
-          entity_type: user
+          batch: true
+          batch_size: 10
+          form_step: true
+          buttons: false
+          action_title: Action
+          selected_actions:
+            anu_assign_group: anu_assign_group
+            pathauto_update_alias: 0
+            user_remove_role_action: user_remove_role_action
+            user_block_user_action: user_block_user_action
+            user_add_role_action: user_add_role_action
+            user_unblock_user_action: user_unblock_user_action
+            views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
+            vbo_cancel_user_action: 0
+          preconfiguration:
+            anu_assign_group:
+              label_override: ''
+            user_remove_role_action:
+              label_override: ''
+            user_block_user_action:
+              label_override: ''
+            user_add_role_action:
+              label_override: ''
+            user_unblock_user_action:
+              label_override: ''
+            views_bulk_operations_delete_entity:
+              label_override: 'Delete selected users'
+          plugin_id: views_bulk_operations_bulk_form
         name:
           id: name
           table: users_field_data
@@ -578,6 +606,56 @@ display:
           plugin_id: field
           entity_type: user
           entity_field: mail
+        user_groups:
+          id: user_groups
+          table: users
+          field: user_groups
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Assigned classes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          entity_type: user
+          plugin_id: anu_user_groups
       filters:
         combine:
           id: combine

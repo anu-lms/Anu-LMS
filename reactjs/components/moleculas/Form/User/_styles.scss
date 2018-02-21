@@ -1,0 +1,19 @@
+#root_password__description {
+  padding: 8px 0 0;
+  font-style: italic;
+}
+
+.field.hide-password {
+  margin-bottom: 0;
+  visibility: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.7s, opacity 0s linear;
+}
+
+.field.display-password {
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+  transition: height 0.7s, opacity 0.5s linear;
+}

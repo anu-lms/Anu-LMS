@@ -1,0 +1,68 @@
+<?php
+
+use Drupal\Core\Url;
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_token_info().
+ */
+function anu_user_token_info() {
+  $info['tokens']['user']['frontend-one-time-login-url'] = array(
+    'name' => t('One-time login URL to the Frontend'),
+    'description' => t('The URL of the one-time login page for the user account.'),
+    'restricted' => TRUE,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens()
+ */
+function anu_user_tokens($type, $tokens, array $data, array $options, \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata) {
+  $replacements = array();
+
+  if ($type == 'user' && !empty($data['user'])) {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'frontend-one-time-login-url':
+
+          $replacements[$original] = anu_user_pass_reset_url($data['user'], $options);
+          break;
+      }
+    }
+  }
+  return $replacements;
+}
+
+/**
+ * Generates a unique URL for a user to log in and reset their password.
+ *
+ * @param \Drupal\user\UserInterface $account
+ *   An object containing the user account.
+ * @param array $options
+ *   (optional) A keyed array of settings. Supported options are:
+ *   - langcode: A language code to be used when generating locale-sensitive
+ *    URLs. If langcode is NULL the users preferred language is used.
+ *
+ * @return string
+ *   A unique URL that provides a one-time log in for the user, from which
+ *   they can change their password.
+ */
+function anu_user_pass_reset_url($account, $options = []) {
+  $timestamp = \Drupal::time()->getRequestTime();
+  $uid = $account->id();
+  $hash = user_pass_rehash($account, $timestamp);
+  $frontend_domain = \Drupal\Core\Site\Settings::get('frontend_domain');
+  $langcode = isset($options['langcode']) ? $options['langcode'] : $account->getPreferredLangcode();
+  $url = Url::fromUri($frontend_domain . "user/reset/$uid/$timestamp/$hash",
+    [
+      'absolute' => TRUE,
+      'language' => \Drupal::languageManager()->getLanguage($langcode)
+    ]
+  );
+  return $url->toString();
+}

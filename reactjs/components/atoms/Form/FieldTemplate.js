@@ -1,26 +1,26 @@
 import React from 'react';
 
-// Custom JSON Schema field template for checkout form. See:
+// Custom JSON Schema field template with float labels. See:
 // 1. https://github.com/mozilla-services/react-jsonschema-form#field-template
 // 2. https://github.com/tonystar/bootstrap-float-label
 export default props => {
   const { id, classNames, label, help, required, description, children, schema, uiSchema } = props;
 
-  // Add extra classes.
-  let extraClassNames = '';
+  let innerClasses = 'field-inner';
 
   if (schema.type === 'string' || schema.type === 'number') {
-    extraClassNames = uiSchema.bsClassNames ? uiSchema.bsClassNames : '';
-    extraClassNames += ' has-float-label';
+    innerClasses += ' has-float-label';
   }
 
   return (
-    <div className={`${classNames} ${extraClassNames}`}>
-      {children}
-      {schema.type !== 'boolean' &&
-      <label htmlFor={id}>{label}</label>
-      }
+    <div className={`${classNames}`}>
       {description}
+      <div className={innerClasses}>
+        {children}
+        {schema.type !== 'boolean' &&
+          <label htmlFor={id}>{label}</label>
+        }
+      </div>
       {help}
     </div>
   );

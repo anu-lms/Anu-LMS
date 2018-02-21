@@ -1,0 +1,18 @@
+uuid: 528a1393-cdf4-49ce-9d84-07838612ed73
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_user
+    - serialization
+    - simple_oauth
+id: current_user
+plugin_id: current_user
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2

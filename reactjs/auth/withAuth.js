@@ -1,30 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import jsCookie from 'js-cookie';
-import request from "../utils/request";
+import Alert from 'react-s-alert';
+import ClientAuth from './clientAuth';
+import ServerAuth from './serverAuth';
 import { Router } from '../routes';
+import request from "../utils/request";
+import * as lock from '../utils/lock';
+import { store } from '../store/store';
 
 export default function withAuth(PageComponent) {
-
   return class AuthenticatedPage extends React.Component {
-
-    constructor(props, context) {
-      super(props, context);
-
-      this.state = {
-        accessToken: props.accessToken,
-        refreshToken: props.refreshToken,
-      };
-    }
-
-    isLogged = () => {
-      return !!this.state.accessToken
-    };
-
-
-    getRequest() {
-      return request.set('Authorization', `Bearer ${this.state.accessToken}`);
-    }
 
     render() {
       return <PageComponent {...this.props} />;
@@ -32,189 +17,125 @@ export default function withAuth(PageComponent) {
 
     static childContextTypes = {
       auth: PropTypes.shape({
-        isLogged: PropTypes.bool,
         login: PropTypes.func,
+        logout: PropTypes.func,
+        getRequest: PropTypes.func,
+        refreshAuthenticationToken: PropTypes.func,
       }),
-      request: PropTypes.func,
     };
 
     getChildContext() {
       return {
         auth: {
-          isLogged: this.isLogged(),
           login: this.login.bind(this),
+          logout: this.logout.bind(this),
+          getRequest: this.getRequest.bind(this),
+          refreshAuthenticationToken: this.refreshAuthenticationToken.bind(this),
         },
-        request: this.getRequest.bind(this),
       }
-    };
+    }
 
     login(username, password) {
+      const auth = new ClientAuth();
+      return auth.login(username, password);
+    }
+
+    async logout() {
+
+      // Wait for the app to safely finish off before logging out.
+      await lock.wait('logout');
+
+      // Clear alerts.
+      Alert.closeAll();
+
+      // Remove login cookies.
+      const auth = new ClientAuth();
+      auth.logout();
+
+      // Clear local storage.
+      localStorage.clear();
+      // Clear in-memory Redux storage otherwise there still will be data in it.
+      setTimeout(() => {
+        // Avoid UX jumps before redirect to delaying it a bit.
+        store.dispatch({ type: 'RESET_STORE' });
+      }, 300);
+
+      // Redirect to the frontpage.
+      Router.replace('/');
+    }
+
+    refreshAuthenticationToken() {
+      const auth = new ClientAuth();
+      return auth.refreshAuthenticationToken();
+    }
+
+    getRequest() {
+      const auth = new ClientAuth();
       return new Promise((resolve, reject) => {
-        request
-          .post('/oauth/token')
-          .send({
-            'grant_type': 'password',
-            // TODO: Move to constants.
-            'client_id': '9e0c1ed1-541b-45da-9360-8b41f206352c',
-            'client_secret': '9uGSd3khRDf3bxQR',
-            'username': username,
-            'password': password,
-            // You must specify allowed scopes explicitly otherwise tokens won't get proper permissions.
-            'scope': ['authenticated', 'manager', 'teacher']
+        auth.getAccessToken()
+          .then(accessToken => {
+            request.set('Authorization', `Bearer ${accessToken}`);
+            // Request as an object, because it returns promise otherwise.
+            resolve({ request });
           })
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-          .end((error, response) => {
-            if (!error) {
-
-              console.log('login response:');
-              console.log(response);
-
-              const { body } = response;
-              const expiration = new Date(new Date().getTime() + body.expires_in * 1000);
-
-              jsCookie.set('accessToken', body.access_token, {
-                expires: expiration
-              });
-              jsCookie.set('refreshToken', body.refresh_token, {
-                expires: 365
-              });
-
-              this.setState({
-                accessToken: body.access_token,
-                refreshToken: body.refresh_token
-              });
-
-              resolve();
-            }
-            else {
-              console.log('error:');
-              console.log(error);
-              console.log('response:');
-              console.log(response);
-              if (response && response.body && response.body.message) {
-                reject(response.body.message);
-              }
-              reject('Could not authenticate user. Please, try again.');
-            }
-          });
+          .catch(error => reject(error));
       });
-    };
+    }
 
     static async getInitialProps(ctx) {
 
       const { req, res, pathname } = ctx;
 
-      let cookies;
-      if (req) {
-        cookies = req.cookies;
-      }
-      else {
-        cookies = jsCookie.get();
-      }
-
-      let accessToken = '';
-      if (cookies.accessToken) {
-        accessToken = cookies.accessToken;
-      }
-
-      let refreshToken = '';
-      if (cookies.refreshToken) {
-        refreshToken = cookies.refreshToken;
-      }
-
-      if (!accessToken && refreshToken) {
+      let auth = req ? new ServerAuth(req, res) : new ClientAuth();
+      if (!auth.isLoggedIn() && auth.hasRefreshToken()) {
         try {
-          console.log('refreshing the token');
+          console.log('Trying to handle page request and refresh tokens...');
+          await auth.refreshAuthenticationToken();
+        } catch (error) { }
+      }
 
-          const response = await request
-            .post('/oauth/token')
-            .send({
-              'grant_type': 'refresh_token',
-              'refresh_token': refreshToken,
-              // TODO: Move to constants.
-              'client_id': '9e0c1ed1-541b-45da-9360-8b41f206352c',
-              'client_secret': '9uGSd3khRDf3bxQR'
-            })
-            .set('Content-Type', 'application/x-www-form-urlencoded');
+      // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
+      if (!PageComponent.skipInitialAuthRedirect) {
 
-          const { body } = response;
-
-          console.log('expiration body:');
-          console.log(body);
-
-          const expiration = new Date(new Date().getTime() + body.expires_in * 1000);
-          accessToken = body.access_token;
-          refreshToken = body.refresh_token;
-
-          if (req) {
-            res.cookie('accessToken', accessToken, {
-              expires: expiration
-            });
-            res.cookie('refreshToken', refreshToken, {
-              expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-            });
+        // Redirect to the front page if not authenticated.
+        if (!auth.isLoggedIn() && pathname !== '/') {
+          console.log('Redirecting to the login page...');
+          if (res) {
+            res.redirect('/');
           }
           else {
-            jsCookie.set('accessToken', accessToken, {
-              expires: expiration
-            });
-            jsCookie.set('refreshToken', refreshToken, {
-              expires: 365
-            });
+            Router.replace('/');
           }
-        } catch (error) {
-          console.log('Could not refresh auth token:');
-          console.log(error);
+        }
+        // Redirect to the dashboard if authenticated.
+        else if (auth.isLoggedIn() && pathname === '/') {
+          console.log('Redirecting to the dashboard page...');
+          if (res) {
+            res.redirect('/dashboard');
+          }
+          else {
+            Router.replace('/dashboard');
+          }
         }
       }
 
-      // Redirect to the front page if not authenticated.
-      if (!accessToken && pathname !== '/') {
-        if (res) {
-          res.redirect('/');
-        }
-        else {
-          Router.replace('/');
-        }
-      }
-      // Redirect to the dashboard if authenticated.
-      else if (accessToken && pathname === '/') {
-        if (res) {
-          res.redirect('/dashboard');
-        }
-        else {
-          Router.replace('/dashboard');
-        }
-      }
-
-      const initialProps = {
-        accessToken,
-        refreshToken
-      };
-
+      // Handle child component's props loading.
       if (PageComponent.getInitialProps) {
 
-        // Inject auth token into the request object.
-        request
-          .set('Authorization', `Bearer ${accessToken}`);
+        // Get request object with injected auth data.
+        const request = auth.getRequest();
 
         // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
           // Pass request object which includes authentication.
-          { request, ...ctx }
+          { request, auth, ...ctx }
         );
 
         // Merge child and parent initial props and return.
-        return {
-          ...initialProps,
-          ...childInitialProps
-        }
+        return { ...childInitialProps }
       }
 
-      // No child initial props found. Return only auth data.
-      return initialProps;
+      return {};
     }
-
   }
-
 }

@@ -8,6 +8,7 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import { Router } from "../../../../routes";
 import routerEvents from "../../../../router-events";
+import * as lock from "../../../../utils/lock";
 
 class NotebookTemplate extends React.Component {
 
@@ -82,13 +83,16 @@ class NotebookTemplate extends React.Component {
       return;
     }
 
-    // TODO: Authentication may drop if expired.
-    const request = this.context.request();
+    // Get superagent request with authentication.
+    const { request } = await this.context.auth.getRequest();
 
     // Execute all saving operations in parallel.
     // Normally here is just one note to save, but you never know how fast
     // the users these days can be!
     Promise.all(unsavedNotes.map(async note => {
+
+      // Lock logout until update operation for this note is safely completed.
+      const lock_id = lock.add('logout');
 
       // Set the note's state to "Is saving".
       dispatch(notebookActions.setNoteStateSaving(note.id));
@@ -107,6 +111,8 @@ class NotebookTemplate extends React.Component {
         // Set the note's state to "Not Saved".
         dispatch(notebookActions.setNoteStateNotSaved(note.id));
       }
+
+      lock.release('logout', lock_id);
     }));
   }
 
@@ -178,7 +184,9 @@ const mapStateToProps = ({ notebook }) => {
 };
 
 NotebookTemplate.contextTypes = {
-  request: PropTypes.func,
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
 };
 
 export default connect(mapStateToProps)(NotebookTemplate);
