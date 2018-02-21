@@ -5,6 +5,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import * as dataProcessors from '../../../../utils/dataProcessors';
+import * as lock from '../../../../utils/lock';
 
 const schema = {
   'type': 'object',
@@ -68,6 +69,9 @@ class PasswordForm extends React.Component {
       formData,
     });
 
+    // Lock logout until update operation is safely completed.
+    const lock_id = lock.add('logout');
+
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
@@ -100,6 +104,8 @@ class PasswordForm extends React.Component {
       console.error(error);
       this.setState({ isSending: false });
     }
+
+    lock.release('logout', lock_id);
   }
 
   onChange({ formData }) {
@@ -114,11 +120,11 @@ class PasswordForm extends React.Component {
       canBeSubmited = false;
     }
 
-    this.setState({canBeSubmited, formData});
+    this.setState({ canBeSubmited, formData });
   }
 
   render() {
-    return(
+    return (
       <Form
         schema={schema}
         uiSchema={uiSchema}
@@ -130,7 +136,7 @@ class PasswordForm extends React.Component {
         noHtml5Validate
       >
         <Button loading={this.state.isSending}
-                disabled={!this.state.canBeSubmited}>
+          disabled={!this.state.canBeSubmited}>
           Save New Password
         </Button>
       </Form>
