@@ -4,7 +4,6 @@
     margin-top: 12px;
     height: 4px;
     display: none;
-    max-width: calc(100% - 70px);
     transition: width 300ms ease-out;
     width: 0;
   }
@@ -24,7 +23,11 @@
     width: 80%;
   }
   &.is-strength-4 .indicator-bar {
-    width: 100%;
+    width: calc(100% - 82px);
+  }
+  &.is-strength-4 .indicator-desc {
+    width: 74px;
+    text-align: right;
   }
 
   .indicator-desc {
