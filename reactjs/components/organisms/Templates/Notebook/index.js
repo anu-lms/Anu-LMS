@@ -8,6 +8,7 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import { Router } from "../../../../routes";
 import routerEvents from "../../../../router-events";
+import * as lock from "../../../../utils/lock";
 
 class NotebookTemplate extends React.Component {
 
@@ -90,6 +91,9 @@ class NotebookTemplate extends React.Component {
     // the users these days can be!
     Promise.all(unsavedNotes.map(async note => {
 
+      // Lock logout until update operation for this note is safely completed.
+      const lock_id = lock.add('logout');
+
       // Set the note's state to "Is saving".
       dispatch(notebookActions.setNoteStateSaving(note.id));
 
@@ -107,6 +111,8 @@ class NotebookTemplate extends React.Component {
         // Set the note's state to "Not Saved".
         dispatch(notebookActions.setNoteStateNotSaved(note.id));
       }
+
+      lock.release('logout', lock_id);
     }));
   }
 
@@ -142,7 +148,7 @@ class NotebookTemplate extends React.Component {
             <div className="row">
               <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
-                <NoteContent note={activeNote} />
+                  <NoteContent note={activeNote} />
                 }
               </div>
             </div>
