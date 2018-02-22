@@ -35,4 +35,44 @@ It allows for server side rendeing (SSR) as well as comes with pre-defined devel
 
 ## Lock API
 
-TBD;
+In asynchronous app there are still tasks which need to syncronise with each other.
+For that purpose Lock API has been developed.
+
+Add a new lock in your `FooComponent`:
+
+```
+const lock_id = lock.add('foo');
+```
+
+You can add more locks with the same name in different places of the app:
+
+```
+const second_lock_id = lock.add('foo');
+```
+
+You can release the lock by its id:
+
+```
+lock.release(lock_id);
+```
+
+To check if 'foo' is locked run:
+
+```
+const is_locked = lock.isNameLocked('foo');
+```
+
+If  `BarComponent` you can wait for locks before proceeding:
+
+```
+await lock.wait('foo');
+// Some operation after all 'foo' locks are release.
+```
+
+You can wait for all locks to be released:
+
+```
+// Wait for the app to safely finish off before logging out.
+await lock.waitAll();
+// Do logout.
+```
