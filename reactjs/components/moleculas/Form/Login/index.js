@@ -12,7 +12,7 @@ const schema = {
   'properties': {
     'username': {
       'type': 'string',
-      'title': 'Username',
+      'title': 'Username or email',
     },
     'password': {
       'type': 'string',
