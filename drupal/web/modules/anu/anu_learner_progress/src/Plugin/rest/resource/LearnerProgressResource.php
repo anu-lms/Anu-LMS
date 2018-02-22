@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * Provides a resource to get and update Course progress.
+ * Provides a resource to get and update Learner progress.
  *
  * @RestResource(
  *   id = "learner_progress",
@@ -64,7 +64,7 @@ class LearnerProgressResource extends ResourceBase {
    * Creates or updates learner progress entity.
    *
    * Currently just updates entity for course to get data about recent courses.
-   * @todo: will be improved to calculate real progress for Lessons and Course
+   * @todo: will be improved to calculate real progress for Lessons and Courses.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
@@ -92,7 +92,7 @@ class LearnerProgressResource extends ResourceBase {
         );
       }
 
-      // Updates entity changed date because nothing else has changed.
+      // Updates entity changed date because we need to update entity, but nothing else has changed.
       $entity->changed = \Drupal::time()->getRequestTime();
       $entity->save();
     } catch(\Exception $e) {
