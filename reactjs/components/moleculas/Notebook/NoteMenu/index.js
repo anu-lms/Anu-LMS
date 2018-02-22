@@ -13,7 +13,7 @@ class NoteMenu extends Component {
 
     if (window.confirm('Delete this note?')) {
       // Lock logout until delete operation is safely completed.
-      const lock_id = lock.add('logout');
+      const lock_id = lock.add('notebook-delete-note');
 
       // Hide the note immediately after confirmation.
       dispatch(notebookActions.deleteNote(note.id));
@@ -34,7 +34,7 @@ class NoteMenu extends Component {
         Alert.error('Could not delete the note. Please reload the page and try again.');
       }
 
-      lock.release('logout', lock_id);
+      lock.release(lock_id);
     }
   }
 
