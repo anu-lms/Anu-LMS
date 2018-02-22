@@ -43,7 +43,7 @@ export default function withAuth(PageComponent) {
     async logout() {
 
       // Wait for the app to safely finish off before logging out.
-      await lock.wait('logout');
+      await lock.waitAll();
 
       // Clear alerts.
       Alert.closeAll();
@@ -55,10 +55,7 @@ export default function withAuth(PageComponent) {
       // Clear local storage.
       localStorage.clear();
       // Clear in-memory Redux storage otherwise there still will be data in it.
-      setTimeout(() => {
-        // Avoid UX jumps before redirect to delaying it a bit.
-        store.dispatch({ type: 'RESET_STORE' });
-      }, 300);
+      store.dispatch({ type: 'RESET_STORE' });
 
       // Redirect to the frontpage.
       Router.replace('/');

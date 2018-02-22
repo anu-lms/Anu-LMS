@@ -29,7 +29,7 @@ class AddNoteButton extends React.Component {
     this.setState({ isSaving: true });
 
     // Lock logout until note add operation is safely completed.
-    const lock_id = lock.add('logout');
+    const lock_id = lock.add('notebook-add-note');
 
     try {
       // Get superagent request with authentication.
@@ -47,7 +47,7 @@ class AddNoteButton extends React.Component {
       console.log(error);
     }
 
-    lock.release('logout', lock_id);
+    lock.release(lock_id);
   }
 
   render() {
