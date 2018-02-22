@@ -34,6 +34,7 @@ export const isNameLocked = collection_name => {
   return index === -1 ? false : true;
 }
 
+// TODO: implement timeout option.
 // Wait for all locks in a given collection to be released.
 export const wait = collection_name => {
   return new Promise(function (resolve, reject) {
@@ -55,12 +56,12 @@ export const wait = collection_name => {
   });
 }
 
+// TODO: implement timeout option.
 // Wait for all locks to be released.
 export const waitAll = () => {
   return new Promise(function (resolve, reject) {
     (function waitForLocksToRelease() {
       // Get locks array from Redux.
-      console.log(store.getState());
       const locks = store.getState().lock.locks;
       if (locks.length > 0) {
         setTimeout(waitForLocksToRelease, 100);
