@@ -20,5 +20,6 @@ function ssb_mail_mail_alter(&$message) {
   // state.
   if ($send !== TRUE) {
     $message['send'] = FALSE;
+    \Drupal::logger('ssb_mail')->warning(t('Prevented real email sending from non live environment.'));
   }
 }

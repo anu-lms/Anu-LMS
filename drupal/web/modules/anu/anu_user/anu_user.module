@@ -15,6 +15,11 @@ function anu_user_token_info() {
     'description' => t('The URL of the one-time login page for the user account.'),
     'restricted' => TRUE,
   );
+  $info['tokens']['site']['frontend-url'] = array(
+    'name' => t('URL to the Frontend'),
+    'description' => t('The URL of the Frontend application.'),
+    'restricted' => TRUE,
+  );
 
   return $info;
 }
@@ -31,6 +36,16 @@ function anu_user_tokens($type, $tokens, array $data, array $options, \Drupal\Co
         case 'frontend-one-time-login-url':
 
           $replacements[$original] = anu_user_pass_reset_url($data['user'], $options);
+          break;
+      }
+    }
+  }
+  elseif ($type == 'site') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'frontend-url':
+
+          $replacements[$original] = \Drupal\Core\Site\Settings::get('frontend_domain');
           break;
       }
     }
