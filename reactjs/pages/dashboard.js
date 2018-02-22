@@ -63,15 +63,10 @@ class DashboardPage extends Component {
         initialProps.coursesInClassesIds[classItem.uuid] = [];
       });
 
-      const recentCoursesIds = [];
-
       responseAllCourses.body.data.forEach(courseData => {
         const course = dataProcessors.courseData(courseData);
         initialProps.coursesById[course.uuid] = course;
         initialProps.coursesInClassesIds[course.gid].push(course.uuid);
-
-        // Store all course ids in reverse orders.
-        recentCoursesIds.unshift(course.uuid);
       });
 
       // Fetch course progress entities available for this user.
@@ -87,7 +82,7 @@ class DashboardPage extends Component {
       // Leave only recent 3 available courses.
       initialProps.recentCoursesIds = responseRecentCourses.body.data
         .map((item, index) => item.fieldCourse.id)
-        .filter((item) => recentCoursesIds.indexOf(item) !== -1)
+        .filter((item) => Object.keys(initialProps.coursesById).indexOf(item) !== -1)
         .slice(0, 3);
     }
     catch (error) {
