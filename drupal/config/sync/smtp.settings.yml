@@ -1,0 +1,17 @@
+smtp_on: true
+smtp_host: smtp.mandrillapp.com
+smtp_hostbackup: ''
+smtp_port: '587'
+smtp_protocol: tls
+smtp_username: Anu
+smtp_password: inp5NNGd5JoYkxgMFkqRTA
+smtp_from: info@giantworldwide.online
+smtp_fromname: ''
+smtp_client_hostname: ''
+smtp_client_helo: ''
+smtp_allowhtml: '0'
+smtp_test_address: ''
+smtp_debugging: false
+prev_mail_system: php_mail
+_core:
+  default_config_hash: WEa5Ex_IeAcm6Bm0hmQ4vU_nDwJDB8hW-vxT1qpGIbM
