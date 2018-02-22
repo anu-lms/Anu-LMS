@@ -92,7 +92,8 @@ class LearnerProgressResource extends ResourceBase {
         );
       }
 
-      // Updates entity without any changes just to update 'changed' date.
+      // Updates entity changed date because nothing else has changed.
+      $entity->changed = \Drupal::time()->getRequestTime();
       $entity->save();
     } catch(\Exception $e) {
       // Log an error.
