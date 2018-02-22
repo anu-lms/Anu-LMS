@@ -17,7 +17,8 @@ class UserAuth extends \Drupal\user\UserAuth {
 
       $properties = ['name' => $username];
 
-      //
+      // Enhanced core's authentication function to include check
+      // if user is using email to login.
       if (\Drupal::service('email.validator')->isValid($username)) {
         $properties = ['mail' => $username];
       }
