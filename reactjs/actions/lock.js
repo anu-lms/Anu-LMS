@@ -4,8 +4,7 @@ export const lockAdd = (name, id) => ({
   id
 });
 
-export const lockRemove = (name, id) => ({
+export const lockRemove = id => ({
   type: 'LOCK_REMOVE',
-  name,
   id
 });
