@@ -16,7 +16,7 @@ class LoginCest {
 
     $I->click('Login');
 
-    $I->seeElement('.card');
+    $I->waitForElement('.card');
   }
 
 }
