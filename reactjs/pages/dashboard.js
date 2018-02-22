@@ -74,8 +74,21 @@ class DashboardPage extends Component {
         recentCoursesIds.unshift(course.uuid);
       });
 
-      // Pass only three recent courses ids.
-      initialProps.recentCoursesIds = recentCoursesIds.slice(0, 3);
+      // Fetch course progress entities available for this user.
+      // @todo: will be improved to load real course progress from the backend.
+      const responseRecentCourses = await request
+        .get('/jsonapi/learner_progress/course')
+        .query({
+          // Include class group, course entity, course image.
+          'include': 'field_course',
+          'sort': '-changed'
+        });
+
+      // Leave only recent 3 available courses.
+      initialProps.recentCoursesIds = responseRecentCourses.body.data
+        .map((item, index) => item.fieldCourse.id)
+        .filter((item) => recentCoursesIds.indexOf(item) !== -1)
+        .slice(0, 3);
     }
     catch (error) {
       console.error('Could not fetch dashboard classes / courses.');
