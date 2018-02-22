@@ -81,7 +81,7 @@ class UserEditForm extends React.Component {
     });
 
     // Lock logout until update operation is safely completed.
-    const lock_id = lock.add('logout');
+    const lock_id = lock.add('user-update');
 
     try {
       // Get superagent request with authentication.
@@ -136,7 +136,7 @@ class UserEditForm extends React.Component {
       Alert.error('We could not update your profile. Please, make sure current password is correct and try again.');
     }
 
-    lock.release('logout', lock_id);
+    lock.release(lock_id);
   }
 
   onChange({ formData }) {

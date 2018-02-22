@@ -195,7 +195,7 @@ class LessonContent extends React.Component {
     console.log(this.props.quizzesData);
 
     // Lock logout until post operation is safely completed.
-    const lock_id = lock.add('logout');
+    const lock_id = lock.add('quizzes-save');
 
     // Get superagent request with authentication.
     const { request } = await this.context.auth.getRequest();
@@ -223,7 +223,7 @@ class LessonContent extends React.Component {
       return false;
     }
 
-    lock.release('logout', lock_id);
+    lock.release(lock_id);
   }
 
   render() {

@@ -70,7 +70,7 @@ class PasswordForm extends React.Component {
     });
 
     // Lock logout until update operation is safely completed.
-    const lock_id = lock.add('logout');
+    const lock_id = lock.add('user-update-pass');
 
     try {
       // Get superagent request with authentication.
@@ -105,7 +105,7 @@ class PasswordForm extends React.Component {
       this.setState({ isSending: false });
     }
 
-    lock.release('logout', lock_id);
+    lock.release(lock_id);
   }
 
   onChange({ formData }) {

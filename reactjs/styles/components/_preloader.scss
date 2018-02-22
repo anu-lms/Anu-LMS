@@ -1,4 +1,4 @@
-.page-loader {
+.page-loader, .page-loader-fixed {
   background: $white;
   position: absolute;
   left: 0;
@@ -35,6 +35,10 @@
       animation: shadow .5s linear infinite;
     }
   }
+}
+
+.page-loader-fixed {
+  position: fixed;
 }
 
 @keyframes loader {
