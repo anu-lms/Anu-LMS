@@ -24,6 +24,7 @@ permissions:
   - 'issue subrequests'
   - 'restful get current_user'
   - 'restful post contact_message'
+  - 'restful post learner_progress'
   - 'restful post quizzes_results'
   - 'update own simple_oauth entities'
   - 'use text format filtered_html'
