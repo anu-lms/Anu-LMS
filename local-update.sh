@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Install and update all Drupal components.
-docker-compose run php composer update --with-dependencies --verbose
+docker-compose run php composer install --verbose
 
 # Import all existing configs into the site.
 docker-compose run php drush --root="./web" config-import -y
@@ -10,7 +10,7 @@ docker-compose run php drush --root="./web" config-import -y
 docker-compose run php drush --root="./web" cr
 
 # Install and update all node.js packages.
-docker-compose run node yarn upgrade
+docker-compose run node yarn install
 
 # Restart docker containers.
 docker-compose down
