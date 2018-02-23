@@ -1,0 +1,18 @@
+uuid: a4f696ba-ba3b-4a11-8951-5d3b5fe07485
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_learner_progress
+    - serialization
+    - simple_oauth
+id: learner_progress
+plugin_id: learner_progress
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2

@@ -109,6 +109,17 @@ class LessonPage extends React.Component {
         });
 
       initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
+
+      // Sends request to the backend to update progress entity (to set correct data for recent courses block).
+      // @todo: will be improved to calculate and save real progress on the backend.
+      const tokenResponse = await request.get('/session/token');
+      await request
+        .post('/learner/progress?_format=json')
+        .set('Content-Type', 'application/json')
+        .set('X-CSRF-Token', tokenResponse.text)
+        .send({
+          courseId: initialProps.course.id,
+        });
     } catch (error) {
       console.log(error);
       if (res) res.statusCode = 404;
