@@ -12,7 +12,7 @@ require '.global/vendor/autoload.php';
 use Aws\S3\S3Client;
 // Gets Amazon settings from Platform Variables (variables should be added to project/branch variables).
 $aws_bucket = getenv('AWS_BACKUP_BUCKET') ? getenv('AWS_BACKUP_BUCKET') : 'anulms';
-$aws_region = getenv('AWS_BACKUP_BUCKET_REGION') ? getenv('AWS_BACKUP_BUCKET_REGION') : 'us-east-2';
+$aws_region = getenv('AWS_BACKUP_BUCKET_REGION') ? getenv('AWS_BACKUP_BUCKET_REGION') : 'us-west-2';
 $aws_access_key_id = getenv('AWS_BACKUP_ACCESS_KEY_ID');
 $aws_secret_access_key = getenv('AWS_BACKUP_SECRET_ACCESS_KEY');
 // Skip script execution if any of AWS variables are empty.
