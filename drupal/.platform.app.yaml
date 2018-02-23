@@ -34,6 +34,7 @@ dependencies:
         'platformsh/cli': '3.26.1'
         # Requirements for Backup script (./scripts/upload_backups.php)
         "aws/aws-sdk-php": "^3.39"
+        "platformsh/config-reader": "^0.0.1"
 
 variables:
   php:
@@ -110,6 +111,7 @@ hooks:
    # The build hook runs to build all dependencies together.
    build: |
     chmod 600 keys/private.key keys/public.key
+    chmod +x scripts/dump_db.sh
 
 
     # The deploy hook runs after your application has been deployed and started.
