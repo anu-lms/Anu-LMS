@@ -4,6 +4,9 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes'
 import Alert from 'react-s-alert';
+import { connect } from 'react-redux';
+import { setUser } from '../../../../actions/user';
+import { userData } from '../../../../utils/dataProcessors';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
@@ -53,6 +56,12 @@ class LoginForm extends React.Component {
 
     try {
       await this.context.auth.login(formData.username, formData.password);
+      const { request } = await this.context.auth.getRequest();
+      const userResponse = await request.get('/user/me?_format=json');
+      const currentUser = userData(userResponse.body);
+
+      this.props.dispatch(setUser(currentUser));
+
       Router.push('/dashboard');
     } catch (error) {
       this.setState({ isSending: false });
@@ -61,6 +70,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return(
       <Form
         schema={schema}
@@ -80,7 +90,8 @@ class LoginForm extends React.Component {
 LoginForm.contextTypes = {
   auth: PropTypes.shape({
     login: PropTypes.func,
+    getRequest: PropTypes.func,
   }),
 };
 
-export default LoginForm;
+export default connect()(LoginForm);
