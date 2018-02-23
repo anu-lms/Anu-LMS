@@ -4,13 +4,15 @@ import lesson from './lesson';
 import notebook from './notebook';
 import navigation from './navigation';
 import lock from './lock';
+import user from './user';
 
 const appReducer = combineReducers({
   course,
   lesson,
   notebook,
   navigation,
-  lock
+  lock,
+  user
 });
 
 
