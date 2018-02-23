@@ -21,13 +21,6 @@ if (empty($aws_bucket) || empty($aws_region) || empty($aws_access_key_id) || emp
   exit(1);
 }
 $backups_dir = getenv('HOME') . '/drush-backups';
-// Prepare environment name to use in Amazon folder/file names.
-$environment = '';
-// Currently works for production environment only.
-// TODO: UNcomment.
-#if (empty($_ENV['PLATFORM_BRANCH']) || $_ENV['PLATFORM_BRANCH'] != 'master') {
-#  exit(0);
-#}
 $environment = $_ENV['PLATFORM_BRANCH'];
 echo "== UPLOADING OF BACKUPS STARTED " . date('d.m.Y H:i:s') . " ==\n\n";
 // Initialize Amazon connection.
