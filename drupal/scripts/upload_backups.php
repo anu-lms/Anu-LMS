@@ -44,41 +44,37 @@ if (!$psh->isAvailable()) {
   echo "ERROR: Platform.sh configuration is not found.\n";
   exit(1);
 }
-$site_dbs = [$psh->relationships['database'][0]['path']];
-// Upload all db backups.
-foreach ($site_dbs as $site_db_name) {
-  foreach (glob("$backups_dir/$site_db_name/*/*.sql.gz") as $filename) {
-    // Path to file on Amazon.
-    $aws_file_key = "$site_db_name/$environment/$environment" . '-' . basename($filename);
-    try {
-      if ($s3->doesObjectExist($aws_bucket, $aws_file_key)) {
-        continue;
-      }
-      $aws_tags = 'type=daily';
-      // If it's first day of month then mark this backup as monthly in S3.
-      // It allows to apply different lifecycle rules to different types of backups.
-      if (date('j') == '1') {
-        $aws_tags = 'type=monthly';
-      }
-      // Push database backup to Amazon server.
-      $result = $s3->putObject([
-        'Bucket' => $aws_bucket,
-        'Key' => $aws_file_key,
-        'SourceFile' => $filename,
-        'ServerSideEncryption' => 'AES256',
-        'Tagging' => $aws_tags,
-      ]);
-      if ($result && $result['ObjectURL']) {
-        echo "Success: " . $result['ObjectURL'] . "\n";
-      }
-      else {
-        echo "ERROR: " . $filename . "\n";
-      }
+foreach (glob("$backups_dir/main/*/*.sql.gz") as $filename) {
+  // Path to file on Amazon.
+  $aws_file_key = "$psh->project/$environment/" . basename($filename);
+  try {
+    if ($s3->doesObjectExist($aws_bucket, $aws_file_key)) {
+      continue;
     }
-    catch (Aws\S3\Exception\S3Exception $e) {
+    $aws_tags = 'type=daily';
+    // If it's first day of month then mark this backup as monthly in S3.
+    // It allows to apply different lifecycle rules to different types of backups.
+    if (date('j') == '1') {
+      $aws_tags = 'type=monthly';
+    }
+    // Push database backup to Amazon server.
+    $result = $s3->putObject([
+      'Bucket' => $aws_bucket,
+      'Key' => $aws_file_key,
+      'SourceFile' => $filename,
+      'ServerSideEncryption' => 'AES256',
+      'Tagging' => $aws_tags,
+    ]);
+    if ($result && $result['ObjectURL']) {
+      echo "Success: " . $result['ObjectURL'] . "\n";
+    }
+    else {
       echo "ERROR: " . $filename . "\n";
-      echo $e->getMessage() . "\n";
     }
+  }
+  catch (Aws\S3\Exception\S3Exception $e) {
+    echo "ERROR: " . $filename . "\n";
+    echo $e->getMessage() . "\n";
   }
 }
 echo "== UPLOADING OF BACKUPS FINISHED " . date('d.m.Y H:i:s') . " ==\n\n";
