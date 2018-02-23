@@ -1,8 +1,8 @@
 country:
-  default: BY
+  default: US
 first_day: 1
 timezone:
-  default: Europe/Minsk
+  default: America/New_York
   user:
     configurable: false
     warn: false

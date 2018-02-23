@@ -92,7 +92,7 @@ class NotebookTemplate extends React.Component {
     Promise.all(unsavedNotes.map(async note => {
 
       // Lock logout until update operation for this note is safely completed.
-      const lock_id = lock.add('logout');
+      const lock_id = lock.add('notebook-update-note');
 
       // Set the note's state to "Is saving".
       dispatch(notebookActions.setNoteStateSaving(note.id));
@@ -112,7 +112,7 @@ class NotebookTemplate extends React.Component {
         dispatch(notebookActions.setNoteStateNotSaved(note.id));
       }
 
-      lock.release('logout', lock_id);
+      lock.release(lock_id);
     }));
   }
 
