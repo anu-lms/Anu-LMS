@@ -33,13 +33,13 @@ jobs:
       - run:
           <<: *install_platform_cli
 
-      #- run:
-      #    name: Create backup of production database and force push it to S3.
-      #    command: |
-      #      if [ $CIRCLE_BRANCH == "production" ]; then
-      #        platform ssh -- "cd public && drush sql-dump --gzip --result-file && drush @syc sql-dump  --gzip --result-file"
-      #        platform ssh "php jobs/upload_backups.php" || true
-      #      fi
+      - run:
+          name: Create backup of production database and force push it to S3.
+          command: |
+            if [ $CIRCLE_BRANCH == "master" ]; then
+              platform ssh -- "cd public && drush sql-dump --gzip --result-file"
+              platform ssh "php scripts/upload_backups.php" || true
+            fi
 
       - run:
           name: Push branch changes to platform's git repository

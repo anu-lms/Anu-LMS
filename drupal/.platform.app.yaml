@@ -32,6 +32,8 @@ dependencies:
         # Comment out drupal console for now because it conflicts with `platformsh/cli` in Drupal 8.
         # 'drupal/console': '@stable'
         'platformsh/cli': '3.26.1'
+        # Requirements for Backup script (./scripts/upload_backups.php)
+        "aws/aws-sdk-php": "^3.39"
 
 variables:
   php:
@@ -123,7 +125,18 @@ crons:
     drupal:
         spec: '0 * * * *'
         cmd: 'cd web ; drush core-cron'
+
     # Run automatic snapshot creation every 12th hour.
     snapshot:
         spec: '1 */12 * * *'
         cmd: 'if [ "$PLATFORM_BRANCH" = master ]; then platform snapshot:create --yes --no-wait; fi'
+
+    # Make dumps of database and store in ~/drush-backups. Delete old backups.
+    dump_db:
+        spec: '10 */12 * * *'
+        cmd: 'scripts/dump_db.sh'
+
+    # Upload production db dumps to Amazon S3.
+    upload_production_backups:
+        spec: '15 */2 * * *'
+        cmd: 'php scripts/upload_backups.php'
