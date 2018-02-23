@@ -37,8 +37,8 @@ jobs:
           name: Create backup of production database and force push it to S3.
           command: |
             if [ $CIRCLE_BRANCH == "master" ]; then
-              platform ssh -- "cd public && drush sql-dump --gzip --result-file"
-              platform ssh "php scripts/upload_backups.php" || true
+              platform ssh -A backend -e $CIRCLE_BRANCH "cd public && drush sql-dump --gzip --result-file"
+              platform ssh -A backend -e $CIRCLE_BRANCH "php scripts/upload_backups.php" || true
             fi
 
       - run:
