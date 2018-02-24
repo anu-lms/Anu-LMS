@@ -87,7 +87,7 @@ class DashboardPage extends Component {
 
       // Leave only recent 3 available courses.
       initialProps.recentCoursesIds = responseRecentCourses.body.data
-        .map((item, index) => item.fieldCourse.id)
+        .map((item, index) => item.fieldCourse.id !== undefined ? item.fieldCourse.id : null)
         .filter((item) => Object.keys(initialProps.coursesById).indexOf(item) !== -1)
         .slice(0, 3);
     }
