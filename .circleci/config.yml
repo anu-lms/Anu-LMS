@@ -176,7 +176,7 @@ jobs:
           name: Push production updates to all clients
           command: |
             vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*')
-            IFS=' ' read -r -a client_repos <<< "$vars"
+            read -a client_repos <<<$vars
             for repo_var in "${client_repos[@]}"
             do
               echo "Pushing changes to ${!repo_var} (${repo_var})..."
