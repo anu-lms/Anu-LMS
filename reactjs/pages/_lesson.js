@@ -1,12 +1,32 @@
 import React from 'react';
 import App from '../application/App';
+import request from "../utils/request";
 import withAuth from '../auth/withAuth';
-import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
-import LessonPageTemplate from '../components/organisms/Templates/Lesson';
+import Header from '../components/organisms/Header';
 import * as dataProcessors from "../utils/dataProcessors";
+import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 
 class LessonPage extends React.Component {
+
+  componentDidMount() {
+    // Sends request to the backend to update progress entity (to set correct data for recent courses block).
+    // @todo: will be improved to calculate and save real progress on the backend.
+    request
+      .get('/session/token')
+      .then((response) => {
+        return request
+          .post('/learner/progress?_format=json')
+          .set('Content-Type', 'application/json')
+          .set('X-CSRF-Token', response.text)
+          .send({
+            courseId: this.props.course.id,
+          });
+      })
+      .catch(error => {
+        console.error('Could not update learner progress.', error);
+      });
+  }
 
   render () {
     return (
@@ -109,17 +129,6 @@ class LessonPage extends React.Component {
         });
 
       initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
-
-      // Sends request to the backend to update progress entity (to set correct data for recent courses block).
-      // @todo: will be improved to calculate and save real progress on the backend.
-      const tokenResponse = await request.get('/session/token');
-      await request
-        .post('/learner/progress?_format=json')
-        .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', tokenResponse.text)
-        .send({
-          courseId: initialProps.course.id,
-        });
     } catch (error) {
       console.log(error);
       if (res) res.statusCode = 404;
