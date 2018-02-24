@@ -175,7 +175,7 @@ jobs:
       - run:
           name: Push production updates to all clients
           command: |
-            vars = $(env | awk -F '=' '{print $1}' | grep 'CLIENT_*')
+            vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*')
             IFS=' ' read -r -a client_repos <<< "$vars"
             for repo_var in "${client_repos[@}"
             do
@@ -198,9 +198,9 @@ workflows:
           #    ignore:
           #      - master
       - push_release_to_clients:
-          requires:
-          # TODO: run_tests
-            - prepare_site
+          # TODO: uncomment
+          #requires:
+          #  - run_tests
           #filters:
           #  branches:
           #    only:
