@@ -197,8 +197,7 @@ workflows:
           #  branches:
           #    ignore:
           #      - master
-      - push_release_to_clients:
-
+      - push_release_to_clients
           # TODO: uncomment
           #requires:
           #  - run_tests
