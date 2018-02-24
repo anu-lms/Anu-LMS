@@ -181,7 +181,7 @@ jobs:
             do
               echo "Pushing changes to ${!repo_var} (${repo_var})..."
               if ! git config remote.${repo_var}.url > /dev/null; then
-                git remote add ${repo_var} ${!repo_var} || true
+                git remote add ${repo_var} ${!repo_var}
               fi;
               git push --force ${repo_var} $CIRCLE_BRANCH
             done
