@@ -1,5 +1,6 @@
 name: frontend
 type: nodejs:8.9
+size: S
 
 dependencies:
   nodejs:
