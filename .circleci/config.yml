@@ -164,6 +164,23 @@ jobs:
           # Connect via SSH and output result of drush pm-updatestatus as a list | count output lines | make sure there are exactly zero lines which means "No security updates found".
           command: platform ssh -q -A drupal "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
 
+  ###################################################
+  ###### PUSH RELEASE TO CLIENT REPOSITORIES ########
+  ###################################################
+  push_release_to_clients:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          name: Push production updates to all clients
+          command: |
+            vars = $(env | awk -F '=' '{print $1}' | grep 'CLIENT_*')
+            IFS=' ' read -r -a client_repos <<< "$vars"
+            for repo_var in "${client_repos[@}"
+            do
+              echo "Pushing changes to ${!repo_var} (${repo_var})..."
+            done
 
 workflows:
   version: 2
@@ -176,10 +193,17 @@ workflows:
       - run_tests:
           requires:
             - prepare_site
-          filters:
-            branches:
-              ignore:
-                - master
+          #filters:
+          #  branches:
+          #    ignore:
+          #      - master
+      - push_release_to_clients:
+          requires:
+            - run_tests
+          #filters:
+          #  branches:
+          #    only:
+          #      - master
 
   security_updates_scheduled:
     triggers:
