@@ -69,6 +69,11 @@ class DashboardPage extends Component {
         initialProps.coursesInClassesIds[course.gid].push(course.uuid);
       });
 
+      // Get currently logged in user.
+      // @todo: consider to store user id in local storage after user login.
+      const userResponse = await request.get('/user/me?_format=json');
+      const currentUser = dataProcessors.userData(userResponse.body);
+
       // Fetch course progress entities available for this user.
       // @todo: will be improved to load real course progress from the backend.
       const responseRecentCourses = await request
@@ -76,6 +81,7 @@ class DashboardPage extends Component {
         .query({
           // Include class group, course entity, course image.
           'include': 'field_course',
+          'filter[uid][value]': currentUser.uid,
           'sort': '-changed'
         });
 
