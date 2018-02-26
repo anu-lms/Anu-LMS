@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "467145700c3c0a1dff247136f035f06c",
+    "content-hash": "fab548dcee27e9f1f1806172d9f6d71a",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2565,14 +2565,6 @@
                     "homepage": "https://www.drupal.org/node/1155832/committers"
                 },
                 {
-                    "name": "acrazyanimal",
-                    "homepage": "https://www.drupal.org/user/696648"
-                },
-                {
-                    "name": "akalata",
-                    "homepage": "https://www.drupal.org/user/498926"
-                },
-                {
                     "name": "dpopdan",
                     "homepage": "https://www.drupal.org/user/2759811"
                 },
@@ -4131,12 +4123,13 @@
                     }
                 },
                 "patches_applied": {
-                    "Make redirect happen to the right place": "patches/require_login-destination-fix.patch"
+                    "Make redirect happen to the right place": "patches/require_login-destination-fix.patch",
+                    "Avoid redirect loop": "patches/require_login-infinite_loop_fix.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
