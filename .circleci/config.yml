@@ -202,10 +202,13 @@ workflows:
               ignore:
                 - master
       - push_release_to_clients:
-          filters:
-            branches:
-              only:
-                - master
+          requires:
+            - run_tests
+          # TODO: Bring back.
+          #filters:
+          #  branches:
+          #    only:
+          #      - master
 
   security_updates_scheduled:
     triggers:
