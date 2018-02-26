@@ -1,0 +1,9 @@
+uuid: 42595165-82f6-412b-aa48-3e617452e209
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.learner_progress
+name: Course
+type: course
+description: 'Contains progress data for course.'
