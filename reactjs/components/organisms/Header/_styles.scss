@@ -5,6 +5,7 @@
     left: 0;
     width: 34px;
     height: 30px;
+    z-index: -9999;
     @include media-breakpoint-up(md) {
       width: 45px;
       height: 40px;
