@@ -74,6 +74,20 @@ class LearnerProgressResource extends ResourceBase {
     try {
       $type = 'course';
 
+      // Check if passed course exists.
+      $course = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => $type,
+        'nid' => $data['courseId'],
+      ]);
+      if (empty($course)) {
+        $message = 'Wrong course id: @course_id';
+        $params = ['@course_id' => $data['courseId']];
+        $this->logger->error($message, $params);
+        return new ResourceResponse([
+          'message' => $this->t($message, $params)
+        ], 406);
+      }
+
       // Search for existing quiz result entity.
       $entities = \Drupal::entityTypeManager()->getStorage('learner_progress')->loadByProperties([
         'uid' => \Drupal::currentUser()->id(),
