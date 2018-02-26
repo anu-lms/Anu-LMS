@@ -28,6 +28,7 @@ permissions:
   - 'restful post contact_message'
   - 'restful post learner_progress'
   - 'restful post quizzes_results'
+  - 'restful post user_token_revoke'
   - 'update own simple_oauth entities'
   - 'use text format filtered_html'
   - 'view any site_menu entities'
