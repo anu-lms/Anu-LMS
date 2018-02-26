@@ -14,3 +14,7 @@ $config['system.logging']['error_level'] = 'hide';
 $config['system.performance']['css']['preprocess'] = TRUE;
 $config['system.performance']['js']['preprocess'] = TRUE;
 
+// Set the project-specific smtp password variable.
+if (isset($_ENV['SMTP_PASSWORD'])) {
+  $config['smtp.settings']['smtp_password'] = $_ENV['SMTP_PASSWORD'];
+}
