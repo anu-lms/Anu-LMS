@@ -204,7 +204,7 @@ workflows:
       - push_release_to_clients:
           requires:
             - run_tests
-          # TODO: Bring back.
+          # TODO: Discuss with Ev git workflow, will we use master branch only? Bring back later.
           #filters:
           #  branches:
           #    only:
