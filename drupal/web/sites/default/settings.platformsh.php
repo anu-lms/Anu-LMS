@@ -99,3 +99,8 @@ if (isset($_ENV['PLATFORM_VARIABLES'])) {
 if (isset($_ENV['PLATFORM_PROJECT_ENTROPY']) && empty($settings['hash_salt'])) {
   $settings['hash_salt'] = $_ENV['PLATFORM_PROJECT_ENTROPY'];
 }
+
+// Set the project-specific smtp password variable.
+if (isset($_ENV['SMTP_PASSWORD'])) {
+  $config['smtp.settings']['smtp_password'] = $_ENV['SMTP_PASSWORD'];
+}

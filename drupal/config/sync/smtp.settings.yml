@@ -4,7 +4,7 @@ smtp_hostbackup: ''
 smtp_port: '587'
 smtp_protocol: tls
 smtp_username: Anu
-smtp_password: inp5NNGd5JoYkxgMFkqRTA
+smtp_password: ''
 smtp_from: admin@anu.solutions
 smtp_fromname: ''
 smtp_client_hostname: ''
