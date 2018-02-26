@@ -50,7 +50,7 @@ export default function withAuth(PageComponent) {
 
       // Remove login cookies.
       const auth = new ClientAuth();
-      auth.logout();
+      await auth.logout();
 
       // Clear local storage.
       localStorage.clear();
