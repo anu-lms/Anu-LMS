@@ -1,0 +1,19 @@
+.site-header {
+  position: relative;
+
+  .beta-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 30px;
+    @include media-breakpoint-up(md) {
+      width: 45px;
+      height: 40px;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 56px;
+      height: 50px;
+    }
+  }
+}
