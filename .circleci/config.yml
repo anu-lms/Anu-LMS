@@ -33,13 +33,13 @@ jobs:
       - run:
           <<: *install_platform_cli
 
-      #- run:
-      #    name: Create backup of production database and force push it to S3.
-      #    command: |
-      #      if [ $CIRCLE_BRANCH == "production" ]; then
-      #        platform ssh -- "cd public && drush sql-dump --gzip --result-file && drush @syc sql-dump  --gzip --result-file"
-      #        platform ssh "php jobs/upload_backups.php" || true
-      #      fi
+      - run:
+          name: Create backup of production database and force push it to S3.
+          command: |
+            if [ $CIRCLE_BRANCH == "master" ]; then
+              platform ssh -A backend -e $CIRCLE_BRANCH "drush sql-dump -r web --gzip --result-file -v"
+              platform ssh -A backend -e $CIRCLE_BRANCH "php scripts/upload_backups.php" || true
+            fi
 
       - run:
           name: Push branch changes to platform's git repository
@@ -164,6 +164,27 @@ jobs:
           # Connect via SSH and output result of drush pm-updatestatus as a list | count output lines | make sure there are exactly zero lines which means "No security updates found".
           command: platform ssh -q -A drupal "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
 
+  ###################################################
+  ###### PUSH RELEASE TO CLIENT REPOSITORIES ########
+  ###################################################
+  push_release_to_clients:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          name: Push production updates to all clients
+          command: |
+            vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*') || true
+            read -a client_repos <<<$vars
+            for repo_var in "${client_repos[@]}"
+            do
+              echo "Pushing changes to ${!repo_var} (${repo_var})..."
+              if ! git config remote.${repo_var}.url > /dev/null; then
+                git remote add ${repo_var} ${!repo_var}
+              fi;
+              git push --force ${repo_var} $CIRCLE_BRANCH
+            done
 
 workflows:
   version: 2
@@ -180,6 +201,14 @@ workflows:
             branches:
               ignore:
                 - master
+      - push_release_to_clients:
+          requires:
+            - run_tests
+          # TODO: Discuss with Ev git workflow, will we use master branch only? Bring back later.
+          #filters:
+          #  branches:
+          #    only:
+          #      - master
 
   security_updates_scheduled:
     triggers:

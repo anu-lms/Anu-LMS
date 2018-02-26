@@ -1,0 +1,28 @@
+uuid: a85ffab6-7eae-4671-9740-c059021aa75a
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.learner_progress.course
+    - field.storage.learner_progress.field_course
+    - node.type.course
+id: learner_progress.course.field_course
+field_name: field_course
+entity_type: learner_progress
+bundle: course
+label: Course
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      course: course
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
