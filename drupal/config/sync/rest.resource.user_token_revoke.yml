@@ -1,0 +1,18 @@
+uuid: c252bd2c-50a9-4861-85a8-f6f86ef92bd1
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_user
+    - serialization
+    - simple_oauth
+id: user_token_revoke
+plugin_id: user_token_revoke
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2
