@@ -59,13 +59,32 @@ export default class extends Auth {
     })
   );
 
-  logout() {
-    // todo: add request to the backend to revoke tokens.
-    this.accessToken = '';
-    this.refreshToken = '';
-    jsCookie.remove('accessToken');
-    jsCookie.remove('refreshToken');
-  }
+  logout = () => (
+    new Promise((resolve, reject) => {
+
+     request
+        .post('/oauth/revoke?_format=json')
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${this.accessToken}`)
+        .end((error, response) => {
+          if (error) {
+            console.log('Logout error:');
+            console.log(error);
+
+            if (response && response.body && response.body.message) {
+              console.log('Response:');
+              console.log(response);
+            }
+          }
+
+          this.accessToken = '';
+          this.refreshToken = '';
+          jsCookie.remove('accessToken');
+          jsCookie.remove('refreshToken');
+          resolve();
+        });
+    })
+  )
 
   refreshAuthenticationToken() {
     return new Promise((resolve, reject) => {
