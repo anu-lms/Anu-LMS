@@ -1,6 +1,10 @@
 import React from 'react';
 import HtmlHead from './HtmlHead';
 import Alert from 'react-s-alert';
+
+// Fix "undefined is not a constructor (evaluating 'Object.assign')" issue on login page in iOS 8 and IE 11.
+import "es6-shim";
+
 import '../components/atoms/ProgressBar/PageProgress';
 
 const App = ({ children }) => (
