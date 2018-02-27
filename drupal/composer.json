@@ -42,8 +42,8 @@
     "drupal/hide_revision_field": "^1.1",
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/json_field": "^1.0@beta",
-    "drupal/jsonapi": "^1.3",
-    "drupal/jsonapi_extras": "^1.0@beta",
+    "drupal/jsonapi": "1.x-dev#1eafaf8",
+    "drupal/jsonapi_extras": "1.x-dev#46f2ded",
     "drupal/media_entity": "^1.6",
     "drupal/media_entity_browser": "^1.0@beta",
     "drupal/media_entity_image": "^1.2",
@@ -62,7 +62,7 @@
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",
     "drupal/toolbar_themes": "^1.0@alpha",
-    "drupal/views_bulk_operations": "^1.0@RC",
+    "drupal/views_bulk_operations": "^2.0",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
     "webmozart/path-util": "^2.3"
@@ -103,14 +103,14 @@
       ]
   },
   "extra": {
-      "installer-paths": {
-          "web/core": ["type:drupal-core"],
-          "web/libraries/{$name}": ["type:drupal-library"],
-          "web/modules/contrib/{$name}": ["type:drupal-module"],
-          "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-          "web/themes/contrib/{$name}": ["type:drupal-theme"],
-          "drush/contrib/{$name}": ["type:drupal-drush"]
-      },
+    "installer-paths": {
+        "web/core": ["type:drupal-core"],
+        "web/libraries/{$name}": ["type:drupal-library"],
+        "web/modules/contrib/{$name}": ["type:drupal-module"],
+        "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+        "web/themes/contrib/{$name}": ["type:drupal-theme"],
+        "drush/contrib/{$name}": ["type:drupal-drush"]
+    },
     "patches": {
       "drupal/require_login": {
         "Make redirect happen to the right place": "patches/require_login-destination-fix.patch",
@@ -121,6 +121,9 @@
       },
       "drupal/entity_reference_revisions": {
         "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
+      },
+      "drupal/consumer_image_styles": {
+        "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
       }
     }
   }
