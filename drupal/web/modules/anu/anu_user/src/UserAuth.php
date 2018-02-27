@@ -15,7 +15,7 @@ class UserAuth extends \Drupal\user\UserAuth {
 
     if (!empty($username) && strlen($password) > 0) {
 
-      $properties = ['name' => $username];
+      $properties = ['name' => $username, 'status' => 1];
 
       // Enhanced core's authentication function to include check
       // if user is using email to login.
