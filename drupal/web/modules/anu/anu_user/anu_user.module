@@ -81,3 +81,37 @@ function anu_user_pass_reset_url($account, $options = []) {
   );
   return $url->toString();
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+ $form['#validate'][] = '_anu_backend_login_validate';
+}
+
+/**
+ * Validates user account during backend authentication.
+ * Only managers and administrators may access backend.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ */
+function _anu_backend_login_validate(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  if ($form_state->hasValue('name')) {
+    $name = $form_state->getValue('name');
+
+    $user = user_load_by_name($name);
+
+    if (!$user) {
+      $user = user_load_by_mail($name);
+    }
+
+    if ($user) {
+      $administrative_roles = ['administrator', 'moderator'];
+      $user_roles = $user->getRoles();
+      if (!array_intersect($user_roles, $administrative_roles)) {
+        $form_state->setErrorByName('name', t('User @name is not allowed to access backend.' , array('@name' => $name)));
+      }
+    }
+  }
+}

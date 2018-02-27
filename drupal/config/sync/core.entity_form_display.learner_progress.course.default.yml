@@ -1,0 +1,44 @@
+uuid: d48062c8-a776-45d2-9299-3ed2efdbf2c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.learner_progress.course
+    - field.field.learner_progress.course.field_course
+id: learner_progress.course.default
+targetEntityType: learner_progress
+bundle: course
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_course:
+    weight: 11
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }

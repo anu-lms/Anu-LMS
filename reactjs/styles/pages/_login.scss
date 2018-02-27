@@ -35,12 +35,12 @@
     }
 
     img {
-      max-width: 96px;
+      max-width: 126px;
       @include media-breakpoint-up(md) {
-        max-width: 128px;
+        max-width: 158px;
       }
       @include media-breakpoint-up(lg) {
-        max-width: 160px;
+        max-width: 190px;
       }
     }
   }
