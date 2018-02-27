@@ -103,14 +103,14 @@
       ]
   },
   "extra": {
-      "installer-paths": {
-          "web/core": ["type:drupal-core"],
-          "web/libraries/{$name}": ["type:drupal-library"],
-          "web/modules/contrib/{$name}": ["type:drupal-module"],
-          "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-          "web/themes/contrib/{$name}": ["type:drupal-theme"],
-          "drush/contrib/{$name}": ["type:drupal-drush"]
-      },
+    "installer-paths": {
+        "web/core": ["type:drupal-core"],
+        "web/libraries/{$name}": ["type:drupal-library"],
+        "web/modules/contrib/{$name}": ["type:drupal-module"],
+        "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+        "web/themes/contrib/{$name}": ["type:drupal-theme"],
+        "drush/contrib/{$name}": ["type:drupal-drush"]
+    },
     "patches": {
       "drupal/require_login": {
         "Make redirect happen to the right place": "patches/require_login-destination-fix.patch",
@@ -121,6 +121,9 @@
       },
       "drupal/entity_reference_revisions": {
         "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
+      },
+      "drupal/consumer_image_styles": {
+        "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
       }
     }
   }

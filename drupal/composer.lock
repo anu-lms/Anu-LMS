@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9062ca5e5e0726b451832729edbcaeaf",
+    "content-hash": "39f8fc82fc9b9d7e6b117be9c199e77d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1918,11 +1918,14 @@
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
                     }
+                },
+                "patches_applied": {
+                    "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -3238,7 +3241,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/jsonapi",
-                "reference": "1eafaf8271c97951c26af440c02ebfeb93674aa3"
+                "reference": "1eafaf8"
             },
             "require": {
                 "drupal/core": "^8.3"
@@ -3297,7 +3300,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/jsonapi_extras",
-                "reference": "46f2ded63d3d147160bbf084203f5b52eea4c6cf"
+                "reference": "46f2ded"
             },
             "require": {
                 "drupal/core": "~8.0",
