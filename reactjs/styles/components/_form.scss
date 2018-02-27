@@ -33,7 +33,11 @@ textarea {
     border-color: $anu-blue;
   }
 }
-
+// Removes default border in FF.
+input:invalid,
+input:required {
+  box-shadow:none;
+}
 textarea {
   height: auto;
   resize: none;
