@@ -12,6 +12,7 @@ name: 'backend'
 
 # The runtime the application uses.
 type: 'php:7.1'
+size: S
 
 # Configuration of the build of this application.
 build:

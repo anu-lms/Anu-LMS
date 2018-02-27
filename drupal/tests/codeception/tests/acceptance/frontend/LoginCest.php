@@ -15,9 +15,8 @@ class LoginCest {
     $I->fillField('Password', 'password');
 
     $I->click('Login');
-    $I->waitForText('Recent Courses');
 
-    $I->seeElement('.card');
+    $I->waitForElement('.card');
   }
 
 }

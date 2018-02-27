@@ -20,7 +20,7 @@ const LoginPageTemplate = () => (
       <div className="row content">
         <div className="col col-12 col-lg-6">
           <h1 className="heading">
-            Become a Leader Worth Following
+            Connect, develop, and grow your teams
           </h1>
         </div>
 
@@ -50,7 +50,7 @@ const LoginPageTemplate = () => (
       <div className="col-12">
         <ul className="links">
           <li className="d-inline-block"><a href="https://anu.solutions/" target="_blank">About Us</a></li>
-          <li className="d-inline-block"><a href="#">Privacy</a></li>
+          {/*<li className="d-inline-block"><a href="#">Privacy</a></li>*/}
           <li className="d-inline-block"><a href="https://www.krengeltech.com/legal" target="_blank">Legal</a></li>
         </ul>
       </div>

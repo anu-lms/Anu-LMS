@@ -1,0 +1,11 @@
+uuid: 6f6d5224-2ec0-477e-8e73-76c15304a2fd
+langcode: en
+status: true
+dependencies: {  }
+id: learner_progress
+label: 'Learner progress'
+created: true
+changed: true
+uid: true
+title: false
+revisionable: false
