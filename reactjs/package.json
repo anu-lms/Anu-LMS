@@ -1,6 +1,6 @@
 {
   "name": "AnuLMS",
-  "version": "1.10",
+  "version": "1.11",
   "private": true,
   "dependencies": {
     "@trendmicro/react-dropdown": "^1.2.0",
