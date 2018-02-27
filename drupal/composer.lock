@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "39f8fc82fc9b9d7e6b117be9c199e77d",
+    "content-hash": "c367ef2d1ddbd4b28f54ce0d419d56ad",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4545,32 +4545,37 @@
         },
         {
             "name": "drupal/views_bulk_operations",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/views_bulk_operations",
-                "reference": "8.x-1.0"
+                "reference": "8.x-2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/views_bulk_operations-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "41c7774e3b2c42ea9d9a2ceec51986baa842f99c"
+                "url": "https://ftp.drupal.org/files/projects/views_bulk_operations-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "b6264fbb8ea569d29189731b0b8735a157519e7c"
             },
             "require": {
-                "drupal/core": "*"
+                "drupal/core": "^8.4"
             },
             "type": "drupal-module",
             "extra": {
                 "branch-alias": {
-                    "dev-1.x": "1.x-dev"
+                    "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1513587185",
+                    "version": "8.x-2.0",
+                    "datestamp": "1518422084",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
                     }
                 }
             },
@@ -4580,8 +4585,8 @@
             ],
             "authors": [
                 {
-                    "name": "Graber",
-                    "homepage": "https://www.drupal.org/user/1599440"
+                    "name": "Marcin Grabias",
+                    "homepage": "https://www.drupal.org/u/graber"
                 },
                 {
                     "name": "Jon Pugh",
@@ -4600,10 +4605,12 @@
                     "homepage": "https://www.drupal.org/user/160302"
                 }
             ],
-            "description": "Views Bulk Operation",
+            "description": "Adds an ability to perform bulk operations on selected entities from view results. Provides an API to create such operations.",
             "homepage": "https://www.drupal.org/project/views_bulk_operations",
             "support": {
-                "source": "http://cgit.drupalcode.org/views_bulk_operations"
+                "source": "http://cgit.drupalcode.org/views_bulk_operations",
+                "issues": "https://www.drupal.org/project/issues/views_bulk_operations?version=8.x",
+                "docs": "https://www.drupal.org/docs/8/modules/views-bulk-operations-vbo"
             }
         },
         {
@@ -9977,7 +9984,6 @@
         "drupal/smtp": 10,
         "drupal/subrequests": 10,
         "drupal/toolbar_themes": 15,
-        "drupal/views_bulk_operations": 5,
         "drupal/reroute_email": 10,
         "drupal/stage_file_proxy": 15
     },
