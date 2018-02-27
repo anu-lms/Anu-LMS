@@ -118,6 +118,9 @@ textarea {
     color: $london-sky;
     font-size: .625em;
     top: .5em;
+    &:after {
+      background: none;
+    }
   }
 }
 
