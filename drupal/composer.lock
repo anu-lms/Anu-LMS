@@ -3298,21 +3298,21 @@
         },
         {
             "name": "drupal/jsonapi_extras",
-            "version": "1.0.0-rc1",
+            "version": "1.0.0-rc5",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/jsonapi_extras",
-                "reference": "8.x-1.0-rc1"
+                "reference": "8.x-1.0-rc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jsonapi_extras-8.x-1.0-rc1.zip",
-                "reference": "8.x-1.0-rc1",
-                "shasum": "91afb3102e8b72f76a0f229b28381fa201baca90"
+                "url": "https://ftp.drupal.org/files/projects/jsonapi_extras-8.x-1.0-rc5.zip",
+                "reference": "8.x-1.0-rc5",
+                "shasum": "502af6bf653224b7fa1232f3605fd56bfcdee0db"
             },
             "require": {
                 "drupal/core": "~8.0",
-                "drupal/jsonapi": "*"
+                "drupal/jsonapi": "^1.10"
             },
             "type": "drupal-module",
             "extra": {
@@ -3320,8 +3320,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-rc1",
-                    "datestamp": "1514674084",
+                    "version": "8.x-1.0-rc5",
+                    "datestamp": "1519402080",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -3334,11 +3334,12 @@
             ],
             "authors": [
                 {
-                    "name": "e0ipso",
-                    "homepage": "https://www.drupal.org/user/550110"
+                    "name": "Mateu Aguiló Bosch",
+                    "homepage": "https://www.drupal.org/user/550110",
+                    "email": "mateu.aguilo.bosch@gmail.com"
                 }
             ],
-            "description": "Builds on top of JSON API to deliver extra functionality.",
+            "description": "JSON API Extras provides a means to override and provide limited configurations to the default zero-configuration implementation provided by the JSON API module.",
             "homepage": "https://www.drupal.org/project/jsonapi_extras",
             "support": {
                 "source": "http://cgit.drupalcode.org/jsonapi_extras"
