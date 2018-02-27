@@ -62,7 +62,7 @@
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",
     "drupal/toolbar_themes": "^1.0@alpha",
-    "drupal/views_bulk_operations": "^1.0@RC",
+    "drupal/views_bulk_operations": "^2.0",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
     "webmozart/path-util": "^2.3"
