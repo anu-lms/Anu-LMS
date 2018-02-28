@@ -51,6 +51,13 @@ jobs:
           command: platform environment:activate -y --project $PLATFORM_PROJECT_NAME --parent=master $CIRCLE_BRANCH
 
       - run:
+          name: Restrict access to the test environments via http
+          command: |
+            if [ $CIRCLE_BRANCH != "master" ]; then
+              platform environment:http-access --auth $HTTP_USERNAME:$HTTP_PASSWORD --enabled 1 -y
+            fi
+
+      - run:
           name: Clone database & files for stage branch or if [db sync] is presented in the commit message.
           shell: /bin/bash
           command: |
