@@ -28,6 +28,9 @@ class PlatformExtension extends \Codeception\Extension
     codecept_debug($_ENV['BACKEND_URL']);
     codecept_debug($_ENV['FRONTEND_URL']);
 
+    codecept_debug($_ENV['HTTP_USERNAME']);
+    codecept_debug($_ENV['HTTP_PASSWORD']);
+
     // Get URL from CircleCI environment.
     // See circle.yml file to find how this var gets generated.
     $platform_url = $_ENV['BACKEND_URL'];
@@ -43,6 +46,7 @@ class PlatformExtension extends \Codeception\Extension
 
     if (!empty($platform_url)) {
       $url = rtrim($platform_url, "/");
+      $url = $url['scheme'] . '://' . $_ENV['HTTP_USERNAME'] . ':' . $_ENV['HTTP_PASSWORD'] . '@' . $url['host'] . $url['path'];
 
       if ($this->hasModule('WebDriver')) {
         $this->getModule('WebDriver')->_reconfigure(['url' => $url]);
