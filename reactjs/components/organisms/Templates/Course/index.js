@@ -75,8 +75,14 @@ const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }
 
       <div className="col-md-6 course-header">
         <h4>{course.title}</h4>
-        <p className="organisation">GiANT Worldwide</p>
-        <Instructors instructors={course.instructors} />
+
+        {course.organisation.length > 0 &&
+        <p className="organisation">{course.organisation}</p>
+        }
+
+        {course.instructors &&
+        <Instructors instructors={course.instructors}/>
+        }
 
         <TimeToComplete
           progressPercent={progressPercent}
