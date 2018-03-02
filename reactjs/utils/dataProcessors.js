@@ -25,10 +25,21 @@ export const courseData = (courseData) => {
 
   let instructors = [];
   if (course.fieldCourseInstructors) {
-    instructors = course.fieldCourseInstructors.map(user => ({
-      uuid: user.uuid,
-      realname: `${user.fieldFirstName} ${user.fieldLastName}`
-    }));
+    instructors = course.fieldCourseInstructors.map(user => {
+      let realname = '';
+      if (user.fieldFirstName) {
+        realname = user.fieldFirstName;
+      }
+
+      if (user.fieldLastName) {
+        realname += ' ' + user.fieldLastName;
+      }
+
+      return {
+        uuid: user.uuid,
+        realname: realname.trim(),
+      }
+    });
   }
 
   let organizationName = '';
