@@ -14,15 +14,15 @@ let backendURL = typeof window === 'undefined' ? BACKEND_SERVER_URL : BACKEND_CL
 console.log('env vars:');
 console.log(process.env);
 console.log('username:');
-console.log(process.env.HTTP_USER);
+console.log(process.env.HTTP_AUTH_USER);
 console.log('password:');
-console.log(process.env.HTTP_PASS);
+console.log(process.env.HTTP_AUTH_PASS);
 
 // Inject http authentication into the requests to the Drupal backend.
-if (process.env.HTTP_USER && process.env.HTTP_PASS) {
+if (process.env.HTTP_AUTH_USER && process.env.HTTP_AUTH_PASS) {
   let parsedUrl = urlParse(backendURL);
-  parsedUrl.username = process.env.HTTP_USER;
-  parsedUrl.password = process.env.HTTP_PASS;
+  parsedUrl.username = process.env.HTTP_AUTH_USER;
+  parsedUrl.password = process.env.HTTP_AUTH_PASS;
   backendURL = parsedUrl.toString();
 }
 

@@ -15,6 +15,7 @@ if (process.env.PLATFORM_PROJECT) {
   // Load platform.sh config.
   const config = require('platformsh').config();
 
+  // TODO: REMOVE.
   console.log('platform config');
   console.log(config);
 
