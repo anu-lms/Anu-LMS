@@ -2,12 +2,30 @@ import superAgent from 'superagent';
 import superagentDefaults from 'superagent-defaults';
 import superagentJsonapify from 'superagent-jsonapify';
 import superagentPrefix from 'superagent-prefix';
+import urlParse from 'url-parse';
 import { BACKEND_SERVER_URL, BACKEND_CLIENT_URL } from './url';
 
 // If window is not defined it means that js processment happens
 // on the node.js server, so set up full Drupal URL as a URL to make
 // requests to.
-const backendURL = typeof window === 'undefined' ? BACKEND_SERVER_URL : BACKEND_CLIENT_URL;
+let backendURL = typeof window === 'undefined' ? BACKEND_SERVER_URL : BACKEND_CLIENT_URL;
+
+// TODO: REMOVE.
+console.log('env vars:');
+console.log(process.env);
+console.log('username:');
+console.log(process.env.HTTP_USER);
+console.log('password:');
+console.log(process.env.HTTP_PASS);
+
+// Inject http authentication into the requests to the Drupal backend.
+if (process.env.HTTP_USER && process.env.HTTP_PASS) {
+  let parsedUrl = urlParse(backendURL);
+  parsedUrl.username = process.env.HTTP_USER;
+  parsedUrl.password = process.env.HTTP_PASS;
+  backendURL = parsedUrl.toString();
+}
+
 const prefix = superagentPrefix(backendURL);
 
 // Get superagent object & make it ready to set some default values.
