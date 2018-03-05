@@ -26,7 +26,7 @@ console.log(process.env.HTTP_AUTH_PASS);
   parsedUrl.username = 'anuuser';
   parsedUrl.password = 'AN5Wyt%H';
   backendURL = parsedUrl.toString();
-}
+//}
 
 const prefix = superagentPrefix(backendURL);
 
