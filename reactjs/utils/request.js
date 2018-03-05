@@ -18,6 +18,8 @@ console.log(process.env.HTTP_AUTH_USER);
 console.log('password:');
 console.log(process.env.HTTP_AUTH_PASS);
 
+process.env.HTTP_AUTH_USER = 'anuuser';
+process.env.HTTP_AUTH_PASS = 'AN5Wyt%H';
 // Inject http authentication into the requests to the Drupal backend.
 if (process.env.HTTP_AUTH_USER && process.env.HTTP_AUTH_PASS) {
   let parsedUrl = urlParse(backendURL);
