@@ -27,7 +27,7 @@ web:
 
 hooks:
   build: |
-    if [ "$PLATFORM_BRANCH" != master ];
+    if [ "$PLATFORM_BRANCH" != master ]; then
       echo "BUILDUSER=$TESTUSER" > .env
       echo "BUILDPASS=$TESTPASS" >> .env
     fi
