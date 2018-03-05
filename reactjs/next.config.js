@@ -33,8 +33,8 @@ module.exports = {
     // Push http auth to the browser vars.
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.HTTP_USER': JSON.stringify(process.env.HTTP_USER),
-        'process.env.HTTP_PASS': JSON.stringify(process.env.HTTP_PASS),
+        'process.env.HTTP_AUTH_USER': JSON.stringify(process.env.HTTP_AUTH_USER),
+        'process.env.HTTP_AUTH_PASS': JSON.stringify(process.env.HTTP_AUTH_PASS),
       })
     );
 
