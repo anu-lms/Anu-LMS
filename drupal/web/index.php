@@ -18,4 +18,5 @@ $kernel = new DrupalKernel('prod', $autoloader);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
+
 $kernel->terminate($request, $response);
