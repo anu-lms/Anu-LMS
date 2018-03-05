@@ -30,7 +30,7 @@ module.exports = {
       }
     );
 
-    // Push http auth to the browser vars.
+    // Push http auth credentials to the browser variables.
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.HTTP_AUTH_USER': JSON.stringify(process.env.HTTP_AUTH_USER),
