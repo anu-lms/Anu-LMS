@@ -1,4 +1,5 @@
 const globImporter = require('node-sass-glob-importer');
+const webpack = require('webpack');
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -28,6 +29,15 @@ module.exports = {
         ],
       }
     );
+
+    // Push http auth to the browser vars.
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.HTTP_USER': JSON.stringify(process.env.HTTP_USER),
+        'process.env.HTTP_PASS': JSON.stringify(process.env.HTTP_PASS),
+      })
+    );
+
     return config;
   },
 };
