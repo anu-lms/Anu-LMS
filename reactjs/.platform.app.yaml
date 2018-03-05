@@ -27,10 +27,16 @@ web:
 
 hooks:
   build: |
+    # For non-production environment add http auth data into the
+    # .env file. It will help frontend to make authenticated requests
+    # to the backend.
     if [ "$PLATFORM_BRANCH" != master ]; then
-      echo "BUILDUSER=$TESTUSER" > .env
-      echo "BUILDPASS=$TESTPASS" >> .env
+      echo "Adding http authentication to the .env file..."
+      echo "HTTP_AUTH_USER=$HTTP_AUTH_USER" > .env
+      echo "HTTP_AUTH_PASS=$HTTP_AUTH_PASS" >> .env
     fi
+
+    # Run usual yarn build commands.
     yarn install
     yarn run build
 disk: 512
