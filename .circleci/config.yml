@@ -56,7 +56,6 @@ jobs:
             if [ $CIRCLE_BRANCH != "master" ]; then
               platform vset env:HTTP_AUTH_USER $HTTP_USERNAME
               platform vset env:HTTP_AUTH_PASS $HTTP_PASSWORD
-              platform environment:http-access --auth $HTTP_USERNAME:$HTTP_PASSWORD --enabled 1 -y
             fi
 
       - run:
