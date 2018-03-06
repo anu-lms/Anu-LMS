@@ -6,7 +6,10 @@ if (empty($_ENV['HTTP_AUTH_USER']) || empty($_ENV['HTTP_AUTH_PASS'])) {
   return;
 }
 
-if (!($_SERVER['PHP_AUTH_USER'] == $_ENV['HTTP_AUTH_USER'] && $_SERVER['PHP_AUTH_PW'] == $_ENV['HTTP_AUTH_PASS'])) {
+$username = !empty($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
+$password = !empty($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
+
+if (!($username == $_ENV['HTTP_AUTH_USER'] && $password == $_ENV['HTTP_AUTH_PASS'])) {
   header('WWW-Authenticate: Basic realm="Restricted Page"');
   header('HTTP/1.0 401 Unauthorized');
   die(http_auth_cancel_page());
