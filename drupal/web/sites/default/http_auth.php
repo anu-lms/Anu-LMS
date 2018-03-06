@@ -6,6 +6,11 @@ if (empty($_ENV['HTTP_AUTH_USER']) || empty($_ENV['HTTP_AUTH_PASS'])) {
   return;
 }
 
+// Ignore drush requests.
+if (PHP_SAPI == 'cli') {
+  return;
+}
+
 // If this is the request from the same host, do not require http auth.
 // The only way to get into the web site is to input http auth credentials,
 // so we remove them for all internal requests within the site.
