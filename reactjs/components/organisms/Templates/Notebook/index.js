@@ -148,7 +148,7 @@ class NotebookTemplate extends React.Component {
             <div className="row">
               <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
-                  <NoteContent note={activeNote} />
+                <NoteContent note={activeNote} />
                 }
               </div>
             </div>
@@ -161,16 +161,8 @@ class NotebookTemplate extends React.Component {
 }
 
 const mapStateToProps = ({ notebook }) => {
-  // Automatically sort all notes by changed date.
-  const notes = notebook.notes.sort((a, b) => {
-    if (a.changed < b.changed) {
-      return 1;
-    }
-    if (a.changed > b.changed) {
-      return -1;
-    }
-    return 0;
-  });
+  // All notes from the redux store.
+  const notes = notebook.notes;
 
   // Search for active note in the list of notes.
   const index = notebook.notes.findIndex(note => note.id === notebook.activeNoteId);
