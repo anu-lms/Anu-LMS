@@ -11,6 +11,16 @@ if (PHP_SAPI == 'cli') {
   return;
 }
 
+// If the request includes custom http-auth header, then validate it.
+// This header was introduced to send requests from node.js server to the
+// backend without http authentication.
+$http_auth = $GLOBALS['request']->headers->get('http-auth');
+if (!empty($http_auth)) {
+  if ($http_auth == $_ENV['HTTP_AUTH_USER'] . ':' . $_ENV['HTTP_AUTH_PASS']) {
+    return;
+  }
+}
+
 // If this is the request from the same host, do not require http auth.
 // The only way to get into the web site is to input http auth credentials,
 // so we remove them for all internal requests within the site.
