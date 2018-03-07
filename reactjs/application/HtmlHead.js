@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Package from '../package';
 import inlineCSS from '../styles/theme.scss';
+import GoogleTagManager from '../utils/gtm'
 
 const HtmlHead = ({ title, favicon }) => {
 
   let stylesheets;
+  const gtm_id = process.env.GTM_ID;
+  const query = process.env.PLATFORM_BRANCH === 'master' ? null : process.env.GTM_QUERY;
+
   if (process.env.NODE_ENV === 'production') {
     // In production, serve pre-built CSS file from /assets/{version}/main.css
     const pathToCSS = `/assets/${Package.version}/main.css`;
@@ -19,6 +23,7 @@ const HtmlHead = ({ title, favicon }) => {
 
   return (
     <Head>
+      <GoogleTagManager gtmId={gtm_id} previewVariables={query} />
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
