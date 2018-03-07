@@ -36,12 +36,12 @@ export default (state = {
       return {
         ...state,
         notes: [
-          ...state.notes,
           {
             ...action.note,
             isSaved: true,
             isSaving: false,
           },
+          ...state.notes,
         ],
       };
 

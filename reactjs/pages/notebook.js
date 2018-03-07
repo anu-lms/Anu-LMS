@@ -24,7 +24,6 @@ class NotebookPage extends Component {
     if (isStoreRehydrated) {
 
       // Reset all existing notes in the notebook.
-      // TODO: Skip unsaved?
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
@@ -32,9 +31,10 @@ class NotebookPage extends Component {
         dispatch(notebookActions.addNote(note));
       });
 
-      // Automatically set the first note as active for editing.
+      // Automatically set the last note (first in the displayed list) as
+      // active for editing.
       if (notes.length > 0) {
-        dispatch(notebookActions.setActiveNote(notes[0].id));
+        dispatch(notebookActions.setActiveNote(notes[notes.length - 1].id));
       }
     }
   }
@@ -57,11 +57,22 @@ class NotebookPage extends Component {
     };
 
     try {
+
+      // Get currently logged in user.
+      // @todo: consider to store user id in local storage after user login.
+      const userResponse = await request.get('/user/me?_format=json');
+      const currentUser = dataProcessors.userData(userResponse.body);
+
       const responseNotebook = await request
         .get('/jsonapi/notebook/notebook')
         .query({
-          // Sort by changed date.
-          'sort': '-changed'
+          // Filter notes by current user.
+          'filter[uid][value]': currentUser.uid,
+          // Sort by changed date. Here we sort in the reverse
+          // order from what we need, because in the reducer all new notes
+          // get added to the start of the queue, which will make the final
+          // order of the notes on the page correct.
+          'sort': 'changed',
         });
 
       initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
