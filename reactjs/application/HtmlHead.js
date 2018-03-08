@@ -23,7 +23,7 @@ const HtmlHead = ({ title, favicon }) => {
   }
 
   // Attaching Google Tag Manager
-  if (process.env.GTM_ID !== 'undefined') {
+  if (gtm_id) {
     gtm = <GoogleTagManager gtmId={gtm_id} previewVariables={query} />;
   }
 
