@@ -1,4 +1,5 @@
 const globImporter = require('node-sass-glob-importer');
+const webpack  = require('webpack');
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -28,6 +29,7 @@ module.exports = {
         ],
       }
     );
+    config.plugins.push(new webpack.EnvironmentPlugin(['GTM_QUERY', 'GTM_ID']));
     return config;
   },
 };
