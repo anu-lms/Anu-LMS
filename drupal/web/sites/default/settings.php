@@ -48,6 +48,10 @@ if (!empty($_ENV['PLATFORM_BRANCH'])) {
     // development settings.
     require_once __DIR__ . '/settings.env_production.php';
   }
+  else {
+    // Enable http authentication on non-production branches.
+    require_once __DIR__ . '/http_auth.php';
+  }
 }
 // Local settings. These come last so that they can override anything.
 else {
