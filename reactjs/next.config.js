@@ -29,7 +29,7 @@ module.exports = {
         ],
       }
     );
-    config.plugins.push(new webpack.EnvironmentPlugin(['GTM_QUERY', 'GTM_ID']));
+    config.plugins.push(new webpack.EnvironmentPlugin({'GTM_QUERY': '', 'GTM_ID': ''}));
     return config;
   },
 };
