@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Package from '../package';
 import inlineCSS from '../styles/theme.scss';
-import GoogleTagManager from '../utils/gtm'
+import GoogleTagManager from '../components/atoms/GTM/gtm'
 
 const HtmlHead = ({ title, favicon }) => {
 
   let stylesheets;
+  let gtm;
   const gtm_id = process.env.GTM_ID;
   const query = process.env.PLATFORM_BRANCH === 'master' ? null : process.env.GTM_QUERY;
 
@@ -21,13 +22,18 @@ const HtmlHead = ({ title, favicon }) => {
     stylesheets = <style dangerouslySetInnerHTML={{ __html: inlineCSS }} />;
   }
 
+  // Attaching Google Tag Manager
+  if (process.env.GTM_ID !== 'undefined') {
+    gtm = <GoogleTagManager gtmId={gtm_id} previewVariables={query} />;
+  }
+
   return (
     <Head>
-      <GoogleTagManager gtmId={gtm_id} previewVariables={query} />
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      {gtm}
       <link href="https://fonts.googleapis.com/css?family=Lato:400,600" rel="stylesheet" />
       {!!favicon && <link rel="shortcut icon" href={favicon} type="image/vnd.microsoft.icon" />}
       {stylesheets}
