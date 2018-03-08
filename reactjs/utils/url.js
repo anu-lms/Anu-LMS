@@ -12,13 +12,13 @@ export const fileUrl = (url) => {
   // For local development replaces the absolute URL the backend with
   // relative for front-end rendering.
   if (url && process.env.NODE_ENV === 'development') {
-      let parser = urlParse(url);
-      const includesClientUrl = parser.pathname.indexOf(BACKEND_CLIENT_URL) === 0;
-      const drupalUrl = parser.pathname.indexOf('/sites/default/files/') !== -1;
-      if (!includesClientUrl && drupalUrl) {
-        parser.pathname = BACKEND_CLIENT_URL + parser.pathname;
-      }
-      return parser.toString();
+    let parser = urlParse(url);
+    const includesClientUrl = parser.pathname.indexOf(BACKEND_CLIENT_URL) === 0;
+    const drupalUrl = parser.pathname.indexOf('/sites/default/files/') !== -1;
+    if (!includesClientUrl && drupalUrl) {
+      parser.pathname = BACKEND_CLIENT_URL + parser.pathname;
     }
+    return parser.toString();
+  }
   return url;
 };
