@@ -29,6 +29,7 @@ const DashboardTemplate = ({ classes, courses, recentCourses }) => (
 
         <div className="row">
           {courses
+            // Leave only courses which belong to the current class item.
             .filter(course => course.groupId === classItem.id)
             .map(course => (
               <div key={course.id} className="col-12 col-md-6 col-lg-4 mb-5">

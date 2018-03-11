@@ -88,13 +88,18 @@ class CoursePage extends React.Component {
     }
 
     try {
+
+      // Fetch data regarding the course progress from the backend.
       response = await request
         .get('/learner/progress/' + initialProps.course.id)
         .query({ '_format': 'json' });
 
       const progress = response.body;
+
+      // Add information about the course progress to the course object
       initialProps.course.progress = Math.round(progress.course);
 
+      // Add information about the lessons progress to the appropriate objects.
       Object.entries(progress.lessons).forEach(([id, progress]) => {
         const lessonId = parseInt(id);
         const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
@@ -103,10 +108,11 @@ class CoursePage extends React.Component {
         }
       });
 
+      // Add url of the lesson which was accessed last to the course object.
       if (progress.recentLesson && progress.recentLesson.url) {
         const courseUrl = initialProps.course.url;
         const lessonSlug = progress.recentLesson.url;
-        initialProps.course.recentLessonUrl = `${courseUrl}${lessonSlug}`;
+        initialProps.course.recentLessonUrl = courseUrl + lessonSlug;
       }
     } catch (error) {
       // Log error but still render the page, because this issue is not a

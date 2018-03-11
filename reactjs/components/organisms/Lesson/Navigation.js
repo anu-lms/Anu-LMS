@@ -36,7 +36,7 @@ class LessonNavigation extends React.Component {
             <div className="progress">
               <div className="completion caption sm">{courseHelper.getProgress(courses, course)}% complete</div>
               <div className="progress-bar">
-                <div className="current-progress" style={{ width: course.progress + '%' }} />
+                <div className="current-progress" style={{ width: courseHelper.getProgress(courses, course) + '%' }} />
               </div>
             </div>
           </a>

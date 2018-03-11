@@ -9,7 +9,7 @@ import { plural } from '../../../../utils/string';
 import * as lessonHelper from '../../../../helpers/lesson';
 import * as courseHelper from '../../../../helpers/course';
 
-const CoursePageTemplate = ({ course, storeLessons, storeCourses }) => (
+const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
   <div className="container container-course pt-3 pt-md-5">
     <div className="row">
 
@@ -25,7 +25,7 @@ const CoursePageTemplate = ({ course, storeLessons, storeCourses }) => (
         }
 
         <TimeToComplete
-          progressPercent={courseHelper.getProgress(storeCourses, course)}
+          progress={courseProgress}
           totalMinutes={course.totalMinutes}
         />
 
@@ -40,12 +40,12 @@ const CoursePageTemplate = ({ course, storeLessons, storeCourses }) => (
         <div className="cover-image">
           <img className="course-image" src={course.imageUrl} />
           <div className="progress-bar">
-            <div className="current-progress" style={{ width: courseHelper.getProgress(storeCourses, course) + '%' }} />
+            <div className="current-progress" style={{ width: courseProgress + '%' }} />
           </div>
         </div>
 
         <div className="completion">
-          {courseHelper.getProgress(storeCourses, course)}% complete
+          {courseProgress}% complete
         </div>
 
         <ResumeButton
@@ -82,9 +82,9 @@ const CoursePageTemplate = ({ course, storeLessons, storeCourses }) => (
   </div>
 );
 
-const mapStateToProps = ({ lesson, course }) => ({
-  storeLessons: lesson,
-  storeCourses: course,
+const mapStateToProps = (store, { course }) => ({
+  storeLessons: store.lesson,
+  courseProgress: courseHelper.getProgress(store.course, course)
 });
 
 export default connect(mapStateToProps)(CoursePageTemplate);

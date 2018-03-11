@@ -22,6 +22,7 @@ const persistConfig = {
   key: 'root',
   storage: storage,
   // List reducers to store data for.
+  // TODO: Potentially lesson and course can be not permanent any more.
   whitelist: ['lesson', 'course', 'navigation', 'notebook'],
 };
 

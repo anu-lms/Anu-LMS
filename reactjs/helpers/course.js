@@ -39,13 +39,20 @@ export const calculateProgress = (lessonsStore, lessons) => {
  * @returns {number}
  */
 export const getProgress = (coursesStore, course) => {
+  // If there is no progress in the redux store - simply return value from
+  // the backend (or default value).
   if (coursesStore.length === 0) {
     return course.progress;
   }
+
+  // Trying to find the course's progress in the redux store. Return
+  // progress from the backend (or default) if not found.
   const index = coursesStore.findIndex(element => element.id === course.id);
   if (index === -1) {
     return course.progress;
   }
+
+  // Always show the highest progress.
   return coursesStore[index].progress > course.progress
     ? coursesStore[index].progress
     : course.progress;

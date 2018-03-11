@@ -1,24 +1,30 @@
 import React from 'react';
 import App from '../application/App';
-import request from "../utils/request";
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import Header from '../components/organisms/Header';
-import * as dataProcessors from "../utils/dataProcessors";
+import * as dataProcessors from '../utils/dataProcessors';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
+import ErrorPage from '../components/atoms/ErrorPage';
 
 class LessonPage extends React.Component {
 
   render () {
+    const { statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header lesson">
+          {statusCode === 200 &&
           <LessonPageTemplate
             lesson={this.props.lesson}
             course={this.props.course}
           />
-        </div>
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
+          </div>
       </App>
     );
   }
@@ -28,6 +34,7 @@ class LessonPage extends React.Component {
     const initialProps = {
       course: {},
       lesson: {},
+      statusCode: 200,
     };
 
     // TODO: Handle case when path alias was changed.
