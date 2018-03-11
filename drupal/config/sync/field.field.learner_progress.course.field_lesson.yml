@@ -1,0 +1,28 @@
+uuid: 4daffc95-1806-4333-ad5f-1d1d0cf7b990
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.learner_progress.course
+    - field.storage.learner_progress.field_lesson
+    - node.type.lesson
+id: learner_progress.course.field_lesson
+field_name: field_lesson
+entity_type: learner_progress
+bundle: course
+label: 'Recently accessed lesson'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      lesson: lesson
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

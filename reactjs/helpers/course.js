@@ -28,63 +28,27 @@ export const calculateProgress = (lessonsStore, lessons) => {
 };
 
 /**
- * Return a first lesson without 100% read completion in a course.
- *
- * @param storeLessons
- *   Array of lessons with progress from Redux storage.
- *
- * @param courseLessons
- *   Array of lessons per course.
- *
- * @returns {boolean}
- */
-export const getLessonToResume = (storeLessons, courseLessons) => {
-
-  let progressExists = false;
-
-  const matchedLessons = courseLessons.filter(lesson => {
-
-    let index = storeLessons.findIndex(element =>
-      element.id === lesson.id
-    );
-
-    if (index !== -1) {
-
-      let storeLesson = storeLessons[index];
-      if (storeLesson.progress > 0) {
-        progressExists = true;
-      }
-
-      if (progressExists && storeLesson.progress < 100) {
-        return lesson;
-      }
-    }
-    else if (progressExists) {
-      return lesson;
-    }
-
-  });
-
-  return matchedLessons.length > 0 ? matchedLessons[0] : false;
-};
-
-/**
  * Get course progress.
  *
  * @param coursesStore
  *   List of courses from Redux storage.
  *
- * @param id
- *   Course ID.
+ * @param course
+ *   Course object.
  *
  * @returns {number}
  */
-export const getProgress = (coursesStore, id) => {
+export const getProgress = (coursesStore, course) => {
   if (coursesStore.length === 0) {
-    return 0;
+    return course.progress;
   }
-  const index = coursesStore.findIndex(element => element.id === id);
-  return index !== -1 ? coursesStore[index].progress : 0;
+  const index = coursesStore.findIndex(element => element.id === course.id);
+  if (index === -1) {
+    return course.progress;
+  }
+  return coursesStore[index].progress > course.progress
+    ? coursesStore[index].progress
+    : course.progress;
 };
 
 /**

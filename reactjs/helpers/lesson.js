@@ -1,9 +1,21 @@
-export const getProgress = (lessons, id) => {
-  if (lessons.length === 0) {
-    return 0;
+/**
+ * Returns progress for the lesson.
+ *
+ * @param storeLessons
+ * @param lesson
+ * @returns {number}
+ */
+export const getProgress = (storeLessons, lesson) => {
+  if (storeLessons.length === 0) {
+    return lesson.progress;
   }
-  const index = lessons.findIndex(element => element.id === id);
-  return index !== -1 ? lessons[index].progress : 0;
+  const index = storeLessons.findIndex(element => element.id === lesson.id);
+  if (index === -1) {
+    return lesson.progress;
+  }
+  return storeLessons[index].progress > lesson.progress
+    ? storeLessons[index].progress
+    : lesson.progress;
 };
 
 export const getUrl = (coursePath, slug) => (
