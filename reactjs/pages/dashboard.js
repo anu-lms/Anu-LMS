@@ -5,36 +5,39 @@ import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import Dashboard from '../components/organisms/Templates/Dashboard';
 import Header from '../components/organisms/Header';
+import ErrorPage from '../components/atoms/ErrorPage';
 import * as lessonHelpers from '../helpers/lesson';
+import * as classHelpers from '../helpers/class';
 
 class DashboardPage extends Component {
 
   render() {
+    const { statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header">
+          {statusCode === 200 &&
           <Dashboard {...this.props} />
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
         </div>
       </App>
     );
   }
 
-  static async getInitialProps({ request }) {
+  static async getInitialProps({ request, res }) {
 
     const initialProps = {
       courses: [],
       classes: [],
       recentCourses: [],
+      statusCode: 200,
     };
 
     try {
-
-      // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      // TODO: EXPIRE ALL TOKENS ON THE BACKEND!
-      //const userResponse = await request.get('/user/me?_format=json');
-      //const currentUser = dataProcessors.userData(userResponse.body);
 
       // Fetch all courses available for this user.
       const responseAllCourses = await request
@@ -53,56 +56,63 @@ class DashboardPage extends Component {
           // TODO: ADD FILTER BY ACCESSIBLE CLASSES FOR THIS USER.
         });
 
-      //console.log(responseAllCourses);
-
+      // Gather list of courses available for the current user.
       responseAllCourses.body.data.forEach(courseData => {
         const course = dataProcessors.courseData(courseData);
         initialProps.courses.push(course);
-
-        // TODO: Sort alphabetically.
-        const index = initialProps.classes.findIndex(item => item.id === course.groupId);
-        if (index === -1) {
-          initialProps.classes.push({ id: course.groupId, label: course.groupLabel });
-        }
       });
 
-      // Fetch course progress available for this user.
-      // TODO: Potential to run request in parallel with previous.
-      // TODO: SORT BY RECENTLY ACCESSED LESSONS.
+      // Get list of classes from metadata of courses.
+      initialProps.classes = classHelpers.getClassesFromCourses(initialProps.courses);
+    }
+    catch (error) {
+      console.error('Could not fetch dashboard courses. Error:');
+      console.error(error);
+      if (res) res.statusCode = 500;
+      initialProps.statusCode = 500;
+      return initialProps;
+    }
+
+    try {
+
+      // Fetch all courses progress available for this user.
+      // TODO: Run request in parallel with previous.
       const responseProgress = await request
         .get('/learner/progress?_format=json');
 
-      // Leave only recent 3 available courses.
+      // Attach course progresses to their corresponsing entities.
       responseProgress.body.forEach(courseProgress => {
+
+        // Find course to which the progress data should be added.
         const courseId = parseInt(courseProgress.courseId);
         const index = initialProps.courses.findIndex(course => course.id === courseId);
 
-        // TODO: TEST LIMIT / SORT.
+        // If corresponsing course is found - add information about the
+        // progress and the lesson which was accessed the last.
         if (index !== -1) {
           initialProps.courses[index].progress = courseProgress.progress;
 
+          // Add information regarding the lesson which was accessed the last.
           if (courseProgress.recentLesson && courseProgress.recentLesson.url) {
             const courseUrl = initialProps.courses[index].url;
             const lessonSlug = courseProgress.recentLesson.url;
             initialProps.courses[index].recentLessonUrl = `${courseUrl}${lessonSlug}`;
           }
 
+          // Simply push 3 first courses to the recent courses list.
+          // Learner progress items are sorted by recently accessed courses, so
+          // it works as expected here.
           if(initialProps.recentCourses.length < 3) {
             initialProps.recentCourses.push(initialProps.courses[index]);
           }
         }
-
       });
-    }
-    catch (error) {
-      console.error('Could not fetch dashboard classes / courses.');
+    } catch (error) {
+      // Log error but still render the page, because this issue is not a
+      // deal breaker to display courses / classes.
+      console.error('Could not fetch learner progress. Error:');
       console.error(error);
-
-      // TODO: Better error handling for server + client.
     }
-
-    console.log('initialProps');
-    console.log(initialProps);
 
     return initialProps;
   }

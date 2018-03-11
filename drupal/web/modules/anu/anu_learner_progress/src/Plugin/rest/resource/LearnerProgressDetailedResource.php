@@ -7,8 +7,6 @@ use Drupal\rest\ResourceResponse;
 use Drupal\Component\Render\FormattableMarkup;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\PreconditionRequiredHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -64,74 +62,60 @@ class LearnerProgressDetailedResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * TODO.
+   * Saves lesson' progress of the current user.
+   *
+   * @param $lessonId
+   *   Node ID of the lesson.
+   *
+   * @param $progress
+   *   Value from 0 to 100 representing the current progress.
+   *
+   * @return $this|\Drupal\rest\ResourceResponse
    */
   public function post($lessonId, $progress) {
-
-    $a=1;
-    // TODO: Validate permissions to view the lesson.
 
     try {
 
       // Validate submitted lesson.
-      $entities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-        'type' => 'lesson',
-        'nid' => $lessonId,
-      ]);
-      if (empty($entities)) {
-        $message = 'Wrong lesson id: @lesson_id';
-        $params = ['@lesson_id' => $lessonId];
-        $this->logger->error($message, $params);
-        return new ResourceResponse([
-          'message' => $this->t($message, $params)
-        ], 406);
+      $lesson = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->load($lessonId);
+
+      if (empty($lesson) || $lesson->bundle() != 'lesson') {
+        $message = 'Could not post learner\'s progress: wrong posted entity (@id).';
+        $params = ['@id' => $lessonId];
+        $this->logger->critical($message, $params);
+        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
       }
 
-      $lesson = reset($entities);
+      // Make sure the current user is able to view the lesson entity.
+      if (!$lesson->access('view')) {
+        $message = 'Your are not allowed to access the lesson @id.';
+        $params = ['@id' => $lessonId];
+        $this->logger->critical($message, $params);
+        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
+      }
 
       // Validate progress amount.
       if ($progress < 0 || $progress > 100) {
         $message = 'Wrong or missing progress amount for lesson: @lesson_id';
         $params = ['@lesson_id' => $lesson->id()];
-        $this->logger->error($message, $params);
-        return new ResourceResponse([
-          'message' => $this->t($message, $params)
-        ], 406);
+        $this->logger->critical($message, $params);
+        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
       }
 
-      $this->updateLessonProgress('lesson', $lesson->id(), $progress);
+      // Save lesson's progress in the new or existing learner progress entity.
+      $this->updateLessonProgress($lesson->id(), $progress);
 
-      // Load related course.
+      // Load a course related to the lesson.
       $course = $lesson->get('field_lesson_course')->entity;
       if (!empty($course)) {
 
-        // Search for existing lesson progress entity.
-        $entities = \Drupal::entityTypeManager()
-          ->getStorage('learner_progress')
-          ->loadByProperties([
-            'uid' => \Drupal::currentUser()->id(),
-            'type' => 'course',
-            'field_course' => $course->id(),
-          ]);
+        // Get a new or existing lesson progress entity of type course.
+        $course_progress = $this->getLessonProgressEntity('course', $course->id());
 
-        // Get the existing lesson progress entity or create a new one.
-        if (!empty($entities)) {
-          $course_progress = reset($entities);
-        }
-        else {
-          $course_progress = \Drupal::entityTypeManager()
-            ->getStorage('learner_progress')
-            ->create([
-              'type' => 'course',
-              'field_course' => $course->id(),
-            ]);
-        }
-
-        // Set the new progress value.
+        // Set the lesson field which was accessed.
         $course_progress->field_lesson = $lesson->id();
-
-        // Updates entity changed date because we need to update entity, but nothing else has changed.
-        $course_progress->changed = \Drupal::time()->getRequestTime();
 
         // Update existing or create a new entity.
         $course_progress->save();
@@ -144,10 +128,20 @@ class LearnerProgressDetailedResource extends ResourceBase {
       return new ResourceResponse(['message' => $message], 406);
     }
 
-    $response = new ResourceResponse();
-    return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    return new ResourceResponse();
   }
 
+  /**
+   * Responds to GET request.
+   *
+   * Return detailed progress for the currently logged in user
+   * for the requested course ID.
+   *
+   * @param $courseId
+   *   Node ID of the course type.
+   *
+   * @return $this|\Drupal\rest\ResourceResponse
+   */
   public function get($courseId) {
     $progress = [
       'course' => 0,
@@ -155,24 +149,37 @@ class LearnerProgressDetailedResource extends ResourceBase {
       'recentLesson' => [],
     ];
 
-    // TODO: Perms to view?
-
     try {
+
+      // Trying to load the requested course.
       $course = \Drupal::entityTypeManager()
         ->getStorage('node')
         ->load($courseId);
 
-      if (empty($course)) {
-        // TODO: Throw error.
-        return;
+      // Validate the loaded course.
+      if (empty($course) || $course->bundle() != 'course') {
+        $message = 'The requested course with ID @id could not be found.';
+        $params = ['@id' => $courseId];
+        $this->logger->critical($message, $params);
+        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
       }
 
+      // Make sure the current user is able to view the course entity.
+      if (!$course->access('view')) {
+        $message = 'Your are not allowed to access the course @id.';
+        $params = ['@id' => $courseId];
+        $this->logger->critical($message, $params);
+        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
+      }
+
+      // Build an array of lesson IDs from the requested course.
       $course_lessons = $course->get('field_course_lessons')->getValue();
       $course_lessons_ids = [];
       foreach ($course_lessons as $course_lesson) {
         $course_lessons_ids[] = $course_lesson['target_id'];
       }
 
+      // Load existing records regarding progress for course's lessons.
       $lesson_progresses = \Drupal::entityTypeManager()
         ->getStorage('learner_progress')
         ->loadByProperties([
@@ -181,34 +188,27 @@ class LearnerProgressDetailedResource extends ResourceBase {
           'field_lesson' => $course_lessons_ids,
         ]);
 
+      // Figure out how much each lesson can add to the overall course
+      // progress in case if lesson's progress is 100%.
       $lessons_amount = count($course_lessons_ids);
       $max_progress = 100 / $lessons_amount;
 
+      // Calculate course's and lessons progress.
       foreach ($lesson_progresses as $lesson_progress) {
         $field_progress = $lesson_progress->get('field_progress')->getValue();
         $field_lesson = $lesson_progress->get('field_lesson')->getValue();
+        $lesson_id = $field_lesson[0]['target_id'];
         $progress['course'] += $max_progress / 100 * $field_progress[0]['value'];
-        $progress['lessons'][$field_lesson[0]['target_id']] = $field_progress[0]['value'];
+        $progress['lessons'][$lesson_id] = $field_progress[0]['value'];
       }
 
+      // Add recently accessed lesson id and url to the output.
+      $course_progress = $this->getLessonProgressEntity('course', $course->id());
+      if (!empty($course_progress->id())) {
+        $recent_lesson = $course_progress->get('field_lesson')->entity;
+        if (!empty($recent_lesson)) {
 
-      $course_progress = \Drupal::entityTypeManager()
-        ->getStorage('learner_progress')
-        ->loadByProperties([
-          'type' => 'course',
-          'field_course' => $course->id(),
-          'uid' => \Drupal::currentUser()->id(),
-        ]);
-
-      if (!empty($course_progress)) {
-        $course_progress = reset($course_progress);
-        $field_lesson = $course_progress->get('field_lesson')->getValue();
-        if (!empty($field_lesson[0]['target_id'])) {
-
-          $recent_lesson = \Drupal::entityTypeManager()
-            ->getStorage('node')
-            ->load($field_lesson[0]['target_id']);
-
+          // Fetch lesson's path alias.
           $path = \Drupal::service('path.alias_manager')
             ->getAliasByPath('/node/' . $recent_lesson->id());
 
@@ -220,25 +220,68 @@ class LearnerProgressDetailedResource extends ResourceBase {
       }
 
     } catch(\Exception $e) {
-      $message = new FormattableMarkup('Could not fetch learner progress. Error: @error', [
-        '@error' => $e->getMessage()
-      ]);
-      $this->logger->critical($message);
-      return new ResourceResponse(['message' => $message], 406);
+      $message = 'Could not fetch course progress for ID @id. Error: @error.';
+      $params = ['@id' => $courseId, '@error' => $e->getMessage()];
+      $this->logger->critical($message, $params);
+      return new ResourceResponse(['message' => $this->t($message, $params)], 406);
     }
 
-    $response = new ResourceResponse($progress);
-    return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    return new ResourceResponse($progress);
   }
 
   /**
-   * TODO.
+   * Save a new lesson progress.
    *
-   * @param $type
    * @param $id
+   *   ID of learner progress entity of type "lesson".
+   *
    * @param $progress
+   *   Numeric value from 0 to 100 representing the current progress.
    */
-  protected function updateLessonProgress($type, $id, $progress) {
+  protected function updateLessonProgress($id, $progress) {
+    try {
+
+      // Get a new or existing lesson progress entity.
+      $lesson_progress = $this->getLessonProgressEntity('lesson', $id);
+
+      // Check if the previous progress exists. If it exists, then make sure
+      // the new progress is greater that then previous one - we should never
+      // let the progress to go down.
+      $prevProgress = $lesson_progress->field_progress->getValue();
+      if (!empty($prevProgress[0]['value'])) {
+        if ($prevProgress[0]['value'] < $progress) {
+          $lesson_progress->field_progress = $progress;
+        }
+      }
+      else {
+        $lesson_progress->field_progress = $progress;
+      }
+
+      // Update existing or create a new entity.
+      $lesson_progress->save();
+
+    } catch(\Exception $e) {
+      $message = $this->t('Could not update lesson progress entity of type lesson (id @id). Error: @error', [
+        '@id' => $id,
+        '@error' => $e->getMessage(),
+      ]);
+      $this->logger->critical($message);
+      throw new UnprocessableEntityHttpException($message);
+    }
+  }
+
+  /**
+   * Return lesson progress entity of a given bundle and ID.
+   *
+   * @param $bundle
+   *   Learner progress entity bundle name.
+   *
+   * @param $id
+   *   Learner progress entity ID.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|mixed
+   */
+  protected function getLessonProgressEntity($bundle, $id) {
     try {
 
       // Search for existing lesson progress entity.
@@ -246,49 +289,35 @@ class LearnerProgressDetailedResource extends ResourceBase {
         ->getStorage('learner_progress')
         ->loadByProperties([
           'uid' => \Drupal::currentUser()->id(),
-          'type' => $type,
-          'field_' . $type => $id,
+          'type' => $bundle,
+          'field_' . $bundle => $id,
         ]);
 
-      // Get the existing lesson progress entity or create a new one.
+      // Get the existing learner progress entity.
       if (!empty($entities)) {
         $entity = reset($entities);
       }
+      // Create a new learner progress entity if didn't exist before.
       else {
         $entity = \Drupal::entityTypeManager()
           ->getStorage('learner_progress')
           ->create([
-            'type' => $type,
-            'field_' . $type => $id,
+            'type' => $bundle,
+            'field_' . $bundle => $id,
           ]);
       }
 
-      $prevProgress = $entity->field_progress->getValue();
-      if (!empty($prevProgress[0]['value'])) {
-        if ($prevProgress[0]['value'] < $progress) {
-          $entity->field_progress = $progress;
-        }
-      }
-      else {
-        $entity->field_progress = $progress;
-      }
-
-
-      // Updates entity changed date because we need to update entity, but nothing else has changed.
-      $entity->changed = \Drupal::time()->getRequestTime();
-
-      // Update existing or create a new entity.
-      $entity->save();
-
     } catch(\Exception $e) {
-      $message = new FormattableMarkup('Could not update lesson progress entity of type @type (id @id). Error: @error', [
-        '@type' => $type,
+      $message = $this->t('Could get lesson progress entity of type @type (id @id). Error: @error', [
+        '@type' => $bundle,
         '@id' => $id,
         '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       throw new UnprocessableEntityHttpException($message);
     }
+
+    return $entity;
   }
 
 }

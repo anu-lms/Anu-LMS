@@ -32,9 +32,4 @@
 @import "components/lesson_navigation";
 @import "components/link-with-progress";
 
-// Import styles per page.
-@import "pages/login";
-@import "pages/lesson";
-@import "pages/course";
-
 @import "../components/**/**/*.scss";
