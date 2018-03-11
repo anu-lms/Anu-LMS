@@ -5,6 +5,7 @@ import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import Dashboard from '../components/organisms/Templates/Dashboard';
 import Header from '../components/organisms/Header';
+import * as lessonHelpers from '../helpers/lesson';
 
 class DashboardPage extends Component {
 
@@ -22,79 +23,86 @@ class DashboardPage extends Component {
   static async getInitialProps({ request }) {
 
     const initialProps = {
+      courses: [],
       classes: [],
-      coursesById: {},
-      recentCoursesIds: [],
-      coursesInClassesIds: {}
+      recentCourses: [],
     };
 
     try {
-      // Fetch all classes available for this user.
-      const responseAllClasses = await request
-        .get('/jsonapi/group/class')
-        .query({
-          'fields[group--class]': 'uuid,label',
-          'sort': 'created'
-        });
+
+      // Get currently logged in user.
+      // @todo: consider to store user id in local storage after user login.
+      // TODO: EXPIRE ALL TOKENS ON THE BACKEND!
+      //const userResponse = await request.get('/user/me?_format=json');
+      //const currentUser = dataProcessors.userData(userResponse.body);
 
       // Fetch all courses available for this user.
       const responseAllCourses = await request
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
           // Include class group, course entity, course image.
-          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
+          'include': 'gid,entity_id,entity_id.field_course_image',
           // Course entity fields.
-          'fields[node--course]': 'title,nid,uuid,path,field_course_image,created,field_course_lessons',
+          'fields[node--course]': 'nid,title,path,created,field_course_image',
           // Course image fields.
           'fields[file--image]': 'url',
-          // Limit lessons fields.
-          'fields[node--lesson]': 'nid,title,path',
           // Class group fields.
-          'fields[group--class]': 'uuid,label',
+          'fields[group--class]': 'id,label',
           // Sort by created date.
-          'sort': 'created'
+          'sort': 'created',
+          // TODO: ADD FILTER BY ACCESSIBLE CLASSES FOR THIS USER.
         });
 
-      initialProps.classes = responseAllClasses.body.data.map(classData =>
-        dataProcessors.classData(classData)
-      );
-
-      initialProps.classes.forEach(classItem => {
-        initialProps.coursesInClassesIds[classItem.uuid] = [];
-      });
+      //console.log(responseAllCourses);
 
       responseAllCourses.body.data.forEach(courseData => {
         const course = dataProcessors.courseData(courseData);
-        initialProps.coursesById[course.uuid] = course;
-        initialProps.coursesInClassesIds[course.gid].push(course.uuid);
+        initialProps.courses.push(course);
+
+        // TODO: Sort alphabetically.
+        const index = initialProps.classes.findIndex(item => item.id === course.groupId);
+        if (index === -1) {
+          initialProps.classes.push({ id: course.groupId, label: course.groupLabel });
+        }
       });
 
-      // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
-
-      // Fetch course progress entities available for this user.
-      // @todo: will be improved to load real course progress from the backend.
-      const responseRecentCourses = await request
-        .get('/jsonapi/learner_progress/course')
-        .query({
-          // Include class group, course entity, course image.
-          'include': 'field_course',
-          'filter[uid][value]': currentUser.uid,
-          'sort': '-changed'
-        });
+      // Fetch course progress available for this user.
+      // TODO: Potential to run request in parallel with previous.
+      // TODO: SORT BY RECENTLY ACCESSED LESSONS.
+      const responseProgress = await request
+        .get('/learner/progress?_format=json');
 
       // Leave only recent 3 available courses.
-      initialProps.recentCoursesIds = responseRecentCourses.body.data
-        .map((item, index) => item.fieldCourse.id !== undefined ? item.fieldCourse.id : null)
-        .filter((item) => Object.keys(initialProps.coursesById).indexOf(item) !== -1)
-        .slice(0, 3);
+      responseProgress.body.forEach(courseProgress => {
+        const courseId = parseInt(courseProgress.courseId);
+        const index = initialProps.courses.findIndex(course => course.id === courseId);
+
+        // TODO: TEST LIMIT / SORT.
+        if (index !== -1) {
+          initialProps.courses[index].progress = courseProgress.progress;
+
+          if (courseProgress.recentLesson && courseProgress.recentLesson.url) {
+            const courseUrl = initialProps.courses[index].url;
+            const lessonSlug = courseProgress.recentLesson.url;
+            initialProps.courses[index].recentLessonUrl = `${courseUrl}${lessonSlug}`;
+          }
+
+          if(initialProps.recentCourses.length < 3) {
+            initialProps.recentCourses.push(initialProps.courses[index]);
+          }
+        }
+
+      });
     }
     catch (error) {
       console.error('Could not fetch dashboard classes / courses.');
       console.error(error);
+
+      // TODO: Better error handling for server + client.
     }
+
+    console.log('initialProps');
+    console.log(initialProps);
 
     return initialProps;
   }

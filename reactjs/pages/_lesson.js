@@ -9,32 +9,12 @@ import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 
 class LessonPage extends React.Component {
 
-  componentDidMount() {
-    // Sends request to the backend to update progress entity (to set correct data for recent courses block).
-    // @todo: will be improved to calculate and save real progress on the backend.
-    request
-      .get('/session/token')
-      .then((response) => {
-        return request
-          .post('/learner/progress?_format=json')
-          .set('Content-Type', 'application/json')
-          .set('X-CSRF-Token', response.text)
-          .send({
-            courseId: this.props.course.id,
-          });
-      })
-      .catch(error => {
-        console.error('Could not update learner progress.', error);
-      });
-  }
-
   render () {
     return (
       <App>
         <Header />
         <div className="page-with-header lesson">
           <LessonPageTemplate
-            toc={this.props.course.lessons}
             lesson={this.props.lesson}
             course={this.props.course}
           />
@@ -85,6 +65,9 @@ class LessonPage extends React.Component {
           'filter[entity_id][value]': entity.id,
         });
 
+      //console.log('responseCourse');
+      //console.log(responseCourse);
+
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
     } catch (error) {
       if (res) res.statusCode = 404;
@@ -129,6 +112,31 @@ class LessonPage extends React.Component {
         });
 
       initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
+    } catch (error) {
+      console.log(error);
+      if (res) res.statusCode = 404;
+      return initialProps;
+    }
+
+    try {
+
+      response = await request
+        .get('/learner/progress/' + initialProps.course.id)
+        .query({ '_format': 'json' });
+
+      const progress = response.body;
+      initialProps.course.progress = Math.round(progress.course);
+
+      Object.entries(progress.lessons).forEach(([id, progress]) => {
+        const lessonId = parseInt(id);
+        const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
+        if (index !== -1) {
+          initialProps.course.lessons[index].progress = Math.round(progress);
+        }
+        if (parseInt(id) === initialProps.lesson.id) {
+          initialProps.lesson.progress = Math.round(progress);
+        }
+      });
     } catch (error) {
       console.log(error);
       if (res) res.statusCode = 404;

@@ -19,7 +19,8 @@ export const courseData = (courseData) => {
     lessons = course.fieldCourseLessons.map(lesson => ({
       id: lesson.nid,
       title: lesson.title,
-      url: lessonHelper.getUrl(course.path.alias, lesson.path.alias)
+      url: lessonHelper.getUrl(course.path.alias, lesson.path.alias),
+      progress: 0,
     }));
   }
 
@@ -54,8 +55,8 @@ export const courseData = (courseData) => {
 
   return {
     id: course.nid,
-    uuid: course.uuid,
-    gid: courseData.gid.uuid,
+    groupId: courseData.gid.id ? courseData.gid.id : null,
+    groupLabel: courseData.gid.label ? courseData.gid.label : null,
     created: course.created,
     title: course.title,
     url: courseHelper.getUrl(course.path.alias),
@@ -66,7 +67,8 @@ export const courseData = (courseData) => {
     organisation: organizationName,
     instructors: instructors,
     totalMinutes: estimation,
-    description: course.fieldCourseDescription ? course.fieldCourseDescription.value : ''
+    description: course.fieldCourseDescription ? course.fieldCourseDescription.value : '',
+    progress: 0 // Default value.
   };
 };
 
@@ -85,6 +87,7 @@ export const lessonData = (lessonData) => {
     url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
     title: lesson.title,
     isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
+    progress: 0,
     blocks
   };
 };

@@ -24,7 +24,8 @@ class LessonNavigation extends React.Component {
   }
 
   render() {
-    const { toc, lessons, courses, course, router } = this.props;
+    const { course, courses, lessons, router } = this.props;
+
     return (
       <CollapsibleNavigation className="lesson">
 
@@ -33,9 +34,9 @@ class LessonNavigation extends React.Component {
             <div className="image-overlay" />
             <div className="title">{course.title}</div>
             <div className="progress">
-              <div className="completion caption sm">{courseHelper.getProgress(courses, course.id)}% complete</div>
+              <div className="completion caption sm">{courseHelper.getProgress(courses, course)}% complete</div>
               <div className="progress-bar">
-                <div className="current-progress" style={{ width: courseHelper.getProgress(courses, course.id) + '%' }} />
+                <div className="current-progress" style={{ width: course.progress + '%' }} />
               </div>
             </div>
           </a>
@@ -44,13 +45,13 @@ class LessonNavigation extends React.Component {
         <div className="table-of-contents">
           <h5 className="title">Course Content</h5>
           <div className="contents">
-            {toc.map(item => (
+            {course.lessons.map(lesson => (
               <LinkWithProgress
-                key={item.id}
-                title={item.title}
-                url={item.url}
-                progress={lessonHelper.getProgress(lessons, item.id)}
-                active={item.url === router.asPath}
+                key={lesson.id}
+                title={lesson.title}
+                url={lesson.url}
+                progress={lessonHelper.getProgress(lessons, lesson)}
+                active={lesson.url === router.asPath}
                 onClick={this.handleTableOfContentsClick.bind(this)}
               />
             ))}

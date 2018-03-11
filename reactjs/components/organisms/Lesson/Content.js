@@ -23,7 +23,7 @@ class LessonContent extends React.Component {
     };
 
     // Get a list of course lessons from table of contents.
-    this.courseLessonIds = props.toc.map(lesson => lesson.id);
+    this.courseLessonIds = props.course.lessons.map(lesson => lesson.id);
 
     // List of paragraphs ids from this lesson which have to report to this
     // component that they have been loaded.
@@ -52,17 +52,24 @@ class LessonContent extends React.Component {
     // Gather list of paragraphs once per lesson page load.
     if (nextProps.lesson.id !== this.props.lesson.id) {
       this.updateParagraphsList(nextProps);
+
+      this.props.dispatch(lessonActions.closed(this.props.lesson));
+      this.props.dispatch(lessonActions.opened(nextProps.lesson));
     }
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
+
+    this.props.dispatch(lessonActions.opened(this.props.lesson));
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateReadProgress);
     window.removeEventListener('scroll', this.updateReadProgress);
+
+    this.props.dispatch(lessonActions.closed(this.props.lesson));
   }
 
   updateReadProgress() {
@@ -80,7 +87,7 @@ class LessonContent extends React.Component {
 
     const progress = readThrough >= pageHeight ? 100 : readThrough / pageHeight * 100;
 
-    const existingProgress = lessonHelpers.getProgress(storeLessons, lesson.id);
+    const existingProgress = lessonHelpers.getProgress(storeLessons, lesson);
     if (progress > existingProgress) {
       this.props.dispatch(lessonActions.setProgress(lesson.id, progress));
 
@@ -120,8 +127,8 @@ class LessonContent extends React.Component {
       }
     });
 
-    console.log('List of paragraphs on the page:');
-    console.log(this.paragraphsToLoad);
+    //console.log('List of paragraphs on the page:');
+    //console.log(this.paragraphsToLoad);
   }
 
   /**
@@ -134,8 +141,8 @@ class LessonContent extends React.Component {
     if (index !== -1) {
       this.paragraphsToLoad.splice(index, 1);
 
-      console.log('Paragraph ' + paragraphId + ' is loaded. Remaining:');
-      console.log(this.paragraphsToLoad);
+      //console.log('Paragraph ' + paragraphId + ' is loaded. Remaining:');
+      //console.log(this.paragraphsToLoad);
 
       if (!this.paragraphsToLoad.length) {
         console.log('All paragraphs loaded!');
@@ -266,10 +273,7 @@ class LessonContent extends React.Component {
     }
 
     return (
-      <div
-
-        className={`lesson-container ${navigation.isCollapsed ? 'nav-collapsed' : ''}`}
-      >
+      <div className={`lesson-container ${navigation.isCollapsed ? 'nav-collapsed' : ''}`}>
 
         <div className="container">
           <div className="row">

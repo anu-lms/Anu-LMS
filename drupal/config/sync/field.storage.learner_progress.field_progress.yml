@@ -1,0 +1,20 @@
+uuid: ec4e504c-1dc5-4c75-acbe-7b9d2fec3aa2
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+id: learner_progress.field_progress
+field_name: field_progress
+entity_type: learner_progress
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,14 +1,14 @@
-uuid: d48062c8-a776-45d2-9299-3ed2efdbf2c5
+uuid: 5f01ed28-92cf-4792-b4bf-7e593aaf894d
 langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.learner_progress.course
-    - field.field.learner_progress.course.field_course
-    - field.field.learner_progress.course.field_lesson
-id: learner_progress.course.default
+    - eck.eck_type.learner_progress.lesson
+    - field.field.learner_progress.lesson.field_lesson
+    - field.field.learner_progress.lesson.field_progress
+id: learner_progress.lesson.default
 targetEntityType: learner_progress
-bundle: course
+bundle: lesson
 mode: default
 content:
   created:
@@ -17,7 +17,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_course:
+  field_lesson:
     weight: 11
     settings:
       match_operator: CONTAINS
@@ -26,14 +26,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_lesson:
+  field_progress:
     weight: 12
     settings:
-      match_operator: CONTAINS
-      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: number
     region: content
   langcode:
     type: language_select

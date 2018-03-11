@@ -49,7 +49,7 @@ class CoursePage extends React.Component {
       }
 
       // TODO: Handle case when path alias was changed.
-
+      // TODO: POTENTIAL TO REMOVE GROUP.
       const responseCourse = await request
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
@@ -72,10 +72,36 @@ class CoursePage extends React.Component {
         });
 
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
+
+      response = await request
+        .get('/learner/progress/' + initialProps.course.id)
+        .query({ '_format': 'json' });
+
+      const progress = response.body;
+      initialProps.course.progress = Math.round(progress.course);
+
+      Object.entries(progress.lessons).forEach(([id, progress]) => {
+        const lessonId = parseInt(id);
+        const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
+        if (index !== -1) {
+          initialProps.course.lessons[index].progress = Math.round(progress);
+        }
+      });
+
+      if (progress.recentLesson && progress.recentLesson.url) {
+        const courseUrl = initialProps.course.url;
+        const lessonSlug = progress.recentLesson.url;
+        initialProps.course.recentLessonUrl = `${courseUrl}${lessonSlug}`;
+      }
+
     } catch (error) {
+      // TODO: Better error handling.
       if (res) res.statusCode = 404;
       console.log(error);
     }
+
+    console.log('initialProps');
+    console.log(initialProps);
 
     return initialProps;
   }
