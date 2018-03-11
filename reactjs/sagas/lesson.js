@@ -57,10 +57,8 @@ function* lessonProgressSyncWatcher(action) {
  */
 function* syncLessonProgressInBackground(lesson, token) {
 
-  // The action waits for the first lesson progress action to dispatch.
-  // As soon as it is dispatched we can start tracking the progress updates
-  // in the redux state.
-  yield take('LESSON_PROGRESS_SET');
+  // The delay before we start sync process with the backend.
+  yield delay(backendSyncDelay);
 
   // Initial progress equals lesson progress from the backend.
   let progress = lesson.progress;

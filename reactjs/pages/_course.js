@@ -3,24 +3,24 @@ import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
+import ErrorPage from '../components/atoms/ErrorPage';
 import CoursePageTemplate from '../components/organisms/Templates/Course';
 import * as dataProcessors from '../utils/dataProcessors';
 
 class CoursePage extends React.Component {
 
   render() {
-
-    const { course } = this.props;
-
-    if (Object.keys(course).length === 0) {
-      return <div>Page not found</div>;
-    }
-
+    const { course, statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header">
-          <CoursePageTemplate course={course} />
+          {statusCode === 200 &&
+          <CoursePageTemplate course={course}/>
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
         </div>
       </App>
     );
@@ -30,11 +30,14 @@ class CoursePage extends React.Component {
 
     const initialProps = {
       course: {},
+      statusCode: 200,
     };
 
-    // Get a course by path.
     let response;
+
     try {
+
+      // Get a course by path.
       response = await request
         .get('/router/translate-path')
         .query({
@@ -43,9 +46,13 @@ class CoursePage extends React.Component {
         });
 
       const { entity } = response.body;
-      // TODO: Test this case.
+
+      // Make sure the node is of the right type.
       if (entity.type !== 'node' || entity.bundle !== 'course') {
-        throw new Error('The loading entity is not of the expected type.');
+        console.log('Could not find the course under with the given URL.');
+        if (res) res.statusCode = 404;
+        initialProps.statusCode = 404;
+        return initialProps;
       }
 
       // TODO: Handle case when path alias was changed.
@@ -72,7 +79,15 @@ class CoursePage extends React.Component {
         });
 
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
+    } catch (error) {
+      console.log('Could not load course. Error:');
+      console.log(error);
+      if (res) res.statusCode = 500;
+      initialProps.statusCode = 500;
+      return initialProps;
+    }
 
+    try {
       response = await request
         .get('/learner/progress/' + initialProps.course.id)
         .query({ '_format': 'json' });
@@ -93,15 +108,12 @@ class CoursePage extends React.Component {
         const lessonSlug = progress.recentLesson.url;
         initialProps.course.recentLessonUrl = `${courseUrl}${lessonSlug}`;
       }
-
     } catch (error) {
-      // TODO: Better error handling.
-      if (res) res.statusCode = 404;
+      // Log error but still render the page, because this issue is not a
+      // deal breaker to display course content.
+      console.log('Could not fetch course progress. Error:');
       console.log(error);
     }
-
-    console.log('initialProps');
-    console.log(initialProps);
 
     return initialProps;
   }
