@@ -53,6 +53,8 @@ class LessonContent extends React.Component {
     if (nextProps.lesson.id !== this.props.lesson.id) {
       this.updateParagraphsList(nextProps);
 
+      // Send action that the previous lesson is closed and the new one
+      // is opened.
       this.props.dispatch(lessonActions.closed(this.props.lesson));
       this.props.dispatch(lessonActions.opened(nextProps.lesson));
     }
@@ -62,6 +64,8 @@ class LessonContent extends React.Component {
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
 
+    // When component is mounted, send action that the lesson is opened.
+    // It should trigger background sync of lesson progress.
     this.props.dispatch(lessonActions.opened(this.props.lesson));
   }
 
@@ -69,6 +73,8 @@ class LessonContent extends React.Component {
     window.removeEventListener('resize', this.updateReadProgress);
     window.removeEventListener('scroll', this.updateReadProgress);
 
+    // When component is being unmounted, send action that the lesson is closed.
+    // It should stop background sync of lesson progress.
     this.props.dispatch(lessonActions.closed(this.props.lesson));
   }
 

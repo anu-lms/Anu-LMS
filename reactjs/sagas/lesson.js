@@ -11,7 +11,7 @@ import ClientAuth from '../auth/clientAuth';
 const backendSyncDelay = 3500;
 
 /**
- * Keeps all lesson sagas.
+ * Main entry point for all lesson sagas.
  */
 export default function* lessonSagas() {
   yield all([
