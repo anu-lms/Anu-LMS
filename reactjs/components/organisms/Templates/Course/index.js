@@ -70,7 +70,7 @@ const TimeToComplete = ({ totalMinutes, progressPercent }) => {
 };
 
 const CoursePageTemplate = ({ course, lessons, lessonToResume, progressPercent }) => (
-  <div className="container container-course pt-3 pt-md-5">
+  <div className="container container-course pt-3 pb-5 pt-md-5">
     <div className="row">
 
       <div className="col-md-6 course-header">
