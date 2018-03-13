@@ -5,7 +5,7 @@ smtp_port: '587'
 smtp_protocol: tls
 smtp_username: Anu
 smtp_password: ''
-smtp_from: admin@anu.solutions
+smtp_from: admin@anulms.com
 smtp_fromname: ''
 smtp_client_hostname: ''
 smtp_client_helo: ''

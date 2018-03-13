@@ -1,6 +1,6 @@
 {
   "name": "AnuLMS",
-  "version": "1.11",
+  "version": "1.12",
   "private": true,
   "dependencies": {
     "@trendmicro/react-dropdown": "^1.2.0",
@@ -11,6 +11,7 @@
     "dotenv": "^4.0.0",
     "es6-shim": "^0.35.3",
     "express": "^4.16.2",
+    "express-basic-auth": "^1.1.4",
     "he": "^1.1.1",
     "immutable": "^3.8.2",
     "is-url": "^1.2.2",
