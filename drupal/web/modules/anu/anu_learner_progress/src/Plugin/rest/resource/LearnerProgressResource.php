@@ -175,13 +175,13 @@ class LearnerProgressResource extends ResourceBase {
         }
       }
     } catch(\Exception $e) {
-      $message = new FormattableMarkup('Could not fetch learner progress. Error: @error', [
+      $message = new FormattableMarkup('Could not obtain learner progress. Error: @error', [
         '@error' => $e->getMessage()
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
     }
 
-    return new ResourceResponse($progress);
+    return !empty($progress) ? new ResourceResponse($progress) : new ResourceResponse();
   }
 }

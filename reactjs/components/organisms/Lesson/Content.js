@@ -22,9 +22,6 @@ class LessonContent extends React.Component {
       isSending: false,
     };
 
-    // Get a list of course lessons from table of contents.
-    this.courseLessonIds = props.course.lessons.map(lesson => lesson.id);
-
     // List of paragraphs ids from this lesson which have to report to this
     // component that they have been loaded.
     this.paragraphsToLoad = [];
@@ -105,7 +102,7 @@ class LessonContent extends React.Component {
         storeLessons.push({ id: lesson.id, progress: progress });
       }
 
-      const courseProgress = courseHelpers.calculateProgress(storeLessons, this.courseLessonIds);
+      const courseProgress = courseHelpers.calculateProgress(storeLessons, course.lessons);
       this.props.dispatch(courseActions.setProgress(course.id, courseProgress));
     }
   }
