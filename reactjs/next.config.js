@@ -29,6 +29,7 @@ module.exports = {
         ],
       }
     );
+    // Make GTM_QUERY and GTM_ID environment variables available to the client, and set default values (empty sting).
     config.plugins.push(new webpack.EnvironmentPlugin({'GTM_QUERY': '', 'GTM_ID': ''}));
     return config;
   },
