@@ -36,7 +36,7 @@ class ForgotPassword extends React.Component {
           }
 
           {isEmailSent &&
-            <div>Thank you! An email has been sent to <b>{email}</b> with a link to reset your password.</div>
+            <div>Thank you! An email has been sent to your email address with a link to reset your password.</div>
           }
         </OneColumnLayout>
       </div>

@@ -11,6 +11,7 @@ import * as courseHelper from '../../../../helpers/course';
 
 const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
   <div className="container container-course pt-3 pt-md-5">
+
     <div className="row">
 
       <div className="col-md-6 course-header">
