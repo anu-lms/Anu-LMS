@@ -8,8 +8,9 @@ import GoogleTagManager from '../components/atoms/GTM/gtm'
 const HtmlHead = ({ title, favicon }) => {
 
   let stylesheets;
-  let gtm;
+  // GTM_ID is taken from .env.local file or platform.sh environment variables
   const gtm_id = process.env.GTM_ID;
+  // GTM_QUERY is taken from .env.local file or platform.sh environment variables, it is needed to non-live environments only.
   const query = process.env.PLATFORM_BRANCH === 'master' ? null : process.env.GTM_QUERY;
 
   if (process.env.NODE_ENV === 'production') {
@@ -22,18 +23,15 @@ const HtmlHead = ({ title, favicon }) => {
     stylesheets = <style dangerouslySetInnerHTML={{ __html: inlineCSS }} />;
   }
 
-  // Attaching Google Tag Manager
-  if (gtm_id) {
-    gtm = <GoogleTagManager gtmId={gtm_id} previewVariables={query} />;
-  }
-
   return (
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      {gtm}
+      {gtm_id.length > 0 &&
+        <GoogleTagManager gtmId={gtm_id} previewVariables={query} />
+      }
       <link href="https://fonts.googleapis.com/css?family=Lato:400,600" rel="stylesheet" />
       {!!favicon && <link rel="shortcut icon" href={favicon} type="image/vnd.microsoft.icon" />}
       {stylesheets}
