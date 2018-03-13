@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from '../../../routes';
 
-const Card = ({ imageUrl, title, url, children, progressPercent }) => (
+const Card = ({ imageUrl, imageAlt, title, url, children, progressPercent }) => (
   <div className="card">
 
     <Link to={url}>
       <a className="card-image">
-        <img src={imageUrl} />
+        <img src={imageUrl} alt={imageAlt} />
       </a>
     </Link>
 
@@ -28,5 +29,13 @@ const Card = ({ imageUrl, title, url, children, progressPercent }) => (
 
   </div>
 );
+
+Card.propTypes = {
+  progressPercent: PropTypes.number,
+  title: PropTypes.string,
+  imageUrl: PropTypes.string,
+  imageAlt: PropTypes.string,
+  url: PropTypes.string,
+};
 
 export default Card;

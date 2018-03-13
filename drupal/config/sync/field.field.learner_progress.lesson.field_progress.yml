@@ -1,0 +1,23 @@
+uuid: 5dd23484-19f0-475d-b39c-8bc0242e19c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.learner_progress.lesson
+    - field.storage.learner_progress.field_progress
+id: learner_progress.lesson.field_progress
+field_name: field_progress
+entity_type: learner_progress
+bundle: lesson
+label: Progress
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: !!float 0
+  max: !!float 100
+  prefix: ''
+  suffix: ''
+field_type: decimal

@@ -10,62 +10,33 @@ export const calculateProgress = (lessonsStore, lessons) => {
     return 0;
   }
 
+  // Figure out how much progress to the course can add 1 lesson if it is
+  // 100% completed.
   const maxProgressPerLesson = 100 / lessons.length;
-  const progress = lessons.reduce((accumulator, lessonId) => {
 
-    const index = lessonsStore.findIndex(lesson => lesson.id === lessonId);
+  // Run through all course lessons and calculate total progress.
+  const progress = lessons.reduce((accumulator, lesson) => {
 
-    // If the course was found, then we should update it.
+    // Find a lesson progress in the redux store.
+    const index = lessonsStore.findIndex(lessonStore => lessonStore.id === lesson.id);
+
+    // By default set the lesson progress equals progress from the backend.
+    let lessonProgress = lesson.progress;
+
+    // If the local storage contains lesson with progress greater than the
+    // progress from the backend, then we should use it.
     if (index !== -1) {
-      const lessonProgress = lessonsStore[index].progress;
-      accumulator += maxProgressPerLesson * lessonProgress / 100;
+      if (lessonsStore[index].progress > lessonProgress) {
+        lessonProgress = lessonsStore[index].progress;
+      }
     }
 
+    // Accumulate the course progress using progress of each lesson.
+    accumulator += maxProgressPerLesson * lessonProgress / 100;
     return accumulator;
   }, 0);
 
   return Math.round(progress);
-};
-
-/**
- * Return a first lesson without 100% read completion in a course.
- *
- * @param storeLessons
- *   Array of lessons with progress from Redux storage.
- *
- * @param courseLessons
- *   Array of lessons per course.
- *
- * @returns {boolean}
- */
-export const getLessonToResume = (storeLessons, courseLessons) => {
-
-  let progressExists = false;
-
-  const matchedLessons = courseLessons.filter(lesson => {
-
-    let index = storeLessons.findIndex(element =>
-      element.id === lesson.id
-    );
-
-    if (index !== -1) {
-
-      let storeLesson = storeLessons[index];
-      if (storeLesson.progress > 0) {
-        progressExists = true;
-      }
-
-      if (progressExists && storeLesson.progress < 100) {
-        return lesson;
-      }
-    }
-    else if (progressExists) {
-      return lesson;
-    }
-
-  });
-
-  return matchedLessons.length > 0 ? matchedLessons[0] : false;
 };
 
 /**
@@ -74,17 +45,29 @@ export const getLessonToResume = (storeLessons, courseLessons) => {
  * @param coursesStore
  *   List of courses from Redux storage.
  *
- * @param id
- *   Course ID.
+ * @param course
+ *   Course object.
  *
  * @returns {number}
  */
-export const getProgress = (coursesStore, id) => {
+export const getProgress = (coursesStore, course) => {
+  // If there is no progress in the redux store - simply return value from
+  // the backend (or default value).
   if (coursesStore.length === 0) {
-    return 0;
+    return course.progress;
   }
-  const index = coursesStore.findIndex(element => element.id === id);
-  return index !== -1 ? coursesStore[index].progress : 0;
+
+  // Trying to find the course's progress in the redux store. Return
+  // progress from the backend (or default) if not found.
+  const index = coursesStore.findIndex(element => element.id === course.id);
+  if (index === -1) {
+    return course.progress;
+  }
+
+  // Always show the highest progress.
+  return coursesStore[index].progress > course.progress
+    ? coursesStore[index].progress
+    : course.progress;
 };
 
 /**

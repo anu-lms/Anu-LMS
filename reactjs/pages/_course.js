@@ -3,24 +3,24 @@ import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import Header from '../components/organisms/Header';
 import withRedux from '../store/withRedux';
+import ErrorPage from '../components/atoms/ErrorPage';
 import CoursePageTemplate from '../components/organisms/Templates/Course';
 import * as dataProcessors from '../utils/dataProcessors';
 
 class CoursePage extends React.Component {
 
   render() {
-
-    const { course } = this.props;
-
-    if (Object.keys(course).length === 0) {
-      return <div>Page not found</div>;
-    }
-
+    const { course, statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header">
-          <CoursePageTemplate course={course} />
+          {statusCode === 200 &&
+          <CoursePageTemplate course={course}/>
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
         </div>
       </App>
     );
@@ -30,11 +30,14 @@ class CoursePage extends React.Component {
 
     const initialProps = {
       course: {},
+      statusCode: 200,
     };
 
-    // Get a course by path.
     let response;
+
     try {
+
+      // Get a course by path.
       response = await request
         .get('/router/translate-path')
         .query({
@@ -43,13 +46,17 @@ class CoursePage extends React.Component {
         });
 
       const { entity } = response.body;
-      // TODO: Test this case.
+
+      // Make sure the node is of the right type.
       if (entity.type !== 'node' || entity.bundle !== 'course') {
-        throw new Error('The loading entity is not of the expected type.');
+        console.log('Could not find the course under with the given URL.');
+        if (res) res.statusCode = 404;
+        initialProps.statusCode = 404;
+        return initialProps;
       }
 
       // TODO: Handle case when path alias was changed.
-
+      // TODO: POTENTIAL TO REMOVE GROUP.
       const responseCourse = await request
         .get('/jsonapi/group_content/class-group_node-course')
         .query({
@@ -73,7 +80,44 @@ class CoursePage extends React.Component {
 
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
     } catch (error) {
-      if (res) res.statusCode = 404;
+      console.log('Could not load course. Error:');
+      console.log(error);
+      if (res) res.statusCode = 500;
+      initialProps.statusCode = 500;
+      return initialProps;
+    }
+
+    try {
+
+      // Fetch data regarding the course progress from the backend.
+      response = await request
+        .get('/learner/progress/' + initialProps.course.id)
+        .query({ '_format': 'json' });
+
+      const progress = response.body;
+
+      // Add information about the course progress to the course object
+      initialProps.course.progress = Math.round(progress.course);
+
+      // Add information about the lessons progress to the appropriate objects.
+      Object.entries(progress.lessons).forEach(([id, progress]) => {
+        const lessonId = parseInt(id);
+        const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
+        if (index !== -1) {
+          initialProps.course.lessons[index].progress = Math.round(progress);
+        }
+      });
+
+      // Add url of the lesson which was accessed last to the course object.
+      if (progress.recentLesson && progress.recentLesson.url) {
+        const courseUrl = initialProps.course.url;
+        const lessonSlug = progress.recentLesson.url;
+        initialProps.course.recentLessonUrl = courseUrl + lessonSlug;
+      }
+    } catch (error) {
+      // Log error but still render the page, because this issue is not a
+      // deal breaker to display course content.
+      console.log('Could not fetch course progress. Error:');
       console.log(error);
     }
 
