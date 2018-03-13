@@ -8,9 +8,10 @@ import GoogleTagManager from '../components/atoms/GTM/gtm'
 const HtmlHead = ({ title, favicon }) => {
 
   let stylesheets;
-  // GTM_ID is taken from .env.local file or platform.sh environment variables
+  // GTM_ID is taken from .env.local file or platform.sh environment variables.
   const gtm_id = process.env.GTM_ID;
-  // GTM_QUERY is taken from .env.local file or platform.sh environment variables, it is needed to non-live environments only.
+  // GTM_QUERY is taken from .env.local file or platform.sh environment variables, it is needed to non-live
+  // environments only.
   const query = process.env.PLATFORM_BRANCH === 'master' ? null : process.env.GTM_QUERY;
 
   if (process.env.NODE_ENV === 'production') {
