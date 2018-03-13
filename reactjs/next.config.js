@@ -1,4 +1,5 @@
 const globImporter = require('node-sass-glob-importer');
+const webpack  = require('webpack');
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -28,6 +29,8 @@ module.exports = {
         ],
       }
     );
+    // Make GTM_QUERY and GTM_ID environment variables available to the client, and set default values (empty sting).
+    config.plugins.push(new webpack.EnvironmentPlugin({'GTM_QUERY': '', 'GTM_ID': ''}));
 
     return config;
   },
