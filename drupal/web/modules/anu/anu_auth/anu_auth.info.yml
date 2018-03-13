@@ -1,0 +1,5 @@
+name: Anu Authentication
+type: module
+description: Tweaks for authentication system.
+core: 8.x
+package: Anu
