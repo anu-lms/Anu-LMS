@@ -10,3 +10,13 @@ export const setQuizResult = (lessonId, quizId, quizData) => ({
   quizId,
   quizData
 });
+
+export const opened = lesson => ({
+  type: 'LESSON_OPENED',
+  lesson,
+});
+
+export const closed = lesson => ({
+  type: 'LESSON_CLOSED',
+  lesson,
+});

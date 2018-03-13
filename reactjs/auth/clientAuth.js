@@ -87,7 +87,7 @@ export default class extends Auth {
             });
       });
     })
-  )
+  );
 
   getSessionToken() {
     return new Promise((resolve, reject) => {
