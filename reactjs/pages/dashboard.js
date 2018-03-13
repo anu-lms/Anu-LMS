@@ -80,33 +80,37 @@ class DashboardPage extends Component {
       const responseProgress = await request
         .get('/learner/progress?_format=json');
 
-      // Attach course progresses to their corresponsing entities.
-      responseProgress.body.forEach(courseProgress => {
+      // Make sure the response body is not null.
+      if (responseProgress.body) {
 
-        // Find course to which the progress data should be added.
-        const courseId = parseInt(courseProgress.courseId);
-        const index = initialProps.courses.findIndex(course => course.id === courseId);
+        // Attach course progresses to their corresponsing entities.
+        responseProgress.body.forEach(courseProgress => {
 
-        // If corresponsing course is found - add information about the
-        // progress and the lesson which was accessed the last.
-        if (index !== -1) {
-          initialProps.courses[index].progress = courseProgress.progress;
+          // Find course to which the progress data should be added.
+          const courseId = parseInt(courseProgress.courseId);
+          const index = initialProps.courses.findIndex(course => course.id === courseId);
 
-          // Add information regarding the lesson which was accessed the last.
-          if (courseProgress.recentLesson && courseProgress.recentLesson.url) {
-            const courseUrl = initialProps.courses[index].url;
-            const lessonSlug = courseProgress.recentLesson.url;
-            initialProps.courses[index].recentLessonUrl = `${courseUrl}${lessonSlug}`;
+          // If corresponsing course is found - add information about the
+          // progress and the lesson which was accessed the last.
+          if (index !== -1) {
+            initialProps.courses[index].progress = courseProgress.progress;
+
+            // Add information regarding the lesson which was accessed the last.
+            if (courseProgress.recentLesson && courseProgress.recentLesson.url) {
+              const courseUrl = initialProps.courses[index].url;
+              const lessonSlug = courseProgress.recentLesson.url;
+              initialProps.courses[index].recentLessonUrl = `${courseUrl}${lessonSlug}`;
+            }
+
+            // Simply push 3 first courses to the recent courses list.
+            // Learner progress items are sorted by recently accessed courses, so
+            // it works as expected here.
+            if (initialProps.recentCourses.length < 3) {
+              initialProps.recentCourses.push(initialProps.courses[index]);
+            }
           }
-
-          // Simply push 3 first courses to the recent courses list.
-          // Learner progress items are sorted by recently accessed courses, so
-          // it works as expected here.
-          if(initialProps.recentCourses.length < 3) {
-            initialProps.recentCourses.push(initialProps.courses[index]);
-          }
-        }
-      });
+        });
+      }
     } catch (error) {
       // Log error but still render the page, because this issue is not a
       // deal breaker to display courses / classes.

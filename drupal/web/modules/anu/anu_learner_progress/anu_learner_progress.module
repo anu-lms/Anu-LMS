@@ -6,15 +6,11 @@
  */
 
 /**
- * Implements hook_entity_delete().
+ * Implements hook_ENTITY_TYPE_delete().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_learner_progress_entity_delete(Drupal\Core\Entity\EntityInterface $entity) {
-
-  if ($entity->getEntityTypeId() != 'node') {
-    return;
-  }
+function anu_learner_progress_node_delete(Drupal\Core\Entity\EntityInterface $entity) {
 
   if (!in_array($entity->bundle(), ['course', 'lesson'])) {
     return;
@@ -28,6 +24,33 @@ function anu_learner_progress_entity_delete(Drupal\Core\Entity\EntityInterface $
     $entities = $controller->loadByProperties([
       'type' => $entity->bundle(),
       'field_' . $entity->bundle() => $entity->id(),
+    ]);
+    $controller->delete($entities);
+
+  } catch(\Exception $e) {
+    $message = 'Could not remove learner progress entity when @bundle @id was deleting. Error: @error.';
+    $params = [
+      '@bundle' => $entity->bundle(),
+      '@id' => $entity->id(),
+      '@error' => $e->getMessage()
+    ];
+    \Drupal::logger('anu_learner_progress')->critical($message, $params);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_learner_progress_user_delete(Drupal\Core\Entity\EntityInterface $entity) {
+
+  try {
+
+    // Delete all existing lesson progress entities which refer this user.
+    $controller = \Drupal::entityTypeManager()->getStorage('learner_progress');
+    $entities = $controller->loadByProperties([
+      'uid' => $entity->id(),
     ]);
     $controller->delete($entities);
 

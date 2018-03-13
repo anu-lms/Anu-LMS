@@ -10,17 +10,29 @@ export const calculateProgress = (lessonsStore, lessons) => {
     return 0;
   }
 
+  // Figure out how much progress to the course can add 1 lesson if it is
+  // 100% completed.
   const maxProgressPerLesson = 100 / lessons.length;
-  const progress = lessons.reduce((accumulator, lessonId) => {
 
-    const index = lessonsStore.findIndex(lesson => lesson.id === lessonId);
+  // Run through all course lessons and calculate total progress.
+  const progress = lessons.reduce((accumulator, lesson) => {
 
-    // If the course was found, then we should update it.
+    // Find a lesson progress in the redux store.
+    const index = lessonsStore.findIndex(lessonStore => lessonStore.id === lesson.id);
+
+    // By default set the lesson progress equals progress from the backend.
+    let lessonProgress = lesson.progress;
+
+    // If the local storage contains lesson with progress greater than the
+    // progress from the backend, then we should use it.
     if (index !== -1) {
-      const lessonProgress = lessonsStore[index].progress;
-      accumulator += maxProgressPerLesson * lessonProgress / 100;
+      if (lessonsStore[index].progress > lessonProgress) {
+        lessonProgress = lessonsStore[index].progress;
+      }
     }
 
+    // Accumulate the course progress using progress of each lesson.
+    accumulator += maxProgressPerLesson * lessonProgress / 100;
     return accumulator;
   }, 0);
 
