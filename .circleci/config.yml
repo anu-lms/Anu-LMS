@@ -208,7 +208,7 @@ jobs:
             # So we loop through client repos and deploy changes to each of those.
             for repo_var in "${client_repos[@]}"
             do
-              # Here ${repo_var} is name if env variable, ${!repo_var} is git remove url.
+              # Here ${repo_var} is name of env variable, ${!repo_var} is git remove url.
               echo "Pushing changes to ${!repo_var} (${repo_var})..."
               if ! git config remote.${repo_var}.url > /dev/null; then
                 git remote add ${repo_var} ${!repo_var}
