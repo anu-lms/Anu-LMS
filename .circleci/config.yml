@@ -213,7 +213,7 @@ jobs:
               if ! git config remote.${repo_var}.url > /dev/null; then
                 git remote add ${repo_var} ${!repo_var}
               fi;
-              git push --mirror ${repo_var} $CIRCLE_BRANCH
+              git push ${repo_var} $CIRCLE_BRANCH
             done
 
   ########################################################
@@ -225,7 +225,7 @@ jobs:
       - checkout
       - run:
           name: Push release to the production web site
-          command: git push --force origin $CIRCLE_BRANCH:master
+          command: git push origin $CIRCLE_BRANCH:master
 
 ##########################################################
 ######## WORKFLOWS. ORCHESTRATING THE CI JOBS  ###########
