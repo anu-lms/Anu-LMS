@@ -226,7 +226,7 @@ jobs:
               # Make sure that all changes in master branch of client's repo
               # get merged before we push changes from original repo, because
               # it may contain customer-specific changes.
-              git fetch ${repo_var}/master
+              git fetch ${repo_var} master
               git merge --no-edit ${repo_var}/master ${CIRCLE_BRANCH}_${repo_var}
               git push --force ${repo_var} $CIRCLE_BRANCH
 
