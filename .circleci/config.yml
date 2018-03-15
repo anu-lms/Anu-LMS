@@ -1,3 +1,15 @@
+##################
+#
+# Circle CI environment variables used:
+#
+# $PLATFORM_PROJECT_NAME - Machine name of a project on Platform.sh. Example: dnrvwqsdwxjry.
+# $PLATFORM_TOKEN - Authentication token of a user from Platform.sh.
+# $HTTP_USERNAME - Username to use for HTTP authentication on non-production environments.
+# $HTTP_PASSWORD - Password to use for HTTP authentication on non-production environments.
+# #CLIENT_* - Git repo URL of every Anu's client who should be getting production updates.
+#
+###################
+
 # Default configs for all jobs.
 defaults: &defaults
   working_directory: ~/anu-lms
@@ -12,10 +24,12 @@ install_platform_cli: &install_platform_cli
     sudo ln -s ~/.platformsh/bin/platform /usr/local/bin/platform
     echo $PLATFORM_TOKEN > ~/.platformsh/token
     cp .platform/config.yaml ~/.platformsh/config.yaml
+
     # Add platform.sh remote to git.
     if ! git config remote.platform.url > /dev/null; then
       git remote add platform $PLATFORM_PROJECT_NAME@git.us.platform.sh:$PLATFORM_PROJECT_NAME.git
     fi
+
     # Avoid dynamic hosts issue for git push to platform.
     echo "StrictHostKeyChecking no" > ~/.ssh/config
 
@@ -170,10 +184,10 @@ jobs:
       - run:
           name: Check security updates for Drupal backend
           # Connect via SSH and output result of drush pm-updatestatus as a list | count output lines | make sure there are exactly zero lines which means "No security updates found".
-          command: platform ssh -q -A drupal "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
+          command: platform ssh -q -A backend "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
 
   ###################################################
-  ###### PUSH RELEASE TO CLIENT REPOSITORIES ########
+  ###### PUSH RELEASE TO ALL ANU'S CLIENTS ##########
   ###################################################
   push_release_to_clients:
     <<: *defaults
@@ -181,27 +195,57 @@ jobs:
       - checkout
 
       - run:
-          name: Push production updates to all clients
+          name: Push updates to all clients
           command: |
+            # Find all variables set in CIRCLE CI starting with CLIENT_*.
             vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*') || true
+
+            # Crete a new variable $client_repos which is now array of env vars
+            # starting with CLIENT_*.
             read -a client_repos <<<$vars
+
+            # Every CLIENT_* variable should define a remote git repo.
+            # So we loop through client repos and deploy changes to each of those.
             for repo_var in "${client_repos[@]}"
             do
+              # Here ${repo_var} is name if env variable, ${!repo_var} is git remove url.
               echo "Pushing changes to ${!repo_var} (${repo_var})..."
               if ! git config remote.${repo_var}.url > /dev/null; then
                 git remote add ${repo_var} ${!repo_var}
               fi;
-              git push --force ${repo_var} $CIRCLE_BRANCH
+              git push --mirror ${repo_var} $CIRCLE_BRANCH
             done
 
+  ########################################################
+  ###### PUSH RELEASE TO THE PRODUCTION ENVIRONMENT ######
+  ########################################################
+  push_release_to_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Push release to the production web site
+          command: git push --force origin $CIRCLE_BRANCH:master
+
+##########################################################
+######## WORKFLOWS. ORCHESTRATING THE CI JOBS  ###########
+##########################################################
 workflows:
   version: 2
   workflow:
     jobs:
+
+      # A job which pushes changes to platform.sh and executes mandatory
+      # operations on the platform.sh.
       - prepare_platformsh
+
+      # Executes all operations to prepare the web site (flush caches, run updates,
+      # etc).
       - prepare_site:
           requires:
             - prepare_platformsh
+
+      # Executes tests on recently created environment at Platform.sh.
       - run_tests:
           requires:
             - prepare_site
@@ -209,15 +253,31 @@ workflows:
             branches:
               ignore:
                 - master
-      - push_release_to_clients:
+
+      # Stage branch is treated as pre-production here.
+      # If tests pass on stage environment, it automatically
+      # send changes to the production environment.
+      - push_release_to_production:
           requires:
-            - prepare_site
-          # TODO: Discuss with Ev git workflow, will we use master branch only? Bring back later.
+            - run_tests
           filters:
             branches:
               only:
-                - master
+                - stage
 
+      # Stage branch is treated as pre-production here.
+      # If tests pass on stage environment, it automatically
+      # send changes to stage envs for client repos.
+      - push_release_to_clients:
+          requires:
+            - run_tests
+          filters:
+            branches:
+              only:
+                - stage
+
+  # Run security checks for the ANU LMS every Thursday
+  # at 12am.
   security_updates_scheduled:
     triggers:
       - schedule:
@@ -226,10 +286,4 @@ workflows:
             branches:
               only: stage
     jobs:
-      - prepare_platformsh
-      - prepare_site:
-          requires:
-            - prepare_platformsh
-      - check_security_updates:
-          requires:
-            - prepare_site
+      - check_security_updates
