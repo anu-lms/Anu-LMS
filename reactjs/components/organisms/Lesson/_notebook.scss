@@ -1,0 +1,13 @@
+.lesson-notebook {
+  width: 480px;
+  max-width: 80%;
+  position: fixed;
+  right: 0;
+  padding-bottom: 80px;
+  height: 100vh;
+  background: $white;
+  overflow-y: scroll;
+  transition: right .2s;
+  z-index: 1030;
+  top: 80px;
+}
