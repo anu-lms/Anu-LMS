@@ -228,7 +228,7 @@ jobs:
               # it may contain customer-specific changes.
               git fetch ${repo_var} master
               git merge --no-edit ${repo_var}/master ${CIRCLE_BRANCH}_${repo_var}
-              git push --force ${repo_var} $CIRCLE_BRANCH
+              git push --force ${repo_var} ${CIRCLE_BRANCH}_${repo_var}:$CIRCLE_BRANCH
 
               # Get back to the original branch.
               git checkout $CIRCLE_BRANCH
