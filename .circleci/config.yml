@@ -197,6 +197,11 @@ jobs:
       - run:
           name: Push updates to all clients
           command: |
+
+            # Configure git user.
+            git config --global user.email "circleci@systemseed.com"
+            git config --global user.name "Circle CI"
+
             # Find all variables set in CIRCLE CI starting with CLIENT_*.
             vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*') || true
 
@@ -214,17 +219,19 @@ jobs:
                 git remote add ${repo_var} ${!repo_var}
               fi;
 
-              # Checkout back to the original git branch and then make a new one
-              # to make sure the changes match the ${CIRCLE_BRANCH} and were not
-              # affected by merges for previous clients.
-              git checkout $CIRCLE_BRANCH
+              # Make a new git branch to make sure the changes match the
+              # ${CIRCLE_BRANCH} and were not affected by merges for previous clients.
               git checkout -B ${CIRCLE_BRANCH}_${repo_var}
 
               # Make sure that all changes in master branch of client's repo
               # get merged before we push changes from original repo, because
               # it may contain customer-specific changes.
-              git merge ${repo_var}/master $CIRCLE_BRANCH
-              git push ${repo_var} $CIRCLE_BRANCH
+              git fetch ${repo_var}/master
+              git merge --no-edit ${repo_var}/master ${CIRCLE_BRANCH}_${repo_var}
+              git push --force ${repo_var} $CIRCLE_BRANCH
+
+              # Get back to the original branch.
+              git checkout $CIRCLE_BRANCH
             done
 
   ########################################################
