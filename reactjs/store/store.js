@@ -23,7 +23,7 @@ const persistConfig = {
   storage: storage,
   // List reducers to store data for.
   // TODO: Potentially lesson and course can be not permanent any more.
-  whitelist: ['lesson', 'course', 'navigation', 'notebook'],
+  whitelist: ['lesson', 'lessonNotebook', 'course', 'navigation', 'notebook'],
 };
 
 // Make reducers store persistent data.

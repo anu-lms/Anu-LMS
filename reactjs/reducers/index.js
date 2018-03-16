@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import course from './course';
 import lesson from './lesson';
+import lessonNotebook from './lessonNotebook';
 import notebook from './notebook';
 import navigation from './navigation';
 import lock from './lock';
@@ -8,6 +9,7 @@ import lock from './lock';
 const appReducer = combineReducers({
   course,
   lesson,
+  lessonNotebook,
   notebook,
   navigation,
   lock
