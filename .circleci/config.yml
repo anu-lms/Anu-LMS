@@ -6,7 +6,9 @@
 # $PLATFORM_TOKEN - Authentication token of a user from Platform.sh.
 # $HTTP_USERNAME - Username to use for HTTP authentication on non-production environments.
 # $HTTP_PASSWORD - Password to use for HTTP authentication on non-production environments.
-# #CLIENT_* - Git repo URL of every Anu's client who should be getting production updates.
+# $CLIENT_* - Git repo URL of every Anu's client who should be getting production updates.
+# $SECR_TOKEN_FRONTEND - Access token from the dashboard to submit frontend application to penetration tests service.
+# $SECR_TOKEN_BACKEND - Access token from the dashboard to submit backend application to penetration tests service.
 #
 ###################
 
@@ -187,6 +189,27 @@ jobs:
           command: platform ssh -q -A backend "drush ups -r web --security-only --pipe" | wc -l | grep -q "\b0$"
 
   ###################################################
+  ###### TRIGGER PENETRATION TESTING ################
+  ###################################################
+  run_penetration_tests:
+    <<: *defaults
+    steps:
+
+      - run:
+          name: Trigger penetration tests for the React.js application
+          command: |
+            if [ -z "$SECR_TOKEN_FRONTEND" ]; then
+              curl -k -H "Content-Type: application/json;charset=utf8" -H "Cookie: secr_token=${SECR_TOKEN_FRONTEND};" -X POST -d "{}" https://hub.se.cr/api/SecurityScan/startScan
+            fi
+
+      - run:
+          name: Trigger penetration tests for the Drupal application
+          command: |
+            if [ -z "$SECR_TOKEN_BACKEND" ]; then
+              curl -k -H "Content-Type: application/json;charset=utf8" -H "Cookie: secr_token=${SECR_TOKEN_BACKEND};" -X POST -d "{}" https://hub.se.cr/api/SecurityScan/startScan
+            fi
+
+  ###################################################
   ###### PUSH RELEASE TO ALL ANU'S CLIENTS ##########
   ###################################################
   push_release_to_clients:
@@ -293,6 +316,14 @@ workflows:
             branches:
               only:
                 - stage
+
+      # Run penetration tests against recent changes.
+      - run_penetration_tests
+          filters:
+            branches:
+              only:
+                #TODO: CHANGE TO STAGE.
+                - pentests
 
   # Run security checks for the ANU LMS every Thursday
   # at 12am.
