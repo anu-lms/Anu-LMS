@@ -1,14 +1,23 @@
 import React from 'react';
 import Button from '../../atoms/Button';
+import CollapsibleNotebook from '../../atoms/CollapsibleNotebook';
 
-const Notebook = () => (
-  <div className="lesson-notebook">
-    This is a notebook!
+class LessonNotebook extends React.Component {
 
-    <Button type="link">
-      Save and Close
-    </Button>
-  </div>
-);
+  render() {
+    return (
+      <CollapsibleNotebook className="lesson">
+        <div className="">
+          This is a LessonNotebook!
+        </div>
+        <div className="">
+          <Button type="link">
+            Save and Close
+          </Button>
+        </div>
+      </CollapsibleNotebook>
+    )
+  }
+}
 
-export default Notebook;
+export default LessonNotebook;
