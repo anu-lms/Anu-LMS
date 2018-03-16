@@ -205,7 +205,7 @@ jobs:
             # Find all variables set in CIRCLE CI starting with CLIENT_*.
             vars=$(env | awk -F '=' '{print $1}' | grep 'CLIENT_*') || true
 
-            # Crete a new variable $client_repos which is now array of env vars
+            # Create a new variable $client_repos which is now array of env vars
             # starting with CLIENT_*.
             read -a client_repos <<<$vars
 
