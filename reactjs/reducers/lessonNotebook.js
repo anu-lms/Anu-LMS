@@ -1,5 +1,4 @@
 export default (state = { isCollapsed: true }, action) => {
-  console.log(action);
   switch (action.type) {
     case 'NAVIGATION_TOGGLE':
       return {
