@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect} from 'react-redux';
 import Button from '../../atoms/Button';
 import CollapsibleNotebook from '../../atoms/CollapsibleNotebook';
+import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class LessonNotebook extends React.Component {
 
@@ -11,7 +13,7 @@ class LessonNotebook extends React.Component {
           This is a LessonNotebook!
         </div>
         <div className="">
-          <Button type="link">
+          <Button type="link" onClick={() => { this.props.dispatch(lessonNotebookActions.notebookClosed()) }}>
             Save and Close
           </Button>
         </div>
@@ -20,4 +22,4 @@ class LessonNotebook extends React.Component {
   }
 }
 
-export default LessonNotebook;
+export default connect()(LessonNotebook);

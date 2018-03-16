@@ -3,8 +3,8 @@
 
   .add-note-button {
     position: fixed;
-    bottom: 20px;
-    right: 40px;
+    bottom: 16px;
+    right: 22px;
     z-index: 1029;
     cursor: pointer;
     svg {
@@ -29,7 +29,7 @@
 
   &.closed {
     .lesson-notebook {
-      right: -480px;
+      right: -490px;
     }
   }
 }

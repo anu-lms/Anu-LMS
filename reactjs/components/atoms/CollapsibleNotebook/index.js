@@ -1,16 +1,21 @@
 import React from 'react';
 import { connect} from 'react-redux';
-import { toggle } from '../../../actions/navigation';
+import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNotebook extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+  }
+
   toggleNavigation() {
-    this.props.dispatch(toggle());
+    this.props.dispatch(lessonNotebookActions.notebookOpened());
   }
 
   render() {
     return (
-      <div className={`collapsible-notebook  ${this.props.isCollapsed ? 'opened' : 'closed'} ${this.props.className}`}>
+      <div className={`collapsible-notebook  ${this.props.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
 
         <div className="add-note-button" onClick={this.toggleNavigation.bind(this)}>
           <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="54" height="54" viewBox="0 0 54 54">
@@ -43,8 +48,8 @@ class CollapsibleNotebook extends React.Component {
   }
 }
 
-const mapStateToProps = ({ navigation }) => ({
-  isCollapsed: navigation.isCollapsed,
+const mapStateToProps = ({ lessonNotebook }) => ({
+  isCollapsed: lessonNotebook.isCollapsed,
 });
 
 export default connect(mapStateToProps)(CollapsibleNotebook);
