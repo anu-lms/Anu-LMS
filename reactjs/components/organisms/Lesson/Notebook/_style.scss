@@ -4,6 +4,12 @@
   &.closed {
     .lesson-notebook {
       right: -104%;
+      @include media-breakpoint-up(md) {
+        right: -350px;
+      }
+      @include media-breakpoint-up(lg) {
+        right: -484px;
+      }
     }
   }
 
@@ -13,29 +19,43 @@
     right: 6px;
     z-index: $zindex-fixed - 2;
     cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+      bottom: 16px;
+      right: 22px;
+    }
+
     svg {
-      //width: 73px;
-      //height: 73px;
       width: 60px;
       height: 60px;
+
+      @include media-breakpoint-up(md) {
+        width: 73px;
+        height: 73px;
+      }
     }
   }
 
   .lesson-notebook {
     position: fixed;
-    //top: 80px;
     top: 3em;
     bottom: 0;
     right: 0;
     z-index: $zindex-fixed - 2;
     overflow-y: scroll;
     padding: 2em;
-    //max-width: 45%;
     width: 100%;
-    //width: 480px;
     background: $white;
     box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.5);
     transition: right .2s;
+
+    @include media-breakpoint-up(md) {
+      width: 350px;
+      top: 80px;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 480px;
+    }
 
     .save-close {
       background: $carbon;
