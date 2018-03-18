@@ -26,11 +26,11 @@ class ImageCentered extends React.Component {
   }
 
   render() {
-    const { image, title } = this.props;
+    const { image, title, columnClasses } = this.props;
     return (
       <div className="container image-centered">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
             <img
               src={fileUrl(image.meta.derivatives['w730'])}
               onLoad={this.contentLoaded}
@@ -50,6 +50,7 @@ class ImageCentered extends React.Component {
 ImageCentered.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   title: PropTypes.string,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,

@@ -19,7 +19,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { list, type, id } = this.props;
+    const { list, type, id, columnClasses } = this.props;
     let Wrapper = 'ul';
 
     if (type === 'list_numbered') {
@@ -35,7 +35,7 @@ class List extends React.Component {
     return (
       <div className="container list">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
@@ -53,6 +53,7 @@ class List extends React.Component {
 List.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   list: PropTypes.array,

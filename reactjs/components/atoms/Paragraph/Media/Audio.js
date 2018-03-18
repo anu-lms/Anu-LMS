@@ -67,7 +67,7 @@ class Audio extends React.Component {
   }
 
   render() {
-    const { file } = this.props;
+    const { file, columnClasses } = this.props;
 
     if (typeof file === 'undefined') {
       return null;
@@ -76,7 +76,7 @@ class Audio extends React.Component {
     return (
       <div className="container audio">
         <div className="row">
-          <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+          <div className={columnClasses.join(' ')}>
 
             <div className="player">
 
@@ -125,6 +125,7 @@ class Audio extends React.Component {
 Audio.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   file: PropTypes.shape({
