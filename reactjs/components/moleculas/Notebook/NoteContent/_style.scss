@@ -1,15 +1,4 @@
 .note-content {
-  @include media-breakpoint-up(md) {
-    margin-left: 33%;
-    padding: 1.5em 1em;
-  }
-
-  &.hidden {
-    display: none;
-    @include media-breakpoint-up(md) {
-      display: block;
-    }
-  }
 
   .caption {
     color: $london-sky;
