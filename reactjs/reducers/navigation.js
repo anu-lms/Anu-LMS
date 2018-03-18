@@ -11,10 +11,10 @@ export default (state = { isCollapsed: false }, action) => {
         isCollapsed: true,
       };
 
-    case 'LESSON_NOTEBOOK_CLOSED':
-      return {
-        isCollapsed: false,
-      };
+    // case 'LESSON_NOTEBOOK_CLOSED':
+    //   return {
+    //     isCollapsed: false,
+    //   };
 
     default:
       return state;

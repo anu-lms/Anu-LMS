@@ -1,5 +1,4 @@
 export default (state = { isCollapsed: true, note: null }, action) => {
-  console.log(action);
 
   switch (action.type) {
 

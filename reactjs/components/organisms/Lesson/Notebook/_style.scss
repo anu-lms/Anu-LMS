@@ -3,32 +3,36 @@
 
   &.closed {
     .lesson-notebook {
-      right: -490px;
+      right: -104%;
     }
   }
 
   .add-note-button {
     position: fixed;
-    bottom: 16px;
-    right: 22px;
-    z-index: 1029;
+    bottom: 0;
+    right: 6px;
+    z-index: $zindex-fixed - 2;
     cursor: pointer;
     svg {
-      width: 73px;
-      height: 73px;
+      //width: 73px;
+      //height: 73px;
+      width: 60px;
+      height: 60px;
     }
   }
 
   .lesson-notebook {
     position: fixed;
-    top: 80px;
+    //top: 80px;
+    top: 3em;
     bottom: 0;
     right: 0;
-    z-index: $zindex-fixed;
+    z-index: $zindex-fixed - 2;
     overflow-y: scroll;
     padding: 2em;
-    max-width: 45%;
-    width: 480px;
+    //max-width: 45%;
+    width: 100%;
+    //width: 480px;
     background: $white;
     box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.5);
     transition: right .2s;
