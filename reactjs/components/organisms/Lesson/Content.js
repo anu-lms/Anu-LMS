@@ -229,7 +229,7 @@ class LessonContent extends React.Component {
   }
 
   render() {
-    const { lesson, course, navigation } = this.props;
+    const { lesson, course, navigation, lessonNotebook } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
@@ -267,12 +267,23 @@ class LessonContent extends React.Component {
       );
     }
 
+    let wrapperClasses = ['lesson-container'];
+    let columnClasses = ['col-12', 'offset-lg-2', 'col-lg-8'];
+
+    if (navigation.isCollapsed) {
+      wrapperClasses.push('nav-collapsed');
+    }
+    if (lessonNotebook.isCollapsed) {
+      wrapperClasses.push('notebook-collapsed');
+      columnClasses.push('offset-md-1');
+      columnClasses.push('col-md-10');
+    }
     return (
-      <div className={`lesson-container ${navigation.isCollapsed ? 'nav-collapsed' : ''}`}>
+      <div className={wrapperClasses.join(' ')}>
 
         <div className="container">
           <div className="row">
-            <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+            <div className={columnClasses.join(' ')}>
               <h1>{lesson.title}</h1>
             </div>
           </div>
@@ -283,12 +294,13 @@ class LessonContent extends React.Component {
             blocks={lesson.blocks}
             handleQuizChange={this.handleQuizChange}
             handleParagraphLoaded={this.handleParagraphLoaded}
+            columnClasses={columnClasses}
           />
         </div>
 
         <div className="lesson-navigation container">
           <div className="row">
-            <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+            <div className={columnClasses.join(' ')}>
               {buttons}
             </div>
           </div>
@@ -303,6 +315,7 @@ const mapStateToProps = (store, ownProps) => ({
   quizzesData: getQuizzesData(store.lesson, ownProps.lesson.id),
   navigation: store.navigation,
   storeLessons: store.lesson,
+  lessonNotebook: store.lessonNotebook,
 });
 
 LessonContent.contextTypes = {
