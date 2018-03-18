@@ -143,7 +143,7 @@ class NotebookTemplate extends React.Component {
 
         </div>
 
-        <div className={`note-content mb-4 ${isMobileContentVisible ? 'visible' : 'hidden'}`}>
+        <div className={`note-content-wrapper mb-4 ${isMobileContentVisible ? 'visible' : 'hidden'}`}>
           <div className="container">
             <div className="row">
               <div className="col-sm-12 offset-lg-1 col-lg-9">
