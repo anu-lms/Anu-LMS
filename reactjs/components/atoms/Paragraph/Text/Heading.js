@@ -18,11 +18,11 @@ class Heading extends React.Component {
   }
 
   render() {
-    const { title, type } = this.props;
+    const { title, type, columnClasses } = this.props;
     return (
       <div className="container heading">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
 
             {title && type === 'text_heading' &&
             <h4>{title}</h4>
@@ -42,6 +42,7 @@ class Heading extends React.Component {
 Heading.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   title: PropTypes.string,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,

@@ -41,11 +41,11 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, blocks, handleParagraphLoaded } = this.props;
+    const { title, from, to, blocks, handleParagraphLoaded, columnClasses } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">
-          <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+          <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>
 
             {blocks.length > 0 &&
@@ -89,6 +89,7 @@ LinearScale.propTypes = {
     first: PropTypes.number,
     second: PropTypes.string,
   }).isRequired,
+  columnClasses: PropTypes.array,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
