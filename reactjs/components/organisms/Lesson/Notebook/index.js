@@ -45,26 +45,28 @@ class LessonNotebook extends React.Component {
         <LessonNotebookOpenCTA handleNotebookOpened={this.handleNotebookOpened}/>
         }
 
-        {!isCollapsed &&
         <div className="lesson-notebook">
+          {!isCollapsed &&
+          <div className="lesson-notebook-inside">
 
-          {!note &&
-          <PageLoader/>
+            {!note &&
+            <PageLoader/>
+            }
+
+            {note &&
+            <Fragment>
+              <NoteContent note={note}/>
+
+              <div className="save-close" onClick={() => this.handleNotebookClosed()}>
+                Save and Close
+              </div>
+
+            </Fragment>
+            }
+
+          </div>
           }
-
-          {note &&
-          <Fragment>
-            <NoteContent note={note}/>
-
-            <div className="save-close" onClick={() => this.handleNotebookClosed()}>
-              Save and Close
-            </div>
-
-          </Fragment>
-          }
-
         </div>
-        }
 
       </div>
     )
