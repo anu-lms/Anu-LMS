@@ -36,7 +36,7 @@ class NoteContent extends React.Component {
 
   render() {
     return (
-      <Fragment>
+      <div className="note-content">
 
         <div className="show-notebook d-md-none" onClick={this.showNotes}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -82,7 +82,7 @@ class NoteContent extends React.Component {
           onChange={this.onContentChange}
         />
 
-      </Fragment>
+      </div>
     );
   }
 }

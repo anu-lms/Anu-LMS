@@ -66,10 +66,20 @@
     }
   }
 
-  .note-content-column {
-    margin-left: 33%;
-    padding: 1em;
-    position: relative;
-    z-index: 10;
+  .note-content-wrapper {
+
+    &.hidden {
+      display: none;
+      @include media-breakpoint-up(md) {
+        display: block;
+      }
+    }
+
+    .note-content {
+      @include media-breakpoint-up(md) {
+        margin-left: 33%;
+        padding: 1.5em 1em;
+      }
+    }
   }
 }

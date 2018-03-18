@@ -1,6 +1,12 @@
 .collapsible-notebook {
   position: relative;
 
+  &.closed {
+    .lesson-notebook {
+      right: -490px;
+    }
+  }
+
   .add-note-button {
     position: fixed;
     bottom: 16px;
@@ -12,24 +18,33 @@
       height: 73px;
     }
   }
+
   .lesson-notebook {
     position: fixed;
     top: 80px;
+    bottom: 0;
     right: 0;
-    z-index: 1030;
+    z-index: $zindex-fixed;
     overflow-y: scroll;
-    padding-bottom: 80px;
-    max-width: 80%;
+    padding: 2em;
+    max-width: 45%;
     width: 480px;
-    height: 100vh;
     background: $white;
     box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.5);
     transition: right .2s;
-  }
 
-  &.closed {
-    .lesson-notebook {
-      right: -490px;
+    .save-close {
+      background: $carbon;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.75em 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.25em;
+      color: white;
+      cursor: pointer;
     }
   }
 }
