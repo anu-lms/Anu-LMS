@@ -3,6 +3,7 @@ import { connect} from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
+import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 
@@ -21,6 +22,9 @@ class LessonNotebook extends React.Component {
     const { dispatch } = this.props;
 
     dispatch(lessonNotebookActions.open());
+    if (window.innerWidth < 1840) {
+      dispatch(navigationActions.close());
+    }
 
     // Get superagent request with authentication token.
     const { request } = await this.context.auth.getRequest();
