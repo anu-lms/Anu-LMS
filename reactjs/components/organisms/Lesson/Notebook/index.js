@@ -22,6 +22,7 @@ class LessonNotebook extends React.Component {
     const { dispatch } = this.props;
 
     dispatch(lessonNotebookActions.open());
+    // If notebook opened, close navigation pane on all devices except extra large.
     if (window.innerWidth < 1840) {
       dispatch(navigationActions.close());
     }
