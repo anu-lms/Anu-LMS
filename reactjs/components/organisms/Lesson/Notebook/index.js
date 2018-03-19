@@ -19,11 +19,11 @@ class LessonNotebook extends React.Component {
       isNotebookOpening: false,
     };
 
-    this.handleNotebookOpened = this.handleNotebookOpened.bind(this);
-    this.handleNotebookClosed = this.handleNotebookClosed.bind(this);
+    this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
+    this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
-  async handleNotebookOpened() {
+  async handleNotebookOpen() {
     const { dispatch } = this.props;
 
     // As soon as notebook icon is clicked, we change the opening state.
@@ -61,7 +61,7 @@ class LessonNotebook extends React.Component {
     this.setState({ isNotebookOpening: false });
   }
 
-  handleNotebookClosed() {
+  handleNotebookClose() {
     this.props.dispatch(lessonNotebookActions.close());
   }
 
@@ -72,7 +72,7 @@ class LessonNotebook extends React.Component {
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
 
         {isCollapsed &&
-        <LessonNotebookOpenCTA handleNotebookOpened={this.handleNotebookOpened}/>
+        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen}/>
         }
 
         <div className="lesson-notebook-wrapper">
@@ -83,12 +83,12 @@ class LessonNotebook extends React.Component {
           <PageLoader/>
           }
 
-          {!this.state.isNotebookOpening &&
+          {!this.state.isNotebookOpening && note &&
           <Fragment>
 
             <NoteContent note={note}/>
 
-            <div className="save-close" onClick={() => this.handleNotebookClosed()}>
+            <div className="save-close" onClick={() => this.handleNotebookClose()}>
               Save and Close
             </div>
 
@@ -100,9 +100,8 @@ class LessonNotebook extends React.Component {
         </div>
 
       </div>
-    )
+    );
   }
-
 }
 
 LessonNotebook.contextTypes = {
