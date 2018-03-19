@@ -5,6 +5,28 @@ import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNavigation extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCollapsed: true
+    };
+  }
+
+  componentDidMount() {
+    // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
+    this.setState({
+      isCollapsed: (window.innerWidth < 768) ? this.props.isCollapsedMobile : this.props.isCollapsed
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
+    this.setState({
+      isCollapsed: (window.innerWidth < 768) ? nextProps.isCollapsedMobile : nextProps.isCollapsed
+    });
+  }
+
   toggleNavigation() {
     this.props.dispatch(toggle());
 
@@ -18,7 +40,7 @@ class CollapsibleNavigation extends React.Component {
 
   render() {
     return (
-      <div className={`collapsible-navigation ${this.props.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
+      <div className={`collapsible-navigation ${this.state.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
 
         <div className="overlay" onClick={this.toggleNavigation.bind(this)} />
 
@@ -40,6 +62,7 @@ class CollapsibleNavigation extends React.Component {
 
 const mapStateToProps = ({ navigation }) => ({
   isCollapsed: navigation.isCollapsed,
+  isCollapsedMobile: navigation.isCollapsedMobile,
 });
 
 export default connect(mapStateToProps)(CollapsibleNavigation);
