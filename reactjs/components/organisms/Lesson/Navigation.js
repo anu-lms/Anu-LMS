@@ -7,6 +7,7 @@ import LinkWithProgress from '../../atoms/Link/LinkWithProgress';
 import * as lessonHelper from '../../../helpers/lesson';
 import * as courseHelper from '../../../helpers/course';
 import * as navigationActions from '../../../actions/navigation';
+import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class LessonNavigation extends React.Component {
 
@@ -15,11 +16,15 @@ class LessonNavigation extends React.Component {
    * inside of table of contents.
    */
   handleTableOfContentsClick() {
+    const { dispatch } = this.props;
+
     // On the mobile device you'd want the navigation to hide
     // as soon as you click on lesson inside of table of contents.
+    // Hide Notebook panel as well on mobile.
     // 768 is a bootstrap md breakpoint.
     if (window.innerWidth < 768) {
-      this.props.dispatch(navigationActions.toggle());
+      dispatch(navigationActions.close());
+      dispatch(lessonNotebookActions.close());
     }
   }
 

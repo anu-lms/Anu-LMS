@@ -1,21 +1,13 @@
 export default (state = { isCollapsed: true, noteId: 0 }, action) => {
-  console.log(action);
 
   switch (action.type) {
-
-    case 'NAVIGATION_TOGGLE':
-      return {
-        ...state,
-        isCollapsed: true,
-      };
-
-    case 'LESSON_NOTEBOOK_OPENED':
+    case 'LESSON_NOTEBOOK_OPEN':
       return {
         ...state,
         isCollapsed: false,
       };
 
-    case 'LESSON_NOTEBOOK_CLOSED':
+    case 'LESSON_NOTEBOOK_CLOSE':
       return {
         ...state,
         isCollapsed: true,

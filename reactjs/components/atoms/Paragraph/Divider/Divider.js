@@ -18,11 +18,11 @@ class Divider extends React.Component {
   }
 
   render() {
-    const {type, counter} = this.props;
+    const {type, counter, columnClasses} = this.props;
     return (
       <div className="container divider">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
             <div className="baseline"/>
             {type === 'divider_numbered' &&
             <div className="number">{counter}</div>
@@ -37,6 +37,7 @@ class Divider extends React.Component {
 Divider.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   counter: PropTypes.number,

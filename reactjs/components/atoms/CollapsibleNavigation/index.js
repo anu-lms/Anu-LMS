@@ -1,16 +1,46 @@
 import React from 'react';
 import { connect} from 'react-redux';
 import { toggle } from '../../../actions/navigation';
+import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNavigation extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCollapsed: true
+    };
+  }
+
+  componentDidMount() {
+    // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
+    this.setState({
+      isCollapsed: (window.innerWidth < 768) ? this.props.isCollapsedMobile : this.props.isCollapsed
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
+    this.setState({
+      isCollapsed: (window.innerWidth < 768) ? nextProps.isCollapsedMobile : nextProps.isCollapsed
+    });
+  }
+
   toggleNavigation() {
     this.props.dispatch(toggle());
+
+    // Close notebook pane on Tablet devices if navigation opened,
+    // leave both panes opened on extra large screens.
+    // 768 is a bootstrap md breakpoint.
+    if (window.innerWidth > 768 && window.innerWidth < 1840) {
+      this.props.dispatch(lessonNotebookActions.close());
+    }
   }
 
   render() {
     return (
-      <div className={`collapsible-navigation  ${this.props.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
+      <div className={`collapsible-navigation ${this.state.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
 
         <div className="overlay" onClick={this.toggleNavigation.bind(this)} />
 
@@ -32,6 +62,7 @@ class CollapsibleNavigation extends React.Component {
 
 const mapStateToProps = ({ navigation }) => ({
   isCollapsed: navigation.isCollapsed,
+  isCollapsedMobile: navigation.isCollapsedMobile,
 });
 
 export default connect(mapStateToProps)(CollapsibleNavigation);

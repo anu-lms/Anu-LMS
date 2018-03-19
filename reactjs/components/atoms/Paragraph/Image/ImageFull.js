@@ -20,7 +20,7 @@ class ImageFull extends React.Component {
 
   render() {
     let style = {};
-    const { text, image } = this.props;
+    const { text, image, columnClasses } = this.props;
     const imageUrl = fileUrl(image.meta.derivatives['w1400']);
 
     style.backgroundImage = `url("${imageUrl}")`;
@@ -30,7 +30,7 @@ class ImageFull extends React.Component {
         <div className="container">
           <div className="row">
             <div
-              className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+              className={columnClasses.join(' ')}>
               {text &&
               <div className="text"
                    dangerouslySetInnerHTML={{__html: text.value}} />
@@ -46,6 +46,7 @@ class ImageFull extends React.Component {
 ImageFull.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({

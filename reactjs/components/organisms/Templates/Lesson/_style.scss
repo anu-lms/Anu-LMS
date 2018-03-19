@@ -6,13 +6,18 @@
     margin-bottom: 4em;
     @include media-breakpoint-up(md) {
       margin-left: 220px;
+      margin-right: 350px;
     }
     @include media-breakpoint-up(lg) {
       margin-bottom: 6em;
+      margin-right: 480px;
     }
 
     &.nav-collapsed {
       margin-left: 0;
+    }
+    &.notebook-collapsed {
+      margin-right: 0;
     }
 
     h1 {

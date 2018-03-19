@@ -18,11 +18,11 @@ class Text extends React.Component {
   }
 
   render() {
-    const { text } = this.props;
+    const { text, columnClasses } = this.props;
     return (
       <div className="container text">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
             <div dangerouslySetInnerHTML={{ __html: text.value }} />
           </div>
         </div>
@@ -34,6 +34,7 @@ class Text extends React.Component {
 Text.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   text: PropTypes.shape({

@@ -5,6 +5,7 @@ import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
 import * as notebookActions from '../../../../actions/notebook';
+import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 
@@ -30,7 +31,13 @@ class LessonNotebook extends React.Component {
     this.setState({ isNotebookOpening: true });
 
     // Let the application now that the notebook is being opened.
-    dispatch(lessonNotebookActions.notebookOpened());
+    dispatch(lessonNotebookActions.open());
+
+    // If notebook opened, close navigation pane on all devices except extra
+    // large.
+    if (window.innerWidth < 1840) {
+      dispatch(navigationActions.close());
+    }
 
     try {
 
@@ -55,7 +62,7 @@ class LessonNotebook extends React.Component {
   }
 
   handleNotebookClosed() {
-    this.props.dispatch(lessonNotebookActions.notebookClosed());
+    this.props.dispatch(lessonNotebookActions.close());
   }
 
   render() {
@@ -68,8 +75,9 @@ class LessonNotebook extends React.Component {
         <LessonNotebookOpenCTA handleNotebookOpened={this.handleNotebookOpened}/>
         }
 
-        {!isCollapsed &&
-        <div className="lesson-notebook">
+        <div className="lesson-notebook-wrapper">
+          {!isCollapsed &&
+          <div className="lesson-notebook">
 
           {this.state.isNotebookOpening &&
           <PageLoader/>
@@ -86,9 +94,10 @@ class LessonNotebook extends React.Component {
 
           </Fragment>
           }
+          </div>
 
-        </div>
         }
+        </div>
 
       </div>
     )
