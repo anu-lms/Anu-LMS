@@ -30,6 +30,17 @@ export const getTeaser = (body, rowNumber) => {
 };
 
 /**
+ * Returns note object by id
+ */
+export const getNoteById = (notes, noteId) => {
+  const index = notes.findIndex(note => note.id === noteId);
+  if (index !== -1 ) {
+    return notes[index];
+  }
+  return null;
+};
+
+/**
  * Get state of note sync with backend.
  */
 export const getSavedState = note => {

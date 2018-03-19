@@ -65,7 +65,7 @@ export const setNoteStateNotSaved = id => ({
 
 /**
  *  Show notes list or note edit form on the mobile.
- *  This action toggles this behavior.
+ *  This action toggles what is being shown.
  */
 export const toggleMobileVisibility = () => ({
   type: 'NOTEBOOK_MOBILE_TOGGLE_VISIBILITY',
