@@ -43,11 +43,11 @@ class Checkboxes extends React.Component {
   }
 
   render() {
-    const { title, blocks, options, handleParagraphLoaded } = this.props;
+    const { title, blocks, options, handleParagraphLoaded, columnClasses } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">
-          <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+          <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>
 
             {blocks.length > 0 &&
@@ -79,6 +79,7 @@ Checkboxes.propTypes = {
     value: PropTypes.string,
     is_answer: PropTypes.number,
   })),
+  columnClasses: PropTypes.array,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

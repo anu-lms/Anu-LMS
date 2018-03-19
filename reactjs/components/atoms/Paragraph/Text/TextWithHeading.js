@@ -18,12 +18,12 @@ class TextWithHeading extends React.Component {
   }
 
   render() {
-    const { text, title } = this.props;
+    const { text, title, columnClasses } = this.props;
     return (
       <div className="text-with-heading">
         <div className="container">
           <div className="row">
-            <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+            <div className={columnClasses.join(' ')}>
 
               {title &&
               <h4>{title}</h4>
@@ -44,6 +44,7 @@ class TextWithHeading extends React.Component {
 TextWithHeading.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   text: PropTypes.shape({

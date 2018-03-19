@@ -37,12 +37,12 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, options, title, blocks, handleParagraphLoaded } = this.props;
+    const { id, options, title, blocks, handleParagraphLoaded, columnClasses } = this.props;
 
     return (
       <div className="container quiz comboboxes">
         <div className="row">
-          <div className="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+          <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>
 
             {blocks.length > 0 &&
@@ -80,6 +80,7 @@ ComboBoxes.propTypes = {
     value: PropTypes.string,
     is_answer: PropTypes.number,
   })),
+  columnClasses: PropTypes.array,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

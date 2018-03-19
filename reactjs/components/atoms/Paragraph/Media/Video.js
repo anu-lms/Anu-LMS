@@ -18,11 +18,11 @@ class Video extends React.Component {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, columnClasses } = this.props;
     return (
       <div className="container video">
         <div className="row">
-          <div className={`col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8`}>
+          <div className={columnClasses.join(' ')}>
             <Player
               url={url.uri}
               width={'100%'}
@@ -39,6 +39,7 @@ class Video extends React.Component {
 Video.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  columnClasses: PropTypes.array,
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   url: PropTypes.shape({
