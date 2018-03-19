@@ -20,6 +20,7 @@ class LessonNavigation extends React.Component {
 
     // On the mobile device you'd want the navigation to hide
     // as soon as you click on lesson inside of table of contents.
+    // Hide Notebook panel as well on mobile.
     // 768 is a bootstrap md breakpoint.
     if (window.innerWidth < 768) {
       dispatch(navigationActions.close());
