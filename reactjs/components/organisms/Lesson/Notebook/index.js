@@ -50,9 +50,9 @@ class LessonNotebook extends React.Component {
         <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen}/>
         }
 
-        <div className="lesson-notebook">
+        <div className="lesson-notebook-wrapper">
           {!isCollapsed &&
-          <div className="lesson-notebook-inside">
+          <div className="lesson-notebook">
 
             {!note &&
             <PageLoader/>

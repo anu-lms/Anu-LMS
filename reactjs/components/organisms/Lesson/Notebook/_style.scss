@@ -3,7 +3,7 @@
 
   // Hide notebook pane.
   &.closed {
-    .lesson-notebook {
+    .lesson-notebook-wrapper {
       right: -104%;
       @include media-breakpoint-up(md) {
         right: -356px;
@@ -22,7 +22,7 @@
     z-index: $zindex-fixed - 2;
   }
 
-  .lesson-notebook {
+  .lesson-notebook-wrapper {
     position: fixed;
     top: 3em;
     bottom: 0;
@@ -42,7 +42,9 @@
     @include media-breakpoint-up(lg) {
       width: 480px;
     }
+  }
 
+  .lesson-notebook {
     .save-close {
       background: $carbon;
       position: absolute;
