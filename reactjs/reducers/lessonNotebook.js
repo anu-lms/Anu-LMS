@@ -1,4 +1,4 @@
-export default (state = { isCollapsed: true, note: null }, action) => {
+export default (state = { isCollapsed: true, noteId: 0 }, action) => {
   console.log(action);
 
   switch (action.type) {
@@ -21,10 +21,10 @@ export default (state = { isCollapsed: true, note: null }, action) => {
         isCollapsed: true,
       };
 
-    case 'LESSON_NOTEBOOK_SET_NOTE':
+    case 'LESSON_NOTEBOOK_SET_ACTIVE_NOTE':
       return {
         ...state,
-        note: action.note,
+        noteId: action.noteId,
       };
 
     default:

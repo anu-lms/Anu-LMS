@@ -1,17 +1,22 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect} from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
+import * as notebookActions from '../../../../actions/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
-
-import PropTypes from "prop-types";
 
 class LessonNotebook extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      // Indicates if the notebook pane is being opened.
+      isNotebookOpening: false,
+    };
 
     this.handleNotebookOpened = this.handleNotebookOpened.bind(this);
     this.handleNotebookClosed = this.handleNotebookClosed.bind(this);
@@ -20,15 +25,33 @@ class LessonNotebook extends React.Component {
   async handleNotebookOpened() {
     const { dispatch } = this.props;
 
+    // As soon as notebook icon is clicked, we change the opening state.
+    // It will show a loader instead of note until note is ready to be shown.
+    this.setState({ isNotebookOpening: true });
+
+    // Let the application now that the notebook is being opened.
     dispatch(lessonNotebookActions.notebookOpened());
 
-    // Get superagent request with authentication token.
-    const { request } = await this.context.auth.getRequest();
+    try {
 
-    // Make a request to the backend to create a new token.
-    const note = await notebookHelpers.createNote(request);
+      // Get superagent request with authentication token.
+      const { request } = await this.context.auth.getRequest();
 
-    dispatch(lessonNotebookActions.setActiveNote(note));
+      // Make a request to the backend to create a new note.
+      const note = await notebookHelpers.createNote(request);
+
+      // Add recently created note to the notebook's redux state.
+      dispatch(notebookActions.addNote(note));
+
+      // Set the active note id for the lesson.
+      dispatch(lessonNotebookActions.setActiveNote(note.id));
+    } catch(error) {
+      console.log('Could not create a new note. Error:');
+      console.log(error);
+    }
+
+    // Dismiss notebook opening state.
+    this.setState({ isNotebookOpening: false });
   }
 
   handleNotebookClosed() {
@@ -48,12 +71,13 @@ class LessonNotebook extends React.Component {
         {!isCollapsed &&
         <div className="lesson-notebook">
 
-          {!note &&
+          {this.state.isNotebookOpening &&
           <PageLoader/>
           }
 
-          {note &&
+          {!this.state.isNotebookOpening &&
           <Fragment>
+
             <NoteContent note={note}/>
 
             <div className="save-close" onClick={() => this.handleNotebookClosed()}>
@@ -78,9 +102,9 @@ LessonNotebook.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ lessonNotebook }) => ({
+const mapStateToProps = ({ lessonNotebook, notebook }) => ({
   isCollapsed: lessonNotebook.isCollapsed,
-  note: lessonNotebook.note,
+  note: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
 });
 
 export default connect(mapStateToProps)(LessonNotebook);
