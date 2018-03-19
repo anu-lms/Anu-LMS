@@ -42,10 +42,10 @@ class NoteContent extends React.Component {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
             <path fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
           </svg>
-          <span>Back to Notebook</span>
+          <span>All Notes</span>
         </div>
 
-        <div className="row">
+        <div className="row note-meta">
           <div className="caption sm col-auto mr-auto">
 
             <div>
@@ -53,13 +53,13 @@ class NoteContent extends React.Component {
             </div>
 
             {this.props.note &&
-            <Fragment>
+            <div className="date">
               Updated {moment(this.props.note.changed * 1000).format('LLL')}
-            </Fragment>
+            </div>
             }
           </div>
 
-          <div className="col-auto">
+          <div className="col-auto context-menu">
             {this.props.count > 1 && <NoteMenu note={this.props.note} />}
           </div>
 
