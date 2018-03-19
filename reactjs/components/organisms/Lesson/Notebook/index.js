@@ -23,6 +23,9 @@ class LessonNotebook extends React.Component {
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
+  /**
+   * Performs actions when notebook pane is being opened.
+   */
   async handleNotebookOpen() {
     const { dispatch } = this.props;
 
@@ -33,7 +36,7 @@ class LessonNotebook extends React.Component {
     // Let the application now that the notebook is being opened.
     dispatch(lessonNotebookActions.open());
 
-    // If notebook opened, close navigation pane on all devices except extra
+    // If notebook is opened, close navigation pane on all devices except extra
     // large.
     if (window.innerWidth < 1840) {
       dispatch(navigationActions.close());
@@ -61,7 +64,15 @@ class LessonNotebook extends React.Component {
     this.setState({ isNotebookOpening: false });
   }
 
+  /**
+   * Perform actions on closing the notebook pane.
+   */
   handleNotebookClose() {
+
+    // Force save note to the backend.
+    this.props.dispatch(notebookActions.saveNote(this.props.note));
+
+    // Close the notebook pane.
     this.props.dispatch(lessonNotebookActions.close());
   }
 

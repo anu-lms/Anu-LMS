@@ -72,6 +72,14 @@ export const toggleMobileVisibility = () => ({
 });
 
 /**
+ * Force data sync with the backend.
+ */
+export const saveNote = note => ({
+  type: 'NOTE_SAVE',
+  note,
+});
+
+/**
  * Delete specified note.
  */
 export const deleteNote = id => ({
