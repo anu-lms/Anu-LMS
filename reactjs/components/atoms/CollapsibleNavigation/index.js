@@ -8,7 +8,8 @@ class CollapsibleNavigation extends React.Component {
   toggleNavigation() {
     this.props.dispatch(toggle());
 
-    //
+    // Close notebook pane on Tablet devices if navigation opened,
+    // leave both panes opened on extra large screens.
     // 768 is a bootstrap md breakpoint.
     if (window.innerWidth > 768 && window.innerWidth < 1840) {
       this.props.dispatch(lessonNotebookActions.close());
@@ -17,7 +18,7 @@ class CollapsibleNavigation extends React.Component {
 
   render() {
     return (
-      <div className={`collapsible-navigation  ${this.props.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
+      <div className={`collapsible-navigation ${this.props.isCollapsed ? 'closed' : 'opened'} ${this.props.className}`}>
 
         <div className="overlay" onClick={this.toggleNavigation.bind(this)} />
 
