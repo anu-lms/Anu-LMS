@@ -270,9 +270,11 @@ class LessonContent extends React.Component {
     let wrapperClasses = ['lesson-container'];
     let columnClasses = ['col-12', 'offset-lg-2', 'col-lg-8'];
 
+    // Defines classes if navigation opened.
     if (navigation.isCollapsed) {
       wrapperClasses.push('nav-collapsed');
     }
+    // Defines classes if notebook opened.
     if (lessonNotebook.isCollapsed) {
       wrapperClasses.push('notebook-collapsed');
       columnClasses.push('offset-md-1');
