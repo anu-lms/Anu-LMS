@@ -1,11 +1,18 @@
 import React from 'react';
 import { connect} from 'react-redux';
 import { toggle } from '../../../actions/navigation';
+import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNavigation extends React.Component {
 
   toggleNavigation() {
     this.props.dispatch(toggle());
+
+    //
+    // 768 is a bootstrap md breakpoint.
+    if (window.innerWidth > 768 && window.innerWidth < 1840) {
+      this.props.dispatch(lessonNotebookActions.close());
+    }
   }
 
   render() {

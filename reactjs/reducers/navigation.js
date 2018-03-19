@@ -16,16 +16,6 @@ export default (state = { isCollapsed: true }, action) => {
         isCollapsed: true,
       };
 
-    // case 'LESSON_NOTEBOOK_OPEN':
-    //   return {
-    //     isCollapsed: true,
-    //   };
-
-    // case 'LESSON_NOTEBOOK_CLOSE':
-    //   return {
-    //     isCollapsed: false,
-    //   };
-
     default:
       return state;
   }
