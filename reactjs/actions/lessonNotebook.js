@@ -1,9 +1,9 @@
-export const notebookOpened = () => ({
-  type: 'LESSON_NOTEBOOK_OPENED'
+export const open = () => ({
+  type: 'LESSON_NOTEBOOK_OPEN'
 });
 
-export const notebookClosed = () => ({
-  type: 'LESSON_NOTEBOOK_CLOSED'
+export const close = () => ({
+  type: 'LESSON_NOTEBOOK_CLOSE'
 });
 
 export const setActiveNote = note => ({

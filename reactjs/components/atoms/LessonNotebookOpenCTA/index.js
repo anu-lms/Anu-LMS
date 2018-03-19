@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LessonNotebookOpenCTA = ({ handleNotebookOpened }) => (
-  <div className="add-note-button" onClick={() => handleNotebookOpened()}>
+const LessonNotebookOpenCTA = ({ handleNotebookOpen }) => (
+  <div className="add-note-button" onClick={() => handleNotebookOpen()}>
     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="54" height="54" viewBox="0 0 54 54">
       <defs>
         <circle id="b" cx="24" cy="24" r="20"/>
@@ -27,7 +27,7 @@ const LessonNotebookOpenCTA = ({ handleNotebookOpened }) => (
 );
 
 LessonNotebookOpenCTA.propTypes = {
-  handleNotebookOpened: PropTypes.func.isRequired,
+  handleNotebookOpen: PropTypes.func.isRequired,
 };
 
 export default LessonNotebookOpenCTA;

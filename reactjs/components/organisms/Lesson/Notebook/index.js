@@ -13,14 +13,14 @@ class LessonNotebook extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleNotebookOpened = this.handleNotebookOpened.bind(this);
-    this.handleNotebookClosed = this.handleNotebookClosed.bind(this);
+    this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
+    this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
-  async handleNotebookOpened() {
+  async handleNotebookOpen() {
     const { dispatch } = this.props;
 
-    dispatch(lessonNotebookActions.notebookOpened());
+    dispatch(lessonNotebookActions.open());
 
     // Get superagent request with authentication token.
     const { request } = await this.context.auth.getRequest();
@@ -31,8 +31,8 @@ class LessonNotebook extends React.Component {
     dispatch(lessonNotebookActions.setActiveNote(note));
   }
 
-  handleNotebookClosed() {
-    this.props.dispatch(lessonNotebookActions.notebookClosed());
+  handleNotebookClose() {
+    this.props.dispatch(lessonNotebookActions.close());
   }
 
   render() {
@@ -42,7 +42,7 @@ class LessonNotebook extends React.Component {
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
 
         {isCollapsed &&
-        <LessonNotebookOpenCTA handleNotebookOpened={this.handleNotebookOpened}/>
+        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen}/>
         }
 
         <div className="lesson-notebook">
@@ -57,7 +57,7 @@ class LessonNotebook extends React.Component {
             <Fragment>
               <NoteContent note={note}/>
 
-              <div className="save-close" onClick={() => this.handleNotebookClosed()}>
+              <div className="save-close" onClick={() => this.handleNotebookClose()}>
                 Save and Close
               </div>
 
