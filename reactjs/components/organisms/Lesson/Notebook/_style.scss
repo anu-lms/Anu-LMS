@@ -1,6 +1,7 @@
 .collapsible-notebook {
   position: relative;
 
+  // Hide notebook pane.
   &.closed {
     .lesson-notebook {
       right: -104%;
@@ -13,27 +14,12 @@
     }
   }
 
+  // Set position for add note button.
   .add-note-button {
     position: fixed;
     bottom: 0;
     right: 6px;
     z-index: $zindex-fixed - 2;
-    cursor: pointer;
-
-    @include media-breakpoint-up(lg) {
-      bottom: 16px;
-      right: 22px;
-    }
-
-    svg {
-      width: 60px;
-      height: 60px;
-
-      @include media-breakpoint-up(md) {
-        width: 73px;
-        height: 73px;
-      }
-    }
   }
 
   .lesson-notebook {
