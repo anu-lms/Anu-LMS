@@ -12,14 +12,8 @@ class NoteContent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.showNotes = this.showNotes.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
-  }
-
-  showNotes() {
-    const { dispatch } = this.props;
-    dispatch(notebookActions.toggleMobileVisibility());
   }
 
   onContentChange(value) {
@@ -38,13 +32,6 @@ class NoteContent extends React.Component {
     return (
       <div className="note-content">
 
-        <div className="show-notebook d-md-none" onClick={this.showNotes}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-            <path fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
-          </svg>
-          <span>All Notes</span>
-        </div>
-
         <div className="row note-meta">
           <div className="caption sm col-auto mr-auto">
 
@@ -59,7 +46,7 @@ class NoteContent extends React.Component {
             }
           </div>
 
-          <div className="col-auto context-menu">
+          <div className="context-menu">
             {this.props.count > 1 && <NoteMenu note={this.props.note} />}
           </div>
 

@@ -1,14 +1,14 @@
 .note-content {
+  position: relative;
 
   .caption {
     color: $london-sky;
   }
 
   .title {
-    margin-top: .5em;
+    margin: .5em 0;
     min-height: 1.125em;
     @include media-breakpoint-up(md) {
-      margin-top: 1em;
       min-height: 1.25em;
     }
     @include media-breakpoint-up(lg) {
@@ -32,33 +32,13 @@
     }
   }
 
-  .show-notebook {
-    color: $squash;
-    font-size: 0.875em;
-    margin: 1em 0 .5em;
-    position: relative;
-
-    span {
-      margin: 0 0 0 1.75em;
-    }
-
-    svg {
-      position: absolute;
-      left: 0;
-      top: 3px;
-
-      path {
-        fill: $squash;
-      }
-    }
-  }
-
   .context-menu {
     position: absolute;
-    right: 0;
-    top: 1em;
+    right: 1em;
+    top: 0;
     @include media-breakpoint-up(md) {
       position: static;
+      padding-right: 1em;
     }
   }
 }
