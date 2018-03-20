@@ -102,7 +102,10 @@
         }
 
         .title {
-          font-size: 1em;
+          font-size: 1.25em;
+          @include media-breakpoint-up(md) {
+            font-size: 1em;
+          }
           @include media-breakpoint-up(lg) {
             font-size: 1.25em;
           }
