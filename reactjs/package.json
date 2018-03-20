@@ -39,7 +39,6 @@
     "react-player": "^1.1.1",
     "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
-    "react-sticky": "^6.0.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^5.4.0",
