@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LessonNotebookOpenCTA = ({ handleNotebookOpen }) => (
   <div className="add-note-button" onClick={() => handleNotebookOpen()}>
-    <svg width="63px" height="64px" viewBox="0 0 63 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+    <svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
       <defs>
         <circle id="path-1" cx="32" cy="32" r="26.6666667"></circle>
         <filter x="-13.1%" y="-13.1%" width="130.0%" height="130.0%" filterUnits="objectBoundingBox" id="filter-2">
