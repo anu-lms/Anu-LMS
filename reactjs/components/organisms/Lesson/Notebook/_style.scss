@@ -23,6 +23,7 @@
   }
 
   .lesson-notebook-wrapper {
+    overflow: hidden;
     position: fixed;
     top: 3em;
     bottom: 0;
@@ -40,39 +41,117 @@
       width: 480px;
     }
 
+    .show-note-button {
+      margin: 1em 1em 0;
+      cursor: pointer;
+
+      @include media-breakpoint-up(md) {
+        height: 56px;
+        background: white;
+        margin: 0;
+        padding: 1em;
+        font-size: 1em;
+        border-bottom: 3px solid $squash;
+      }
+      @include media-breakpoint-up(lg) {
+        font-size: 1.25em;
+        font-weight: bold;
+        padding-top: .75em;
+      }
+
+      svg {
+        @include media-breakpoint-up(lg) {
+          left: 10px;
+          top: 4px;
+        }
+      }
+
+      span {
+        @include media-breakpoint-up(lg) {
+          margin-left: 2em;
+        }
+      }
+    }
+
+    .notes-list-column {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 48px;
+      width: 100%;
+      @include media-breakpoint-up(md) {
+        bottom: 80px;
+      }
+
+      &.hidden {
+        left: -100%;
+      }
+
+      .notes-list-heading {
+        height: 56px;
+        @include media-breakpoint-up(md) {
+          background: $white;
+          border-bottom: 3px solid $squash;
+          color: $squash;
+        }
+
+        .title {
+          font-size: 1em;
+          @include media-breakpoint-up(lg) {
+            font-size: 1.25em;
+          }
+        }
+
+        .add-note {
+          margin-top: 0;
+
+          path {
+            @include media-breakpoint-up(md) {
+              fill: $squash;
+            }
+          }
+
+          .caption {
+            display: none;
+          }
+        }
+      }
+    }
+
     .note-content {
       position: absolute;
       left: 1em;
-      right: 0;
-      top: 0;
+      right: 1em;
+      top: 2.5em;
       bottom: 4em;
       overflow-y: auto;
       overflow-x: hidden;
       @include media-breakpoint-up(md) {
         left: 2em;
-        top: 2em;
+        top: 56px;
         right: 1em;
-        padding-right: 1em;
-        bottom: 8em;
+        padding: 1em 1em 1em 0;
+        bottom: 80px;
       }
     }
-  }
 
-  .lesson-notebook {
     .save-close {
       background: $carbon;
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      padding: .5em 0;
+      padding: .625em 0 0;
+      height: 48px;
       text-align: center;
       font-weight: bold;
       font-size: 1.125em;
       color: white;
       cursor: pointer;
       @include media-breakpoint-up(md) {
-        padding: 1.75em 0;
+        padding: 1.5em 0 0;
+        height: 80px;
         font-size: 1.25em;
       }
     }

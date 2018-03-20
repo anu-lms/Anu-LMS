@@ -5,10 +5,13 @@ import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
+import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
+import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
 import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
+import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class LessonNotebook extends React.Component {
 
@@ -20,8 +23,41 @@ class LessonNotebook extends React.Component {
       isNotebookOpening: false,
     };
 
+    this.showNotes = this.showNotes.bind(this);
+    this.openNote = this.openNote.bind(this);
+    this.onBeforeNoteCreated = this.onBeforeNoteCreated.bind(this);
+    this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
     this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
+  }
+
+  showNotes() {
+    const { dispatch } = this.props;
+    dispatch(lessonNotebookActions.showNotes());
+  }
+
+  openNote(id) {
+    const { dispatch } = this.props;
+    dispatch(lessonNotebookActions.setActiveNote(id));
+  }
+
+  /**
+   * Callback gets executed as soon as a user click
+   * on note create button.
+   */
+  onBeforeNoteCreated() {
+    // Set loading background.
+    this.setState({ isNotebookOpening: true });
+  }
+
+  /**
+   * Callback gets executed as soon as a note was
+   * created on the backend.
+   */
+  onAfterNoteCreated(note) {
+    // Remove loading background and open a note.
+    this.setState({ isNotebookOpening: false });
+    this.openNote(note.id);
   }
 
   /**
@@ -48,6 +84,33 @@ class LessonNotebook extends React.Component {
       // Get superagent request with authentication token.
       const { request } = await this.context.auth.getRequest();
 
+      // Get currently logged in user.
+      // @todo: consider to store user id in local storage after user login.
+      const userResponse = await request.get('/user/me?_format=json');
+      const currentUser = dataProcessors.userData(userResponse.body);
+
+      const responseNotebook = await request
+        .get('/jsonapi/notebook/notebook')
+        .query({
+          // Filter notes by current user.
+          'filter[uid][value]': currentUser.uid,
+          // Sort by changed date. Here we sort in the reverse
+          // order from what we need, because in the reducer all new notes
+          // get added to the start of the queue, which will make the final
+          // order of the notes on the page correct.
+          'sort': 'changed',
+        });
+
+      const notes = dataProcessors.notebookData(responseNotebook.body.data);
+
+      // Reset all existing notes in the notebook.
+      dispatch(notebookActions.clear());
+
+      // Add all notes from the backend to the notebook storage.
+      notes.forEach(note => {
+        dispatch(notebookActions.addNote(note));
+      });
+
       // Make a request to the backend to create a new note.
       const note = await notebookHelpers.createNote(request);
 
@@ -71,7 +134,9 @@ class LessonNotebook extends React.Component {
   handleNotebookClose() {
 
     // Force save note to the backend.
-    this.props.dispatch(notebookActions.saveNote(this.props.note));
+    if (this.props.activeNote) {
+      this.props.dispatch(notebookActions.saveNote(this.props.activeNote));
+    }
 
     // Close the notebook pane.
     this.props.dispatch(lessonNotebookActions.close());
@@ -98,25 +163,33 @@ class LessonNotebook extends React.Component {
             {!this.state.isNotebookOpening &&
             <Fragment>
 
-              {isNoteListVisible &&
-              <NotesList
-                notes={notes}
-                activeNoteId={activeNote.id}
-                onClick={this.openNote}
-              />
-              }
+              <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
+
+                <div className="notes-list-heading">
+                  <div className="title">All Notes</div>
+                  <AddNoteButton
+                    onBeforeSubmit={this.onBeforeNoteCreated}
+                    onAfterSubmit={this.onAfterNoteCreated}
+                  />
+                </div>
+
+                <NotesList
+                  notes={notes}
+                  activeNoteId={activeNote ? activeNote.id: 0}
+                  onClick={this.openNote}
+                />
+              </div>
 
               {!isNoteListVisible && activeNote &&
               <Fragment>
-
+                <ShowNotesButton handleClick={this.showNotes} />
                 <NoteContent note={activeNote}/>
-
-                <div className="save-close" onClick={() => this.handleNotebookClose()}>
-                  Save and Close
-                </div>
-
               </Fragment>
               }
+
+              <div className="save-close" onClick={() => this.handleNotebookClose()}>
+                { isNoteListVisible ? 'Close Notes' : 'Save and Close' }
+              </div>
 
             </Fragment>
             }

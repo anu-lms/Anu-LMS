@@ -16,6 +16,7 @@ class NotebookTemplate extends React.Component {
 
     this.showNotes = this.showNotes.bind(this);
     this.openNote = this.openNote.bind(this);
+    this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
     this.checkUnsavedNotesOnPageClose = this.checkUnsavedNotesOnPageClose.bind(this);
   }
 
@@ -41,6 +42,16 @@ class NotebookTemplate extends React.Component {
     }
   }
 
+  /**
+   * Callback gets executed as soon as a note was
+   * created on the backend.
+   */
+  onAfterNoteCreated(note) {
+    const { dispatch } = this.props;
+    dispatch(notebookActions.setActiveNote(note.id));
+    dispatch(notebookActions.toggleMobileVisibility());
+  }
+
   openNote(id) {
     const { dispatch } = this.props;
     dispatch(notebookActions.setActiveNote(id));
@@ -62,7 +73,7 @@ class NotebookTemplate extends React.Component {
 
           <div className="notes-list-heading">
             <div className="title">My Notebook</div>
-            <AddNoteButton />
+            <AddNoteButton onAfterSubmit={this.onAfterNoteCreated} />
           </div>
 
           <NotesList
@@ -79,8 +90,14 @@ class NotebookTemplate extends React.Component {
               <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
                 <Fragment>
-                  <ShowNotesButton handleClick={this.showNotes} />
+
+                  <ShowNotesButton
+                    handleClick={this.showNotes}
+                    label="Back to Notebook"
+                  />
+
                   <NoteContent note={activeNote} />
+
                 </Fragment>
                 }
               </div>
