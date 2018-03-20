@@ -12,7 +12,6 @@ class NoteContent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.showNotes = this.showNotes.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
   }
@@ -47,7 +46,7 @@ class NoteContent extends React.Component {
             }
           </div>
 
-          <div className="col-auto context-menu">
+          <div className="context-menu">
             {this.props.count > 1 && <NoteMenu note={this.props.note} />}
           </div>
 

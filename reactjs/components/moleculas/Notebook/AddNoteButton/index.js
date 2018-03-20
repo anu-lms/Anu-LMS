@@ -25,7 +25,14 @@ class AddNoteButton extends React.Component {
       return;
     }
 
-    const { dispatch } = this.props;
+    const { dispatch, onBeforeSubmit, onAfterSubmit } = this.props;
+
+    // Execute callback before adding a new note.
+    if (onBeforeSubmit) {
+      onBeforeSubmit();
+    }
+
+    // Change the component's state to saving.
     this.setState({ isSaving: true });
 
     // Lock logout until note add operation is safely completed.
@@ -35,10 +42,15 @@ class AddNoteButton extends React.Component {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
 
+      // Saving a note and adding to the notebook.
       const note = await notebookHelpers.createNote(request);
       dispatch(notebookActions.addNote(note));
-      dispatch(notebookActions.setActiveNote(note.id));
-      dispatch(notebookActions.toggleMobileVisibility());
+
+      // Execute callback when note was added.
+      if (onAfterSubmit) {
+        onAfterSubmit(note);
+      }
+
       this.setState({ isSaving: false });
     }
     catch (error) {
@@ -54,9 +66,9 @@ class AddNoteButton extends React.Component {
     return (
       <div className="add-note">
         <div onClick={this.addNewNote}>
-          <svg className="add-note-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="10 0 30 30">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
             <g fill="none" fillRule="evenodd">
-              <path fill="#FFF" fillRule="nonzero" d="M36.667 0H13.333C11.483 0 10 1.5 10 3.333v23.334A3.332 3.332 0 0 0 13.333 30h23.334C38.5 30 40 28.5 40 26.667V3.333C40 1.5 38.5 0 36.667 0zm-3.334 16.667h-6.666v6.666h-3.334v-6.666h-6.666v-3.334h6.666V6.667h3.334v6.666h6.666v3.334z" />
+              <path fill="#FFF" fillRule="nonzero" d="M30.667 4h-15v6.667h-5v5H4v15A3.333 3.333 0 0 0 7.333 34h23.334A3.333 3.333 0 0 0 34 30.667V7.333A3.333 3.333 0 0 0 30.667 4zm-18.6 26.667H7.333v-4.734L21.517 11.75l4.733 4.733-14.183 14.184zM30.3 12.433l-2.317 2.3-4.716-4.716 2.3-2.3a1.25 1.25 0 0 1 1.783 0l2.95 2.95a1.25 1.25 0 0 1 0 1.766zM14 9H9v5H5.667V9h-5V5.667h5v-5H9v5h5V9z"/>
             </g>
           </svg>
           <span className="caption">Add New</span>
@@ -65,6 +77,16 @@ class AddNoteButton extends React.Component {
     );
   }
 }
+
+AddNoteButton.propTypes = {
+  onBeforeSubmit: PropTypes.func,
+  onAfterSubmit: PropTypes.func,
+};
+
+AddNoteButton.defaultProps = {
+  onBeforeSubmit: () => {},
+  onAfterSubmit: () => {},
+};
 
 AddNoteButton.contextTypes = {
   auth: PropTypes.shape({

@@ -35,13 +35,11 @@ export default (state = {
         return state;
       }
 
-      // If deleted currently viewing note, then close the notebook pane
-      // and reset the note ID.
+      // If deleted currently viewing note, then show the notes list.
       return {
         ...state,
-        isCollapsed: true,
         noteId: 0,
-        isNoteListVisible: false,
+        isNoteListVisible: true,
       };
 
     case 'LESSON_NOTEBOOK_SHOW_NOTES':
@@ -49,7 +47,6 @@ export default (state = {
       // Show list of notebook notes instead of note edit.
       return {
         ...state,
-        noteId: 0,
         isNoteListVisible: true,
       }
 

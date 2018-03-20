@@ -28,11 +28,9 @@ export default function* notebookSagas() {
  */
 function* notebookDataSyncWatcher() {
 
-  // Trigger the sync watcher as soon as any note lands in the redux.
   // TODO: In general we could wait for title or body changes of notes
   // and start / stop saga depending on this, but it would be more complicated
   // and not needed at this stage.
-  yield take('NOTE_ADD');
 
   // Endless loop, because we don't know when to stop the monitoring of data
   // sync.

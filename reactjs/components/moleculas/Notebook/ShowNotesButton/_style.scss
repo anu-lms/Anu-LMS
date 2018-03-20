@@ -1,8 +1,11 @@
-.show-note-buttonk {
+.show-note-button {
   color: $squash;
   font-size: 0.875em;
-  margin: 1em 0 .5em;
-  position: relative;
+  margin: 1em 0 0;
+
+  > div {
+    position: relative;
+  }
 
   span {
     margin: 0 0 0 1.75em;

@@ -1,4 +1,5 @@
 .note-content {
+  position: relative;
 
   .caption {
     color: $london-sky;
@@ -32,11 +33,10 @@
     }
   }
 
-
   .context-menu {
     position: absolute;
     right: 0;
-    top: 1em;
+    top: 0;
     @include media-breakpoint-up(md) {
       position: static;
     }
