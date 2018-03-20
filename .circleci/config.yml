@@ -318,7 +318,7 @@ workflows:
                 - stage
 
       # Run penetration tests against recent changes.
-      - run_penetration_tests
+      - run_penetration_tests:
           filters:
             branches:
               only:
