@@ -107,6 +107,7 @@ class Audio extends React.Component {
                 onLoad={this.playerLoaded}
                 playing={this.state.isPlaying}
                 loop={false}
+                onEnd={this.pause}
               />
 
               <ProgressBar
