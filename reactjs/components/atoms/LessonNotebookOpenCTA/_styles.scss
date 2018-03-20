@@ -1,18 +1,13 @@
 .add-note-button {
   cursor: pointer;
 
-  @include media-breakpoint-up(lg) {
-    bottom: 16px;
-    right: 22px;
-  }
-
   svg {
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
 
     @include media-breakpoint-up(md) {
-      width: 73px;
-      height: 73px;
+      width: 65px;
+      height: 65px;
     }
   }
 }
