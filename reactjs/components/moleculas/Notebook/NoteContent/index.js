@@ -17,11 +17,6 @@ class NoteContent extends React.Component {
     this.onTitleChange = this.onTitleChange.bind(this);
   }
 
-  showNotes() {
-    const { dispatch } = this.props;
-    dispatch(notebookActions.toggleMobileVisibility());
-  }
-
   onContentChange(value) {
     const { note, dispatch } = this.props;
     if (note.body !== value) {
@@ -37,13 +32,6 @@ class NoteContent extends React.Component {
   render() {
     return (
       <div className="note-content">
-
-        <div className="show-notebook d-md-none" onClick={this.showNotes}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-            <path fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
-          </svg>
-          <span>All Notes</span>
-        </div>
 
         <div className="row note-meta">
           <div className="caption sm col-auto mr-auto">

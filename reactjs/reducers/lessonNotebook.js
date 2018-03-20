@@ -1,4 +1,8 @@
-export default (state = { isCollapsed: true, noteId: 0 }, action) => {
+export default (state = {
+  isCollapsed: true,
+  isNoteListVisible: false,
+  noteId: 0 ,
+}, action) => {
 
   switch (action.type) {
 
@@ -6,12 +10,14 @@ export default (state = { isCollapsed: true, noteId: 0 }, action) => {
       return {
         ...state,
         isCollapsed: false,
+        isNoteListVisible: false,
       };
 
     case 'LESSON_NOTEBOOK_CLOSE':
       return {
         ...state,
         isCollapsed: true,
+        isNoteListVisible: false,
       };
 
 
@@ -19,6 +25,7 @@ export default (state = { isCollapsed: true, noteId: 0 }, action) => {
       return {
         ...state,
         noteId: action.noteId,
+        isNoteListVisible: false,
       };
 
     case 'NOTE_DELETE':
@@ -34,7 +41,17 @@ export default (state = { isCollapsed: true, noteId: 0 }, action) => {
         ...state,
         isCollapsed: true,
         noteId: 0,
+        isNoteListVisible: false,
       };
+
+    case 'LESSON_NOTEBOOK_SHOW_NOTES':
+
+      // Show list of notebook notes instead of note edit.
+      return {
+        ...state,
+        noteId: 0,
+        isNoteListVisible: true,
+      }
 
     default:
       return state;
