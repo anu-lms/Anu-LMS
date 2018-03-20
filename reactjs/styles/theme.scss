@@ -13,6 +13,7 @@
 @import "base/typography";
 @import "base/scaffolding";
 @import "base/layout";
+@import "base/scroll";
 
 // Import styles for float labels.
 @import "vendor/bootstrap-float-label";
@@ -31,4 +32,5 @@
 @import "components/lesson_navigation";
 @import "components/link-with-progress";
 
+// Import all styles near by the react components.
 @import "../components/**/**/*.scss";
