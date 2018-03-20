@@ -145,35 +145,70 @@
       }
     }
 
-    .seek {
+    .ProgressBar {
       position: absolute;
       left: 3em;
       right: 4em;
       top: 0;
-      height: 20px;
+      height: 4px;
+      margin: 8px 0;
+      background: $gray91;
 
-      .bar {
-        background: $gray91;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 8px;
-        height: 4px;
-        z-index: 1;
+      &-elapsed {
+        background: $anu-blue-30;
+        height: 100%;
       }
 
-      .pointer {
+      &-seek {
         position: absolute;
+        top: -6px;
+        right: 0;
+        bottom: -6px;
         left: 0;
-        top: 0;
-        z-index: 2;
-        background: $anu-blue;
+        cursor: pointer;
+      }
+
+      &-handle {
+        position: absolute;
         height: 20px;
         width: 20px;
+        background: $anu-blue;
         border: 1px solid $anu-blue;
-        border-radius: 50%;
+        border-radius: 100%;
+        //transform: scale(0);
+        //transition: transform 0.2s;
+        top: 0;
+        margin: -8px 0 0 -8px;
+
+      }
+
+      &.isSeekable {
+        &:hover {
+          .ProgressBar-handle {
+            //transform: scale(1);
+          }
+
+          .ProgressBar-intent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: rgba(0,0,0,0.05);
+          }
+        }
+
+        .ProgressBar-elapsed {
+          background: $anu-blue-30;
+        }
+      }
+
+      &.isLoading {
+        opacity: 0.5;
+        background: $london-sky;
+        animation: barLoading 2s infinite;
       }
     }
+
 
     .duration {
       position: absolute;
