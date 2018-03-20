@@ -9,11 +9,11 @@
   }
 
   &:hover {
-    color: $carbon;
+    color: darken($white, 10);
     transition: all .2s;
     path {
       transition: all .2s;
-      fill: $carbon;
+      fill: darken($white, 10);
     }
   }
 
