@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 import { Link } from '../../../routes';
 import CollapsibleNavigation from '../../atoms/CollapsibleNavigation';
 import LinkWithProgress from '../../atoms/Link/LinkWithProgress';
+import breakpoints from '../../../utils/breakpoints';
 import * as lessonHelper from '../../../helpers/lesson';
 import * as courseHelper from '../../../helpers/course';
 import * as navigationActions from '../../../actions/navigation';
