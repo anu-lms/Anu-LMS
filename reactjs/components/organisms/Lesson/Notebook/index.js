@@ -5,6 +5,7 @@ import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
+import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
@@ -75,7 +76,7 @@ class LessonNotebook extends React.Component {
 
     // If notebook is opened, close navigation pane on all devices except extra
     // large.
-    if (window.innerWidth < 1840) {
+    if (mediaBreakpoint.isDown('xxl')) {
       dispatch(navigationActions.close());
     }
 
