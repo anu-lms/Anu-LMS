@@ -1,20 +1,20 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Router } from "../../../../routes";
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
+import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
 import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
-import { Router } from "../../../../routes";
-import routerEvents from "../../../../router-events";
-import * as lock from "../../../../utils/lock";
 
 class NotebookTemplate extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.showNotes = this.showNotes.bind(this);
     this.openNote = this.openNote.bind(this);
     this.checkUnsavedNotesOnPageClose = this.checkUnsavedNotesOnPageClose.bind(this);
   }
@@ -47,6 +47,11 @@ class NotebookTemplate extends React.Component {
     dispatch(notebookActions.toggleMobileVisibility());
   }
 
+  showNotes() {
+    const { dispatch } = this.props;
+    dispatch(notebookActions.toggleMobileVisibility());
+  }
+
   render() {
     const { notes, activeNote, isMobileContentVisible } = this.props;
 
@@ -73,7 +78,10 @@ class NotebookTemplate extends React.Component {
             <div className="row">
               <div className="col-sm-12 offset-lg-1 col-lg-9">
                 {activeNote &&
-                <NoteContent note={activeNote} />
+                <Fragment>
+                  <ShowNotesButton handleClick={this.showNotes} />
+                  <NoteContent note={activeNote} />
+                </Fragment>
                 }
               </div>
             </div>

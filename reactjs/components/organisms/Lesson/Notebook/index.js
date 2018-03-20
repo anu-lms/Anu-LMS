@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect} from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
+import NotesList from '../../../moleculas/Notebook/NotesList';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
 import * as notebookActions from '../../../../actions/notebook';
@@ -77,7 +78,7 @@ class LessonNotebook extends React.Component {
   }
 
   render() {
-    const { isCollapsed, note } = this.props;
+    const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
 
     return (
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
@@ -90,24 +91,38 @@ class LessonNotebook extends React.Component {
           {!isCollapsed &&
           <div className="lesson-notebook">
 
-          {this.state.isNotebookOpening &&
-          <PageLoader/>
-          }
+            {this.state.isNotebookOpening &&
+            <PageLoader/>
+            }
 
-          {!this.state.isNotebookOpening && note &&
-          <Fragment>
+            {!this.state.isNotebookOpening &&
+            <Fragment>
 
-            <NoteContent note={note}/>
+              {isNoteListVisible &&
+              <NotesList
+                notes={notes}
+                activeNoteId={activeNote.id}
+                onClick={this.openNote}
+              />
+              }
 
-            <div className="save-close" onClick={() => this.handleNotebookClose()}>
-              Save and Close
-            </div>
+              {!isNoteListVisible && activeNote &&
+              <Fragment>
 
-          </Fragment>
-          }
+                <NoteContent note={activeNote}/>
+
+                <div className="save-close" onClick={() => this.handleNotebookClose()}>
+                  Save and Close
+                </div>
+
+              </Fragment>
+              }
+
+            </Fragment>
+            }
           </div>
 
-        }
+          }
         </div>
 
       </div>
@@ -123,7 +138,9 @@ LessonNotebook.contextTypes = {
 
 const mapStateToProps = ({ lessonNotebook, notebook }) => ({
   isCollapsed: lessonNotebook.isCollapsed,
-  note: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
+  activeNote: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
+  notes: notebook.notes,
+  isNoteListVisible: lessonNotebook.isNoteListVisible,
 });
 
 export default connect(mapStateToProps)(LessonNotebook);
