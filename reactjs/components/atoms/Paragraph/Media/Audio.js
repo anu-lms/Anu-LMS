@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
 import { fileUrl } from '../../../../utils/url';
-import { ProgressBar } from 'react-player-controls'
+import { ProgressBar } from 'react-player-controls';
 
 class Audio extends React.Component {
 
