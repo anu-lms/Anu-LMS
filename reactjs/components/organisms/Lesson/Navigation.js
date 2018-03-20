@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 import { Link } from '../../../routes';
 import CollapsibleNavigation from '../../atoms/CollapsibleNavigation';
 import LinkWithProgress from '../../atoms/Link/LinkWithProgress';
+import * as mediaBreakpoint from '../../../utils/breakpoints';
 import * as lessonHelper from '../../../helpers/lesson';
 import * as courseHelper from '../../../helpers/course';
 import * as navigationActions from '../../../actions/navigation';
@@ -21,8 +22,7 @@ class LessonNavigation extends React.Component {
     // On the mobile device you'd want the navigation to hide
     // as soon as you click on lesson inside of table of contents.
     // Hide Notebook panel as well on mobile.
-    // 768 is a bootstrap md breakpoint.
-    if (window.innerWidth < 768) {
+    if (mediaBreakpoint.isDown('md')) {
       dispatch(navigationActions.close());
       dispatch(lessonNotebookActions.close());
     }
