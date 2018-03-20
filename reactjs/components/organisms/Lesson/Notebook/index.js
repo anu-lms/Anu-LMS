@@ -190,6 +190,16 @@ class LessonNotebook extends React.Component {
 
               <div className="save-close" onClick={() => this.handleNotebookClose()}>
                 { isNoteListVisible ? 'Close Notes' : 'Save and Close' }
+
+                {/* @todo: left to right arrow isn't exported in zeplin, we rotated existing one in css as workaround. */}
+                <span className="close-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                    <g fill="none" fillRule="evenodd">
+                      <path d="M-4-4h24v24H-4z"/>
+                      <path fill="#FFF" fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
+                    </g>
+                  </svg>
+                </span>
               </div>
 
             </Fragment>

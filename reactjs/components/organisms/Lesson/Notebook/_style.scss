@@ -175,6 +175,21 @@
         font-size: 1.25em;
       }
 
+      .close-arrow {
+        display: none;
+
+        @include media-breakpoint-up(md) {
+          display: inline-block;
+          margin-left: 12px;
+          position: relative;
+          top: 2px;
+          -webkit-transform: rotate(180deg);
+          -moz-transform: rotate(180deg);
+          -o-transform: rotate(180deg);
+          -ms-transform: rotate(180deg);
+          transform: rotate(180deg);
+        }
+      }
       &:hover {
         background: darken($carbon, 10);
       }
