@@ -322,8 +322,7 @@ workflows:
           filters:
             branches:
               only:
-                #TODO: CHANGE TO STAGE.
-                - pentests
+                - stage
 
   # Run security checks for the ANU LMS every Thursday
   # at 12am.
