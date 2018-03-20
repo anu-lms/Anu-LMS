@@ -1,3 +1,4 @@
+// Default Bootstrap breakpoints.
 const breakpoints = {
   xs: 0,
   sm: 576,
@@ -7,4 +8,24 @@ const breakpoints = {
   xxl: 1840
 };
 
-export
+// @todo: improve functionality, show console warnings if window or breakpoint name missed.
+export const isUp = (name) => {
+  return window.innerWidth > breakpoints[name];
+};
+
+export const isDown = (name) => {
+  return window.innerWidth < breakpointMax(name);
+};
+
+export const isBetween = (lower, upper) => {
+  return window.innerWidth > breakpoints[lower] && window.innerWidth < breakpointMax(upper);
+};
+
+// @todo: implement behaviour for Only.
+export const isOnly = (name) => {
+  return false;
+};
+
+const breakpointMax = (name) => {
+  return breakpoints[name] - 0.02;
+};

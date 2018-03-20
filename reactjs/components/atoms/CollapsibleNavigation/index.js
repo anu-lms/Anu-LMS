@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect} from 'react-redux';
 import { toggle } from '../../../actions/navigation';
+import * as mediaBreakpoint from '../../../utils/breakpoints';
 import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNavigation extends React.Component {
@@ -16,14 +17,14 @@ class CollapsibleNavigation extends React.Component {
   componentDidMount() {
     // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
     this.setState({
-      isCollapsed: (window.innerWidth < 768) ? this.props.isCollapsedMobile : this.props.isCollapsed
+      isCollapsed: mediaBreakpoint.isDown('md') ? this.props.isCollapsedMobile : this.props.isCollapsed
     });
   }
 
   componentWillReceiveProps(nextProps) {
     // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
     this.setState({
-      isCollapsed: (window.innerWidth < 768) ? nextProps.isCollapsedMobile : nextProps.isCollapsed
+      isCollapsed: mediaBreakpoint.isDown('md') ? nextProps.isCollapsedMobile : nextProps.isCollapsed
     });
   }
 
@@ -32,8 +33,7 @@ class CollapsibleNavigation extends React.Component {
 
     // Close notebook pane on Tablet devices if navigation opened,
     // leave both panes opened on extra large screens.
-    // 768 is a bootstrap md breakpoint.
-    if (window.innerWidth > 768 && window.innerWidth < 1840) {
+    if (mediaBreakpoint.isBetween('md', 'xxl')) {
       this.props.dispatch(lessonNotebookActions.close());
     }
   }
