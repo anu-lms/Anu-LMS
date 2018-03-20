@@ -1,6 +1,8 @@
 .editor-menu {
-  margin-bottom: 1em;
   padding: .625em 0 .3125em;
+  @include media-breakpoint-up(md) {
+    margin-bottom: .5em;
+  }
 
   &.sticky {
     background: $white;

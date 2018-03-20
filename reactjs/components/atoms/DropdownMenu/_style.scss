@@ -36,9 +36,9 @@
 
 div[class^=dropdown---dropdown-menu-wrapper] {
   right: -10px;
-  @include media-breakpoint-up(lg) {
+  /*@include media-breakpoint-up(lg) {
     right: -40px;
-  }
+  }*/
   left: auto;
   border: 0;
   box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2);
@@ -59,14 +59,13 @@ div[class^=dropdown---dropdown-menu---] {
     transform-origin: 0 0;
     transform: rotate(135deg);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-
     right: 5px;
-    @include media-breakpoint-up(lg) {
+    /*@include media-breakpoint-up(lg) {
       right: 36px;
-    }
+    }*/
   }
 }
 
-div[class^=dropdown---menu-item---] {
+/*div[class^=dropdown---menu-item---] {
   min-width: 200px;
-}
+}*/

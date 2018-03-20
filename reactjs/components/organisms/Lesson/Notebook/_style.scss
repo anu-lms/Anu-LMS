@@ -117,6 +117,13 @@
           }
         }
       }
+
+      .notes-list {
+        min-height: 100%;
+        @include media-breakpoint-up(md) {
+          min-height: calc(100% - 56px);
+        }
+      }
     }
 
     .note-content {
