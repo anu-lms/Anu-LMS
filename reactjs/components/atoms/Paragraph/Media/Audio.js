@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
 import { fileUrl } from '../../../../utils/url';
+import { ProgressBar } from 'react-player-controls';
 
 class Audio extends React.Component {
 
@@ -43,7 +44,8 @@ class Audio extends React.Component {
 
   playerLoaded() {
     this.setState({
-      duration: this.formatDuration(this.player.duration())
+      formattedDuration: this.formatDuration(this.player.duration()),
+      duration: Math.floor(this.player.duration())
     });
   }
 
@@ -52,8 +54,8 @@ class Audio extends React.Component {
       isPlaying: true,
       seekUpdate: setInterval(() => (
         this.setState({
-          seek: this.player.seek() / this.player.duration() * 100,
-          duration: this.formatDuration(this.player.duration() - this.player.seek()),
+          seek: Math.floor(this.player.seek()),
+          formattedDuration: this.formatDuration(this.player.duration() - this.player.seek()),
         })
       ), 1000)
     });
@@ -99,22 +101,29 @@ class Audio extends React.Component {
                 }
               </div>
 
-              <div className="seek">
-                <div className="bar" />
-                <div className="pointer" style={{ left: this.state.seek + '%' }} />
-              </div>
+              <ReactHowler
+                src={fileUrl(file.url)}
+                ref={player => this.player = player}
+                onLoad={this.playerLoaded}
+                playing={this.state.isPlaying}
+                loop={false}
+                onEnd={this.pause}
+              />
+
+              <ProgressBar
+                totalTime={parseInt(this.state.duration)}
+                currentTime={parseInt(this.state.seek)}
+                isSeekable={true}
+                onSeek={time => this.player.seek(time)}
+                onIntent={time => this.setState(() => ({ lastIntent: time }))}
+                onSeekEnd={this.play}
+              />
 
               <div className="duration">
-                {this.state.duration}
+                {this.state.formattedDuration}
               </div>
             </div>
 
-            <ReactHowler
-              src={fileUrl(file.url)}
-              ref={player => this.player = player}
-              onLoad={this.playerLoaded}
-              playing={this.state.isPlaying}
-            />
           </div>
         </div>
       </div>
