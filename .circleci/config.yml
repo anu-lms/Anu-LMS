@@ -58,6 +58,13 @@ jobs:
             fi
 
       - run:
+          name: Make a snapshot on the production before deploy.
+          command: |
+            if [ $CIRCLE_BRANCH == "master" ]; then
+              platform snapshot:create --yes --no-wait
+            fi
+
+      - run:
           name: Push branch changes to platform's git repository
           command: git push --force platform $CIRCLE_BRANCH
           no_output_timeout: 20m
