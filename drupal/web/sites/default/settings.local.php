@@ -40,3 +40,6 @@ $config['system.file']['path']['temporary'] = '/tmp';
 
 // Disable SMTP usage on all local environments.
 $config['smtp.settings']['smtp_on'] = FALSE;
+
+// Enable private file system locally.
+$settings['file_private_path'] = DRUPAL_ROOT . '/sites/default/files/private';

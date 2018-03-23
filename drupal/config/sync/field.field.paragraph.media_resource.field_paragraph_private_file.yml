@@ -1,0 +1,27 @@
+uuid: 4e63b1c6-0720-4e30-a1c8-041f593cc227
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_private_file
+    - paragraphs.paragraphs_type.media_resource
+  module:
+    - file
+id: paragraph.media_resource.field_paragraph_private_file
+field_name: field_paragraph_private_file
+entity_type: paragraph
+bundle: media_resource
+label: File
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'paragraphs/files/[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: '50 MB'
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

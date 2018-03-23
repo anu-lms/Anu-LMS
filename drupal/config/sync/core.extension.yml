@@ -4,6 +4,7 @@ module:
   admin_toolbar_tools: 0
   anu_auth: 0
   anu_learner_progress: 0
+  anu_lessons: 0
   anu_quizzes: 0
   anu_user: 0
   block: 0
