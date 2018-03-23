@@ -1,0 +1,19 @@
+uuid: f117a9bb-efd2-4da9-8096-732fd29546a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_title
+    - paragraphs.paragraphs_type.media_resource
+id: paragraph.media_resource.field_paragraph_title
+field_name: field_paragraph_title
+entity_type: paragraph
+bundle: media_resource
+label: Name
+description: 'Name will be displayed as a file name in the lesson. Leave empty to let the system make the existing file name human readable.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

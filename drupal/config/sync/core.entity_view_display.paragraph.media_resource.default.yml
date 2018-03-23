@@ -1,0 +1,33 @@
+uuid: 2d7d52b4-9850-4a5d-ad9e-6056fe413c18
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_resource.field_paragraph_private_file
+    - field.field.paragraph.media_resource.field_paragraph_settings
+    - field.field.paragraph.media_resource.field_paragraph_title
+    - paragraphs.paragraphs_type.media_resource
+  module:
+    - file
+id: paragraph.media_resource.default
+targetEntityType: paragraph
+bundle: media_resource
+mode: default
+content:
+  field_paragraph_private_file:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_paragraph_title:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  field_paragraph_settings: true
