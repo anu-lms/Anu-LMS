@@ -32,7 +32,7 @@ function anu_lessons_file_access($entity, $operation) {
 
     // If paragraph is not of the right type - it's not our case.
     $paragraph = reset($paragraphs);
-    if ($paragraph->bundle() !e== 'media_resource') {
+    if ($paragraph->bundle() !== 'media_resource') {
       return AccessResult::neutral();
     }
 
