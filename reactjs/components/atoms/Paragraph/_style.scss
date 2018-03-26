@@ -371,6 +371,50 @@
   }
 }
 
+.resource {
+
+  .inner {
+    position: relative;
+
+    .download {
+      position: absolute;
+      cursor: pointer;
+      left: -1em;
+      top: -3px;
+      padding: .5em 1em;
+
+      svg path {
+        fill: $london-sky;
+        transition: .2s all;
+      }
+
+      &:hover {
+        svg path {
+          fill: $warm-grey-two;
+        }
+      }
+    }
+
+    .title {
+      cursor: pointer;
+      margin-left: .5em;
+      color: $anu-blue;
+      @include media-breakpoint-up(md) {
+        margin-left: 1.5em;
+      }
+      @include media-breakpoint-up(lg) {
+        margin-left: 2em;
+        font-size: 1.125em;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+  }
+}
+
 .nav-collapsed {
   .image-full {
     .row > div {
