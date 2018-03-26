@@ -116,6 +116,7 @@ class LessonPage extends React.Component {
           'entity_id.field_lesson_blocks,' +
           'entity_id.field_lesson_blocks.field_paragraph_image,' +
           'entity_id.field_lesson_blocks.field_paragraph_file,' +
+          'entity_id.field_lesson_blocks.field_paragraph_private_file,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_image,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_file',

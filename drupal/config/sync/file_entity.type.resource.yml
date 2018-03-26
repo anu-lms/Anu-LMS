@@ -1,0 +1,9 @@
+uuid: 8a94d845-0065-406e-84e1-b200358d1e72
+langcode: en
+status: true
+dependencies: {  }
+id: resource
+label: Resource
+description: ''
+mimetypes:
+  - application/pdf

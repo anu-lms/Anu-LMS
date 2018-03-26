@@ -1,6 +1,6 @@
 import jsCookie from 'js-cookie';
 import Auth from './auth';
-import request from "../utils/request";
+import request from '../utils/request';
 
 // TODO: Move to env vars or global vars.
 const CLIENT_ID = '9e0c1ed1-541b-45da-9360-8b41f206352c';
