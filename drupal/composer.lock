@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c367ef2d1ddbd4b28f54ce0d419d56ad",
+    "content-hash": "bfcc6534ea348abedfb9881e3193a53f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2568,6 +2568,14 @@
                     "homepage": "https://www.drupal.org/node/1155832/committers"
                 },
                 {
+                    "name": "acrazyanimal",
+                    "homepage": "https://www.drupal.org/user/696648"
+                },
+                {
+                    "name": "akalata",
+                    "homepage": "https://www.drupal.org/user/498926"
+                },
+                {
                     "name": "dpopdan",
                     "homepage": "https://www.drupal.org/user/2759811"
                 },
@@ -3237,11 +3245,17 @@
         },
         {
             "name": "drupal/jsonapi",
-            "version": "dev-1.x",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/jsonapi",
-                "reference": "1eafaf8"
+                "reference": "8.x-1.14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/jsonapi-8.x-1.14.zip",
+                "reference": "8.x-1.14",
+                "shasum": "2b5d99c935ee20e751d3e40ea5118da9b225ef34"
             },
             "require": {
                 "drupal/core": "^8.3"
@@ -3257,11 +3271,11 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.10+8-dev",
-                    "datestamp": "1519461483",
+                    "version": "8.x-1.14",
+                    "datestamp": "1521653147",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -3291,8 +3305,7 @@
             "homepage": "https://www.drupal.org/project/jsonapi",
             "support": {
                 "source": "http://cgit.drupalcode.org/jsonapi"
-            },
-            "time": "2018-02-24 09:50:52"
+            }
         },
         {
             "name": "drupal/jsonapi_extras",
@@ -4286,6 +4299,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Refine cases when access token is revoked": "https://www.drupal.org/files/issues/simple_oauth-auth-revoke-2946882-11.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -9976,7 +9992,6 @@
         "drupal/group": 5,
         "drupal/inline_entity_form": 10,
         "drupal/json_field": 10,
-        "drupal/jsonapi": 20,
         "drupal/jsonapi_extras": 20,
         "drupal/media_entity_browser": 10,
         "drupal/page_manager": 10,
