@@ -1,10 +1,6 @@
 // Import Bootstrap 4 grid.
 @import "../node_modules/bootstrap-4-grid/scss/grid";
 
-// Import other thrird party libs.
-@import '../node_modules/@trendmicro/react-buttons/dist/react-buttons';
-@import '../node_modules/@trendmicro/react-dropdown/dist/react-dropdown';
-
 // Import all mixins.
 @import "mixins/*.scss";
 
@@ -18,6 +14,10 @@
 // Import styles for float labels.
 @import "vendor/bootstrap-float-label";
 
+// Adding styles for third-party dropdown buttons.
+@import "vendor/react-buttons";
+@import "vendor/react-dropdown";
+
 // Import components.
 @import "components/header";
 @import "components/nprogress";
@@ -28,7 +28,6 @@
 @import "components/card";
 @import "components/alert";
 @import "components/collapsible_navigation";
-@import "components/lesson_navigation";
 @import "components/link-with-progress";
 
 // Import all styles near by the react components.

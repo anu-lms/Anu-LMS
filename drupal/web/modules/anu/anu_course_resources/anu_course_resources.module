@@ -1,0 +1,274 @@
+<?php
+
+use \Drupal\Component\Render\FormattableMarkup;
+
+/**
+ * @file
+ * Contains main entry point for the module.
+ */
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_course_resources_paragraph_update(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'media_resource') {
+    return;
+  }
+
+  try {
+
+    // Getting a lesson of paragraph and making sure it's actually lesson.
+    $lesson = $entity->getParentEntity();
+    if ($lesson->bundle() != 'lesson') {
+      return;
+    }
+
+    if (!empty($lesson->field_lesson_course->getValue())) {
+
+      // Get the lesson's course.
+      $course = $lesson->field_lesson_course
+        ->first()
+        ->get('entity')
+        ->getTarget()
+        ->getValue();
+
+      // In case if course didn't have resources before, change the flag.
+      if (!empty($course)) {
+        $had_resources = $course->get('field_course_has_resources')->value;
+        if (!$had_resources) {
+          $course->field_course_has_resources = TRUE;
+          $course->save();
+        }
+      }
+    }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not handle course resource flag update during paragraph insert/update. Error: @error', [
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_course_resources')->critical($message);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_course_resources_paragraph_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'media_resource') {
+    return;
+  }
+
+  try {
+
+    // Getting a lesson of paragraph and making sure it's actually lesson.
+    $lesson = $entity->getParentEntity();
+    if ($lesson->bundle() != 'lesson') {
+      return;
+    }
+
+    if (!empty($lesson->field_lesson_course->getValue())) {
+
+      $course = $lesson->field_lesson_course
+        ->first()
+        ->get('entity')
+        ->getTarget()
+        ->getValue();
+
+      if (!empty($course)) {
+
+        // Load course's lessons.
+        $lessons = [];
+        $course_lessons = $course->get('field_course_lessons');
+        foreach ($course_lessons as $course_lesson) {
+          $field_lesson = $course_lesson->getValue();
+          $lessons[] = $field_lesson['target_id'];
+        }
+
+        // Load paragraphs of the resource type for course lessons.
+        $paragraphs = \Drupal::entityTypeManager()
+          ->getStorage('paragraph')
+          ->loadByProperties([
+            'type' => 'media_resource',
+            'parent_id' => $lessons
+          ]);
+
+        // Make sure the current paragraph which is being deleted was not
+        // loaded from cache / db.
+        unset($paragraphs[$entity->id()]);
+
+        // Gather list of lessons who have resources in them.
+        $lessons_with_resources = [];
+        foreach ($paragraphs as $paragraph) {
+          $lesson = $paragraph->getParentEntity();
+          if ($lesson->isPublished()) {
+            $lessons_with_resources[$lesson->id()] = TRUE;
+          }
+        }
+
+        // If after removal of the resource the course doesn't have any more
+        // resources, then change the flag.
+        if (empty($lessons_with_resources)) {
+          $course->field_course_has_resources = FALSE;
+          $course->save();
+        }
+      }
+    }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not handle course resource flag update during paragraph insert/update. Error: @error', [
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_course_resources')->critical($message);
+  }
+}
+
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_course_resources_node_update(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'lesson') {
+    return;
+  }
+
+  // Had to implement this work around due to
+  // https://www.drupal.org/project/paragraphs/issues/2741937
+  _anu_course_resources_delete_removed_paragraphs($entity);
+
+  try {
+    $courses_to_check = [];
+
+    // Get the current course reference.
+    if (!empty($entity->field_lesson_course->getValue())) {
+      $course = $entity->field_lesson_course
+        ->first()
+        ->get('entity')
+        ->getTarget()
+        ->getValue();
+
+      if (!empty($course)) {
+        $courses_to_check[] = $course;
+      }
+    }
+
+    // Get the previous course reference.
+    if (!empty($entity->original->field_lesson_course->getValue())) {
+      $original_course = $entity->original->field_lesson_course
+        ->first()
+        ->get('entity')
+        ->getTarget()
+        ->getValue();
+
+      // We want to update previously existing course's resource flag only
+      // if the lesson has a new course or removed the course reference.
+      if (!empty($original_course)) {
+        if (!empty($course) && $course->id() != $original_course->id()) {
+          $courses_to_check[] = $original_course;
+        }
+        elseif (empty($course)) {
+          $courses_to_check[] = $original_course;
+        }
+      }
+    }
+
+    foreach ($courses_to_check as $course) {
+
+      // Get list of course lessons.
+      $lessons = [];
+      $course_lessons = $course->get('field_course_lessons');
+      foreach ($course_lessons as $course_lesson) {
+        $field_lesson = $course_lesson->getValue();
+        $lessons[] = $field_lesson['target_id'];
+      }
+
+      // Load resource paragraphs from course lessons.
+      $paragraphs = \Drupal::entityTypeManager()
+        ->getStorage('paragraph')
+        ->loadByProperties([
+          'type' => 'media_resource',
+          'parent_id' => $lessons
+        ]);
+
+      // Gather a list of lessons which are published and contain resources.
+      $lessons_with_resources = [];
+      foreach ($paragraphs as $paragraph) {
+        $lesson = $paragraph->getParentEntity();
+
+        // Make sure the current lesson uses the most up-to-date data.
+        if ($lesson->id() == $entity->id()) {
+          $lesson = $entity;
+        }
+
+        if ($lesson->isPublished()) {
+          $lessons_with_resources[$lesson->id()] = TRUE;
+        }
+      }
+
+      // Update the course resource field if its value has changed.
+      $has_resources = !empty($lessons_with_resources);
+      $had_resources = $course->get('field_course_has_resources')->value;
+      if ($has_resources != $had_resources) {
+        $course->field_course_has_resources = $has_resources;
+        $course->save();
+      }
+    }
+
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not update course resource flag from update of lesson @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_course_resources')->critical($message);
+  }
+}
+
+/**
+ * Tracks removed paragraphs and force deletes them.
+ * It was implemented due to
+ * https://www.drupal.org/project/paragraphs/issues/2741937
+ *
+ * @param $lesson
+ *   Lesson node object.
+ */
+function _anu_course_resources_delete_removed_paragraphs($lesson) {
+  try {
+
+    $paragraphs = [];
+    $original_paragraphs = [];
+
+    // Collect current paragraphs.
+    foreach ($lesson->field_lesson_blocks as $paragraph) {
+      $value = $paragraph->getValue();
+      $paragraphs[] = $value['target_id'];
+    }
+
+    // Collect previously existing paragraphs.
+    foreach ($lesson->original->field_lesson_blocks as $paragraph) {
+      $value = $paragraph->getValue();
+      $original_paragraphs[$value['target_id']] = $value['target_id'];
+    }
+
+    // Figure out if there were paragraphs which are not there anymore.
+    foreach ($paragraphs as $paragraph_id) {
+      unset($original_paragraphs[$paragraph_id]);
+    }
+
+    foreach ($original_paragraphs as $paragraph_id) {
+      $paragraph = \Drupal::entityTypeManager()
+        ->getStorage('paragraph')
+        ->load($paragraph_id);
+      $paragraph->delete();
+    }
+
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not delete removed paragraphs for lesson @id. Error: @error', [
+      '@id' => $lesson->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_course_resources')->critical($message);
+  }
+}

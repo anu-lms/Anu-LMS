@@ -1,30 +1,30 @@
 import React from 'react';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
-import withRedux from '../store/withRedux';
 import Header from '../components/organisms/Header';
-import * as dataProcessors from '../utils/dataProcessors';
-import LessonPageTemplate from '../components/organisms/Templates/Lesson';
+import withRedux from '../store/withRedux';
 import ErrorPage from '../components/atoms/ErrorPage';
+import CourseResouces from '../components/organisms/Templates/CourseResouces';
+import * as dataProcessors from '../utils/dataProcessors';
 
-class LessonPage extends React.Component {
+class CourseResoucePage extends React.Component {
 
-  render () {
-    const { statusCode } = this.props;
+  render() {
+    const { course, resources, statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header lesson">
           {statusCode === 200 &&
-          <LessonPageTemplate
-            lesson={this.props.lesson}
-            course={this.props.course}
+          <CourseResouces
+            course={course}
+            resources={resources}
           />
           }
           {statusCode !== 200 &&
           <ErrorPage code={statusCode} />
           }
-          </div>
+        </div>
       </App>
     );
   }
@@ -33,11 +33,9 @@ class LessonPage extends React.Component {
 
     const initialProps = {
       course: {},
-      lesson: {},
+      resources: [],
       statusCode: 200,
     };
-
-    // TODO: Handle case when path alias was changed.
 
     // Get a course by path.
     let response;
@@ -86,52 +84,19 @@ class LessonPage extends React.Component {
       return initialProps;
     }
 
-    // Get a lesson by path.
-    // TODO: check if course is parent of lesson.
     try {
+
+      // Fetch data regarding the course progress from the backend.
       response = await request
-        .get('/router/translate-path')
-        .query({
-          '_format': 'json',
-          'path': query.lesson
-        });
+        .get('/course/resources/' + initialProps.course.id)
+        .query({ '_format': 'json' });
 
-      const { entity } = response.body;
-
-      // Make sure the lesson was found.
-      if (entity.type !== 'node' || entity.bundle !== 'lesson') {
-        console.log('Could not find the lesson under with the given URL.');
-        if (res) res.statusCode = 404;
-        initialProps.statusCode = 404;
-        return initialProps;
+      if (response.body) {
+        initialProps.resources = response.body;
       }
 
-      const responseLesson = await request
-        .get('/jsonapi/group_content/class-group_node-lesson')
-        .query({
-          // Include referenced fields.
-          'include': '' +
-          'entity_id,' +
-          'entity_id.field_lesson_course,' +
-          'entity_id.field_lesson_blocks,' +
-          'entity_id.field_lesson_blocks.field_paragraph_image,' +
-          'entity_id.field_lesson_blocks.field_paragraph_file,' +
-          'entity_id.field_lesson_blocks.field_paragraph_private_file,' +
-          'entity_id.field_lesson_blocks.field_quiz_blocks,' +
-          'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_image,' +
-          'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_file',
-          // Lesson entity fields.
-          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks,field_is_assessment',
-          // Course entity fields.
-          'fields[node--course]': 'path,nid',
-          // Filter by nid.
-          'filter[entity_id][value]': entity.id,
-        });
-
-      initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
-
     } catch (error) {
-      console.log('Could not load lesson. Error:');
+      console.log('Could not load course resources. Error:');
       console.log(error);
       if (res) res.statusCode = 500;
       initialProps.statusCode = 500;
@@ -157,11 +122,6 @@ class LessonPage extends React.Component {
         if (index !== -1) {
           initialProps.course.lessons[index].progress = Math.round(progress);
         }
-
-        // Add lesson progress to the currently viewing lesson.
-        if (parseInt(id) === initialProps.lesson.id) {
-          initialProps.lesson.progress = Math.round(progress);
-        }
       });
 
     } catch (error) {
@@ -176,4 +136,4 @@ class LessonPage extends React.Component {
 
 }
 
-export default withRedux(withAuth(LessonPage));
+export default withRedux(withAuth(CourseResoucePage));

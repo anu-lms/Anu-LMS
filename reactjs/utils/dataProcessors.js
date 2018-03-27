@@ -53,6 +53,11 @@ export const courseData = (courseData) => {
     estimation = course.fieldTimeToCompleteMinutes;
   }
 
+  let hasResources = false;
+  if (course.fieldCourseHasResources) {
+    hasResources = course.fieldCourseHasResources;
+  }
+
   return {
     id: course.nid,
     groupId: courseData.gid.id ? courseData.gid.id : null,
@@ -60,6 +65,7 @@ export const courseData = (courseData) => {
     created: course.created,
     title: course.title,
     url: courseHelper.getUrl(course.path.alias),
+    urlResources: courseHelper.getResourcesUrl(course.path.alias),
     imageUrl: urlUtils.fileUrl(imageUrl),
     // TODO: enable image alt.
     imageAlt: course.title,
@@ -68,6 +74,7 @@ export const courseData = (courseData) => {
     instructors: instructors,
     totalMinutes: estimation,
     description: course.fieldCourseDescription ? course.fieldCourseDescription.value : '',
+    hasResources: hasResources,
     progress: 0 // Default value.
   };
 };

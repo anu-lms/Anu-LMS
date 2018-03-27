@@ -41,7 +41,7 @@ const Paragraphs = dynamic({
         return (
           <Fragment key={index}>
             <div style={{ display: 'none' }}>{block.id}</div>
-            <Paragraph key={block.id} {...block} {...props} />
+            <Paragraph key={block.id} {...props} {...block} />
           </Fragment>
         );
       })

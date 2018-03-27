@@ -47,7 +47,7 @@ class ComboBoxes extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              <Paragraphs blocks={blocks} handleParagraphLoaded={handleParagraphLoaded} />
+              <Paragraphs {...this.props} />
             </div>
             }
 

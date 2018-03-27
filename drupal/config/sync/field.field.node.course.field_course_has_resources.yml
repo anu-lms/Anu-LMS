@@ -1,0 +1,23 @@
+uuid: 0797eb30-50f1-4ef8-acf5-07656bcb3aec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_has_resources
+    - node.type.course
+id: node.course.field_course_has_resources
+field_name: field_course_has_resources
+entity_type: node
+bundle: course
+label: 'Has Resources'
+description: 'This field is being populated automatically based on Resource paragraphs in the lessons of this course.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

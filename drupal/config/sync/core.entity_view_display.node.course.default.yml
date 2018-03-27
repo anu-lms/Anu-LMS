@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_has_resources
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_instructors
     - field.field.node.course.field_course_lessons
@@ -25,6 +26,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_course_has_resources:
+    weight: 7
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_course_image:
     weight: 2

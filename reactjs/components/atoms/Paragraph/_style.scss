@@ -400,10 +400,9 @@
       margin-left: 1.5em;
       color: $anu-blue;
       @include media-breakpoint-up(md) {
-        margin-left: 1.5em;
+        margin-left: 2.5em;
       }
       @include media-breakpoint-up(lg) {
-        margin-left: 2em;
         font-size: 1.125em;
       }
 

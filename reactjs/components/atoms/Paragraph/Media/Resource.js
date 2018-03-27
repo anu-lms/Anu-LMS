@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { humanizeFileName } from '../../../../utils/string';
 import ClientAuth from '../../../../auth/clientAuth';
 import * as privateFileHelper from '../../../../helpers/privateFile';
+import _isEmpty from 'lodash/isEmpty';
 
 class Resource extends React.Component {
 
@@ -57,10 +58,8 @@ class Resource extends React.Component {
               </div>
 
               <div className="title" onClick={this.onFileDownloadClick}>
-                {title.length > 0 && title}
-                {!title.length &&
-                humanizeFileName(privatefile.filename)
-                }
+                {!_isEmpty(title) && title}
+                {_isEmpty(title) && humanizeFileName(privatefile.filename)}
               </div>
 
             </div>
@@ -85,7 +84,6 @@ Resource.propTypes = {
   title: PropTypes.string,
   handleParagraphLoaded: PropTypes.func,
   privatefile: PropTypes.shape({
-    url: PropTypes.string,
     fid: PropTypes.number,
     filename: PropTypes.string,
   }),
