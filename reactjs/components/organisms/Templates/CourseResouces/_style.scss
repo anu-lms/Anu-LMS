@@ -4,3 +4,42 @@
     margin-bottom: 1em;
   }
 }
+
+.lesson .lesson-container.course-resources-container {
+
+  h1 {
+    font-size: 1.25em;
+    padding-left: 22px;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.5em;
+      padding-left: 2.4em;
+      margin-bottom: 1.3em;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2em;
+      margin-bottom: 1.4em;
+    }
+  }
+
+  .download-column-label {
+    position: relative;
+
+    .inner {
+      display: none;
+
+      @include media-breakpoint-up(md) {
+        position: absolute;
+        color: $london-sky;
+        display: block;
+        font-size: 0.625em;
+        top: -24px;
+      }
+      @include media-breakpoint-up(lg) {
+        font-size: 0.75em;
+        top: -34px;
+      }
+    }
+  }
+}

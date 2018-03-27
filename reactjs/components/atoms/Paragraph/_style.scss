@@ -382,6 +382,12 @@
       left: -1em;
       top: -3px;
       padding: .5em 1em;
+      @include media-breakpoint-up(md) {
+        left: auto;
+      }
+      @include media-breakpoint-up(lg) {
+        padding: .5em 1.25em;
+      }
 
       svg path {
         fill: $london-sky;
@@ -400,10 +406,11 @@
       margin-left: 1.5em;
       color: $anu-blue;
       @include media-breakpoint-up(md) {
-        margin-left: 2.5em;
+        margin-left: 3.7em;
       }
       @include media-breakpoint-up(lg) {
         font-size: 1.125em;
+        margin-left: 4em;
       }
 
       &:hover {
