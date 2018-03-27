@@ -81,3 +81,15 @@ export const getProgress = (coursesStore, course) => {
 export const getUrl = (coursePath) => (
   '/course' + coursePath
 );
+
+/**
+ * Returns course resources page url in the frontend app.
+ *
+ * @param coursePath
+ *   Path alias of a course in Drupal backend.
+ *
+ * @returns {string}
+ */
+export const getResourcesUrl = (coursePath) => (
+  '/course/resources' + coursePath
+);

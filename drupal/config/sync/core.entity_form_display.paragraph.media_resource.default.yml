@@ -15,7 +15,7 @@ bundle: media_resource
 mode: default
 content:
   field_paragraph_private_file:
-    weight: 2
+    weight: 0
     settings:
       progress_indicator: throbber
     third_party_settings: {  }

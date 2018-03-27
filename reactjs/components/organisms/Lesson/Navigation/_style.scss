@@ -65,13 +65,45 @@
 
   }
 
+  .resources-link {
+    @extend .link-with-progress;
+    position: relative;
+    font-style: italic;
+    background: darken($gray91, 10);
+
+    &:hover,
+    &.active {
+      background: $growth-green-transparent;
+
+      &:hover {
+        background: darken($growth-green-transparent, 15);
+      }
+    }
+
+    svg {
+      position: absolute;
+      left: 1em;
+      top: 1em;
+      @include media-breakpoint-up(lg) {
+        left: 1.5em;
+      }
+    }
+
+    span {
+      padding-left: 2.5em;
+    }
+
+  }
+
   .table-of-contents {
     h5.title {
       margin: 1em 0;
-      padding: 0;
       font-size: 0.875em;
-      text-align: center;
       transition: all .3s;
+      padding: 0 0 0 1em;
+      @include media-breakpoint-up(lg) {
+        padding-left: 1.5em;
+      }
     }
   }
 
