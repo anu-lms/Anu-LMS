@@ -412,6 +412,12 @@
     }
 
   }
+  // Override margin on lesson page.
+  .lesson .lesson-container .lesson-content>& {
+    @include media-breakpoint-up(md) {
+      margin-bottom: 3em;
+    }
+  }
 }
 
 .nav-collapsed {
