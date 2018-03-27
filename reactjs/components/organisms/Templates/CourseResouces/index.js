@@ -10,16 +10,16 @@ class CourseResourcesTemplate extends React.Component {
   render() {
     const { course, resources, navigation } = this.props;
 
-    let wrapperClasses = ['lesson-container', 'notebook-collapsed'];
+     let wrapperClasses = ['lesson-container', 'notebook-collapsed', 'course-resources-container'];
     let columnClasses = ['col-12'];
 
     // Defines classes if navigation opened.
     if (navigation.isCollapsed) {
       wrapperClasses.push('nav-collapsed');
+      columnClasses.push('offset-md-1');
+      columnClasses.push('col-md-10');
     }
 
-    columnClasses.push('offset-md-1');
-    columnClasses.push('col-md-10');
     columnClasses.push('offset-lg-2');
     columnClasses.push('col-lg-8');
 
@@ -35,6 +35,7 @@ class CourseResourcesTemplate extends React.Component {
               <div className={columnClasses.join(' ')}>
                 <h1>Course Resources</h1>
 
+                <div className="download-column-label"><div className="inner">Download</div></div>
                 <div className="resources-list">
                   {resources.length > 0 &&
                   resources.map(resource => (
