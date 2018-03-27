@@ -75,7 +75,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
         {course.description &&
         <Fragment>
           <h5>Overview</h5>
-          < div dangerouslySetInnerHTML={{__html: course.description}} />
+          <div dangerouslySetInnerHTML={{ __html: course.description }} />
         </Fragment>
         }
         {course.hasResources &&
