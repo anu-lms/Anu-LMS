@@ -1,0 +1,9 @@
+uuid: ab5c9a1e-9477-4471-8fcb-daa3ac493c6c
+langcode: en
+status: true
+dependencies: {  }
+id: media_resource
+label: 'Resource (file)'
+icon_uuid: null
+description: 'Defines a block with attached file.'
+behavior_plugins: {  }

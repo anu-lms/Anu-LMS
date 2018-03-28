@@ -1,0 +1,17 @@
+anu_private_files.file_view:
+  path: '/private-files/{id}/{accessToken}'
+  defaults:
+    _controller: '\Drupal\anu_private_files\FileDownloadController::download'
+    download: false
+  requirements:
+    id: \d+
+    _custom_access: '\Drupal\anu_private_files\FileDownloadController::access'
+
+anu_private_files.file_download:
+  path: '/private-files/{id}/{accessToken}/download'
+  defaults:
+    _controller: '\Drupal\anu_private_files\FileDownloadController::download'
+    download: true
+  requirements:
+    id: \d+
+    _custom_access: '\Drupal\anu_private_files\FileDownloadController::access'

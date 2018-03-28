@@ -1,5 +1,10 @@
 body {
 
+  // Disable scroll globally.
+  &.no-scroll {
+    overflow: hidden;
+  }
+
   // Disable scroll on mobile.
   &.no-scroll-mobile {
     overflow: hidden;

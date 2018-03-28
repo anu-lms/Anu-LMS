@@ -16,6 +16,7 @@ const Paragraphs = dynamic({
       'image_full_text': import('./Image/ImageFull'),
       'media_audio': import('./Media/Audio'),
       'media_video': import('./Media/Video'),
+      'media_resource': import('./Media/Resource'),
       'divider_simple': import('./Divider/Divider'),
       'divider_numbered': import('./Divider/Divider'),
       'quiz_checkboxes': import('./Quiz/CheckBoxes'),
@@ -40,7 +41,7 @@ const Paragraphs = dynamic({
         return (
           <Fragment key={index}>
             <div style={{ display: 'none' }}>{block.id}</div>
-            <Paragraph key={block.id} {...block} {...props} />
+            <Paragraph key={block.id} {...props} {...block} />
           </Fragment>
         );
       })

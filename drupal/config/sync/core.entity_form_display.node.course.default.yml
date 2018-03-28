@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_has_resources
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_instructors
     - field.field.node.course.field_course_lessons
@@ -100,6 +101,7 @@ content:
     region: content
     third_party_settings: {  }
 hidden:
+  field_course_has_resources: true
   langcode: true
   path: true
   promote: true

@@ -1,0 +1,21 @@
+uuid: 271b521a-6ec1-477e-8236-dec863e7ec5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_resource
+  module:
+    - json_field
+id: paragraph.media_resource.field_paragraph_settings
+field_name: field_paragraph_settings
+entity_type: paragraph
+bundle: media_resource
+label: Settings
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: json

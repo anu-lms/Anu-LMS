@@ -4,6 +4,7 @@ const routes = module.exports = require('next-routes')();
 // Additional dynamic routes.
 routes
   .add('_course', '/course/:course')
+  .add('_courseResource', '/course/resources/:course')
   .add('_lesson', '/course/:course/:lesson')
   .add('user_reset', '/user/reset/:uid/:timestamp/:hash', 'user/reset');
 

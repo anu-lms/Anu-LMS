@@ -114,6 +114,9 @@ class LearnerProgressDetailedResource extends ResourceBase {
         // Get a new or existing lesson progress entity of type course.
         $course_progress = $this->getLessonProgressEntity('course', $course->id());
 
+        // Updates entity changed date because we need to update entity, but nothing else has changed.
+        $course_progress->changed = \Drupal::time()->getRequestTime();
+
         // Set the lesson field which was accessed.
         $course_progress->field_lesson = $lesson->id();
 

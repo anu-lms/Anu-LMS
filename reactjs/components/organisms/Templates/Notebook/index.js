@@ -125,10 +125,4 @@ const mapStateToProps = ({ notebook }) => {
   }
 };
 
-NotebookTemplate.contextTypes = {
-  auth: PropTypes.shape({
-    getRequest: PropTypes.func,
-  }),
-};
-
 export default connect(mapStateToProps)(NotebookTemplate);

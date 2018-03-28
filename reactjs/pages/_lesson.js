@@ -65,7 +65,7 @@ class LessonPage extends React.Component {
           // Include class group, course entity, course image.
           'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
           // Course entity fields.
-          'fields[node--course]': 'title,path,nid,uuid,field_course_image,field_course_lessons,created',
+          'fields[node--course]': 'title,path,nid,uuid,field_course_image,field_course_lessons,field_course_has_resources,created',
           // Lesson entity fields.
           'fields[node--lesson]': 'title,path,nid',
           // Course image fields.
@@ -116,6 +116,7 @@ class LessonPage extends React.Component {
           'entity_id.field_lesson_blocks,' +
           'entity_id.field_lesson_blocks.field_paragraph_image,' +
           'entity_id.field_lesson_blocks.field_paragraph_file,' +
+          'entity_id.field_lesson_blocks.field_paragraph_private_file,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_image,' +
           'entity_id.field_lesson_blocks.field_quiz_blocks.field_paragraph_file',
