@@ -176,6 +176,7 @@ class Resource extends React.Component {
                   <Document
                     file={this.state.fileUrl}
                     onLoadSuccess={this.onFileLoadSuccess}
+                    loading=""
                   >
 
                     {this.state.fileLoaded &&
