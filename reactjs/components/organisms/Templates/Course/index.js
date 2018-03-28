@@ -5,7 +5,6 @@ import ResumeButton from '../../../moleculas/Course/ResumeButton';
 import Instructors from '../../../moleculas/Course/Instructors';
 import TimeToComplete from '../../../moleculas/Course/TimeToComplete';
 import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
-import { plural } from '../../../../utils/string';
 import * as lessonHelper from '../../../../helpers/lesson';
 import * as courseHelper from '../../../../helpers/course';
 
@@ -72,12 +71,27 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
       </div>
       }
 
-      {course.description &&
       <div className="col-md-6 course-overview">
-        <h5>Overview</h5>
-        <div dangerouslySetInnerHTML={{ __html: course.description }} />
+        {course.description &&
+        <Fragment>
+          <h5>Overview</h5>
+          <div dangerouslySetInnerHTML={{ __html: course.description }} />
+        </Fragment>
+        }
+        {course.hasResources &&
+        <Link to={course.urlResources}>
+          <a className="resources-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
+              <g fill="none" fillRule="evenodd">
+                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z"/>
+              </g>
+            </svg>
+            <span>View all Course Resources here</span>
+          </a>
+        </Link>
+        }
       </div>
-      }
+
 
     </div>
   </div>

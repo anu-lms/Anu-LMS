@@ -1,22 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import { Link } from '../../../routes';
-import CollapsibleNavigation from '../../atoms/CollapsibleNavigation';
-import LinkWithProgress from '../../atoms/Link/LinkWithProgress';
-import * as mediaBreakpoint from '../../../utils/breakpoints';
-import * as lessonHelper from '../../../helpers/lesson';
-import * as courseHelper from '../../../helpers/course';
-import * as navigationActions from '../../../actions/navigation';
-import * as lessonNotebookActions from '../../../actions/lessonNotebook';
+import { Link } from '../../../../routes';
+import CollapsibleNavigation from '../../../atoms/CollapsibleNavigation';
+import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
+import * as mediaBreakpoint from '../../../../utils/breakpoints';
+import * as lessonHelper from '../../../../helpers/lesson';
+import * as courseHelper from '../../../../helpers/course';
+import * as navigationActions from '../../../../actions/navigation';
+import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
+import LinkWithClick from '../../../atoms/Link/LinkWithClick';
 
 class LessonNavigation extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleNavigationClick = this.handleNavigationClick.bind(this);
+  }
 
   /**
    * Handle additional click event on links
    * inside of table of contents.
    */
-  handleTableOfContentsClick() {
+  handleNavigationClick() {
     const { dispatch } = this.props;
 
     // On the mobile device you'd want the navigation to hide
@@ -47,6 +54,23 @@ class LessonNavigation extends React.Component {
           </a>
         </Link>
 
+        {course.hasResources &&
+        <Link to={course.urlResources}>
+          <LinkWithClick
+            href={course.urlResources}
+            onCustomClick={this.handleNavigationClick}
+            className={`resources-link ${course.urlResources === router.asPath ? 'active' : ''}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
+              <g fill="none" fillRule="evenodd">
+                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z"/>
+              </g>
+            </svg>
+            <span>Course Resources</span>
+          </LinkWithClick>
+        </Link>
+        }
+
         <div className="table-of-contents">
           <h5 className="title">Course Content</h5>
           <div className="contents">
@@ -57,7 +81,7 @@ class LessonNavigation extends React.Component {
                 url={lesson.url}
                 progress={lessonHelper.getProgress(lessons, lesson)}
                 active={lesson.url === router.asPath}
-                onClick={this.handleTableOfContentsClick.bind(this)}
+                onClick={this.handleNavigationClick}
               />
             ))}
           </div>

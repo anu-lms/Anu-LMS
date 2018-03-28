@@ -129,5 +129,26 @@
   .course-overview {
     padding-top: 1em;
     padding-bottom: 3em;
+
+    .resources-link {
+      position: relative;
+      display: block;
+      padding-top: 1em;
+
+      svg {
+        position: absolute;
+        left: 0;
+        top: 20px;
+
+        path {
+          fill: $anu-blue;
+        }
+      }
+
+      span {
+        margin-left: 2em;
+      }
+    }
   }
+
 }

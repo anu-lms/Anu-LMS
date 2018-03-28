@@ -1,0 +1,70 @@
+<?php
+
+use \Drupal\Core\Access\AccessResult;
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_file_access().
+ *
+ * Manage access to private files from lesson paragraphs.
+ */
+function anu_lessons_file_access($entity, $operation) {
+
+  // We should bother only about these two cases here.
+  if (in_array($operation, ['view', 'download'])) {
+
+    $manager = \Drupal::entityTypeManager();
+
+    // Load the paragraph attached to the private file.
+    $paragraphs = $manager->getStorage('paragraph')->loadByProperties([
+      'field_paragraph_private_file' => $entity->id(),
+    ]);
+
+    // If the private file is not attached to a paragraph - then this is not
+    // our case.
+    if (empty($paragraphs)) {
+      return AccessResult::neutral();
+    }
+
+    // If paragraph is not of the right type - it's not our case.
+    $paragraph = reset($paragraphs);
+    if ($paragraph->bundle() !== 'media_resource') {
+      return AccessResult::neutral();
+    }
+
+    // The paragraph should be attached to the lesson. If not - it's not
+    // our case.
+    $node = $paragraph->getParentEntity();
+    if ($node->bundle() == 'lesson') {
+
+      // Load the lessons attached to the groups for proper permissions
+      // handling.
+      $group_content = $manager->getStorage('group_content')
+        ->loadByProperties(['entity_id' => $node->id() ]);
+
+      // If the file is inside of paragraph which is inside of lesson, which
+      // is not in the group - then this is not our case.
+      if (empty($group_content)) {
+        return AccessResult::neutral();
+      }
+
+      // If at least one lesson per group allows the current user to access it,
+      // then the current user can view the file.
+      foreach ($group_content as $group_lesson) {
+        if ($group_lesson->access('view')) {
+          return AccessResult::allowed();
+        }
+      }
+
+      // If the current user doesn't have access to access lesson(s) to which
+      // the file is attached - he should not see the file as well.
+      return AccessResult::forbidden();
+    }
+  }
+
+  return AccessResult::neutral();
+}
