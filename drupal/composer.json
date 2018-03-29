@@ -28,7 +28,7 @@
     "drupal/console": "~1.0",
     "drupal/consumer_image_styles": "^2.0@RC",
     "drupal/consumers": "^1.0@beta",
-    "drupal/core": "~8.0",
+    "drupal/core": "~8.4.0",
     "drupal/decoupled_router": "^1.0@beta",
     "drupal/default_content": "^1.0@alpha",
     "drupal/double_field": "^3.1",
