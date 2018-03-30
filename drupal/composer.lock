@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "283508faffebe12a0ceef37aa40b9613",
+    "content-hash": "6312b784a0d29df9a5000be7b2e1ad71",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1889,11 +1889,17 @@
         },
         {
             "name": "drupal/consumer_image_styles",
-            "version": "dev-2.x",
+            "version": "2.0.0-rc3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/consumer_image_styles",
-                "reference": "2626714"
+                "reference": "8.x-2.0-rc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/consumer_image_styles-8.x-2.0-rc3.zip",
+                "reference": "8.x-2.0-rc3",
+                "shasum": "b8b1f24f0ac91d288b78c977b90b46d15354bc62"
             },
             "require": {
                 "drupal/consumers": "*",
@@ -1906,12 +1912,16 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-rc3+0-dev",
+                    "version": "8.x-2.0-rc3",
                     "datestamp": "1506314345",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "message": "RC releases are not covered by Drupal security advisories."
                     }
+                },
+                "patches_applied": {
+                    "Fixed compatability with jsonapi": "https://www.drupal.org/files/issues/2018-03-30/consumer_image_styles-jsonapi_1_14-2955296-6.patch",
+                    "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -1928,8 +1938,7 @@
             "homepage": "https://www.drupal.org/project/consumer_image_styles",
             "support": {
                 "source": "http://cgit.drupalcode.org/consumer_image_styles"
-            },
-            "time": "2018-03-10 21:41:34"
+            }
         },
         {
             "name": "drupal/consumers",
@@ -10274,7 +10283,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/cer": 15,
-        "drupal/consumer_image_styles": 20,
+        "drupal/consumer_image_styles": 5,
         "drupal/consumers": 10,
         "drupal/decoupled_router": 10,
         "drupal/default_content": 15,
