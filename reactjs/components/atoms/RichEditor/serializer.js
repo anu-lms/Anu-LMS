@@ -70,6 +70,7 @@ const rules = [
   },
   {
     deserialize: function (el, next) {
+      return;
       if (el.tagName !== 'a') { return; }
       const type = INLINE_TAGS[el.tagName.toLowerCase()];
 
