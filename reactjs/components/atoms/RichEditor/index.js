@@ -63,12 +63,15 @@ class RichEditor extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.setState({ value: html.deserialize(this.props.initialValue) });
+    //this.setState({ value: this.props.initialValue });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
       this.setState({ value: html.deserialize(this.props.initialValue) });
+      //this.setState({ value: this.props.initialValue });
     }
   }
 
@@ -115,6 +118,10 @@ class RichEditor extends React.Component {
     // Trigger any external handler.
     if (this.props.onChange) {
       const htmlValue = html.serialize(value);
+      console.log('value', value);
+      console.log('htmlValue', htmlValue);
+      const aaa = he.decode(htmlValue);
+      console.log('decode', aaa);
       this.props.onChange(he.decode(htmlValue));
     }
   };
