@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
-import { fileUrl } from '../../../../utils/url';
 import { ProgressBar } from 'react-player-controls';
+import { fileUrl } from '../../../../utils/url';
 
 class Audio extends React.Component {
 
@@ -37,15 +37,15 @@ class Audio extends React.Component {
   }
 
   formatDuration(duration) {
-    const minutes = Math.floor(duration / 60) + '';
-    const seconds = Math.floor(duration % 60) + '';
-    return minutes.padStart(2, '0') + ':' + seconds.padStart(2, '0');
+    const minutes = `${Math.floor(duration / 60)}`;
+    const seconds = `${Math.floor(duration % 60)}`;
+    return `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
   }
 
   playerLoaded() {
     this.setState({
       formattedDuration: this.formatDuration(this.player.duration()),
-      duration: Math.floor(this.player.duration())
+      duration: Math.floor(this.player.duration()),
     });
   }
 
@@ -57,7 +57,7 @@ class Audio extends React.Component {
           seek: Math.floor(this.player.seek()),
           formattedDuration: this.formatDuration(this.player.duration() - this.player.seek()),
         })
-      ), 1000)
+      ), 1000),
     });
   }
 
@@ -86,7 +86,7 @@ class Audio extends React.Component {
                 {!this.state.isPlaying &&
                 <div onClick={this.play}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                    <path fill="#2C2C2C" fillRule="evenodd" d="M20 10L0 20V0z"/>
+                    <path fill="#2C2C2C" fillRule="evenodd" d="M20 10L0 20V0z" />
                   </svg>
                 </div>
                 }
@@ -94,7 +94,7 @@ class Audio extends React.Component {
                 <div onClick={this.pause}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
                     <g fill="none" fillRule="evenodd">
-                      <path fill="#2C2C2C" fillRule="nonzero" d="M0 19.333h5.333V.667H0v18.666zM10.667.667v18.666H16V.667h-5.333z"/>
+                      <path fill="#2C2C2C" fillRule="nonzero" d="M0 19.333h5.333V.667H0v18.666zM10.667.667v18.666H16V.667h-5.333z" />
                     </g>
                   </svg>
                 </div>
@@ -111,9 +111,9 @@ class Audio extends React.Component {
               />
 
               <ProgressBar
-                totalTime={parseInt(this.state.duration)}
-                currentTime={parseInt(this.state.seek)}
-                isSeekable={true}
+                totalTime={parseInt(this.state.duration)} // eslint-disable-line radix
+                currentTime={parseInt(this.state.seek)} // eslint-disable-line radix
+                isSeekable
                 onSeek={time => this.player.seek(time)}
                 onIntent={time => this.setState(() => ({ lastIntent: time }))}
                 onSeekEnd={this.play}
@@ -134,8 +134,8 @@ class Audio extends React.Component {
 Audio.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   file: PropTypes.shape({
     url: PropTypes.string,

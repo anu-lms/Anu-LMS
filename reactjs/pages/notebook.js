@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
@@ -11,53 +12,12 @@ import * as notebookHelpers from '../helpers/notebook';
 
 class NotebookPage extends Component {
 
-  componentDidMount() {
-    this.initializeNotebook();
-  }
-
-  componentDidUpdate() {
-    this.initializeNotebook();
-  }
-
-  initializeNotebook() {
-    const { isStoreRehydrated, notes, dispatch } = this.props;
-    if (isStoreRehydrated) {
-
-      // Reset all existing notes in the notebook.
-      dispatch(notebookActions.clear());
-
-      // Add all notes from the backend to the notebook storage.
-      notes.forEach(note => {
-        dispatch(notebookActions.addNote(note));
-      });
-
-      // Automatically set the last note (first in the displayed list) as
-      // active for editing.
-      if (notes.length > 0) {
-        dispatch(notebookActions.setActiveNote(notes[notes.length - 1].id));
-      }
-    }
-  }
-
-  render() {
-    return (
-      <App>
-        <Header />
-        <div className="page-with-header page-notebook">
-          <NotebookTemplate />
-        </div>
-      </App>
-    );
-  }
-
   static async getInitialProps({ request, res }) {
-
-    let initialProps = {
-      notes: []
+    const initialProps = {
+      notes: [],
     };
 
     try {
-
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
       const userResponse = await request.get('/user/me?_format=json');
@@ -96,15 +56,59 @@ class NotebookPage extends Component {
 
     return initialProps;
   }
+
+  componentDidMount() {
+    this.initializeNotebook();
+  }
+
+  componentDidUpdate() {
+    this.initializeNotebook();
+  }
+
+  initializeNotebook() {
+    const { isStoreRehydrated, notes, dispatch } = this.props;
+    if (isStoreRehydrated) {
+      // Reset all existing notes in the notebook.
+      dispatch(notebookActions.clear());
+
+      // Add all notes from the backend to the notebook storage.
+      notes.forEach((note) => {
+        dispatch(notebookActions.addNote(note));
+      });
+
+      // Automatically set the last note (first in the displayed list) as
+      // active for editing.
+      if (notes.length > 0) {
+        dispatch(notebookActions.setActiveNote(notes[notes.length - 1].id));
+      }
+    }
+  }
+
+  render() {
+    return (
+      <App>
+        <Header />
+        <div className="page-with-header page-notebook">
+          <NotebookTemplate />
+        </div>
+      </App>
+    );
+  }
 }
 
+NotebookPage.propTypes = {
+  isStoreRehydrated: PropTypes.bool,
+  notes: PropTypes.arrayOf(PropTypes.object),
+  dispatch: PropTypes.fund,
+};
+
 const mapStateToProps = (store) => {
-  let state = {
+  const state = {
     isStoreRehydrated: false,
   };
 
-  if (typeof store._persist !== 'undefined') {
-    state.isStoreRehydrated = store._persist.rehydrated;
+  if (typeof store._persist !== 'undefined') { // eslint-disable-line no-underscore-dangle
+    state.isStoreRehydrated = store._persist.rehydrated; // eslint-disable-line no-underscore-dangle
   }
 
   return state;

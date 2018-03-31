@@ -1,9 +1,9 @@
 import React from 'react';
 import Alert from 'react-s-alert';
+import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes';
-import request from "../../../../utils/request";
+import request from '../../../../utils/request';
 
 const schema = {
   'type': 'object',
@@ -13,7 +13,7 @@ const schema = {
       'type': 'string',
       'title': 'Username or Email Address',
     },
-  }
+  },
 };
 
 const uiSchema = {
@@ -37,8 +37,16 @@ class PasswordForm extends React.Component {
     this.submitForm.bind(this);
   }
 
-  async submitForm({ formData }) {
+  onChange({ formData }) {
+    let isEmpty = true;
+    if (formData.username !== undefined && formData.username !== '') {
+      isEmpty = false;
+    }
 
+    this.setState({ isEmpty, formData });
+  }
+
+  async submitForm({ formData }) {
     this.setState({
       isSending: true,
       formData,
@@ -70,34 +78,31 @@ class PasswordForm extends React.Component {
     }
   }
 
-  onChange({ formData }) {
-    let isEmpty = true;
-    if (formData.username !== undefined && formData.username !== '') {
-      isEmpty = false;
-    }
-
-    this.setState({isEmpty, formData});
-  }
-
   render() {
-    return(
+    return (
       <Form
         schema={schema}
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
-        onChange={this.onChange.bind(this)}
-        onSubmit={this.submitForm.bind(this)}
+        onChange={this.onChange}
+        onSubmit={this.submitForm}
         className="edit-password-form"
         noHtml5Validate
       >
-        <Button loading={this.state.isSending}
-                disabled={this.state.isEmpty}>
+        <Button
+          loading={this.state.isSending}
+          disabled={this.state.isEmpty}
+        >
           Send Reset Email
         </Button>
       </Form>
     );
   }
 }
+
+PasswordForm.propTypes = {
+  recoveryEmailSent: PropTypes.func,
+};
 
 export default PasswordForm;

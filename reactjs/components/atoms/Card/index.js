@@ -12,7 +12,7 @@ const Card = ({ imageUrl, imageAlt, title, url, children, progressPercent }) => 
     </Link>
 
     <div className="progress-bar">
-      <div className="current-progress" style={{ width: progressPercent + '%' }} />
+      <div className="current-progress" style={{ width: `${progressPercent}%` }} />
     </div>
 
     <div className="heading">
@@ -36,6 +36,7 @@ Card.propTypes = {
   imageUrl: PropTypes.string,
   imageAlt: PropTypes.string,
   url: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Card;

@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment/moment';
 import { connect } from 'react-redux';
 import Editor from '../../../atoms/RichEditor';
@@ -29,6 +30,7 @@ class NoteContent extends React.Component {
   }
 
   render() {
+    const { note, count } = this.props;
     return (
       <div className="note-content">
 
@@ -36,36 +38,36 @@ class NoteContent extends React.Component {
           <div className="caption sm col-auto mr-auto">
 
             <div>
-              {notebookHelpers.getSavedState(this.props.note)}
+              {notebookHelpers.getSavedState(note)}
             </div>
 
-            {this.props.note &&
+            {note &&
             <div className="date">
-              Updated {moment(this.props.note.changed * 1000).format('LLL')}
+              Updated {moment(note.changed * 1000).format('LLL')}
             </div>
             }
           </div>
 
           <div className="context-menu">
-            {this.props.count > 1 && <NoteMenu note={this.props.note} />}
+            {count > 1 && <NoteMenu note={note} />}
           </div>
 
         </div>
 
         <h5 className="title">
           <EditableElement
-            id={this.props.note.id}
-            initialValue={this.props.note.title}
-            placeholder={"Untitled"}
+            id={note.id}
+            initialValue={note.title}
+            placeholder={'Untitled'}
             onChange={this.onTitleChange}
             maxLength={255}
           />
         </h5>
 
         <Editor
-          id={this.props.note.id}
-          initialValue={this.props.note.body}
-          placeholder={"Type something..."}
+          id={note.id}
+          initialValue={note.body}
+          placeholder={'Type something...'}
           onChange={this.onContentChange}
         />
 
@@ -74,8 +76,14 @@ class NoteContent extends React.Component {
   }
 }
 
+NoteContent.propTypes = {
+  note: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  count: PropTypes.number,
+  dispatch: PropTypes.func,
+};
+
 const mapStateToProps = ({ notebook }) => ({
-  count: notebook.notes.length
+  count: notebook.notes.length,
 });
 
 export default connect(mapStateToProps)(NoteContent);

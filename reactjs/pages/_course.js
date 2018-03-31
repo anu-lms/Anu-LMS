@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import Header from '../components/organisms/Header';
@@ -9,25 +10,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 
 class CoursePage extends React.Component {
 
-  render() {
-    const { course, statusCode } = this.props;
-    return (
-      <App>
-        <Header />
-        <div className="page-with-header">
-          {statusCode === 200 &&
-          <CoursePageTemplate course={course}/>
-          }
-          {statusCode !== 200 &&
-          <ErrorPage code={statusCode} />
-          }
-        </div>
-      </App>
-    );
-  }
-
   static async getInitialProps({ request, query, res }) {
-
     const initialProps = {
       course: {},
       statusCode: 200,
@@ -36,13 +19,12 @@ class CoursePage extends React.Component {
     let response;
 
     try {
-
       // Get a course by path.
       response = await request
         .get('/router/translate-path')
         .query({
           '_format': 'json',
-          'path': query.course
+          'path': query.course,
         });
 
       const { entity } = response.body;
@@ -88,10 +70,9 @@ class CoursePage extends React.Component {
     }
 
     try {
-
       // Fetch data regarding the course progress from the backend.
       response = await request
-        .get('/learner/progress/' + initialProps.course.id)
+        .get(`/learner/progress/${initialProps.course.id}`)
         .query({ '_format': 'json' });
 
       const progress = response.body;
@@ -100,11 +81,11 @@ class CoursePage extends React.Component {
       initialProps.course.progress = Math.round(progress.course);
 
       // Add information about the lessons progress to the appropriate objects.
-      Object.entries(progress.lessons).forEach(([id, progress]) => {
-        const lessonId = parseInt(id);
+      Object.entries(progress.lessons).forEach(([id, lessonProgress]) => {
+        const lessonId = parseInt(id); // eslint-disable-line radix
         const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
         if (index !== -1) {
-          initialProps.course.lessons[index].progress = Math.round(progress);
+          initialProps.course.lessons[index].progress = Math.round(lessonProgress);
         }
       });
 
@@ -124,6 +105,27 @@ class CoursePage extends React.Component {
     return initialProps;
   }
 
+  render() {
+    const { course, statusCode } = this.props;
+    return (
+      <App>
+        <Header />
+        <div className="page-with-header">
+          {statusCode === 200 &&
+          <CoursePageTemplate course={course} />
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
+        </div>
+      </App>
+    );
+  }
 }
+
+CoursePage.propTypes = {
+  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  statusCode: PropTypes.number,
+};
 
 export default withRedux(withAuth(CoursePage));

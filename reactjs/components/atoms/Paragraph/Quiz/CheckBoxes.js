@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 import Paragraphs from '../index';
@@ -9,7 +9,7 @@ class Checkboxes extends React.Component {
     super(props);
 
     this.state = {};
-    props.options.forEach(checkbox => {
+    props.options.forEach((checkbox) => {
       this.state[checkbox.uuid] = 0;
     });
 
@@ -31,7 +31,7 @@ class Checkboxes extends React.Component {
   }
 
   handleChange(id, value) {
-    this.setState(state => {
+    this.setState((state) => {
       state[id] = value + 0; // Convert to int.
 
       if (this.props.handleQuizChange) {
@@ -43,7 +43,7 @@ class Checkboxes extends React.Component {
   }
 
   render() {
-    const { title, blocks, options, handleParagraphLoaded, columnClasses } = this.props;
+    const { title, blocks, options, columnClasses } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">
@@ -68,7 +68,7 @@ class Checkboxes extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 Checkboxes.propTypes = {
@@ -79,7 +79,7 @@ Checkboxes.propTypes = {
     value: PropTypes.string,
     is_answer: PropTypes.number,
   })),
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

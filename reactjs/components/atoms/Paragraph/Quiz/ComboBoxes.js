@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Paragraphs from '../index';
 
@@ -37,7 +37,7 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, options, title, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { id, options, title, blocks, columnClasses } = this.props;
 
     return (
       <div className="container quiz comboboxes">
@@ -60,16 +60,16 @@ class ComboBoxes extends React.Component {
                   checked={this.state.active === radio.uuid}
                 />
                 <span onClick={() => this.handleAddSelection(radio.uuid)} />
-                <label onClick={() => this.handleAddSelection(radio.uuid)}>
+                <label onClick={() => this.handleAddSelection(radio.uuid)} htmlFor={id}>
                   {radio.value}
-                  </label>
+                </label>
               </div>
             ))}
           </div>
         </div>
       </div>
     );
-  };
+  }
 }
 
 ComboBoxes.propTypes = {
@@ -80,7 +80,7 @@ ComboBoxes.propTypes = {
     value: PropTypes.string,
     is_answer: PropTypes.number,
   })),
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-autosize-textarea';
 import Paragraphs from '../index';
@@ -32,7 +32,7 @@ class FreeAnswer extends React.Component {
   }
 
   render() {
-    const { title, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { title, blocks, columnClasses } = this.props;
     return (
       <div className="container quiz textarea">
         <div className="row">
@@ -55,13 +55,13 @@ class FreeAnswer extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 FreeAnswer.propTypes = {
   title: PropTypes.string,
   id: PropTypes.number,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

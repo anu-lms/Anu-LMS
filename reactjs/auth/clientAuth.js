@@ -11,7 +11,7 @@ export default class extends Auth {
   constructor() {
     super();
 
-    let cookies = jsCookie.get();
+    const cookies = jsCookie.get();
     this.accessToken = cookies.accessToken ? cookies.accessToken : '';
     this.refreshToken = cookies.refreshToken ? cookies.refreshToken : '';
   }
@@ -26,8 +26,9 @@ export default class extends Auth {
           'client_secret': CLIENT_SECRET,
           'username': username,
           'password': password,
-          // You must specify allowed scopes explicitly otherwise tokens won't get proper permissions.
-          'scope': ['authenticated', 'manager', 'teacher']
+          // You must specify allowed scopes explicitly
+          // otherwise tokens won't get proper permissions.
+          'scope': ['authenticated', 'manager', 'teacher'],
         })
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .end((error, response) => {
@@ -35,10 +36,10 @@ export default class extends Auth {
             console.log('Successful login.');
             const { body } = response;
             jsCookie.set('accessToken', body.access_token, {
-              expires: new Date(new Date().getTime() + body.expires_in * 1000)
+              expires: new Date(new Date().getTime() + (body.expires_in * 1000)),
             });
             jsCookie.set('refreshToken', body.refresh_token, {
-              expires: 365
+              expires: 365,
             });
 
             resolve();
@@ -60,9 +61,9 @@ export default class extends Auth {
   );
 
   logout = () => (
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       this.getSessionToken()
-        .then(sessionToken => {
+        .then((sessionToken) => {
           request
             .post('/user/token/revoke?_format=json')
             .set('Content-Type', 'application/json')
@@ -85,12 +86,12 @@ export default class extends Auth {
               jsCookie.remove('refreshToken');
               resolve();
             });
-      });
+        });
     })
   );
 
   getSessionToken() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       request.get('/session/token')
         .end((error, response) => {
           resolve(response.text);
@@ -100,19 +101,18 @@ export default class extends Auth {
 
   refreshAuthenticationToken() {
     return new Promise((resolve, reject) => {
-
       console.log('refreshing token for client..');
 
       this.refreshAuthToken(this.refreshToken)
-        .then(tokens => {
+        .then((tokens) => {
           console.log('Setting client auth cookies...');
 
           // TODO: SET HTTP ONLY COOKIE.
           jsCookie.set('accessToken', tokens.accessToken, {
-            expires: tokens.expiration
+            expires: tokens.expiration,
           });
           jsCookie.set('refreshToken', tokens.refreshToken, {
-            expires: 365
+            expires: 365,
           });
 
           this.accessToken = tokens.accessToken;
@@ -120,14 +120,13 @@ export default class extends Auth {
 
           resolve(tokens.accessToken);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   }
 
   getAccessToken() {
-
     if (this.accessToken) {
       return new Promise(resolve => resolve(this.accessToken));
     }

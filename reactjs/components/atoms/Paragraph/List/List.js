@@ -30,7 +30,7 @@ class List extends React.Component {
         Wrapper = 'div';
       }
 
-    const getKey = (index) => `${id}_${index}`;
+    const getKey = index => `${id}_${index}`;
 
     return (
       <div className="container list">
@@ -39,7 +39,7 @@ class List extends React.Component {
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
-                  <Checkbox key={getKey(index)} label={item} id={getKey(index)}/> :
+                  <Checkbox key={getKey(index)} label={item} id={getKey(index)} /> :
                   <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
@@ -53,10 +53,10 @@ class List extends React.Component {
 List.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  list: PropTypes.array,
+  list: PropTypes.array, // eslint-disable-line react/forbid-prop-types
 };
 
 export default List;

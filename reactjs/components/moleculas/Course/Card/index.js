@@ -35,7 +35,7 @@ CourseCard.propTypes = {
     recentLessonUrl: PropTypes.string,
   }).isRequired,
   progress: PropTypes.number,
-}
+};
 
 const mapStateToProps = (store, { course }) => ({
   progress: courseHelpers.getProgress(store.course, course),

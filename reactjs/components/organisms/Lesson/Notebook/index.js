@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
@@ -32,16 +32,6 @@ class LessonNotebook extends React.Component {
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
-  showNotes() {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.showNotes());
-  }
-
-  openNote(id) {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.setActiveNote(id));
-  }
-
   /**
    * Callback gets executed as soon as a user click
    * on note create button.
@@ -59,6 +49,16 @@ class LessonNotebook extends React.Component {
     // Remove loading background and open a note.
     this.setState({ isNotebookOpening: false });
     this.openNote(note.id);
+  }
+
+  showNotes() {
+    const { dispatch } = this.props;
+    dispatch(lessonNotebookActions.showNotes());
+  }
+
+  openNote(id) {
+    const { dispatch } = this.props;
+    dispatch(lessonNotebookActions.setActiveNote(id));
   }
 
   /**
@@ -81,7 +81,6 @@ class LessonNotebook extends React.Component {
     }
 
     try {
-
       // Get superagent request with authentication token.
       const { request } = await this.context.auth.getRequest();
 
@@ -108,7 +107,7 @@ class LessonNotebook extends React.Component {
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
-      notes.forEach(note => {
+      notes.forEach((note) => {
         dispatch(notebookActions.addNote(note));
       });
 
@@ -120,7 +119,7 @@ class LessonNotebook extends React.Component {
 
       // Set the active note id for the lesson.
       dispatch(lessonNotebookActions.setActiveNote(note.id));
-    } catch(error) {
+    } catch (error) {
       console.log('Could not create a new note. Error:');
       console.log(error);
     }
@@ -133,14 +132,14 @@ class LessonNotebook extends React.Component {
    * Perform actions on closing the notebook pane.
    */
   handleNotebookClose() {
-
+    const { dispatch, activeNote } = this.props;
     // Force save note to the backend.
-    if (this.props.activeNote) {
-      this.props.dispatch(notebookActions.saveNote(this.props.activeNote));
+    if (activeNote) {
+      dispatch(notebookActions.saveNote(activeNote));
     }
 
     // Close the notebook pane.
-    this.props.dispatch(lessonNotebookActions.close());
+    dispatch(lessonNotebookActions.close());
   }
 
   render() {
@@ -150,7 +149,7 @@ class LessonNotebook extends React.Component {
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
 
         {isCollapsed &&
-        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen}/>
+        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
         }
 
         <div className="lesson-notebook-wrapper">
@@ -158,7 +157,7 @@ class LessonNotebook extends React.Component {
           <div className="lesson-notebook">
 
             {this.state.isNotebookOpening &&
-            <PageLoader/>
+            <PageLoader />
             }
 
             {!this.state.isNotebookOpening &&
@@ -176,7 +175,7 @@ class LessonNotebook extends React.Component {
 
                 <NotesList
                   notes={notes}
-                  activeNoteId={activeNote ? activeNote.id: 0}
+                  activeNoteId={activeNote ? activeNote.id : 0}
                   onClick={this.openNote}
                 />
               </div>
@@ -184,7 +183,7 @@ class LessonNotebook extends React.Component {
               {!isNoteListVisible && activeNote &&
               <Fragment>
                 <ShowNotesButton handleClick={this.showNotes} />
-                <NoteContent note={activeNote}/>
+                <NoteContent note={activeNote} />
               </Fragment>
               }
 
@@ -193,7 +192,7 @@ class LessonNotebook extends React.Component {
 
                 <span className="close-arrow">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                      <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z"/>
+                    <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z" />
                   </svg>
                 </span>
               </div>
@@ -209,6 +208,14 @@ class LessonNotebook extends React.Component {
     );
   }
 }
+
+LessonNotebook.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.object),
+  activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  isCollapsed: PropTypes.bool,
+  isNoteListVisible: PropTypes.bool,
+  dispatch: PropTypes.func,
+};
 
 LessonNotebook.contextTypes = {
   auth: PropTypes.shape({

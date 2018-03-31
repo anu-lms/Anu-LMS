@@ -35,11 +35,11 @@ export default class {
 
           resolve({
             accessToken: body.access_token,
-            expiration: new Date(new Date().getTime() + body.expires_in * 1000),
+            expiration: new Date(new Date().getTime() + (body.expires_in * 1000)),
             refreshToken: body.refresh_token,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('Could not refresh auth token.');
           reject(error);
         });

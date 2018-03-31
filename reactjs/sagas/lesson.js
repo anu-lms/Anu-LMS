@@ -15,9 +15,9 @@ const backendSyncDelay = 3500;
  */
 export default function* lessonSagas() {
   yield all([
-    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher)
+    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher), // eslint-disable-line no-use-before-define
   ]);
-};
+}
 
 /**
  * Saga watcher for lesson to open.
@@ -36,10 +36,11 @@ function* lessonProgressSyncWatcher(action) {
 
   // As soon as lesson is opened, we send request to the backend to log
   // a page hit.
-  yield fork(sendLessonProgress, lesson, 0, token.text);
+  yield fork(sendLessonProgress, lesson, 0, token.text); // eslint-disable-line no-use-before-define
 
   // Run sync operation in the background. This operation will send lesson
   // progress to the backend every ${backendSyncDelay} milliseconds.
+  // eslint-disable-next-line no-use-before-define
   const task = yield fork(syncLessonProgressInBackground, lesson, token.text);
 
   // As soon as lesson is opened, the saga is already awaiting for the dispatch
@@ -56,7 +57,6 @@ function* lessonProgressSyncWatcher(action) {
  * Saga action to send lesson progress to the backend.
  */
 function* syncLessonProgressInBackground(lesson, token) {
-
   // The delay before we start sync process with the backend.
   yield delay(backendSyncDelay);
 
@@ -69,8 +69,7 @@ function* syncLessonProgressInBackground(lesson, token) {
   try {
     // Keep tracking progress updates until the task is cancelled.
     // "finally" section in try / catch handles cancellation of this task.
-    while (true) {
-
+    while (true) { // eslint-disable-line no-constant-condition
       // Get the lastest progress of lesson from the redux store.
       lessons = yield select(state => state.lesson);
       latestProgress = getProgress(lessons, lesson);
@@ -80,6 +79,7 @@ function* syncLessonProgressInBackground(lesson, token) {
       // updated progress to the backend.
       if (latestProgress > progress) {
         progress = latestProgress;
+        // eslint-disable-next-line no-use-before-define
         yield call(sendLessonProgress, lesson, latestProgress, token);
       }
 
@@ -87,13 +87,12 @@ function* syncLessonProgressInBackground(lesson, token) {
       yield delay(backendSyncDelay);
     }
   }
-  catch(e) {
+  catch (e) {
     console.log('Error during sync of lesson progress:');
     console.log(e);
   }
   // Executes on task cancellation.
   finally {
-
     // Check the latest lesson's progress the last time.
     lessons = yield select(state => state.lesson);
     latestProgress = getProgress(lessons, lesson);
@@ -101,6 +100,7 @@ function* syncLessonProgressInBackground(lesson, token) {
     // If there is some progress, send it to the backend before the background
     // sync task is cancelled for this lesson.
     if (latestProgress > progress) {
+      // eslint-disable-next-line no-use-before-define
       yield call(sendLessonProgress, lesson, latestProgress, token);
     }
   }
@@ -111,7 +111,6 @@ function* syncLessonProgressInBackground(lesson, token) {
  */
 function* sendLessonProgress(lesson, progress, token) {
   try {
-
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -122,8 +121,7 @@ function* sendLessonProgress(lesson, progress, token) {
       .post(`/learner/progress/${lesson.id}/${progress}?_format=json`)
       .set('Content-Type', 'application/json')
       .set('X-CSRF-Token', token);
-
-  } catch(e) {
+  } catch (e) {
     console.log('Could not send lesson\'s progress to the backend. Error:');
     console.log(e);
   }

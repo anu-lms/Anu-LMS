@@ -23,7 +23,7 @@ const schema = {
       'type': 'string',
       'title': 'Confirm New Password',
     },
-  }
+  },
 };
 
 const uiSchema = {
@@ -40,7 +40,7 @@ const uiSchema = {
   'password_new_confirm': {
     'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
-  }
+  },
 };
 
 class PasswordForm extends React.Component {
@@ -58,6 +58,21 @@ class PasswordForm extends React.Component {
     this.submitForm.bind(this);
   }
 
+  onChange({ formData }) {
+    let canBeSubmited = true;
+    if (formData.password === undefined || formData.password === '') {
+      canBeSubmited = false;
+    }
+    if (formData.password_new === undefined || formData.password_new === '') {
+      canBeSubmited = false;
+    }
+    if (formData.password_new_confirm === undefined || formData.password_new_confirm === '') {
+      canBeSubmited = false;
+    }
+
+    this.setState({ canBeSubmited, formData });
+  }
+
   async submitForm({ formData }) {
     if (formData.password_new !== formData.password_new_confirm) {
       Alert.error("New password and Confirm New Password fields don't match");
@@ -70,7 +85,7 @@ class PasswordForm extends React.Component {
     });
 
     // Lock logout until update operation is safely completed.
-    const lock_id = lock.add('user-update-pass');
+    const lockId = lock.add('user-update-pass');
 
     try {
       // Get superagent request with authentication.
@@ -79,7 +94,7 @@ class PasswordForm extends React.Component {
       const currentUser = dataProcessors.userData(userResponse.body);
 
       await request
-        .patch('/jsonapi/user/user/' + currentUser.uuid)
+        .patch(`/jsonapi/user/user/${currentUser.uuid}`)
         .send({
           data: {
             type: 'user--user',
@@ -87,10 +102,10 @@ class PasswordForm extends React.Component {
             attributes: {
               pass: {
                 existing: formData.password,
-                value: formData.password_new
-              }
-            }
-          }
+                value: formData.password_new,
+              },
+            },
+          },
         });
 
       Alert.success('Your password has been successfully updated.');
@@ -105,22 +120,7 @@ class PasswordForm extends React.Component {
       this.setState({ isSending: false });
     }
 
-    lock.release(lock_id);
-  }
-
-  onChange({ formData }) {
-    let canBeSubmited = true;
-    if (formData.password === undefined || formData.password == '') {
-      canBeSubmited = false;
-    }
-    if (formData.password_new === undefined || formData.password_new == '') {
-      canBeSubmited = false;
-    }
-    if (formData.password_new_confirm === undefined || formData.password_new_confirm == '') {
-      canBeSubmited = false;
-    }
-
-    this.setState({ canBeSubmited, formData });
+    lock.release(lockId);
   }
 
   render() {
@@ -130,13 +130,15 @@ class PasswordForm extends React.Component {
         uiSchema={uiSchema}
         formData={this.state.formData}
         autocomplete={'off'}
-        onChange={this.onChange.bind(this)}
-        onSubmit={this.submitForm.bind(this)}
+        onChange={this.onChange}
+        onSubmit={this.submitForm}
         className="edit-password-form"
         noHtml5Validate
       >
-        <Button loading={this.state.isSending}
-          disabled={!this.state.canBeSubmited}>
+        <Button
+          loading={this.state.isSending}
+          disabled={!this.state.canBeSubmited}
+        >
           Save New Password
         </Button>
       </Form>

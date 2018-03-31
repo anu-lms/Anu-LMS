@@ -42,9 +42,9 @@ class Heading extends React.Component {
 Heading.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
-  settings: PropTypes.object,
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
 };
 

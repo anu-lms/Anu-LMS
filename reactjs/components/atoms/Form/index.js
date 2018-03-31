@@ -1,12 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Form from 'react-jsonschema-form';
 import FieldTemplate from './FieldTemplate';
 
 class DefaultForm extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   handleSubmit(data) {
     this.props.onSubmit(data);
-
   }
 
   handleError(data) {
@@ -20,8 +26,8 @@ class DefaultForm extends React.Component {
         className={`form ${className}`}
         schema={schema}
         uiSchema={uiSchema}
-        onSubmit={this.handleSubmit.bind(this)}
-        onError={this.handleError.bind(this)}
+        onSubmit={this.handleSubmit}
+        onError={this.handleError}
         formData={this.props.formData}
         FieldTemplate={FieldTemplate}
         showErrorList={false}
@@ -43,6 +49,17 @@ DefaultForm.defaultProps = {
   children: {},
   className: '',
   autocomplete: 'on',
+};
+
+DefaultForm.propTypes = {
+  autocomplete: PropTypes.bool,
+  className: PropTypes.string,
+  formData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  schema: PropTypes.object,   // eslint-disable-line react/forbid-prop-types
+  uiSchema: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  onSubmit: PropTypes.func,
+  onError: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default DefaultForm;

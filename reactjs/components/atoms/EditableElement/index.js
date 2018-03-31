@@ -16,33 +16,34 @@ class EditableElement extends React.Component {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line react/no-string-refs
     this.refs.element.innerText = this.props.initialValue;
     if (!this.props.initialValue) {
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ isPlaceholderVisible: true });
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
+      // eslint-disable-next-line react/no-string-refs
       this.refs.element.innerText = this.props.initialValue;
 
       const placeholderVisible = !this.props.initialValue;
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isPlaceholderVisible: placeholderVisible });
     }
   }
 
-  handleElementChange() {
-    const { onChange, maxLength } = this.props;
-    const text = this.refs.element.innerText;
+  setCursorToTheEnd() {
+    // Set the cursor to the end of the element.
+    let range = document.createRange();
+    range.selectNodeContents(this.refs.element); // eslint-disable-line react/no-string-refs
+    range.collapse(false);
 
-    // Trim the text down to max length if set.
-    if (maxLength && text.length > maxLength) {
-      this.refs.element.innerText = text.substr(0, maxLength);
-      this.setCursorToTheEnd();
-    }
-
-    // Pass set text to the external handler.
-    onChange(text);
+    let selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 
   handleElementBlur() {
@@ -52,30 +53,36 @@ class EditableElement extends React.Component {
 
     // If on blur there is no text and the current placeholder state is
     // hidden, then we should show the placeholder again.
+    // eslint-disable-next-line react/no-string-refs
     if (!this.refs.element.innerText && !isPlaceholderVisible) {
       this.setState({ isPlaceholderVisible: true });
     }
 
     // If on blur there is a text and the current placeholder is visible,
     // then we should hide the placeholder.
+    // eslint-disable-next-line react/no-string-refs
     else if (this.refs.element.innerText && isPlaceholderVisible) {
       this.setState({ isPlaceholderVisible: false });
     }
   }
 
-  setCursorToTheEnd() {
-    // Set the cursor to the end of the element.
-    let range, selection;
-    range = document.createRange();
-    range.selectNodeContents(this.refs.element);
-    range.collapse(false);
-    selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
+  handleElementChange() {
+    const { onChange, maxLength } = this.props;
+    // eslint-disable-next-line react/no-string-refs
+    const text = this.refs.element.innerText;
+
+    // Trim the text down to max length if set.
+    if (maxLength && text.length > maxLength) {
+      // eslint-disable-next-line react/no-string-refs
+      this.refs.element.innerText = text.substr(0, maxLength);
+      this.setCursorToTheEnd();
+    }
+
+    // Pass set text to the external handler.
+    onChange(text);
   }
 
   handlePlaceholderClick() {
-
     // TODO: Bug - so far it's' possible to click next to the placeholder.
     // So far solved in css.
 
@@ -99,15 +106,15 @@ class EditableElement extends React.Component {
         }
 
         <span
-          ref="element"
-          contentEditable={true}
+          ref="element" // eslint-disable-line react/no-string-refs
+          contentEditable
           onInput={this.handleElementChange}
           onBlur={this.handleElementBlur}
           style={{ visibility: this.state.isPlaceholderVisible ? 'none' : 'visible' }}
         />
 
       </Fragment>
-    )
+    );
   }
 }
 

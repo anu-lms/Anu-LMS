@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import gtmParts from 'react-google-tag-manager';
 
@@ -10,7 +10,7 @@ class GoogleTagManager extends React.Component {
     if (!window[dataLayerName]) {
       const gtmScriptNode = document.getElementById(scriptId);
 
-      eval(gtmScriptNode.textContent);
+      eval(gtmScriptNode.textContent); // eslint-disable-line no-eval
     }
   }
 
@@ -33,9 +33,9 @@ class GoogleTagManager extends React.Component {
 GoogleTagManager.propTypes = {
   gtmId: PropTypes.string.isRequired,
   dataLayerName: PropTypes.string,
-  additionalEvents: PropTypes.object,
+  additionalEvents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   previewVariables: PropTypes.string,
-  scriptId: PropTypes.string
+  scriptId: PropTypes.string,
 };
 
 export default GoogleTagManager;

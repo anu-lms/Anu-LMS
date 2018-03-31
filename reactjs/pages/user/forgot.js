@@ -1,26 +1,16 @@
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { Router } from '../../routes';
 import App from '../../application/App';
-import React, { Component } from 'react';
 import withAuth from '../../auth/withAuth';
 import Header from '../../components/organisms/Header';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
 class ForgotPasswordPage extends Component {
-  // Skip initial redirection in withAuth module (to avoid redirects for pages that should be available for anonymous).
+  // Skip initial redirection in withAuth module
+  // (to avoid redirects for pages that should be available for anonymous).
   static skipInitialAuthRedirect = true;
 
-  render() {
-    return (
-      <App>
-        <Header isEmpty={true}/>
-        <div className="page-with-header page-reset-password">
-          <ForgotPassword />
-        </div>
-      </App>
-    );
-  }
-
+  // eslint-disable-next-line no-unused-vars
   static async getInitialProps({ request, auth, query, res }) {
     // Don't allow Authentificated to access the page.
     if (auth.isLoggedIn()) {
@@ -32,6 +22,17 @@ class ForgotPasswordPage extends Component {
       }
     }
     return {};
+  }
+
+  render() {
+    return (
+      <App>
+        <Header isEmpty />
+        <div className="page-with-header page-reset-password">
+          <ForgotPassword />
+        </div>
+      </App>
+    );
   }
 }
 

@@ -21,19 +21,23 @@ class ImageFull extends React.Component {
   render() {
     let style = {};
     const { text, image, columnClasses } = this.props;
-    const imageUrl = fileUrl(image.meta.derivatives['w1400']);
+    const imageUrl = fileUrl(image.meta.derivatives['w1400']); // eslint-disable-line dot-notation
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
       <div className="image-full" style={style}>
-        <div className="overlay"/>
+        <div className="overlay" />
         <div className="container">
           <div className="row">
             <div
-              className={columnClasses.join(' ')}>
+              className={columnClasses.join(' ')}
+            >
               {text &&
-              <div className="text"
-                   dangerouslySetInnerHTML={{__html: text.value}} />
+              <div
+                className="text"
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: text.value }}
+              />
               }
             </div>
           </div>
@@ -46,8 +50,8 @@ class ImageFull extends React.Component {
 ImageFull.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({
     url: PropTypes.string,

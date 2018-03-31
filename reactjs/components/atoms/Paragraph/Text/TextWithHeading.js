@@ -30,7 +30,8 @@ class TextWithHeading extends React.Component {
               }
 
               {text &&
-              <div dangerouslySetInnerHTML={{__html: text.value}}/>
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: text.value }} />
               }
 
             </div>
@@ -44,8 +45,8 @@ class TextWithHeading extends React.Component {
 TextWithHeading.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   text: PropTypes.shape({
     value: PropTypes.string,

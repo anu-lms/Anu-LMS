@@ -1,6 +1,6 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Slider  from 'rc-slider';
+import Slider from 'rc-slider';
 import Paragraphs from '../index';
 
 class LinearScale extends React.Component {
@@ -41,7 +41,7 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { title, from, to, blocks, columnClasses } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">
@@ -75,7 +75,7 @@ class LinearScale extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 LinearScale.propTypes = {
@@ -89,7 +89,7 @@ LinearScale.propTypes = {
     first: PropTypes.number,
     second: PropTypes.string,
   }).isRequired,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

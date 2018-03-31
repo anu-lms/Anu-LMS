@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from '../../../../routes';
-import Button from '../../../atoms/Button';
 import Separator from '../../../atoms/Separator';
 import LoginForm from '../../../moleculas/Form/Login';
 
+/* eslint-disable jsx-a11y/href-no-hash, react/jsx-no-target-blank */
 const LoginPageTemplate = () => (
   <div className="container-fluid page-login">
 
@@ -11,7 +11,7 @@ const LoginPageTemplate = () => (
 
     <div className="row header">
       <div className="col">
-        <img src={"/static/img/logo.png"} />
+        <img src={'/static/img/logo.png'} alt="" />
       </div>
     </div>
 
@@ -36,7 +36,7 @@ const LoginPageTemplate = () => (
 
             <Separator />
 
-            {/*<Button block type={'secondary'}>
+            {/* <Button block type={'secondary'}>
               New? Register here
             </Button>*/}
           </div>
@@ -50,7 +50,7 @@ const LoginPageTemplate = () => (
       <div className="col-12">
         <ul className="links">
           <li className="d-inline-block"><a href="https://anu.solutions/" target="_blank">About Us</a></li>
-          {/*<li className="d-inline-block"><a href="#">Privacy</a></li>*/}
+          {/* <li className="d-inline-block"><a href="#">Privacy</a></li>*/}
           <li className="d-inline-block"><a href="https://www.krengeltech.com/legal" target="_blank">Legal</a></li>
         </ul>
       </div>

@@ -23,7 +23,9 @@ class Text extends React.Component {
       <div className="container text">
         <div className="row">
           <div className={columnClasses.join(' ')}>
-            <div dangerouslySetInnerHTML={{ __html: text.value }} />
+            {
+            // eslint-disable-next-line react/no-danger
+            }<div dangerouslySetInnerHTML={{ __html: text.value }} />
           </div>
         </div>
       </div>
@@ -34,8 +36,8 @@ class Text extends React.Component {
 Text.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   text: PropTypes.shape({
     value: PropTypes.string,
