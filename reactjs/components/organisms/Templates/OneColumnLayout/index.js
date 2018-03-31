@@ -1,38 +1,38 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class OneColumnLayout extends React.Component {
+const OneColumnLayout = ({ className, pageTitle, children }) => {
+  let layoutClass = 'one-column-layout container';
 
-  constructor(props) {
-    super(props);
+  // Add extra classes.
+  if (className) {
+    layoutClass += ` ${className}`;
   }
 
-  render() {
-    let layoutClass = 'one-column-layout container';
-
-    // Add extra classes.
-    if (this.props.className) {
-      layoutClass += ' ' + this.props.className;
-    }
-
-    return (
-      <div className={layoutClass}>
-        {this.props.pageTitle &&
-          <div className="row justify-content-center title">
-            <div className="col-12 col-md-8 col-lg-12">
-              <h1 className="page-title">{this.props.pageTitle}</h1>
-            </div>
+  return (
+    <div className={layoutClass}>
+      {pageTitle &&
+        <div className="row justify-content-center title">
+          <div className="col-12 col-md-8 col-lg-12">
+            <h1 className="page-title">{pageTitle}</h1>
           </div>
-        }
-        <div className="row justify-content-center content">
-          <div className="col-12 col-md-8 col-lg-8">
-            <div className="content-wrapper">
-              {this.props.children}
-            </div>
+        </div>
+      }
+      <div className="row justify-content-center content">
+        <div className="col-12 col-md-8 col-lg-8">
+          <div className="content-wrapper">
+            {children}
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+OneColumnLayout.propTypes = {
+  className: PropTypes.string,
+  pageTitle: PropTypes.string,
+  children: PropTypes.node,
+};
 
 export default OneColumnLayout;

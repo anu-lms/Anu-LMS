@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 
 const Paragraphs = dynamic({
 
-  modules: props => {
+  modules: (props) => {
     const allComponents = {
       'text_text': import('./Text/Text'),
       'text_heading': import('./Text/Heading'),
@@ -26,16 +26,15 @@ const Paragraphs = dynamic({
     };
 
     // Gather list of components which are needed on the lesson page.
-    let neededComponents = {};
-    props.blocks.forEach(block => {
+    const neededComponents = {};
+    props.blocks.forEach((block) => {
       neededComponents[block.type] = allComponents[block.type];
     });
 
     return neededComponents;
   },
 
-  render: ({ blocks, ...props }, components) => {
-    return (
+  render: ({ blocks, ...props }, components) => (
       blocks.map((block, index) => {
         const Paragraph = components[block.type];
         return (
@@ -45,8 +44,7 @@ const Paragraphs = dynamic({
           </Fragment>
         );
       })
-    );
-  },
+    ),
 
   loading: () => (null),
 });

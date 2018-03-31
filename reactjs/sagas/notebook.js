@@ -1,4 +1,4 @@
-import { all, put, take, takeEvery, select, apply } from 'redux-saga/effects';
+import { all, put, takeEvery, select, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
@@ -17,25 +17,23 @@ const backendSyncDelay = 4000;
  */
 export default function* notebookSagas() {
   yield all([
-    notebookDataSyncWatcher(),
-    takeEvery('NOTE_SAVE', notebookNoteDataSave)
+    notebookDataSyncWatcher(), // eslint-disable-line no-use-before-define
+    takeEvery('NOTE_SAVE', notebookNoteDataSave), // eslint-disable-line no-use-before-define
   ]);
-};
+}
 
 /**
  * Saga watcher.
  * Takes care of data sync operation with the backend.
  */
 function* notebookDataSyncWatcher() {
-
   // TODO: In general we could wait for title or body changes of notes
   // and start / stop saga depending on this, but it would be more complicated
   // and not needed at this stage.
 
   // Endless loop, because we don't know when to stop the monitoring of data
   // sync.
-  while(true) {
-
+  while (true) { // eslint-disable-line no-constant-condition
     // Select list of available notes from the redux store.
     const notes = yield select(state => state.notebook.notes);
 
@@ -43,10 +41,10 @@ function* notebookDataSyncWatcher() {
     const unsavedNotes = notebookHelpers.getUnsavedNotes(notes);
 
     // Save each note to the backend.
-    for (let index in unsavedNotes) {
-      if (unsavedNotes.hasOwnProperty(index)) {
+    for (const index in unsavedNotes) { // eslint-disable-line no-restricted-syntax
+      if (unsavedNotes.hasOwnProperty(index)) { // eslint-disable-line no-prototype-builtins
         const note = unsavedNotes[index];
-        yield noteSave(note);
+        yield noteSave(note); // eslint-disable-line no-use-before-define
       }
     }
 
@@ -61,7 +59,7 @@ function* notebookDataSyncWatcher() {
  */
 function* notebookNoteDataSave(action) {
   const { note } = action;
-  yield noteSave(note);
+  yield noteSave(note); // eslint-disable-line no-use-before-define
 }
 
 /**
@@ -72,14 +70,13 @@ function* notebookNoteDataSave(action) {
  *   Note object.
  */
 function* noteSave(note) {
-
   // Making sure the request object includes the valid access token.
   const auth = new ClientAuth();
   const accessToken = yield apply(auth, auth.getAccessToken);
   request.set('Authorization', `Bearer ${accessToken}`);
 
   // Lock logout until update operation for this note is safely completed.
-  const lock_id = lock.add('notebook-update-note');
+  const lockId = lock.add('notebook-update-note');
 
   // Set the note's state to "Is saving".
   yield put(notebookActions.setNoteStateSaving(note.id));
@@ -98,5 +95,5 @@ function* noteSave(note) {
     yield put(notebookActions.setNoteStateNotSaved(note.id));
   }
 
-  lock.release(lock_id);
+  lock.release(lockId);
 }

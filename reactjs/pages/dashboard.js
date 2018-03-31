@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import * as dataProcessors from '../utils/dataProcessors';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
@@ -6,30 +7,11 @@ import withRedux from '../store/withRedux';
 import Dashboard from '../components/organisms/Templates/Dashboard';
 import Header from '../components/organisms/Header';
 import ErrorPage from '../components/atoms/ErrorPage';
-import * as lessonHelpers from '../helpers/lesson';
 import * as classHelpers from '../helpers/class';
 
-class DashboardPage extends Component {
-
-  render() {
-    const { statusCode } = this.props;
-    return (
-      <App>
-        <Header />
-        <div className="page-with-header">
-          {statusCode === 200 &&
-          <Dashboard {...this.props} />
-          }
-          {statusCode !== 200 &&
-          <ErrorPage code={statusCode} />
-          }
-        </div>
-      </App>
-    );
-  }
+class DashboardPage extends React.Component {
 
   static async getInitialProps({ request, res }) {
-
     const initialProps = {
       courses: [],
       classes: [],
@@ -38,7 +20,6 @@ class DashboardPage extends Component {
     };
 
     try {
-
       // Fetch all courses available for this user.
       const responseAllCourses = await request
         .get('/jsonapi/group_content/class-group_node-course')
@@ -57,7 +38,7 @@ class DashboardPage extends Component {
         });
 
       // Gather list of courses available for the current user.
-      responseAllCourses.body.data.forEach(courseData => {
+      responseAllCourses.body.data.forEach((courseData) => {
         const course = dataProcessors.courseData(courseData);
         initialProps.courses.push(course);
       });
@@ -74,7 +55,6 @@ class DashboardPage extends Component {
     }
 
     try {
-
       // Fetch all courses progress available for this user.
       // TODO: Run request in parallel with previous.
       const responseProgress = await request
@@ -82,12 +62,10 @@ class DashboardPage extends Component {
 
       // Make sure the response body is not null.
       if (responseProgress.body) {
-
         // Attach course progresses to their corresponsing entities.
-        responseProgress.body.forEach(courseProgress => {
-
+        responseProgress.body.forEach((courseProgress) => {
           // Find course to which the progress data should be added.
-          const courseId = parseInt(courseProgress.courseId);
+          const courseId = parseInt(courseProgress.courseId); // eslint-disable-line radix
           const index = initialProps.courses.findIndex(course => course.id === courseId);
 
           // If corresponsing course is found - add information about the
@@ -120,6 +98,27 @@ class DashboardPage extends Component {
 
     return initialProps;
   }
+
+  render() {
+    const { statusCode } = this.props;
+    return (
+      <App>
+        <Header />
+        <div className="page-with-header">
+          {statusCode === 200 &&
+          <Dashboard {...this.props} />
+          }
+          {statusCode !== 200 &&
+          <ErrorPage code={statusCode} />
+          }
+        </div>
+      </App>
+    );
+  }
 }
+
+DashboardPage.propTypes = {
+  statusCode: PropTypes.number,
+};
 
 export default withRedux(withAuth(DashboardPage));

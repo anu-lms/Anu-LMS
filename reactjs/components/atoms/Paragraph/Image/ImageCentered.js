@@ -32,10 +32,11 @@ class ImageCentered extends React.Component {
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <img
-              src={fileUrl(image.meta.derivatives['w730'])}
+              src={fileUrl(image.meta.derivatives.w730)}
               onLoad={this.contentLoaded}
               onError={this.contentLoaded}
               ref={element => this.element = element}
+              alt=""
             />
             {title &&
             <div className="caption">{title}</div>
@@ -50,9 +51,9 @@ class ImageCentered extends React.Component {
 ImageCentered.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   title: PropTypes.string,
-  settings: PropTypes.object,
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({
     url: PropTypes.string,

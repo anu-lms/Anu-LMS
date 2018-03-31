@@ -39,8 +39,8 @@ class Video extends React.Component {
 Video.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   url: PropTypes.shape({
     uri: PropTypes.string,

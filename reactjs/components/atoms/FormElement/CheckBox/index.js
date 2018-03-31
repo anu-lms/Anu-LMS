@@ -14,7 +14,7 @@ class Checkbox extends React.Component {
   }
 
   toggleCheck() {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const newState = !prevState.isChecked;
 
       if (this.props.onChange) {
@@ -26,7 +26,7 @@ class Checkbox extends React.Component {
   }
 
   render() {
-    let { id, label } = this.props;
+    const { id, label } = this.props;
 
     return (
       <div className="checkbox">
@@ -34,7 +34,7 @@ class Checkbox extends React.Component {
         <span onClick={this.toggleCheck}>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14">
             <g fill="none" fillRule="evenodd">
-              <path fill="#FFF" fillRule="nonzero" d="M5.403 10.58l-4.03-4.17L0 7.82l5.403 5.59L17 1.41 15.637 0z"/>
+              <path fill="#FFF" fillRule="nonzero" d="M5.403 10.58l-4.03-4.17L0 7.82l5.403 5.59L17 1.41 15.637 0z" />
             </g>
           </svg>
         </span>

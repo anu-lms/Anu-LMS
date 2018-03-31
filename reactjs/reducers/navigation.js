@@ -1,7 +1,6 @@
 // Because we need to hide navigation by default on mobile, but show by default on Desktop,
 // we use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
 export default (state = { isCollapsed: false, isCollapsedMobile: true }, action) => {
-
   switch (action.type) {
     case 'NAVIGATION_TOGGLE':
       return {

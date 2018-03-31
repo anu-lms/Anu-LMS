@@ -95,7 +95,7 @@ class Resource extends React.Component {
   onFileViewClose() {
     this.setState({
       fileDisplay: false,
-      fileLoaded: false
+      fileLoaded: false,
     });
     document.body.classList.remove('no-scroll');
   }
@@ -117,7 +117,7 @@ class Resource extends React.Component {
    * Close popup window with PDF on ESC press.
    */
   onKeyPress() {
-    if (event.keyCode === 27 && this.state.fileDisplay === true) {
+    if (event.keyCode === 27 && this.state.fileDisplay === true) { // eslint-disable-line no-undef
       this.onFileViewClose();
     }
   }
@@ -133,7 +133,7 @@ class Resource extends React.Component {
               <div className="download-link" onClick={this.onFileDownloadClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 14 17">
                   <g fill="none" fillRule="evenodd">
-                    <path fillRule="nonzero" d="M14 6h-4V0H4v6H0l7 7 7-7zM0 15v2h14v-2H0z"/>
+                    <path fillRule="nonzero" d="M14 6h-4V0H4v6H0l7 7 7-7zM0 15v2h14v-2H0z" />
                   </g>
                 </svg>
               </div>
@@ -152,7 +152,7 @@ class Resource extends React.Component {
                   <div className="back" onClick={this.onFileViewClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
                       <g fill="none" fillRule="evenodd">
-                        <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z"/>
+                        <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z" />
                       </g>
                     </svg>
                   </div>
@@ -160,7 +160,7 @@ class Resource extends React.Component {
                   <div className="download" onClick={this.onFileDownloadClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29">
                       <g fill="none" fillRule="evenodd">
-                        <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z"/>
+                        <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z" />
                       </g>
                     </svg>
                   </div>
@@ -215,8 +215,8 @@ Resource.contextTypes = {
 Resource.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   title: PropTypes.string,
   handleParagraphLoaded: PropTypes.func,
   privatefile: PropTypes.shape({

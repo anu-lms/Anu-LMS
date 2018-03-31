@@ -3,19 +3,21 @@ import PropTypes from 'prop-types';
 
 // Defines a link element which can have it's own click handler.
 class LinkWithClick extends React.Component {
-  render () {
-    const { onCustomClick, ...props } = this.props;
-    return <a {...props} onClick={this.handleClick} />;
+
+  handleClick = (event) => {
+    const { onClick, onCustomClick } = this.props;
+    if (onClick) {
+      onClick(event);
+    }
+
+    if (onCustomClick) {
+      onCustomClick(event);
+    }
   }
 
-  handleClick = event => {
-    if (this.props.onClick) {
-      this.props.onClick(event);
-    }
-
-    if (this.props.onCustomClick) {
-      this.props.onCustomClick(event);
-    }
+  render() {
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    return <a {...this.props} onClick={this.handleClick} />;
   }
 }
 

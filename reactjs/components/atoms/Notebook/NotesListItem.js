@@ -12,16 +12,17 @@ const NotesListItem = ({ id, title, date, teaser, isActive, onClick }) => (
       {!teaser &&
       <Fragment>&nbsp;</Fragment>
       }
-      </div>
+    </div>
   </div>
 );
 
 NotesListItem.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   teaser: PropTypes.string.isRequired,
   isActive: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 NotesListItem.defaultProps = {

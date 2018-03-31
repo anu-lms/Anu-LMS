@@ -16,7 +16,6 @@ export const calculateProgress = (lessonsStore, lessons) => {
 
   // Run through all course lessons and calculate total progress.
   const progress = lessons.reduce((accumulator, lesson) => {
-
     // Find a lesson progress in the redux store.
     const index = lessonsStore.findIndex(lessonStore => lessonStore.id === lesson.id);
 
@@ -32,7 +31,7 @@ export const calculateProgress = (lessonsStore, lessons) => {
     }
 
     // Accumulate the course progress using progress of each lesson.
-    accumulator += maxProgressPerLesson * lessonProgress / 100;
+    accumulator += (maxProgressPerLesson * lessonProgress) / 100;
     return accumulator;
   }, 0);
 
@@ -78,8 +77,8 @@ export const getProgress = (coursesStore, course) => {
  *
  * @returns {string}
  */
-export const getUrl = (coursePath) => (
-  '/course' + coursePath
+export const getUrl = coursePath => (
+  `/course${coursePath}`
 );
 
 /**
@@ -90,6 +89,6 @@ export const getUrl = (coursePath) => (
  *
  * @returns {string}
  */
-export const getResourcesUrl = (coursePath) => (
-  '/course/resources' + coursePath
+export const getResourcesUrl = coursePath => (
+  `/course/resources${coursePath}`
 );

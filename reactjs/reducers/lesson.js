@@ -1,11 +1,9 @@
 export default (state = [], action) => {
-
   let index;
   let lesson;
 
   switch (action.type) {
-    case 'LESSON_PROGRESS_SET':
-
+    case 'LESSON_PROGRESS_SET': {
       // Search for the lesson.
       index = state.findIndex(element => element.id === action.lessonId);
 
@@ -25,7 +23,7 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           lesson,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 
@@ -35,11 +33,11 @@ export default (state = [], action) => {
         {
           id: action.lessonId,
           progress: action.progress,
-        }
+        },
       ];
+    }
 
-    case 'LESSON_QUIZ_RESULT_SET':
-
+    case 'LESSON_QUIZ_RESULT_SET': {
       // Search for the lesson.
       index = state.findIndex(element => element.id === action.lessonId);
 
@@ -56,14 +54,14 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           lesson,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 
       // If was not found - define a new lesson.
       lesson = {
         id: action.lessonId,
-        quizzesData: {}
+        quizzesData: {},
       };
 
       // Add a new quiz data.
@@ -74,6 +72,7 @@ export default (state = [], action) => {
         ...state,
         lesson,
       ];
+    }
 
     default:
       return state;

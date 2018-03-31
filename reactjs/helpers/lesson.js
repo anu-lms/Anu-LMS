@@ -37,7 +37,7 @@ export const getProgress = (storeLessons, lesson) => {
  * @returns {string}
  */
 export const getUrl = (coursePath, slug) => (
-  '/course' + coursePath + slug
+  `/course${coursePath}${slug}`
 );
 
 /**
@@ -50,16 +50,16 @@ export const isAssessment = lesson => (
 /**
  * Checks if the current lesson has quizzes included.
  */
-export const hasQuizzes = lesson => {
-  let hasQuizzes = false;
+export const hasQuizzes = (lesson) => {
+  let hasQuizzesValue = false;
 
-  lesson.blocks.forEach(block => {
+  lesson.blocks.forEach((block) => {
     if (block.type && block.type.indexOf('quiz_') === 0) {
-      hasQuizzes = true;
+      hasQuizzesValue = true;
     }
   });
 
-  return hasQuizzes;
+  return hasQuizzesValue;
 };
 
 export const getQuizzesData = (lessons, lessonId) => {

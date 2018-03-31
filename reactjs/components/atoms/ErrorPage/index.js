@@ -10,7 +10,7 @@ const errors = {
 
 const ErrorPage = ({ code, message }) => (
   <div className="error-page">
-    <h1>{message ? message : (errors[code] ? errors[code] : `Error ${code}, try refreshing the page.`)}</h1>
+    <h1>{message || (errors[code] ? errors[code] : `Error ${code}, try refreshing the page.`)}</h1>
     <div className="column">
       <Link to="/">
         <a className="btn btn-primary btn-lg">To the homepage</a>

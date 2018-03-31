@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import * as dataProcessors from '../../utils/dataProcessors';
 import App from '../../application/App';
 import withAuth from '../../auth/withAuth';
@@ -7,6 +8,22 @@ import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayou
 import UserEditForm from '../../components/moleculas/Form/User';
 
 class UserEditPage extends Component {
+
+  static async getInitialProps({ request }) {
+    // Fetch current user using custom endpoint.
+    try {
+      const response = await request.get('/user/me?_format=json');
+
+      return {
+        user: dataProcessors.userData(response.body),
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        user: {},
+      };
+    }
+  }
 
   render() {
     return (
@@ -20,24 +37,10 @@ class UserEditPage extends Component {
       </App>
     );
   }
-
-  static async getInitialProps({ request }) {
-    // Fetch current user using custom endpoint.
-    try {
-      const response = await request.get('/user/me?_format=json');
-
-      return {
-        user: dataProcessors.userData(response.body)
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        user: {}
-      }
-    }
-
-
-  }
 }
+
+UserEditPage.propTypes = {
+  user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
 
 export default withAuth(UserEditPage);

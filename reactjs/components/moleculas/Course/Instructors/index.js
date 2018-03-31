@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { plural } from '../../../../utils/string';
 
 const Instructors = ({ instructors }) => {
-
   if (!instructors.length) {
     return null;
   }
@@ -20,7 +19,7 @@ const Instructors = ({ instructors }) => {
 };
 
 Instructors.propTypes = {
-  instructors: PropTypes.array,
+  instructors: PropTypes.array, // eslint-disable-line react/forbid-prop-types
 };
 
 Instructors.defaultProps = {

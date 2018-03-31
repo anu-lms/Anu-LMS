@@ -4,7 +4,7 @@ import Alert from 'react-s-alert';
 import ClientAuth from './clientAuth';
 import ServerAuth from './serverAuth';
 import { Router } from '../routes';
-import request from "../utils/request";
+import request from '../utils/request';
 import * as lock from '../utils/lock';
 import { store } from '../store/store';
 
@@ -13,7 +13,7 @@ export default function withAuth(PageComponent) {
 
     render() {
       return <PageComponent {...this.props} />;
-    };
+    }
 
     static childContextTypes = {
       auth: PropTypes.shape({
@@ -32,7 +32,7 @@ export default function withAuth(PageComponent) {
           getRequest: this.getRequest.bind(this),
           refreshAuthenticationToken: this.refreshAuthenticationToken.bind(this),
         },
-      }
+      };
     }
 
     login(username, password) {
@@ -41,7 +41,6 @@ export default function withAuth(PageComponent) {
     }
 
     async logout() {
-
       // Wait for the app to safely finish off before logging out.
       await lock.waitAll();
 
@@ -53,7 +52,7 @@ export default function withAuth(PageComponent) {
       await auth.logout();
 
       // Clear local storage.
-      localStorage.clear();
+      localStorage.clear(); // eslint-disable-line no-undef
       // Clear in-memory Redux storage otherwise there still will be data in it.
       store.dispatch({ type: 'RESET_STORE' });
 
@@ -70,7 +69,7 @@ export default function withAuth(PageComponent) {
       const auth = new ClientAuth();
       return new Promise((resolve, reject) => {
         auth.getAccessToken()
-          .then(accessToken => {
+          .then((accessToken) => {
             request.set('Authorization', `Bearer ${accessToken}`);
             // Request as an object, because it returns promise otherwise.
             resolve({ request });
@@ -80,20 +79,21 @@ export default function withAuth(PageComponent) {
     }
 
     static async getInitialProps(ctx) {
-
       const { req, res, pathname } = ctx;
 
-      let auth = req ? new ServerAuth(req, res) : new ClientAuth();
+      const auth = req ? new ServerAuth(req, res) : new ClientAuth();
       if (!auth.isLoggedIn() && auth.hasRefreshToken()) {
         try {
           console.log('Trying to handle page request and refresh tokens...');
           await auth.refreshAuthenticationToken();
-        } catch (error) { }
+        } catch (error) {
+          console.error('There is a problem with token refresh');
+        }
       }
 
-      // Skip redirection if Component will handle it itself (to avoid redirects for pages that should be available for anonymous).
+      // Skip redirection if Component will handle it itself
+      // (to avoid redirects for pages that should be available for anonymous).
       if (!PageComponent.skipInitialAuthRedirect) {
-
         // Redirect to the front page if not authenticated.
         if (!auth.isLoggedIn() && pathname !== '/') {
           console.log('Redirecting to the login page...');
@@ -118,21 +118,20 @@ export default function withAuth(PageComponent) {
 
       // Handle child component's props loading.
       if (PageComponent.getInitialProps) {
-
         // Get request object with injected auth data.
-        const request = auth.getRequest();
+        const requestObject = auth.getRequest();
 
         // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
           // Pass request object which includes authentication.
-          { request, auth, ...ctx }
+          { requestObject, auth, ...ctx }
         );
 
         // Merge child and parent initial props and return.
-        return { ...childInitialProps }
+        return { ...childInitialProps };
       }
 
       return {};
     }
-  }
+  };
 }

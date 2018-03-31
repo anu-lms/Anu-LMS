@@ -1,72 +1,73 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LessonNavigation from '../../Lesson/Navigation';
 import ResourceParagraph from '../../../atoms/Paragraph/Media/Resource';
-import EmptyMessage from "../../../atoms/Empty";
+import EmptyMessage from '../../../atoms/Empty';
 
-class CourseResourcesTemplate extends React.Component {
+const CourseResourcesTemplate = ({ course, resources, navigation }) => {
+  const wrapperClasses = ['lesson-container', 'notebook-collapsed', 'course-resources-container'];
+  const columnClasses = ['col-12'];
 
-  render() {
-    const { course, resources, navigation } = this.props;
+  // Defines classes if navigation opened.
+  if (navigation.isCollapsed) {
+    wrapperClasses.push('nav-collapsed');
+    columnClasses.push('offset-md-1');
+    columnClasses.push('col-md-10');
+  }
 
-     let wrapperClasses = ['lesson-container', 'notebook-collapsed', 'course-resources-container'];
-    let columnClasses = ['col-12'];
+  columnClasses.push('offset-lg-2');
+  columnClasses.push('col-lg-8');
 
-    // Defines classes if navigation opened.
-    if (navigation.isCollapsed) {
-      wrapperClasses.push('nav-collapsed');
-      columnClasses.push('offset-md-1');
-      columnClasses.push('col-md-10');
-    }
+  return (
+    <div className="pt-3 pt-md-5">
 
-    columnClasses.push('offset-lg-2');
-    columnClasses.push('col-lg-8');
+      <LessonNavigation course={course} />
 
-    return (
-      <div className="pt-3 pt-md-5">
+      <div className={wrapperClasses.join(' ')}>
 
-        <LessonNavigation course={course}  />
+        <div className="container">
+          <div className="row">
+            <div className={columnClasses.join(' ')}>
+              <h1>Course Resources</h1>
 
-        <div className={wrapperClasses.join(' ')}>
+              <div className="download-column-label"><div className="inner">Download</div></div>
+              <div className="resources-list">
+                {resources.length > 0 &&
+                resources.map(resource => (
+                  <ResourceParagraph
+                    key={resource.id}
+                    title={resource.title}
+                    privatefile={{
+                      fid: parseInt(resource.id), // eslint-disable-line radix
+                      filename: resource.filename,
+                    }}
+                    columnClasses={[]}
+                  />
+                ))}
 
-          <div className="container">
-            <div className="row">
-              <div className={columnClasses.join(' ')}>
-                <h1>Course Resources</h1>
-
-                <div className="download-column-label"><div className="inner">Download</div></div>
-                <div className="resources-list">
-                  {resources.length > 0 &&
-                  resources.map(resource => (
-                    <ResourceParagraph
-                      key={resource.id}
-                      title={resource.title}
-                      privatefile={{
-                        fid: parseInt(resource.id),
-                        filename: resource.filename
-                      }}
-                      columnClasses={[]}
-                    />
-                  ))}
-
-                  {!resources.length &&
-                  <EmptyMessage message="The current course does not have any resources." />
-                  }
-
-                </div>
+                {!resources.length &&
+                <EmptyMessage message="The current course does not have any resources." />
+                }
 
               </div>
+
             </div>
           </div>
-
         </div>
-      </div>
-    );
-  }
-}
 
-const mapStateToProps = ({ navigation } ) => ({
+      </div>
+    </div>
+  );
+};
+
+CourseResourcesTemplate.propTypes = {
+  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  resources: PropTypes.arrayOf(PropTypes.object),
+  navigation: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
+
+const mapStateToProps = ({ navigation }) => ({
   navigation,
 });
 

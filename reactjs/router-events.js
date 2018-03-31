@@ -7,11 +7,11 @@ const methodEvents = {
   onRouteChangeComplete: 'routeChangeComplete',
   onRouteChangeError: 'routeChangeError',
   onBeforeHistoryChange: 'beforeHistoryChange',
-  onAppUpdated: 'appUpdated'
+  onAppUpdated: 'appUpdated',
 };
 
-Object.keys(methodEvents).forEach(method => {
-  Router[method] = (...args) => emitter.emit(methodEvents[method], ...args)
+Object.keys(methodEvents).forEach((method) => {
+  Router[method] = (...args) => emitter.emit(methodEvents[method], ...args);
 });
 
 export default emitter;
