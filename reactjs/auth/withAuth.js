@@ -10,7 +10,6 @@ import { store } from '../store/store';
 
 export default function withAuth(PageComponent) {
   return class AuthenticatedPage extends React.Component {
-
     render() {
       return <PageComponent {...this.props} />;
     }
@@ -124,8 +123,7 @@ export default function withAuth(PageComponent) {
         // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
           // Pass request object which includes authentication.
-          { requestObject, auth, ...ctx }
-        );
+          { requestObject, auth, ...ctx });
 
         // Merge child and parent initial props and return.
         return { ...childInitialProps };

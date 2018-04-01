@@ -7,7 +7,6 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as lock from '../../../../utils/lock';
 
 class NoteMenu extends React.Component {
-
   async onDelete() {
     const { note, dispatch } = this.props;
 

@@ -7,6 +7,6 @@ const FrontPage = () => (
   <App>
     <LoginPageTemplate />
   </App>
-  );
+);
 
 export default withAuth(FrontPage);

@@ -44,7 +44,6 @@ const uiSchema = {
 };
 
 class PasswordForm extends React.Component {
-
   constructor(props, context) {
     super(props, context);
 
@@ -129,7 +128,7 @@ class PasswordForm extends React.Component {
         schema={schema}
         uiSchema={uiSchema}
         formData={this.state.formData}
-        autocomplete={'off'}
+        autocomplete="off"
         onChange={this.onChange}
         onSubmit={this.submitForm}
         className="edit-password-form"

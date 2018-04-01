@@ -13,7 +13,6 @@ import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import LinkWithClick from '../../../atoms/Link/LinkWithClick';
 
 class LessonNavigation extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -37,7 +36,9 @@ class LessonNavigation extends React.Component {
   }
 
   render() {
-    const { course, courses, lessons, router } = this.props;
+    const {
+      course, courses, lessons, router,
+    } = this.props;
 
     return (
       <CollapsibleNavigation className="lesson">
@@ -95,10 +96,10 @@ class LessonNavigation extends React.Component {
 
 LessonNavigation.propTypes = {
   dispatch: PropTypes.func,
-  course: PropTypes.object,  // eslint-disable-line react/forbid-prop-types
-  courses: PropTypes.object,  // eslint-disable-line react/forbid-prop-types
-  lessons: PropTypes.object,  // eslint-disable-line react/forbid-prop-types
-  router: PropTypes.object,  // eslint-disable-line react/forbid-prop-types
+  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  courses: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  lessons: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  router: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = ({ lesson, course }) => ({

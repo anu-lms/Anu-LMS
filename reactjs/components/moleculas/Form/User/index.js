@@ -52,7 +52,6 @@ uiSchemaPass.password.classNames = 'display-password';
 
 
 class UserEditForm extends React.Component {
-
   constructor(props, context) {
     super(props, context);
 

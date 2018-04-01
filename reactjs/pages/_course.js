@@ -9,7 +9,6 @@ import CoursePageTemplate from '../components/organisms/Templates/Course';
 import * as dataProcessors from '../utils/dataProcessors';
 
 class CoursePage extends React.Component {
-
   static async getInitialProps({ request, query, res }) {
     const initialProps = {
       course: {},

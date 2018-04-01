@@ -10,7 +10,6 @@ import * as breakpoints from '../../../../utils/breakpoints';
 import * as privateFileHelper from '../../../../helpers/privateFile';
 
 class Resource extends React.Component {
-
   constructor(props) {
     super(props);
 

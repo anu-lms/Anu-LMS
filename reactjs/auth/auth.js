@@ -5,7 +5,6 @@ const CLIENT_ID = '9e0c1ed1-541b-45da-9360-8b41f206352c';
 const CLIENT_SECRET = '9uGSd3khRDf3bxQR';
 
 export default class {
-
   constructor() {
     this.accessToken = '';
     this.refreshToken = '';

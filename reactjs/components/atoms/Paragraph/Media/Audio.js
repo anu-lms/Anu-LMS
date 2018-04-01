@@ -5,7 +5,6 @@ import { ProgressBar } from 'react-player-controls';
 import { fileUrl } from '../../../../utils/url';
 
 class Audio extends React.Component {
-
   constructor(props) {
     super(props);
 

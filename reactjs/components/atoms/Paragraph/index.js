@@ -35,16 +35,16 @@ const Paragraphs = dynamic({
   },
 
   render: ({ blocks, ...props }, components) => (
-      blocks.map((block, index) => {
-        const Paragraph = components[block.type];
-        return (
-          <Fragment key={index}>
-            <div style={{ display: 'none' }}>{block.id}</div>
-            <Paragraph key={block.id} {...props} {...block} />
-          </Fragment>
-        );
-      })
-    ),
+    blocks.map((block, index) => {
+      const Paragraph = components[block.type];
+      return (
+        <Fragment key={index}>
+          <div style={{ display: 'none' }}>{block.id}</div>
+          <Paragraph key={block.id} {...props} {...block} />
+        </Fragment>
+      );
+    })
+  ),
 
   loading: () => (null),
 });

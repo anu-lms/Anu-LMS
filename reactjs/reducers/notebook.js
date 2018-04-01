@@ -9,7 +9,6 @@ export default (state = {
   let index;
 
   switch (action.type) {
-
     // Adds existing note to the notebook store.
     case 'NOTE_ADD':
 

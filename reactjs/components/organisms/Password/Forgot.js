@@ -4,7 +4,6 @@ import OneColumnLayout from '../../../components/organisms/Templates/OneColumnLa
 
 /* eslint-disable max-len */
 class ForgotPassword extends React.Component {
-
   constructor(props) {
     super(props);
 

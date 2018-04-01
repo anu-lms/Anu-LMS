@@ -4,7 +4,6 @@ export default (state = {
   noteId: 0,
 }, action) => {
   switch (action.type) {
-
     case 'LESSON_NOTEBOOK_OPEN':
       return {
         ...state,

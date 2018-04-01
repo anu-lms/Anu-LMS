@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Paragraphs from '../index';
 
 class ComboBoxes extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -37,7 +36,9 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, options, title, blocks, columnClasses } = this.props;
+    const {
+      id, options, title, blocks, columnClasses,
+    } = this.props;
 
     return (
       <div className="container quiz comboboxes">

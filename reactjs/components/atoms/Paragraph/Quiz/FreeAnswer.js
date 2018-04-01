@@ -4,7 +4,6 @@ import TextareaAutosize from 'react-autosize-textarea';
 import Paragraphs from '../index';
 
 class FreeAnswer extends React.Component {
-
   constructor(props) {
     super(props);
 

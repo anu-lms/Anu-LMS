@@ -12,7 +12,6 @@ import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
 
 class LessonContent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -225,42 +224,38 @@ class LessonContent extends React.Component {
   }
 
   render() {
-    const { lesson, course, navigation, lessonNotebook } = this.props;
+    const {
+      lesson, course, navigation, lessonNotebook,
+    } = this.props;
     const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
 
     // Add an extra button for assessments.
     if (lessonHelpers.isAssessment(lesson)) {
-      buttons.push(
-        <Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
+      buttons.push(<Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
           Submit Assessment
-        </Button>
-      );
+      </Button>);
     }
 
     // For lesson with quizzes we change default Next button to
     // "Submit and Continue" button.
     if (!lessonHelpers.isAssessment(lesson) && lessonHelpers.hasQuizzes(lesson)) {
-      buttons.push(
-        <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
-          {nextLesson &&
-            <Fragment>Submit and Continue</Fragment>
+      buttons.push(<Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
+        {nextLesson &&
+        <Fragment>Submit and Continue</Fragment>
           }
-          {!nextLesson &&
-            <Fragment>Submit</Fragment>
+        {!nextLesson &&
+        <Fragment>Submit</Fragment>
           }
-        </Button>
-      );
+      </Button>);
     }
     else if (nextLesson) {
-      buttons.push(
-        <Link to={nextLesson.url} key="next" prefetch>
-          <a className="btn btn-primary btn-lg btn-block">
+      buttons.push(<Link to={nextLesson.url} key="next" prefetch>
+        <a className="btn btn-primary btn-lg btn-block">
             Next: {nextLesson.title}
-          </a>
-        </Link>
-      );
+        </a>
+      </Link>);
     }
 
     let wrapperClasses = ['lesson-container'];

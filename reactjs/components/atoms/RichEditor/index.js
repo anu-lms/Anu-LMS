@@ -53,7 +53,6 @@ const isCodeHotkey = isKeyHotkey('mod+`');
  * @type {Component}
  */
 class RichEditor extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -227,9 +226,7 @@ class RichEditor extends React.Component {
       }
       else if (isList) {
         change
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
-          )
+          .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
           .wrapBlock(type);
       }
       else {
@@ -329,7 +326,6 @@ class RichEditor extends React.Component {
 
     let icon;
     switch (type) {
-
       case 'numbered-list':
         icon =
           (<svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="155 0 21 18">
@@ -437,7 +433,7 @@ class RichEditor extends React.Component {
             {this.renderMarkButton('underlined')}
             {this.renderBlockButton('numbered-list')}
             {this.renderBlockButton('bulleted-list')}
-            {/* this.renderLinkButton()*/}
+            {/* this.renderLinkButton() */}
           </div>
 
           <div className="editor">

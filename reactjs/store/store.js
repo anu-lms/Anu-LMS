@@ -32,9 +32,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Build store.
 // TODO: Disable dev tools on production.
-export const store = createStore(persistedReducers, {}, composeWithDevTools(
-  applyMiddleware(sagaMiddleware)
-));
+export const store = createStore(persistedReducers, {}, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 // Start watching all sagas.
 sagaMiddleware.run(mainSaga);

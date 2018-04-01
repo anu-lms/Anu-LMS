@@ -9,7 +9,6 @@ import CourseResouces from '../components/organisms/Templates/CourseResouces';
 import * as dataProcessors from '../utils/dataProcessors';
 
 class CourseResoucePage extends React.Component {
-
   static async getInitialProps({ request, query, res }) {
     const initialProps = {
       course: {},

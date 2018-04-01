@@ -11,7 +11,9 @@ class ForgotPasswordPage extends Component {
   static skipInitialAuthRedirect = true;
 
   // eslint-disable-next-line no-unused-vars
-  static async getInitialProps({ request, auth, query, res }) {
+  static async getInitialProps({
+    request, auth, query, res,
+  }) {
     // Don't allow Authentificated to access the page.
     if (auth.isLoggedIn()) {
       if (res) {

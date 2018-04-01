@@ -58,6 +58,6 @@ const FrontPage = () => (
       </div>
     </div>
   </App>
-  );
+);
 
 export default FrontPage;

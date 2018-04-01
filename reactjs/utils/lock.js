@@ -38,13 +38,13 @@ export const isNameLocked = (collectionName) => {
 // Wait for all locks in a given collection to be released.
 export const wait = collectionName => new Promise((resolve) => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
-      // Get current state from Redux.
+    // Get current state from Redux.
     const locks = store.getState().lock.locks;
-      // Find first lock with matching collection name.
+    // Find first lock with matching collection name.
     const index = locks.findIndex(el => el.collection === collectionName);
 
     if (index === -1) {
-        // No locks in given collection found.
+      // No locks in given collection found.
       return resolve();
     }
 
@@ -56,7 +56,7 @@ export const wait = collectionName => new Promise((resolve) => {
 // Wait for all locks to be released.
 export const waitAll = () => new Promise((resolve) => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
-      // Get locks array from Redux.
+    // Get locks array from Redux.
     const locks = store.getState().lock.locks;
     if (locks.length > 0) {
       setTimeout(waitForLocksToRelease, 100);

@@ -109,10 +109,10 @@ const processParagraphs = (paragraphs) => {
           prop = property.substr(14).toLowerCase();
         }
         else
-          if (property.startsWith('fieldQuiz')) {
-            // Remove 'fieldQuiz' prefix.
-            prop = property.substr(9).toLowerCase();
-          }
+        if (property.startsWith('fieldQuiz')) {
+          // Remove 'fieldQuiz' prefix.
+          prop = property.substr(9).toLowerCase();
+        }
 
         if (prop === 'blocks') {
           blocks[order][prop] = processParagraphs(block[property]);
@@ -162,14 +162,14 @@ export const lessonData = (lessonDataObject) => {
  */
 export const notebookData = notebookDataObject =>
   // Custom mapping for notebook notes.
-   notebookDataObject.map(note => ({
-     id: note.id,
-     uuid: note.uuid,
-     created: note.created,
-     changed: note.changed,
-     title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
-     body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
-   }));
+  notebookDataObject.map(note => ({
+    id: note.id,
+    uuid: note.uuid,
+    created: note.created,
+    changed: note.changed,
+    title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
+    body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
+  }));
 
 /**
  * Internal helper to normalize User data from the backend.
