@@ -4,7 +4,7 @@ export default class extends Auth {
   constructor(req, res) {
     super();
 
-    let cookies = req.cookies;
+    const { cookies } = req;
     this.accessToken = cookies.accessToken ? cookies.accessToken : '';
     this.refreshToken = cookies.refreshToken ? cookies.refreshToken : '';
     this.response = res;
