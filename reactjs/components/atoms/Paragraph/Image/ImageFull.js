@@ -45,7 +45,7 @@ class ImageFull extends React.Component {
 }
 
 ImageFull.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -57,11 +57,19 @@ ImageFull.propTypes = {
         w1400: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,
   }),
+};
+
+ImageFull.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
+  text: {},
 };
 
 export default ImageFull;

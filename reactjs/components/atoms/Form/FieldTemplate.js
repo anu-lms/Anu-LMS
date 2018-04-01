@@ -21,6 +21,7 @@ const FieldTemplate = (props) => {
       <div className={innerClasses}>
         {children}
         {schema.type !== 'boolean' &&
+          // eslint-disable-next-line jsx-a11y/label-has-for
           <label htmlFor={id}>{label}</label>
         }
       </div>
@@ -30,16 +31,24 @@ const FieldTemplate = (props) => {
 };
 
 FieldTemplate.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   classNames: PropTypes.string,
-  label: PropTypes.string,
-  help: PropTypes.object,
-  description: PropTypes.object,
+  label: PropTypes.string.isRequired,
+  help: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  description: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   required: PropTypes.bool,
-  schema: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  schema: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
   uiSchema: PropTypes.object,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+};
+
+FieldTemplate.defaultProps = {
+  required: false,
+  classNames: '',
+  description: {},
+  help: {},
+  uiSchema: {},
 };
 
 export default FieldTemplate;

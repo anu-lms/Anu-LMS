@@ -48,6 +48,7 @@ LinkWithProgress.propTypes = {
 LinkWithProgress.defaultProps = {
   progress: 0,
   active: false,
+  onClick: () => {},
 };
 
 export default LinkWithProgress;

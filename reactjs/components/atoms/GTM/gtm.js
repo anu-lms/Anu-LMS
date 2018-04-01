@@ -4,8 +4,7 @@ import gtmParts from 'react-google-tag-manager';
 
 class GoogleTagManager extends React.Component {
   componentDidMount() {
-    const dataLayerName = this.props.dataLayerName || 'dataLayer';
-    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm';
+    const { dataLayerName, scriptId } = this.props;
 
     if (!window[dataLayerName]) {
       const gtmScriptNode = document.getElementById(scriptId);
@@ -15,11 +14,12 @@ class GoogleTagManager extends React.Component {
   }
 
   render() {
+    const {
+      gtmId, dataLayerName, additionalEvents, previewVariables,
+    } = this.props;
+
     const gtm = gtmParts({
-      id: this.props.gtmId,
-      dataLayerName: this.props.dataLayerName || 'dataLayer',
-      additionalEvents: this.props.additionalEvents || {},
-      previewVariables: this.props.previewVariables || false,
+      id: gtmId, dataLayerName, additionalEvents, previewVariables,
     });
 
     return (
@@ -36,6 +36,13 @@ GoogleTagManager.propTypes = {
   additionalEvents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   previewVariables: PropTypes.string,
   scriptId: PropTypes.string,
+};
+
+GoogleTagManager.defaultProps = {
+  dataLayerName: 'dataLayer',
+  additionalEvents: {},
+  previewVariables: false,
+  scriptId: 'react-google-tag-manager-gtm',
 };
 
 export default GoogleTagManager;

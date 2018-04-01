@@ -55,7 +55,7 @@ class PasswordStrength extends Component {
     // avoids unnecessary zxcvbn computations (CPU intensive)
     if (this.isTooShort(password, minLength) === false) {
       result = zxcvbn(password, userInputs);
-      score = result.score;
+      score = result.score; // eslint-disable-line prefer-destructuring
     }
 
     this.setState({
@@ -190,6 +190,7 @@ PasswordStrength.propTypes = {
 PasswordStrength.defaultProps = {
   changeCallback: null,
   className: '',
+  style: '',
   defaultValue: '',
   minLength: 3,
   minScore: 2,
@@ -197,6 +198,7 @@ PasswordStrength.defaultProps = {
   tooShortWord: 'Too Short',
   scoreWords: ['Weak', 'Okay', 'Good', 'Strong', 'Very Strong'],
   userInputs: [],
+  inputProps: {},
 };
 
 export default PasswordStrength;

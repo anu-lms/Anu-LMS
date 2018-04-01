@@ -30,14 +30,17 @@ class Checkbox extends React.Component {
     return (
       <div className="checkbox">
         <input type="checkbox" id={id} checked={this.state.isChecked} value={this.state.isChecked + 0} />
-        <span onClick={this.toggleCheck}>
+        <span onClick={this.toggleCheck} onKeyPress={this.toggleCheck}>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14">
             <g fill="none" fillRule="evenodd">
               <path fill="#FFF" fillRule="nonzero" d="M5.403 10.58l-4.03-4.17L0 7.82l5.403 5.59L17 1.41 15.637 0z" />
             </g>
           </svg>
         </span>
-        <label onClick={this.toggleCheck} htmlFor={id}>{label}</label>
+        {
+          // eslint-disable-next-line max-len
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/label-has-for, max-len
+        }<label htmlFor={id} onClick={this.toggleCheck} onKeyPress={this.toggleCheck}>{label}</label>
       </div>
     );
   }
@@ -51,6 +54,7 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
   id: '',
+  onChange: () => {},
 };
 
 export default Checkbox;

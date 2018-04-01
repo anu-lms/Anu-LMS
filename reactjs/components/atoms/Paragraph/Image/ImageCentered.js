@@ -48,7 +48,7 @@ class ImageCentered extends React.Component {
 }
 
 ImageCentered.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
@@ -61,7 +61,15 @@ ImageCentered.propTypes = {
         w730: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
+};
+
+ImageCentered.defaultProps = {
+  type: '',
+  columnClasses: [],
+  title: '',
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default ImageCentered;
