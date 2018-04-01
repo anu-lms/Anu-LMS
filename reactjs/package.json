@@ -73,6 +73,7 @@
   "scripts": {
     "build": "next build",
     "start": "PORT=3000 NODE_ENV=production node server.js",
-    "start:dev": "PORT=3000 NODE_ENV=development node server.js"
+    "start:dev": "PORT=3000 NODE_ENV=development node server.js",
+    "eslint": "./node_modules/.bin/eslint ./"
   }
 }
