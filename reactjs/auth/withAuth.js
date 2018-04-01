@@ -123,7 +123,7 @@ export default function withAuth(PageComponent) {
         // Await child initial props.
         const childInitialProps = await PageComponent.getInitialProps(
           // Pass request object which includes authentication.
-          { requestObject, auth, ...ctx });
+          { request: requestObject, auth, ...ctx });
 
         // Merge child and parent initial props and return.
         return { ...childInitialProps };

@@ -33,8 +33,8 @@ FieldTemplate.propTypes = {
   id: PropTypes.string,
   classNames: PropTypes.string,
   label: PropTypes.string,
-  help: PropTypes.string,
-  description: PropTypes.string,
+  help: PropTypes.object,
+  description: PropTypes.object,
   required: PropTypes.bool,
   schema: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
