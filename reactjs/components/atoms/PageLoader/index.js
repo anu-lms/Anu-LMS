@@ -11,7 +11,11 @@ const PageLoader = ({ type }) => (
 );
 
 PageLoader.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
+};
+
+PageLoader.defaultProps = {
+  type: 'fixed',
 };
 
 export default PageLoader;
