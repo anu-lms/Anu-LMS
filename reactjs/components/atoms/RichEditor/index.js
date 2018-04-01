@@ -461,19 +461,24 @@ class RichEditor extends React.Component {
 }
 
 RichEditor.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  node: PropTypes.node.isRequired,
-  mark: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  attributes: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  children: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  node: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
 };
 
 RichEditor.defaultProps = {
+  id: undefined,
   placeholder: 'Type something...',
   initialValue: '',
+  children: {},
+  node: {},
+  mark: {},
+  attributes: [],
   onChange: () => {},
 };
 
