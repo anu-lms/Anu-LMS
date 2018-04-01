@@ -58,8 +58,8 @@ class FreeAnswer extends React.Component {
 }
 
 FreeAnswer.propTypes = {
-  title: PropTypes.string,
-  id: PropTypes.number,
+  title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
@@ -67,6 +67,9 @@ FreeAnswer.propTypes = {
 };
 
 FreeAnswer.defaultProps = {
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

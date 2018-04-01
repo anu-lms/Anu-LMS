@@ -37,6 +37,7 @@ const Paragraphs = dynamic({
   render: ({ blocks, ...props }, components) => (
     blocks.map((block, index) => {
       const Paragraph = components[block.type];
+      /* eslint-disable react/no-array-index-key */
       return (
         <Fragment key={index}>
           <div style={{ display: 'none' }}>{block.id}</div>
