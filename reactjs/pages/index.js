@@ -4,7 +4,7 @@ import withAuth from '../auth/withAuth';
 import LoginPageTemplate from '../components/organisms/Templates/Login';
 
 const FrontPage = () => (
-  <App>
+   <App>
     <LoginPageTemplate />
   </App>
 );
