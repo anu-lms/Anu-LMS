@@ -119,7 +119,7 @@ class EditableElement extends React.Component {
 }
 
 EditableElement.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
   maxLength: PropTypes.number,
@@ -127,6 +127,7 @@ EditableElement.propTypes = {
 };
 
 EditableElement.defaultProps = {
+  id: undefined,
   maxLength: 0,
   initialValue: '',
   placeholder: '',

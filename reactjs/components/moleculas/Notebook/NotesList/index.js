@@ -22,8 +22,12 @@ const NotesList = ({ notes, activeNoteId, ...props }) => (
 );
 
 NotesList.propTypes = {
-  activeNoteId: PropTypes.number.isRequired,
+  activeNoteId: PropTypes.number,
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+NotesList.defaultProps = {
+  activeNoteId: undefined
 };
 
 export default NotesList;

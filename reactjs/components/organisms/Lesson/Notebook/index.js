@@ -212,10 +212,14 @@ class LessonNotebook extends React.Component {
 
 LessonNotebook.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeNote: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isCollapsed: PropTypes.bool.isRequired,
   isNoteListVisible: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+};
+
+LessonNotebook.defaultProps = {
+  activeNote: {},
 };
 
 LessonNotebook.contextTypes = {

@@ -211,7 +211,7 @@ Resource.contextTypes = {
 };
 
 Resource.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -224,6 +224,7 @@ Resource.propTypes = {
 };
 
 Resource.defaultProps = {
+  id: undefined,
   title: '',
   type: '',
   columnClasses: [],

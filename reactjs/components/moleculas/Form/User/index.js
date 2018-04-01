@@ -70,6 +70,7 @@ class UserEditForm extends React.Component {
     };
 
     this.submitForm = this.submitForm.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange({ formData }) {
@@ -191,7 +192,11 @@ UserEditForm.contextTypes = {
 };
 
 UserEditForm.propTypes = {
-  user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
+
+UserEditForm.defaultProps = {
+  user: {},
 };
 
 export default UserEditForm;
