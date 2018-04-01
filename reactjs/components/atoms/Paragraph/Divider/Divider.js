@@ -37,7 +37,7 @@ class Divider extends React.Component {
 Divider.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,

@@ -228,7 +228,7 @@ class LessonContent extends React.Component {
     const { lesson, course, navigation, lessonNotebook } = this.props;
     const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
-    const buttons = [];
+    let buttons = [];
 
     // Add an extra button for assessments.
     if (lessonHelpers.isAssessment(lesson)) {
@@ -263,8 +263,8 @@ class LessonContent extends React.Component {
       );
     }
 
-    const wrapperClasses = ['lesson-container'];
-    const columnClasses = ['col-12'];
+    let wrapperClasses = ['lesson-container'];
+    let columnClasses = ['col-12'];
 
     // Defines classes if navigation opened.
     if (navigation.isCollapsed) {

@@ -81,7 +81,7 @@ export default function withAuth(PageComponent) {
     static async getInitialProps(ctx) {
       const { req, res, pathname } = ctx;
 
-      const auth = req ? new ServerAuth(req, res) : new ClientAuth();
+      let auth = req ? new ServerAuth(req, res) : new ClientAuth();
       if (!auth.isLoggedIn() && auth.hasRefreshToken()) {
         try {
           console.log('Trying to handle page request and refresh tokens...');
