@@ -8,15 +8,14 @@ class ForgotPassword extends React.Component {
     super(props);
 
     this.state = {
-      email: '',
       isEmailSent: false,
     };
 
     this.recoveryEmailSent = this.recoveryEmailSent.bind(this);
   }
 
-  recoveryEmailSent(email) {
-    this.setState({ isEmailSent: true, email });
+  recoveryEmailSent() {
+    this.setState({ isEmailSent: true });
   }
 
   render() {

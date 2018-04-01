@@ -13,8 +13,8 @@ const LessonPageTemplate = ({ course, lesson }) => (
 );
 
 LessonPageTemplate.propTypes = {
-  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  lesson: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lesson: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default LessonPageTemplate;

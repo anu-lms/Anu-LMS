@@ -109,24 +109,24 @@ class NotebookTemplate extends React.Component {
 }
 
 NotebookTemplate.propTypes = {
-  dispatch: PropTypes.func,
-  notes: PropTypes.arrayOf(PropTypes.object),
-  activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  isMobileContentVisible: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeNote: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isMobileContentVisible: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ notebook }) => {
   // All notes from the redux store.
-  const notes = notebook.notes;
+  const { notes, activeNoteId, isMobileContentVisible } = notebook;
 
   // Search for active note in the list of notes.
-  const index = notebook.notes.findIndex(note => note.id === notebook.activeNoteId);
-  const activeNote = index !== -1 ? notebook.notes[index] : {};
+  const index = notes.findIndex(note => note.id === activeNoteId);
+  const activeNote = index !== -1 ? notes[index] : {};
 
   return {
     notes,
     activeNote,
-    isMobileContentVisible: notebook.isMobileContentVisible,
+    isMobileContentVisible,
   };
 };
 

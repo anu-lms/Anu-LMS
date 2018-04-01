@@ -65,7 +65,11 @@ class ResetPasswordPage extends Component {
 
 ResetPasswordPage.propTypes = {
   user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  url: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  url: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
+
+ResetPasswordPage.defaultProps = {
+  user: {},
 };
 
 export default withAuth(ResetPasswordPage);

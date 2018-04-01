@@ -61,7 +61,7 @@ function* syncLessonProgressInBackground(lesson, token) {
   yield delay(backendSyncDelay);
 
   // Initial progress equals lesson progress from the backend.
-  let progress = lesson.progress;
+  let progress = lesson.progress; // eslint-disable-line prefer-destructuring
 
   let latestProgress;
   let lessons;

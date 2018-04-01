@@ -20,14 +20,14 @@ export const release = (lockId) => {
 // Check if there are any locks at all.
 export const isLocked = () => {
   // Get current state from Redux.
-  const locks = store.getState().lock.locks;
+  const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
   return !!locks.length;
 };
 
 // Check if there are locks in the collection.
 export const isNameLocked = (collectionName) => {
   // Get current state from Redux.
-  const locks = store.getState().lock.locks;
+  const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
   // Find first lock with matching collection name.
   const index = locks.findIndex(el => el.collection === collectionName);
 
@@ -39,7 +39,7 @@ export const isNameLocked = (collectionName) => {
 export const wait = collectionName => new Promise((resolve) => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
     // Get current state from Redux.
-    const locks = store.getState().lock.locks;
+    const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
     // Find first lock with matching collection name.
     const index = locks.findIndex(el => el.collection === collectionName);
 
@@ -57,7 +57,7 @@ export const wait = collectionName => new Promise((resolve) => {
 export const waitAll = () => new Promise((resolve) => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
     // Get locks array from Redux.
-    const locks = store.getState().lock.locks;
+    const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
     if (locks.length > 0) {
       setTimeout(waitForLocksToRelease, 100);
     }

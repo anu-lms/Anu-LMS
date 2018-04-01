@@ -45,7 +45,6 @@ Text.propTypes = {
 };
 
 Text.defaultProps = {
-  title: '',
   type: '',
   columnClasses: [],
   settings: {},

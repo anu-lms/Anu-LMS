@@ -135,4 +135,10 @@ CourseResoucePage.propTypes = {
   statusCode: PropTypes.number,
 };
 
+CourseResoucePage.defaultProps = {
+  course: {},
+  resources: [],
+  statusCode: 200,
+};
+
 export default withRedux(withAuth(CourseResoucePage));

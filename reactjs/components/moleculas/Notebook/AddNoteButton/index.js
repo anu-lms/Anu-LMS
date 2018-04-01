@@ -63,7 +63,7 @@ class AddNoteButton extends React.Component {
   render() {
     return (
       <div className="add-note">
-        <div onClick={this.addNewNote}>
+        <div onClick={this.addNewNote} onKeyPress={this.addNewNote}>
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
             <g fill="none" fillRule="evenodd">
               <path fill="#FFF" fillRule="nonzero" d="M30.667 4h-15v6.667h-5v5H4v15A3.333 3.333 0 0 0 7.333 34h23.334A3.333 3.333 0 0 0 34 30.667V7.333A3.333 3.333 0 0 0 30.667 4zm-18.6 26.667H7.333v-4.734L21.517 11.75l4.733 4.733-14.183 14.184zM30.3 12.433l-2.317 2.3-4.716-4.716 2.3-2.3a1.25 1.25 0 0 1 1.783 0l2.95 2.95a1.25 1.25 0 0 1 0 1.766zM14 9H9v5H5.667V9h-5V5.667h5v-5H9v5h5V9z" />

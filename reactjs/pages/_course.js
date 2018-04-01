@@ -127,4 +127,9 @@ CoursePage.propTypes = {
   statusCode: PropTypes.number,
 };
 
+CoursePage.defaultProps = {
+  course: {},
+  statusCode: 200,
+};
+
 export default withRedux(withAuth(CoursePage));

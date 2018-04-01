@@ -188,7 +188,7 @@ class LessonNotebook extends React.Component {
               </Fragment>
               }
 
-              <div className="save-close" onClick={() => this.handleNotebookClose()}>
+              <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
                 { isNoteListVisible ? 'Close Notes' : 'Save and Close' }
 
                 <span className="close-arrow">
@@ -211,11 +211,11 @@ class LessonNotebook extends React.Component {
 }
 
 LessonNotebook.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.object),
-  activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  isCollapsed: PropTypes.bool,
-  isNoteListVisible: PropTypes.bool,
-  dispatch: PropTypes.func,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeNote: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isCollapsed: PropTypes.bool.isRequired,
+  isNoteListVisible: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 LessonNotebook.contextTypes = {

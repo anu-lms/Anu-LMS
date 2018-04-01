@@ -101,9 +101,9 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
 );
 
 CoursePageTemplate.propTypes = {
-  storeLessons: PropTypes.arrayOf(PropTypes.object),
-  courseProgress: PropTypes.number,
-  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  courseProgress: PropTypes.number.isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (store, { course }) => ({

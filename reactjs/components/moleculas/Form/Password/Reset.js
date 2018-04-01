@@ -136,7 +136,7 @@ PasswordForm.contextTypes = {
 };
 
 PasswordForm.propTypes = {
-  tokenParams: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  tokenParams: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default PasswordForm;

@@ -15,7 +15,6 @@ class Resource extends React.Component {
 
     this.state = {
       fileDisplay: false,
-      fileViewUrl: '',
       filePages: 0,
       fileLoaded: false,
       fileDisplayWidth: 800,
@@ -116,7 +115,8 @@ class Resource extends React.Component {
    * Close popup window with PDF on ESC press.
    */
   onKeyPress() {
-    if (event.keyCode === 27 && this.state.fileDisplay === true) { // eslint-disable-line no-undef
+    // eslint-disable-next-line no-undef, no-restricted-globals
+    if (event.keyCode === 27 && this.state.fileDisplay === true) {
       this.onFileViewClose();
     }
   }

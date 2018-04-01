@@ -120,4 +120,8 @@ DashboardPage.propTypes = {
   statusCode: PropTypes.number,
 };
 
+DashboardPage.defaultProps = {
+  statusCode: 200,
+};
+
 export default withRedux(withAuth(DashboardPage));

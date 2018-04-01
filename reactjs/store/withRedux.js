@@ -6,6 +6,19 @@ import PageLoader from '../components/atoms/PageLoader';
 
 export default function (PageComponent) {
   return class ReduxPage extends React.Component {
+    static async getInitialProps(ctx) {
+      let initialProps = {
+        dispatch: store.dispatch,
+      };
+
+      if (PageComponent.getInitialProps) {
+        const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
+        return { ...initialProps, ...childInitialProps };
+      }
+
+      return initialProps;
+    }
+
     constructor(props) {
       super(props);
 
@@ -42,19 +55,6 @@ export default function (PageComponent) {
           </Fragment>
         </Provider>
       );
-    }
-
-    static async getInitialProps(ctx) {
-      let initialProps = {
-        dispatch: store.dispatch,
-      };
-
-      if (PageComponent.getInitialProps) {
-        const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
-        return { ...initialProps, ...childInitialProps };
-      }
-
-      return initialProps;
     }
   };
 }

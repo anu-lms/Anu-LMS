@@ -59,18 +59,18 @@ DashboardTemplate.propTypes = {
     title: PropTypes.string,
     imageUrl: PropTypes.string,
     imageAlt: PropTypes.string,
-  })),
+  })).isRequired,
   classes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
-  })),
+  })).isRequired,
   recentCourses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     imageUrl: PropTypes.string,
     imageAlt: PropTypes.string,
     progress: PropTypes.number,
-  })),
+  })).isRequired,
 };
 
 export default DashboardTemplate;

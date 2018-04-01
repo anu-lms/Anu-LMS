@@ -32,6 +32,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Build store.
 // TODO: Disable dev tools on production.
+// eslint-disable-next-line max-len
 export const store = createStore(persistedReducers, {}, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 // Start watching all sagas.

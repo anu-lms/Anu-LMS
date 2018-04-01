@@ -95,11 +95,11 @@ class LessonNavigation extends React.Component {
 }
 
 LessonNavigation.propTypes = {
-  dispatch: PropTypes.func,
-  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  courses: PropTypes.arrayOf(PropTypes.object),
-  lessons: PropTypes.arrayOf(PropTypes.object),
-  router: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  courses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = ({ lesson, course }) => ({

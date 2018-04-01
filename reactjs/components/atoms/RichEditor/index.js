@@ -282,24 +282,27 @@ class RichEditor extends React.Component {
     let icon;
     switch (type) {
       case 'bold':
-        icon =
-          (<svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
+        icon = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
             <path fillRule="nonzero" d="M43 1v3h2.21l-3.42 8H39v3h8v-3h-2.21l3.42-8H51V1zM8.6 7.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H0v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM3 3.5h3c.83 0 1.5.67 1.5 1.5S6.83 6.5 6 6.5H3v-3zm3.5 9H3v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z" />
-          </svg>);
+          </svg>
+        );
         break;
 
       case 'italic':
-        icon =
-          (<svg xmlns="http://www.w3.org/2000/svg" width="13" height="18" viewBox="39 0 13 18">
+        icon = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="18" viewBox="39 0 13 18">
             <path fillRule="nonzero" d="M43 1v3h2.21l-3.42 8H39v3h8v-3h-2.21l3.42-8H51V1zM8.6 7.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H0v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM3 3.5h3c.83 0 1.5.67 1.5 1.5S6.83 6.5 6 6.5H3v-3zm3.5 9H3v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z" />
-          </svg>);
+          </svg>
+        );
         break;
 
       case 'underlined':
-        icon =
-          (<svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="77 0 15 18">
+        icon = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="77 0 15 18">
             <path fillRule="nonzero" d="M85 14c3.31 0 6-2.69 6-6V0h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S81.5 9.93 81.5 8V0H79v8c0 3.31 2.69 6 6 6zm-7 2v2h14v-2H78z" />
-          </svg>);
+          </svg>
+        );
         break;
 
       default:
@@ -327,17 +330,19 @@ class RichEditor extends React.Component {
     let icon;
     switch (type) {
       case 'numbered-list':
-        icon =
-          (<svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="155 0 21 18">
+        icon = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="155 0 21 18">
             <path fillRule="nonzero" d="M155 14h2v.5h-1v1h1v.5h-2v1h3v-4h-3v1zm1-9h1V1h-2v1h1v3zm-1 3h1.8l-1.8 2.1v.9h3v-1h-1.8l1.8-2.1V7h-3v1zm5-6v2h14V2h-14zm0 14h14v-2h-14v2zm0-6h14V8h-14v2z" />
-          </svg>);
+          </svg>
+        );
         break;
 
       case 'bulleted-list':
-        icon =
-          (<svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="115 0 21 18">
+        icon = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="115 0 21 18">
             <path fillRule="nonzero" d="M117 7.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zm3 2.5h14v-2h-14v2zm0-6h14V8h-14v2zm0-8v2h14V2h-14z" />
-          </svg>);
+          </svg>
+        );
         break;
 
       default:
@@ -456,13 +461,13 @@ class RichEditor extends React.Component {
 }
 
 RichEditor.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
-  children: PropTypes.node,
-  node: PropTypes.node,
-  mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  children: PropTypes.node.isRequired,
+  node: PropTypes.node.isRequired,
+  mark: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  attributes: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
 };
 

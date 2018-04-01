@@ -96,9 +96,9 @@ class NotebookPage extends Component {
 }
 
 NotebookPage.propTypes = {
-  isStoreRehydrated: PropTypes.bool,
-  notes: PropTypes.arrayOf(PropTypes.object),
-  dispatch: PropTypes.fund,
+  isStoreRehydrated: PropTypes.bool.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (store) => {

@@ -35,4 +35,10 @@ OneColumnLayout.propTypes = {
   children: PropTypes.node,
 };
 
+OneColumnLayout.defaultProps = {
+  className: '',
+  pageTitle: '',
+  children: {},
+};
+
 export default OneColumnLayout;
