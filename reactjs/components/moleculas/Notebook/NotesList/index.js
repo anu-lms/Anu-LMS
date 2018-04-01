@@ -27,7 +27,7 @@ NotesList.propTypes = {
 };
 
 NotesList.defaultProps = {
-  activeNoteId: undefined
+  activeNoteId: undefined,
 };
 
 export default NotesList;
