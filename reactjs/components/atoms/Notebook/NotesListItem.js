@@ -19,7 +19,7 @@ const NotesListItem = ({
 );
 
 NotesListItem.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   teaser: PropTypes.string.isRequired,

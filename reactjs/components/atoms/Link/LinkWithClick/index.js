@@ -15,8 +15,9 @@ class LinkWithClick extends React.Component {
   }
 
   render() {
+    const { onCustomClick, ...props } = this.props;
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    return <a {...this.props} onClick={this.handleClick} />;
+    return <a {...props} onClick={this.handleClick} />;
   }
 }
 
