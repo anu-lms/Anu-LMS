@@ -306,7 +306,7 @@ class RichEditor extends React.Component {
         break;
 
       default:
-        icon = '';
+        icon = null;
     }
 
     return (
@@ -346,7 +346,7 @@ class RichEditor extends React.Component {
         break;
 
       default:
-        icon = '';
+        icon = null;
     }
 
     return (
@@ -397,7 +397,7 @@ class RichEditor extends React.Component {
         return <a {...attributes} href={href}>{children}</a>;
       }
       default:
-        return '';
+        return null;
     }
   };
 
@@ -417,7 +417,7 @@ class RichEditor extends React.Component {
       case 'underlined':
         return <u>{children}</u>;
       default:
-        return '';
+        return null;
     }
   }
 
