@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 // 1. https://github.com/mozilla-services/react-jsonschema-form#field-template
 // 2. https://github.com/tonystar/bootstrap-float-label
 const FieldTemplate = (props) => {
-  const { id, classNames, label, help, description, children, schema } = props;
+  const {
+    id, classNames, label, help, description, children, schema,
+  } = props;
 
   let innerClasses = 'field-inner';
 

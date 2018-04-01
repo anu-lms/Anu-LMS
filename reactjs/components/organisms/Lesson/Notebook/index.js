@@ -15,7 +15,6 @@ import * as notebookHelpers from '../../../../helpers/notebook';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class LessonNotebook extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -143,7 +142,9 @@ class LessonNotebook extends React.Component {
   }
 
   render() {
-    const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
+    const {
+      isCollapsed, isNoteListVisible, notes, activeNote,
+    } = this.props;
 
     return (
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>

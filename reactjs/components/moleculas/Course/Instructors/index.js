@@ -13,7 +13,8 @@ const Instructors = ({ instructors }) => {
       <span>{
         instructors
           .map(instructor => instructor.realname).join(', ')
-      }</span>
+      }
+      </span>
     </p>
   );
 };

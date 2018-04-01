@@ -25,7 +25,7 @@ export const DeleteIcon = () => (
 
 // TODO: figure out how to assign custom CSS classes
 // instead of default approach (styled components).
-export const ImportantMenuItem = styled(MenuItem) `
+export const ImportantMenuItem = styled(MenuItem)`
 && {
   > div {
     transition: all .2s;

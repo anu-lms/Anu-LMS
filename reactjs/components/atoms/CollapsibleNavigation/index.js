@@ -6,7 +6,6 @@ import * as mediaBreakpoint from '../../../utils/breakpoints';
 import * as lessonNotebookActions from '../../../actions/lessonNotebook';
 
 class CollapsibleNavigation extends React.Component {
-
   constructor(props) {
     super(props);
 

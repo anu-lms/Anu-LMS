@@ -9,7 +9,6 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 
 class NotebookTemplate extends React.Component {
-
   constructor(props) {
     super(props);
 

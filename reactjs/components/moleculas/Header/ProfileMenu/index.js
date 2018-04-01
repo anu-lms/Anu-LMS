@@ -5,7 +5,6 @@ import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 import PageLoader from '../../../atoms/PageLoader';
 
 class ProfileMenu extends React.Component {
-
   constructor(props) {
     super(props);
 

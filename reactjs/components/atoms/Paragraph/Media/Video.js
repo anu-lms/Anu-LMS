@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Player from 'react-player';
 
 class Video extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -25,7 +24,7 @@ class Video extends React.Component {
           <div className={columnClasses.join(' ')}>
             <Player
               url={url.uri}
-              width={'100%'}
+              width="100%"
               onReady={this.playerLoaded}
               onError={this.playerLoaded}
             />

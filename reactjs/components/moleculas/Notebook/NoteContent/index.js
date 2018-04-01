@@ -9,7 +9,6 @@ import * as notebookHelpers from '../../../../helpers/notebook';
 import * as notebookActions from '../../../../actions/notebook';
 
 class NoteContent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -58,7 +57,7 @@ class NoteContent extends React.Component {
           <EditableElement
             id={note.id}
             initialValue={note.title}
-            placeholder={'Untitled'}
+            placeholder="Untitled"
             onChange={this.onTitleChange}
             maxLength={255}
           />
@@ -67,7 +66,7 @@ class NoteContent extends React.Component {
         <Editor
           id={note.id}
           initialValue={note.body}
-          placeholder={'Type something...'}
+          placeholder="Type something..."
           onChange={this.onContentChange}
         />
 

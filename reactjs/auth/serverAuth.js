@@ -1,7 +1,6 @@
 import Auth from './auth';
 
 export default class extends Auth {
-
   constructor(req, res) {
     super();
 

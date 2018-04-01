@@ -4,7 +4,6 @@ import Form from 'react-jsonschema-form';
 import FieldTemplate from './FieldTemplate';
 
 class DefaultForm extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,7 +19,9 @@ class DefaultForm extends React.Component {
   }
 
   render() {
-    const { schema, uiSchema, children, className, autocomplete, ...attributes } = this.props;
+    const {
+      schema, uiSchema, children, className, autocomplete, ...attributes
+    } = this.props;
     return (
       <Form
         className={`form ${className}`}
@@ -55,7 +56,7 @@ DefaultForm.propTypes = {
   autocomplete: PropTypes.bool,
   className: PropTypes.string,
   formData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  schema: PropTypes.object,   // eslint-disable-line react/forbid-prop-types
+  schema: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   uiSchema: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
   onError: PropTypes.func,

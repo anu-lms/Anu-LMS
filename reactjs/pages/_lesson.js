@@ -9,7 +9,6 @@ import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 import ErrorPage from '../components/atoms/ErrorPage';
 
 class LessonPage extends React.Component {
-
   static async getInitialProps({ request, query, res }) {
     const initialProps = {
       course: {},

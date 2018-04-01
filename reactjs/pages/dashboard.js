@@ -10,7 +10,6 @@ import ErrorPage from '../components/atoms/ErrorPage';
 import * as classHelpers from '../helpers/class';
 
 class DashboardPage extends React.Component {
-
   static async getInitialProps({ request, res }) {
     const initialProps = {
       courses: [],

@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 class EditableElement extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -102,7 +101,7 @@ class EditableElement extends React.Component {
           onClick={this.handlePlaceholderClick}
         >
           {this.props.placeholder}
-          </span>
+        </span>
         }
 
         <span

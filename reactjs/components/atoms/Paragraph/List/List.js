@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 
 class List extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
@@ -19,16 +18,18 @@ class List extends React.Component {
   }
 
   render() {
-    const { list, type, id, columnClasses } = this.props;
+    const {
+      list, type, id, columnClasses,
+    } = this.props;
     let Wrapper = 'ul';
 
     if (type === 'list_numbered') {
       Wrapper = 'ol';
     }
     else
-      if (type === 'list_checkbox') {
-        Wrapper = 'div';
-      }
+    if (type === 'list_checkbox') {
+      Wrapper = 'div';
+    }
 
     const getKey = index => `${id}_${index}`;
 

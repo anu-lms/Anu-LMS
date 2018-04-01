@@ -27,7 +27,7 @@ module.exports = {
             },
           },
         ],
-      }
+      },
     );
     // Make GTM_QUERY and GTM_ID environment variables available to the client,
     // and set default values (empty sting).

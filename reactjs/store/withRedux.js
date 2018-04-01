@@ -6,7 +6,6 @@ import PageLoader from '../components/atoms/PageLoader';
 
 export default function (PageComponent) {
   return class ReduxPage extends React.Component {
-
     constructor(props) {
       super(props);
 
@@ -57,6 +56,5 @@ export default function (PageComponent) {
 
       return initialProps;
     }
-
   };
 }

@@ -7,7 +7,6 @@ import * as notebookHelpers from '../../../../helpers/notebook';
 import * as lock from '../../../../utils/lock';
 
 class AddNoteButton extends React.Component {
-
   constructor(props) {
     super(props);
 

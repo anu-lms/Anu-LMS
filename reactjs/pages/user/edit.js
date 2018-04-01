@@ -8,7 +8,6 @@ import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayou
 import UserEditForm from '../../components/moleculas/Form/User';
 
 class UserEditPage extends Component {
-
   static async getInitialProps({ request }) {
     // Fetch current user using custom endpoint.
     try {

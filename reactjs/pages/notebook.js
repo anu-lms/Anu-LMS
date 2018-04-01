@@ -11,7 +11,6 @@ import * as notebookActions from '../actions/notebook';
 import * as notebookHelpers from '../helpers/notebook';
 
 class NotebookPage extends Component {
-
   static async getInitialProps({ request, res }) {
     let initialProps = {
       notes: [],

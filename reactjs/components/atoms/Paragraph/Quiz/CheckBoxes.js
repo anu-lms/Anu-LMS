@@ -4,7 +4,6 @@ import Checkbox from '../../FormElement/CheckBox';
 import Paragraphs from '../index';
 
 class Checkboxes extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -43,7 +42,9 @@ class Checkboxes extends React.Component {
   }
 
   render() {
-    const { title, blocks, options, columnClasses } = this.props;
+    const {
+      title, blocks, options, columnClasses,
+    } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">

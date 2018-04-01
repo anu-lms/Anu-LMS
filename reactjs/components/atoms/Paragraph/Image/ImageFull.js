@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
 class ImageFull extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {

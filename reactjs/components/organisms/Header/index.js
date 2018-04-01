@@ -51,7 +51,7 @@ const Header = ({ isEmpty = false }) => (
               </g>
             </svg>
           </div>
-        </div>*/}
+        </div> */}
 
         <Link to="/notebook">
           <a className="icon notebook">

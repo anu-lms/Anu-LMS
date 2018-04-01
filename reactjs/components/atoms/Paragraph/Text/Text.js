@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Text extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {

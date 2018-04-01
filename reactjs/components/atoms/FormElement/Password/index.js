@@ -3,7 +3,6 @@ import zxcvbn from 'zxcvbn';
 import PropTypes from 'prop-types';
 
 class PasswordStrength extends Component {
-
   constructor(props) {
     super(props);
 
@@ -33,7 +32,9 @@ class PasswordStrength extends Component {
   }
 
   handleChange() {
-    const { changeCallback, minScore, userInputs, minLength, showIndicator } = this.props;
+    const {
+      changeCallback, minScore, userInputs, minLength, showIndicator,
+    } = this.props;
     const password = this.passwordStrengthInput.value;
     if (!showIndicator) {
       this.setState({
@@ -153,7 +154,8 @@ class PasswordStrength extends Component {
           {this.state.fieldType === 'text' &&
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17">
               <path
-                fill="#B2B2B2" fillRule="nonzero"
+                fill="#B2B2B2"
+                fillRule="nonzero"
                 d="M12 5.455A3.273 3.273 0 1 0 12 12a3.273 3.273 0 0 0 0-6.545zm0 8.727a5.455 5.455 0 1 1 0-10.91 5.455 5.455 0 0 1 0 10.91zM12 .545C6.545.545 1.887 3.938 0 8.727c1.887 4.79 6.545 8.182 12 8.182s10.113-3.393 12-8.182C22.113 3.938 17.455.545 12 .545z"
               />
             </svg>

@@ -4,7 +4,6 @@ import Slider from 'rc-slider';
 import Paragraphs from '../index';
 
 class LinearScale extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -41,7 +40,9 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, blocks, columnClasses } = this.props;
+    const {
+      title, from, to, blocks, columnClasses,
+    } = this.props;
     return (
       <div className="container quiz linear-scale">
         <div className="row">

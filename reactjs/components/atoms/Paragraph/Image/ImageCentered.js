@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
 class ImageCentered extends React.Component {
-
   constructor(props) {
     super(props);
     this.contentLoaded = this.contentLoaded.bind(this);
