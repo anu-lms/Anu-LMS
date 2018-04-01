@@ -13,9 +13,9 @@ class PasswordStrength extends Component {
       fieldType: 'password',
     };
 
-    this.handleChange.bind(this);
-    this.showPasswordHandler.bind(this);
-    this.hidePasswordHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.showPasswordHandler = this.showPasswordHandler.bind(this);
+    this.hidePasswordHandler = this.hidePasswordHandler.bind(this);
   }
 
   componentDidMount() {

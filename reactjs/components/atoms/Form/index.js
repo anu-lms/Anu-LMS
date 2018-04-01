@@ -53,7 +53,7 @@ DefaultForm.defaultProps = {
 };
 
 DefaultForm.propTypes = {
-  autocomplete: PropTypes.bool,
+  autocomplete: PropTypes.string,
   className: PropTypes.string,
   formData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   schema: PropTypes.object, // eslint-disable-line react/forbid-prop-types

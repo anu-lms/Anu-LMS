@@ -97,8 +97,8 @@ class LessonNavigation extends React.Component {
 LessonNavigation.propTypes = {
   dispatch: PropTypes.func,
   course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  courses: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  lessons: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  courses: PropTypes.arrayOf(PropTypes.object),
+  lessons: PropTypes.arrayOf(PropTypes.object),
   router: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 

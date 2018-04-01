@@ -69,7 +69,7 @@ class UserEditForm extends React.Component {
       formKey: 0,
     };
 
-    this.submitForm.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   onChange({ formData }) {

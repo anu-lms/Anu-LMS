@@ -40,7 +40,7 @@ class LoginForm extends React.Component {
       formData: {},
     };
 
-    this.submitForm.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   async submitForm({ formData }) {

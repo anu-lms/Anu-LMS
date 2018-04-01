@@ -12,7 +12,7 @@ class ForgotPassword extends React.Component {
       isEmailSent: false,
     };
 
-    this.recoveryEmailSent.bind(this);
+    this.recoveryEmailSent = this.recoveryEmailSent.bind(this);
   }
 
   recoveryEmailSent(email) {

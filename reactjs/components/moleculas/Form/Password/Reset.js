@@ -46,8 +46,8 @@ class PasswordForm extends React.Component {
       formData: {},
     };
 
-    this.onChange.bind(this);
-    this.submitForm.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   onChange({ formData }) {
