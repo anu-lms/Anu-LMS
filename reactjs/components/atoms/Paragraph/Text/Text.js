@@ -33,7 +33,7 @@ class Text extends React.Component {
 }
 
 Text.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -41,7 +41,15 @@ Text.propTypes = {
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,
-  }),
+  }).isRequired,
+};
+
+Text.defaultProps = {
+  title: '',
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default Text;

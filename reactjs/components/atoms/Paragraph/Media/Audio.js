@@ -12,7 +12,7 @@ class Audio extends React.Component {
       isPlaying: false,
       duration: '',
       seek: 0,
-      seekUpdate: {},
+      seekUpdate: {}, // eslint-disable-line react/no-unused-state
     };
 
     this.formatDuration = this.formatDuration.bind(this);
@@ -51,7 +51,7 @@ class Audio extends React.Component {
   play() {
     this.setState({
       isPlaying: true,
-      seekUpdate: setInterval(() => (
+      seekUpdate: setInterval(() => ( // eslint-disable-line react/no-unused-state
         this.setState({
           seek: Math.floor(this.player.seek()),
           formattedDuration: this.formatDuration(this.player.duration() - this.player.seek()),
@@ -83,14 +83,14 @@ class Audio extends React.Component {
 
               <div className="controls">
                 {!this.state.isPlaying &&
-                <div onClick={this.play}>
+                <div onClick={this.play} onKeyPress={this.play}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <path fill="#2C2C2C" fillRule="evenodd" d="M20 10L0 20V0z" />
                   </svg>
                 </div>
                 }
                 {this.state.isPlaying &&
-                <div onClick={this.pause}>
+                <div onClick={this.pause} onKeyPress={this.pause}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
                     <g fill="none" fillRule="evenodd">
                       <path fill="#2C2C2C" fillRule="nonzero" d="M0 19.333h5.333V.667H0v18.666zM10.667.667v18.666H16V.667h-5.333z" />
@@ -131,14 +131,21 @@ class Audio extends React.Component {
 }
 
 Audio.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   file: PropTypes.shape({
     url: PropTypes.string,
-  }),
+  }).isRequired,
+};
+
+Audio.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default Audio;

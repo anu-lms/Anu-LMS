@@ -97,6 +97,9 @@ LinearScale.propTypes = {
 };
 
 LinearScale.defaultProps = {
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

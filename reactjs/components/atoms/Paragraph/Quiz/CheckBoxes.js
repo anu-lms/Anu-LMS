@@ -74,12 +74,12 @@ class Checkboxes extends React.Component {
 
 Checkboxes.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string,
     value: PropTypes.string,
     is_answer: PropTypes.number,
-  })),
+  })).isRequired,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
@@ -87,6 +87,10 @@ Checkboxes.propTypes = {
 };
 
 Checkboxes.defaultProps = {
+  title: '',
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

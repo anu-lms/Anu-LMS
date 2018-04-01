@@ -42,7 +42,7 @@ class TextWithHeading extends React.Component {
 }
 
 TextWithHeading.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -50,8 +50,16 @@ TextWithHeading.propTypes = {
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,
-  }),
+  }).isRequired,
   title: PropTypes.string,
+};
+
+TextWithHeading.defaultProps = {
+  title: '',
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default TextWithHeading;

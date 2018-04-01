@@ -60,8 +60,8 @@ class ComboBoxes extends React.Component {
                   value={radio.uuid}
                   checked={this.state.active === radio.uuid}
                 />
-                <span onClick={() => this.handleAddSelection(radio.uuid)} />
-                <label onClick={() => this.handleAddSelection(radio.uuid)} htmlFor={id}>
+                <span onClick={() => this.handleAddSelection(radio.uuid)} onKeyPress={() => this.handleAddSelection(radio.uuid)} />
+                <label onClick={() => this.handleAddSelection(radio.uuid)} onKeyPress={() => this.handleAddSelection(radio.uuid)} htmlFor={id}>
                   {radio.value}
                 </label>
               </div>
@@ -80,7 +80,7 @@ ComboBoxes.propTypes = {
     uuid: PropTypes.string,
     value: PropTypes.string,
     is_answer: PropTypes.number,
-  })),
+  })).isRequired,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
@@ -88,6 +88,9 @@ ComboBoxes.propTypes = {
 };
 
 ComboBoxes.defaultProps = {
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

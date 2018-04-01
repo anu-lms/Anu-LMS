@@ -52,12 +52,19 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  list: PropTypes.arrayOf(PropTypes.string),
+  list: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+List.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default List;
