@@ -62,9 +62,9 @@ const CourseResourcesTemplate = ({ course, resources, navigation }) => {
 };
 
 CourseResourcesTemplate.propTypes = {
-  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  resources: PropTypes.arrayOf(PropTypes.object),
-  navigation: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  resources: PropTypes.arrayOf(PropTypes.object).isRequired,
+  navigation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = ({ navigation }) => ({

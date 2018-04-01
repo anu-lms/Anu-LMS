@@ -233,29 +233,32 @@ class LessonContent extends React.Component {
 
     // Add an extra button for assessments.
     if (lessonHelpers.isAssessment(lesson)) {
-      buttons.push(<Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
+      buttons.push((
+        <Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
           Submit Assessment
-      </Button>);
+        </Button>));
     }
 
     // For lesson with quizzes we change default Next button to
     // "Submit and Continue" button.
     if (!lessonHelpers.isAssessment(lesson) && lessonHelpers.hasQuizzes(lesson)) {
-      buttons.push(<Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
-        {nextLesson &&
-        <Fragment>Submit and Continue</Fragment>
+      buttons.push((
+        <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
+          {nextLesson &&
+            <Fragment>Submit and Continue</Fragment>
           }
-        {!nextLesson &&
-        <Fragment>Submit</Fragment>
+          {!nextLesson &&
+            <Fragment>Submit</Fragment>
           }
-      </Button>);
+        </Button>));
     }
     else if (nextLesson) {
-      buttons.push(<Link to={nextLesson.url} key="next" prefetch>
-        <a className="btn btn-primary btn-lg btn-block">
+      buttons.push((
+        <Link to={nextLesson.url} key="next" prefetch>
+          <a className="btn btn-primary btn-lg btn-block">
             Next: {nextLesson.title}
-        </a>
-      </Link>);
+          </a>
+        </Link>));
     }
 
     let wrapperClasses = ['lesson-container'];
@@ -324,13 +327,13 @@ LessonContent.contextTypes = {
 };
 
 LessonContent.propTypes = {
-  storeLessons: PropTypes.arrayOf(PropTypes.object),
-  course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  lesson: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  navigation: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  lessonNotebook: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  quizzesData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  dispatch: PropTypes.func,
+  storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lesson: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  navigation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lessonNotebook: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(LessonContent);

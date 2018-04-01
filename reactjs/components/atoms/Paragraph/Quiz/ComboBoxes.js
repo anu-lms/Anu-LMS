@@ -40,6 +40,7 @@ class ComboBoxes extends React.Component {
       id, options, title, blocks, columnClasses,
     } = this.props;
 
+    /* eslint-disable max-len, jsx-a11y/no-noninteractive-element-interactions */
     return (
       <div className="container quiz comboboxes">
         <div className="row">

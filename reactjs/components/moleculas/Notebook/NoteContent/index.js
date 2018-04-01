@@ -76,9 +76,9 @@ class NoteContent extends React.Component {
 }
 
 NoteContent.propTypes = {
-  note: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  count: PropTypes.number,
-  dispatch: PropTypes.func,
+  note: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  count: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ notebook }) => ({

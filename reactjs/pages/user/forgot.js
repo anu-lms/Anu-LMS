@@ -12,7 +12,7 @@ class ForgotPasswordPage extends Component {
 
   // eslint-disable-next-line no-unused-vars
   static async getInitialProps({
-    request, auth, query, res,
+    auth, res,
   }) {
     // Don't allow Authentificated to access the page.
     if (auth.isLoggedIn()) {

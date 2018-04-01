@@ -39,7 +39,7 @@ class UserEditPage extends Component {
 }
 
 UserEditPage.propTypes = {
-  user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default withAuth(UserEditPage);

@@ -4,7 +4,7 @@ import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 
 /* eslint-disable max-len */
-const Header = ({ isEmpty = false }) => (
+const Header = ({ isEmpty }) => (
   <header className="site-header">
     {!isEmpty &&
     <Fragment>
@@ -73,6 +73,10 @@ const Header = ({ isEmpty = false }) => (
 
 Header.propTypes = {
   isEmpty: PropTypes.bool,
+};
+
+Header.defaultProps = {
+  isEmpty: false,
 };
 
 export default Header;
