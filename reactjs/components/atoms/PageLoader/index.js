@@ -15,7 +15,7 @@ PageLoader.propTypes = {
 };
 
 PageLoader.defaultProps = {
-  type: 'fixed',
+  type: 'notFixed',
 };
 
 export default PageLoader;
