@@ -178,7 +178,7 @@ PasswordStrength.propTypes = {
   className: PropTypes.string,
   showIndicator: PropTypes.bool,
   defaultValue: PropTypes.string,
-  style: PropTypes.string,
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   inputProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   minLength: PropTypes.number,
   minScore: PropTypes.number,
@@ -190,7 +190,7 @@ PasswordStrength.propTypes = {
 PasswordStrength.defaultProps = {
   changeCallback: null,
   className: '',
-  style: '',
+  style: {},
   defaultValue: '',
   minLength: 3,
   minScore: 2,

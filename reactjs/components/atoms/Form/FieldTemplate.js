@@ -33,7 +33,7 @@ const FieldTemplate = (props) => {
 FieldTemplate.propTypes = {
   id: PropTypes.string.isRequired,
   classNames: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   help: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   description: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   required: PropTypes.bool,
@@ -46,6 +46,7 @@ FieldTemplate.propTypes = {
 FieldTemplate.defaultProps = {
   required: false,
   classNames: '',
+  label: '',
   description: {},
   help: {},
   uiSchema: {},

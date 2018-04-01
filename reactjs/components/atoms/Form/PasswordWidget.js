@@ -15,8 +15,8 @@ const PasswordWidget = ({
       showIndicator={options.indicator}
       changeCallback={(state) => { onChange(state.password); }}
       inputProps={{
- id, label, required, placeholder,
-}}
+        id, label, required, placeholder,
+      }}
     />
   );
 };
