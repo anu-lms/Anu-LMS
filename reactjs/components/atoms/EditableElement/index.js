@@ -48,7 +48,7 @@ class EditableElement extends React.Component {
   handleElementBlur() {
     this.handleElementChange();
 
-    const isPlaceholderVisible = this.state.isPlaceholderVisible;
+    const { isPlaceholderVisible } = this.state;
 
     // If on blur there is no text and the current placeholder state is
     // hidden, then we should show the placeholder again.
@@ -99,6 +99,7 @@ class EditableElement extends React.Component {
         <span
           className="placeholder"
           onClick={this.handlePlaceholderClick}
+          onKeyPress={this.handlePlaceholderClick}
         >
           {this.props.placeholder}
         </span>
@@ -118,7 +119,7 @@ class EditableElement extends React.Component {
 }
 
 EditableElement.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   placeholder: PropTypes.string,
   initialValue: PropTypes.string,
   maxLength: PropTypes.number,
@@ -128,6 +129,7 @@ EditableElement.propTypes = {
 EditableElement.defaultProps = {
   maxLength: 0,
   initialValue: '',
+  placeholder: '',
   onChange: () => {},
 };
 

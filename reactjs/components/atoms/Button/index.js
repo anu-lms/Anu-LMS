@@ -67,6 +67,7 @@ Button.defaultProps = {
   disabled: false,
   loading: false,
   onClick: () => {},
+  children: {},
 };
 
 export default Button;

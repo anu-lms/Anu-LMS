@@ -24,4 +24,8 @@ ErrorPage.propTypes = {
   message: PropTypes.string,
 };
 
+ErrorPage.defaultProps = {
+  message: undefined,
+};
+
 export default ErrorPage;

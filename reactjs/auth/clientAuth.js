@@ -53,7 +53,7 @@ export default class extends Auth {
               reject(response.body.message);
             }
 
-            reject('Could not authenticate user. Please, try again.');
+            reject(new Error('Could not authenticate user. Please, try again.'));
           }
         });
     })

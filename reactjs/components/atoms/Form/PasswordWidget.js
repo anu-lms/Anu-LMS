@@ -22,12 +22,20 @@ const PasswordWidget = ({
 };
 
 PasswordWidget.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   options: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
+};
+
+PasswordWidget.defaultProps = {
+  required: false,
+  label: '',
+  placeholder: '',
+  onChange: {},
+  options: {},
 };
 
 export default PasswordWidget;

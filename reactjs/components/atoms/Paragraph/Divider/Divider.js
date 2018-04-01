@@ -34,13 +34,21 @@ class Divider extends React.Component {
 }
 
 Divider.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   counter: PropTypes.number,
+};
+
+Divider.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
+  counter: 0,
 };
 
 export default Divider;
