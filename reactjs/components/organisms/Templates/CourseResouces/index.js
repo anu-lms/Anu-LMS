@@ -6,8 +6,8 @@ import ResourceParagraph from '../../../atoms/Paragraph/Media/Resource';
 import EmptyMessage from '../../../atoms/Empty';
 
 const CourseResourcesTemplate = ({ course, resources, navigation }) => {
-  const wrapperClasses = ['lesson-container', 'notebook-collapsed', 'course-resources-container'];
-  const columnClasses = ['col-12'];
+  let wrapperClasses = ['lesson-container', 'notebook-collapsed', 'course-resources-container'];
+  let columnClasses = ['col-12'];
 
   // Defines classes if navigation opened.
   if (navigation.isCollapsed) {

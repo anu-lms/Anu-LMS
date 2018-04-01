@@ -11,7 +11,7 @@ export default class extends Auth {
   constructor() {
     super();
 
-    const cookies = jsCookie.get();
+    let cookies = jsCookie.get();
     this.accessToken = cookies.accessToken ? cookies.accessToken : '';
     this.refreshToken = cookies.refreshToken ? cookies.refreshToken : '';
   }

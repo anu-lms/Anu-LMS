@@ -19,7 +19,7 @@ const Instructors = ({ instructors }) => {
 };
 
 Instructors.propTypes = {
-  instructors: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  instructors: PropTypes.arrayOf(PropTypes.object),
 };
 
 Instructors.defaultProps = {

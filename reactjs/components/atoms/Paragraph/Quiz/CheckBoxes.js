@@ -79,7 +79,7 @@ Checkboxes.propTypes = {
     value: PropTypes.string,
     is_answer: PropTypes.number,
   })),
-  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

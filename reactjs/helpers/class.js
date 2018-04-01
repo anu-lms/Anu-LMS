@@ -6,7 +6,7 @@
  *   Array of course entities from the backend.
  */
 export const getClassesFromCourses = (courses) => {
-  const classes = [];
+  let classes = [];
   courses.forEach((course) => {
     // Checking if classes array already contains the course's class.
     const index = classes.findIndex(item => item.id === course.groupId);

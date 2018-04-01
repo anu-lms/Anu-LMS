@@ -215,7 +215,7 @@ Resource.contextTypes = {
 Resource.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   title: PropTypes.string,
   handleParagraphLoaded: PropTypes.func,

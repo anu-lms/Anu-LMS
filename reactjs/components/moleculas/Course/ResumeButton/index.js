@@ -26,7 +26,7 @@ const ResumeButton = ({ recentLessonUrl, lessons }) => (
 
 ResumeButton.propTypes = {
   recentLessonUrl: PropTypes.string,
-  lessons: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  lessons: PropTypes.arrayOf(PropTypes.object),
 };
 
 ResumeButton.defaultProps = {

@@ -21,7 +21,7 @@ class ImageFull extends React.Component {
   render() {
     let style = {};
     const { text, image, columnClasses } = this.props;
-    const imageUrl = fileUrl(image.meta.derivatives['w1400']); // eslint-disable-line dot-notation
+    const imageUrl = fileUrl(image.meta.derivatives.w1400);
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
@@ -29,9 +29,7 @@ class ImageFull extends React.Component {
         <div className="overlay" />
         <div className="container">
           <div className="row">
-            <div
-              className={columnClasses.join(' ')}
-            >
+            <div className={columnClasses.join(' ')}>
               {text &&
               <div
                 className="text"
@@ -50,7 +48,7 @@ class ImageFull extends React.Component {
 ImageFull.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({

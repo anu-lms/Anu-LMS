@@ -13,7 +13,7 @@ export const getTeaser = (body, rowNumber) => {
   // Strip all tags apart from paragraph without replacement.
   teaser = striptags(teaser, ['p']);
 
-  const rows = [];
+  let rows = [];
   teaser.split('</p>').forEach((line) => {
     if (rows.length === rowNumber) {
       return;

@@ -26,7 +26,7 @@ const Paragraphs = dynamic({
     };
 
     // Gather list of components which are needed on the lesson page.
-    const neededComponents = {};
+    let neededComponents = {};
     props.blocks.forEach((block) => {
       neededComponents[block.type] = allComponents[block.type];
     });

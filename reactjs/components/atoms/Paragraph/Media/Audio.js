@@ -134,7 +134,7 @@ class Audio extends React.Component {
 Audio.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   file: PropTypes.shape({

@@ -13,7 +13,7 @@ import * as notebookHelpers from '../helpers/notebook';
 class NotebookPage extends Component {
 
   static async getInitialProps({ request, res }) {
-    const initialProps = {
+    let initialProps = {
       notes: [],
     };
 
@@ -103,7 +103,7 @@ NotebookPage.propTypes = {
 };
 
 const mapStateToProps = (store) => {
-  const state = {
+  let state = {
     isStoreRehydrated: false,
   };
 

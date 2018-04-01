@@ -100,7 +100,7 @@ const processParagraphs = (paragraphs) => {
     }
 
     // Find all props starting with "fieldParagraph" and save their values.
-    for (const property in block) { // eslint-disable-line no-restricted-syntax
+    for (let property in block) { // eslint-disable-line no-restricted-syntax
       if (block.hasOwnProperty(property)) { // eslint-disable-line no-prototype-builtins
         let prop = '';
 
@@ -175,7 +175,7 @@ export const notebookData = notebookDataObject =>
  * Internal helper to normalize User data from the backend.
  */
 export const userData = (userDataObject) => {
-  const data = {
+  let data = {
     uid: userDataObject.uid[0].value,
     uuid: userDataObject.uuid[0].value,
     name: userDataObject.name[0].value,

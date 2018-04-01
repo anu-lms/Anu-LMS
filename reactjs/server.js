@@ -18,7 +18,7 @@ if (process.env.PLATFORM_PROJECT) {
   // Override environment port.
   process.env.PORT = config.port;
 
-  for (const url in config.routes) { // eslint-disable-line no-restricted-syntax, guard-for-in
+  for (let url in config.routes) { // eslint-disable-line no-restricted-syntax, guard-for-in
     const route = config.routes[url];
     if (route.original_url === 'https://{default}/admin/') {
       // Remove "/admin/" from the end of the url.

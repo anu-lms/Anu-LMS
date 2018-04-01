@@ -63,11 +63,6 @@ class CollapsibleNavigation extends React.Component {
   }
 }
 
-const mapStateToProps = ({ navigation }) => ({
-  isCollapsed: navigation.isCollapsed,
-  isCollapsedMobile: navigation.isCollapsedMobile,
-});
-
 CollapsibleNavigation.propTypes = {
   isCollapsed: PropTypes.bool,
   isCollapsedMobile: PropTypes.bool,
@@ -75,4 +70,10 @@ CollapsibleNavigation.propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func,
 };
+
+const mapStateToProps = ({ navigation }) => ({
+  isCollapsed: navigation.isCollapsed,
+  isCollapsedMobile: navigation.isCollapsedMobile,
+});
+
 export default connect(mapStateToProps)(CollapsibleNavigation);

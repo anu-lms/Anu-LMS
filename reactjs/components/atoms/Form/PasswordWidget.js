@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Password from '../FormElement/Password';
 
 const PasswordWidget = ({ id, label, required, placeholder, options, onChange }) => {
-  const classes = [];
+  let classes = [];
   if (options.with_confirm_field) {
     classes.push('with-confirm-field');
   }
