@@ -45,7 +45,7 @@ const rules = [
         case 'link':
           return <a>{children}</a>;
         default:
-          return '';
+          return null;
       }
     },
   },
@@ -70,7 +70,7 @@ const rules = [
         case 'underlined':
           return <u>{children}</u>;
         default:
-          return '';
+          return null;
       }
     },
   },
@@ -99,7 +99,7 @@ const rules = [
         case 'link':
           return <a href={object.data.get('href')}>{children}</a>;
         default:
-          return '';
+          return null;
       }
     },
   },
