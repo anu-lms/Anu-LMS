@@ -67,7 +67,16 @@ export const getUnsavedNotes = notes => {
 };
 
 /**
- * First time save the note.
+ * Checks if the current note has no title & body.
+ */
+export const isEmptyNote = note => {
+  const noTitle = note.title === '';
+  const noBody = note.body === '<p></p>' || note.body === '';
+  return noTitle && noBody;
+};
+
+/**
+ * First time save the note on the backend.
  */
 export const createNote = (request, title = '', body = '') => {
   return new Promise((resolve, reject) => {
@@ -98,7 +107,7 @@ export const createNote = (request, title = '', body = '') => {
 };
 
 /**
- * Update the existing note.
+ * Update the existing note on the backend.
  */
 export const updateNote = (request, title, body, uuid) => {
   return new Promise((resolve, reject) => {
@@ -123,6 +132,25 @@ export const updateNote = (request, title, body, uuid) => {
       })
       .catch(error => {
         console.log('Could not update the note. Error:');
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+/**
+ * Remove the note from the backend.
+ */
+export const deleteNote = (request, uuid) => {
+  return new Promise((resolve, reject) => {
+    request
+      .delete('/jsonapi/notebook/notebook/' + uuid)
+      .send()
+      .then(response => {
+        resolve();
+      })
+      .catch(error => {
+        console.log('Could not delete the note. Error:');
         console.log(error);
         reject(error);
       });
