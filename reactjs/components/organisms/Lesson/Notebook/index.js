@@ -189,7 +189,17 @@ class LessonNotebook extends React.Component {
               }
 
               <div className="save-close" onClick={() => this.handleNotebookClose()}>
-                { isNoteListVisible ? 'Close Notes' : 'Save and Close' }
+                { !isNoteListVisible && activeNote &&
+                <Fragment>
+                  {notebookHelpers.isEmptyNote(activeNote) ?
+                    'Discard and Close' :
+                    'Save and Close'
+                  }
+                </Fragment>
+                }
+                { isNoteListVisible &&
+                <Fragment>Close Notes</Fragment>
+                }
 
                 <span className="close-arrow">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -219,7 +229,8 @@ LessonNotebook.contextTypes = {
 const mapStateToProps = ({ lessonNotebook, notebook }) => ({
   isCollapsed: lessonNotebook.isCollapsed,
   activeNote: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
-  notes: notebook.notes,
+  // Display only non-empty notes in the list.
+  notes: notebook.notes.filter(note => !notebookHelpers.isEmptyNote(note)),
   isNoteListVisible: lessonNotebook.isNoteListVisible,
 });
 
