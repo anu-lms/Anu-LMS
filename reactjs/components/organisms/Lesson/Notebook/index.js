@@ -133,10 +133,14 @@ class LessonNotebook extends React.Component {
    * Perform actions on closing the notebook pane.
    */
   handleNotebookClose() {
+    const { activeNote } = this.props;
 
     // Force save note to the backend.
-    if (this.props.activeNote) {
-      this.props.dispatch(notebookActions.saveNote(this.props.activeNote));
+    if (activeNote) {
+      // Do not save empty note - it will be automatically removed.
+      if (!notebookHelpers.isEmptyNote(activeNote)) {
+        this.props.dispatch(notebookActions.saveNote(activeNote));
+      }
     }
 
     // Close the notebook pane.
