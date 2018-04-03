@@ -126,7 +126,7 @@ class Text extends React.Component {
 
     return (
       <span data-key={key} style={style}>
-        {children}
+        {Array.from(children)}
       </span>
     )
   }
