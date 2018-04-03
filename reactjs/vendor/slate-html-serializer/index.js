@@ -121,7 +121,8 @@ class Html {
    */
 
   deserialize = (html, options = {}) => {
-    if (!html) { return null; }
+    // Provides default value to make it working in IE 11.
+    html = html || '<p></p>'
     const { toJSON = false } = options
     const { defaultBlock, parseHtml } = this
     const fragment = parseHtml(html)
