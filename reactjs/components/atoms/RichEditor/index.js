@@ -1,10 +1,16 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate-react';
+import { Editor } from '../../../vendor/slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { html } from './serializer';
 import isUrl from 'is-url';
 import he from 'he';
+
+// IE 11:﻿Object doesn't support property or method 'closest'
+import '../../../vendor/element-closest';
+
+// IE 11: Object doesn't support property or method 'includes'
+import 'core-js/es7/array';
 
 /**
  * A change helper to standardize wrapping links.
@@ -63,15 +69,12 @@ class RichEditor extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.setState({ value: html.deserialize(this.props.initialValue) });
-    //this.setState({ value: this.props.initialValue });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
       this.setState({ value: html.deserialize(this.props.initialValue) });
-      //this.setState({ value: this.props.initialValue });
     }
   }
 
@@ -118,10 +121,6 @@ class RichEditor extends React.Component {
     // Trigger any external handler.
     if (this.props.onChange) {
       const htmlValue = html.serialize(value);
-      console.log('value', value);
-      console.log('htmlValue', htmlValue);
-      const aaa = he.decode(htmlValue);
-      console.log('decode', aaa);
       this.props.onChange(he.decode(htmlValue));
     }
   };
