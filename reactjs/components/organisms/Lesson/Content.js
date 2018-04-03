@@ -206,7 +206,7 @@ class LessonContent extends React.Component {
       const tokenResponse = await request.get('/session/token');
 
       await request
-        .post('/quizzes/results')
+        .post('/quizzes/results?_format=json')
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
