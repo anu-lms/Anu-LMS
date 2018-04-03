@@ -1,4 +1,4 @@
-import Html from "slate-html-serializer";
+import Html from "../../../vendor/slate-html-serializer";
 
 const BLOCK_TAGS = {
   p: 'paragraph',
@@ -70,7 +70,6 @@ const rules = [
   },
   {
     deserialize: function (el, next) {
-      return;
       if (el.tagName !== 'a') { return; }
       const type = INLINE_TAGS[el.tagName.toLowerCase()];
 
