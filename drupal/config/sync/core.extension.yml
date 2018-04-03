@@ -81,7 +81,6 @@ module:
   ssb_manager_toolbar: 0
   ssb_metatag: 0
   ssb_routes: 0
-  subrequests: 0
   system: 0
   taxonomy: 0
   text: 0
