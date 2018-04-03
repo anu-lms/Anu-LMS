@@ -7,7 +7,7 @@ import isUrl from 'is-url';
 import he from 'he';
 
 // IE 11:﻿Object doesn't support property or method 'closest'
-import '../../../vendor/element-closest';
+import '../../../utils/polyfill/closest';
 
 // IE 11: Object doesn't support property or method 'includes'
 import 'core-js/es7/array';
