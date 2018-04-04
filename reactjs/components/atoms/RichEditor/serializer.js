@@ -1,5 +1,4 @@
-import Html from "skorzh-slate-html-serializer";
-//import Html from "../../../vendor/slate-html-serializer";
+import Html from "slate-html-serializer";
 
 const BLOCK_TAGS = {
   p: 'paragraph',

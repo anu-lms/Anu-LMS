@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'skorzh-slate-react';
-//import { Editor } from '../../../vendor/slate-react';
+import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { html } from './serializer';
 import isUrl from 'is-url';
