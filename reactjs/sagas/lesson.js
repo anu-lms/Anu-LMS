@@ -1,8 +1,11 @@
-import { all, fork, take, takeEvery, select, call, cancel, apply } from 'redux-saga/effects';
+import { all, fork, take, put, takeEvery, select, call, cancel, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { getProgress } from '../helpers/lesson';
 import request from '../utils/request';
+import * as lessonActions from '../actions/lesson';
+import * as lessonHelper from '../helpers/lesson';
 import ClientAuth from '../auth/clientAuth';
+import * as dataProcessors from "../utils/dataProcessors";
 
 /**
  * Amount of milliseconds before frontend will attempt
@@ -15,7 +18,8 @@ const backendSyncDelay = 3500;
  */
 export default function* lessonSagas() {
   yield all([
-    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher)
+    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
+    takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
   ]);
 };
 
@@ -50,6 +54,52 @@ function* lessonProgressSyncWatcher(action) {
   // syncLessonProgressInBackground() - it is called when this task is
   // getting cancelled.
   yield cancel(task);
+}
+
+/**
+ * Fetch previously submitted quizzes data from the backend
+ * for the opened lesson.
+ */
+function* lessonQuizzesDataFetcher(action) {
+  const { lesson } = action;
+
+  if (lessonHelper.hasQuizzes(lesson)) {
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Get list of quiz IDs from the lesson paragraphs.
+    const quizIds = lessonHelper.getQuizzesIds(lesson);
+
+    try {
+
+      // Load previously submitted quizzes for the current user from the backend.
+      const quizzesResonse = yield request
+        .get(`/quizzes/results/${quizIds.join(',')}?_format=json`);
+
+      const quizzesResults = quizzesResonse.body;
+
+      // Set quiz data into the redux store one by one.
+      for (const index in quizzesResults) {
+        if (quizzesResults.hasOwnProperty(index)) {
+          const quizResult = quizzesResults[index];
+          yield put(lessonActions.setQuizResult(lesson.id, quizResult.id, quizResult.value));
+        }
+      }
+
+      // If the current user has previous quiz results, then we mark data we
+      // put into the redux store as synchronized with the backed.
+      if (quizzesResults.length > 0) {
+        yield put(lessonActions.setQuizzesSaved(lesson.id));
+      }
+
+    } catch (e) {
+      console.log('Could not load quiz results from the backend. Error:');
+      console.log(e);
+    }
+  }
 }
 
 /**

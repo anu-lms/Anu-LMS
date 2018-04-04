@@ -28,6 +28,7 @@ permissions:
   - 'restful get current_user'
   - 'restful get learner_progress'
   - 'restful get learner_progress_detailed'
+  - 'restful get quizzes_results'
   - 'restful post contact_message'
   - 'restful post learner_progress'
   - 'restful post learner_progress_detailed'

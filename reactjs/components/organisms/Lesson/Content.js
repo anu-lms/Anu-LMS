@@ -6,12 +6,12 @@ import Paragraphs from '../../atoms/Paragraph';
 import Button from '../../atoms/Button';
 import { Link, Router } from '../../../routes';
 import { setQuizResult } from '../../../actions/lesson';
-import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData } from '../../../helpers/lesson';
+import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData, areQuizzesSaved } from '../../../helpers/lesson';
 import * as lessonActions from "../../../actions/lesson";
 import * as lessonHelpers from "../../../helpers/lesson";
 import * as courseActions from "../../../actions/course";
 import * as courseHelpers from "../../../helpers/course";
-import * as lock from "../../../utils/lock";
+import * as lock from '../../../utils/lock';
 
 class LessonContent extends React.Component {
 
@@ -191,10 +191,12 @@ class LessonContent extends React.Component {
    * Submit all quizzes within lesson to the backend.
    */
   async submitQuizzes() {
+    const { lesson, quizzesData, dispatch } = this.props;
+
     this.setState({ isSending: true });
 
     console.log('Submitting data:');
-    console.log(this.props.quizzesData);
+    console.log(quizzesData);
 
     // Lock logout until post operation is safely completed.
     const lock_id = lock.add('quizzes-save');
@@ -210,32 +212,37 @@ class LessonContent extends React.Component {
         .set('Content-Type', 'application/json')
         .set('X-CSRF-Token', tokenResponse.text)
         .send({
-          lessonId: this.props.lesson.id,
-          quizzes: this.props.quizzesData,
+          lessonId: lesson.id,
+          quizzes: quizzesData,
         });
 
       this.setState({ isSending: false });
+
+      // Mark the current lesson quizzes as saved on the backend.
+      dispatch(lessonActions.setQuizzesSaved(lesson.id));
+
+      lock.release(lock_id);
       return true;
     }
     catch (error) {
-      console.log('error during request:');
+      console.log('Error during quizzes saving:');
       console.log(error);
 
       this.setState({ isSending: false });
+
+      lock.release(lock_id);
       return false;
     }
-
-    lock.release(lock_id);
   }
 
   render() {
-    const { lesson, course, navigation, lessonNotebook } = this.props;
+    const { lesson, course, navigation, lessonNotebook, quizzesSaved } = this.props;
     const nextLesson = getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
 
     // Add an extra button for assessments.
-    if (isAssessment(lesson)) {
+    if (isAssessment(lesson) && !quizzesSaved) {
       buttons.push(
         <Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
           Submit Assessment
@@ -249,10 +256,10 @@ class LessonContent extends React.Component {
       buttons.push(
         <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
           {nextLesson &&
-            <Fragment>Submit and Continue</Fragment>
+          <Fragment>Submit and Continue</Fragment>
           }
           {!nextLesson &&
-            <Fragment>Submit</Fragment>
+          <Fragment>Submit</Fragment>
           }
         </Button>
       );
@@ -299,6 +306,7 @@ class LessonContent extends React.Component {
 
         <div className="lesson-content" ref={element => this.container = element}>
           <Paragraphs
+            lessonId={lesson.id}
             blocks={lesson.blocks}
             handleQuizChange={this.handleQuizChange}
             handleParagraphLoaded={this.handleParagraphLoaded}
@@ -321,6 +329,7 @@ class LessonContent extends React.Component {
 
 const mapStateToProps = (store, ownProps) => ({
   quizzesData: getQuizzesData(store.lesson, ownProps.lesson.id),
+  quizzesSaved: areQuizzesSaved(store.lesson, ownProps.lesson.id),
   navigation: store.navigation,
   storeLessons: store.lesson,
   lessonNotebook: store.lessonNotebook,
