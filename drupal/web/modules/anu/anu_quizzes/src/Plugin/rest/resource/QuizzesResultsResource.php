@@ -164,7 +164,6 @@ class QuizzesResultsResource extends ResourceBase {
    *   Comma-separated list of Quizzes (paragraphs).
    *
    * @return \Drupal\rest\ResourceResponse
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
   public function get($ids) {
     $results = [];
@@ -177,56 +176,69 @@ class QuizzesResultsResource extends ResourceBase {
       return new ResourceResponse($results);
     }
 
-    // Load previously submitted quiz results for the logged in user.
-    $quizz_results = \Drupal::entityTypeManager()
-      ->getStorage('quiz_result')
-      ->loadByProperties([
-        'field_question' => $quiz_ids,
-        'uid' => \Drupal::currentUser()->id(),
-      ]);
+    try {
 
-    foreach ($quizz_results as $quiz_result) {
+      // Load previously submitted quiz results for the logged in user.
+      $quizz_results = \Drupal::entityTypeManager()
+        ->getStorage('quiz_result')
+        ->loadByProperties([
+          'field_question' => $quiz_ids,
+          'uid' => \Drupal::currentUser()->id(),
+        ]);
 
-      // Load a list of fields for the quiz results entity.
-      $entityManager = \Drupal::service('entity_field.manager');
-      $fields = $entityManager->getFieldDefinitions($quiz_result->getEntityTypeId(), $quiz_result->bundle());
+      foreach ($quizz_results as $quiz_result) {
 
-      // Searching for a field with "answer" name in the field name. This field
-      // stores the result of the quiz.
-      $field_name_answer = '';
-      foreach ($fields as $field_name => $field) {
-        if (strpos($field_name, 'answer')) {
-          $field_name_answer = $field_name;
-          break;
+        // Load a list of fields for the quiz results entity.
+        $entityManager = \Drupal::service('entity_field.manager');
+        $fields = $entityManager->getFieldDefinitions($quiz_result->getEntityTypeId(), $quiz_result->bundle());
+
+        // Searching for a field with "answer" name in the field name. This field
+        // stores the result of the quiz.
+        $field_name_answer = '';
+        foreach ($fields as $field_name => $field) {
+          if (strpos($field_name, 'answer')) {
+            $field_name_answer = $field_name;
+            break;
+          }
         }
-      }
 
-      if (!empty($field_name_answer) && !empty($field)) {
+        if (!empty($field_name_answer) && !empty($field)) {
 
-        // Get field cardinality.
-        $cardinality = $field->getFieldStorageDefinition()->getCardinality();
+          // Get field cardinality.
+          $cardinality = $field->getFieldStorageDefinition()->getCardinality();
 
-        // Get the whole field value.
-        $value = $quiz_result->get($field_name_answer)->getValue();
+          // Get the whole field value.
+          $value = $quiz_result->get($field_name_answer)->getValue();
 
-        // Get referenced quiz ID (paragraph ID).
-        $quiz_id = $quiz_result->get('field_question')->first()->getValue()['target_id'];
+          // Get referenced quiz ID (paragraph ID).
+          $quiz_id = $quiz_result->get('field_question')
+            ->first()
+            ->getValue()['target_id'];
 
-        // Add the paragraph id to the result array for reference on the FE.
-        $results[$quiz_id]['id'] = $quiz_id;
+          // Add the paragraph id to the result array for reference on the FE.
+          $results[$quiz_id]['id'] = $quiz_id;
 
-        // If the field cardinality is 1 max, then we send the result as a
-        // single value field.
-        if ($cardinality == 1) {
-          $results[$quiz_id]['value'] = $value[0]['value'];
-        }
-        // Otherwise set the result value as for options.
-        else {
-          foreach ($value as $item) {
-            $results[$quiz_id]['value'][$item['value']] = 1;
+          // If the field cardinality is 1 max, then we send the result as a
+          // single value field.
+          if ($cardinality == 1) {
+            $results[$quiz_id]['value'] = $value[0]['value'];
+          }
+          // Otherwise set the result value as for options.
+          else {
+            foreach ($value as $item) {
+              $results[$quiz_id]['value'][$item['value']] = 1;
+            }
           }
         }
       }
+    } catch(\Exception $e) {
+      // Log an error.
+      $message = $e->getMessage();
+      if (empty($message)) {
+        $message = new FormattableMarkup('Could not return previously submitted quiz results.', []);
+      }
+      $this->logger->critical($message);
+      throw new HttpException(406, $message);
     }
 
     return new ResourceResponse(array_values($results));
