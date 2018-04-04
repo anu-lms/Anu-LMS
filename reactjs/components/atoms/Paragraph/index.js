@@ -1,5 +1,8 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
+import { connect } from 'react-redux';
+import * as lessonsHelper from '../../../helpers/lesson';
 
 const Paragraphs = dynamic({
 
@@ -36,23 +39,40 @@ const Paragraphs = dynamic({
 
   render: ({ blocks, ...props }, components) => {
     return (
-      blocks.map((block, index) => {
+      blocks.map(block => {
         const Paragraph = components[block.type];
-        return (
-          <Fragment key={index}>
-            <div style={{ display: 'none' }}>{block.id}</div>
-            <Paragraph key={block.id} {...props} {...block} />
-          </Fragment>
-        );
+
+        // Quiz paragraph needs an additional piece of data from redux store.
+        if (lessonsHelper.blockIsQuiz(block)) {
+          const data = lessonsHelper.getQuizData(props.quizzesData, block.id);
+          return <Paragraph key={block.id} {...props} {...block} data={data} />
+        }
+        // Render usual non-quiz paragraph.
+        else {
+          return <Paragraph key={block.id} {...props} {...block} />
+        }
       })
     );
   },
 
+  // No loading message / component.
   loading: () => (null),
 });
+
+Paragraphs.propTypes = {
+  lessonId: PropTypes.number.isRequired,
+  columnClasses: PropTypes.array,
+  blocks: PropTypes.arrayOf(PropTypes.shape), // Paragraphs.
+  handleQuizChange: PropTypes.func,
+  handleParagraphLoaded: PropTypes.func,
+};
 
 Paragraphs.defaultProps = {
   blocks: [],
 };
 
-export default Paragraphs;
+const mapStateToProps = ({ lesson }, { lessonId }) => ({
+  quizzesData: lessonsHelper.getQuizzesData(lesson, lessonId),
+});
+
+export default connect(mapStateToProps)(Paragraphs);

@@ -32,7 +32,7 @@ class FreeAnswer extends React.Component {
   }
 
   render() {
-    const { title, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { title, blocks, columnClasses, data } = this.props;
     return (
       <div className="container quiz textarea">
         <div className="row">
@@ -50,6 +50,7 @@ class FreeAnswer extends React.Component {
               innerRef={ref => this.textarea = ref}
               onChange={this.handleChange}
               placeholder="Type your response..."
+              value={typeof data === 'string' ? data : ''}
             />
           </div>
         </div>
@@ -61,6 +62,10 @@ class FreeAnswer extends React.Component {
 FreeAnswer.propTypes = {
   title: PropTypes.string,
   id: PropTypes.number,
+  data: PropTypes.oneOfType([
+    PropTypes.object, // if empty - null is given here.
+    PropTypes.string, // if there's a value.
+  ]),
   columnClasses: PropTypes.array,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
@@ -69,6 +74,7 @@ FreeAnswer.propTypes = {
 
 FreeAnswer.defaultProps = {
   blocks: [],
+  data: null,
 };
 
 export default FreeAnswer;

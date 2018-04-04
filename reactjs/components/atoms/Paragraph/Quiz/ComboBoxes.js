@@ -7,11 +7,7 @@ class ComboBoxes extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      active: 0,
-    };
-
-    this.handleAddSelection = this.handleAddSelection.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
   }
 
   componentDidMount() {
@@ -28,16 +24,25 @@ class ComboBoxes extends React.Component {
     }
   }
 
-  handleAddSelection(radioId) {
-    this.setState({ active: radioId });
-
+  handleSelection(radioId) {
     if (this.props.handleQuizChange) {
       this.props.handleQuizChange(this.props.id, radioId);
     }
   }
 
   render() {
-    const { id, options, title, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { id, options, title, blocks, data, columnClasses } = this.props;
+
+    let activeId = 0;
+
+    // The backend sends an object, so we handle it accordingly.
+    if (typeof data === 'object' && data !== null) {
+      activeId = Object.keys(data)[0];
+    }
+    // The value from redux store is just a string with uuid.
+    else if (typeof data === 'string') {
+      activeId = data;
+    }
 
     return (
       <div className="container quiz comboboxes">
@@ -57,10 +62,11 @@ class ComboBoxes extends React.Component {
                   type="radio"
                   name={id}
                   value={radio.uuid}
-                  checked={this.state.active === radio.uuid}
+                  checked={activeId === radio.uuid}
+                  onChange={() => {}}
                 />
-                <span onClick={() => this.handleAddSelection(radio.uuid)} />
-                <label onClick={() => this.handleAddSelection(radio.uuid)}>
+                <span onClick={() => this.handleSelection(radio.uuid)} />
+                <label onClick={() => this.handleSelection(radio.uuid)}>
                   {radio.value}
                   </label>
               </div>
@@ -75,6 +81,10 @@ class ComboBoxes extends React.Component {
 ComboBoxes.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.object, // null or value from the backend.
+    PropTypes.string, // value from the redux is just a plain string.
+  ]),
   options: PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string,
     value: PropTypes.string,
@@ -88,6 +98,7 @@ ComboBoxes.propTypes = {
 
 ComboBoxes.defaultProps = {
   blocks: [],
+  data: null,
 };
 
 export default ComboBoxes;

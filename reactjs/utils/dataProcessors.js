@@ -192,4 +192,4 @@ export const userData = (userData) => {
     data.mail = userData.mail[0].value;
   }
   return data;
-}
+};
