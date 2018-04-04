@@ -121,8 +121,6 @@ class Html {
    */
 
   deserialize = (html, options = {}) => {
-    // Provides default value to make it working in IE 11.
-    html = html || '<p></p>'
     const { toJSON = false } = options
     const { defaultBlock, parseHtml } = this
     const fragment = parseHtml(html)
@@ -329,7 +327,8 @@ class Html {
     const { document } = value
     const elements = document.nodes.map(this.serializeNode).filter(el => el)
     if (options.render === false) return elements
-    const html = renderToStaticMarkup(<body>{Array.from(elements)}</body>)
+
+    const html = renderToStaticMarkup(<body>{elements}</body>)
     const inner = html.slice(6, -7)
     return inner
   }
@@ -344,15 +343,14 @@ class Html {
   serializeNode = node => {
     if (node.object === 'text') {
       const leaves = node.getLeaves()
-      const children = leaves.map(this.serializeLeaf);
-      return Array.from(children)
+      return leaves.map(this.serializeLeaf)
     }
 
     const children = node.nodes.map(this.serializeNode)
 
     for (const rule of this.rules) {
       if (!rule.serialize) continue
-      const ret = rule.serialize(node, Array.from(children))
+      const ret = rule.serialize(node, children)
       if (ret === null) return
       if (ret) return addKey(ret)
     }
