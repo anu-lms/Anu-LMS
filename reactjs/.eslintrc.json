@@ -33,8 +33,8 @@
     "object-curly-newline": [
       2,
       {
-        "ObjectExpression": { "minProperties": 6, "multiline": true, "consistent": true },
-        "ObjectPattern": { "minProperties": 6, "multiline": true, "consistent": true }
+        "ObjectExpression": { "minProperties": 7, "multiline": true, "consistent": true },
+        "ObjectPattern": { "minProperties": 7, "multiline": true, "consistent": true }
       }
     ]
   }
