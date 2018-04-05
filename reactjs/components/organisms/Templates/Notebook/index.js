@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Router } from "../../../../routes";
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
@@ -10,7 +9,6 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 
 class NotebookTemplate extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -29,20 +27,6 @@ class NotebookTemplate extends React.Component {
   }
 
   /**
-   * Triggers before page is closed in browser and aims to show an alert before
-   * user leaves the page if there are some unsaved notes.
-   */
-  checkUnsavedNotesOnPageClose(event) {
-    const unsavedNotes = notebookHelpers.getUnsavedNotes(this.props.notes);
-    if (unsavedNotes.length > 0) {
-      console.log(unsavedNotes);
-      let confirmationMessage = 'Changes you made may not be saved.';
-      (event || window.event).returnValue = confirmationMessage; // Gecko + IE
-      return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
-    }
-  }
-
-  /**
    * Callback gets executed as soon as a note was
    * created on the backend.
    */
@@ -50,6 +34,20 @@ class NotebookTemplate extends React.Component {
     const { dispatch } = this.props;
     dispatch(notebookActions.setActiveNote(note.id));
     dispatch(notebookActions.toggleMobileVisibility());
+  }
+
+  /**
+   * Triggers before page is closed in browser and aims to show an alert before
+   * user leaves the page if there are some unsaved notes.
+   */
+  checkUnsavedNotesOnPageClose(event) { // eslint-disable-line consistent-return
+    const unsavedNotes = notebookHelpers.getUnsavedNotes(this.props.notes);
+    if (unsavedNotes.length > 0) {
+      console.log(unsavedNotes);
+      const confirmationMessage = 'Changes you made may not be saved.';
+      (event || window.event).returnValue = confirmationMessage; // Gecko + IE
+      return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
+    }
   }
 
   openNote(id) {
@@ -110,19 +108,26 @@ class NotebookTemplate extends React.Component {
   }
 }
 
+NotebookTemplate.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeNote: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isMobileContentVisible: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = ({ notebook }) => {
   // All notes from the redux store.
-  const notes = notebook.notes;
+  const { notes, activeNoteId, isMobileContentVisible } = notebook;
 
   // Search for active note in the list of notes.
-  const index = notebook.notes.findIndex(note => note.id === notebook.activeNoteId);
-  const activeNote = index !== -1 ? notebook.notes[index] : {};
+  const index = notes.findIndex(note => note.id === activeNoteId);
+  const activeNote = index !== -1 ? notes[index] : {};
 
   return {
     notes,
     activeNote,
-    isMobileContentVisible: notebook.isMobileContentVisible,
-  }
+    isMobileContentVisible,
+  };
 };
 
 export default connect(mapStateToProps)(NotebookTemplate);

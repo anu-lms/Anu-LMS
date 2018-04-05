@@ -1,11 +1,9 @@
-export const plural = (number, single, plural) => {
-  return number === 1 ? single : plural;
-};
+// eslint-disable-next-line no-confusing-arrow, max-len
+export const plural = (number, singleValue, pluralValue) => number === 1 ? singleValue : pluralValue;
 
 export const humanizeFileName = fileName => {
-
   // Remove file extension.
-  let string = fileName.replace(/\.[^/.]+$/, "");
+  let string = fileName.replace(/\.[^/.]+$/, '');
 
   // Remove all charts apart from alphanumeric.
   string = string.replace(/[^0-9a-z]/gi, ' ');

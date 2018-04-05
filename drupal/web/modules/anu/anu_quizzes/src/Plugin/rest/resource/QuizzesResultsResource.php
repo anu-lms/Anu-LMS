@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  *   id = "quizzes_results",
  *   label = @Translation("Quizzes Results"),
  *   uri_paths = {
+ *     "canonical" = "/quizzes/results/{ids}",
  *     "https://www.drupal.org/link-relations/create" = "/quizzes/results",
  *   }
  * )
@@ -153,6 +154,94 @@ class QuizzesResultsResource extends ResourceBase {
 
     $response = new ResourceResponse(true);
     return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+  }
+
+  /**
+   * Returns previously submitted quiz results
+   * for the currently logged in user.
+   *
+   * @param $ids
+   *   Comma-separated list of Quizzes (paragraphs).
+   *
+   * @return \Drupal\rest\ResourceResponse
+   */
+  public function get($ids) {
+    $results = [];
+
+    // Convert comma-separated list of ids into an array.
+    $quiz_ids = explode(',', $ids);
+
+    // Return empty response if there are no quiz ids in the request.
+    if (empty($quiz_ids)) {
+      return new ResourceResponse($results);
+    }
+
+    try {
+
+      // Load previously submitted quiz results for the logged in user.
+      $quizz_results = \Drupal::entityTypeManager()
+        ->getStorage('quiz_result')
+        ->loadByProperties([
+          'field_question' => $quiz_ids,
+          'uid' => \Drupal::currentUser()->id(),
+        ]);
+
+      foreach ($quizz_results as $quiz_result) {
+
+        // Load a list of fields for the quiz results entity.
+        $entityManager = \Drupal::service('entity_field.manager');
+        $fields = $entityManager->getFieldDefinitions($quiz_result->getEntityTypeId(), $quiz_result->bundle());
+
+        // Searching for a field with "answer" name in the field name. This field
+        // stores the result of the quiz.
+        $field_name_answer = '';
+        foreach ($fields as $field_name => $field) {
+          if (strpos($field_name, 'answer')) {
+            $field_name_answer = $field_name;
+            break;
+          }
+        }
+
+        if (!empty($field_name_answer) && !empty($field)) {
+
+          // Get field cardinality.
+          $cardinality = $field->getFieldStorageDefinition()->getCardinality();
+
+          // Get the whole field value.
+          $value = $quiz_result->get($field_name_answer)->getValue();
+
+          // Get referenced quiz ID (paragraph ID).
+          $quiz_id = $quiz_result->get('field_question')
+            ->first()
+            ->getValue()['target_id'];
+
+          // Add the paragraph id to the result array for reference on the FE.
+          $results[$quiz_id]['id'] = $quiz_id;
+
+          // If the field cardinality is 1 max, then we send the result as a
+          // single value field.
+          if ($cardinality == 1) {
+            $results[$quiz_id]['value'] = $value[0]['value'];
+          }
+          // Otherwise set the result value as for options.
+          else {
+            foreach ($value as $item) {
+              $results[$quiz_id]['value'][$item['value']] = 1;
+            }
+          }
+        }
+      }
+    } catch(\Exception $e) {
+      // Log an error.
+      $message = $e->getMessage();
+      if (empty($message)) {
+        $message = new FormattableMarkup('Could not return previously submitted quiz results.', []);
+      }
+      $this->logger->critical($message);
+      throw new HttpException(406, $message);
+    }
+
+    return new ResourceResponse(array_values($results));
   }
 
 }

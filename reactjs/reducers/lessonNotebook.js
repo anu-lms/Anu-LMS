@@ -1,11 +1,9 @@
 export default (state = {
   isCollapsed: true,
   isNoteListVisible: false,
-  noteId: 0 ,
+  noteId: 0,
 }, action) => {
-
   switch (action.type) {
-
     case 'LESSON_NOTEBOOK_OPEN':
       return {
         ...state,
@@ -28,8 +26,7 @@ export default (state = {
         isNoteListVisible: false,
       };
 
-    case 'NOTE_DELETE':
-
+    case 'NOTE_DELETE': {
       // If the deleted note is not the currently viewed - ignore.
       if (state.noteId !== action.id) {
         return state;
@@ -41,6 +38,7 @@ export default (state = {
         noteId: 0,
         isNoteListVisible: true,
       };
+    }
 
     case 'LESSON_NOTEBOOK_SHOW_NOTES':
 
@@ -48,7 +46,7 @@ export default (state = {
       return {
         ...state,
         isNoteListVisible: true,
-      }
+      };
 
     default:
       return state;

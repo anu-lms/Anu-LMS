@@ -1,19 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Password from '../FormElement/Password';
 
-const PasswordWidget = (props) => {
+const PasswordWidget = ({ id, label, required, placeholder, options, onChange }) => {
   let classes = [];
-  if (props.options.with_confirm_field) {
+  if (options.with_confirm_field) {
     classes.push('with-confirm-field');
   }
   return (
     <Password
       className={classes.join(' ')}
-      showIndicator={props.options.indicator}
-      changeCallback={(state) => { props.onChange(state.password) }}
-      inputProps={{ id: props.id, label: props.label, required: props.required, placeholder: props.placeholder }}
+      showIndicator={options.indicator}
+      changeCallback={state => { onChange(state.password); }}
+      inputProps={{ id, label, required, placeholder }}
     />
   );
-}
+};
+
+PasswordWidget.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  options: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  onChange: PropTypes.func,
+};
+
+PasswordWidget.defaultProps = {
+  required: false,
+  label: '',
+  placeholder: '',
+  onChange: {},
+  options: {},
+};
 
 export default PasswordWidget;

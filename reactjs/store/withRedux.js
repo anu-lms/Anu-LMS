@@ -1,11 +1,23 @@
 import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
-import { store } from '../store/store';
 import { persistStore } from 'redux-persist';
+import { store } from '../store/store';
 import PageLoader from '../components/atoms/PageLoader';
 
-export default function(PageComponent) {
+export default function (PageComponent) {
   return class ReduxPage extends React.Component {
+    static async getInitialProps(ctx) {
+      let initialProps = {
+        dispatch: store.dispatch,
+      };
+
+      if (PageComponent.getInitialProps) {
+        const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
+        return { ...initialProps, ...childInitialProps };
+      }
+
+      return initialProps;
+    }
 
     constructor(props) {
       super(props);
@@ -19,8 +31,9 @@ export default function(PageComponent) {
       const state = store.getState();
 
       // If storage was already rehydrated, then set state appropriately.
-      if (typeof state._persist !== 'undefined') {
-        if (state._persist.rehydrated) {
+      if (typeof state._persist !== 'undefined') { // eslint-disable-line no-underscore-dangle
+        if (state._persist.rehydrated) { // eslint-disable-line no-underscore-dangle
+          // eslint-disable-next-line react/no-did-mount-set-state
           this.setState({ storageLoaded: true });
           return;
         }
@@ -43,19 +56,5 @@ export default function(PageComponent) {
         </Provider>
       );
     }
-
-    static async getInitialProps(ctx) {
-      let initialProps = {
-        dispatch: store.dispatch,
-      };
-
-      if (PageComponent.getInitialProps) {
-        const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
-        return { ...initialProps, ...childInitialProps }
-      }
-
-      return initialProps;
-    }
-
-  }
+  };
 }

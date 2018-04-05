@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { plural } from '../../../../utils/string';
 
 const Instructors = ({ instructors }) => {
-
   if (!instructors.length) {
     return null;
   }
@@ -14,13 +13,14 @@ const Instructors = ({ instructors }) => {
       <span>{
         instructors
           .map(instructor => instructor.realname).join(', ')
-      }</span>
+      }
+      </span>
     </p>
   );
 };
 
 Instructors.propTypes = {
-  instructors: PropTypes.array,
+  instructors: PropTypes.arrayOf(PropTypes.object),
 };
 
 Instructors.defaultProps = {
