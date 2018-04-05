@@ -32,9 +32,7 @@ class PasswordStrength extends Component {
   }
 
   handleChange() {
-    const {
-      changeCallback, minScore, userInputs, minLength, showIndicator,
-    } = this.props;
+    const { changeCallback, minScore, userInputs, minLength, showIndicator } = this.props;
     const password = this.passwordStrengthInput.value;
     if (!showIndicator) {
       this.setState({

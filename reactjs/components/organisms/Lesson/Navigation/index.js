@@ -36,9 +36,7 @@ class LessonNavigation extends React.Component {
   }
 
   render() {
-    const {
-      course, courses, lessons, router,
-    } = this.props;
+    const { course, courses, lessons, router } = this.props;
 
     return (
       <CollapsibleNavigation className="lesson">

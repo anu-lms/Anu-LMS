@@ -146,9 +146,7 @@ class LessonNotebook extends React.Component {
   }
 
   render() {
-    const {
-      isCollapsed, isNoteListVisible, notes, activeNote,
-    } = this.props;
+    const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
 
     return (
       <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>

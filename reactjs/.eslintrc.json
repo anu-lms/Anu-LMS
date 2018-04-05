@@ -29,6 +29,13 @@
     "arrow-parens": [
       2,
       "as-needed"
+    ],
+    "object-curly-newline": [
+      2,
+      {
+        "ObjectExpression": { "minProperties": 6, "multiline": true, "consistent": true },
+        "ObjectPattern": { "minProperties": 6, "multiline": true, "consistent": true }
+      }
     ]
   }
 }

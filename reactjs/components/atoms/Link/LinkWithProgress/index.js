@@ -4,9 +4,7 @@ import CircularProgressbar from 'react-circular-progressbar';
 import { Link } from '../../../../routes';
 import LinkWithClick from '../LinkWithClick';
 
-const LinkWithProgress = ({
-  title, url, progress, active, onClick,
-}) => (
+const LinkWithProgress = ({ title, url, progress, active, onClick }) => (
   <Link to={url} prefetch>
     <LinkWithClick
       href={url}

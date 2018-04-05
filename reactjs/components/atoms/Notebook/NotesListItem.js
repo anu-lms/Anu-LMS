@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const NotesListItem = ({
-  id, title, date, teaser, isActive, onClick,
-}) => (
+const NotesListItem = ({ id, title, date, teaser, isActive, onClick }) => (
   <div className={`notes-list-item ${isActive ? 'active' : ''}`} onClick={() => onClick(id)} onKeyPress={() => onClick(id)}>
     <div className="item-heading">
       <div className="title">{title}{!title && 'New Note'}</div>

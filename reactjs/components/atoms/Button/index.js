@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({
-  type, size, block, active, disabled, onClick, loading, children,
-}) => {
+const Button = ({ type, size, block, active, disabled, onClick, loading, children }) => {
   const classes = ['btn'];
 
   if (type) {
