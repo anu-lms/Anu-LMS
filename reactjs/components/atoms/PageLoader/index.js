@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default ({ type }) => (
+const PageLoader = ({ type }) => (
   <div className={type === 'fixed' ? 'page-loader-fixed' : 'page-loader'}>
     <div className="loader">
       <div className="shadow" />
@@ -8,3 +9,13 @@ export default ({ type }) => (
     </div>
   </div>
 );
+
+PageLoader.propTypes = {
+  type: PropTypes.string,
+};
+
+PageLoader.defaultProps = {
+  type: 'notFixed',
+};
+
+export default PageLoader;

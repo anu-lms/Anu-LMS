@@ -8,7 +8,7 @@ const TimeToComplete = ({ totalMinutes, progress }) => {
   }
 
   if (progress === 100) {
-    return (<p className="estimated-time">You've completed this course.</p>);
+    return (<p className="estimated-time">You&apos;ve completed this course.</p>);
   }
 
   const remainingMinutes = Math.ceil(totalMinutes * (100 - progress) * 0.01);
@@ -20,10 +20,10 @@ const TimeToComplete = ({ totalMinutes, progress }) => {
 
   const parts = [];
   if (hours > 0) {
-    parts.push(hours + ' ' + plural(hours, 'hour', 'hours'));
+    parts.push(`${hours} ${plural(hours, 'hour', 'hours')}`);
   }
   if (minutes > 0) {
-    parts.push(minutes + ' ' + plural(minutes, 'minute', 'minutes'));
+    parts.push(`${minutes} ${plural(minutes, 'minute', 'minutes')}`);
   }
 
   return (

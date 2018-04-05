@@ -4,12 +4,11 @@ export default (state = {
   // ID of note which is currently being edited.
   activeNoteId: -1,
   // Defines if notes list or note edit is visible on mobile.
-  isMobileContentVisible: false
+  isMobileContentVisible: false,
 }, action) => {
   let index;
 
   switch (action.type) {
-
     // Adds existing note to the notebook store.
     case 'NOTE_ADD':
 
@@ -27,7 +26,7 @@ export default (state = {
               isSaved: true,
               isSaving: false,
             },
-            ...state.notes.slice(index + 1)
+            ...state.notes.slice(index + 1),
           ],
         };
       }
@@ -64,7 +63,7 @@ export default (state = {
             },
             ...state.notes.slice(index + 1),
           ],
-        }
+        };
       }
 
       // If note was not found (which is not expected, but just as a fallback)
@@ -78,7 +77,6 @@ export default (state = {
 
       // If the note is found (which is expected), then just update the body.
       if (index !== -1) {
-
         // There is only 1 case when we want to mark a note as saved on body
         // change: when current note body is empty. It can happen only when the
         // note was loaded from the backend. It would be '<p></p>' otherwise.
@@ -94,11 +92,11 @@ export default (state = {
             {
               ...state.notes[index],
               body: action.body,
-              isSaved: isSaved,
+              isSaved,
             },
             ...state.notes.slice(index + 1),
           ],
-        }
+        };
       }
 
       // If note was not found (which is not expected, but just as a fallback)
@@ -123,7 +121,7 @@ export default (state = {
             },
             ...state.notes.slice(index + 1),
           ],
-        }
+        };
       }
 
       // Otherwise return unchanged state.
@@ -147,7 +145,7 @@ export default (state = {
             },
             ...state.notes.slice(index + 1),
           ],
-        }
+        };
       }
 
       // Otherwise return unchanged state.
@@ -171,7 +169,7 @@ export default (state = {
             },
             ...state.notes.slice(index + 1),
           ],
-        }
+        };
       }
 
       // Otherwise return unchanged state.
@@ -200,7 +198,7 @@ export default (state = {
         isMobileContentVisible: !state.isMobileContentVisible,
       };
 
-    case 'NOTE_DELETE':
+    case 'NOTE_DELETE': {
       // Search for the existing note.
       index = state.notes.findIndex(element => element.id === action.id);
 
@@ -212,11 +210,13 @@ export default (state = {
           ...state,
           notes: [
             ...state.notes.slice(0, index),
-            ...state.notes.slice(index + 1)
+            ...state.notes.slice(index + 1),
           ],
           activeNoteId: state.notes[activeNoteIndex].id,
-        }
+        };
       }
+      return state;
+    }
 
     default:
       return state;

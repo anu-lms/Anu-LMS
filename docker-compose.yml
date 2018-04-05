@@ -30,7 +30,7 @@ services:
   # https://github.com/wodby/docker4drupal/blob/master/docker-compose.yml
 
   php:
-    image: wodby/drupal-php:7.1-2.4.3
+    image: wodby/drupal-php:7.1-dev-4.2.5
     environment:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       DB_HOST: mariadb
@@ -71,7 +71,8 @@ services:
       - 'traefik.frontend.rule=Host:app.docker.localhost;PathPrefix:/admin'
 
   mariadb:
-    image: wodby/mariadb:10.1-2.3.3
+    image: wodby/mariadb:10.2-3.1.3
+    stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: drupal

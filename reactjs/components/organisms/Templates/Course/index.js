@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from '../../../../routes';
 import ResumeButton from '../../../moleculas/Course/ResumeButton';
@@ -21,7 +22,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
         }
 
         {course.instructors &&
-        <Instructors instructors={course.instructors}/>
+        <Instructors instructors={course.instructors} />
         }
 
         <TimeToComplete
@@ -38,9 +39,9 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
       <div className="col-md-6 course-cover">
 
         <div className="cover-image">
-          <img className="course-image" src={course.imageUrl} />
+          <img className="course-image" alt="" src={course.imageUrl} />
           <div className="progress-bar">
-            <div className="current-progress" style={{ width: courseProgress + '%' }} />
+            <div className="current-progress" style={{ width: `${courseProgress}%` }} />
           </div>
         </div>
 
@@ -75,7 +76,9 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
         {course.description &&
         <Fragment>
           <h5>Overview</h5>
-          <div dangerouslySetInnerHTML={{ __html: course.description }} />
+          {
+            // eslint-disable-next-line react/no-danger
+          }<div dangerouslySetInnerHTML={{ __html: course.description }} />
         </Fragment>
         }
         {course.hasResources &&
@@ -83,7 +86,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
           <a className="resources-link">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
               <g fill="none" fillRule="evenodd">
-                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z"/>
+                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z" />
               </g>
             </svg>
             <span>View all Course Resources here</span>
@@ -97,9 +100,15 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
   </div>
 );
 
+CoursePageTemplate.propTypes = {
+  storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  courseProgress: PropTypes.number.isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
+
 const mapStateToProps = (store, { course }) => ({
   storeLessons: store.lesson,
-  courseProgress: courseHelper.getProgress(store.course, course)
+  courseProgress: courseHelper.getProgress(store.course, course),
 });
 
 export default connect(mapStateToProps)(CoursePageTemplate);

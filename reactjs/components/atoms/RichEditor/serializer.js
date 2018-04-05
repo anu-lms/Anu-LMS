@@ -1,4 +1,6 @@
-import Html from "slate-html-serializer";
+import React from 'react';
+import Html from 'slate-html-serializer';
+/* eslint-disable consistent-return */
 
 const BLOCK_TAGS = {
   p: 'paragraph',
@@ -8,7 +10,7 @@ const BLOCK_TAGS = {
 };
 
 const INLINE_TAGS = {
-  a: 'link'
+  a: 'link',
 };
 
 // Add a dictionary of mark tags.
@@ -20,16 +22,16 @@ const MARK_TAGS = {
 
 const rules = [
   {
-    deserialize: function(el, next) {
+    deserialize(el, next) {
       const type = BLOCK_TAGS[el.tagName.toLowerCase()];
       if (!type) { return; }
       return {
         object: 'block',
-        type: type,
-        nodes: next(el.childNodes)
+        type,
+        nodes: next(el.childNodes),
       };
     },
-    serialize: function(object, children) {
+    serialize(object, children) {
       if (object.object !== 'block') { return; }
       switch (object.type) {
         case 'numbered-list':
@@ -42,21 +44,23 @@ const rules = [
           return <p>{children}</p>;
         case 'link':
           return <a>{children}</a>;
+        default:
+          return null;
       }
-    }
+    },
   },
   // Add a new rule that handles marks...
   {
-    deserialize: function(el, next) {
+    deserialize(el, next) {
       const type = MARK_TAGS[el.tagName.toLowerCase()];
       if (!type) { return; }
       return {
         object: 'mark',
-        type: type,
-        nodes: next(el.childNodes)
+        type,
+        nodes: next(el.childNodes),
       };
     },
-    serialize: function(object, children) {
+    serialize(object, children) {
       if (object.object !== 'mark') { return; }
       switch (object.type) {
         case 'bold':
@@ -65,11 +69,13 @@ const rules = [
           return <em>{children}</em>;
         case 'underlined':
           return <u>{children}</u>;
+        default:
+          return null;
       }
-    }
+    },
   },
   {
-    deserialize: function (el, next) {
+    deserialize(el, next) {
       if (el.tagName !== 'a') { return; }
       const type = INLINE_TAGS[el.tagName.toLowerCase()];
 
@@ -78,22 +84,24 @@ const rules = [
       }
       return {
         object: 'inline',
-        type: type,
+        type,
         nodes: next(el.childNodes),
         data: {
-          href: el.attrs.find(({name}) => name === 'href').value
-        }
+          href: el.attrs.find(({ name }) => name === 'href').value,
+        },
       };
     },
-    serialize: function (object, children) {
+    serialize(object, children) {
       if (object.object !== 'inline') {
         return;
       }
       switch (object.type) {
         case 'link':
           return <a href={object.data.get('href')}>{children}</a>;
+        default:
+          return null;
       }
-    }
+    },
   },
 ];
 
