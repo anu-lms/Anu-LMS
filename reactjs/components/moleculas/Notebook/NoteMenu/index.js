@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
@@ -8,13 +8,12 @@ import * as notebookHelpers from '../../../../helpers/notebook';
 import * as lock from '../../../../utils/lock';
 
 class NoteMenu extends Component {
-
   async onDelete() {
     const { note, dispatch } = this.props;
 
-    if (window.confirm('Delete this note?')) {
+    if (window.confirm('Delete this note?')) { // eslint-disable-line no-alert
       // Lock logout until delete operation is safely completed.
-      const lock_id = lock.add('notebook-delete-note');
+      const lockId = lock.add('notebook-delete-note');
 
       // Hide the note immediately after confirmation.
       dispatch(notebookActions.deleteNote(note.id));
@@ -35,7 +34,7 @@ class NoteMenu extends Component {
         Alert.error('Could not delete the note. Please reload the page and try again.');
       }
 
-      lock.release(lock_id);
+      lock.release(lockId);
     }
   }
 
@@ -50,13 +49,13 @@ class NoteMenu extends Component {
         </Dropdown.Toggle>
         <Dropdown.MenuWrapper pullRight>
           <Dropdown.Menu pullRight>
-            <ImportantMenuItem onSelect={() => { this.onDelete() }} >
+            <ImportantMenuItem onSelect={() => { this.onDelete(); }} >
               <DeleteIcon /> Delete Note
             </ImportantMenuItem>
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>
       </Dropdown>
-    )
+    );
   }
 }
 

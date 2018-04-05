@@ -1,9 +1,8 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Paragraphs from '../index';
 
 class ComboBoxes extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -31,19 +30,22 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const { id, options, title, blocks, data, columnClasses } = this.props;
+    const {
+      id, options, title, blocks, data, columnClasses,
+    } = this.props;
 
     let activeId = 0;
 
     // The backend sends an object, so we handle it accordingly.
     if (typeof data === 'object' && data !== null) {
-      activeId = Object.keys(data)[0];
+      activeId = Object.keys(data)[0]; // eslint-disable-line prefer-destructuring
     }
     // The value from redux store is just a string with uuid.
     else if (typeof data === 'string') {
       activeId = data;
     }
 
+    /* eslint-disable max-len, jsx-a11y/no-noninteractive-element-interactions */
     return (
       <div className="container quiz comboboxes">
         <div className="row">
@@ -65,17 +67,17 @@ class ComboBoxes extends React.Component {
                   checked={activeId === radio.uuid}
                   onChange={() => {}}
                 />
-                <span onClick={() => this.handleSelection(radio.uuid)} />
-                <label onClick={() => this.handleSelection(radio.uuid)}>
+                <span onClick={() => this.handleSelection(radio.uuid)} onKeyPress={() => this.handleSelection(radio.uuid)} />
+                <label onClick={() => this.handleSelection(radio.uuid)} onKeyPress={() => this.handleSelection(radio.uuid)}>
                   {radio.value}
-                  </label>
+                </label>
               </div>
             ))}
           </div>
         </div>
       </div>
     );
-  };
+  }
 }
 
 ComboBoxes.propTypes = {
@@ -89,16 +91,19 @@ ComboBoxes.propTypes = {
     uuid: PropTypes.string,
     value: PropTypes.string,
     is_answer: PropTypes.number,
-  })),
-  columnClasses: PropTypes.array,
+  })).isRequired,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
 };
 
 ComboBoxes.defaultProps = {
-  blocks: [],
   data: null,
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
+  blocks: [],
 };
 
 export default ComboBoxes;

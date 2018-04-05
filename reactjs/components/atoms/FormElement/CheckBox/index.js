@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Checkbox extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -14,7 +13,7 @@ class Checkbox extends React.Component {
   }
 
   toggleCheck() {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const newState = !prevState.isChecked;
 
       if (this.props.onChange) {
@@ -31,9 +30,9 @@ class Checkbox extends React.Component {
     // Checkbox can either use internal checked state or can be
     // managed from parent component. In case of latter, the prop value
     // of checked state takes preference over the internal checked state.
-    let isChecked = this.state.isChecked;
+    let { isChecked } = this.state;
     if (this.props.isChecked !== null) {
-      isChecked = this.props.isChecked;
+      isChecked = this.props.isChecked; // eslint-disable-line prefer-destructuring
     }
 
     return (
@@ -45,14 +44,16 @@ class Checkbox extends React.Component {
           value={isChecked + 0}
           onChange={() => {}}
         />
-        <span onClick={this.toggleCheck}>
+        <span onClick={this.toggleCheck} onKeyPress={this.toggleCheck}>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14">
             <g fill="none" fillRule="evenodd">
-              <path fill="#FFF" fillRule="nonzero" d="M5.403 10.58l-4.03-4.17L0 7.82l5.403 5.59L17 1.41 15.637 0z"/>
+              <path fill="#FFF" fillRule="nonzero" d="M5.403 10.58l-4.03-4.17L0 7.82l5.403 5.59L17 1.41 15.637 0z" />
             </g>
           </svg>
         </span>
-        <label onClick={this.toggleCheck} htmlFor={id}>{label}</label>
+        {
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, max-len
+        }<label onClick={this.toggleCheck} onKeyPress={this.toggleCheck} htmlFor={id}>{label}</label>
       </div>
     );
   }
@@ -71,6 +72,7 @@ Checkbox.propTypes = {
 Checkbox.defaultProps = {
   id: '',
   isChecked: null,
+  onChange: () => {},
 };
 
 export default Checkbox;

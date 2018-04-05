@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
@@ -6,7 +6,7 @@ import * as lessonsHelper from '../../../helpers/lesson';
 
 const Paragraphs = dynamic({
 
-  modules: props => {
+  modules: (props) => {
     const allComponents = {
       'text_text': import('./Text/Text'),
       'text_heading': import('./Text/Heading'),
@@ -30,30 +30,27 @@ const Paragraphs = dynamic({
 
     // Gather list of components which are needed on the lesson page.
     let neededComponents = {};
-    props.blocks.forEach(block => {
+    props.blocks.forEach((block) => {
       neededComponents[block.type] = allComponents[block.type];
     });
 
     return neededComponents;
   },
 
-  render: ({ blocks, ...props }, components) => {
-    return (
-      blocks.map(block => {
-        const Paragraph = components[block.type];
+  render: ({ blocks, ...props }, components) => (
+    blocks.map((block) => {
+      const Paragraph = components[block.type];
 
-        // Quiz paragraph needs an additional piece of data from redux store.
-        if (lessonsHelper.blockIsQuiz(block)) {
-          const data = lessonsHelper.getQuizData(props.quizzesData, block.id);
-          return <Paragraph key={block.id} {...props} {...block} data={data} />
-        }
-        // Render usual non-quiz paragraph.
-        else {
-          return <Paragraph key={block.id} {...props} {...block} />
-        }
-      })
-    );
-  },
+      // Quiz paragraph needs an additional piece of data from redux store.
+      if (lessonsHelper.blockIsQuiz(block)) {
+        const data = lessonsHelper.getQuizData(props.quizzesData, block.id);
+        return <Paragraph key={block.id} {...props} {...block} data={data} />;
+      }
+      // Render usual non-quiz paragraph.
+
+      return <Paragraph key={block.id} {...props} {...block} />;
+    })
+  ),
 
   // No loading message / component.
   loading: () => (null),
@@ -61,7 +58,7 @@ const Paragraphs = dynamic({
 
 Paragraphs.propTypes = {
   lessonId: PropTypes.number.isRequired,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,

@@ -5,16 +5,13 @@ import Alert from 'react-s-alert';
 import Paragraphs from '../../atoms/Paragraph';
 import Button from '../../atoms/Button';
 import { Link, Router } from '../../../routes';
-import { setQuizResult } from '../../../actions/lesson';
-import { getNextLesson, hasQuizzes, isAssessment, getQuizzesData, areQuizzesSaved } from '../../../helpers/lesson';
-import * as lessonActions from "../../../actions/lesson";
-import * as lessonHelpers from "../../../helpers/lesson";
-import * as courseActions from "../../../actions/course";
-import * as courseHelpers from "../../../helpers/course";
+import * as lessonActions from '../../../actions/lesson';
+import * as lessonHelpers from '../../../helpers/lesson';
+import * as courseActions from '../../../actions/course';
+import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
 
 class LessonContent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -45,6 +42,15 @@ class LessonContent extends React.Component {
     this.updateParagraphsList(this.props);
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.updateReadProgress);
+    window.addEventListener('scroll', this.updateReadProgress);
+
+    // When component is mounted, send action that the lesson is opened.
+    // It should trigger background sync of lesson progress.
+    this.props.dispatch(lessonActions.opened(this.props.lesson));
+  }
+
   componentWillUpdate(nextProps) {
     // Gather list of paragraphs once per lesson page load.
     if (nextProps.lesson.id !== this.props.lesson.id) {
@@ -57,15 +63,6 @@ class LessonContent extends React.Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', this.updateReadProgress);
-    window.addEventListener('scroll', this.updateReadProgress);
-
-    // When component is mounted, send action that the lesson is opened.
-    // It should trigger background sync of lesson progress.
-    this.props.dispatch(lessonActions.opened(this.props.lesson));
-  }
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateReadProgress);
     window.removeEventListener('scroll', this.updateReadProgress);
@@ -76,7 +73,6 @@ class LessonContent extends React.Component {
   }
 
   updateReadProgress() {
-
     // It's important to wait for the whole page to load before we can
     // start relying on container's height.
     if (this.paragraphsToLoad.length > 0) {
@@ -88,7 +84,7 @@ class LessonContent extends React.Component {
     const readThrough = window.pageYOffset + window.innerHeight;
     const pageHeight = document.body.offsetHeight;
 
-    const progress = readThrough >= pageHeight ? 100 : readThrough / pageHeight * 100;
+    const progress = readThrough >= pageHeight ? 100 : (readThrough / pageHeight) * 100;
 
     const existingProgress = lessonHelpers.getProgress(storeLessons, lesson);
     if (progress > existingProgress) {
@@ -99,7 +95,7 @@ class LessonContent extends React.Component {
         storeLessons[index].progress = progress;
       }
       else {
-        storeLessons.push({ id: lesson.id, progress: progress });
+        storeLessons.push({ id: lesson.id, progress });
       }
 
       const courseProgress = courseHelpers.calculateProgress(storeLessons, course.lessons);
@@ -114,17 +110,16 @@ class LessonContent extends React.Component {
    * by getting the accurate page height.
    */
   updateParagraphsList(props) {
-
     // Clear paragraphs list.
     this.paragraphsToLoad = [];
 
     // Mark all blocks as "needs to be loaded".
-    props.lesson.blocks.forEach(block => {
+    props.lesson.blocks.forEach((block) => {
       this.paragraphsToLoad.push(block.id);
 
       // Handle nested blocks.
       if (typeof block.blocks !== 'undefined') {
-        block.blocks.forEach(subblock => {
+        block.blocks.forEach((subblock) => {
           this.paragraphsToLoad.push(subblock.id);
         });
       }
@@ -152,7 +147,7 @@ class LessonContent extends React.Component {
    */
   handleQuizChange(quizId, quizValue) {
     const { lesson } = this.props;
-    this.props.dispatch(setQuizResult(lesson.id, quizId, quizValue));
+    this.props.dispatch(lessonActions.setQuizResult(lesson.id, quizId, quizValue));
   }
 
   /**
@@ -173,7 +168,7 @@ class LessonContent extends React.Component {
    */
   async submitQuizzesAndRedirect() {
     const { lesson, course } = this.props;
-    const nextLesson = getNextLesson(course.lessons, lesson.id);
+    const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
     const result = await this.submitQuizzes();
     if (result) {
@@ -199,7 +194,7 @@ class LessonContent extends React.Component {
     console.log(quizzesData);
 
     // Lock logout until post operation is safely completed.
-    const lock_id = lock.add('quizzes-save');
+    const lockId = lock.add('quizzes-save');
 
     // Get superagent request with authentication.
     const { request } = await this.context.auth.getRequest();
@@ -221,7 +216,7 @@ class LessonContent extends React.Component {
       // Mark the current lesson quizzes as saved on the backend.
       dispatch(lessonActions.setQuizzesSaved(lesson.id));
 
-      lock.release(lock_id);
+      lock.release(lockId);
       return true;
     }
     catch (error) {
@@ -230,48 +225,47 @@ class LessonContent extends React.Component {
 
       this.setState({ isSending: false });
 
-      lock.release(lock_id);
+      lock.release(lockId);
       return false;
     }
   }
 
   render() {
-    const { lesson, course, navigation, lessonNotebook, quizzesSaved } = this.props;
-    const nextLesson = getNextLesson(course.lessons, lesson.id);
+    const {
+      lesson, course, navigation, lessonNotebook, quizzesSaved,
+    } = this.props;
+    const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
 
     // Add an extra button for assessments.
-    if (isAssessment(lesson) && !quizzesSaved) {
-      buttons.push(
+    if (lessonHelpers.isAssessment(lesson) && !quizzesSaved) {
+      buttons.push((
         <Button type="link" key="assessment" block onClick={this.submitAssessment} loading={this.state.isSending}>
           Submit Assessment
-        </Button>
-      )
+        </Button>));
     }
 
     // For lesson with quizzes we change default Next button to
     // "Submit and Continue" button.
-    if (!isAssessment(lesson) && hasQuizzes(lesson)) {
-      buttons.push(
+    if (!lessonHelpers.isAssessment(lesson) && lessonHelpers.hasQuizzes(lesson)) {
+      buttons.push((
         <Button type="link" key="next" block onClick={this.submitQuizzesAndRedirect} loading={this.state.isSending}>
           {nextLesson &&
-          <Fragment>Submit and Continue</Fragment>
+            <Fragment>Submit and Continue</Fragment>
           }
           {!nextLesson &&
-          <Fragment>Submit</Fragment>
+            <Fragment>Submit</Fragment>
           }
-        </Button>
-      );
+        </Button>));
     }
     else if (nextLesson) {
-      buttons.push(
+      buttons.push((
         <Link to={nextLesson.url} key="next" prefetch>
           <a className="btn btn-primary btn-lg btn-block">
-            Next: {nextLesson.title}
+              Next: {nextLesson.title}
           </a>
-        </Link>
-      );
+        </Link>));
     }
 
     let wrapperClasses = ['lesson-container'];
@@ -328,8 +322,8 @@ class LessonContent extends React.Component {
 }
 
 const mapStateToProps = (store, ownProps) => ({
-  quizzesData: getQuizzesData(store.lesson, ownProps.lesson.id),
-  quizzesSaved: areQuizzesSaved(store.lesson, ownProps.lesson.id),
+  quizzesData: lessonHelpers.getQuizzesData(store.lesson, ownProps.lesson.id),
+  quizzesSaved: lessonHelpers.areQuizzesSaved(store.lesson, ownProps.lesson.id),
   navigation: store.navigation,
   storeLessons: store.lesson,
   lessonNotebook: store.lessonNotebook,
@@ -339,6 +333,17 @@ LessonContent.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
   }),
+};
+
+LessonContent.propTypes = {
+  storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lesson: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  navigation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lessonNotebook: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  quizzesSaved: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(LessonContent);

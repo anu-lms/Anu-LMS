@@ -1,10 +1,9 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Slider  from 'rc-slider';
+import Slider from 'rc-slider';
 import Paragraphs from '../index';
 
 class LinearScale extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -32,11 +31,13 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, blocks, data, columnClasses } = this.props;
+    const {
+      title, from, to, blocks, data, columnClasses,
+    } = this.props;
 
     // The value to use should be either the value from the redux store
     // or the middle of the scale.
-    const value = data ? parseInt(data) : Math.round(to.first / 2);
+    const value = data ? parseInt(data) : Math.round(to.first / 2); // eslint-disable-line radix
 
     return (
       <div className="container quiz linear-scale">
@@ -71,7 +72,7 @@ class LinearScale extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 LinearScale.propTypes = {
@@ -90,15 +91,18 @@ LinearScale.propTypes = {
     first: PropTypes.number,
     second: PropTypes.string,
   }).isRequired,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
 };
 
 LinearScale.defaultProps = {
-  blocks: [],
   data: null,
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
+  blocks: [],
 };
 
 export default LinearScale;
