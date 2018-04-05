@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 // Custom JSON Schema field template with float labels. See:
 // 1. https://github.com/mozilla-services/react-jsonschema-form#field-template
 // 2. https://github.com/tonystar/bootstrap-float-label
-const FieldTemplate = ({ id, classNames, label, help, description, children, schema }) => {
+const FieldTemplate = ({
+  id, classNames, label, help, description, children, schema,
+}) => {
   let innerClasses = 'field-inner';
 
   if (schema.type === 'string' || schema.type === 'number') {
