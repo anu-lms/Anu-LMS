@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import Dropdown, { ImportantMenuItem, MenuIcon, DeleteIcon } from '../../../atoms/DropdownMenu';
-import * as notebookActions from "../../../../actions/notebook";
+import * as notebookActions from '../../../../actions/notebook';
+import * as notebookHelpers from '../../../../helpers/notebook';
 import * as lock from '../../../../utils/lock';
 
 class NoteMenu extends Component {
@@ -23,9 +24,9 @@ class NoteMenu extends Component {
         // Get superagent request with authentication.
         const { request } = await this.context.auth.getRequest();
 
-        await request
-          .delete('/jsonapi/notebook/notebook/' + note.uuid)
-          .send();
+        // Sending backend request to remove the note.
+        await notebookHelpers.deleteNote(request, note.uuid);
+
         // Go back to the list of notes on mobile.
         dispatch(notebookActions.toggleMobileVisibility());
       }
