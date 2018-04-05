@@ -1,11 +1,10 @@
 import { all, fork, take, put, takeEvery, select, call, cancel, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-import { getProgress } from '../helpers/lesson';
 import request from '../utils/request';
 import * as lessonActions from '../actions/lesson';
 import * as lessonHelper from '../helpers/lesson';
 import ClientAuth from '../auth/clientAuth';
-import * as dataProcessors from "../utils/dataProcessors";
+/* eslint-disable no-use-before-define */
 
 /**
  * Amount of milliseconds before frontend will attempt
@@ -21,7 +20,7 @@ export default function* lessonSagas() {
     takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
     takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
   ]);
-};
+}
 
 /**
  * Saga watcher for lesson to open.
@@ -64,7 +63,6 @@ function* lessonQuizzesDataFetcher(action) {
   const { lesson } = action;
 
   if (lessonHelper.hasQuizzes(lesson)) {
-
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -74,7 +72,6 @@ function* lessonQuizzesDataFetcher(action) {
     const quizIds = lessonHelper.getQuizzesIds(lesson);
 
     try {
-
       // Load previously submitted quizzes for the current user from the backend.
       const quizzesResonse = yield request
         .get(`/quizzes/results/${quizIds.join(',')}?_format=json`);
@@ -82,8 +79,8 @@ function* lessonQuizzesDataFetcher(action) {
       const quizzesResults = quizzesResonse.body;
 
       // Set quiz data into the redux store one by one.
-      for (const index in quizzesResults) {
-        if (quizzesResults.hasOwnProperty(index)) {
+      for (const index in quizzesResults) { // eslint-disable-line no-restricted-syntax
+        if (quizzesResults.hasOwnProperty(index)) { // eslint-disable-line no-prototype-builtins
           const quizResult = quizzesResults[index];
           yield put(lessonActions.setQuizResult(lesson.id, quizResult.id, quizResult.value));
         }
@@ -94,7 +91,6 @@ function* lessonQuizzesDataFetcher(action) {
       if (quizzesResults.length > 0) {
         yield put(lessonActions.setQuizzesSaved(lesson.id));
       }
-
     } catch (e) {
       console.log('Could not load quiz results from the backend. Error:');
       console.log(e);
@@ -106,12 +102,11 @@ function* lessonQuizzesDataFetcher(action) {
  * Saga action to send lesson progress to the backend.
  */
 function* syncLessonProgressInBackground(lesson, token) {
-
   // The delay before we start sync process with the backend.
   yield delay(backendSyncDelay);
 
   // Initial progress equals lesson progress from the backend.
-  let progress = lesson.progress;
+  let { progress } = lesson;
 
   let latestProgress;
   let lessons;
@@ -120,10 +115,9 @@ function* syncLessonProgressInBackground(lesson, token) {
     // Keep tracking progress updates until the task is cancelled.
     // "finally" section in try / catch handles cancellation of this task.
     while (true) {
-
       // Get the lastest progress of lesson from the redux store.
       lessons = yield select(state => state.lesson);
-      latestProgress = getProgress(lessons, lesson);
+      latestProgress = lessonHelper.getProgress(lessons, lesson);
 
       // If latest progress is bigger than the previous value (no matter
       // if this value is from backend or from redux store) - we send the
@@ -137,16 +131,15 @@ function* syncLessonProgressInBackground(lesson, token) {
       yield delay(backendSyncDelay);
     }
   }
-  catch(e) {
+  catch (e) {
     console.log('Error during sync of lesson progress:');
     console.log(e);
   }
   // Executes on task cancellation.
   finally {
-
     // Check the latest lesson's progress the last time.
     lessons = yield select(state => state.lesson);
-    latestProgress = getProgress(lessons, lesson);
+    latestProgress = lessonHelper.getProgress(lessons, lesson);
 
     // If there is some progress, send it to the backend before the background
     // sync task is cancelled for this lesson.
@@ -161,7 +154,6 @@ function* syncLessonProgressInBackground(lesson, token) {
  */
 function* sendLessonProgress(lesson, progress, token) {
   try {
-
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -172,8 +164,7 @@ function* sendLessonProgress(lesson, progress, token) {
       .post(`/learner/progress/${lesson.id}/${progress}?_format=json`)
       .set('Content-Type', 'application/json')
       .set('X-CSRF-Token', token);
-
-  } catch(e) {
+  } catch (e) {
     console.log('Could not send lesson\'s progress to the backend. Error:');
     console.log(e);
   }

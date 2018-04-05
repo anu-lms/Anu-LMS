@@ -4,13 +4,14 @@ import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import he from 'he';
 import isUrl from 'is-url';
-import { html } from './serializer';
 
-// IE 11:﻿Object doesn't support property or method 'closest'
+// IE 11: Object doesn't support property or method 'includes'.
+import 'core-js/es7/array';
+
+// IE 11: Object doesn't support property or method 'closest'.
 import '../../../utils/polyfill/closest';
 
-// IE 11: Object doesn't support property or method 'includes'
-import 'core-js/es7/array';
+import { html } from './serializer';
 
 /**
  * A change helper to standardize wrapping links.

@@ -1,5 +1,4 @@
 export default (state = [], action) => {
-
   let index;
   let lesson;
 
@@ -25,7 +24,7 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           lesson,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 
@@ -35,7 +34,7 @@ export default (state = [], action) => {
         {
           id: action.lessonId,
           progress: action.progress,
-        }
+        },
       ];
 
     case 'LESSON_QUIZ_RESULT_SET':
@@ -59,7 +58,7 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           lesson,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 
@@ -93,7 +92,7 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           lesson,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 

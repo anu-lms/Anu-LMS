@@ -14,8 +14,7 @@ export const getTeaser = (body, rowNumber) => {
   teaser = striptags(teaser, ['p']);
 
   let rows = [];
-  teaser.split('</p>').forEach(line => {
-
+  teaser.split('</p>').forEach((line) => {
     if (rows.length === rowNumber) {
       return;
     }
@@ -34,7 +33,7 @@ export const getTeaser = (body, rowNumber) => {
  */
 export const getNoteById = (notes, noteId) => {
   const index = notes.findIndex(note => note.id === noteId);
-  if (index !== -1 ) {
+  if (index !== -1) {
     return notes[index];
   }
   return null;
@@ -43,7 +42,7 @@ export const getNoteById = (notes, noteId) => {
 /**
  * Get state of note sync with backend.
  */
-export const getSavedState = note => {
+export const getSavedState = (note) => {
   // Default state if nothing else is stated.
   let state = 'Saved';
   if (typeof note.isSaving !== 'undefined' && note.isSaving) {
@@ -58,18 +57,16 @@ export const getSavedState = note => {
 /**
  * Returns an array of notes which are not yet synced with backend.
  */
-export const getUnsavedNotes = notes => {
-  return notes.filter(note => {
-    const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
-    const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
-    return !isSaved && !isSaving;
-  });
-};
+export const getUnsavedNotes = notes => notes.filter((note) => {
+  const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
+  const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
+  return !isSaved && !isSaving;
+});
 
 /**
  * Checks if the current note has no title & body.
  */
-export const isEmptyNote = note => {
+export const isEmptyNote = (note) => {
   const noTitle = note.title === '';
   const noBody = note.body === '<p></p>' || note.body === '';
   return noTitle && noBody;
@@ -78,81 +75,75 @@ export const isEmptyNote = note => {
 /**
  * First time save the note on the backend.
  */
-export const createNote = (request, title = '', body = '') => {
-  return new Promise((resolve, reject) => {
-    request
-      .post('/jsonapi/notebook/notebook')
-      .send({
-        data: {
-          type: 'notebook--notebook',
-          attributes: {
-            field_notebook_title: title,
-            field_notebook_body: {
-              value: body,
-              format: 'filtered_html',
-            },
-          }
-        }
-      })
-      .then(response => {
-        const notes = dataProcessors.notebookData([response.body.data]);
-        resolve(notes[0]);
-      })
-      .catch(error => {
-        console.log('Could not save the note. Error:');
-        console.log(error);
-        reject(error);
-      });
-  });
-};
+export const createNote = (request, title = '', body = '') => new Promise((resolve, reject) => {
+  request
+    .post('/jsonapi/notebook/notebook')
+    .send({
+      data: {
+        type: 'notebook--notebook',
+        attributes: {
+          field_notebook_title: title,
+          field_notebook_body: {
+            value: body,
+            format: 'filtered_html',
+          },
+        },
+      },
+    })
+    .then((response) => {
+      const notes = dataProcessors.notebookData([response.body.data]);
+      resolve(notes[0]);
+    })
+    .catch((error) => {
+      console.log('Could not save the note. Error:');
+      console.log(error);
+      reject(error);
+    });
+});
 
 /**
  * Update the existing note on the backend.
  */
-export const updateNote = (request, title, body, uuid) => {
-  return new Promise((resolve, reject) => {
-    request
-      .patch('/jsonapi/notebook/notebook/' + uuid)
-      .send({
-        data: {
-          type: 'notebook--notebook',
-          id: uuid,
-          attributes: {
-            field_notebook_title: title,
-            field_notebook_body: {
-              value: body,
-              format: 'filtered_html',
-            },
-          }
-        }
-      })
-      .then(response => {
-        const notes = dataProcessors.notebookData([response.body.data]);
-        resolve(notes[0]);
-      })
-      .catch(error => {
-        console.log('Could not update the note. Error:');
-        console.log(error);
-        reject(error);
-      });
-  });
-};
+export const updateNote = (request, title, body, uuid) => new Promise((resolve, reject) => {
+  request
+    .patch(`/jsonapi/notebook/notebook/${uuid}`)
+    .send({
+      data: {
+        type: 'notebook--notebook',
+        id: uuid,
+        attributes: {
+          field_notebook_title: title,
+          field_notebook_body: {
+            value: body,
+            format: 'filtered_html',
+          },
+        },
+      },
+    })
+    .then((response) => {
+      const notes = dataProcessors.notebookData([response.body.data]);
+      resolve(notes[0]);
+    })
+    .catch((error) => {
+      console.log('Could not update the note. Error:');
+      console.log(error);
+      reject(error);
+    });
+});
 
 /**
  * Remove the note from the backend.
  */
-export const deleteNote = (request, uuid) => {
-  return new Promise((resolve, reject) => {
-    request
-      .delete('/jsonapi/notebook/notebook/' + uuid)
-      .send()
-      .then(response => {
-        resolve();
-      })
-      .catch(error => {
-        console.log('Could not delete the note. Error:');
-        console.log(error);
-        reject(error);
-      });
-  });
-};
+export const deleteNote = (request, uuid) => new Promise((resolve, reject) => {
+  request
+    .delete(`/jsonapi/notebook/notebook/${uuid}`)
+    .send()
+    .then(() => {
+      resolve();
+    })
+    .catch((error) => {
+      console.log('Could not delete the note. Error:');
+      console.log(error);
+      reject(error);
+    });
+});

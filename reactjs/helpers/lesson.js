@@ -75,8 +75,9 @@ export const blockIsQuiz = block => (
  */
 export const getQuizData = (quizzesData, blockId) => {
   let data = null;
+  // eslint-disable-next-line no-restricted-syntax
   for (let [id, quizData] of Object.entries(quizzesData)) {
-    if (parseInt(blockId) === parseInt(id)) {
+    if (parseInt(blockId) === parseInt(id)) { // eslint-disable-line radix
       data = quizData;
     }
   }
@@ -91,9 +92,9 @@ export const getQuizData = (quizzesData, blockId) => {
  *
  * @returns {Array}
  */
-export const getQuizzesIds = lesson => {
+export const getQuizzesIds = (lesson) => {
   let ids = [];
-  lesson.blocks.forEach(block => {
+  lesson.blocks.forEach((block) => {
     if (block.type && block.type.indexOf('quiz_') === 0) {
       ids.push(block.id);
     }
