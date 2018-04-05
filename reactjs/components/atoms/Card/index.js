@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '../../../routes';
 
-const Card = ({
-  imageUrl, imageAlt, title, url, children, progressPercent,
-}) => (
+const Card = ({ imageUrl, imageAlt, title, url, children, progressPercent }) => (
   <div className="card">
 
     <Link to={url}>

@@ -231,9 +231,7 @@ class LessonContent extends React.Component {
   }
 
   render() {
-    const {
-      lesson, course, navigation, lessonNotebook, quizzesSaved,
-    } = this.props;
+    const { lesson, course, navigation, lessonNotebook, quizzesSaved } = this.props;
     const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];

@@ -31,9 +31,7 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const {
-      title, from, to, blocks, data, columnClasses,
-    } = this.props;
+    const { title, from, to, blocks, data, columnClasses } = this.props;
 
     // The value to use should be either the value from the redux store
     // or the middle of the scale.

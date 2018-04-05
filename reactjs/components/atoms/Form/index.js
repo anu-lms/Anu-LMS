@@ -19,9 +19,7 @@ class DefaultForm extends React.Component {
   }
 
   render() {
-    const {
-      schema, uiSchema, children, className, autocomplete, ...attributes
-    } = this.props;
+    const { schema, uiSchema, children, className, autocomplete, ...attributes } = this.props;
     return (
       <Form
         className={`form ${className}`}

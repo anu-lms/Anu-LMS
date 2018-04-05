@@ -30,9 +30,7 @@ class ComboBoxes extends React.Component {
   }
 
   render() {
-    const {
-      id, options, title, blocks, data, columnClasses,
-    } = this.props;
+    const { id, options, title, blocks, data, columnClasses } = this.props;
 
     let activeId = 0;
 

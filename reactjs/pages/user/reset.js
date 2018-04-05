@@ -13,9 +13,7 @@ class ResetPasswordPage extends Component {
   // (to avoid redirects for pages that should be available for anonymous).
   static skipInitialAuthRedirect = true;
 
-  static async getInitialProps({
-    request, auth, query, res,
-  }) {
+  static async getInitialProps({ request, auth, query, res }) {
     let initialProps = {};
 
     // Don't allow Authentificated to access the page.
