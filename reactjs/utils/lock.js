@@ -2,7 +2,7 @@ import { store } from '../store/store';
 import * as lockActions from '../actions/lock';
 
 // Add a new lock into lock collection.
-export const add = (collectionName) => {
+export const add = collectionName => {
   // Reserve lock id for this lock.
   const lockId = store.getState().lock.currentIndex + 1;
   // Add a lock.
@@ -12,7 +12,7 @@ export const add = (collectionName) => {
 };
 
 // Remove the lock.
-export const release = (lockId) => {
+export const release = lockId => {
   store.dispatch(lockActions.lockRemove(lockId));
 };
 
@@ -25,7 +25,7 @@ export const isLocked = () => {
 };
 
 // Check if there are locks in the collection.
-export const isNameLocked = (collectionName) => {
+export const isNameLocked = collectionName => {
   // Get current state from Redux.
   const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
   // Find first lock with matching collection name.
@@ -36,7 +36,7 @@ export const isNameLocked = (collectionName) => {
 
 // TODO: implement timeout option.
 // Wait for all locks in a given collection to be released.
-export const wait = collectionName => new Promise((resolve) => {
+export const wait = collectionName => new Promise(resolve => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
     // Get current state from Redux.
     const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring
@@ -54,7 +54,7 @@ export const wait = collectionName => new Promise((resolve) => {
 
 // TODO: implement timeout option.
 // Wait for all locks to be released.
-export const waitAll = () => new Promise((resolve) => {
+export const waitAll = () => new Promise(resolve => {
   (function waitForLocksToRelease() { // eslint-disable-line consistent-return
     // Get locks array from Redux.
     const locks = store.getState().lock.locks; // eslint-disable-line prefer-destructuring

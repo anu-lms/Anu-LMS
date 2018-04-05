@@ -89,7 +89,7 @@ export default function withAuth(PageComponent) {
       const auth = new ClientAuth();
       return new Promise((resolve, reject) => {
         auth.getAccessToken()
-          .then((accessToken) => {
+          .then(accessToken => {
             request.set('Authorization', `Bearer ${accessToken}`);
             // Request as an object, because it returns promise otherwise.
             resolve({ request });

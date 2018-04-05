@@ -101,7 +101,7 @@ class RichEditor extends React.Component {
    *
    * @param {Event} event
    */
-  onClickLink = (event) => {
+  onClickLink = event => {
     event.preventDefault();
     const { value } = this.state;
     const hasLinks = this.hasLinks();
@@ -250,7 +250,7 @@ class RichEditor extends React.Component {
    * @param {String} type
    * @return {Boolean}
    */
-  hasMark = (type) => {
+  hasMark = type => {
     const { value } = this.state;
     return value.activeMarks.some(mark => mark.type === type);
   };
@@ -261,7 +261,7 @@ class RichEditor extends React.Component {
    * @param {String} type
    * @return {Boolean}
    */
-  hasBlock = (type) => {
+  hasBlock = type => {
     const { value } = this.state;
     return value.blocks.some(node => node.type === type);
   };
@@ -282,7 +282,7 @@ class RichEditor extends React.Component {
    * @param {String} type
    * @return {Element}
    */
-  renderMarkButton = (type) => {
+  renderMarkButton = type => {
     const isActive = this.hasMark(type);
     const onMouseDown = event => this.onClickMark(event, type);
 
@@ -330,7 +330,7 @@ class RichEditor extends React.Component {
    * @param {String} type
    * @return {Element}
    */
-  renderBlockButton = (type) => {
+  renderBlockButton = type => {
     const isActive = this.hasBlock(type);
     const onMouseDown = event => this.onClickBlock(event, type);
 
@@ -390,7 +390,7 @@ class RichEditor extends React.Component {
    * @param {Object} props
    * @return {Element}
    */
-  renderNode = (props) => {
+  renderNode = props => {
     const { attributes, children, node } = props;
     switch (node.type) {
       case 'bulleted-list':
@@ -414,7 +414,7 @@ class RichEditor extends React.Component {
    * @param {Object} props
    * @return {Element}
    */
-  renderMark = (props) => {
+  renderMark = props => {
     const { children, mark } = props;
     switch (mark.type) {
       case 'bold':

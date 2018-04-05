@@ -14,7 +14,7 @@ export const getTeaser = (body, rowNumber) => {
   teaser = striptags(teaser, ['p']);
 
   let rows = [];
-  teaser.split('</p>').forEach((line) => {
+  teaser.split('</p>').forEach(line => {
     if (rows.length === rowNumber) {
       return;
     }
@@ -42,7 +42,7 @@ export const getNoteById = (notes, noteId) => {
 /**
  * Get state of note sync with backend.
  */
-export const getSavedState = (note) => {
+export const getSavedState = note => {
   // Default state if nothing else is stated.
   let state = 'Saved';
   if (typeof note.isSaving !== 'undefined' && note.isSaving) {
@@ -57,7 +57,7 @@ export const getSavedState = (note) => {
 /**
  * Returns an array of notes which are not yet synced with backend.
  */
-export const getUnsavedNotes = notes => notes.filter((note) => {
+export const getUnsavedNotes = notes => notes.filter(note => {
   const isSaved = typeof note.isSaved !== 'undefined' && note.isSaved === true;
   const isSaving = typeof note.isSaving !== 'undefined' && note.isSaving === true;
   return !isSaved && !isSaving;
@@ -66,7 +66,7 @@ export const getUnsavedNotes = notes => notes.filter((note) => {
 /**
  * Checks if the current note has no title & body.
  */
-export const isEmptyNote = (note) => {
+export const isEmptyNote = note => {
   const noTitle = note.title === '';
   const noBody = note.body === '<p></p>' || note.body === '';
   return noTitle && noBody;
@@ -90,11 +90,11 @@ export const createNote = (request, title = '', body = '') => new Promise((resol
         },
       },
     })
-    .then((response) => {
+    .then(response => {
       const notes = dataProcessors.notebookData([response.body.data]);
       resolve(notes[0]);
     })
-    .catch((error) => {
+    .catch(error => {
       console.log('Could not save the note. Error:');
       console.log(error);
       reject(error);
@@ -120,11 +120,11 @@ export const updateNote = (request, title, body, uuid) => new Promise((resolve, 
         },
       },
     })
-    .then((response) => {
+    .then(response => {
       const notes = dataProcessors.notebookData([response.body.data]);
       resolve(notes[0]);
     })
-    .catch((error) => {
+    .catch(error => {
       console.log('Could not update the note. Error:');
       console.log(error);
       reject(error);
@@ -141,7 +141,7 @@ export const deleteNote = (request, uuid) => new Promise((resolve, reject) => {
     .then(() => {
       resolve();
     })
-    .catch((error) => {
+    .catch(error => {
       console.log('Could not delete the note. Error:');
       console.log(error);
       reject(error);

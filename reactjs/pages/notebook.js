@@ -71,7 +71,7 @@ class NotebookPage extends Component {
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
-      notes.forEach((note) => {
+      notes.forEach(note => {
         dispatch(notebookActions.addNote(note));
       });
 
@@ -101,7 +101,7 @@ NotebookPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
   let state = {
     isStoreRehydrated: false,
   };

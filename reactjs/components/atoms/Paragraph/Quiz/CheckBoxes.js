@@ -54,7 +54,7 @@ class Checkboxes extends React.Component {
             </div>
             }
 
-            {options.map((checkbox) => {
+            {options.map(checkbox => {
               // By default every checkbox in not ticked.
               let isChecked = false;
 
