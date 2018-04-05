@@ -1,9 +1,10 @@
-import React from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-autosize-textarea';
 import Paragraphs from '../index';
 
 class FreeAnswer extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -31,7 +32,7 @@ class FreeAnswer extends React.Component {
   }
 
   render() {
-    const { title, blocks, columnClasses } = this.props;
+    const { title, blocks, columnClasses, data } = this.props;
     return (
       <div className="container quiz textarea">
         <div className="row">
@@ -49,28 +50,31 @@ class FreeAnswer extends React.Component {
               innerRef={ref => this.textarea = ref}
               onChange={this.handleChange}
               placeholder="Type your response..."
+              value={typeof data === 'string' ? data : ''}
             />
           </div>
         </div>
       </div>
     );
-  }
+  };
 }
 
 FreeAnswer.propTypes = {
-  title: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  title: PropTypes.string,
+  id: PropTypes.number,
+  data: PropTypes.oneOfType([
+    PropTypes.object, // if empty - null is given here.
+    PropTypes.string, // if there's a value.
+  ]),
+  columnClasses: PropTypes.array,
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
 };
 
 FreeAnswer.defaultProps = {
-  columnClasses: [],
-  handleParagraphLoaded: () => {},
-  handleQuizChange: () => {},
   blocks: [],
+  data: null,
 };
 
 export default FreeAnswer;

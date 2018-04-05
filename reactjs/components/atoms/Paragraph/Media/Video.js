@@ -27,6 +27,7 @@ class Video extends React.Component {
               width="100%"
               onReady={this.playerLoaded}
               onError={this.playerLoaded}
+              controls={true}
             />
           </div>
         </div>

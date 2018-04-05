@@ -62,6 +62,59 @@ export const hasQuizzes = (lesson) => {
   return hasQuizzesValue;
 };
 
+/**
+ * Checks if the current paragraph is a quiz.
+ */
+export const blockIsQuiz = block => (
+  block.type && block.type.indexOf('quiz_') === 0
+);
+
+/**
+ * Returns a quiz data for a given quiz
+ * from the list of all quizzes data.
+ */
+export const getQuizData = (quizzesData, blockId) => {
+  let data = null;
+  for (let [id, quizData] of Object.entries(quizzesData)) {
+    if (parseInt(blockId) === parseInt(id)) {
+      data = quizData;
+    }
+  }
+  return data;
+};
+
+/**
+ * Returns a list of IDs of all quizzes from a lesson.
+ *
+ * @param lesson
+ *   Lesson object.
+ *
+ * @returns {Array}
+ */
+export const getQuizzesIds = lesson => {
+  let ids = [];
+  lesson.blocks.forEach(block => {
+    if (block.type && block.type.indexOf('quiz_') === 0) {
+      ids.push(block.id);
+    }
+  });
+  return ids;
+};
+
+/**
+ * Returns a bool if the current lesson has synchronized
+ * the quizzes data with the backend or not.
+ */
+export const areQuizzesSaved = (lessons, lessonId) => {
+  const index = lessons.findIndex(lesson => lesson.id === lessonId);
+  if (index !== -1) {
+    if (typeof lessons[index].quizzesSaved !== 'undefined') {
+      return lessons[index].quizzesSaved;
+    }
+  }
+  return false;
+};
+
 export const getQuizzesData = (lessons, lessonId) => {
   const index = lessons.findIndex(lesson => lesson.id === lessonId);
   if (index !== -1) {

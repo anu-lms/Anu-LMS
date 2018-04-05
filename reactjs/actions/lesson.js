@@ -11,6 +11,11 @@ export const setQuizResult = (lessonId, quizId, quizData) => ({
   quizData,
 });
 
+export const setQuizzesSaved = lessonId => ({
+  type: 'LESSON_QUIZZES_SAVED',
+  lessonId,
+});
+
 export const opened = lesson => ({
   type: 'LESSON_OPENED',
   lesson,

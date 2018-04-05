@@ -11,6 +11,7 @@ plugin_id: quizzes_results
 granularity: resource
 configuration:
   methods:
+    - GET
     - POST
   formats:
     - json
