@@ -13,7 +13,7 @@ class Checkbox extends React.Component {
   }
 
   toggleCheck() {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newState = !prevState.isChecked;
 
       if (this.props.onChange) {

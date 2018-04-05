@@ -37,7 +37,7 @@ class DashboardPage extends React.Component {
         });
 
       // Gather list of courses available for the current user.
-      responseAllCourses.body.data.forEach((courseData) => {
+      responseAllCourses.body.data.forEach(courseData => {
         const course = dataProcessors.courseData(courseData);
         initialProps.courses.push(course);
       });
@@ -62,7 +62,7 @@ class DashboardPage extends React.Component {
       // Make sure the response body is not null.
       if (responseProgress.body) {
         // Attach course progresses to their corresponsing entities.
-        responseProgress.body.forEach((courseProgress) => {
+        responseProgress.body.forEach(courseProgress => {
           // Find course to which the progress data should be added.
           const courseId = parseInt(courseProgress.courseId); // eslint-disable-line radix
           const index = initialProps.courses.findIndex(course => course.id === courseId);

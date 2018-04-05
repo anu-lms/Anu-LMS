@@ -50,10 +50,10 @@ export const isAssessment = lesson => (
 /**
  * Checks if the current lesson has quizzes included.
  */
-export const hasQuizzes = (lesson) => {
+export const hasQuizzes = lesson => {
   let hasQuizzesValue = false;
 
-  lesson.blocks.forEach((block) => {
+  lesson.blocks.forEach(block => {
     if (block.type && block.type.indexOf('quiz_') === 0) {
       hasQuizzesValue = true;
     }
@@ -92,9 +92,9 @@ export const getQuizData = (quizzesData, blockId) => {
  *
  * @returns {Array}
  */
-export const getQuizzesIds = (lesson) => {
+export const getQuizzesIds = lesson => {
   let ids = [];
-  lesson.blocks.forEach((block) => {
+  lesson.blocks.forEach(block => {
     if (block.type && block.type.indexOf('quiz_') === 0) {
       ids.push(block.id);
     }

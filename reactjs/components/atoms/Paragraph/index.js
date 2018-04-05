@@ -6,7 +6,7 @@ import * as lessonsHelper from '../../../helpers/lesson';
 
 const Paragraphs = dynamic({
 
-  modules: (props) => {
+  modules: props => {
     const allComponents = {
       'text_text': import('./Text/Text'),
       'text_heading': import('./Text/Heading'),
@@ -30,7 +30,7 @@ const Paragraphs = dynamic({
 
     // Gather list of components which are needed on the lesson page.
     let neededComponents = {};
-    props.blocks.forEach((block) => {
+    props.blocks.forEach(block => {
       neededComponents[block.type] = allComponents[block.type];
     });
 
@@ -38,7 +38,7 @@ const Paragraphs = dynamic({
   },
 
   render: ({ blocks, ...props }, components) => (
-    blocks.map((block) => {
+    blocks.map(block => {
       const Paragraph = components[block.type];
 
       // Quiz paragraph needs an additional piece of data from redux store.

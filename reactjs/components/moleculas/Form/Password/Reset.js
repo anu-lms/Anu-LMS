@@ -82,7 +82,7 @@ class PasswordForm extends React.Component {
           password_new: formData.password_new,
           ...this.props.tokenParams,
         })
-        .then((response) => {
+        .then(response => {
           this.setState({ isSending: false });
           const user = dataProcessors.userData(response.body);
 

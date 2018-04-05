@@ -106,7 +106,7 @@ class LessonNotebook extends React.Component {
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
-      notes.forEach((note) => {
+      notes.forEach(note => {
         dispatch(notebookActions.addNote(note));
       });
 

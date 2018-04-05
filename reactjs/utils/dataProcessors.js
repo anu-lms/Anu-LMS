@@ -7,7 +7,7 @@ export const classData = classDataObject => ({
   label: classDataObject.label,
 });
 
-export const courseData = (courseDataObject) => {
+export const courseData = courseDataObject => {
   const course = courseDataObject.entityId;
   const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['576x450'] : 'http://via.placeholder.com/576x450';
 
@@ -23,7 +23,7 @@ export const courseData = (courseDataObject) => {
 
   let instructors = [];
   if (course.fieldCourseInstructors) {
-    instructors = course.fieldCourseInstructors.map((user) => {
+    instructors = course.fieldCourseInstructors.map(user => {
       let realname = '';
       if (user.fieldFirstName) {
         realname = user.fieldFirstName;
@@ -79,7 +79,7 @@ export const courseData = (courseDataObject) => {
 /**
  * Internal helper to process paragraphs data from the backend.
  */
-const processParagraphs = (paragraphs) => {
+const processParagraphs = paragraphs => {
   let blocks = [];
   let counter = 1;
   const regExp = /\/paragraph\/(.+)\//;
@@ -126,7 +126,7 @@ const processParagraphs = (paragraphs) => {
   });
 
   // Custom mapping for linear scale fields.
-  blocks = blocks.map((block) => {
+  blocks = blocks.map(block => {
     if (block.type === 'quiz_linear_scale') {
       block.from = block.linearscalefrom;
       block.to = block.linearscaleto;
@@ -138,7 +138,7 @@ const processParagraphs = (paragraphs) => {
   return blocks;
 };
 
-export const lessonData = (lessonDataObject) => {
+export const lessonData = lessonDataObject => {
   const lesson = lessonDataObject.entityId;
 
   let blocks = [];
@@ -174,7 +174,7 @@ export const notebookData = notebookDataObject =>
 /**
  * Internal helper to normalize User data from the backend.
  */
-export const userData = (userDataObject) => {
+export const userData = userDataObject => {
   let data = {
     uid: userDataObject.uid[0].value,
     uuid: userDataObject.uuid[0].value,

@@ -13,7 +13,7 @@ const PasswordWidget = ({
     <Password
       className={classes.join(' ')}
       showIndicator={options.indicator}
-      changeCallback={(state) => { onChange(state.password); }}
+      changeCallback={state => { onChange(state.password); }}
       inputProps={{
         id, label, required, placeholder,
       }}

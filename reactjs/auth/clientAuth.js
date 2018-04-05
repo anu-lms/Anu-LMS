@@ -60,9 +60,9 @@ export default class extends Auth {
   );
 
   logout = () => (
-    new Promise((resolve) => {
+    new Promise(resolve => {
       this.getSessionToken()
-        .then((sessionToken) => {
+        .then(sessionToken => {
           request
             .post('/user/token/revoke?_format=json')
             .set('Content-Type', 'application/json')
@@ -90,7 +90,7 @@ export default class extends Auth {
   );
 
   getSessionToken() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       request.get('/session/token')
         .end((error, response) => {
           resolve(response.text);
@@ -103,7 +103,7 @@ export default class extends Auth {
       console.log('refreshing token for client..');
 
       this.refreshAuthToken(this.refreshToken)
-        .then((tokens) => {
+        .then(tokens => {
           console.log('Setting client auth cookies...');
 
           // TODO: SET HTTP ONLY COOKIE.
@@ -119,7 +119,7 @@ export default class extends Auth {
 
           resolve(tokens.accessToken);
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });

@@ -114,12 +114,12 @@ class LessonContent extends React.Component {
     this.paragraphsToLoad = [];
 
     // Mark all blocks as "needs to be loaded".
-    props.lesson.blocks.forEach((block) => {
+    props.lesson.blocks.forEach(block => {
       this.paragraphsToLoad.push(block.id);
 
       // Handle nested blocks.
       if (typeof block.blocks !== 'undefined') {
-        block.blocks.forEach((subblock) => {
+        block.blocks.forEach(subblock => {
           this.paragraphsToLoad.push(subblock.id);
         });
       }

@@ -10,7 +10,7 @@ const methodEvents = {
   onAppUpdated: 'appUpdated',
 };
 
-Object.keys(methodEvents).forEach((method) => {
+Object.keys(methodEvents).forEach(method => {
   Router[method] = (...args) => emitter.emit(methodEvents[method], ...args);
 });
 

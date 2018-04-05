@@ -38,7 +38,7 @@ export default class {
             refreshToken: body.refresh_token,
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log('Could not refresh auth token.');
           reject(error);
         });

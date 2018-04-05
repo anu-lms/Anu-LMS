@@ -15,7 +15,7 @@ export default class extends Auth {
       console.log('refreshing token for server..');
 
       this.refreshAuthToken(this.refreshToken)
-        .then((tokens) => {
+        .then(tokens => {
           console.log('Setting server auth cookies...');
 
           // TODO: SET HTTP ONLY COOKIE.
@@ -31,7 +31,7 @@ export default class extends Auth {
 
           resolve();
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
