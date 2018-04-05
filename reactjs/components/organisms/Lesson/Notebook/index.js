@@ -133,10 +133,14 @@ class LessonNotebook extends React.Component {
    * Perform actions on closing the notebook pane.
    */
   handleNotebookClose() {
+    const { activeNote } = this.props;
 
     // Force save note to the backend.
-    if (this.props.activeNote) {
-      this.props.dispatch(notebookActions.saveNote(this.props.activeNote));
+    if (activeNote) {
+      // Do not save empty note - it will be automatically removed.
+      if (!notebookHelpers.isEmptyNote(activeNote)) {
+        this.props.dispatch(notebookActions.saveNote(activeNote));
+      }
     }
 
     // Close the notebook pane.
@@ -189,7 +193,17 @@ class LessonNotebook extends React.Component {
               }
 
               <div className="save-close" onClick={() => this.handleNotebookClose()}>
-                { isNoteListVisible ? 'Close Notes' : 'Save and Close' }
+                { !isNoteListVisible && activeNote &&
+                <Fragment>
+                  {notebookHelpers.isEmptyNote(activeNote) ?
+                    'Discard and Close' :
+                    'Save and Close'
+                  }
+                </Fragment>
+                }
+                { isNoteListVisible &&
+                <Fragment>Close Notes</Fragment>
+                }
 
                 <span className="close-arrow">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -219,7 +233,8 @@ LessonNotebook.contextTypes = {
 const mapStateToProps = ({ lessonNotebook, notebook }) => ({
   isCollapsed: lessonNotebook.isCollapsed,
   activeNote: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
-  notes: notebook.notes,
+  // Display only non-empty notes in the list.
+  notes: notebook.notes.filter(note => !notebookHelpers.isEmptyNote(note)),
   isNoteListVisible: lessonNotebook.isNoteListVisible,
 });
 
