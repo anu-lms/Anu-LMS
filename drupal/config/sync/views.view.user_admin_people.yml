@@ -1,6 +1,6 @@
 uuid: 044c219a-1833-40fb-9003-cbc79b30fd70
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - anu_user
