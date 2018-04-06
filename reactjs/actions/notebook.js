@@ -1,7 +1,7 @@
 /**
  * Adds or updates an existing note in the notebook.
  */
-export const addNote = (note) => ({
+export const addNote = note => ({
   type: 'NOTE_ADD',
   note,
 });

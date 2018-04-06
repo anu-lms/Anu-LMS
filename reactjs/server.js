@@ -1,6 +1,6 @@
 const compression = require('compression');
 const express = require('express');
-const basicAuth = require('express-basic-auth')
+const basicAuth = require('express-basic-auth');
 const nextjs = require('next');
 const sass = require('node-sass');
 const routes = require('./routes');
@@ -12,15 +12,14 @@ process.env.PORT = process.env.PORT || 3000;
 
 // Override env vars for platform.sh environment.
 if (process.env.PLATFORM_PROJECT) {
-
   // Load platform.sh config.
-  const config = require('platformsh').config();
+  const config = require('platformsh').config(); // eslint-disable-line global-require
 
   // Override environment port.
   process.env.PORT = config.port;
 
-  for (let url in config.routes) {
-    let route = config.routes[url];
+  for (let url in config.routes) { // eslint-disable-line no-restricted-syntax, guard-for-in
+    const route = config.routes[url];
     if (route.original_url === 'https://{default}/admin/') {
       // Remove "/admin/" from the end of the url.
       process.env.BASE_URL = url.substring(0, url.length - 7);
@@ -30,15 +29,15 @@ if (process.env.PLATFORM_PROJECT) {
 else {
   // Load environment variables from .env (for production) or
   // .env.local (for local development) file.
-  let dotEnvFilePath = process.env.NODE_ENV !== 'production' ? './.env.local' : './.env';
-  require('dotenv').config({
+  const dotEnvFilePath = process.env.NODE_ENV !== 'production' ? './.env.local' : './.env';
+  require('dotenv').config({ // eslint-disable-line global-require
     path: dotEnvFilePath,
   });
 }
 
 // Log some basic data.
-console.log('PORT: ' + process.env.PORT);
-console.log('BASE URL: ' + process.env.BASE_URL);
+console.log(`PORT: ${process.env.PORT}`);
+console.log(`BASE URL: ${process.env.BASE_URL}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = nextjs({ dev });
@@ -50,12 +49,11 @@ app.prepare()
 
     // Make sure we enable http auth only on platform.sh dev branches.
     if (process.env.PLATFORM_BRANCH && process.env.PLATFORM_BRANCH !== 'master') {
-
       // Make sure that we do have http user & password set in variables.
       if (process.env.HTTP_AUTH_USER && process.env.HTTP_AUTH_PASS) {
         server.use(basicAuth({
           users: {
-            [process.env.HTTP_AUTH_USER]: process.env.HTTP_AUTH_PASS
+            [process.env.HTTP_AUTH_USER]: process.env.HTTP_AUTH_PASS,
           },
           challenge: true,
         }));
@@ -80,7 +78,7 @@ app.prepare()
 
     // Send robots.txt file from /static folder.
     const options = {
-      root: __dirname + '/static/',
+      root: `${__dirname}/static/`,
       headers: {
         'Content-Type': 'text/plain;charset=UTF-8',
       },
@@ -90,7 +88,7 @@ app.prepare()
     ));
 
     // Set browser caching for all static files.
-    server.use('/static', express.static(__dirname + '/static', {
+    server.use('/static', express.static(`${__dirname}/static`, {
       maxAge: '7d',
     }));
 

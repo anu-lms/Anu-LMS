@@ -1,8 +1,8 @@
 const globImporter = require('node-sass-glob-importer');
-const webpack  = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
-  webpack: (config, { dev }) => {
+  webpack: (config, { dev }) => { // eslint-disable-line no-unused-vars
     config.module.rules.push(
       {
         test: /\.(css|scss)/,
@@ -21,16 +21,17 @@ module.exports = {
           'babel-loader',
           'raw-loader',
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
-              importer: globImporter()
-            }
-          }
+              importer: globImporter(),
+            },
+          },
         ],
-      }
+      },
     );
-    // Make GTM_QUERY and GTM_ID environment variables available to the client, and set default values (empty sting).
-    config.plugins.push(new webpack.EnvironmentPlugin({'GTM_QUERY': '', 'GTM_ID': ''}));
+    // Make GTM_QUERY and GTM_ID environment variables available to the client,
+    // and set default values (empty sting).
+    config.plugins.push(new webpack.EnvironmentPlugin({ 'GTM_QUERY': '', 'GTM_ID': '' }));
 
     return config;
   },

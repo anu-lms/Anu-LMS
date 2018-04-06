@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ type, size, block, active, disabled, onClick, loading, children }) => {
-
-  let classes = ['btn'];
+const Button = ({
+  type, size, block, active, disabled, onClick, loading, children,
+}) => {
+  const classes = ['btn'];
 
   if (type) {
-    classes.push('btn-' + type);
+    classes.push(`btn-${type}`);
   }
 
   if (size) {
-    classes.push('btn-' + size);
+    classes.push(`btn-${size}`);
   }
 
   if (block) {
@@ -34,8 +35,8 @@ const Button = ({ type, size, block, active, disabled, onClick, loading, childre
     >
 
       {loading &&
-      <svg className="progress-circle" viewBox='0 0 41 41'>
-        <path d='M38,20.5 C38,30.1685093 30.1685093,38 20.5,38'/>
+      <svg className="progress-circle" viewBox="0 0 41 41">
+        <path d="M38,20.5 C38,30.1685093 30.1685093,38 20.5,38" />
       </svg>
       }
 
@@ -66,6 +67,7 @@ Button.defaultProps = {
   disabled: false,
   loading: false,
   onClick: () => {},
+  children: {},
 };
 
 export default Button;

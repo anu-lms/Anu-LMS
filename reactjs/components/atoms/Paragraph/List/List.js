@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 
 class List extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
@@ -19,18 +18,20 @@ class List extends React.Component {
   }
 
   render() {
-    const { list, type, id, columnClasses } = this.props;
+    const {
+      list, type, id, columnClasses,
+    } = this.props;
     let Wrapper = 'ul';
 
     if (type === 'list_numbered') {
       Wrapper = 'ol';
     }
     else
-      if (type === 'list_checkbox') {
-        Wrapper = 'div';
-      }
+    if (type === 'list_checkbox') {
+      Wrapper = 'div';
+    }
 
-    const getKey = (index) => `${id}_${index}`;
+    const getKey = index => `${id}_${index}`;
 
     return (
       <div className="container list">
@@ -39,7 +40,7 @@ class List extends React.Component {
             <Wrapper>
               {list.map((item, index) => (
                 type === 'list_checkbox' ?
-                  <Checkbox key={getKey(index)} label={item} id={getKey(index)}/> :
+                  <Checkbox key={getKey(index)} label={item} id={getKey(index)} /> :
                   <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
@@ -51,12 +52,19 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  list: PropTypes.array,
+  list: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+List.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default List;

@@ -129,6 +129,10 @@ jobs:
           <<: *install_platform_cli
 
       - run:
+          name: Run ESLint for the React application.
+          command: platform ssh -A frontend "yarn eslint"
+
+      - run:
           name: Start ChromeDriver
           command: chromedriver --url-base=wd/hub --port=9515 --ignore-certificate-errors
           background: true

@@ -47,8 +47,8 @@
     "redux-saga": "^0.16.0",
     "sass-loader": "^6.0.6",
     "slate": "^0.32.4",
-    "slate-html-serializer": "^0.5.4",
-    "slate-react": "^0.11.4",
+    "slate-html-serializer": "systemseed/slate-html-serializer#1bdf4b4",
+    "slate-react": "systemseed/slate-react#c6ecd76",
     "striptags": "2.2.1",
     "styled-components": "^3.1.6",
     "superagent": "^3.5.2",
@@ -60,12 +60,12 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "babel-eslint": "7.0.0",
-    "eslint": "^3.8.1",
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.0.1",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.4.1"
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0"
   },
   "standard": {
     "parser": "babel-eslint"
@@ -73,6 +73,7 @@
   "scripts": {
     "build": "next build",
     "start": "PORT=3000 NODE_ENV=production node server.js",
-    "start:dev": "PORT=3000 NODE_ENV=development node server.js"
+    "start:dev": "PORT=3000 NODE_ENV=development node server.js",
+    "eslint": "./node_modules/.bin/eslint ./"
   }
 }

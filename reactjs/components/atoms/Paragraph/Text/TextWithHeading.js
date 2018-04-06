@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class TextWithHeading extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
@@ -30,7 +29,8 @@ class TextWithHeading extends React.Component {
               }
 
               {text &&
-              <div dangerouslySetInnerHTML={{__html: text.value}}/>
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: text.value }} />
               }
 
             </div>
@@ -42,16 +42,24 @@ class TextWithHeading extends React.Component {
 }
 
 TextWithHeading.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,
-  }),
+  }).isRequired,
   title: PropTypes.string,
+};
+
+TextWithHeading.defaultProps = {
+  title: '',
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default TextWithHeading;

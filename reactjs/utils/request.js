@@ -33,7 +33,7 @@ superagent
 // are available only on the node.js server, not in the browser. For more
 // info see ./drupal/web/sites/default/http_auth.php.
 if (process.env.HTTP_AUTH_USER && process.env.HTTP_AUTH_PASS) {
-  superagent.set('HTTP-Auth', process.env.HTTP_AUTH_USER + ':' + process.env.HTTP_AUTH_PASS);
+  superagent.set('HTTP-Auth', `${process.env.HTTP_AUTH_USER}:${process.env.HTTP_AUTH_PASS}`);
 }
 
 export default superagent;

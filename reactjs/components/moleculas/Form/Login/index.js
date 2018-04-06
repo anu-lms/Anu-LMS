@@ -1,9 +1,9 @@
 import React from 'react';
+import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
-import { Router } from '../../../../routes'
-import Alert from 'react-s-alert';
+import { Router } from '../../../../routes';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
@@ -18,7 +18,7 @@ const schema = {
       'type': 'string',
       'title': 'Password',
     },
-  }
+  },
 };
 
 const uiSchema = {
@@ -28,11 +28,10 @@ const uiSchema = {
   'password': {
     'ui:widget': PasswordWidget,
     'ui:placeholder': ' ',
-  }
+  },
 };
 
 class LoginForm extends React.Component {
-
   constructor(props, context) {
     super(props, context);
 
@@ -41,11 +40,10 @@ class LoginForm extends React.Component {
       formData: {},
     };
 
-    this.submitForm.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   async submitForm({ formData }) {
-
     this.setState({
       isSending: true,
       formData,
@@ -61,13 +59,13 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <Form
         schema={schema}
         uiSchema={uiSchema}
         formData={this.state.formData}
-        autocomplete={'off'}
-        onSubmit={this.submitForm.bind(this)}
+        autocomplete="off"
+        onSubmit={this.submitForm}
       >
         <Button block loading={this.state.isSending}>
           Login

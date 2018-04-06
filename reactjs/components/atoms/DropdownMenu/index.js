@@ -1,3 +1,4 @@
+import React from 'react';
 import Dropdown, { MenuItem } from '@trendmicro/react-dropdown';
 import styled from 'styled-components';
 
@@ -12,7 +13,7 @@ export const MenuIcon = () => (
 );
 
 export const DeleteIcon = () => (
-  <span className='menu-icon menu-icon-delete'>
+  <span className="menu-icon menu-icon-delete">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18">
       <g fill="none" fillRule="evenodd">
         <path fill="#b2b2b2" fillRule="nonzero" d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4H1v12zM14 1h-3.5l-1-1h-5l-1 1H0v2h14V1z" />
@@ -20,10 +21,11 @@ export const DeleteIcon = () => (
     </svg>
 
   </span>
-)
+);
 
-// TODO: figure out how to assign custom CSS classes instead of default approach (styled components).
-export const ImportantMenuItem = styled(MenuItem) `
+// TODO: figure out how to assign custom CSS classes
+// instead of default approach (styled components).
+export const ImportantMenuItem = styled(MenuItem)`
 && {
   > div {
     transition: all .2s;
@@ -44,5 +46,5 @@ export {
   DropdownMenu,
   DropdownMenuWrapper,
   MenuItem,
-  DropdownButton
+  DropdownButton,
 } from '@trendmicro/react-dropdown';
