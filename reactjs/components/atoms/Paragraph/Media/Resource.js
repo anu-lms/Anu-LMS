@@ -10,13 +10,11 @@ import * as breakpoints from '../../../../utils/breakpoints';
 import * as privateFileHelper from '../../../../helpers/privateFile';
 
 class Resource extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       fileDisplay: false,
-      fileViewUrl: '',
       filePages: 0,
       fileLoaded: false,
       fileDisplayWidth: 800,
@@ -95,7 +93,7 @@ class Resource extends React.Component {
   onFileViewClose() {
     this.setState({
       fileDisplay: false,
-      fileLoaded: false
+      fileLoaded: false,
     });
     document.body.classList.remove('no-scroll');
   }
@@ -117,6 +115,7 @@ class Resource extends React.Component {
    * Close popup window with PDF on ESC press.
    */
   onKeyPress() {
+    // eslint-disable-next-line no-undef, no-restricted-globals
     if (event.keyCode === 27 && this.state.fileDisplay === true) {
       this.onFileViewClose();
     }
@@ -130,37 +129,37 @@ class Resource extends React.Component {
           <div className={columnClasses.join(' ')}>
             <div className="inner">
 
-              <div className="download-link" onClick={this.onFileDownloadClick}>
+              <div className="download-link" onClick={this.onFileDownloadClick} onKeyPress={this.onFileDownloadClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 14 17">
                   <g fill="none" fillRule="evenodd">
-                    <path fillRule="nonzero" d="M14 6h-4V0H4v6H0l7 7 7-7zM0 15v2h14v-2H0z"/>
+                    <path fillRule="nonzero" d="M14 6h-4V0H4v6H0l7 7 7-7zM0 15v2h14v-2H0z" />
                   </g>
                 </svg>
               </div>
 
-              <div className="title" onClick={this.onFileViewOpen}>
+              <div className="title" onClick={this.onFileViewOpen} onKeyPress={this.onFileViewOpen}>
                 {!_isEmpty(title) && title}
                 {_isEmpty(title) && humanizeFileName(privatefile.filename)}
               </div>
 
               {this.state.fileDisplay &&
               <div className="lightbox">
-                <div className="overlay" onClick={this.onFileViewClose} />
+                <div className="overlay" onClick={this.onFileViewClose} onKeyPress={this.onFileViewClose} />
 
                 <div className="navigation">
 
-                  <div className="back" onClick={this.onFileViewClose}>
+                  <div className="back" onClick={this.onFileViewClose} onKeyPress={this.onFileViewClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
                       <g fill="none" fillRule="evenodd">
-                        <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z"/>
+                        <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z" />
                       </g>
                     </svg>
                   </div>
 
-                  <div className="download" onClick={this.onFileDownloadClick}>
+                  <div className="download" onClick={this.onFileDownloadClick} onKeyPress={this.onFileDownloadClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29">
                       <g fill="none" fillRule="evenodd">
-                        <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z"/>
+                        <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z" />
                       </g>
                     </svg>
                   </div>
@@ -192,7 +191,6 @@ class Resource extends React.Component {
 
                   </Document>
 
-
                 </div>
 
               </div>
@@ -215,14 +213,23 @@ Resource.contextTypes = {
 Resource.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   title: PropTypes.string,
   handleParagraphLoaded: PropTypes.func,
   privatefile: PropTypes.shape({
     fid: PropTypes.number,
     filename: PropTypes.string,
-  }),
+  }).isRequired,
+};
+
+Resource.defaultProps = {
+  id: undefined,
+  title: '',
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default Resource;

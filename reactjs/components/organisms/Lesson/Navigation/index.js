@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import { Link } from '../../../../routes';
@@ -12,7 +13,6 @@ import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import LinkWithClick from '../../../atoms/Link/LinkWithClick';
 
 class LessonNavigation extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -42,13 +42,13 @@ class LessonNavigation extends React.Component {
       <CollapsibleNavigation className="lesson">
 
         <Link to={course.url}>
-          <a className="course-teaser" style={{ backgroundImage: 'url("' + course.imageUrl + '")' }}>
+          <a className="course-teaser" style={{ backgroundImage: `url("${course.imageUrl}")` }}>
             <div className="image-overlay" />
             <div className="title">{course.title}</div>
             <div className="progress">
               <div className="completion caption sm">{courseHelper.getProgress(courses, course)}% complete</div>
               <div className="progress-bar">
-                <div className="current-progress" style={{ width: courseHelper.getProgress(courses, course) + '%' }} />
+                <div className="current-progress" style={{ width: `${courseHelper.getProgress(courses, course)}%` }} />
               </div>
             </div>
           </a>
@@ -63,7 +63,7 @@ class LessonNavigation extends React.Component {
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
               <g fill="none" fillRule="evenodd">
-                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z"/>
+                <path fill="#3E3E3E" fillRule="nonzero" d="M8 0H2C.9 0 .01.9.01 2L0 14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8L8 0z" />
               </g>
             </svg>
             <span>Course Resources</span>
@@ -91,6 +91,14 @@ class LessonNavigation extends React.Component {
     );
   }
 }
+
+LessonNavigation.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  courses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lessons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 const mapStateToProps = ({ lesson, course }) => ({
   lessons: lesson,

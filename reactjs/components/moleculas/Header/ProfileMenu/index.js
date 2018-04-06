@@ -5,14 +5,19 @@ import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 import PageLoader from '../../../atoms/PageLoader';
 
 class ProfileMenu extends React.Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    'isLoggingOut': false
+    this.state = {
+      isLoggingOut: false,
+    };
+
+    this.onSelect = this.onSelect.bind(this);
   }
 
   async onSelect() {
     // Inform UI that we started logout process.
-    this.setState({ 'isLoggingOut': true });
+    this.setState({ isLoggingOut: true });
     // Simply wait.
     await this.context.auth.logout();
   }
@@ -42,7 +47,7 @@ class ProfileMenu extends React.Component {
                 <Link to="/user/password"><a>Edit Password</a></Link>
               </MenuItem>
               {this.context.auth &&
-                <MenuItem onSelect={this.onSelect.bind(this)}>
+                <MenuItem onSelect={this.onSelect}>
                   <span>Logout</span>
                 </MenuItem>
               }

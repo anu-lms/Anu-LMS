@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
 class ImageCentered extends React.Component {
-
   constructor(props) {
     super(props);
     this.contentLoaded = this.contentLoaded.bind(this);
@@ -32,10 +31,11 @@ class ImageCentered extends React.Component {
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <img
-              src={fileUrl(image.meta.derivatives['w730'])}
+              src={fileUrl(image.meta.derivatives.w730)}
               onLoad={this.contentLoaded}
               onError={this.contentLoaded}
               ref={element => this.element = element}
+              alt=""
             />
             {title &&
             <div className="caption">{title}</div>
@@ -48,11 +48,11 @@ class ImageCentered extends React.Component {
 }
 
 ImageCentered.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
-  settings: PropTypes.object,
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({
     url: PropTypes.string,
@@ -61,7 +61,15 @@ ImageCentered.propTypes = {
         w730: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
+};
+
+ImageCentered.defaultProps = {
+  type: '',
+  columnClasses: [],
+  title: '',
+  settings: {},
+  handleParagraphLoaded: () => {},
 };
 
 export default ImageCentered;

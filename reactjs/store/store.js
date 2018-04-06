@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Default redux createStore function.
 import { createStore, applyMiddleware } from 'redux';
 
@@ -20,7 +18,7 @@ import reducers from '../reducers';
 // redux-persist config.
 const persistConfig = {
   key: 'root',
-  storage: storage,
+  storage,
   // List reducers to store data for.
   // TODO: Potentially lesson and course can be not permanent any more.
   whitelist: ['lesson', 'lessonNotebook', 'course', 'navigation', 'notebook'],
@@ -34,9 +32,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Build store.
 // TODO: Disable dev tools on production.
-export const store = createStore(persistedReducers, {}, composeWithDevTools(
-  applyMiddleware(sagaMiddleware)
-));
+// eslint-disable-next-line max-len
+export const store = createStore(persistedReducers, {}, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 // Start watching all sagas.
 sagaMiddleware.run(mainSaga);

@@ -12,7 +12,7 @@ const appReducer = combineReducers({
   lessonNotebook,
   notebook,
   navigation,
-  lock
+  lock,
 });
 
 
@@ -23,4 +23,4 @@ export default (state, action) => {
   }
 
   return appReducer(state, action);
-}
+};

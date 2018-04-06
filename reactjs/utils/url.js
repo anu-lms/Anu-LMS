@@ -8,7 +8,7 @@ export const BACKEND_SERVER_URL = process.env.NODE_ENV !== 'production' ? proces
 // the subfolder.
 export const BACKEND_CLIENT_URL = '/admin';
 
-export const fileUrl = (url) => {
+export const fileUrl = url => {
   // For local development replaces the absolute URL the backend with
   // relative for front-end rendering.
   if (url && process.env.NODE_ENV === 'development') {

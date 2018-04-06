@@ -3,5 +3,5 @@ export function setProgress(courseId, progress) {
     type: 'COURSE_PROGRESS_SET',
     courseId,
     progress,
-  }
+  };
 }

@@ -1,5 +1,4 @@
 export default (state = [], action) => {
-
   let index;
   let course;
 
@@ -21,7 +20,7 @@ export default (state = [], action) => {
         return [
           ...state.slice(0, index),
           course,
-          ...state.slice(index + 1)
+          ...state.slice(index + 1),
         ];
       }
 
@@ -31,7 +30,7 @@ export default (state = [], action) => {
         {
           id: action.courseId,
           progress: action.progress,
-        }
+        },
       ];
 
     default:

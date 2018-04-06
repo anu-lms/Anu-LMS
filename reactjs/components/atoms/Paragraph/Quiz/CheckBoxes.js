@@ -1,17 +1,11 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
 import Paragraphs from '../index';
 
 class Checkboxes extends React.Component {
-
   constructor(props) {
     super(props);
-
-    this.state = {};
-    props.options.forEach(checkbox => {
-      this.state[checkbox.uuid] = 0;
-    });
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -31,19 +25,23 @@ class Checkboxes extends React.Component {
   }
 
   handleChange(id, value) {
-    this.setState(state => {
-      state[id] = value + 0; // Convert to int.
+    // Change the prev quiz data.
+    let data = this.props.data; // eslint-disable-line prefer-destructuring
+    if (data === null) {
+      data = {};
+    }
 
-      if (this.props.handleQuizChange) {
-        this.props.handleQuizChange(this.props.id, state);
-      }
+    data[id] = value + 0; // Convert to int.
 
-      return state;
-    });
+    if (this.props.handleQuizChange) {
+      this.props.handleQuizChange(this.props.id, data);
+    }
   }
 
   render() {
-    const { title, blocks, options, handleParagraphLoaded, columnClasses } = this.props;
+    const {
+      title, blocks, options, data, columnClasses,
+    } = this.props;
     return (
       <div className="container quiz checkboxes">
         <div className="row">
@@ -56,36 +54,54 @@ class Checkboxes extends React.Component {
             </div>
             }
 
-            {options.map(checkbox => (
-              <Checkbox
+            {options.map(checkbox => {
+              // By default every checkbox in not ticked.
+              let isChecked = false;
+
+              // Get checkbox's value from the backend or redux store.
+              if (typeof data === 'object' && data !== null) {
+                isChecked = typeof data[checkbox.uuid] !== 'undefined' ? !!data[checkbox.uuid] : false;
+              }
+
+              return (<Checkbox
                 label={checkbox.value}
                 id={checkbox.uuid}
                 key={checkbox.uuid}
                 onChange={this.handleChange}
-              />
-            ))}
+                isChecked={isChecked}
+              />);
+            })}
           </div>
         </div>
       </div>
     );
-  };
+  }
 }
 
 Checkboxes.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.object, // null or value from the backend.
+    PropTypes.string, // value from the redux is just a plain string.
+  ]),
   options: PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string,
     value: PropTypes.string,
     is_answer: PropTypes.number,
-  })),
-  columnClasses: PropTypes.array,
+  })).isRequired,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
 };
 
 Checkboxes.defaultProps = {
+  data: null,
+  title: '',
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

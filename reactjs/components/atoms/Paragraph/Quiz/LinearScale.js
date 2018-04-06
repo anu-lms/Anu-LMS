@@ -1,19 +1,13 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Slider  from 'rc-slider';
+import Slider from 'rc-slider';
 import Paragraphs from '../index';
 
 class LinearScale extends React.Component {
-
   constructor(props) {
     super(props);
 
-    this.state = {
-      value: Math.round(props.to.first / 2),
-    };
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleAfterChange = this.handleAfterChange.bind(this);
   }
 
   componentDidMount() {
@@ -31,17 +25,18 @@ class LinearScale extends React.Component {
   }
 
   handleChange(value) {
-    this.setState({ value });
-  }
-
-  handleAfterChange(value) {
     if (this.props.handleQuizChange) {
       this.props.handleQuizChange(this.props.id, value);
     }
   }
 
   render() {
-    const { title, from, to, blocks, handleParagraphLoaded, columnClasses } = this.props;
+    const { title, from, to, blocks, data, columnClasses } = this.props;
+
+    // The value to use should be either the value from the redux store
+    // or the middle of the scale.
+    const value = data ? parseInt(data) : Math.round(to.first / 2); // eslint-disable-line radix
+
     return (
       <div className="container quiz linear-scale">
         <div className="row">
@@ -57,9 +52,9 @@ class LinearScale extends React.Component {
             <Slider
               min={from.first}
               max={to.first}
-              defaultValue={Math.round(to.first / 2)}
+              defaultValue={value}
+              value={value}
               onChange={this.handleChange}
-              onAfterChange={this.handleAfterChange}
             />
 
             <div className="labels">
@@ -68,19 +63,24 @@ class LinearScale extends React.Component {
             </div>
 
             <div className="current-value">
-              {this.state.value}
+              {value}
             </div>
 
           </div>
         </div>
       </div>
     );
-  };
+  }
 }
 
 LinearScale.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.object, // if empty - null is given here.
+    PropTypes.string, // if there's a value from the backend.
+    PropTypes.number, // if there's a value from the redux store.
+  ]),
   from: PropTypes.shape({
     first: PropTypes.number,
     second: PropTypes.string,
@@ -89,13 +89,17 @@ LinearScale.propTypes = {
     first: PropTypes.number,
     second: PropTypes.string,
   }).isRequired,
-  columnClasses: PropTypes.array,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
 };
 
 LinearScale.defaultProps = {
+  data: null,
+  columnClasses: [],
+  handleParagraphLoaded: () => {},
+  handleQuizChange: () => {},
   blocks: [],
 };
 

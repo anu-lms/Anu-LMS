@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
 
 class ImageFull extends React.Component {
-
   componentDidMount() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
@@ -21,19 +20,21 @@ class ImageFull extends React.Component {
   render() {
     let style = {};
     const { text, image, columnClasses } = this.props;
-    const imageUrl = fileUrl(image.meta.derivatives['w1400']);
+    const imageUrl = fileUrl(image.meta.derivatives.w1400);
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
       <div className="image-full" style={style}>
-        <div className="overlay"/>
+        <div className="overlay" />
         <div className="container">
           <div className="row">
-            <div
-              className={columnClasses.join(' ')}>
+            <div className={columnClasses.join(' ')}>
               {text &&
-              <div className="text"
-                   dangerouslySetInnerHTML={{__html: text.value}} />
+              <div
+                className="text"
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: text.value }}
+              />
               }
             </div>
           </div>
@@ -44,10 +45,10 @@ class ImageFull extends React.Component {
 }
 
 ImageFull.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
-  columnClasses: PropTypes.array,
-  settings: PropTypes.object,
+  columnClasses: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   image: PropTypes.shape({
     url: PropTypes.string,
@@ -56,11 +57,19 @@ ImageFull.propTypes = {
         w1400: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,
   }),
+};
+
+ImageFull.defaultProps = {
+  type: '',
+  columnClasses: [],
+  settings: {},
+  handleParagraphLoaded: () => {},
+  text: {},
 };
 
 export default ImageFull;
