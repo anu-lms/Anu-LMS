@@ -564,6 +564,48 @@ display:
           plugin_id: string
           entity_type: node
           entity_field: title
+        node_groups:
+          id: node_groups
+          table: node
+          field: node_groups
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: node_groups_op
+            label: Class
+            description: ''
+            use_operator: false
+            operator: node_groups_op
+            identifier: class
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          plugin_id: anu_node_groups_filter
         status:
           id: status
           table: node_field_data
@@ -609,48 +651,6 @@ display:
           plugin_id: boolean
           entity_type: node
           entity_field: status
-        node_groups:
-          id: node_groups
-          table: node
-          field: node_groups
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: in
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: node_groups_op
-            label: Class
-            description: ''
-            use_operator: false
-            operator: node_groups_op
-            identifier: class
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              teacher: '0'
-              moderator: '0'
-              administrator: '0'
-            reduce: 0
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          entity_type: node
-          plugin_id: anu_node_groups_filter
       sorts:
         changed:
           id: changed
