@@ -564,6 +564,48 @@ display:
           plugin_id: string
           entity_type: node
           entity_field: title
+        course_lessons:
+          id: course_lessons
+          table: node
+          field: course_lessons
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: course_lessons_op
+            label: 'Lesson title'
+            description: ''
+            use_operator: false
+            operator: course_lessons_op
+            identifier: lesson_title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          plugin_id: anu_course_lessons_filter
         node_groups:
           id: node_groups
           table: node

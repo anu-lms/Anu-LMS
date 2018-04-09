@@ -20,5 +20,14 @@ function anu_content_administration_views_data_alter(array &$data) {
       'id' => 'anu_node_groups_filter',
     ],
   ];
+  $data['node']['course_lessons'] = [
+    'title' => t('Course lessons'),
+    'filter' => [
+      'title' => t('Course lessons filter'),
+      'help' => 'Filters users by groups they belong to',
+      'field' => 'nid',
+      'id' => 'anu_course_lessons_filter',
+    ],
+  ];
 
 }
