@@ -6,7 +6,7 @@ dependencies:
     - field.storage.node.field_course_lessons
     - node.type.course
   module:
-    - group
+    - anu_content_administration
     - node
     - user
 _core:
@@ -101,15 +101,15 @@ display:
       row:
         type: fields
       fields:
-        node_bulk_form:
-          id: node_bulk_form
-          table: node
-          field: node_bulk_form
+        status:
+          id: status
+          table: node_field_data
+          field: status
           relationship: none
           group_type: group
           admin_label: ''
-          label: ''
-          exclude: false
+          label: Published
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -141,7 +141,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -149,14 +149,25 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          action_title: Action
-          include_exclude: include
-          selected_actions:
-            - node_delete_action
-            - node_publish_action
-            - node_unpublish_action
-          plugin_id: node_bulk_form
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: boolean
+            format_custom_true: ''
+            format_custom_false: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           entity_type: node
+          entity_field: status
+          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -167,8 +178,8 @@ display:
           label: Course
           exclude: false
           alter:
-            alter_text: false
-            text: '{% if type_1 == "article" %}<a href="/blog{{ path|replace({''/admin'': ''''}) }}" target="_blank">{{ title__value }}</a>{% endif %}'
+            alter_text: true
+            text: '{{ title }}{% if status == "0" %} <span class="content-status">(unpublished)</span>{% endif %}'
             make_link: false
             path: ''
             absolute: true
@@ -285,18 +296,18 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        gid:
-          id: gid
-          table: group_content_field_data
-          field: gid
-          relationship: group_content
+        node_groups:
+          id: node_groups
+          table: node
+          field: node_groups
+          relationship: none
           group_type: group
           admin_label: ''
-          label: Class
+          label: Classes
           exclude: false
           alter:
             alter_text: false
-            text: ''
+            text: '{{ node_groups }}'
             make_link: false
             path: ''
             absolute: false
@@ -333,23 +344,8 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: group_content
-          entity_field: gid
-          plugin_id: field
+          entity_type: node
+          plugin_id: anu_node_groups
         operations:
           id: operations
           table: node
@@ -484,92 +480,6 @@ display:
           plugin_id: string
           entity_type: node
           entity_field: title
-        title_1:
-          id: title_1
-          table: node_field_data
-          field: title
-          relationship: field_course_lessons
-          group_type: group
-          admin_label: ''
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: title_1_op
-            label: 'Lesson title'
-            description: ''
-            use_operator: false
-            operator: title_1_op
-            identifier: lesson_title
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              teacher: '0'
-              moderator: '0'
-              administrator: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          entity_type: node
-          entity_field: title
-          plugin_id: string
-        label:
-          id: label
-          table: groups_field_data
-          field: label
-          relationship: gid
-          group_type: group
-          admin_label: ''
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: label_op
-            label: 'Class title'
-            description: ''
-            use_operator: false
-            operator: label_op
-            identifier: class_title
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              teacher: '0'
-              moderator: '0'
-              administrator: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          entity_type: group
-          entity_field: label
-          plugin_id: string
         status:
           id: status
           table: node_field_data
@@ -583,7 +493,7 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: Status
+            label: 'Course published status'
             description: ''
             use_operator: false
             operator: status_op
@@ -615,7 +525,64 @@ display:
           plugin_id: boolean
           entity_type: node
           entity_field: status
-      sorts: {  }
+        node_groups:
+          id: node_groups
+          table: node
+          field: node_groups
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: node_groups_op
+            label: Class
+            description: ''
+            use_operator: false
+            operator: node_groups_op
+            identifier: class
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          plugin_id: anu_node_groups_filter
+      sorts:
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
       title: Content
       empty:
         area_text_custom:
@@ -626,40 +593,7 @@ display:
           content: 'No content available.'
           plugin_id: text_custom
       arguments: {  }
-      relationships:
-        group_content:
-          id: group_content
-          table: node_field_data
-          field: group_content
-          relationship: none
-          group_type: group
-          admin_label: 'Content group content'
-          required: false
-          group_content_plugins:
-            'group_node:course': 'group_node:course'
-            'group_node:lesson': '0'
-          entity_type: node
-          plugin_id: group_content_to_entity_reverse
-        field_course_lessons:
-          id: field_course_lessons
-          table: node__field_course_lessons
-          field: field_course_lessons
-          relationship: none
-          group_type: group
-          admin_label: 'field_course_lessons: Content'
-          required: false
-          plugin_id: standard
-        gid:
-          id: gid
-          table: group_content_field_data
-          field: gid
-          relationship: group_content
-          group_type: group
-          admin_label: Group
-          required: false
-          entity_type: group_content
-          entity_field: gid
-          plugin_id: standard
+      relationships: {  }
       show_admin_links: false
       filter_groups:
         operator: AND
@@ -679,7 +613,7 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      max-age: 0
+      max-age: -1
       tags:
         - 'config:field.storage.node.field_course_lessons'
   page_1:
@@ -711,6 +645,6 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      max-age: 0
+      max-age: -1
       tags:
         - 'config:field.storage.node.field_course_lessons'
