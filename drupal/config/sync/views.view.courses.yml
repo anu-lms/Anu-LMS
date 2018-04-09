@@ -9,6 +9,7 @@ dependencies:
     - anu_content_administration
     - node
     - user
+    - views_bulk_operations
 _core:
   default_config_hash: tS8PbpJX90aRFC3-UTgXzdqkq7_2frk2pz4TMijEebM
 id: courses
@@ -101,6 +102,89 @@ display:
       row:
         type: fields
       fields:
+        views_bulk_operations_bulk_form:
+          id: views_bulk_operations_bulk_form
+          table: views
+          field: views_bulk_operations_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Views bulk operations'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          batch: true
+          batch_size: 20
+          form_step: true
+          buttons: false
+          clear_on_exposed: 0
+          action_title: Action
+          selected_actions:
+            anu_add_course_to_class: anu_add_course_to_class
+            anu_remove_course_from_class: anu_remove_course_from_class
+            node_unpromote_action: 0
+            node_unpublish_action: node_unpublish_action
+            node_publish_action: node_publish_action
+            node_unpublish_by_keyword_action: 0
+            node_assign_owner_action: 0
+            node_promote_action: 0
+            node_save_action: 0
+            node_make_sticky_action: 0
+            node_make_unsticky_action: 0
+            pathauto_update_alias: 0
+            views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
+            'entity:save_action:node': 0
+            'entity:unpublish_action:node': 0
+            'entity:publish_action:node': 0
+          preconfiguration:
+            anu_add_course_to_class:
+              label_override: 'Add to Classes'
+            anu_remove_course_from_class:
+              label_override: 'Remove from Classes'
+            node_unpublish_action:
+              label_override: Unpublish
+            node_publish_action:
+              label_override: Publish
+            views_bulk_operations_delete_entity:
+              label_override: Delete
+          plugin_id: views_bulk_operations_bulk_form
         status:
           id: status
           table: node_field_data
@@ -613,7 +697,7 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      max-age: -1
+      max-age: 0
       tags:
         - 'config:field.storage.node.field_course_lessons'
   page_1:
@@ -645,6 +729,6 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      max-age: -1
+      max-age: 0
       tags:
         - 'config:field.storage.node.field_course_lessons'
