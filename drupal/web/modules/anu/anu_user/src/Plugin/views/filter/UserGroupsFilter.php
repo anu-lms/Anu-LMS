@@ -73,7 +73,7 @@ class UserGroupsFilter extends InOperator {
       }
 
       // Sort alphabetically by group label.
-      sort($group_list);
+      asort($group_list);
 
     } catch (\Exception $exception) {
       \Drupal::logger('anu_user')->critical('Could not load list of groups for filter.');
