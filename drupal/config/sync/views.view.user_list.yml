@@ -1002,7 +1002,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'Нет доступных людей.'
+          content: 'No users matching the criteria.'
           plugin_id: text_custom
       use_more: false
       use_more_always: false
