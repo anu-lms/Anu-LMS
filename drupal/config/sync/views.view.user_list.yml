@@ -201,8 +201,9 @@ display:
           form_step: true
           buttons: false
           clear_on_exposed: 0
-          action_title: Action
+          action_title: 'Select action'
           selected_actions:
+            anu_remove_group: anu_remove_group
             anu_assign_organization: anu_assign_organization
             anu_remove_organization: anu_remove_organization
             anu_assign_group: anu_assign_group
@@ -215,6 +216,8 @@ display:
             vbo_cancel_user_action: 0
             'entity:save_action:user': 0
           preconfiguration:
+            anu_remove_group:
+              label_override: ''
             anu_assign_organization:
               label_override: ''
             anu_remove_organization:
@@ -345,12 +348,23 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: field
+          click_sort_column: value
           type: boolean
           settings:
             format: custom
-            format_custom_true: Активно
-            format_custom_false: Заблокировано
+            format_custom_true: Active
+            format_custom_false: Blocked
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
           entity_type: user
           entity_field: status
         roles_target_id:
@@ -879,6 +893,48 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
+        user_groups:
+          id: user_groups
+          table: users
+          field: user_groups
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Class
+            description: ''
+            use_operator: false
+            operator: user_groups_op
+            identifier: user_groups
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              teacher: '0'
+              moderator: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: user
+          plugin_id: anu_user_groups_filter
         uid_raw:
           id: uid_raw
           table: users_field_data

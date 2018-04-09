@@ -11,7 +11,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *
  * @Action(
  *   id = "anu_assign_organization",
- *   label = @Translation("Assign organization to selected users"),
+ *   label = @Translation("Assign Organization to the selected users"),
  *   type = "user",
  *   requirements = {
  *     "_permission" = "administer users",
@@ -54,7 +54,9 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
 
     $organization_list = [];
     foreach ($organizations as $organization) {
-      $organization_list[$organization->id()] = $organization->label();
+      if ($organization->access('view')) {
+        $organization_list[$organization->id()] = $organization->label();
+      }
     }
 
     $form['organization'] = [
