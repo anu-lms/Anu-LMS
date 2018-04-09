@@ -49,11 +49,17 @@ class NodeGroups extends FieldPluginBase {
         Url::fromUri('internal:/group/' . $group->id . '/edit', ['query' => \Drupal::destination()->getAsArray()])
       );
 
-      $groups[] = $group->label . ' ' . $edit_link->toString();
+      $groups[] = ['#markup' => $group->label . ' ' . $edit_link->toString()];
     }
 
-    return [
-      '#markup' => implode(', ', $groups),
-    ];
+    if (count($groups) > 1) {
+      return [
+        '#theme' => 'item_list',
+        '#items' => $groups,
+        '#title' => NULL,
+      ];
+    }
+
+    return $groups;
   }
 }
