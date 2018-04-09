@@ -7,18 +7,18 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Assigns chosen groups to the selected users.
+ * Remove chosen groups from the users.
  *
  * @Action(
- *   id = "anu_assign_group",
- *   label = @Translation("Assign Classes to the selected users"),
+ *   id = "anu_remove_group",
+ *   label = @Translation("Remove Classes from the selected users"),
  *   type = "user",
  *   requirements = {
  *     "_permission" = "administer users",
  *   },
  * )
  */
-class AssignGroup extends ViewsBulkOperationsActionBase {
+class RemoveGroup extends ViewsBulkOperationsActionBase {
 
   use StringTranslationTrait;
 
@@ -32,7 +32,7 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
       ->loadMultiple($this->configuration['classes']);
 
     foreach ($groups as $group) {
-      $group->addMember($entity);
+      $group->removeMember($entity);
     }
   }
 
@@ -46,7 +46,7 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
       ->loadMultiple($this->configuration['classes']);
 
     foreach ($groups as $group) {
-      if (!$group->access('update')) {
+      if (!$group->access('delete')) {
         return FALSE;
       }
     }
@@ -69,13 +69,13 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
 
     $group_list = [];
     foreach ($groups as $group) {
-      if ($group->access('update')) {
+      if ($group->access('delete')) {
         $group_list[$group->id()] = $group->label();
       }
     }
 
     $form['classes'] = [
-      '#title' => t('Choose the Classes to assign to the selected users:'),
+      '#title' => t('Choose the Classes to remove from the selected users:'),
       '#type' => 'checkboxes',
       '#options' => $group_list,
     ];
