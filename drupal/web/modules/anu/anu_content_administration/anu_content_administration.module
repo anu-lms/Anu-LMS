@@ -6,6 +6,7 @@
  */
 
 use Drupal\group\Entity\GroupContent;
+use \Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Implements hook_ENTITY_TYPE_insert().
@@ -17,15 +18,22 @@ function anu_content_administration_group_content_insert(Drupal\Core\Entity\Enti
     return;
   }
 
-  $group = $entity->getGroup();
-  $course = $entity->getEntity();
+  try {
+    $group = $entity->getGroup();
+    $course = $entity->getEntity();
 
-  // @todo: add try catch
-  // Adds lesson to all Classes from parent Course.
-  foreach ($course->field_course_lessons as $course_lesson) {
-    if (!$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
-      $group->addContent($course_lesson->entity, 'group_node:lesson');
+    // Adds lesson to all Classes from parent Course.
+    foreach ($course->field_course_lessons as $course_lesson) {
+      if (!$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
+        $group->addContent($course_lesson->entity, 'group_node:lesson');
+      }
     }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not add lessons to classes of course @id. Error: @error', [
+      '@id' => $course->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_content_administration')->error($message);
   }
 }
 
@@ -39,23 +47,30 @@ function anu_content_administration_group_content_delete(Drupal\Core\Entity\Enti
     return;
   }
 
-  $group = $entity->getGroup();
-  $course = $entity->getEntity();
+  try {
+    $group = $entity->getGroup();
+    $course = $entity->getEntity();
 
-  // @todo: add try catch
-  // Removes all child lessons from Classes.
-  foreach ($course->field_course_lessons as $course_lesson) {
-    $storage = \Drupal::entityTypeManager()->getStorage('group_content');
-    $group_contents = $storage->loadByProperties([
-      'type' => 'class-group_node-lesson',
-      'entity_id' => $course_lesson->entity->id(),
-      'gid' => $group->id(),
-    ]);
+    // Removes all child lessons from Classes.
+    foreach ($course->field_course_lessons as $course_lesson) {
+      $storage = \Drupal::entityTypeManager()->getStorage('group_content');
+      $group_contents = $storage->loadByProperties([
+        'type' => 'class-group_node-lesson',
+        'entity_id' => $course_lesson->entity->id(),
+        'gid' => $group->id(),
+      ]);
 
-    /** @var \Drupal\group\Entity\GroupContent $group_content */
-    foreach ($group_contents as $group_content) {
-      $group_content->delete();
+      /** @var \Drupal\group\Entity\GroupContent $group_content */
+      foreach ($group_contents as $group_content) {
+        $group_content->delete();
+      }
     }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not delete lessons from classes of course @id. Error: @error', [
+      '@id' => $course->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_content_administration')->error($message);
   }
 }
 
@@ -69,10 +84,18 @@ function anu_content_administration_node_predelete(Drupal\Core\Entity\EntityInte
     return;
   }
 
-  // @todo: add warning on Course delete form that Lessons will be removed also.
-  // Removes child lessons if course removed.
-  foreach ($entity->field_course_lessons as $course_lesson) {
-    $course_lesson->entity->delete();
+  try {
+    // @todo: add warning on Course delete form that Lessons will be removed also.
+    // Removes child lessons if course removed.
+    foreach ($entity->field_course_lessons as $course_lesson) {
+      $course_lesson->entity->delete();
+    }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not delete child lessons of course @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_content_administration')->error($message);
   }
 }
 
@@ -86,19 +109,57 @@ function anu_content_administration_node_update(Drupal\Core\Entity\EntityInterfa
     return;
   }
 
-  $original_course_value = $entity->original->field_lesson_course->getValue();
-  $new_course_value = $entity->field_lesson_course->getValue();
-  if ($original_course_value != $new_course_value) {
+  try {
+    $original_course_value = $entity->original->field_lesson_course->getValue();
+    $new_course_value = $entity->field_lesson_course->getValue();
+    if ($original_course_value != $new_course_value) {
 
-    // Removes lesson from any previous group.
-    if ($group_contents = GroupContent::loadByEntity($entity)) {
+      // Removes lesson from any previous group.
+      if ($group_contents = GroupContent::loadByEntity($entity)) {
 
-      foreach ($group_contents as $group_content) {
-        $group_content->delete();
+        foreach ($group_contents as $group_content) {
+          $group_content->delete();
+        }
+      }
+
+      if (!empty($new_course_value)) {
+
+        // Adds lesson to all Classes from parent Course.
+        $new_course = $entity->field_lesson_course
+          ->first()
+          ->get('entity')
+          ->getTarget()
+          ->getValue();
+        if ($group_contents = GroupContent::loadByEntity($new_course)) {
+
+          /** @var \Drupal\group\Entity\GroupContent $group_content */
+          foreach ($group_contents as $group_content) {
+            $group_content->getGroup()->addContent($entity, 'group_node:lesson');
+          }
+        }
       }
     }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not update lessons in classes of course @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_content_administration')->error($message);
+  }
+}
 
-    if (!empty($new_course_value)) {
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_content_administration_node_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'lesson') {
+    return;
+  }
+
+  try {
+    if (!empty($entity->field_lesson_course->getValue())) {
 
       // Adds lesson to all Classes from parent Course.
       $new_course = $entity->field_lesson_course
@@ -114,34 +175,11 @@ function anu_content_administration_node_update(Drupal\Core\Entity\EntityInterfa
         }
       }
     }
-
-  }
-}
-
-/**
- * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- */
-function anu_content_administration_node_insert(Drupal\Core\Entity\EntityInterface $entity) {
-  if ($entity->bundle() != 'lesson') {
-    return;
-  }
-
-  if (!empty($entity->field_lesson_course->getValue())) {
-
-    // Adds lesson to all Classes from parent Course.
-    $new_course = $entity->field_lesson_course
-      ->first()
-      ->get('entity')
-      ->getTarget()
-      ->getValue();
-    if ($group_contents = GroupContent::loadByEntity($new_course)) {
-
-      /** @var \Drupal\group\Entity\GroupContent $group_content */
-      foreach ($group_contents as $group_content) {
-        $group_content->getGroup()->addContent($entity, 'group_node:lesson');
-      }
-    }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not add lessons to classes of course @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_content_administration')->error($message);
   }
 }
