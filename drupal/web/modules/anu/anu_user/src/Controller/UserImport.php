@@ -126,7 +126,19 @@ class UserImport extends FormBase {
     // Remove the header from the list of data.
     unset($data[0]);
 
+    // Make sure the file contains actual user data.
+    if (empty($data)) {
+      $form_state->setErrorByName('file', t('The file does not contain user data.'));
+    }
+
     foreach ($data as $line_number => $line) {
+
+      // Make sure the amount of columns is correct.
+      if (count($line) != 4) {
+        $form_state->setErrorByName('file', t('The line @line contains wrong amount of columns. Expected: 4.', [
+          '@line' => $line_number,
+        ]));
+      }
 
       // Make sure the email is valid.
       if (!\Drupal::service('email.validator')->isValid($line[3])) {
@@ -172,35 +184,36 @@ class UserImport extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    // Get the file with
     $file = $this->getRequest()->files->get('files')['file'];
     $data = array_map('str_getcsv', file($file->getRealPath(), FILE_IGNORE_NEW_LINES));
 
-    if (!empty($data) && count($data) > 1) {
+    // Remove the first line with header.
+    unset($data[0]);
 
-      unset($data[0]);
+    // Get values from the form UI.
+    $classes = array_filter($form_state->getValue('classes'));
+    $organization = $form_state->getValue('organization');
+    $notify = $form_state->getValue('send_welcome_email');
 
-      $classes = array_filter($form_state->getValue('classes'));
-      $organization = $form_state->getValue('organization');
-      $notify = $form_state->getValue('send_welcome_email');
-
-      $operations = [];
-      foreach ($data as $values) {
-        if (count($values) === 4) {
-          $operations[] = [
-            '\Drupal\anu_user\Controller\UserImport::saveUser',
-            [$values[0], $values[1], $values[2], $values[3], $classes, $organization, $notify]
-          ];
-        }
-      }
-
-      $batch = [
-        'title' => t('Importing users'),
-        'operations' => $operations,
-        'finished' => '\Drupal\anu_user\Controller\UserImport::saveUserFinishedCallback',
+    $operations = [];
+    foreach ($data as $values) {
+      $operations[] = [
+        '\Drupal\anu_user\Controller\UserImport::saveUser',
+        // First name, Last name, Username, Email, Classes array,
+        // Organization term ID, Boolean welcome email.
+        [$values[0], $values[1], $values[2], $values[3], $classes, $organization, $notify]
       ];
-
-      batch_set($batch);
     }
+
+    $batch = [
+      'title' => t('Importing users'),
+      'operations' => $operations,
+      'finished' => '\Drupal\anu_user\Controller\UserImport::saveUserFinishedCallback',
+    ];
+
+    batch_set($batch);
 
   }
 
