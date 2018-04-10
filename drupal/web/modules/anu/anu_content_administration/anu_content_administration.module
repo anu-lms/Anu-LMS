@@ -4,3 +4,55 @@
  * @file
  *
  */
+
+use Drupal\group\Entity\GroupContent;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function anu_content_administration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof GroupContent) {
+
+    $type = $entity->getGroupContentType();
+    if ($type->id() == 'class-group_node-course') {
+      $group = $entity->getGroup();
+      $course = $entity->getEntity();
+
+      // @todo: add try catch
+      foreach ($course->field_course_lessons as $course_lesson) {
+        if (!$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
+          $group->addContent($course_lesson->entity, 'group_node:lesson');
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function anu_content_administration_entity_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof GroupContent) {
+
+    $type = $entity->getGroupContentType();
+    if ($type->id() == 'class-group_node-course') {
+      $group = $entity->getGroup();
+      $course = $entity->getEntity();
+
+      // @todo: add try catch
+      foreach ($course->field_course_lessons as $course_lesson) {
+        $storage = \Drupal::entityTypeManager()->getStorage('group_content');
+        $group_contents = $storage->loadByProperties([
+          'type' => 'class-group_node-lesson',
+          'entity_id' => $course_lesson->entity->id(),
+          'gid' => $group->id(),
+        ]);
+
+        /** @var \Drupal\group\Entity\GroupContent $group_content */
+        foreach ($group_contents as $group_content) {
+          $group_content->delete();
+        }
+      }
+    }
+  }
+}
