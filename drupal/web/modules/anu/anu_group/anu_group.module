@@ -22,7 +22,7 @@ function anu_group_group_content_insert(Drupal\Core\Entity\EntityInterface $enti
     $group = $entity->getGroup();
     $course = $entity->getEntity();
 
-    // Adds lesson to all Classes from parent Course.
+    // If Course was added to the Class we add all child lessons to this Class as well.
     foreach ($course->field_course_lessons as $course_lesson) {
       if (!$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
         $group->addContent($course_lesson->entity, 'group_node:lesson');
@@ -51,7 +51,7 @@ function anu_group_group_content_delete(Drupal\Core\Entity\EntityInterface $enti
     $group = $entity->getGroup();
     $course = $entity->getEntity();
 
-    // Removes all child lessons from Classes.
+    // If Course was removed from the Class we remove all child lessons from this Class as well.
     foreach ($course->field_course_lessons as $course_lesson) {
       $storage = \Drupal::entityTypeManager()->getStorage('group_content');
       $group_contents = $storage->loadByProperties([
@@ -85,6 +85,8 @@ function anu_group_node_update(Drupal\Core\Entity\EntityInterface $entity) {
   }
 
   try {
+    // If use updated Project field in Lesson node, we remove lesson from all
+    // previous groups and add to new Project's groups.
     $original_course_value = $entity->original->field_lesson_course->getValue();
     $new_course_value = $entity->field_lesson_course->getValue();
     if ($original_course_value != $new_course_value) {
@@ -99,7 +101,7 @@ function anu_group_node_update(Drupal\Core\Entity\EntityInterface $entity) {
 
       if (!empty($new_course_value)) {
 
-        // Adds lesson to all Classes from parent Course.
+        // Adds lesson to all Classes from new parent Course.
         $new_course = $entity->field_lesson_course
           ->first()
           ->get('entity')
