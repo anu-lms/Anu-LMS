@@ -5,7 +5,7 @@
  */
 function anu_content_administration_views_data_alter(array &$data) {
 
-  // Custom field to display user groups (classes).
+  // Custom field to display node groups (classes).
   $data['node']['node_groups'] = [
     'title' => t('Node groups'),
     'field' => [
@@ -15,7 +15,7 @@ function anu_content_administration_views_data_alter(array &$data) {
     ],
     'filter' => [
       'title' => t('Group filter'),
-      'help' => 'Filters users by groups they belong to',
+      'help' => 'Filters nodes by groups they belong to',
       'field' => 'nid',
       'id' => 'anu_node_groups_filter',
     ],
@@ -24,7 +24,7 @@ function anu_content_administration_views_data_alter(array &$data) {
     'title' => t('Course lessons'),
     'filter' => [
       'title' => t('Course lessons filter'),
-      'help' => 'Filters users by groups they belong to',
+      'help' => 'Filters course lessons by title',
       'field' => 'nid',
       'id' => 'anu_course_lessons_filter',
     ],

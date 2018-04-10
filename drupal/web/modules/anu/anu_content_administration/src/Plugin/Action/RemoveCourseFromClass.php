@@ -2,10 +2,10 @@
 
 namespace Drupal\anu_content_administration\Plugin\Action;
 
-use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
+use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\group\Entity\GroupContent;
+use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 
 /**
  * Remove chosen courses from classes.
@@ -15,7 +15,7 @@ use Drupal\group\Entity\GroupContent;
  *   label = @Translation("Remove chosen courses from classes"),
  *   type = "node",
  *   requirements = {
- *     "_permission" = "administer content",
+ *     "_permission" = "administer nodes",
  *   },
  * )
  */

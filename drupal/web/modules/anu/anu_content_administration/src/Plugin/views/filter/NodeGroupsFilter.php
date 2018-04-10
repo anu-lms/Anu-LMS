@@ -46,7 +46,7 @@ class NodeGroupsFilter extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $configuration);
 
-    // Filter by users in groups.
+    // Filter by nodes in groups.
     $this->query->addRelationship('group_content_field_data', $join, 'node');
     $this->query->addWhere('AND', 'group_content_field_data.gid', $this->value, 'IN');
   }
@@ -75,7 +75,7 @@ class NodeGroupsFilter extends InOperator {
       asort($group_list);
 
     } catch (\Exception $exception) {
-      \Drupal::logger('anu_user')->critical('Could not load list of groups for filter.');
+      \Drupal::logger('anu_content_administration')->critical('Could not load list of groups for filter.');
     }
 
     return $group_list;
