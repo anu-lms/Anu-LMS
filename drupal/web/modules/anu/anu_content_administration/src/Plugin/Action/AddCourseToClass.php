@@ -2,9 +2,9 @@
 
 namespace Drupal\anu_content_administration\Plugin\Action;
 
-use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 
 /**
  * Add a chosen course to classes.
@@ -14,7 +14,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *   label = @Translation("Add Course to Class"),
  *   type = "node",
  *   requirements = {
- *     "_permission" = "administer content",
+ *     "_permission" = "administer nodes",
  *   },
  * )
  */

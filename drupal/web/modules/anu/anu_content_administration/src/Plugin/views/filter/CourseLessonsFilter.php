@@ -8,7 +8,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Database\Database;
 
 /**
- * Filters content by groups they belong to.
+ * Filters course lessons by title.
  *
  * @ingroup views_filter_handlers
  *
@@ -21,7 +21,7 @@ class CourseLessonsFilter extends StringFilter {
    */
   public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
     parent::init($view, $display, $options);
-    $this->valueTitle = t('Lessons filter');
+    $this->valueTitle = t('Course Lessons filter');
   }
 
   public function validate() {
@@ -31,6 +31,8 @@ class CourseLessonsFilter extends StringFilter {
   }
 
   public function query() {
+    // Use custom expression here to avoid data duplication in case
+    // of default relationships using.
     $value = Database::getConnection()->escapeLike($this->value);
     $this->query->addWhereExpression(0, "node_field_data.nid IN (
       SELECT field_lesson_course_target_id FROM {node__field_lesson_course} 

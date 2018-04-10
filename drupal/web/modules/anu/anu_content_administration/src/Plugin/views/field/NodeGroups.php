@@ -13,7 +13,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 /**
- * Field handler to show list of user groups.
+ * Field handler to show list of node groups.
  *
  * @ingroup views_field_handlers
  *
