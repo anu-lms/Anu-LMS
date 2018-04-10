@@ -68,3 +68,28 @@ function anu_lessons_file_access($entity, $operation) {
 
   return AccessResult::neutral();
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_lessons_node_predelete(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'course') {
+    return;
+  }
+
+  try {
+    // @todo: add warning on Course delete form that Lessons will be removed also.
+    // Removes child lessons if course removed.
+    foreach ($entity->field_course_lessons as $course_lesson) {
+      $course_lesson->entity->delete();
+    }
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not delete child lessons of course @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_lessons')->error($message);
+  }
+}
