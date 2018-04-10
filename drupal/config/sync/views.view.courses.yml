@@ -62,19 +62,27 @@ display:
           summary: ''
           description: ''
           columns:
-            node_bulk_form: node_bulk_form
+            views_bulk_operations_bulk_form: views_bulk_operations_bulk_form
+            status: status
             title: title
             field_course_lessons: field_course_lessons
-            gid: gid
+            node_groups: node_groups
             operations: operations
           info:
-            node_bulk_form:
+            views_bulk_operations_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             title:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -85,7 +93,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            gid:
+            node_groups:
               sortable: false
               default_sort_order: asc
               align: ''
@@ -263,7 +271,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ title }}{% if status == "0" %} <span class="content-status">(unpublished)</span>{% endif %}'
+            text: '{{ title }}{% if status == "0" %} <span class="content-unpublished">(unpublished)</span>{% endif %}'
             make_link: false
             path: ''
             absolute: true
