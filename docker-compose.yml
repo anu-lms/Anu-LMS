@@ -102,6 +102,18 @@ services:
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
 
+
+  #########################
+  ### CHROME FOR TESTS ####
+  #########################
+
+  chrome:
+    image: selenium/standalone-chrome:3.11.0
+    expose:
+      - 4444
+    shm_size: 2gb
+
+
   ##########################
   ### REVERSE PROXY ########
   ##########################
