@@ -1,0 +1,7 @@
+anu_user.import:
+  path: '/admin/people/import'
+  defaults:
+    _form: '\Drupal\anu_user\Controller\UserImport'
+    _title: 'Bulk users import'
+  requirements:
+    _permission: 'administer users'
