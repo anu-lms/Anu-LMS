@@ -327,8 +327,8 @@ display:
           label: Lessons
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '{{ field_course_lessons }} <a href="{{ path(''entity.node.edit_form'', {''node'': field_course_lessons__target_id}) }}">[edit]</a>'
             make_link: false
             path: ''
             absolute: false
