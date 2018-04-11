@@ -31,6 +31,7 @@ $databases['default']['default'] = array (
 
 // See https://www.drupal.org/node/1992030
 $settings['trusted_host_patterns'] = [
+  'docker\.local$',
   'docker\.localhost$',
   '^nginx$',
 ];
