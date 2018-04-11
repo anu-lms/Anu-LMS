@@ -16,9 +16,9 @@ extensions:
 modules:
     config:
         WebDriver:
-          url: https://stage-y77w3ti-lx26djloxt64m.us.platform.sh/admin
-          frontend_url: https://stage-y77w3ti-lx26djloxt64m.us.platform.sh
+          url: http://app.docker.localhost/admin
+          frontend_url: http://app.docker.localhost
         REST:
-          url: https://be_gifts_nginx
+          url: http://app.docker.localhost
         PhpBrowser:
-          url: https://be_gifts_nginx
+          url: http://app.docker.localhost
