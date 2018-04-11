@@ -16,9 +16,5 @@ extensions:
 modules:
     config:
         WebDriver:
-          url: http://app.docker.localhost/admin
-          frontend_url: http://app.docker.localhost
-        REST:
-          url: http://app.docker.localhost
-        PhpBrowser:
-          url: http://app.docker.localhost
+          url: http://app.docker.local/admin/
+          frontend_url: http://app.docker.local
