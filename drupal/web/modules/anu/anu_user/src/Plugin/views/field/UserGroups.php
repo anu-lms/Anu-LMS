@@ -8,6 +8,7 @@
 namespace Drupal\anu_user\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\Component\Utility\Html;
 use Drupal\views\ResultRow;
 
 /**
@@ -38,13 +39,12 @@ class UserGroups extends FieldPluginBase {
     $query->fields('data', ['label']);
     $query->condition('content.entity_id', $account->id());
     $query->condition('content.type', 'class-group_membership');
-    $query->execute();
 
     $results = $query->execute();
 
     $groups = [];
     foreach ($results as $group) {
-      $groups[] = $group->label;
+      $groups[] = Html::escape($group->label);
     }
 
     return implode(', ', $groups);

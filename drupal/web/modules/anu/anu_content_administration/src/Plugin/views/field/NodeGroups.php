@@ -40,6 +40,7 @@ class NodeGroups extends FieldPluginBase {
     $query->innerJoin('groups_field_data', 'data', 'data.id = content.gid');
     $query->fields('data', ['id', 'label']);
     $query->condition('content.entity_id', $entity->id());
+    $query->condition('content.type', 'class-group_node%', 'LIKE');
 
     $results = $query->execute();
 
