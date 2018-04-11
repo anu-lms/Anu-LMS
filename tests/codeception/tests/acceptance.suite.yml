@@ -6,6 +6,7 @@ modules:
     config:
       WebDriver:
         port: 4444
+        host: chrome
         wait: 0.1
         browser: chrome
         restart: true
