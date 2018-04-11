@@ -2,9 +2,19 @@ import * as courseHelper from '../helpers/course';
 import * as lessonHelper from '../helpers/lesson';
 import * as urlUtils from '../utils/url';
 
-export const classData = classDataObject => ({
-  uuid: classDataObject.uuid,
-  label: classDataObject.label,
+/**
+ * Processes data of a course from custom REST endpoint.
+ */
+export const courseDataFromREST = course => ({
+  id: parseInt(course.id),
+  title: course.label,
+  imageUrl: urlUtils.fileUrl(course.image),
+  imageAlt: course.label,
+  url: courseHelper.getUrl(course.path),
+  urlResources: courseHelper.getResourcesUrl(course.path),
+  progress: course.progress || 0,
+  recentLessonUrl: course.recentLesson ? courseHelper.getUrl(course.path) + course.recentLesson.url : '',
+  recentAccess: course.recentLesson ? course.recentLesson.timestamp : 0,
 });
 
 export const courseData = courseDataObject => {
@@ -109,10 +119,10 @@ const processParagraphs = paragraphs => {
           prop = property.substr(14).toLowerCase();
         }
         else
-        if (property.startsWith('fieldQuiz')) {
-          // Remove 'fieldQuiz' prefix.
-          prop = property.substr(9).toLowerCase();
-        }
+          if (property.startsWith('fieldQuiz')) {
+            // Remove 'fieldQuiz' prefix.
+            prop = property.substr(9).toLowerCase();
+          }
 
         if (prop === 'blocks') {
           blocks[order][prop] = processParagraphs(block[property]);

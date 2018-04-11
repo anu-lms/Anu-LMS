@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_classes\Plugin\rest\resource;
 
-use Drupal\Component\Utility\Html;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\user\Entity\User;
 use Drupal\group\Entity\GroupContent;
@@ -13,7 +12,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a resource to get and update Learner progress.
+ * Provides a resource to load classes with assigned courses
+ * available for the currently authenticated user.
  *
  * @RestResource(
  *   id = "classes_courses_resources",
@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ClassesWithCoursesResource extends ResourceBase {
 
   /**
-   * Constructs a new LearnerProgressResource object.
+   * Constructs a new ClassesWithCoursesResource object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -62,8 +62,8 @@ class ClassesWithCoursesResource extends ResourceBase {
   }
 
   /**
-   * Return list of course resources accessible for the
-   * logged in user.
+   * Return list of classes and assigned to them resources
+   * available for the currently logged in user.
    *
    * @return \Drupal\rest\ResourceResponse
    */
@@ -72,8 +72,17 @@ class ClassesWithCoursesResource extends ResourceBase {
 
     try {
 
+      // Load a user object for the current user.
       $user = User::load(\Drupal::currentUser()->id());
+
+      // Load all group membership entities where the current user is a member.
       $group_contents = GroupContent::loadByEntity($user);
+
+      /* @var $learnerProgress \Drupal\anu_learner_progress\LearnerProgress */
+      $learner_progress = \Drupal::service('anu_learner_progress.learner_progress');
+
+      // Get the list of courses progress for the current user.
+      $progress = $learner_progress->load();
 
       /* @var $group_content \Drupal\group\Entity\GroupContent */
       foreach ($group_contents as $group_content) {
@@ -81,30 +90,54 @@ class ClassesWithCoursesResource extends ResourceBase {
         /* @var $group \Drupal\group\Entity\Group */
         $group = $group_content->getGroup();
 
+        // Make sure the current user can view the group.
+        if (!$group->access('view')) {
+          continue;
+        }
+
+        // Start building a response with some basic group info.
         $response[$group->id()] = [
-          'group_name' => Html::escape($group->label()),
+          'group_id' => $group->id(),
+          'group_name' => $group->label(),
         ];
 
+        // Load all courses from the group.
         $courses = $group->getContentEntities('group_node:course');
 
         /* @var $course \Drupal\node\Entity\Node */
         foreach ($courses as $course) {
 
+          // Make sure the current user can view the course.
+          if (!$course->access('view')) {
+            continue;
+          }
+
+          // Build a link to the course's cover image.
           $image_url = '';
           if (!$course->get('field_course_image')->isEmpty()) {
             $uri = $course->get('field_course_image')->entity->getFileUri();
             $image_url = ImageStyle::load('576x450')->buildUrl($uri);
           }
 
+          // Get the course path alias.
           $path_alias = \Drupal::service('path.alias_manager')
             ->getAliasByPath('/node/' . $course->id());
 
+          // Find a progress associated with the current course.
+          $course_progress = [];
+          foreach ($progress as $progress_item) {
+            if ($progress_item['courseId'] == $course->id()) {
+              $course_progress = $progress_item;
+              unset($course_progress['courseId']);
+            }
+          }
+
           $response[$group->id()]['courses'][] = [
-            'label' => Html::escape($course->label()),
-            'id' => $course->id(),
-            'image' => $image_url,
-            'path' => $path_alias,
-          ];
+              'id' => $course->id(),
+              'label' => $course->label(),
+              'image' => $image_url,
+              'path' => $path_alias,
+            ] + $course_progress;
         }
 
       }
@@ -117,6 +150,6 @@ class ClassesWithCoursesResource extends ResourceBase {
       return new ResourceResponse(['message' => $message], 406);
     }
 
-    return !empty($response) ? new ResourceResponse($response) : new ResourceResponse();
+    return !empty($response) ? new ResourceResponse(array_values($response)) : new ResourceResponse();
   }
 }
