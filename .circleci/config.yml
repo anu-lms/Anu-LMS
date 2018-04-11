@@ -134,7 +134,7 @@ jobs:
 
       - run:
           name: Start ChromeDriver
-          command: chromedriver --url-base=wd/hub --port=9515 --ignore-certificate-errors
+          command: chromedriver --url-base=wd/hub --port=4444 --ignore-certificate-errors
           background: true
 
       - run:

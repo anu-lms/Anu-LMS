@@ -8,7 +8,6 @@ modules:
         port: 4444
         wait: 0.1
         browser: chrome
-        host: chrome
         restart: true
         window_size: 1280x960
         connection_timeout: 60
