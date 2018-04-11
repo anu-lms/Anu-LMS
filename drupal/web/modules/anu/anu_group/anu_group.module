@@ -24,7 +24,7 @@ function anu_group_group_content_insert(Drupal\Core\Entity\EntityInterface $enti
 
     // If Course was added to the Class we add all child lessons to this Class as well.
     foreach ($course->field_course_lessons as $course_lesson) {
-      if (!$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
+      if (!empty($course_lesson->entity) && !$group->getContentByEntityId('group_node:lesson', $course_lesson->entity->id())) {
         $group->addContent($course_lesson->entity, 'group_node:lesson');
       }
     }
@@ -53,6 +53,10 @@ function anu_group_group_content_delete(Drupal\Core\Entity\EntityInterface $enti
 
     // If Course was removed from the Class we remove all child lessons from this Class as well.
     foreach ($course->field_course_lessons as $course_lesson) {
+      if (empty($course_lesson->entity)) {
+        continue;
+      }
+
       $storage = \Drupal::entityTypeManager()->getStorage('group_content');
       $group_contents = $storage->loadByProperties([
         'type' => 'class-group_node-lesson',
