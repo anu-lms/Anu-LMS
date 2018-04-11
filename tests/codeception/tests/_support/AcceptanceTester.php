@@ -24,11 +24,6 @@ class AcceptanceTester extends \Codeception\Actor {
 
     $I = $this;
 
-    // If snapshot exists - skipping login.
-    if ($I->loadSessionSnapshot('login')) {
-      return;
-    }
-
     // Logging in.
     $I->amOnPage('/');
     $I->fillField('Username', $name);
@@ -38,8 +33,6 @@ class AcceptanceTester extends \Codeception\Actor {
     // Make sure authentication succeeded.
     $I->waitForElement('.card');
 
-    // Saving snapshot.
-    $I->saveSessionSnapshot('login');
   }
 
 }
