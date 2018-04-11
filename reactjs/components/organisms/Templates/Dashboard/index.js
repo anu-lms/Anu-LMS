@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Empty from '../../../atoms/Empty';
 import Card from '../../../moleculas/Course/Card';
 
-const DashboardTemplate = ({ classes, courses, recentCourses }) => (
+const DashboardTemplate = ({ classes, recentCourses }) => (
   <div className="student-dashboard container pb-5 pt-3 pt-md-5">
 
     {recentCourses.length > 0 &&

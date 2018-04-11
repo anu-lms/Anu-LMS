@@ -7,7 +7,6 @@ import withRedux from '../store/withRedux';
 import Dashboard from '../components/organisms/Templates/Dashboard';
 import Header from '../components/organisms/Header';
 import ErrorPage from '../components/atoms/ErrorPage';
-import * as classHelpers from '../helpers/class';
 
 class DashboardPage extends React.Component {
   static async getInitialProps({ request, res }) {
@@ -18,7 +17,6 @@ class DashboardPage extends React.Component {
     };
 
     try {
-
       // Make backend request to fetch list of classes and related courses.
       const response = await request
         .get('/classes/courses?_format=json');
@@ -27,16 +25,14 @@ class DashboardPage extends React.Component {
       // containing related courses.
       if (response.body && response.body.length > 0) {
         response.body.forEach(data => {
-
           // Define class item object with id / label.
           let classItem = {};
-          classItem.id = data.group_id ? parseInt(data.group_id) : 0;
+          classItem.id = data.group_id ? parseInt(data.group_id, 10) : 0;
           classItem.label = data.group_name || '';
 
           classItem.courses = [];
           if (data.courses) {
             data.courses.forEach(course => {
-
               // Convert every course object from the backend into an item
               // suitable for frontend work.
               const processedCourse = dataProcessors.courseDataFromREST(course);
@@ -47,13 +43,13 @@ class DashboardPage extends React.Component {
               // Add to the list of recent courses all courses which were
               // ever accessed by the current user.
               if (processedCourse.recentAccess) {
-                const index = initialProps.recentCourses.findIndex(course => course.id == processedCourse.id);
+                const index = initialProps.recentCourses.findIndex(courseItem =>
+                  courseItem.id === processedCourse.id);
                 if (index === -1) {
                   initialProps.recentCourses.push(processedCourse);
                 }
               }
-
-            })
+            });
           }
 
           // Gather list of classes disregard of classes inside of them.
@@ -71,9 +67,7 @@ class DashboardPage extends React.Component {
             })
             .slice(0, 3);
         }
-
       }
-
     }
     catch (error) {
       console.error('Could not fetch dashboard classes and courses. Error:');
