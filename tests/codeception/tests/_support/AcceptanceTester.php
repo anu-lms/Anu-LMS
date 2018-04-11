@@ -16,11 +16,30 @@
  *
  * @SuppressWarnings(PHPMD)
 */
-class AcceptanceTester extends \Codeception\Actor
-{
-    use _generated\AcceptanceTesterActions;
+class AcceptanceTester extends \Codeception\Actor {
 
-   /**
-    * Define custom actions here
-    */
+  use _generated\AcceptanceTesterActions;
+
+  public function login($name, $password) {
+
+    $I = $this;
+
+    // If snapshot exists - skipping login.
+    if ($I->loadSessionSnapshot('login')) {
+      return;
+    }
+
+    // Logging in.
+    $I->amOnPage('/');
+    $I->fillField('Username', $name);
+    $I->fillField('Password', $password);
+    $I->click('Login');
+
+    // Make sure authentication succeeded.
+    $I->waitForElement('.card');
+
+    // Saving snapshot.
+    $I->saveSessionSnapshot('login');
+  }
+
 }
