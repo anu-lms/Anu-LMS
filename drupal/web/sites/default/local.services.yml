@@ -4,7 +4,6 @@ parameters:
     gc_divisor: 100
     gc_maxlifetime: 200000
     cookie_lifetime: 2000000
-    cookie_domain: '.app.docker.local'
   twig.config:
     debug: false
     auto_reload: null
