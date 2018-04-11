@@ -104,13 +104,28 @@ services:
 
 
   #########################
+  ### CODECEPTION #########
+  #########################
+
+  codecept:
+    image: codeception/codeception
+    depends_on:
+      - chrome
+      - app.docker.localhost
+    volumes:
+      - ./drupal:/src
+      - ./tests:/tests
+      - ./tests/codeception/codeception.yml:/codeception.yml
+
+
+  #########################
   ### CHROME FOR TESTS ####
   #########################
 
   chrome:
     image: selenium/standalone-chrome:3.11.0
     expose:
-      - 4444
+      - 9515
     shm_size: 2gb
 
 

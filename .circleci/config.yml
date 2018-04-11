@@ -171,16 +171,16 @@ jobs:
           name: Run Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug || true
+            ./vendor/bin/codecept run acceptance  -c ./tests/codeception --debug || true
 
       - run:
           name: Re-run failed Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug -g failed
+            ./vendor/bin/codecept run acceptance  -c ./tests/codeception --debug -g failed
 
       - store_artifacts:
-          path: drupal/tests/codeception/tests/_output
+          path: tests/codeception/tests/_output
 
 
   ######################################
