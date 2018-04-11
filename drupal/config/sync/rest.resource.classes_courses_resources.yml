@@ -1,0 +1,18 @@
+uuid: 97fd617f-9fb4-47f6-af8e-97320ec3868b
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_classes
+    - serialization
+    - simple_oauth
+id: classes_courses_resources
+plugin_id: classes_courses_resources
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2

@@ -18,6 +18,9 @@ class DashboardPage extends React.Component {
       statusCode: 200,
     };
 
+    const a = await request
+      .get('/classes/courses?_format=json');
+
     try {
       // Fetch all courses available for this user.
       const responseAllCourses = await request
@@ -30,7 +33,7 @@ class DashboardPage extends React.Component {
           // Course image fields.
           'fields[file--image]': 'url',
           // Class group fields.
-          'fields[group--class]': 'id,label',
+          //'fields[group--class]': 'id,label',
           // Sort by created date.
           'sort': 'created',
           // TODO: ADD FILTER BY ACCESSIBLE CLASSES FOR THIS USER.
