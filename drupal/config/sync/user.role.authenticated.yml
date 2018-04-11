@@ -24,6 +24,7 @@ permissions:
   - 'edit own notebook entities'
   - 'edit own quiz_result entities'
   - 'issue subrequests'
+  - 'restful get classes_courses_resources'
   - 'restful get course_resources'
   - 'restful get current_user'
   - 'restful get learner_progress'
