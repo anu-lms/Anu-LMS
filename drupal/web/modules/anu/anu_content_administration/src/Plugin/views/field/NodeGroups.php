@@ -8,6 +8,7 @@
 namespace Drupal\anu_content_administration\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\Component\Utility\Html;
 use Drupal\views\ResultRow;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -49,7 +50,7 @@ class NodeGroups extends FieldPluginBase {
         Url::fromUri('internal:/group/' . $group->id . '/edit', ['query' => \Drupal::destination()->getAsArray()])
       );
 
-      $groups[] = ['#markup' => $group->label . ' ' . $edit_link->toString()];
+      $groups[] = ['#markup' => Html::escape($group->label) . ' ' . $edit_link->toString()];
     }
 
     if (count($groups) > 1) {
