@@ -47,7 +47,7 @@ class RemoveCourseFromClass extends ViewsBulkOperationsActionBase {
 
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if (!$group->access('delete')) {
+      if (!$group->access('update')) {
         return FALSE;
       }
     }
@@ -70,7 +70,7 @@ class RemoveCourseFromClass extends ViewsBulkOperationsActionBase {
     $group_list = [];
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if ($group->access('delete')) {
+      if ($group->access('update')) {
         $group_list[$group->id()] = $group->label();
       }
     }
