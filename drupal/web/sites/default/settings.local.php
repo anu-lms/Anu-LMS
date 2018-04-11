@@ -15,7 +15,7 @@ if (!empty($GLOBALS['request'])) {
 $settings['container_yamls'][] = $app_root . '/' . $site_path . '/local.services.yml';
 
 // Frontend application domain.
-$settings['frontend_domain'] = 'http://app.docker.localhost/';
+$settings['frontend_domain'] = 'http://app.docker.local/';
 
 // Database connection credentials.
 $databases['default']['default'] = array (
