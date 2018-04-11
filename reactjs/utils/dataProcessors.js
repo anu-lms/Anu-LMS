@@ -6,7 +6,7 @@ import * as urlUtils from '../utils/url';
  * Processes data of a course from custom REST endpoint.
  */
 export const courseDataFromREST = course => ({
-  id: parseInt(course.id),
+  id: parseInt(course.id, 10),
   title: course.label,
   imageUrl: urlUtils.fileUrl(course.image),
   imageAlt: course.label,
@@ -119,10 +119,10 @@ const processParagraphs = paragraphs => {
           prop = property.substr(14).toLowerCase();
         }
         else
-          if (property.startsWith('fieldQuiz')) {
-            // Remove 'fieldQuiz' prefix.
-            prop = property.substr(9).toLowerCase();
-          }
+        if (property.startsWith('fieldQuiz')) {
+          // Remove 'fieldQuiz' prefix.
+          prop = property.substr(9).toLowerCase();
+        }
 
         if (prop === 'blocks') {
           blocks[order][prop] = processParagraphs(block[property]);
