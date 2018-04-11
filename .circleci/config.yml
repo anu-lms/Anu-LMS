@@ -171,13 +171,13 @@ jobs:
           name: Run Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug || true
+            ./vendor/bin/codecept run acceptance -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug || true
 
       - run:
           name: Re-run failed Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug -g failed
+            ./vendor/bin/codecept run acceptance -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug -g failed
 
       - store_artifacts:
           path: tests/codeception/tests/_output
