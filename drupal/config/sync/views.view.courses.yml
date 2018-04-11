@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_course_lessons
     - node.type.course
   module:
     - anu_content_administration
@@ -159,7 +158,7 @@ display:
           empty_zero: false
           hide_alter_empty: true
           batch: true
-          batch_size: 20
+          batch_size: 1
           form_step: true
           buttons: false
           clear_on_exposed: 0
@@ -325,18 +324,18 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-        field_course_lessons:
-          id: field_course_lessons
-          table: node__field_course_lessons
-          field: field_course_lessons
+        course_lessons:
+          id: course_lessons
+          table: node
+          field: course_lessons
           relationship: none
           group_type: group
           admin_label: ''
           label: Lessons
           exclude: false
           alter:
-            alter_text: true
-            text: '{{ field_course_lessons }} <a href="{{ path(''entity.node.edit_form'', {''node'': field_course_lessons__target_id}) }}">[edit]</a>'
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -373,21 +372,8 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
+          entity_type: node
+          plugin_id: anu_course_lessons
         node_groups:
           id: node_groups
           table: node
@@ -748,8 +734,7 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       max-age: 0
-      tags:
-        - 'config:field.storage.node.field_course_lessons'
+      tags: {  }
   page_1:
     display_options:
       path: admin/content/course
@@ -780,5 +765,4 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       max-age: 0
-      tags:
-        - 'config:field.storage.node.field_course_lessons'
+      tags: {  }

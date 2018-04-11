@@ -22,6 +22,11 @@ function anu_content_administration_views_data_alter(array &$data) {
   ];
   $data['node']['course_lessons'] = [
     'title' => t('Course lessons'),
+    'field' => [
+      'title' => t('Course Lessons'),
+      'help' => t('List of course lessons.'),
+      'id' => 'anu_course_lessons',
+    ],
     'filter' => [
       'title' => t('Course lessons filter'),
       'help' => t('Filters course lessons by title'),
