@@ -45,7 +45,7 @@ class PlatformExtension extends \Codeception\Extension
       $url = $parsed_url['scheme'] . '://' . $_ENV['HTTP_USERNAME'] . ':' . $_ENV['HTTP_PASSWORD'] . '@' . $parsed_url['host'] . $parsed_url['path'];
 
       if ($this->hasModule('WebDriver')) {
-        $this->getModule('WebDriver')->_reconfigure(['url' => $url, 'host' => 'localhost']);
+        $this->getModule('WebDriver')->_reconfigure(['url' => $url]);
       }
 
       if ($this->hasModule('REST')) {

@@ -16,5 +16,6 @@ extensions:
 modules:
     config:
         WebDriver:
+          host: chrome
           url: http://app.docker.local/admin/
           frontend_url: http://app.docker.local
