@@ -28,9 +28,7 @@ const DashboardTemplate = ({ classes, courses, recentCourses }) => (
         <h4>{classItem.label}</h4>
 
         <div className="row">
-          {courses
-            // Leave only courses which belong to the current class item.
-            .filter(course => course.groupId === classItem.id)
+          {classItem.courses
             .map(course => (
               <div key={course.id} className="col-12 col-md-6 col-lg-4 mb-5">
                 <Card course={course} />
@@ -39,8 +37,10 @@ const DashboardTemplate = ({ classes, courses, recentCourses }) => (
           }
         </div>
 
-        { !courses.filter(course => course.groupId === classItem.id).length &&
-        <Empty message="No available courses yet." />
+        { !classItem.courses.length &&
+        <div className="mb-5">
+          <Empty message="No available courses yet." />
+        </div>
         }
 
       </Fragment>
@@ -54,15 +54,16 @@ const DashboardTemplate = ({ classes, courses, recentCourses }) => (
 );
 
 DashboardTemplate.propTypes = {
-  courses: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    imageUrl: PropTypes.string,
-    imageAlt: PropTypes.string,
-  })).isRequired,
   classes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
+    courses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      imageUrl: PropTypes.string,
+      imageAlt: PropTypes.string,
+      progress: PropTypes.number,
+    })),
   })).isRequired,
   recentCourses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

@@ -4,7 +4,6 @@ namespace Drupal\anu_learner_progress\Plugin\rest\resource;
 
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
-use Drupal\Component\Render\FormattableMarkup;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -64,9 +63,10 @@ class LearnerProgressResource extends ResourceBase {
    * @return \Drupal\rest\ResourceResponse
    */
   public function get() {
-    $progress = [];
 
-
+    /* @var $learnerProgress \Drupal\anu_learner_progress\LearnerProgress */
+    $learnerProgress = \Drupal::service('anu_learner_progress.learner_progress');
+    $progress = $learnerProgress->load();
 
     return !empty($progress) ? new ResourceResponse($progress) : new ResourceResponse();
   }

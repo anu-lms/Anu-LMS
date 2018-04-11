@@ -1,6 +1,6 @@
 uuid: a4f696ba-ba3b-4a11-8951-5d3b5fe07485
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - anu_learner_progress

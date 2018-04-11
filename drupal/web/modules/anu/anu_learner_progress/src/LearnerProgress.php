@@ -59,12 +59,6 @@ class LearnerProgress {
             'uid' => \Drupal::currentUser()->id(),
           ]);
 
-        // Sort recently accessed courses by changed date. The recently accessed
-        // courses should be on top of the list.
-        usort($course_progresses, function($a, $b) {
-          return $a->changed->value < $b->changed->value;
-        });
-
         foreach ($course_progresses as $course_progress) {
 
           // Add recently accessed lesson id and url to the output.
@@ -79,6 +73,7 @@ class LearnerProgress {
             $recent_lesson = [
               'lessonId' => $recent_lesson_entity->id(),
               'url' => $path,
+              'timestamp' => $course_progress->changed->first()->getValue()['value']
             ];
           }
 
