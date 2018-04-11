@@ -40,6 +40,7 @@ dependencies:
 variables:
   php:
     memory_limit: 256M
+    auto_detect_line_endings: 1
 
 # The configuration of app when it is exposed to the web.
 web:
