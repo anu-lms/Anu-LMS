@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import EditList from 'slate-edit-list'
+import EditList from 'slate-edit-list';
 import { isKeyHotkey } from 'is-hotkey';
 import he from 'he';
 import isUrl from 'is-url';
@@ -18,11 +18,11 @@ import { html } from './serializer';
 const pluginEditList = EditList({
   types: ['bulleted-list', 'numbered-list'],
   typeItem: 'list-item',
-  typeDefault: 'paragraph'
+  typeDefault: 'paragraph',
 });
 
 const plugins = [
-  pluginEditList
+  pluginEditList,
 ];
 
 /**
@@ -218,7 +218,6 @@ class RichEditor extends React.Component {
     // If selected element already has list of any type.
     // Remove list tag or convert list to another type.
     if (this.hasList()) {
-
       // Removes list tag if user clicked button of the same list type.
       if (this.hasList(type)) {
         change
@@ -226,7 +225,6 @@ class RichEditor extends React.Component {
           .unwrapBlock(type);
       }
       else {
-
         // Converts type of list tag if user clicked button of another list type.
         change
           .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
