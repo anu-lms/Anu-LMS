@@ -14,6 +14,7 @@ import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
 
+// Enable EditList plugin to handle keyboard events in lists.
 const pluginEditList = EditList({
   types: ['bulleted-list', 'numbered-list'],
   typeItem: 'list-item',
