@@ -340,8 +340,8 @@ class RichEditor extends React.Component {
    * @return {Element}
    */
   renderListButton = type => {
-    const onMouseDown = event => this.onClickList(event, type);
     const isActive = this.hasList(type);
+    const onMouseDown = event => this.onClickList(event, type);
 
     let icon;
     switch (type) {
