@@ -47,6 +47,7 @@
     "redux-saga": "^0.16.0",
     "sass-loader": "^6.0.6",
     "slate": "^0.32.4",
+    "slate-edit-list": "^0.11.2",
     "slate-html-serializer": "systemseed/slate-html-serializer#1bdf4b4",
     "slate-react": "systemseed/slate-react#c6ecd76",
     "striptags": "2.2.1",
