@@ -47,6 +47,6 @@ class UserGroups extends FieldPluginBase {
       $groups[] = Html::escape($group->label);
     }
 
-    return implode(', ', $groups);
+    return ['#markup' => implode(', ', $groups)];
   }
 }
