@@ -7,6 +7,7 @@ label: Development
 folder: ../config/development
 module:
   devel: 0
+  kint: 0
   reroute_email: 0
   ssb_development: 0
   stage_file_proxy: 0

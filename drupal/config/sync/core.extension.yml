@@ -3,7 +3,9 @@ module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
   anu_auth: 0
+  anu_content_administration: 0
   anu_course_resources: 0
+  anu_group: 0
   anu_learner_progress: 0
   anu_lessons: 0
   anu_private_files: 0
