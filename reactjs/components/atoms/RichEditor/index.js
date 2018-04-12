@@ -219,7 +219,7 @@ class RichEditor extends React.Component {
     // Remove list tag or convert list to another type.
     if (this.hasList()) {
 
-      // Removes list tag if user clicked button of same list type.
+      // Removes list tag if user clicked button of the same list type.
       if (this.hasList(type)) {
         change
           .setBlock(DEFAULT_NODE)
@@ -227,7 +227,7 @@ class RichEditor extends React.Component {
       }
       else {
 
-        // Converts list type if user clicked button of another list type.
+        // Converts type of list tag if user clicked button of another list type.
         change
           .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
           .wrapBlock(type);
@@ -235,7 +235,7 @@ class RichEditor extends React.Component {
     }
     else {
       // If selected element has no list wrapper.
-      // Wrap it to list of selected type.
+      // Wrap it to list of given type.
       change.setBlock('list-item').wrapBlock(type);
     }
 
