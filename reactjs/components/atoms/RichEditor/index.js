@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
+import EditList from 'slate-edit-list'
 import { isKeyHotkey } from 'is-hotkey';
 import he from 'he';
 import isUrl from 'is-url';
@@ -12,6 +13,16 @@ import 'core-js/es7/array';
 import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
+
+const pluginEditList = EditList({
+  types: ['bulleted-list', 'numbered-list'],
+  typeItem: 'list-item',
+  typeDefault: 'paragraph'
+});
+
+const plugins = [
+  pluginEditList
+];
 
 /**
  * A change helper to standardize wrapping links.
@@ -204,10 +215,18 @@ class RichEditor extends React.Component {
     const change = value.change();
     const { document } = value;
 
+    const {
+      wrapInList,
+      unwrapList,
+      increaseItemDepth,
+      decreaseItemDepth
+    } = pluginEditList.changes;
+    const isList = pluginEditList.utils.isSelectionInList(value);
+
+    debugger;
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item');
 
       if (isList) {
         change
@@ -221,7 +240,6 @@ class RichEditor extends React.Component {
     }
     else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item');
       // eslint-disable-next-line max-len
       const isType = value.blocks.some(block => !!document.getClosest(block.key, parent => parent.type === type));
 
@@ -263,7 +281,8 @@ class RichEditor extends React.Component {
    */
   hasBlock = type => {
     const { value } = this.state;
-    return value.blocks.some(node => node.type === type);
+    //debugger;
+    return value.blocks.some(node => {console.log(node); return node.type === type});
   };
 
   /**
@@ -331,8 +350,12 @@ class RichEditor extends React.Component {
    * @return {Element}
    */
   renderBlockButton = type => {
-    const isActive = this.hasBlock(type);
+    //debugger;
+    //const isActive = pluginEditList.utils.isSelectionInList(this.state.value);
+
     const onMouseDown = event => this.onClickBlock(event, type);
+
+    const isActive = this.hasBlock(type);
 
     let icon;
     switch (type) {
@@ -451,6 +474,7 @@ class RichEditor extends React.Component {
           <div className="editor">
             <Editor
               placeholder={this.props.placeholder}
+              plugins={plugins}
               value={this.state.value}
               onChange={this.onChange}
               onPaste={this.onPaste}
