@@ -282,6 +282,11 @@ class RichEditor extends React.Component {
   hasBlock = type => {
     const { value } = this.state;
     //debugger;
+    const aaa = pluginEditList.utils.getCurrentList(value);
+    if (aaa) {
+      console.log('aaaBlocks', aaa.blocks);
+    }
+    console.log('aaa', aaa);
     return value.blocks.some(node => {console.log(node); return node.type === type});
   };
 
