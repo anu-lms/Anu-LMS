@@ -21,12 +21,27 @@ class NotebookCest {
 
     // Add note
     $I->click('.add-note');
-    $I->waitForElement('.note-content');
+    $I->waitForElement('.note-content h5.title .placeholder');
     $I->see('New Note', '.notes-list');
     $I->click('.note-content h5.title .placeholder');
     $I->pressKey('.note-content h5.title span', 'Note title');
-    //$I->see('Note title','.notes-list');
-    //$I->click('.add-note');
+    $I->wait(1);
+    $I->see('Note title','.notes-list');
+
+    // Edit note
+    $I->click('//div[@class="notes-list"]//div[text()="Note title"]/ancestor::div[contains(concat(" ", normalize-space(@class), " "), " notes-list-item ")]');
+    $I->waitForElement('.note-content h5.title');
+    $I->wait(1); // sometimes waitForElement returns true too early, which result in "Other element would receive the click" error
+    $I->click('.note-content h5.title');
+    $I->pressKey('.note-content h5.title span', ' edited');
+    $I->wait(1);
+    $I->see('Note title edited','.notes-list');
+
+    // Delete note
+    $I->click('.context-menu button');
+    $I->click('//div[@class="context-menu"]//div[@role="menu"]//span[@class="menu-icon menu-icon-delete"]/ancestor::div[@role="menuitem"]');
+    $I->acceptPopup();
+    $I->dontSee('Note title edited');
 
   }
 
