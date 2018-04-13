@@ -7,6 +7,8 @@ use \Drupal\Core\Access\AccessResult;
  *
  */
 
+use \Drupal\Component\Render\FormattableMarkup;
+
 /**
  * Implements hook_file_access().
  *
@@ -68,3 +70,36 @@ function anu_lessons_file_access($entity, $operation) {
 
   return AccessResult::neutral();
 }
+
+// @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
+//
+///**
+// * Implements hook_ENTITY_TYPE_predelete().
+// *
+// * @param \Drupal\Core\Entity\EntityInterface $entity
+// */
+//function anu_lessons_node_predelete(Drupal\Core\Entity\EntityInterface $entity) {
+//  if ($entity->bundle() != 'course') {
+//    return;
+//  }
+//
+//  try {
+//    // Removes child lessons if course removed.
+//    foreach ($entity->field_course_lessons as $course_lesson) {
+//      $course_lesson->entity->delete();
+//    }
+//  } catch (\Exception $exception) {
+//    $message = new FormattableMarkup('Could not delete child lessons of course @id. Error: @error', [
+//      '@id' => $entity->id(),
+//      '@error' => $exception->getMessage()
+//    ]);
+//    \Drupal::logger('anu_lessons')->error($message);
+//  }
+//}
+//
+///**
+// * Implements hook_form_alter().
+// */
+//function anu_lessons_form_node_course_delete_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+//  drupal_set_message(t('Children Lessons will be removed as well if you remove this Course.'), 'warning');
+//}
