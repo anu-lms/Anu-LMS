@@ -12,13 +12,16 @@ class Audio extends React.Component {
       isPlaying: false,
       duration: '',
       seek: 0,
-      seekUpdate: {}, // eslint-disable-line react/no-unused-state
+      seekUpdate: null,
     };
 
     this.formatDuration = this.formatDuration.bind(this);
     this.playerLoaded = this.playerLoaded.bind(this);
     this.play = this.play.bind(this);
+    this.seek = this.seek.bind(this);
+    this.seekEnd = this.seekEnd.bind(this);
     this.pause = this.pause.bind(this);
+    this.updatePlayerProgressBar = this.updatePlayerProgressBar.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +35,12 @@ class Audio extends React.Component {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
       this.props.handleParagraphLoaded(this.props.id);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.seekUpdate) {
+      clearInterval(this.state.seekUpdate);
     }
   }
 
@@ -51,20 +60,46 @@ class Audio extends React.Component {
   play() {
     this.setState({
       isPlaying: true,
-      seekUpdate: setInterval(() => ( // eslint-disable-line react/no-unused-state
-        this.setState({
-          seek: Math.floor(this.player.seek()),
-          formattedDuration: this.formatDuration(this.player.duration() - this.player.seek()),
-        })
-      ), 1000),
+      seekUpdate: setInterval(() => {
+        this.updatePlayerProgressBar();
+      }, 1000),
     });
   }
 
+  /**
+   * Update the time marker.
+   */
+  seek(time) {
+    if (this.player) {
+      this.player.seek(time);
+    }
+    this.updatePlayerProgressBar();
+  }
+
+  /**
+   * Perform seek.
+   */
+  seekEnd() {
+    this.updatePlayerProgressBar();
+  }
+
   pause() {
-    this.setState(prevState => ({
+    if (this.state.seekUpdate) {
+      clearInterval(this.state.seekUpdate);
+    }
+    this.setState({
       isPlaying: false,
-      seekUpdate: clearInterval(prevState.seekUpdate),
-    }));
+      seekUpdate: null,
+    });
+  }
+
+  updatePlayerProgressBar() {
+    if (this.player) {
+      this.setState({
+        seek: Math.floor(this.player.seek()),
+        formattedDuration: this.formatDuration(this.player.duration() - this.player.seek()),
+      });
+    }
   }
 
   render() {
@@ -113,9 +148,9 @@ class Audio extends React.Component {
                 totalTime={parseInt(this.state.duration)} // eslint-disable-line radix
                 currentTime={parseInt(this.state.seek)} // eslint-disable-line radix
                 isSeekable
-                onSeek={time => this.player.seek(time)}
+                onSeek={this.seek}
                 onIntent={time => this.setState(() => ({ lastIntent: time }))}
-                onSeekEnd={this.play}
+                onSeekEnd={this.seekEnd}
               />
 
               <div className="duration">
