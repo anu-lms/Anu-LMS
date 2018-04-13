@@ -35,7 +35,7 @@ class AssessmentCest {
     try {
       $I->click('//button[@type="submit"]');
       $I->waitForText('Thank you, the assessment has been successfully submitted.');
-    } catch (\PHPUnit_Framework_Exception $e) {
+    } catch (\Exception $e) {
       // Otherwise do nothing
     }
 
