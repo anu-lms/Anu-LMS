@@ -37,7 +37,7 @@ class NotesLessonCest {
 
     // Edit note
     $I->click('//div[@class="notes-list"]//div[text()="Note title"]/ancestor::div[contains(concat(" ", normalize-space(@class), " "), " notes-list-item ")]');
-    $I->waitForElement('.note-content');
+    $I->waitForElement('.note-content h5.title');
     $I->click('.note-content h5.title');
     $I->pressKey('.note-content h5.title span', ' edited');
     $I->click('.show-note-button');
