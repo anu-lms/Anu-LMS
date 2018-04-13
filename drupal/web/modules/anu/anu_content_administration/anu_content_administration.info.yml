@@ -1,0 +1,5 @@
+name: Anu Content administration
+type: module
+description: Enhancements for content administration.
+core: 8.x
+package: Anu
