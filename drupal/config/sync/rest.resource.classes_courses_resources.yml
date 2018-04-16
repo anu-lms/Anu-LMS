@@ -1,13 +1,13 @@
-uuid: a4f696ba-ba3b-4a11-8951-5d3b5fe07485
+uuid: 97fd617f-9fb4-47f6-af8e-97320ec3868b
 langcode: en
-status: false
+status: true
 dependencies:
   module:
-    - anu_learner_progress
+    - anu_classes
     - serialization
     - simple_oauth
-id: learner_progress
-plugin_id: learner_progress
+id: classes_courses_resources
+plugin_id: classes_courses_resources
 granularity: resource
 configuration:
   methods:

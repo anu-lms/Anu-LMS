@@ -1,0 +1,3 @@
+services:
+  anu_learner_progress.learner_progress:
+    class: Drupal\anu_learner_progress\LearnerProgress
