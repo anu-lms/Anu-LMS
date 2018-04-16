@@ -80,6 +80,7 @@ export default function withAuth(PageComponent) {
           login: this.login.bind(this),
           logout: this.logout.bind(this),
           getRequest: this.getRequest.bind(this),
+          isLoggedIn: this.isLoggedIn.bind(this),
           refreshAuthenticationToken: this.refreshAuthenticationToken.bind(this),
         },
       };
@@ -96,6 +97,11 @@ export default function withAuth(PageComponent) {
           })
           .catch(error => reject(error));
       });
+    }
+
+    isLoggedIn() {
+      const auth = new ClientAuth();
+      return auth.isLoggedIn();
     }
 
     login(username, password) {
