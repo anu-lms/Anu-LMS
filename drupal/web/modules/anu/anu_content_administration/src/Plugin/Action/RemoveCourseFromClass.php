@@ -1,24 +1,25 @@
 <?php
 
-namespace Drupal\anu_user\Plugin\Action;
+namespace Drupal\anu_content_administration\Plugin\Action;
 
-use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
+use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 
 /**
- * Assigns chosen groups to the selected users.
+ * Remove chosen courses from classes.
  *
  * @Action(
- *   id = "anu_assign_group",
- *   label = @Translation("Assign Classes to the selected users"),
- *   type = "user",
+ *   id = "anu_remove_course_from_class",
+ *   label = @Translation("Remove chosen courses from classes"),
+ *   type = "node",
  *   requirements = {
- *     "_permission" = "administer users",
+ *     "_permission" = "administer nodes",
  *   },
  * )
  */
-class AssignGroup extends ViewsBulkOperationsActionBase {
+class RemoveCourseFromClass extends ViewsBulkOperationsActionBase {
 
   use StringTranslationTrait;
 
@@ -26,13 +27,13 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-
-    $groups = \Drupal::entityTypeManager()
-      ->getStorage('group')
-      ->loadMultiple($this->configuration['classes']);
-
-    foreach ($groups as $group) {
-      $group->addMember($entity);
+    if ($group_contents = GroupContent::loadByEntity($entity)) {
+      /** @var \Drupal\group\Entity\GroupContent $group_content */
+      foreach ($group_contents as $group_content) {
+        if (in_array($group_content->getGroup()->id(), $this->configuration['classes'])) {
+          $group_content->delete();
+        }
+      }
     }
   }
 
@@ -40,11 +41,11 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function access($entity, AccountInterface $account = NULL, $return_as_object = FALSE) {
-
     $groups = \Drupal::entityTypeManager()
       ->getStorage('group')
       ->loadMultiple($this->configuration['classes']);
 
+    /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
       if (!$group->access('update')) {
         return FALSE;
@@ -62,12 +63,12 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
   public function buildConfigurationForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
-
     $groups = \Drupal::entityTypeManager()
       ->getStorage('group')
       ->loadMultiple();
 
     $group_list = [];
+    /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
       if ($group->access('update')) {
         $group_list[$group->id()] = $group->label();
@@ -75,7 +76,7 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
     }
 
     $form['classes'] = [
-      '#title' => t('Choose the Classes to assign to the selected users:'),
+      '#title' => t('Choose the Classes to remove from the selected courses:'),
       '#type' => 'checkboxes',
       '#options' => $group_list,
     ];
