@@ -1,33 +1,16 @@
 # Codeception Test Suites
 
 
-## Prepare for local run and development
+## Executing tests
 
-### Option 1: inside Docker
-
-TBD.
-
-### Option 2: without Docker
-
-This option assumes you have PHP, Composer and chromedriver installed on your host machine.
-
-[Download](https://sites.google.com/a/chromium.org/chromedriver/downloads) chromedriver and run it: 
+Just run the following command:
 
 ```
-./chromedriver --url-base=wd/hub --port=9515
+docker-compose run codecept run acceptance --debug
 ```
 
-Make sure all URLs inside of `codeception.yml` file are valid. You can run tests against 
-your local installation (for example, `http://app.docker.localhost`) or against
-remote Platform.sh site (https://stage-y77w3ti-lx26djloxt64m.us.platform.sh/).
+It will run all acceptance tests using chromedriver instance from codecept container.
 
-Change working directory to `drupal` and run the following command:
-
-```
-./vendor/bin/codecept run acceptance -c tests/codeception --debug
-```
-
-It will run all acceptance tests in your local chromedriver instance.
 
 ## Tests structure
 
@@ -54,7 +37,7 @@ Add an extra "debug" group in test annotation:
 Then run debug group only in Codeception:
 
 ```
-./vendor/bin/codecept run acceptance -c tests/codeception -g debug --debug
+docker-compose run codecept acceptance -g debug --debug
 ```
 
 The command above will run tests from "debug" group only.
@@ -64,10 +47,10 @@ The command above will run tests from "debug" group only.
 
 Delete previously stored artifacts:
 ```
-./vendor/bin/codecept -c tests/codeception clean
+docker-compose run codecept clean
 ```
 
 Rebuild helper classes after major changes in test suite:
 ```
-./vendor/bin/codecept -c tests/codeception build
+docker-compose run codecept build
 ```

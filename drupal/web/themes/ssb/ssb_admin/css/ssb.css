@@ -80,3 +80,10 @@ input.edit-crop {
 .tabledrag-toggle-weight {
   display: none !important;
 }
+
+/*******************************************/
+/*********** VIEWS *****************/
+/*******************************************/
+.content-unpublished {
+  color: #a51b00;
+}
