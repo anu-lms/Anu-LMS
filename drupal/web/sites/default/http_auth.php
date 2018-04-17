@@ -21,7 +21,7 @@ if (strpos($GLOBALS['request']->headers->get('authorization'), 'Basic') !== fals
   $cookie_data = explode(';', $GLOBALS['request']->headers->get('cookie'));
   if (!empty($cookie_data)) {
     foreach ($cookie_data as $cookie_data_item) {
-      $cookie_row_data = explode('=', $cookie_data_item);
+      $cookie_row_data = explode('=', trim($cookie_data_item));
       if (!empty($cookie_row_data[0]) && $cookie_row_data[0] == 'accessToken') {
 
         $GLOBALS['request']->headers->set('authorization', 'Bearer ' . $cookie_row_data[1]);
