@@ -9,7 +9,7 @@ namespace frontend;
  */
 class DashboardCest {
 
-  public function showDashboard(\Step\Acceptance\Learner $I) {
+  public function viewDashboard(\Step\Acceptance\Learner $I) {
 
     $I->loginAsLearner();
     $I->see('Test Class', 'h4');

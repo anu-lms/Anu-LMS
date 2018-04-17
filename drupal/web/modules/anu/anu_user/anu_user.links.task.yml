@@ -1,0 +1,5 @@
+anu_user.import:
+  title: 'Users import'
+  route_name: anu_user.import
+  base_route: entity.user.collection
+  weight: 11

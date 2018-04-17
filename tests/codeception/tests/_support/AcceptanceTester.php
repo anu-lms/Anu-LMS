@@ -35,4 +35,25 @@ class AcceptanceTester extends \Codeception\Actor {
 
   }
 
+  public function openTestCourseLanding() {
+
+    $I = $this;
+
+    $I->scrollTo('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
+    $I->click('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
+    $I->waitForText('Course Content');
+
+  }
+
+  public function resumeCourseFromLanding() {
+
+    $I = $this;
+
+    $courseTitle = $I->grabTextFrom('h4');
+
+    $I->click('//a[text()="Start" or text()="Resume"]');
+    $I->waitForText($courseTitle, 20, '.navigation');
+
+  }
+
 }
