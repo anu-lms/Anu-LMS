@@ -2,9 +2,19 @@ import * as courseHelper from '../helpers/course';
 import * as lessonHelper from '../helpers/lesson';
 import * as urlUtils from '../utils/url';
 
-export const classData = classDataObject => ({
-  uuid: classDataObject.uuid,
-  label: classDataObject.label,
+/**
+ * Processes data of a course from custom REST endpoint.
+ */
+export const courseDataFromREST = course => ({
+  id: parseInt(course.id, 10),
+  title: course.label,
+  imageUrl: urlUtils.fileUrl(course.image),
+  imageAlt: course.label,
+  url: courseHelper.getUrl(course.path),
+  urlResources: courseHelper.getResourcesUrl(course.path),
+  progress: course.progress || 0,
+  recentLessonUrl: course.recentLesson ? courseHelper.getUrl(course.path) + course.recentLesson.url : '',
+  recentAccess: course.recentLesson ? course.recentLesson.timestamp : 0,
 });
 
 export const courseData = courseDataObject => {
