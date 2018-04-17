@@ -63,7 +63,6 @@ class CoursePage extends React.Component {
       // so we check response body for errors and throw an error.
       if (responseCourse.body.data.length === 0 && responseCourse.body.meta &&
         responseCourse.body.meta.errors && responseCourse.body.meta.errors[0].status) {
-
         initialProps.statusCode = responseCourse.body.meta.errors[0].status;
         throw Error(responseCourse.meta.errors[0].detail);
       }
