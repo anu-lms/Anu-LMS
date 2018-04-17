@@ -59,12 +59,21 @@ class CoursePage extends React.Component {
           'filter[entity_id][value]': entity.id,
         });
 
+      // 403 Errors from this response can't be catches with simple catch,
+      // so we check response body for errors and throw an error.
+      if (responseCourse.body.data.length === 0 && responseCourse.body.meta &&
+        responseCourse.body.meta.errors && responseCourse.body.meta.errors[0].status) {
+
+        initialProps.statusCode = responseCourse.body.meta.errors[0].status;
+        throw Error(responseCourse.meta.errors[0].detail);
+      }
+
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
     } catch (error) {
-      console.log('Could not load course. Error:');
-      console.log(error);
-      if (res) res.statusCode = 500;
-      initialProps.statusCode = 500;
+      console.log('Could not load course.', error);
+      initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+
+      if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
     }
 
@@ -97,8 +106,7 @@ class CoursePage extends React.Component {
     } catch (error) {
       // Log error but still render the page, because this issue is not a
       // deal breaker to display course content.
-      console.log('Could not fetch course progress. Error:');
-      console.log(error);
+      console.log('Could not fetch course progress.', error);
     }
 
     return initialProps;
@@ -110,12 +118,11 @@ class CoursePage extends React.Component {
       <App>
         <Header />
         <div className="page-with-header">
-          {statusCode === 200 &&
-          <CoursePageTemplate course={course} />
-          }
-          {statusCode !== 200 &&
-          <ErrorPage code={statusCode} />
-          }
+          {statusCode === 200 ? (
+            <CoursePageTemplate course={course} />
+          ) : (
+            <ErrorPage code={statusCode} />
+          )}
         </div>
       </App>
     );
