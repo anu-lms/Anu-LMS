@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
+import EditList from 'slate-edit-list';
 import { isKeyHotkey } from 'is-hotkey';
 import he from 'he';
 import isUrl from 'is-url';
@@ -12,6 +13,17 @@ import 'core-js/es7/array';
 import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
+
+// Enable EditList plugin to handle keyboard events in lists.
+const pluginEditList = EditList({
+  types: ['bulleted-list', 'numbered-list'],
+  typeItem: 'list-item',
+  typeDefault: 'paragraph',
+});
+
+const plugins = [
+  pluginEditList,
+];
 
 /**
  * A change helper to standardize wrapping links.
@@ -193,52 +205,36 @@ class RichEditor extends React.Component {
   };
 
   /**
-   * When a block button is clicked, toggle the block type.
+   * When a list button is clicked, toggle the list type.
    *
    * @param {Event} event
    * @param {String} type
    */
-  onClickBlock = (event, type) => {
+  onClickList = (event, type) => {
     event.preventDefault();
     const { value } = this.state;
     const change = value.change();
-    const { document } = value;
 
-    // Handle everything but list buttons.
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item');
-
-      if (isList) {
-        change
-          .setBlock(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
-      }
-      else {
-        change.setBlock(isActive ? DEFAULT_NODE : type);
-      }
-    }
-    else {
-      // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item');
-      // eslint-disable-next-line max-len
-      const isType = value.blocks.some(block => !!document.getClosest(block.key, parent => parent.type === type));
-
-      if (isList && isType) {
+    // If selected element already has list of any type.
+    // Remove list tag or convert list to another type.
+    if (this.hasList()) {
+      // Removes list tag if user clicked button of the same list type.
+      if (this.hasList(type)) {
         change
           .setBlock(DEFAULT_NODE)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
+          .unwrapBlock(type);
       }
-      else if (isList) {
+      else {
+        // Converts type of list tag if user clicked button of another list type.
         change
           .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
           .wrapBlock(type);
       }
-      else {
-        change.setBlock('list-item').wrapBlock(type);
-      }
+    }
+    else {
+      // If selected element has no list wrapper.
+      // Wrap it to list of given type.
+      change.setBlock('list-item').wrapBlock(type);
     }
 
     this.onChange(change);
@@ -256,14 +252,26 @@ class RichEditor extends React.Component {
   };
 
   /**
-   * Check if the any of the currently selected blocks are of `type`.
+   * Check if the any of the currently selected lists are of `type`.
    *
    * @param {String} type
    * @return {Boolean}
    */
-  hasBlock = type => {
+  hasList = type => {
     const { value } = this.state;
-    return value.blocks.some(node => node.type === type);
+
+    // Check if selection contains list of any type.
+    if (type === undefined) {
+      return pluginEditList.utils.isSelectionInList(value);
+    }
+    // If type provided, but selection doesn't contain list at all.
+    else if (!pluginEditList.utils.isSelectionInList(value)) {
+      return false;
+    }
+
+    // If selection contain list of given type.
+    const node = pluginEditList.utils.getCurrentList(value);
+    return node && node.type && node.type === type;
   };
 
   /**
@@ -325,14 +333,14 @@ class RichEditor extends React.Component {
   };
 
   /**
-   * Render a block-toggling toolbar button.
+   * Render a list-toggling toolbar button.
    *
    * @param {String} type
    * @return {Element}
    */
-  renderBlockButton = type => {
-    const isActive = this.hasBlock(type);
-    const onMouseDown = event => this.onClickBlock(event, type);
+  renderListButton = type => {
+    const isActive = this.hasList(type);
+    const onMouseDown = event => this.onClickList(event, type);
 
     let icon;
     switch (type) {
@@ -443,14 +451,15 @@ class RichEditor extends React.Component {
             {this.renderMarkButton('bold')}
             {this.renderMarkButton('italic')}
             {this.renderMarkButton('underlined')}
-            {this.renderBlockButton('numbered-list')}
-            {this.renderBlockButton('bulleted-list')}
+            {this.renderListButton('numbered-list')}
+            {this.renderListButton('bulleted-list')}
             {/* this.renderLinkButton() */}
           </div>
 
           <div className="editor">
             <Editor
               placeholder={this.props.placeholder}
+              plugins={plugins}
               value={this.state.value}
               onChange={this.onChange}
               onPaste={this.onPaste}

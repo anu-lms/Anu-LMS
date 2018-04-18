@@ -1,0 +1,5 @@
+services:
+  example_events.event_subscriber_example:
+    class: Drupal\anu_test_content\EventSubscriber\ImportEventSubscriber
+    tags:
+      - { name: 'event_subscriber' }

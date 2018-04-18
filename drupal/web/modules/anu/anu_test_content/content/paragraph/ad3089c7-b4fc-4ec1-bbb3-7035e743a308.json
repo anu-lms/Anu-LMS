@@ -1,0 +1,165 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/image_full_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/88?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/field_paragraph_image": [
+            {
+                "href": "http:\/\/default\/file\/319?_format=hal_json",
+                "lang": "en"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1187
+        }
+    ],
+    "uuid": [
+        {
+            "value": "ad3089c7-b4fc-4ec1-bbb3-7035e743a308"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 5280
+        }
+    ],
+    "type": [
+        {
+            "target_id": "image_full_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_full_text\/field_paragraph_image": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/file\/319?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "2c6da715-04c0-4e3a-84a4-b46b91654f5b"
+                    }
+                ],
+                "lang": "en",
+                "alt": "",
+                "title": "",
+                "width": "1280",
+                "height": "720"
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-04-06T12:14:11+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "190"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<h2>Macronutrients &amp; Supplements<\/h2>\r\n",
+            "format": "wysiwyg",
+            "processed": "<h2>Macronutrients &amp; Supplements<\/h2>\n",
+            "lang": "en"
+        }
+    ]
+}

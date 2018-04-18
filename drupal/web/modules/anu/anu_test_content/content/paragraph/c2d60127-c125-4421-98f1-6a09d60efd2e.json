@@ -1,0 +1,155 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/image_centered_caption"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/uid": [
+            {
+                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/88?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/field_paragraph_image": [
+            {
+                "href": "http:\/\/default\/file\/324?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1212
+        }
+    ],
+    "uuid": [
+        {
+            "value": "c2d60127-c125-4421-98f1-6a09d60efd2e"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 5377
+        }
+    ],
+    "type": [
+        {
+            "target_id": "image_centered_caption"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/image_centered_caption\/field_paragraph_image": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/file\/324?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "0350290c-954e-420c-8284-5cae5a649be6"
+                    }
+                ],
+                "alt": "",
+                "title": "",
+                "width": "1920",
+                "height": "1200"
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-04-06T12:41:59+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "1213"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_quiz_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_title": [
+        {
+            "value": "Image caption",
+            "lang": "en"
+        }
+    ]
+}

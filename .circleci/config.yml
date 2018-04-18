@@ -134,7 +134,7 @@ jobs:
 
       - run:
           name: Start ChromeDriver
-          command: chromedriver --url-base=wd/hub --port=9515 --ignore-certificate-errors
+          command: chromedriver --url-base=wd/hub --port=4444 --ignore-certificate-errors
           background: true
 
       - run:
@@ -171,16 +171,16 @@ jobs:
           name: Run Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug || true
+            ./vendor/bin/codecept run acceptance -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug || true
 
       - run:
           name: Re-run failed Codeception tests
           shell: /bin/bash
           command: |
-            ./vendor/bin/codecept run acceptance  -c ./drupal/tests/codeception --debug -g failed
+            ./vendor/bin/codecept run acceptance -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug -g failed
 
       - store_artifacts:
-          path: drupal/tests/codeception/tests/_output
+          path: tests/codeception/tests/_output
 
 
   ######################################
