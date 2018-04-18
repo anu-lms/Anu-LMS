@@ -91,7 +91,7 @@ class LessonContent extends React.Component {
     const progress = readThrough >= pageHeight ? 100 : (readThrough / pageHeight) * 100;
 
     const existingProgress = lessonHelpers.getProgress(storeLessons, lesson);
-    debug('updateReadProgress', {readThrough, pageHeight, progress, existingProgress});
+    debug('updateReadProgress', { readThrough, pageHeight, progress, existingProgress });
     if (progress > existingProgress) {
       this.props.dispatch(lessonActions.setProgress(lesson.id, progress));
 
