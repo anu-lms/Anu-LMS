@@ -1,0 +1,7 @@
+name: Anu Test Content
+type: module
+description: Import test content.
+core: 8.x
+package: Anu
+dependencies:
+  - default_content
