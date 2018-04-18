@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import Player from 'react-player';
 
 class Video extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.playerLoaded = this.playerLoaded.bind(this);
+  componentDidMount() {
+    // Report to the parent component that the loading is done.
+    if (this.props.handleParagraphLoaded) {
+      this.props.handleParagraphLoaded(this.props.id);
+    }
   }
 
-  playerLoaded() {
+  componentDidUpdate() {
     // Report to the parent component that the loading is done.
     if (this.props.handleParagraphLoaded) {
       this.props.handleParagraphLoaded(this.props.id);
@@ -25,8 +26,6 @@ class Video extends React.Component {
             <Player
               url={url.uri}
               width="100%"
-              onReady={this.playerLoaded}
-              onError={this.playerLoaded}
               controls
             />
           </div>
