@@ -1,3 +1,4 @@
+import Debug from 'debug';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,6 +11,8 @@ import * as lessonHelpers from '../../../helpers/lesson';
 import * as courseActions from '../../../actions/course';
 import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
+
+const debug = Debug('anu:lesson');
 
 class LessonContent extends React.Component {
   constructor(props) {
@@ -73,6 +76,7 @@ class LessonContent extends React.Component {
   }
 
   updateReadProgress() {
+    debug('updateReadProgress', this.paragraphsToLoad);
     // It's important to wait for the whole page to load before we can
     // start relying on container's height.
     if (this.paragraphsToLoad.length > 0) {
@@ -132,6 +136,7 @@ class LessonContent extends React.Component {
    * to rely on timeouts or being dependant from other data loading stuff.
    */
   handleParagraphLoaded(paragraphId) {
+    debug('handleParagraphLoaded', paragraphId);
     const index = this.paragraphsToLoad.findIndex(id => id === paragraphId);
     if (index !== -1) {
       this.paragraphsToLoad.splice(index, 1);
