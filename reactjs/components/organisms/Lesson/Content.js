@@ -76,10 +76,10 @@ class LessonContent extends React.Component {
   }
 
   updateReadProgress() {
-    debug('updateReadProgress', this.paragraphsToLoad);
     // It's important to wait for the whole page to load before we can
     // start relying on container's height.
     if (this.paragraphsToLoad.length > 0) {
+      debug('updateReadProgress(paragraphsToLoad > 0)', this.paragraphsToLoad);
       return;
     }
 
@@ -91,6 +91,7 @@ class LessonContent extends React.Component {
     const progress = readThrough >= pageHeight ? 100 : (readThrough / pageHeight) * 100;
 
     const existingProgress = lessonHelpers.getProgress(storeLessons, lesson);
+    debug('updateReadProgress', {readThrough, pageHeight, progress, existingProgress});
     if (progress > existingProgress) {
       this.props.dispatch(lessonActions.setProgress(lesson.id, progress));
 
@@ -225,8 +226,7 @@ class LessonContent extends React.Component {
       return true;
     }
     catch (error) {
-      console.log('Error during quizzes saving:');
-      console.log(error);
+      console.error('Error during quizzes saving.', error);
 
       this.setState({ isSending: false });
 
