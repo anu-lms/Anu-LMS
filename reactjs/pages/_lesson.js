@@ -152,7 +152,7 @@ class LessonPage extends React.Component {
 
         // Add lesson progress to the currently viewing lesson.
         if (parseInt(id) === initialProps.lesson.id) { // eslint-disable-line radix
-          initialProps.lesson.progress = Math.round(progress);
+          initialProps.lesson.progress = Math.round(lessonProgress);
         }
       });
     } catch (error) {
