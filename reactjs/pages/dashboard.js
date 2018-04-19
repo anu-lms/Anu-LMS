@@ -19,7 +19,11 @@ class DashboardPage extends React.Component {
     try {
       // Make backend request to fetch list of classes and related courses.
       const response = await request
-        .get('/classes/courses?_format=json');
+        .get('/classes/courses?_format=json')
+        .catch(error => {
+          initialProps.statusCode = error.response.status;
+          throw Error(error.response.body.message);
+        });
 
       // If the response is successfull it will return an array with classes
       // containing related courses.
@@ -70,11 +74,10 @@ class DashboardPage extends React.Component {
       }
     }
     catch (error) {
-      console.error('Could not fetch dashboard classes and courses. Error:');
-      console.error(error);
-      if (res) res.statusCode = 500;
-      initialProps.statusCode = 500;
-      return initialProps;
+      console.error('Could not fetch dashboard classes and courses.', error);
+      initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+
+      if (res) res.statusCode = initialProps.statusCode;
     }
 
     return initialProps;
@@ -86,12 +89,11 @@ class DashboardPage extends React.Component {
       <App>
         <Header />
         <div className="page-with-header">
-          {statusCode === 200 &&
-          <Dashboard {...this.props} />
-          }
-          {statusCode !== 200 &&
-          <ErrorPage code={statusCode} />
-          }
+          {statusCode === 200 ? (
+            <Dashboard {...this.props} />
+          ) : (
+            <ErrorPage code={statusCode} />
+          )}
         </div>
       </App>
     );
