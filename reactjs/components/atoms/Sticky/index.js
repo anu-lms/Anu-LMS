@@ -9,19 +9,13 @@ const debug = Debug('anu:sticky');
  */
 class Sticky extends React.Component {
   componentDidMount() {
-    let parentElement = document.documentElement.scrollTop ? document.documentElement : document.body;
-    if (this.props.rootId) {
-      parentElement = document.getElementById(this.props.rootId);
-    }
-    debug('componentDidMount:parentElement', parentElement);
-
     const stickies = document.querySelectorAll('[data-sticky]');
     debug('componentDidMount:stickies', stickies);
 
-    this.setInitialHeights(parentElement, stickies);
+    this.setInitialHeights(stickies);
 
     const rootElement = this.props.rootId ? document.getElementById(this.props.rootId) : document;
-    this.onScrollHandlerId = () => { this.onScroll(parentElement, stickies) };
+    this.onScrollHandlerId = () => { this.onScroll(stickies) };
     rootElement.addEventListener('scroll', this.onScrollHandlerId);
   }
 
@@ -30,8 +24,11 @@ class Sticky extends React.Component {
     rootElement.removeEventListener('scroll', this.onScrollHandlerId);
   }
 
-  setInitialHeights = (parentElement, elements) => {
-    [].forEach.call(elements, (sticky) => {
+  setInitialHeights = (stickies) => {
+    const parentElement = this.getParentElement();
+    debug('setInitialHeights:parentElement', parentElement);
+
+    [].forEach.call(stickies, (sticky) => {
 
       const top = parentElement.scrollTop;
       const elementTop = sticky.getBoundingClientRect().top;
@@ -40,7 +37,9 @@ class Sticky extends React.Component {
     });
   };
 
-  onScroll(parentElement, stickies) {
+  onScroll(stickies) {
+    const parentElement = this.getParentElement();
+
     const top = parentElement.scrollTop;
     const bottom = parentElement.scrollHeight;
 
@@ -56,6 +55,14 @@ class Sticky extends React.Component {
       }
       debug('scroll', { top, bottom, stickyEnter, stickyExit });
     });
+  }
+
+  getParentElement() {
+    let parentElement = document.documentElement.scrollTop ? document.documentElement : document.body;
+    if (this.props.rootId) {
+      parentElement = document.getElementById(this.props.rootId);
+    }
+    return parentElement;
   }
 
   render() {
