@@ -10,7 +10,8 @@ namespace frontend;
 class FrontPageCest {
 
   public function testGTM(\Step\Acceptance\Learner $I) {
-    $GTM_ID = 'GTM-TQKXJR8';
+    // Try to load GTM_ID from CI variables or use Default GTM id otherwise.
+    $GTM_ID = !empty($_ENV['GTM_ID']) ? $_ENV['GTM_ID'] : 'GTM-TQKXJR8';
 
     $I->amOnPage('/');
     $I->expectTo('see GTM container on site in stage mode.');
