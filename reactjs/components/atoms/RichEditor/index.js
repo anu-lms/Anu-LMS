@@ -13,6 +13,7 @@ import 'core-js/es7/array';
 import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
+import Sticky from '../Sticky';
 
 // Enable EditList plugin to handle keyboard events in lists.
 const pluginEditList = EditList({
@@ -447,13 +448,18 @@ class RichEditor extends React.Component {
         {this.state.value &&
         <div className="editor-wrapper">
 
-          <div className="editor-menu">
-            {this.renderMarkButton('bold')}
-            {this.renderMarkButton('italic')}
-            {this.renderMarkButton('underlined')}
-            {this.renderListButton('numbered-list')}
-            {this.renderListButton('bulleted-list')}
-            {/* this.renderLinkButton() */}
+          <div className="sticky-wrapper">
+
+            <Sticky enter="128" className="test">
+              <div className="editor-menu">
+                {this.renderMarkButton('bold')}
+                {this.renderMarkButton('italic')}
+                {this.renderMarkButton('underlined')}
+                {this.renderListButton('numbered-list')}
+                {this.renderListButton('bulleted-list')}
+                {/* this.renderLinkButton() */}
+              </div>
+            </Sticky>
           </div>
 
           <div className="editor">
