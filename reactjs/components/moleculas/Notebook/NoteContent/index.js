@@ -35,7 +35,7 @@ class NoteContent extends React.Component {
     let stickyOptions = null;
     if (this.props.contextId === 'lesson') {
       stickyOptions = {
-        enter: '120',
+        enter: '60',
         rootId: 'note-content'
       }
     }
