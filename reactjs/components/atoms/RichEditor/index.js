@@ -450,7 +450,7 @@ class RichEditor extends React.Component {
 
           <div className="sticky-wrapper">
 
-            <Sticky enter="120" className="test" rootId="note-content">
+            <Sticky enter={this.props.stickyOptions.enter} rootId={this.props.stickyOptions.rootId}>
               <div className="editor-menu">
                 {this.renderMarkButton('bold')}
                 {this.renderMarkButton('italic')}
@@ -489,6 +489,10 @@ RichEditor.propTypes = {
   children: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   node: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  stickyOptions: PropTypes.shape({
+    enter: PropTypes.string,
+    rootId: PropTypes.string,
+  }),
   attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
 };
@@ -501,6 +505,10 @@ RichEditor.defaultProps = {
   node: {},
   mark: {},
   attributes: [],
+  stickyOptions: {
+    enter: '128',
+    rootId: null
+  },
   onChange: () => {},
 };
 
