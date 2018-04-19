@@ -186,7 +186,7 @@ class LessonNotebook extends React.Component {
               {!isNoteListVisible && activeNote &&
               <Fragment>
                 <ShowNotesButton handleClick={this.showNotes} />
-                <NoteContent note={activeNote} />
+                <NoteContent note={activeNote} contextId="lesson" />
               </Fragment>
               }
 

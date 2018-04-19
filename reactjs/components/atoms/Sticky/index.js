@@ -75,7 +75,11 @@ Sticky.propTypes = {
   enter: PropTypes.string,
   exit: PropTypes.string,
   children: PropTypes.node,
-  parentId: PropTypes.string,
+  rootId: PropTypes.string,
+};
+
+Sticky.defaultProps = {
+  className: '',
 };
 
 export default Sticky;
