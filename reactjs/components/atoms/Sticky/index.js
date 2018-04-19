@@ -9,7 +9,10 @@ const debug = Debug('anu:sticky');
  */
 class Sticky extends React.Component {
   componentDidMount() {
-    const parentElement = this.props.rootId ? document.getElementById(this.props.rootId) : document.documentElement || document.body;
+    let parentElement = document.documentElement.scrollTop ? document.documentElement : document.body;
+    if (this.props.rootId) {
+      parentElement = document.getElementById(this.props.rootId);
+    }
     debug('componentDidMount:parentElement', parentElement);
 
     const stickies = document.querySelectorAll('[data-sticky]');
