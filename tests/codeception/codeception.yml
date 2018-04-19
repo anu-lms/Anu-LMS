@@ -19,5 +19,3 @@ modules:
           host: chrome
           url: http://app.docker.local/admin/
           frontend_url: http://app.docker.local
-params:
-    - .env.local
