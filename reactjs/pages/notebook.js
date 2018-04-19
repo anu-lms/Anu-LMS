@@ -6,6 +6,7 @@ import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import Header from '../components/organisms/Header';
+import ErrorPage from '../components/atoms/ErrorPage';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from '../actions/notebook';
 import * as notebookHelpers from '../helpers/notebook';
@@ -14,12 +15,18 @@ class NotebookPage extends Component {
   static async getInitialProps({ request, res }) {
     let initialProps = {
       notes: [],
+      statusCode: 200,
     };
 
     try {
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
-      const userResponse = await request.get('/user/me?_format=json');
+      const userResponse = await request
+        .get('/user/me?_format=json')
+        .catch(error => {
+          initialProps.statusCode = error.response.status;
+          throw Error(error.response.body.message);
+        });
       const currentUser = dataProcessors.userData(userResponse.body);
 
       const responseNotebook = await request
@@ -36,8 +43,9 @@ class NotebookPage extends Component {
 
       initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
     } catch (error) {
-      if (res) res.statusCode = 404;
-      console.log(error);
+      console.error('Could not fetch notebook notes.', error);
+      initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+      if (res) res.statusCode = initialProps.statusCode;
     }
 
     // If no notes available on the backend - add a welcome note by default.
@@ -48,8 +56,7 @@ class NotebookPage extends Component {
         const note = await notebookHelpers.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
-        console.log('Could not create a welcome note.');
-        console.log(error);
+        console.log('Could not create a welcome note.', error);
       }
     }
 
@@ -84,11 +91,16 @@ class NotebookPage extends Component {
   }
 
   render() {
+    const { statusCode } = this.props;
     return (
       <App>
         <Header />
         <div className="page-with-header page-notebook">
-          <NotebookTemplate />
+          {statusCode === 200 ? (
+            <NotebookTemplate />
+          ) : (
+            <ErrorPage code={statusCode} />
+          )}
         </div>
       </App>
     );
@@ -99,6 +111,11 @@ NotebookPage.propTypes = {
   isStoreRehydrated: PropTypes.bool.isRequired,
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
   dispatch: PropTypes.func.isRequired,
+  statusCode: PropTypes.number,
+};
+
+NotebookPage.defaultProps = {
+  statusCode: 200,
 };
 
 const mapStateToProps = store => {
