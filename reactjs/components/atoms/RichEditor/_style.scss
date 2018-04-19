@@ -41,3 +41,16 @@
     }
   }
 }
+
+.editor-wrapper {
+
+  .sticky-wrapper {
+    height: 48px;
+  }
+
+  .Sticky.sticky {
+    top: 80px;
+    background: $white;
+    width: 100%;
+  }
+}
