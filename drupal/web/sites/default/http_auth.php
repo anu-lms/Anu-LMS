@@ -11,6 +11,26 @@ if (PHP_SAPI == 'cli') {
   return;
 }
 
+// Some browsers like EDGE or Safari replace used Bearer authentication with Basic
+// In this case we grab accessToken from cookies and set correct Authentication header with Bearer.
+if (strpos($GLOBALS['request']->headers->get('authorization'), 'Basic') !== false &&
+  !empty($GLOBALS['request']->headers->get('cookie'))) {
+
+  // Check if cookie header contains accessToken to use for authentication.
+  // An example of Cookie header data: `accessToken=aaaaaaa;refreshToken=bbbbbb'.
+  $cookie_data = explode(';', $GLOBALS['request']->headers->get('cookie'));
+  if (!empty($cookie_data)) {
+    foreach ($cookie_data as $cookie_data_item) {
+      $cookie_row_data = explode('=', trim($cookie_data_item));
+      if (!empty($cookie_row_data[0]) && $cookie_row_data[0] == 'accessToken') {
+
+        $GLOBALS['request']->headers->set('authorization', 'Bearer ' . $cookie_row_data[1]);
+        break;
+      }
+    }
+  }
+}
+
 // If the request includes custom http-auth header, then validate it.
 // This header was introduced to send requests from node.js server to the
 // backend without http authentication.
