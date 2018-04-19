@@ -450,7 +450,7 @@ class RichEditor extends React.Component {
 
           <div className="sticky-wrapper">
 
-            <Sticky enter="128" className="test">
+            <Sticky enter="120" className="test" rootId="note-content">
               <div className="editor-menu">
                 {this.renderMarkButton('bold')}
                 {this.renderMarkButton('italic')}

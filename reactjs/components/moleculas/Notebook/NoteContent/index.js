@@ -31,7 +31,7 @@ class NoteContent extends React.Component {
   render() {
     const { note, count } = this.props;
     return (
-      <div className="note-content">
+      <div className="note-content" id="note-content">
 
         <div className="row note-meta">
           <div className="caption sm col-auto mr-auto">
