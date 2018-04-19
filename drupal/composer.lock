@@ -1913,7 +1913,7 @@
                 },
                 "drupal": {
                     "version": "8.x-2.0-rc3",
-                    "datestamp": "1522488784",
+                    "datestamp": "1506314345",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -1989,16 +1989,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.5.1",
+            "version": "8.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "2aeca7dfa2661296602ac16bf9fd6085f0a121be"
+                "reference": "bc21760d4be4ad117851809183c8d18880ab275a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/2aeca7dfa2661296602ac16bf9fd6085f0a121be",
-                "reference": "2aeca7dfa2661296602ac16bf9fd6085f0a121be",
+                "url": "https://api.github.com/repos/drupal/core/zipball/bc21760d4be4ad117851809183c8d18880ab275a",
+                "reference": "bc21760d4be4ad117851809183c8d18880ab275a",
                 "shasum": ""
             },
             "require": {
@@ -2220,7 +2220,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2018-03-27T09:58:42+00:00"
+            "time": "2018-04-18T17:00:56+00:00"
         },
         {
             "name": "drupal/ctools",
@@ -3328,7 +3328,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.14",
-                    "datestamp": "1522558384",
+                    "datestamp": "1521653147",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3389,7 +3389,7 @@
                 },
                 "drupal": {
                     "version": "8.x-2.0-rc1",
-                    "datestamp": "1522473689",
+                    "datestamp": "1521442084",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -3935,7 +3935,7 @@
                 "issues": "https://www.drupal.org/project/issues/page_manager",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
             },
-            "time": "2018-03-20T16:18:33+00:00"
+            "time": "2018-03-20 16:18:33"
         },
         {
             "name": "drupal/panels",
@@ -4375,7 +4375,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/simple_oauth"
             },
-            "time": "2018-03-29T05:52:25+00:00"
+            "time": "2018-03-29 05:52:25"
         },
         {
             "name": "drupal/smtp",
@@ -6074,7 +6074,7 @@
                 "jsonpath",
                 "path"
             ],
-            "time": "2017-09-13T09:14:46+00:00"
+            "time": "2017-09-13 09:14:46"
         },
         {
             "name": "stack/builder",
