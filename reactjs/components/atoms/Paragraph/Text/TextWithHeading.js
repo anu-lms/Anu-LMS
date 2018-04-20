@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class TextWithHeading extends React.Component {
   componentDidMount() {
@@ -17,7 +18,7 @@ class TextWithHeading extends React.Component {
   }
 
   render() {
-    const { text, title, columnClasses } = this.props;
+    const { text, title, columnClasses, id } = this.props;
     return (
       <div className="text-with-heading">
         <div className="container">
@@ -33,6 +34,7 @@ class TextWithHeading extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: text.value }} />
               }
 
+              <ShowCommentsCTA paragraphId={id} />
             </div>
           </div>
         </div>

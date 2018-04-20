@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
 import { ProgressBar } from 'react-player-controls';
 import { fileUrl } from '../../../../utils/url';
+import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Audio extends React.Component {
   constructor(props) {
@@ -103,7 +104,7 @@ class Audio extends React.Component {
   }
 
   render() {
-    const { file, columnClasses } = this.props;
+    const { file, columnClasses, id } = this.props;
 
     if (typeof file === 'undefined') {
       return null;
@@ -158,6 +159,7 @@ class Audio extends React.Component {
               </div>
             </div>
 
+            <ShowCommentsCTA paragraphId={id} />
           </div>
         </div>
       </div>
