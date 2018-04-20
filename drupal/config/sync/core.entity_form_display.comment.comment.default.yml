@@ -9,7 +9,6 @@ dependencies:
     - field.field.comment.comment.field_comment_parent
     - field.field.comment.comment.field_comment_text
   module:
-    - entity_reference_revisions
     - text
 id: comment.comment.default
 targetEntityType: comment
@@ -32,13 +31,11 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_comment_paragraph:
-    weight: 26
+    weight: 0
     settings:
-      match_operator: CONTAINS
-      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_autocomplete
+    type: number
     region: content
   field_comment_parent:
     weight: 5

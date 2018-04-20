@@ -9,7 +9,6 @@ dependencies:
     - field.field.comment.comment.field_comment_parent
     - field.field.comment.comment.field_comment_text
   module:
-    - entity_reference_revisions
     - text
     - user
 id: comment.comment.default
@@ -36,13 +35,13 @@ content:
     type: entity_reference_label
     region: content
   field_comment_paragraph:
-    weight: 4
+    weight: 6
     label: above
     settings:
-      view_mode: default
-      link: ''
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    type: number_integer
     region: content
   field_comment_parent:
     weight: 3

@@ -1,12 +1,10 @@
-uuid: f8b26913-78cf-4008-b791-cf3c00b7af80
+uuid: 24816de4-6a3b-4876-a497-b68445788bb9
 langcode: en
 status: true
 dependencies:
   config:
     - eck.eck_type.comment.comment
     - field.storage.comment.field_comment_paragraph
-  module:
-    - entity_reference_revisions
 id: comment.comment.field_comment_paragraph
 field_name: field_comment_paragraph
 entity_type: comment
@@ -18,63 +16,8 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:paragraph'
-  handler_settings:
-    negate: 0
-    target_bundles: null
-    target_bundles_drag_drop:
-      divider_numbered:
-        weight: 19
-        enabled: false
-      divider_simple:
-        weight: 20
-        enabled: false
-      image_centered_caption:
-        weight: 21
-        enabled: false
-      image_full_text:
-        weight: 22
-        enabled: false
-      list_bullet:
-        weight: 23
-        enabled: false
-      list_checkbox:
-        weight: 24
-        enabled: false
-      list_numbered:
-        weight: 25
-        enabled: false
-      media_audio:
-        weight: 26
-        enabled: false
-      media_resource:
-        weight: 27
-        enabled: false
-      media_video:
-        weight: 28
-        enabled: false
-      quiz_checkboxes:
-        weight: 29
-        enabled: false
-      quiz_comboboxes:
-        weight: 30
-        enabled: false
-      quiz_free_answer:
-        weight: 31
-        enabled: false
-      quiz_linear_scale:
-        weight: 32
-        enabled: false
-      text_heading:
-        weight: 33
-        enabled: false
-      text_heading_text:
-        weight: 34
-        enabled: false
-      text_subheading:
-        weight: 35
-        enabled: false
-      text_text:
-        weight: 36
-        enabled: false
-field_type: entity_reference_revisions
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
