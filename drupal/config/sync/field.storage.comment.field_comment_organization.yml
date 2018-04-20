@@ -1,0 +1,20 @@
+uuid: 07eed3e4-c5bf-4730-8d4f-d58f769c9b56
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+    - taxonomy
+id: comment.field_comment_organization
+field_name: field_comment_organization
+entity_type: comment
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

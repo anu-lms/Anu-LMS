@@ -1,0 +1,21 @@
+uuid: e7bb8b72-62a1-482e-ba9f-f83eca4cb65f
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+    - entity_reference_revisions
+    - paragraphs
+id: comment.field_comment_paragraph
+field_name: field_comment_paragraph
+entity_type: comment
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

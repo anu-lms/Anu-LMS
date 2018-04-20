@@ -1,0 +1,11 @@
+uuid: a7b62d6d-54a8-4a30-8a69-b7e22506ede0
+langcode: en
+status: true
+dependencies: {  }
+id: comment
+label: Comment
+created: true
+changed: true
+uid: true
+title: false
+revisionable: true

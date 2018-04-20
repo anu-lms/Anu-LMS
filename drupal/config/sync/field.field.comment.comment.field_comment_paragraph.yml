@@ -1,0 +1,102 @@
+uuid: d99f99ac-a087-4936-bbe9-d65bd85183cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.comment.comment
+    - field.storage.comment.field_comment_paragraph
+    - paragraphs.paragraphs_type.image_centered_caption
+    - paragraphs.paragraphs_type.list_bullet
+    - paragraphs.paragraphs_type.list_checkbox
+    - paragraphs.paragraphs_type.list_numbered
+    - paragraphs.paragraphs_type.media_audio
+    - paragraphs.paragraphs_type.media_resource
+    - paragraphs.paragraphs_type.media_video
+    - paragraphs.paragraphs_type.text_heading
+    - paragraphs.paragraphs_type.text_heading_text
+    - paragraphs.paragraphs_type.text_subheading
+    - paragraphs.paragraphs_type.text_text
+  module:
+    - entity_reference_revisions
+id: comment.comment.field_comment_paragraph
+field_name: field_comment_paragraph
+entity_type: comment
+bundle: comment
+label: Paragraph
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_centered_caption: image_centered_caption
+      list_bullet: list_bullet
+      list_checkbox: list_checkbox
+      list_numbered: list_numbered
+      media_audio: media_audio
+      media_resource: media_resource
+      media_video: media_video
+      text_heading: text_heading
+      text_heading_text: text_heading_text
+      text_subheading: text_subheading
+      text_text: text_text
+    target_bundles_drag_drop:
+      divider_numbered:
+        weight: 19
+        enabled: false
+      divider_simple:
+        weight: 20
+        enabled: false
+      image_centered_caption:
+        enabled: true
+        weight: 21
+      image_full_text:
+        weight: 22
+        enabled: false
+      list_bullet:
+        enabled: true
+        weight: 23
+      list_checkbox:
+        enabled: true
+        weight: 24
+      list_numbered:
+        enabled: true
+        weight: 25
+      media_audio:
+        enabled: true
+        weight: 26
+      media_resource:
+        enabled: true
+        weight: 27
+      media_video:
+        enabled: true
+        weight: 28
+      quiz_checkboxes:
+        weight: 29
+        enabled: false
+      quiz_comboboxes:
+        weight: 30
+        enabled: false
+      quiz_free_answer:
+        weight: 31
+        enabled: false
+      quiz_linear_scale:
+        weight: 32
+        enabled: false
+      text_heading:
+        enabled: true
+        weight: 33
+      text_heading_text:
+        enabled: true
+        weight: 34
+      text_subheading:
+        enabled: true
+        weight: 35
+      text_text:
+        enabled: true
+        weight: 36
+field_type: entity_reference_revisions
