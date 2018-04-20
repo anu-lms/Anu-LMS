@@ -14,7 +14,7 @@ import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
 import * as mediaBreakpoint from '../../../utils/breakpoints';
 import * as navigationActions from '../../../actions/navigation';
-import * as lessonNotebookActions from '../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../actions/lessonSidebar';
 
 const debug = Debug('anu:lesson');
 
@@ -248,7 +248,7 @@ class LessonContent extends React.Component {
     const { dispatch } = this.props;
 
     // Let the application now that the notebook is being opened.
-    dispatch(lessonNotebookActions.open());
+    dispatch(lessonSidebarActions.open());
 
     // If sidebar is opened, close navigation pane on all devices except extra
     // large.
