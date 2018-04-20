@@ -52,7 +52,7 @@ services:
   # name of container matches the URL of the site in order to be
   # able to make requests from node server by http to the backend
   # server using the same name as frontend.
-  nginx:
+  app.docker.localhost:
     image: wodby/drupal-nginx:8-1.13-2.4.2
     depends_on:
       - php
@@ -113,7 +113,7 @@ services:
     image: codeception/codeception
     depends_on:
       - chrome
-      - nginx
+      - app.docker.localhost
     volumes:
       - ./tests/codeception:/project
 
