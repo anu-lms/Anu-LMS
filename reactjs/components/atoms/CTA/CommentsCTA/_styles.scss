@@ -1,0 +1,12 @@
+.comments-cta {
+  cursor: pointer;
+  svg path {
+    transition: .2s fill;
+  }
+  &:hover {
+    svg path {
+      fill: #bb8de4;
+      transition: .2s fill;
+    }
+  }
+}
