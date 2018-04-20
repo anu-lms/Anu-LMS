@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
-import PageLoader from '../../../atoms/PageLoader';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
@@ -10,44 +9,31 @@ import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      // Indicates if the notebook pane is being opened.
-      isNotebookOpening: false,
-    };
-
-    this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
-    this.handleNotebookClose = this.handleNotebookClose.bind(this);
+    this.openSidebar = this.openSidebar.bind(this);
+    this.closeSidebar = this.closeSidebar.bind(this);
   }
 
   /**
-   * Performs actions when notebook pane is being opened.
+   * Performs actions when sidebar is being opened.
    */
-  async handleNotebookOpen() {
+  async openSidebar() {
     const { dispatch } = this.props;
-
-    // As soon as notebook icon is clicked, we change the opening state.
-    // It will show a loader instead of note until note is ready to be shown.
-    this.setState({ isNotebookOpening: true });
 
     // Let the application now that the notebook is being opened.
     dispatch(lessonNotebookActions.open());
 
-    // If notebook is opened, close navigation pane on all devices except extra
+    // If sidebar is opened, close navigation pane on all devices except extra
     // large.
     if (mediaBreakpoint.isDown('xxl')) {
       dispatch(navigationActions.close());
     }
-
-    // Dismiss notebook opening state.
-    this.setState({ isNotebookOpening: false });
   }
 
   /**
-   * Perform actions on closing the notebook pane.
+   * Perform actions on closing the sidebar pane.
    */
-  handleNotebookClose() {
-    // Close the notebook pane.
+  closeSidebar() {
+    // Close the sidebar pane.
     this.props.dispatch(lessonNotebookActions.close());
   }
 
@@ -55,23 +41,22 @@ class Sidebar extends React.Component {
     const { isCollapsed } = this.props;
 
     return (
-      <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
+      <div className={`lesson-sidebar ${isCollapsed ? 'closed' : 'opened'}`}>
 
         {isCollapsed &&
-        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
+          <LessonNotebookOpenCTA onClick={this.openSidebar} />
         }
 
-        <div className="lesson-notebook-wrapper">
+        <div className="lesson-sidebar-content">
           {!isCollapsed &&
-          <div className="lesson-notebook">
+          <Fragment>
 
-            {this.state.isNotebookOpening &&
-            <PageLoader />
-            }
-            <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
+            <div className="save-close" onClick={() => this.closeSidebar()} onKeyPress={() => this.closeSidebar()}>
               Close
             </div>
-          </div>
+
+            Some text
+          </Fragment>
           }
         </div>
 
