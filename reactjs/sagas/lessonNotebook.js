@@ -11,11 +11,11 @@ import * as notebookActions from '../actions/notebook';
  */
 export default function* lessonNotebookSagas() {
   yield all([
-    takeEvery('LESSON_NOTEBOOK_OPEN', lockMobileScroll),
-    takeEvery('LESSON_NOTEBOOK_CLOSE', unlockMobileScroll),
+    takeEvery('LESSON_SIDEBAR_OPEN', lockMobileScroll),
+    takeEvery('LESSON_SIDEBAR_CLOSE', unlockMobileScroll),
     takeEvery('persist/REHYDRATE', lockOrUnlockMobileScroll),
     takeEvery('LESSON_NOTEBOOK_SHOW_NOTES', removeEmptyNote),
-    takeEvery('LESSON_NOTEBOOK_CLOSE', removeEmptyNote),
+    takeEvery('LESSON_SIDEBAR_CLOSE', removeEmptyNote),
   ]);
 }
 

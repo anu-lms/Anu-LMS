@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
    */
   closeSidebar() {
     // Let the application now that the notebook is being closed.
-    this.props.dispatch(lessonNotebookActions.close());
+    this.props.dispatch(lessonSidebarActions.close());
   }
 
   render() {
@@ -50,8 +50,8 @@ Sidebar.defaultProps = {
 
 };
 
-const mapStateToProps = ({ lessonNotebook }) => ({
-  isCollapsed: lessonNotebook.isCollapsed,
+const mapStateToProps = ({ lessonSidebar }) => ({
+  isCollapsed: lessonSidebar.isCollapsed,
 });
 
 export default connect(mapStateToProps)(Sidebar);
