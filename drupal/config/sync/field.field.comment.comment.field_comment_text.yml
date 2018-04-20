@@ -1,0 +1,21 @@
+uuid: 9edcdc6b-496d-4407-b566-5d7a70b029a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.comment.comment
+    - field.storage.comment.field_comment_text
+  module:
+    - text
+id: comment.comment.field_comment_text
+field_name: field_comment_text
+entity_type: comment
+bundle: comment
+label: Text
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
