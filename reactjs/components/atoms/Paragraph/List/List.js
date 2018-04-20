@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../FormElement/CheckBox';
+import CommentsCTA from '../../CTA/CommentsCTA';
 
 class List extends React.Component {
   componentDidMount() {
@@ -44,6 +45,7 @@ class List extends React.Component {
                   <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
+            <CommentsCTA />
           </div>
         </div>
       </div>
