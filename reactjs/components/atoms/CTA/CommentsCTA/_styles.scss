@@ -1,5 +1,9 @@
 .comments-cta {
   cursor: pointer;
+  position: absolute;
+  bottom: -36px;
+  right: 15px;
+
   svg path {
     transition: .2s fill;
   }

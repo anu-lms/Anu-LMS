@@ -8,6 +8,7 @@ import ClientAuth from '../../../../auth/clientAuth';
 import { humanizeFileName } from '../../../../utils/string';
 import * as breakpoints from '../../../../utils/breakpoints';
 import * as privateFileHelper from '../../../../helpers/privateFile';
+import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Resource extends React.Component {
   constructor(props) {
@@ -122,7 +123,7 @@ class Resource extends React.Component {
   }
 
   render() {
-    const { privatefile, title, columnClasses } = this.props;
+    const { privatefile, title, columnClasses, id } = this.props;
     return (
       <div className="container resource">
         <div className="row">
@@ -197,6 +198,8 @@ class Resource extends React.Component {
               }
 
             </div>
+
+            <ShowCommentsCTA paragraphId={id} />
           </div>
         </div>
       </div>

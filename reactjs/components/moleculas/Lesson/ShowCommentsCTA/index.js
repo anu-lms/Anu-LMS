@@ -38,7 +38,6 @@ class ShowCommentsCTA extends React.Component {
     const { paragraphId, activeParagraphId } = this.props;
     return (
       <CommentsCTA
-        amount={this.props.paragraphId}
         onClick={this.toggleCommentsPanel}
         active={paragraphId === activeParagraphId}
       />
