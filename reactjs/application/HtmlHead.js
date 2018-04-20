@@ -29,7 +29,7 @@ const HtmlHead = ({ title, favicon }) => {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      {gtmId > 0 &&
+      {gtmId &&
       <GoogleTagManager gtmId={gtmId} previewVariables={query} />
       }
       <link href="https://fonts.googleapis.com/css?family=Lato:400,600" rel="stylesheet" />

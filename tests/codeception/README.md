@@ -37,7 +37,7 @@ Add an extra "debug" group in test annotation:
 Then run debug group only in Codeception:
 
 ```
-docker-compose run codecept acceptance -g debug --debug
+docker-compose run codecept run acceptance -g debug --debug
 ```
 
 The command above will run tests from "debug" group only.
