@@ -1,0 +1,29 @@
+uuid: 8abb2937-5651-4bd4-9d74-dde14656b404
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.anu_comment.anu_comment
+    - field.storage.anu_comment.field_comment_organization
+    - taxonomy.vocabulary.organisations
+id: anu_comment.anu_comment.field_comment_organization
+field_name: field_comment_organization
+entity_type: anu_comment
+bundle: anu_comment
+label: Organization
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      organisations: organisations
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

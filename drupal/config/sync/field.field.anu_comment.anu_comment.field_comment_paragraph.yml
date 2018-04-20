@@ -1,0 +1,23 @@
+uuid: fe08a9a5-90ed-4d13-b036-35e0b97b0827
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.anu_comment.anu_comment
+    - field.storage.anu_comment.field_comment_paragraph
+id: anu_comment.anu_comment.field_comment_paragraph
+field_name: field_comment_paragraph
+entity_type: anu_comment
+bundle: anu_comment
+label: Paragraph
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
