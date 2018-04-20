@@ -49,14 +49,28 @@
   }
 
   .sticky-element.sticky {
-    top: 80px;
+    //top: 80px;
     background: $white;
+    width: 100%;
+
+  }
+  .sticky-element {
+    //top: initial;
+    position: fixed;
+    bottom: 0;
+    background: white;
     width: 100%;
   }
 }
 
 .lesson-notebook {
   .sticky-element.sticky {
-    top: 86px;
+    //top: 136px;
   }
+}
+
+html,body {
+  -webkit-overflow-scrolling : touch !important;
+  overflow: auto !important;
+  height: 100% !important;
 }
