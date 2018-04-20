@@ -1,9 +1,9 @@
-.lesson-sidebar {
+.lesson-sidebar-container {
   position: relative;
 
   // Hide notebook pane.
   &.closed {
-    .lesson-sidebar-content {
+    .lesson-sidebar {
       right: -104%;
       @include media-breakpoint-up(md) {
         right: -356px;
@@ -14,7 +14,7 @@
     }
   }
 
-  .lesson-sidebar-content {
+  .lesson-sidebar {
     overflow: hidden;
     position: fixed;
     top: 3em;
