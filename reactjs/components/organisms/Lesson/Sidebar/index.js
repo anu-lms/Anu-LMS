@@ -1,39 +1,19 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
-import * as mediaBreakpoint from '../../../../utils/breakpoints';
-import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
-    this.openSidebar = this.openSidebar.bind(this);
     this.closeSidebar = this.closeSidebar.bind(this);
-  }
-
-  /**
-   * Performs actions when sidebar is being opened.
-   */
-  async openSidebar() {
-    const { dispatch } = this.props;
-
-    // Let the application now that the notebook is being opened.
-    dispatch(lessonNotebookActions.open());
-
-    // If sidebar is opened, close navigation pane on all devices except extra
-    // large.
-    if (mediaBreakpoint.isDown('xxl')) {
-      dispatch(navigationActions.close());
-    }
   }
 
   /**
    * Perform actions on closing the sidebar pane.
    */
   closeSidebar() {
-    // Close the sidebar pane.
+    // Let the application now that the notebook is being closed.
     this.props.dispatch(lessonNotebookActions.close());
   }
 
@@ -42,10 +22,6 @@ class Sidebar extends React.Component {
 
     return (
       <div className={`lesson-sidebar ${isCollapsed ? 'closed' : 'opened'}`}>
-
-        {isCollapsed &&
-          <LessonNotebookOpenCTA onClick={this.openSidebar} />
-        }
 
         <div className="lesson-sidebar-content">
           {!isCollapsed &&
@@ -72,12 +48,6 @@ Sidebar.propTypes = {
 
 Sidebar.defaultProps = {
 
-};
-
-Sidebar.contextTypes = {
-  auth: PropTypes.shape({
-    getRequest: PropTypes.func,
-  }),
 };
 
 const mapStateToProps = ({ lessonNotebook }) => ({
