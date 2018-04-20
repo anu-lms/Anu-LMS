@@ -49,14 +49,21 @@
   }
 
   .sticky-element.sticky {
-    top: 80px;
+    top: 48px;
     background: $white;
     width: 100%;
+
+    @include media-breakpoint-up(md) {
+      top: 80px;
+    }
   }
 }
 
 .lesson-notebook {
   .sticky-element.sticky {
-    top: 136px;
+    top: 88px;
+    @include media-breakpoint-up(md) {
+      top: 136px;
+    }
   }
 }

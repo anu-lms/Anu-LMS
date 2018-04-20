@@ -14,6 +14,7 @@ import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
 import Sticky from '../Sticky';
+import * as mediaBreakpoint from '../../../utils/breakpoints';
 
 // Enable EditList plugin to handle keyboard events in lists.
 const pluginEditList = EditList({
@@ -84,6 +85,7 @@ class RichEditor extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ value: html.deserialize(this.props.initialValue) });
+    this.stickyOptionsEnter = mediaBreakpoint.isDown('md') ? this.props.stickyOptions.enterMobile : this.props.stickyOptions.enter;
   }
 
   componentDidUpdate(prevProps) {
@@ -450,7 +452,7 @@ class RichEditor extends React.Component {
 
           <div className="sticky-wrapper">
 
-            <Sticky enter={this.props.stickyOptions.enter} rootId={this.props.stickyOptions.rootId}>
+            <Sticky enter={this.stickyOptionsEnter} rootId={this.props.stickyOptions.rootId}>
               <div className="editor-menu">
                 {this.renderMarkButton('bold')}
                 {this.renderMarkButton('italic')}
@@ -491,6 +493,7 @@ RichEditor.propTypes = {
   mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   stickyOptions: PropTypes.shape({
     enter: PropTypes.string,
+    enterMobile: PropTypes.string,
     rootId: PropTypes.string,
   }),
   attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
@@ -507,6 +510,7 @@ RichEditor.defaultProps = {
   attributes: [],
   stickyOptions: {
     enter: '128',
+    enterMobile: '88',
     rootId: null
   },
   onChange: () => {},
