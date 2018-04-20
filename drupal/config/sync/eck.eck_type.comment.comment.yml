@@ -1,9 +1,0 @@
-uuid: b777dc58-aac8-4761-aa7a-28a5b1556c2a
-langcode: en
-status: true
-dependencies:
-  config:
-    - eck.eck_entity_type.comment
-name: Comment
-type: comment
-description: ''

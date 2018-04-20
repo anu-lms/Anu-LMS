@@ -1,8 +1,8 @@
-uuid: a7b62d6d-54a8-4a30-8a69-b7e22506ede0
+uuid: fe62b6ec-6ee7-4f79-82e9-23c7368ddb53
 langcode: en
 status: true
 dependencies: {  }
-id: comment
+id: anu_comment
 label: Comment
 created: true
 changed: true
