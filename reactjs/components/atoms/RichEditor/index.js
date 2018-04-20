@@ -511,7 +511,7 @@ RichEditor.defaultProps = {
   stickyOptions: {
     enter: '128',
     enterMobile: '88',
-    rootId: null
+    rootId: null,
   },
   onChange: () => {},
 };
