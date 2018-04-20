@@ -1,0 +1,27 @@
+uuid: 736cce76-2aac-43ff-8c7a-3927f588b035
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.anu_comment.anu_comment
+    - field.storage.anu_comment.field_comment_parent
+id: anu_comment.anu_comment.field_comment_parent
+field_name: field_comment_parent
+entity_type: anu_comment
+bundle: anu_comment
+label: Parent
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:anu_comment'
+  handler_settings:
+    target_bundles:
+      anu_comment: anu_comment
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

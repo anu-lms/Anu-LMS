@@ -1,0 +1,21 @@
+uuid: 1e61f6f9-08dd-493b-897a-0857ecb52958
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.anu_comment.anu_comment
+    - field.storage.anu_comment.field_comment_text
+  module:
+    - text
+id: anu_comment.anu_comment.field_comment_text
+field_name: field_comment_text
+entity_type: anu_comment
+bundle: anu_comment
+label: Text
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
