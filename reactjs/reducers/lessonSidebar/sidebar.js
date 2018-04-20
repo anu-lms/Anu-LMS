@@ -15,6 +15,13 @@ export default (state = {
         ...state,
         isCollapsed: true,
       };
+
+    case 'LESSON_OPENED':
+      return {
+        ...state,
+        activeTab: 'notes',
+      };
+
     default:
       return state;
   }

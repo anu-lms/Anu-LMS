@@ -9,4 +9,9 @@
       transition: .2s fill;
     }
   }
+  &.active {
+    svg path {
+      fill: #431c65;
+    }
+  }
 }

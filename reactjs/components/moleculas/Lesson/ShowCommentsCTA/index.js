@@ -9,25 +9,39 @@ import * as navigationActions from '../../../../actions/navigation';
 class ShowCommentsCTA extends React.Component {
   constructor(props) {
     super(props);
-    this.showCommentsPanel = this.showCommentsPanel.bind(this);
+    this.toggleCommentsPanel = this.toggleCommentsPanel.bind(this);
   }
 
-  showCommentsPanel() {
-    const { dispatch } = this.props;
+  toggleCommentsPanel() {
+    const { dispatch, paragraphId, activeParagraphId } = this.props;
 
-    // Let the application now that the notebook is being opened.
-    dispatch(lessonSidebarActions.open('comments'));
+    if (paragraphId !== activeParagraphId) {
+      // Let the application now that the notebook is being opened.
+      dispatch(lessonSidebarActions.setActiveParagraph(paragraphId));
 
-    // If sidebar is opened, close navigation pane on all devices except extra
-    // large.
-    if (mediaBreakpoint.isDown('xxl')) {
-      dispatch(navigationActions.close());
+      // Let the application now that the notebook is being opened.
+      dispatch(lessonSidebarActions.open('comments'));
+
+      // If sidebar is opened, close navigation pane on all devices except extra
+      // large.
+      if (mediaBreakpoint.isDown('xxl')) {
+        dispatch(navigationActions.close());
+      }
+    }
+    else {
+      // Let the application now that the notebook is being closed.
+      dispatch(lessonSidebarActions.close());
     }
   }
 
   render() {
+    const { paragraphId, activeParagraphId } = this.props;
     return (
-      <CommentsCTA amount={this.props.paragraphId} onClick={this.showCommentsPanel} />
+      <CommentsCTA
+        amount={this.props.paragraphId}
+        onClick={this.toggleCommentsPanel}
+        active={paragraphId === activeParagraphId}
+      />
     );
   }
 }
@@ -42,7 +56,7 @@ ShowCommentsCTA.defaultProps = {
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  isCollapsed: lessonSidebar.isCollapsed,
+  activeParagraphId: lessonSidebar.comments.paragraphId,
 });
 
 export default connect(mapStateToProps)(ShowCommentsCTA);
