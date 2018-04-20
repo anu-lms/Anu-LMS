@@ -33,4 +33,12 @@
       width: 480px;
     }
   }
+  .header {
+    > div {
+      cursor: pointer;
+    }
+    .tab.active {
+      font-weight: bold;
+    }
+  }
 }

@@ -7,6 +7,12 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.closeSidebar = this.closeSidebar.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
+  }
+
+  onTabClick(tabName) {
+    // Let the application now that the notebook is being opened.
+    this.props.dispatch(lessonSidebarActions.open(tabName));
   }
 
   /**
@@ -18,7 +24,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { isCollapsed, activeTab } = this.props;
+    const { isCollapsed, activeTab, activeParagraphId } = this.props;
 
     return (
       <div className={`lesson-sidebar-container ${isCollapsed ? 'closed' : 'opened'}`}>
@@ -29,19 +35,29 @@ class Sidebar extends React.Component {
             <div className="close" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
               X
             </div>
-            <div className={`tab notes ${activeTab === 'notes' ? 'active' : ''}`}>
+            <div
+              className={`tab notes ${activeTab === 'notes' ? 'active' : ''}`}
+              onClick={() => {this.onTabClick('notes')}}
+            >
               Notes
             </div>
-            <div className={`tab comments ${activeTab === 'comments' ? 'active' : ''}`}>
-              Conversation
-            </div>
+            {activeParagraphId > 0 &&
+              <div
+                className={`tab comments ${activeTab === 'comments' ? 'active' : ''}`}
+                onClick={() => {
+                  this.onTabClick('comments')
+                }}
+              >
+                Conversation
+              </div>
+            }
           </div>
 
           <div className="content">
             {activeTab === 'notes' ? (
               <div>Notes content</div>
             ) : (
-              <div>Conversation content</div>
+              <div>Conversation content {activeParagraphId}</div>
             )}
           </div>
         </div>
@@ -55,17 +71,18 @@ Sidebar.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   activeTab: PropTypes.oneOf(['notes', 'comments']),
-  context: PropTypes.object,
+  activeParagraphId: PropTypes.number,
 };
 
 Sidebar.defaultProps = {
   activeTab: 'notes',
-  context: {},
+  activeParagraphId: 0,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   isCollapsed: lessonSidebar.sidebar.isCollapsed,
   activeTab: lessonSidebar.sidebar.activeTab,
+  activeParagraphId: lessonSidebar.comments.paragraphId,
 });
 
 export default connect(mapStateToProps)(Sidebar);
