@@ -37,8 +37,8 @@ class NoteContent extends React.Component {
       stickyOptions = {
         enter: '120',
         enterMobile: '58',
-        rootId: 'note-content'
-      }
+        rootId: 'note-content',
+      };
     }
 
     return (
@@ -79,6 +79,7 @@ class NoteContent extends React.Component {
           initialValue={note.body}
           placeholder="Type something..."
           onChange={this.onContentChange}
+          // eslint-disable-next-line no-unneeded-ternary
           stickyOptions={stickyOptions ? stickyOptions : undefined}
         />
 

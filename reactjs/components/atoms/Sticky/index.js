@@ -15,7 +15,7 @@ class Sticky extends React.Component {
     this.setInitialHeights(stickies);
 
     const rootElement = this.props.rootId ? document.getElementById(this.props.rootId) : document;
-    this.onScrollHandlerId = () => { this.onScroll(stickies) };
+    this.onScrollHandlerId = () => { this.onScroll(stickies); };
     rootElement.addEventListener('scroll', this.onScrollHandlerId);
   }
 
@@ -24,26 +24,13 @@ class Sticky extends React.Component {
     rootElement.removeEventListener('scroll', this.onScrollHandlerId);
   }
 
-  setInitialHeights = (stickies) => {
-    const parentElement = this.getParentElement();
-    debug('setInitialHeights:parentElement', parentElement);
-
-    [].forEach.call(stickies, (sticky) => {
-
-      const top = parentElement.scrollTop;
-      const elementTop = sticky.getBoundingClientRect().top;
-      sticky.setAttribute('data-sticky-initial', top + elementTop);
-      debug('setInitialHeights', { top, elementTop, stickyInitial: top + elementTop });
-    });
-  };
-
   onScroll(stickies) {
     const parentElement = this.getParentElement();
 
     const top = parentElement.scrollTop;
     const bottom = parentElement.scrollHeight;
 
-    [].forEach.call(stickies, (sticky) => {
+    [].forEach.call(stickies, sticky => {
       const stickyInitial = parseInt(sticky.getAttribute('data-sticky-initial'), 10);
       const stickyEnter = parseInt(sticky.getAttribute('data-sticky-enter'), 10) || stickyInitial;
       const stickyExit = parseInt(sticky.getAttribute('data-sticky-exit'), 10) || bottom;
@@ -57,7 +44,20 @@ class Sticky extends React.Component {
     });
   }
 
+  setInitialHeights = stickies => {
+    const parentElement = this.getParentElement();
+    debug('setInitialHeights:parentElement', parentElement);
+
+    [].forEach.call(stickies, sticky => {
+      const top = parentElement.scrollTop;
+      const elementTop = sticky.getBoundingClientRect().top;
+      sticky.setAttribute('data-sticky-initial', top + elementTop);
+      debug('setInitialHeights', { top, elementTop, stickyInitial: top + elementTop });
+    });
+  };
+
   getParentElement() {
+    // eslint-disable-next-line max-len
     let parentElement = document.documentElement.scrollTop ? document.documentElement : document.body;
     if (this.props.rootId) {
       parentElement = document.getElementById(this.props.rootId);
@@ -84,12 +84,15 @@ Sticky.propTypes = {
   className: PropTypes.string,
   enter: PropTypes.string,
   exit: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   rootId: PropTypes.string,
 };
 
 Sticky.defaultProps = {
   className: '',
+  enter: null,
+  exit: null,
+  rootId: null,
 };
 
 export default Sticky;
