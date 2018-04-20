@@ -33,17 +33,4 @@
       width: 480px;
     }
   }
-
-  // Set position for add note button.
-  .add-note-button {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    z-index: $zindex-fixed - 2;
-
-    @include media-breakpoint-up(lg) {
-      bottom: 26px;
-      right: 32px;
-    }
-  }
 }
