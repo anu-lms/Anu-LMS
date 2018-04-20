@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { isCollapsed, activeTabId } = this.props;
+    const { isCollapsed, activeTab } = this.props;
 
     return (
       <div className={`lesson-sidebar-container ${isCollapsed ? 'closed' : 'opened'}`}>
@@ -29,16 +29,16 @@ class Sidebar extends React.Component {
             <div className="close" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
               X
             </div>
-            <div className={`tab notes ${activeTabId === 'notes' ? 'active' : ''}`}>
+            <div className={`tab notes ${activeTab === 'notes' ? 'active' : ''}`}>
               Notes
             </div>
-            <div className={`tab comments ${activeTabId === 'comments' ? 'active' : ''}`}>
+            <div className={`tab comments ${activeTab === 'comments' ? 'active' : ''}`}>
               Conversation
             </div>
           </div>
 
           <div className="content">
-            {activeTabId === 'notes' ? (
+            {activeTab === 'notes' ? (
               <div>Notes content</div>
             ) : (
               <div>Conversation content</div>
@@ -54,17 +54,18 @@ class Sidebar extends React.Component {
 Sidebar.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  activeTabId: PropTypes.oneOf(['notes', 'comments']),
+  activeTab: PropTypes.oneOf(['notes', 'comments']),
   context: PropTypes.object,
 };
 
 Sidebar.defaultProps = {
-  activeTabId: 'notes',
+  activeTab: 'notes',
   context: {},
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  isCollapsed: lessonSidebar.isCollapsed,
+  isCollapsed: lessonSidebar.sidebar.isCollapsed,
+  activeTab: lessonSidebar.sidebar.activeTab,
 });
 
 export default connect(mapStateToProps)(Sidebar);
