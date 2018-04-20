@@ -1,21 +1,10 @@
-uuid: d99f99ac-a087-4936-bbe9-d65bd85183cd
+uuid: f8b26913-78cf-4008-b791-cf3c00b7af80
 langcode: en
 status: true
 dependencies:
   config:
     - eck.eck_type.comment.comment
     - field.storage.comment.field_comment_paragraph
-    - paragraphs.paragraphs_type.image_centered_caption
-    - paragraphs.paragraphs_type.list_bullet
-    - paragraphs.paragraphs_type.list_checkbox
-    - paragraphs.paragraphs_type.list_numbered
-    - paragraphs.paragraphs_type.media_audio
-    - paragraphs.paragraphs_type.media_resource
-    - paragraphs.paragraphs_type.media_video
-    - paragraphs.paragraphs_type.text_heading
-    - paragraphs.paragraphs_type.text_heading_text
-    - paragraphs.paragraphs_type.text_subheading
-    - paragraphs.paragraphs_type.text_text
   module:
     - entity_reference_revisions
 id: comment.comment.field_comment_paragraph
@@ -24,7 +13,7 @@ entity_type: comment
 bundle: comment
 label: Paragraph
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -32,18 +21,7 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     negate: 0
-    target_bundles:
-      image_centered_caption: image_centered_caption
-      list_bullet: list_bullet
-      list_checkbox: list_checkbox
-      list_numbered: list_numbered
-      media_audio: media_audio
-      media_resource: media_resource
-      media_video: media_video
-      text_heading: text_heading
-      text_heading_text: text_heading_text
-      text_subheading: text_subheading
-      text_text: text_text
+    target_bundles: null
     target_bundles_drag_drop:
       divider_numbered:
         weight: 19
@@ -52,29 +30,29 @@ settings:
         weight: 20
         enabled: false
       image_centered_caption:
-        enabled: true
         weight: 21
+        enabled: false
       image_full_text:
         weight: 22
         enabled: false
       list_bullet:
-        enabled: true
         weight: 23
+        enabled: false
       list_checkbox:
-        enabled: true
         weight: 24
+        enabled: false
       list_numbered:
-        enabled: true
         weight: 25
+        enabled: false
       media_audio:
-        enabled: true
         weight: 26
+        enabled: false
       media_resource:
-        enabled: true
         weight: 27
+        enabled: false
       media_video:
-        enabled: true
         weight: 28
+        enabled: false
       quiz_checkboxes:
         weight: 29
         enabled: false
@@ -88,15 +66,15 @@ settings:
         weight: 32
         enabled: false
       text_heading:
-        enabled: true
         weight: 33
+        enabled: false
       text_heading_text:
-        enabled: true
         weight: 34
+        enabled: false
       text_subheading:
-        enabled: true
         weight: 35
+        enabled: false
       text_text:
-        enabled: true
         weight: 36
+        enabled: false
 field_type: entity_reference_revisions
