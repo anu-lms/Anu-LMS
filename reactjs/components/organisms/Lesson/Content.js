@@ -248,7 +248,7 @@ class LessonContent extends React.Component {
     const { dispatch } = this.props;
 
     // Let the application now that the notebook is being opened.
-    dispatch(lessonSidebarActions.open());
+    dispatch(lessonSidebarActions.open('notes'));
 
     // If sidebar is opened, close navigation pane on all devices except extra
     // large.
