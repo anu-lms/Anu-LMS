@@ -97,10 +97,10 @@ class LessonNotebook extends React.Component {
           </div>
 
           {!isNoteListVisible && activeNote &&
-          <Fragment>
+          <div className="note-column">
             <ShowNotesButton handleClick={this.showNotes} />
             <NoteContent note={activeNote} />
-          </Fragment>
+          </div>
           }
 
           <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
