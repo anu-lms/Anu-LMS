@@ -149,63 +149,75 @@ class LessonNotebook extends React.Component {
     const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
 
     return (
-      <div className="lesson-notebook">
+      <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
 
-        {this.state.isNotebookOpening &&
-        <PageLoader />
+        {isCollapsed &&
+        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
         }
 
-        {!this.state.isNotebookOpening &&
-        <Fragment>
+        <div className="lesson-notebook-wrapper">
+          {!isCollapsed &&
+          <div className="lesson-notebook">
 
-          <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
+            {this.state.isNotebookOpening &&
+            <PageLoader />
+            }
 
-            <div className="notes-list-heading">
-              <div className="title">All Notes</div>
-              <AddNoteButton
-                onBeforeSubmit={this.onBeforeNoteCreated}
-                onAfterSubmit={this.onAfterNoteCreated}
-              />
-            </div>
-
-            <NotesList
-              notes={notes}
-              activeNoteId={activeNote ? activeNote.id : 0}
-              onClick={this.openNote}
-            />
-          </div>
-
-          {!isNoteListVisible && activeNote &&
-          <Fragment>
-            <ShowNotesButton handleClick={this.showNotes} />
-            <NoteContent note={activeNote} />
-          </Fragment>
-          }
-
-          <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
-            { !isNoteListVisible && activeNote &&
+            {!this.state.isNotebookOpening &&
             <Fragment>
-              {notebookHelpers.isEmptyNote(activeNote) ?
-                'Discard and Close' :
-                'Save and Close'
+
+              <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
+
+                <div className="notes-list-heading">
+                  <div className="title">All Notes</div>
+                  <AddNoteButton
+                    onBeforeSubmit={this.onBeforeNoteCreated}
+                    onAfterSubmit={this.onAfterNoteCreated}
+                  />
+                </div>
+
+                <NotesList
+                  notes={notes}
+                  activeNoteId={activeNote ? activeNote.id : 0}
+                  onClick={this.openNote}
+                />
+              </div>
+
+              {!isNoteListVisible && activeNote &&
+              <Fragment>
+                <ShowNotesButton handleClick={this.showNotes} />
+                <NoteContent note={activeNote} />
+              </Fragment>
               }
+
+              <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
+                { !isNoteListVisible && activeNote &&
+                <Fragment>
+                  {notebookHelpers.isEmptyNote(activeNote) ?
+                    'Discard and Close' :
+                    'Save and Close'
+                  }
+                </Fragment>
+                }
+                { isNoteListVisible &&
+                <Fragment>Close Notes</Fragment>
+                }
+
+                <span className="close-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                    <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z" />
+                  </svg>
+                </span>
+              </div>
+
             </Fragment>
             }
-            { isNoteListVisible &&
-            <Fragment>Close Notes</Fragment>
-            }
-
-            <span className="close-arrow">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z" />
-              </svg>
-            </span>
           </div>
 
-        </Fragment>
-        }
-      </div>
+          }
+        </div>
 
+      </div>
     );
   }
 }
@@ -228,12 +240,12 @@ LessonNotebook.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ lessonSidebar, notebook }) => ({
-  isCollapsed: lessonSidebar.sidebar.isCollapsed,
-  activeNote: notebookHelpers.getNoteById(notebook.notes, lessonSidebar.notes.noteId),
+const mapStateToProps = ({ lessonNotebook, notebook }) => ({
+  isCollapsed: lessonNotebook.isCollapsed,
+  activeNote: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
   // Display only non-empty notes in the list.
   notes: notebook.notes.filter(note => !notebookHelpers.isEmptyNote(note)),
-  isNoteListVisible: lessonSidebar.notes.isNoteListVisible,
+  isNoteListVisible: lessonNotebook.isNoteListVisible,
 });
 
 export default connect(mapStateToProps)(LessonNotebook);

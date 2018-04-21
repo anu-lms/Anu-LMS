@@ -33,9 +33,13 @@
       width: 480px;
     }
   }
+
   .header {
+    border-bottom: 4px solid red;
     > div {
       cursor: pointer;
+      display: inline-block;
+      height: 32px;
     }
     .tab.active {
       font-weight: bold;
