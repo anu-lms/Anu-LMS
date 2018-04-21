@@ -32,7 +32,7 @@ class Heading extends React.Component {
             <h5>{title}</h5>
             }
 
-            <ShowCommentsCTA paragraphId={id} />
+            {/*<ShowCommentsCTA paragraphId={id} />*/}
           </div>
         </div>
       </div>
