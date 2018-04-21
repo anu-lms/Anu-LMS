@@ -3,32 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
-import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
-import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
-import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class LessonNotebook extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // Indicates if the notebook pane is being opened.
-      isNotebookOpening: false,
-    };
-
     this.showNotes = this.showNotes.bind(this);
     this.openNote = this.openNote.bind(this);
     this.onBeforeNoteCreated = this.onBeforeNoteCreated.bind(this);
     this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
-    this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
@@ -38,7 +28,7 @@ class LessonNotebook extends React.Component {
    */
   onBeforeNoteCreated() {
     // Set loading background.
-    this.setState({ isNotebookOpening: true });
+    this.props.dispatch(lessonSidebarActions.setStateLoading());
   }
 
   /**
@@ -47,84 +37,16 @@ class LessonNotebook extends React.Component {
    */
   onAfterNoteCreated(note) {
     // Remove loading background and open a note.
-    this.setState({ isNotebookOpening: false });
+    this.props.dispatch(lessonSidebarActions.setStateLoaded());
     this.openNote(note.id);
   }
 
   showNotes() {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.showNotes());
+    this.props.dispatch(lessonNotebookActions.showNotes());
   }
 
   openNote(id) {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.setActiveNote(id));
-  }
-
-  /**
-   * Performs actions when notebook pane is being opened.
-   */
-  async handleNotebookOpen() {
-    const { dispatch } = this.props;
-
-    // As soon as notebook icon is clicked, we change the opening state.
-    // It will show a loader instead of note until note is ready to be shown.
-    this.setState({ isNotebookOpening: true });
-
-    // Let the application now that the notebook is being opened.
-    dispatch(lessonSidebarActions.open());
-
-    // If notebook is opened, close navigation pane on all devices except extra
-    // large.
-    if (mediaBreakpoint.isDown('xxl')) {
-      dispatch(navigationActions.close());
-    }
-
-    try {
-      // Get superagent request with authentication token.
-      const { request } = await this.context.auth.getRequest();
-
-      // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
-
-      const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook')
-        .query({
-          // Filter notes by current user.
-          'filter[uid][value]': currentUser.uid,
-          // Sort by changed date. Here we sort in the reverse
-          // order from what we need, because in the reducer all new notes
-          // get added to the start of the queue, which will make the final
-          // order of the notes on the page correct.
-          'sort': 'changed',
-        });
-
-      const notes = dataProcessors.notebookData(responseNotebook.body.data);
-
-      // Reset all existing notes in the notebook.
-      dispatch(notebookActions.clear());
-
-      // Add all notes from the backend to the notebook storage.
-      notes.forEach(note => {
-        dispatch(notebookActions.addNote(note));
-      });
-
-      // Make a request to the backend to create a new note.
-      const note = await notebookHelpers.createNote(request);
-
-      // Add recently created note to the notebook's redux state.
-      dispatch(notebookActions.addNote(note));
-
-      // Set the active note id for the lesson.
-      dispatch(lessonNotebookActions.setActiveNote(note.id));
-    } catch (error) {
-      console.log('Could not create a new note.', error);
-    }
-
-    // Dismiss notebook opening state.
-    this.setState({ isNotebookOpening: false });
+    this.props.dispatch(lessonNotebookActions.setActiveNote(id));
   }
 
   /**
@@ -146,18 +68,15 @@ class LessonNotebook extends React.Component {
   }
 
   render() {
-    const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
+    const { isNoteListVisible, isLoading, notes, activeNote } = this.props;
 
     return (
       <div className="lesson-notebook">
-        {this.state.isNotebookOpening &&
+        {isLoading &&
         <PageLoader />
         }
-        {isCollapsed &&
-          <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
-        }
 
-        {!this.state.isNotebookOpening &&
+        {!isLoading &&
         <Fragment>
 
           <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
@@ -232,6 +151,7 @@ LessonNotebook.contextTypes = {
 
 const mapStateToProps = ({ lessonSidebar, notebook }) => ({
   isCollapsed: lessonSidebar.sidebar.isCollapsed,
+  isLoading: lessonSidebar.sidebar.isLoading,
   activeNote: notebookHelpers.getNoteById(notebook.notes, lessonSidebar.notes.noteId),
   // Display only non-empty notes in the list.
   notes: notebook.notes.filter(note => !notebookHelpers.isEmptyNote(note)),
