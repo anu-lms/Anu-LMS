@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Notebook from '../Notebook';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 
 class Sidebar extends React.Component {
@@ -55,7 +56,7 @@ class Sidebar extends React.Component {
 
           <div className="content">
             {activeTab === 'notes' ? (
-              <div>Notes content</div>
+              <Notebook />
             ) : (
               <div>Conversation content {activeParagraphId}</div>
             )}
