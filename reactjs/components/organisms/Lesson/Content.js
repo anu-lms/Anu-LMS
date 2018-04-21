@@ -5,16 +5,13 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import Paragraphs from '../../atoms/Paragraph';
 import Button from '../../atoms/Button';
-import LessonNotebookOpenCTA from '../../atoms/LessonNotebookOpenCTA';
+import OpenNotesCTA from '../../moleculas/Lesson/OpenNotesCTA';
 import { Link, Router } from '../../../routes';
 import * as lessonActions from '../../../actions/lesson';
 import * as lessonHelpers from '../../../helpers/lesson';
 import * as courseActions from '../../../actions/course';
 import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
-import * as mediaBreakpoint from '../../../utils/breakpoints';
-import * as navigationActions from '../../../actions/navigation';
-import * as lessonSidebarActions from '../../../actions/lessonSidebar';
 
 const debug = Debug('anu:lesson');
 
@@ -29,8 +26,6 @@ class LessonContent extends React.Component {
     // List of paragraphs ids from this lesson which have to report to this
     // component that they have been loaded.
     this.paragraphsToLoad = [];
-
-    this.openSidebar = this.openSidebar.bind(this);
 
     // Method is responsible for handling lesson read progress.
     this.updateReadProgress = this.updateReadProgress.bind(this);
@@ -241,22 +236,6 @@ class LessonContent extends React.Component {
     }
   }
 
-  /**
-   * Performs actions when sidebar is being opened.
-   */
-  openSidebar() {
-    const { dispatch } = this.props;
-
-    // Let the application now that the notebook is being opened.
-    dispatch(lessonSidebarActions.open('notes'));
-
-    // If sidebar is opened, close navigation pane on all devices except extra
-    // large.
-    if (mediaBreakpoint.isDown('xxl')) {
-      dispatch(navigationActions.close());
-    }
-  }
-
   render() {
     const { lesson, course, navigation, lessonSidebar, quizzesSaved } = this.props;
     const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
@@ -334,7 +313,7 @@ class LessonContent extends React.Component {
         </div>
 
         {lessonSidebar.isCollapsed &&
-          <LessonNotebookOpenCTA onClick={this.openSidebar} />
+          <OpenNotesCTA />
         }
 
         <div className="lesson-navigation container">
