@@ -1,16 +1,15 @@
 .lesson-notebook {
 
   .show-note-button {
-    margin: 1em 1em 0;
+    margin: 0;
+    padding: 1em;
     cursor: pointer;
+    border-bottom: 1px solid $squash;
 
     @include media-breakpoint-up(md) {
       height: 56px;
-      background: white;
-      margin: 0;
-      padding: 1em;
+      background: $white;
       font-size: 1em;
-      border-bottom: 1px solid $squash;
     }
     @include media-breakpoint-up(lg) {
       font-size: 1.25em;
@@ -36,7 +35,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 36px;
     bottom: 48px;
     width: 100%;
     @include media-breakpoint-up(md) {
@@ -50,6 +49,9 @@
 
     .notes-list-heading {
       height: 56px;
+      background: $white;
+      border-bottom: 1px solid $squash;
+      color: $squash;
       @include media-breakpoint-up(md) {
         background: $white;
         border-bottom: 1px solid $squash;
@@ -70,11 +72,9 @@
         margin-top: 0;
 
         path {
-          @include media-breakpoint-up(md) {
-            fill: $squash;
-            &:hover {
-              fill: darken($squash, 10);
-            }
+          fill: $squash;
+          &:hover {
+            fill: darken($squash, 10);
           }
         }
 
@@ -93,20 +93,27 @@
     }
   }
 
-  .note-content {
+  .note-column {
     position: absolute;
-    left: 1em;
-    right: 1em;
-    top: 2.5em;
-    bottom: 4em;
-    overflow-y: auto;
-    overflow-x: hidden;
+    left: 0;
+    right: 0;
+    top: 36px;
+    bottom: 48px;
+    width: 100%;
+    transition: .2s all;
+    overflow-y: scroll;
     @include media-breakpoint-up(md) {
-      left: 2em;
-      top: 92px;
-      right: 1em;
-      padding: 1em 1em 1em 0;
       bottom: 80px;
+      top: 36px;
+      overflow-y: hidden;
+    }
+  }
+  .note-content {
+    padding: 1em;
+    @include media-breakpoint-up(md) {
+      min-height: calc(100% - 56px);
+      max-height: 0;
+      overflow-y: scroll;
     }
   }
 
