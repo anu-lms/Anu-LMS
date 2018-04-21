@@ -35,14 +35,57 @@
   }
 
   .header {
-    border-bottom: 4px solid red;
+    border-bottom: 4px solid $notebook;
+    font-size: 14px;
+    color: $warm-grey-three;
+    display: flex;
+    align-items: stretch;
+
     > div {
       cursor: pointer;
-      display: inline-block;
       height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .tab.active {
+
+    .tab {
+      flex: 1 1 0;
+      &.active {
+        background-color: $notebook;
+        color: $white;
+        font-weight: bold;
+        transition: .2s all;
+      }
+      &:not(.active):hover {
+        background-color: lighten($notebook, 40);
+        transition: .2s all;
+      }
+    }
+
+    .comments {
+      &.active {
+        background-color: $comments;
+      }
+      &:not(.active):hover {
+        background-color: lighten($comments, 60);
+        color: $white;
+      }
+    }
+
+    .close {
+      width: 32px;
       font-weight: bold;
+      transition: .2s font-size;
+
+      &:hover {
+        transition: .2s font-size;
+        font-size: 120%;
+      }
     }
+  }
+
+  .active-tab-comments .header {
+    border-bottom-color: $comments;
   }
 }

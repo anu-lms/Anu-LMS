@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
-import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
@@ -11,6 +10,7 @@ import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
 import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
@@ -71,7 +71,7 @@ class LessonNotebook extends React.Component {
     this.setState({ isNotebookOpening: true });
 
     // Let the application now that the notebook is being opened.
-    dispatch(lessonNotebookActions.open());
+    dispatch(lessonSidebarActions.open());
 
     // If notebook is opened, close navigation pane on all devices except extra
     // large.
@@ -142,7 +142,7 @@ class LessonNotebook extends React.Component {
     }
 
     // Close the notebook pane.
-    this.props.dispatch(lessonNotebookActions.close());
+    this.props.dispatch(lessonSidebarActions.close());
   }
 
   render() {
@@ -150,7 +150,7 @@ class LessonNotebook extends React.Component {
 
     return (
       <div className="lesson-notebook">
-
+        {/*<PageLoader />*/}
         {this.state.isNotebookOpening &&
         <PageLoader />
         }
