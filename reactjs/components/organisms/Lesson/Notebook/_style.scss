@@ -10,7 +10,7 @@
       margin: 0;
       padding: 1em;
       font-size: 1em;
-      border-bottom: 3px solid $squash;
+      border-bottom: 1px solid $squash;
     }
     @include media-breakpoint-up(lg) {
       font-size: 1.25em;
@@ -41,6 +41,7 @@
     width: 100%;
     @include media-breakpoint-up(md) {
       bottom: 80px;
+      top: 36px;
     }
 
     &.hidden {
@@ -51,7 +52,7 @@
       height: 56px;
       @include media-breakpoint-up(md) {
         background: $white;
-        border-bottom: 3px solid $squash;
+        border-bottom: 1px solid $squash;
         color: $squash;
       }
 
@@ -102,7 +103,7 @@
     overflow-x: hidden;
     @include media-breakpoint-up(md) {
       left: 2em;
-      top: 56px;
+      top: 92px;
       right: 1em;
       padding: 1em 1em 1em 0;
       bottom: 80px;
@@ -141,6 +142,14 @@
     }
     &:hover {
       background: darken($carbon, 10);
+    }
+  }
+
+  .page-loader {
+    top: 36px;
+
+    .box {
+      background-color: $notebook;
     }
   }
 }

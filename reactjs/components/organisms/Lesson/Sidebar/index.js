@@ -30,7 +30,7 @@ class Sidebar extends React.Component {
     return (
       <div className={`lesson-sidebar-container ${isCollapsed ? 'closed' : 'opened'}`}>
 
-        <div className="lesson-sidebar">
+        <div className={`lesson-sidebar active-tab-${activeTab}`}>
 
           <div className="header">
             <div className="close" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
