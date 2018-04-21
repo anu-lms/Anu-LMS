@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
+import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
@@ -119,8 +120,7 @@ class LessonNotebook extends React.Component {
       // Set the active note id for the lesson.
       dispatch(lessonNotebookActions.setActiveNote(note.id));
     } catch (error) {
-      console.log('Could not create a new note. Error:');
-      console.log(error);
+      console.log('Could not create a new note.', error);
     }
 
     // Dismiss notebook opening state.
@@ -131,18 +131,18 @@ class LessonNotebook extends React.Component {
    * Perform actions on closing the notebook pane.
    */
   handleNotebookClose() {
-    const { activeNote } = this.props;
+    const { activeNote, dispatch } = this.props;
 
     // Force save note to the backend.
     if (activeNote) {
       // Do not save empty note - it will be automatically removed.
       if (!notebookHelpers.isEmptyNote(activeNote)) {
-        this.props.dispatch(notebookActions.saveNote(activeNote));
+        dispatch(notebookActions.saveNote(activeNote));
       }
     }
 
     // Close the notebook pane.
-    this.props.dispatch(lessonSidebarActions.close());
+    dispatch(lessonSidebarActions.close());
   }
 
   render() {
@@ -150,9 +150,11 @@ class LessonNotebook extends React.Component {
 
     return (
       <div className="lesson-notebook">
-        {/*<PageLoader />*/}
         {this.state.isNotebookOpening &&
         <PageLoader />
+        }
+        {isCollapsed &&
+          <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
         }
 
         {!this.state.isNotebookOpening &&
