@@ -1,8 +1,11 @@
 .lesson-notebook {
 
   .show-note-button {
+    height: 42px;
     margin: 0;
-    padding: 1em;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     border-bottom: 1px solid $squash;
 
@@ -14,7 +17,6 @@
     @include media-breakpoint-up(lg) {
       font-size: 1.25em;
       font-weight: bold;
-      padding-top: .75em;
     }
 
     svg {
@@ -48,21 +50,19 @@
     }
 
     .notes-list-heading {
-      height: 56px;
+      height: 42px;
       background: $white;
       border-bottom: 1px solid $squash;
       color: $squash;
       @include media-breakpoint-up(md) {
+        height: 56px;
         background: $white;
         border-bottom: 1px solid $squash;
         color: $squash;
       }
 
       .title {
-        font-size: 1.25em;
-        @include media-breakpoint-up(md) {
-          font-size: 1em;
-        }
+        font-size: 1em;
         @include media-breakpoint-up(lg) {
           font-size: 1.25em;
         }
@@ -114,6 +114,9 @@
       min-height: calc(100% - 56px);
       max-height: 0;
       overflow-y: scroll;
+    }
+    @include media-breakpoint-up(lg) {
+      padding-left: 2em;
     }
   }
 
