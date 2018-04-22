@@ -1,0 +1,40 @@
+.lesson-comments-container {
+
+  .comments-header {
+    padding: 0 1em;
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $comments;
+    font-weight: bold;
+    border-bottom: 1px solid $comments;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 2em;
+      height: 56px;
+    }
+
+    .title {
+      font-size: 16px;
+      @include media-breakpoint-up(lg) {
+        font-size: 20px;
+      }
+    }
+    .add-new-comment {
+      font-size: 14px;
+      @include media-breakpoint-up(lg) {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .comments-content {
+    padding: 1em;
+
+    @include media-breakpoint-up(lg) {
+      padding: 2em;
+    }
+  }
+}
+
