@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Notebook from '../Notebook';
+import Comments from '../Comments';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 
 class Sidebar extends React.Component {
@@ -53,6 +54,7 @@ class Sidebar extends React.Component {
             >
               Notes
             </div>
+
             {activeParagraphId > 0 &&
               <div
                 className={`tab comments ${activeTab === 'comments' ? 'active' : ''}`}
@@ -69,7 +71,7 @@ class Sidebar extends React.Component {
             {activeTab === 'notes' ? (
               <Notebook />
             ) : (
-              <div>Conversation content {activeParagraphId}</div>
+              <Comments />
             )}
           </div>
         </div>

@@ -12,7 +12,7 @@
         right: -484px;
       }
     }
-    .header {
+    > .header {
       right: -104%;
     }
   }
@@ -91,7 +91,7 @@
     border-bottom-color: $comments;
   }
 
-  .header {
+  > .header {
     background-color: $carbon;
     height: 48px;
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
