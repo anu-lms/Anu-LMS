@@ -30,9 +30,20 @@ class Sidebar extends React.Component {
     return (
       <div className={`lesson-sidebar-container ${isCollapsed ? 'closed' : 'opened'}`}>
 
+        <div className="header">
+          <div className="back-to-lesson" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+              <g fill="none" fillRule="evenodd">
+                <path d="M-4-4h24v24H-4z"/>
+                <path fill="#FFF" fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
+              </g>
+            </svg>Back to lesson
+          </div>
+        </div>
+
         <div className={`lesson-sidebar active-tab-${activeTab}`}>
 
-          <div className="header">
+          <div className="tabs">
             <div className="close" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
               X
             </div>
