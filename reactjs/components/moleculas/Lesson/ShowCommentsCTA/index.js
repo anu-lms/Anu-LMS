@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CommentsCTA from '../../../atoms/CTA/CommentsCTA';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
+import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as navigationActions from '../../../../actions/navigation';
 
@@ -17,7 +18,7 @@ class ShowCommentsCTA extends React.Component {
 
     if (paragraphId !== activeParagraphId) {
       // Let the application now that the notebook is being opened.
-      dispatch(lessonSidebarActions.setActiveParagraph(paragraphId));
+      dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
 
       // Let the application now that the notebook is being opened.
       dispatch(lessonSidebarActions.open('comments'));
