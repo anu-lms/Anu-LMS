@@ -48,10 +48,7 @@ class ShowCommentsCTA extends React.Component {
 ShowCommentsCTA.propTypes = {
   dispatch: PropTypes.func.isRequired,
   paragraphId: PropTypes.number.isRequired,
-};
-
-ShowCommentsCTA.defaultProps = {
-
+  activeParagraphId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
