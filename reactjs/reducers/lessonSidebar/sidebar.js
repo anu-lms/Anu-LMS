@@ -1,6 +1,6 @@
 export default (state = {
   isCollapsed: true,
-  activeTab: 'notes',
+  activeTab: 'notes', // Allowed values: `notes`, `comments`.
   isLoading: false,
 }, action) => {
   switch (action.type) {
