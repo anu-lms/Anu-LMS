@@ -24,7 +24,7 @@ class OpenNotesCTA extends React.Component {
 
     // As soon as notebook icon is clicked, we change the opening state.
     // It will show a loader instead of note until note is ready to be shown.
-    dispatch(lessonSidebarActions.setStateLoading());
+    dispatch(lessonSidebarActions.setLoadingState());
 
     // Let the application now that the notebook is being opened.
     dispatch(lessonSidebarActions.open());
@@ -79,7 +79,7 @@ class OpenNotesCTA extends React.Component {
     }
 
     // Dismiss notebook opening state.
-    dispatch(lessonSidebarActions.setStateLoaded());
+    dispatch(lessonSidebarActions.removeLoadingState());
   }
 
   render() {

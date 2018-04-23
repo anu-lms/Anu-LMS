@@ -23,10 +23,16 @@ export default (state = {
         activeTab: 'notes',
       };
 
-    case 'LESSON_SIDEBAR_UPDATE_LOADING_STATE':
+    case 'LESSON_SIDEBAR_SET_LOADING_STATE':
       return {
         ...state,
-        isLoading: action.isLoading,
+        isLoading: true,
+      };
+
+    case 'LESSON_SIDEBAR_REMOVE_LOADING_STATE':
+      return {
+        ...state,
+        isLoading: false,
       };
 
     default:
