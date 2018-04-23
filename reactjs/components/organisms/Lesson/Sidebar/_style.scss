@@ -78,12 +78,19 @@
 
     .close {
       width: 32px;
-      font-weight: bold;
-      transition: .2s font-size;
+      display: none;
+      svg path {
+        transition: .2s all;
+      }
+      @include media-breakpoint-up(md) {
+        display: flex;
+      }
 
       &:hover {
-        transition: .2s font-size;
-        font-size: 120%;
+        svg path {
+          fill: lighten($carbon, 20);
+          transition: .2s all;
+        }
       }
     }
   }
