@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
+import PageLoader from '../../../atoms/PageLoader';
+import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class lessonComments extends React.Component {
   render() {
-    const { activeParagraphId } = this.props;
+    const { activeParagraphId, comments, isLoading } = this.props;
 
     return (
       <div className="lesson-comments-container">
@@ -18,19 +20,30 @@ class lessonComments extends React.Component {
         </div>
 
         <div className="comments-content">
+          {isLoading &&
+          <PageLoader />
+          }
 
-          <div className="empty-text">
-            There are no comments yet (pid {activeParagraphId}).
-            <br /><br />
-            <strong>Want to say something and get the conversation started?</strong>
-            <br /><br />
-          </div>
+          {comments.map((item) => (
+            <div key={item.id}>
+              <div>{item.author.name}</div>
+              <div>{item.text}</div>
+            </div>
+          ))}
 
-          <textarea placeholder="Start the conversation" />
-          <Button block>
-            Add Comment
-          </Button>
+          {comments.length === 0 &&
+            <div className="empty-text">
+              There are no comments yet (pid {activeParagraphId}).
+              <br/><br/>
+              <strong>Want to say something and get the conversation started?</strong>
+              <br/><br/>
 
+              <textarea placeholder="Start the conversation" />
+              <Button block onClick={() => {this.props.dispatch(lessonCommentsActions.syncComments())}}>
+                Add Comment
+              </Button>
+            </div>
+          }
         </div>
       </div>
     );
@@ -39,6 +52,8 @@ class lessonComments extends React.Component {
 
 lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.object),
   activeParagraphId: PropTypes.number,
 };
 
@@ -48,6 +63,8 @@ lessonComments.defaultProps = {
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   activeParagraphId: lessonSidebar.comments.paragraphId,
+  comments: lessonSidebar.comments.comments,
+  isLoading: lessonSidebar.sidebar.isLoading,
 });
 
 export default connect(mapStateToProps)(lessonComments);

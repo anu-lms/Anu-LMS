@@ -36,5 +36,13 @@
       padding: 2em;
     }
   }
+
+  .page-loader {
+    top: 92px;
+
+    .box {
+      background-color: $comments;
+    }
+  }
 }
 
