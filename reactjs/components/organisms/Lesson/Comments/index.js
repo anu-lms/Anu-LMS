@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
 import PageLoader from '../../../atoms/PageLoader';
-import Comment from '../../../atoms/Comment';
+import CommentsList from '../../../atoms/CommentsList';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -25,23 +25,21 @@ class lessonComments extends React.Component {
           <PageLoader />
           }
 
-          {comments.map((comment) => (
-            <Comment comment={comment} key={comment.id} />
-          ))}
-
-          {comments.length === 0 &&
+          {comments.length > 0 ? (
+            <CommentsList comments={comments} />
+          ) : (
             <div className="empty-text">
               There are no comments yet (pid {activeParagraphId}).
               <br/><br/>
               <strong>Want to say something and get the conversation started?</strong>
-              <br/><br/>
-
-              <textarea placeholder="Start the conversation" />
-              <Button block onClick={() => {this.props.dispatch(lessonCommentsActions.syncComments())}}>
-                Add Comment
-              </Button>
             </div>
-          }
+          )}
+
+          <br/><br/>
+          <textarea placeholder="Start the conversation" />
+          <Button block onClick={() => {this.props.dispatch(lessonCommentsActions.syncComments())}}>
+            Add Comment
+          </Button>
         </div>
       </div>
     );

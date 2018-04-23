@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Comment = ({ comment }) => (
-  <div className="">
-    <div>id: {comment.id}</div>
-    <div>author: {comment.author.name}</div>
-    <div>parent: {comment.parent || 'no parrent'}</div>
-    <div>{comment.text}</div>
+const CommentsList = ({ comments }) => (
+  <div className="comments-list">
+    {comments.map((comment) => (
+      <div className="" key={comment.id}>
+        <div>id: {comment.id}</div>
+        <div>author: {comment.author.name}</div>
+        <div>parent: {comment.parent || 'no parrent'}</div>
+        <div>{comment.text}</div>
+      </div>
+    ))}
   </div>
 );
 
-Comment.propTypes = {
-  comment: PropTypes.shape({
+CommentsList.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     parent: PropTypes.number,
     changed: PropTypes.number.isRequired,
@@ -24,12 +28,7 @@ Comment.propTypes = {
       firstName: PropTypes.string,
       lastName: PropTypes.string,
     }),
-  }).isRequired,
+  })).isRequired,
 };
 
-Comment.defaultProps = {
-  parent: null,
-  text: '',
-};
-
-export default Comment;
+export default CommentsList;
