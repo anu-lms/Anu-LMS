@@ -38,7 +38,8 @@ class Sidebar extends React.Component {
                 <path d="M-4-4h24v24H-4z" />
                 <path fill="#FFF" fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z" />
               </g>
-            </svg>Back to lesson
+            </svg>
+            Back to lesson
           </div>
         </div>
 
