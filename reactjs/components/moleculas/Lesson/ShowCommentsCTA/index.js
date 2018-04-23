@@ -17,10 +17,10 @@ class ShowCommentsCTA extends React.Component {
     const { dispatch, paragraphId, activeParagraphId } = this.props;
 
     if (paragraphId !== activeParagraphId) {
-      // Let the application now that the notebook is being opened.
+      // Set active paragraph.
       dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
 
-      // Let the application now that the notebook is being opened.
+      // Let the application now that the sidebar is being opened.
       dispatch(lessonSidebarActions.open('comments'));
 
       // If sidebar is opened, close navigation pane on all devices except extra
@@ -30,7 +30,7 @@ class ShowCommentsCTA extends React.Component {
       }
     }
     else {
-      // Let the application now that the notebook is being closed.
+      // Let the application now that the sidebar is being closed.
       dispatch(lessonSidebarActions.close());
     }
   }
