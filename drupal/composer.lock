@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "126d4da923edca357fe42711fb1568af",
+    "content-hash": "23a91e7de8e2f90216bf1231829ab817",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2197,6 +2197,9 @@
                     "recurse": false,
                     "replace": false,
                     "merge-extra": false
+                },
+                "patches_applied": {
+                    "Entity reference views": "https://www.drupal.org/files/issues/2018-03-09/drupal-use_view_output_for_entityreference_options-2174633-206.patch"
                 }
             },
             "autoload": {
@@ -3935,7 +3938,7 @@
                 "issues": "https://www.drupal.org/project/issues/page_manager",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
             },
-            "time": "2018-03-20 16:18:33"
+            "time": "2018-03-20T16:18:33+00:00"
         },
         {
             "name": "drupal/panels",
@@ -4375,7 +4378,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/simple_oauth"
             },
-            "time": "2018-03-29 05:52:25"
+            "time": "2018-03-29T05:52:25+00:00"
         },
         {
             "name": "drupal/smtp",
@@ -6074,7 +6077,7 @@
                 "jsonpath",
                 "path"
             ],
-            "time": "2017-09-13 09:14:46"
+            "time": "2017-09-13T09:14:46+00:00"
         },
         {
             "name": "stack/builder",
