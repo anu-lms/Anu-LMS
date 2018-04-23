@@ -190,9 +190,37 @@ export const userData = userDataObject => {
     uuid: userDataObject.uuid[0].value,
     name: userDataObject.name[0].value,
   };
+
   // Anonymous don't get user object with mail property.
   if (userDataObject.mail !== undefined) {
     data.mail = userDataObject.mail[0].value;
   }
+
+  // Organization isn't required field.
+  if (userDataObject.field_organization[0] !== undefined) {
+    data.organization = userDataObject.field_organization[0].target_id;
+  }
   return data;
 };
+
+/**
+ * Internal helper to normalize User data from the backend.
+ */
+export const processCommentsList = commentsList => (
+  commentsList.map(rawComment => {
+    return {
+      id: rawComment.id,
+      uuid: rawComment.uuid,
+      created: rawComment.created,
+      changed: rawComment.changed,
+      text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
+      author: {
+        uid: rawComment.uid.uid,
+        name: rawComment.uid.name,
+        firstName: rawComment.uid.fieldFirstName || '',
+        fieldLastName: rawComment.uid.fieldLastName || '',
+      },
+      parent: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
+    };
+  })
+);

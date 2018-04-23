@@ -29,6 +29,18 @@ export default (state = {
         isLoading: action.isLoading,
       };
 
+    case 'LESSON_COMMENTS_REQUESTED':
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case 'LESSON_COMMENTS_RECEIVED':
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     default:
       return state;
   }
