@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Heading extends React.Component {
   componentDidMount() {
@@ -18,7 +17,7 @@ class Heading extends React.Component {
   }
 
   render() {
-    const { title, type, columnClasses, id } = this.props;
+    const { title, type, columnClasses } = this.props;
     return (
       <div className="container heading">
         <div className="row">
@@ -31,8 +30,6 @@ class Heading extends React.Component {
             {title && type !== 'text_heading' &&
             <h5>{title}</h5>
             }
-
-            {/*<ShowCommentsCTA paragraphId={id} />*/}
           </div>
         </div>
       </div>

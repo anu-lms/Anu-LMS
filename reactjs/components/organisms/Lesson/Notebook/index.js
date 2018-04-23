@@ -135,6 +135,7 @@ LessonNotebook.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isCollapsed: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isNoteListVisible: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

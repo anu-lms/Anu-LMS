@@ -1,6 +1,6 @@
 export const open = (activeTab = 'notes') => ({
   type: 'LESSON_SIDEBAR_OPEN',
-  activeTab: activeTab,
+  activeTab,
 });
 
 export const close = () => ({

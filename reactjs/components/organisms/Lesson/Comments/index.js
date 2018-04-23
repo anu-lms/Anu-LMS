@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class lessonComments extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { activeParagraphId } = this.props;
 
@@ -29,7 +26,7 @@ class lessonComments extends React.Component {
             <br /><br />
           </div>
 
-          <textarea placeholder="Start the conversation"></textarea>
+          <textarea placeholder="Start the conversation" />
           <Button block>
             Add Comment
           </Button>

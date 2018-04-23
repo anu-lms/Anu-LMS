@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Notebook from '../Notebook';
@@ -35,8 +35,8 @@ class Sidebar extends React.Component {
           <div className="back-to-lesson" onClick={this.closeSidebar} onKeyPress={this.closeSidebar}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
               <g fill="none" fillRule="evenodd">
-                <path d="M-4-4h24v24H-4z"/>
-                <path fill="#FFF" fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z"/>
+                <path d="M-4-4h24v24H-4z" />
+                <path fill="#FFF" fillRule="nonzero" d="M16 7H3.83l5.59-5.59L8 0 0 8l8 8 1.41-1.41L3.83 9H16z" />
               </g>
             </svg>Back to lesson
           </div>
@@ -50,7 +50,8 @@ class Sidebar extends React.Component {
             </div>
             <div
               className={`tab notes ${activeTab === 'notes' ? 'active' : ''}`}
-              onClick={() => {this.onTabClick('notes')}}
+              onClick={() => { this.onTabClick('notes'); }}
+              onKeyPress={() => { this.onTabClick('notes'); }}
             >
               Notes
             </div>
@@ -58,9 +59,8 @@ class Sidebar extends React.Component {
             {activeParagraphId > 0 &&
               <div
                 className={`tab comments ${activeTab === 'comments' ? 'active' : ''}`}
-                onClick={() => {
-                  this.onTabClick('comments')
-                }}
+                onClick={() => { this.onTabClick('comments'); }}
+                onKeyPress={() => { this.onTabClick('comments'); }}
               >
                 Conversation
               </div>
