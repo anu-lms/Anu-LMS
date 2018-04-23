@@ -11,7 +11,6 @@ import lock from './lock';
 const appReducer = combineReducers({
   course,
   lesson,
-  lessonNotebook,
   lessonSidebar: combineReducers({
     sidebar: lessonSidebar,
     notes: lessonNotebook,
