@@ -9,7 +9,6 @@ export default (state = {
         ...state,
         activeTab: action.activeTab,
         isCollapsed: false,
-        isLoading: false,
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
