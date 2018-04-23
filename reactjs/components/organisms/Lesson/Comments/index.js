@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../../../atoms/Button';
 import PageLoader from '../../../atoms/PageLoader';
+import Comment from '../../../atoms/Comment';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -24,11 +25,8 @@ class lessonComments extends React.Component {
           <PageLoader />
           }
 
-          {comments.map((item) => (
-            <div key={item.id}>
-              <div>{item.author.name}</div>
-              <div>{item.text}</div>
-            </div>
+          {comments.map((comment) => (
+            <Comment comment={comment} key={comment.id} />
           ))}
 
           {comments.length === 0 &&
