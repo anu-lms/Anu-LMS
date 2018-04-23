@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AddNoteCTA from '../../../atoms/CTA/AddNoteCTA';
+import AddNoteCTA from '../../../atoms/CTA/AddNote';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as navigationActions from '../../../../actions/navigation';
