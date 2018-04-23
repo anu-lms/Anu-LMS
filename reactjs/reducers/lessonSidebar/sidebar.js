@@ -9,12 +9,14 @@ export default (state = {
         ...state,
         activeTab: action.activeTab,
         isCollapsed: false,
+        isLoading: false,
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
       return {
         ...state,
         isCollapsed: true,
+        isLoading: false,
       };
 
     case 'LESSON_OPENED':
