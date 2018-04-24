@@ -11,7 +11,6 @@ import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 class lessonComments extends React.Component {
   render() {
     const { activeParagraphId, comments, isLoading } = this.props;
-    const orderedComments = lessonCommentsHelper.getOrderedComments(comments);
 
     return (
       <div className="lesson-comments-container">
@@ -29,7 +28,7 @@ class lessonComments extends React.Component {
 
           {comments.length > 0 &&
           <div className="comments-list">
-            {orderedComments.map((comment) => ([
+            {comments.map((comment) => ([
               // Output Root comment.
               <Comment comment={comment} key={comment.id}/>,
 
@@ -73,7 +72,7 @@ lessonComments.defaultProps = {
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   activeParagraphId: lessonSidebar.comments.paragraphId,
-  comments: lessonSidebar.comments.comments,
+  comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
   isLoading: lessonSidebar.sidebar.isLoading,
 });
 
