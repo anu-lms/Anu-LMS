@@ -1,0 +1,7 @@
+.comments-item {
+  border-bottom: 1px solid gray;
+  padding: 10px;
+  &.nested {
+    padding-left: 2em;
+  }
+}

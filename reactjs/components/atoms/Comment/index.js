@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Comment = ({ comment }) => (
-  <div className="">
-    <div>id: {comment.id}</div>
-    <div>author: {comment.author.name}</div>
-    <div>parent: {comment.parent || 'no parrent'}</div>
+  <div className={`comments-item ${comment.parent ? 'nested' : ''}`}>
+    <div>{comment.author.name} {comment.parent ? ` > ${comment.parent.author.name}` : ''}</div>
     <div>{comment.text}</div>
   </div>
 );
@@ -13,7 +11,11 @@ const Comment = ({ comment }) => (
 Comment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    parent: PropTypes.number,
+    parentId: PropTypes.number,
+    parent: PropTypes.shape({
+      id: PropTypes.number,
+      author: PropTypes.object,
+    }),
     changed: PropTypes.number.isRequired,
     created: PropTypes.number.isRequired,
     text: PropTypes.string,
@@ -28,8 +30,9 @@ Comment.propTypes = {
 };
 
 Comment.defaultProps = {
-  parent: null,
+  parentId: null,
   text: '',
+  parent: null,
 };
 
 export default Comment;
