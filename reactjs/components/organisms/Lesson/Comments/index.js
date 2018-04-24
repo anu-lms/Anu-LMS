@@ -9,6 +9,14 @@ import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class lessonComments extends React.Component {
+  componentDidMount() {
+    const { isLoading, dispatch } = this.props;
+    // When component is mounted, send action that the comments sidebar is opened.
+    if (!isLoading) {
+      dispatch(lessonCommentsActions.syncComments());
+    }
+  }
+
   render() {
     const { activeParagraphId, comments, isLoading } = this.props;
 
@@ -28,13 +36,13 @@ class lessonComments extends React.Component {
 
           {comments.length > 0 &&
           <div className="comments-list">
-            {comments.map((comment) => ([
+            {comments.map(rootComment => ([
               // Output Root comment.
-              <Comment comment={comment} key={comment.id}/>,
+              <Comment comment={rootComment} key={rootComment.id} />,
 
               // Output children comments.
-              comment.children.map((comment) => (
-                <Comment comment={comment} key={comment.id}/>
+              rootComment.children.map(comment => (
+                <Comment comment={comment} key={comment.id} />
               )),
             ]))}
           </div>
@@ -43,14 +51,14 @@ class lessonComments extends React.Component {
           {comments.length === 0 &&
             <div className="empty-text">
               There are no comments yet (pid {activeParagraphId}).
-              <br/><br/>
+              <br /><br />
               <strong>Want to say something and get the conversation started?</strong>
             </div>
           }
 
-          <br/><br/>
+          <br /><br />
           <textarea placeholder="Start the conversation" />
-          <Button block onClick={() => {this.props.dispatch(lessonCommentsActions.syncComments())}}>
+          <Button block>
             Add Comment
           </Button>
         </div>
@@ -62,7 +70,7 @@ class lessonComments extends React.Component {
 lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.object),
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeParagraphId: PropTypes.number,
 };
 

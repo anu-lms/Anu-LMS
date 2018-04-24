@@ -7,7 +7,12 @@ export const syncComments = () => ({
   type: 'LESSON_COMMENTS_REQUESTED',
 });
 
-export const receiveComments = (comments) => ({
+export const syncCommentsFailed = error => ({
+  type: 'LESSON_COMMENTS_REQUEST_FAILED',
+  error,
+});
+
+export const receiveComments = comments => ({
   type: 'LESSON_COMMENTS_RECEIVED',
   comments,
 });

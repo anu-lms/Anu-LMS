@@ -42,6 +42,7 @@ export default (state = {
         isLoading: true,
       };
 
+    case 'LESSON_COMMENTS_REQUEST_FAILED':
     case 'LESSON_COMMENTS_RECEIVED':
       return {
         ...state,
