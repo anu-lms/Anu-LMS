@@ -54,14 +54,15 @@
 
     .tab {
       flex: 1 1 0;
+      transition: .2s all;
       &.active {
         background-color: $notebook;
         color: $white;
         font-weight: bold;
-        transition: .2s all;
       }
       &:not(.active):hover {
-        background-color: lighten($notebook, 40);
+        background-color: lighten($notebook, 10);
+        color: $white;
         transition: .2s all;
       }
     }
@@ -71,8 +72,7 @@
         background-color: $comments;
       }
       &:not(.active):hover {
-        background-color: lighten($comments, 60);
-        color: $white;
+        background-color: lighten($comments, 10);
       }
     }
 

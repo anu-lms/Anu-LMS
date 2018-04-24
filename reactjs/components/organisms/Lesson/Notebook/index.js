@@ -32,7 +32,7 @@ class LessonNotebook extends React.Component {
       // Get superagent request with authentication token.
       const { request } = await this.context.auth.getRequest();
 
-      dispatch(lessonSidebarActions.setStateLoading());
+      dispatch(lessonSidebarActions.setLoadingState());
 
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
@@ -64,7 +64,7 @@ class LessonNotebook extends React.Component {
       this.showNotes();
 
       // Dismiss sidebar opening state.
-      dispatch(lessonSidebarActions.setStateLoaded());
+      dispatch(lessonSidebarActions.removeLoadingState());
     }
   }
 
@@ -74,7 +74,7 @@ class LessonNotebook extends React.Component {
    */
   onBeforeNoteCreated() {
     // Set loading background.
-    this.props.dispatch(lessonSidebarActions.setStateLoading());
+    this.props.dispatch(lessonSidebarActions.setLoadingState());
   }
 
   /**
@@ -83,7 +83,7 @@ class LessonNotebook extends React.Component {
    */
   onAfterNoteCreated(note) {
     // Remove loading background and open a note.
-    this.props.dispatch(lessonSidebarActions.setStateLoaded());
+    this.props.dispatch(lessonSidebarActions.removeLoadingState());
     this.openNote(note.id);
   }
 
