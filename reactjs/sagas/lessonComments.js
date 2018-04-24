@@ -9,7 +9,6 @@ import * as lessonCommentsActions from '../actions/lessonComments';
  * Fetch comments from the backend.
  */
 function* fetchComments() {
-  console.log('fetchComments')
   const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
   try {
     // Making sure the request object includes the valid access token.
