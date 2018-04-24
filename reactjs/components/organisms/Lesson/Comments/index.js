@@ -5,11 +5,13 @@ import Button from '../../../atoms/Button';
 import PageLoader from '../../../atoms/PageLoader';
 import Comment from '../../../atoms/Comment';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class lessonComments extends React.Component {
   render() {
     const { activeParagraphId, comments, isLoading } = this.props;
+    const orderedComments = lessonCommentsHelper.getOrderedComments(comments);
 
     return (
       <div className="lesson-comments-container">
@@ -25,9 +27,19 @@ class lessonComments extends React.Component {
           <PageLoader />
           }
 
-          {comments.map((comment) => (
-            <Comment comment={comment} key={comment.id} />
-          ))}
+          {comments.length > 0 &&
+          <div className="comments-list">
+            {orderedComments.map((comment) => ([
+              // Output Root comment.
+              <Comment comment={comment} key={comment.id}/>,
+
+              // Output children comments.
+              comment.children.map((comment) => (
+                <Comment comment={comment} key={comment.id}/>
+              )),
+            ]))}
+          </div>
+          }
 
           {comments.length === 0 &&
             <div className="empty-text">
