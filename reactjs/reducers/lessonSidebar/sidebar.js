@@ -1,6 +1,6 @@
 export default (state = {
   isCollapsed: true,
-  activeTab: 'notes',
+  activeTab: 'notes', // Allowed values: `notes`, `comments`.
   isLoading: false,
 }, action) => {
   switch (action.type) {
@@ -24,10 +24,16 @@ export default (state = {
         activeTab: 'notes',
       };
 
-    case 'LESSON_SIDEBAR_UPDATE_LOADING_STATE':
+    case 'LESSON_SIDEBAR_SET_LOADING_STATE':
       return {
         ...state,
-        isLoading: action.isLoading,
+        isLoading: true,
+      };
+
+    case 'LESSON_SIDEBAR_REMOVE_LOADING_STATE':
+      return {
+        ...state,
+        isLoading: false,
       };
 
     case 'LESSON_COMMENTS_REQUESTED':

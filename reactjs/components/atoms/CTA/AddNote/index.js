@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AddNoteCTA = ({ onClick }) => (
+const AddNote = ({ onClick }) => (
   <div className="add-note-button" onClick={onClick} onKeyPress={onClick}>
     <svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
       <defs>
@@ -31,8 +31,8 @@ const AddNoteCTA = ({ onClick }) => (
   </div>
 );
 
-AddNoteCTA.propTypes = {
+AddNote.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default AddNoteCTA;
+export default AddNote;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CommentsCTA = ({ onClick, amount, active }) => (
+const Comments = ({ onClick, amount, active }) => (
   <span className={`comments-cta ${active ? 'active' : ''}`} onClick={onClick} onKeyPress={onClick}>
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
       <g fill="none" fillRule="evenodd">
@@ -14,15 +14,15 @@ const CommentsCTA = ({ onClick, amount, active }) => (
   </span>
 );
 
-CommentsCTA.propTypes = {
+Comments.propTypes = {
   onClick: PropTypes.func.isRequired,
   amount: PropTypes.number,
   active: PropTypes.bool,
 };
 
-CommentsCTA.defaultProps = {
+Comments.defaultProps = {
   amount: null,
   active: false,
 };
 
-export default CommentsCTA;
+export default Comments;

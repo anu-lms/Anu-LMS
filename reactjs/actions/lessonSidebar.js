@@ -10,15 +10,13 @@ export const close = () => ({
 /**
  * Set sidebar state to "Is Loading".
  */
-export const setStateLoading = () => ({
-  type: 'LESSON_SIDEBAR_UPDATE_LOADING_STATE',
-  isLoading: true,
+export const setLoadingState = () => ({
+  type: 'LESSON_SIDEBAR_SET_LOADING_STATE',
 });
 
 /**
  * Set sidebar state to "Is Loaded".
  */
-export const setStateLoaded = () => ({
-  type: 'LESSON_SIDEBAR_UPDATE_LOADING_STATE',
-  isLoading: false,
+export const removeLoadingState = () => ({
+  type: 'LESSON_SIDEBAR_REMOVE_LOADING_STATE',
 });
