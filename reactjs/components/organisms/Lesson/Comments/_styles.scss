@@ -30,11 +30,7 @@
   }
 
   .comments-content {
-    padding: 1em;
 
-    @include media-breakpoint-up(lg) {
-      padding: 2em;
-    }
   }
 
   .page-loader {
