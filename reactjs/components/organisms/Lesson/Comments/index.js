@@ -18,7 +18,7 @@ class lessonComments extends React.Component {
   }
 
   render() {
-    const { activeParagraphId, comments, isLoading } = this.props;
+    const { comments, isLoading } = this.props;
 
     return (
       <div className="lesson-comments-container">
@@ -50,17 +50,17 @@ class lessonComments extends React.Component {
 
           {comments.length === 0 &&
             <div className="empty-text">
-              There are no comments yet (pid {activeParagraphId}).
-              <br /><br />
+              There are no comments yet. <br /><br />
               <strong>Want to say something and get the conversation started?</strong>
             </div>
           }
 
-          <br /><br />
-          <textarea placeholder="Start the conversation" />
-          <Button block>
-            Add Comment
-          </Button>
+          <div className="new-comment-form">
+            <textarea placeholder="Start the conversation" />
+            <Button block disabled>
+              Add Comment
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -71,15 +71,9 @@ lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeParagraphId: PropTypes.number,
-};
-
-lessonComments.defaultProps = {
-  activeParagraphId: 0,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  activeParagraphId: lessonSidebar.comments.paragraphId,
   comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
   isLoading: lessonSidebar.sidebar.isLoading,
 });
