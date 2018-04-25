@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import * as userHelper from '../../../helpers/user';
 
-const Comment = ({comment}) => (
+const Comment = ({ comment }) => (
   <div className={`comment ${comment.parent ? 'nested' : ''}`}>
 
     <div className="comment-header">
@@ -16,7 +16,7 @@ const Comment = ({comment}) => (
           {userHelper.getUsername(comment.author)}
           {comment.parent &&
           <span className="replied-to">
-            &nbsp;>&nbsp;{userHelper.getUsername(comment.parent.author)}
+            &nbsp;&gt;&nbsp;{userHelper.getUsername(comment.parent.author)}
           </span>
           }
         </div>
@@ -29,18 +29,26 @@ const Comment = ({comment}) => (
     </div>
 
     <div className="comment-body">
-      <div dangerouslySetInnerHTML={{__html: comment.text}}/>
+      {/* eslint-disable-next-line react/no-danger */}
+      <div dangerouslySetInnerHTML={{ __html: comment.text }} />
     </div>
 
     <div className="comment-footer">
       <div className="links">
 
         <span className="link reply">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11"
-               viewBox="0 0 12 11">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="11"
+            viewBox="0 0 12 11"
+          >
             <g fill="none" fillRule="evenodd">
-              <path fill="#4A4A4A" fillRule="nonzero"
-                    d="M4.667 3V.333L0 5l4.667 4.667V6.933C8 6.933 10.333 8 12 10.333 11.333 7 9.333 3.667 4.667 3z"/>
+              <path
+                fill="#4A4A4A"
+                fillRule="nonzero"
+                d="M4.667 3V.333L0 5l4.667 4.667V6.933C8 6.933 10.333 8 12 10.333 11.333 7 9.333 3.667 4.667 3z"
+              />
             </g>
           </svg>
           <span className="label">reply</span>
@@ -71,12 +79,6 @@ Comment.propTypes = {
       lastName: PropTypes.string,
     }),
   }).isRequired,
-};
-
-Comment.defaultProps = {
-  parentId: null,
-  text: '',
-  parent: null,
 };
 
 export default Comment;
