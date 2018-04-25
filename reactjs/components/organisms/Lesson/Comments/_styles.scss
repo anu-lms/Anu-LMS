@@ -1,13 +1,16 @@
 .lesson-comments-container {
-  // To provide scroll support.
-  min-height: calc(100% - 36px);
-  max-height: 0;
-  overflow-y: scroll;
-  position: absolute;
-  top: 36px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+
+  .lesson-comments-scrollable {
+    // To provide scroll support.
+    min-height: calc(100% - 36px);
+    max-height: 0;
+    overflow-y: scroll;
+    position: absolute;
+    top: 36px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 
   .comments-header {
     padding: 0 1em;
@@ -61,11 +64,7 @@
   }
 
   .page-loader {
-    top: 42px;
-    @include media-breakpoint-up(lg) {
-      top: 56px;
-    }
-
+    top: 36px;
     .box {
       background-color: $comments;
     }
