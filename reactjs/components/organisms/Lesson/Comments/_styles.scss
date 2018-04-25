@@ -61,7 +61,10 @@
   }
 
   .page-loader {
-    top: 92px;
+    top: 42px;
+    @include media-breakpoint-up(lg) {
+      top: 56px;
+    }
 
     .box {
       background-color: $comments;
