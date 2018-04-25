@@ -1,4 +1,12 @@
 .lesson-comments-container {
+  min-height: 100%;
+  max-height: 0;
+  overflow-y: scroll;
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   .comments-header {
     padding: 0 1em;
