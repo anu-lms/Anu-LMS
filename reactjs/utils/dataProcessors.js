@@ -207,20 +207,18 @@ export const userData = userDataObject => {
  * Internal helper to normalize User data from the backend.
  */
 export const processCommentsList = commentsList => (
-  commentsList.map(rawComment => {
-    return {
-      id: rawComment.id,
-      uuid: rawComment.uuid,
-      created: rawComment.created,
-      changed: rawComment.changed,
-      text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
-      author: {
-        uid: rawComment.uid.uid,
-        name: rawComment.uid.name,
-        firstName: rawComment.uid.fieldFirstName || '',
-        lastName: rawComment.uid.fieldLastName || '',
-      },
-      parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
-    };
-  })
+  commentsList.map(rawComment => ({
+    id: rawComment.id,
+    uuid: rawComment.uuid,
+    created: rawComment.created,
+    changed: rawComment.changed,
+    text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
+    author: {
+      uid: rawComment.uid.uid,
+      name: rawComment.uid.name,
+      firstName: rawComment.uid.fieldFirstName || '',
+      lastName: rawComment.uid.fieldLastName || '',
+    },
+    parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
+  }))
 );

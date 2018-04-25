@@ -81,4 +81,8 @@ Comment.propTypes = {
   }).isRequired,
 };
 
+Comment.defaultProps = {
+
+};
+
 export default Comment;
