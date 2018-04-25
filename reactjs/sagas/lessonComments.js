@@ -22,16 +22,14 @@ function* fetchComments() {
 
     const commentsQuery = {
       'include': 'uid, field_comment_parent',
-
       // Filter by paragraph id.
       'filter[field_comment_paragraph][value]': paragraphId,
-
       // Filter comments by organization.
       'filter[field_comment_organization][condition][path]': 'field_comment_organization',
     };
 
     if (currentUser.organization) {
-      // User should see comments only from user within same organization.
+      // User should see comments only from users within same organization.
       commentsQuery['filter[field_comment_organization][condition][value]'] = currentUser.organization;
     }
     else {
