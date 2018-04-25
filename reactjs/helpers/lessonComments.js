@@ -1,3 +1,7 @@
+import Debug from 'debug';
+
+const debug = Debug('anu:lessonCommentsHelper');
+
 /**
  * Returns comment by given id.
  */
@@ -24,18 +28,25 @@ export const getCommentById = (comments, id) => {
 function getThreadedCommentsList(comments) {
   const tree = [];
   const rootOf = {};
-  const processed = [];
+  const processed = {}; // Processed items (itemId => rootId);
+  debug('comments', comments);
 
   // Recursive function to find root Id (parent element without parent).
   // Run through elements from children to the root parent
   // adds elements to the rootOf array and returns root element id.
   const findRootId = item => {
     if (item.parentId) {
+      // Returns Root Id if item has been already processed.
+      if (processed[item.id]) {
+        return processed[item.id];
+      }
+
       // Get parent comment object.
       const parent = getCommentById(comments, item.parentId);
 
       // Get root id of parent comments (recursively to get root of nested comments).
       const rootId = findRootId(parent);
+      debug('findRootId', item.id, parent.id, rootId);
 
       // Save some parent data to current element to use it in render.
       item.parent = {
@@ -48,7 +59,7 @@ function getThreadedCommentsList(comments) {
       rootOf[rootId].push(item);
 
       // Adds element to processed array to skip process later.
-      processed.push(item.id);
+      processed[item.id] = rootId;
 
       return rootId;
     }
@@ -59,7 +70,7 @@ function getThreadedCommentsList(comments) {
   for (let i = 0; i < comments.length; i += 1) {
     const item = comments[i];
     // Skip processed elements, they've already added to rootOf array in findRootId function.
-    if (processed.indexOf(item.id) > -1) {
+    if (processed[item.id]) {
       continue; // eslint-disable-line no-continue
     }
 
@@ -77,6 +88,9 @@ function getThreadedCommentsList(comments) {
       findRootId(item);
     }
   }
+  debug('rootOf', rootOf);
+  debug('processed', processed);
+  debug('tree', tree);
 
   return tree;
 }
