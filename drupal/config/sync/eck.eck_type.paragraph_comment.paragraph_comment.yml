@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_entity_type.anu_comment
+    - eck.eck_entity_type.paragraph_comment
 name: Comment
-type: anu_comment
+type: paragraph_comment
 description: ''

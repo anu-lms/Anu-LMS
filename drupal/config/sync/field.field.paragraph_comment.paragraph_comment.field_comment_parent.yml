@@ -3,12 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.anu_comment.anu_comment
-    - field.storage.anu_comment.field_comment_parent
-id: anu_comment.anu_comment.field_comment_parent
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.storage.paragraph_comment.field_comment_parent
+id: paragraph_comment.paragraph_comment.field_comment_parent
 field_name: field_comment_parent
-entity_type: anu_comment
-bundle: anu_comment
+entity_type: paragraph_comment
+bundle: paragraph_comment
 label: Parent
 description: ''
 required: false

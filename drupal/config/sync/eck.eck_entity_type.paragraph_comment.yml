@@ -2,7 +2,7 @@ uuid: fe62b6ec-6ee7-4f79-82e9-23c7368ddb53
 langcode: en
 status: true
 dependencies: {  }
-id: anu_comment
+id: paragraph_comment
 label: Comment
 created: true
 changed: true

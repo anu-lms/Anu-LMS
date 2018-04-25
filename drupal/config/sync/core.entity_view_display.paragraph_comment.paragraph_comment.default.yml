@@ -3,17 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - eck.eck_type.anu_comment.anu_comment
-    - field.field.anu_comment.anu_comment.field_comment_organization
-    - field.field.anu_comment.anu_comment.field_comment_paragraph
-    - field.field.anu_comment.anu_comment.field_comment_parent
-    - field.field.anu_comment.anu_comment.field_comment_text
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.field.paragraph_comment.paragraph_comment.field_comment_organization
+    - field.field.paragraph_comment.paragraph_comment.field_comment_paragraph
+    - field.field.paragraph_comment.paragraph_comment.field_comment_parent
+    - field.field.paragraph_comment.paragraph_comment.field_comment_text
   module:
     - text
     - user
-id: anu_comment.anu_comment.default
-targetEntityType: anu_comment
-bundle: anu_comment
+id: paragraph_comment.paragraph_comment.default
+targetEntityType: paragraph_comment
+bundle: paragraph_comment
 mode: default
 content:
   created:

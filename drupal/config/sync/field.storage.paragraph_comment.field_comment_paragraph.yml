@@ -4,9 +4,9 @@ status: true
 dependencies:
   module:
     - eck
-id: anu_comment.field_comment_paragraph
+id: paragraph_comment.field_comment_paragraph
 field_name: field_comment_paragraph
-entity_type: anu_comment
+entity_type: paragraph_comment
 type: integer
 settings:
   unsigned: false

@@ -40,7 +40,7 @@ function* fetchComments() {
 
     // Make a request to get list of comments.
     const responseComments = yield request
-      .get('/jsonapi/anu_comment/anu_comment')
+      .get('/jsonapi/paragraph_comment/paragraph_comment')
       .query(commentsQuery);
 
     // Normalize Comments.

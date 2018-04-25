@@ -5,9 +5,9 @@ dependencies:
   module:
     - eck
     - text
-id: anu_comment.field_comment_text
+id: paragraph_comment.field_comment_text
 field_name: field_comment_text
-entity_type: anu_comment
+entity_type: paragraph_comment
 type: text_long
 settings: {  }
 module: text
