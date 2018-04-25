@@ -1,7 +1,117 @@
-.comments-item {
-  border-bottom: 1px solid gray;
-  padding: 10px;
+.comment {
+  border-bottom: 1px solid $london-sky;
+  padding: 1em 1em 1.5em;
+  position: relative;
+  @include media-breakpoint-up(lg) {
+    padding: 1.5em;
+  }
+
+  &:hover {
+    .comment-footer {
+      display: block;
+    }
+  }
+
   &.nested {
     padding-left: 2em;
+    @include media-breakpoint-up(lg) {
+      padding-left: 3em;
+    }
+  }
+
+  .comment-header {
+    position: relative;
+    margin-bottom: 1em;
+    height: 2em;
+
+    .avatar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: $anu-black;
+      width: 2em;
+      height: 2em;
+      color: $white;
+      border-radius: 50%;
+      font-size: 1em;
+      line-height: 2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .right {
+      margin-left: 3em;
+
+      .username {
+        color: $carbon;
+        font-weight: bold;
+        font-size: 1em;
+        margin-bottom: 6px;
+        line-height: 1em;
+
+        .replied-to {
+          color: $london-sky;
+        }
+      }
+
+      .date {
+        color: $london-sky;
+        font-size: .6875em;
+        line-height: .75em;
+      }
+    }
+  }
+
+  .comment-body {
+    color: $carbon;
+  }
+
+  .comment-footer {
+    position: absolute;
+    bottom: .25em;
+    right: 1.5em;
+    transition: .2s all;
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+
+    .links {
+      color: $london-sky;
+      font-size: .75em;
+      cursor: pointer;
+      transition: .2s all;
+      @include media-breakpoint-up(lg) {
+        color: $carbon;
+      }
+
+      svg {
+        position: relative;
+        top: 1px;
+
+        path {
+          fill: $london-sky;
+          transition: .2s all;
+          @include media-breakpoint-up(lg) {
+            fill: $carbon;
+          }
+        }
+      }
+
+      .link {
+
+        &:hover {
+          color: $anu-blue;
+
+          svg path {
+            fill: $anu-blue;
+          }
+        }
+
+        .label {
+          margin-left: .5em;
+        }
+      }
+
+    }
   }
 }
