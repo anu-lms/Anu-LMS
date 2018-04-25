@@ -12,15 +12,14 @@
  *
  * @returns string
  */
-export const getUsername = ({name, firstName, lastName}) => {
-
+export const getUsername = ({ name, firstName, lastName }) => {
   let username = '';
   if (firstName) {
     username = firstName.trim();
   }
 
   if (lastName) {
-    username = username.length === 0 ? lastName.trim() : username + ' ' + lastName.trim();
+    username = username.length === 0 ? lastName.trim() : `${username} ${lastName.trim()}`;
   }
 
   if (username.length === 0) {
@@ -44,10 +43,9 @@ export const getUsername = ({name, firstName, lastName}) => {
  *
  * @returns string
  */
-export const getInitials = ({name, firstName, lastName}) => {
-
+export const getInitials = ({ name, firstName, lastName }) => {
   // First get human readable username which will be displayed for a user.
-  let username = getUsername({name, firstName, lastName});
+  let username = getUsername({ name, firstName, lastName });
 
   // If a username consist from at least two words (first name and last name),
   // then the initials should be generated based on first letters of those
@@ -55,7 +53,7 @@ export const getInitials = ({name, firstName, lastName}) => {
   username = username.split(' ');
   if (username.length > 1) {
     return username[0].replace(/[^0-9a-z]/gi, '').substring(0, 1) +
-      username[1].replace(/[^0-9a-z]/gi, '').substring(0, 1)
+      username[1].replace(/[^0-9a-z]/gi, '').substring(0, 1);
   }
 
   // Otherwise just take the first 2 letters of the username.
@@ -76,10 +74,9 @@ export const getInitials = ({name, firstName, lastName}) => {
  *
  * @returns string
  */
-export const getUserColor = ({name, firstName, lastName}) => {
-
+export const getUserColor = ({ name, firstName, lastName }) => {
   // Get two chars user initials.
-  const initials = getInitials({name, firstName, lastName});
+  const initials = getInitials({ name, firstName, lastName });
 
   // We need just the first letter of it.
   const firstLetter = initials.substr(0, 1).toLowerCase();
