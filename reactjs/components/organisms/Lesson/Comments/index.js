@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from '../../../atoms/Button';
 import PageLoader from '../../../atoms/PageLoader';
-import Comment from '../../../atoms/Comment';
+import CommentsList from '../../../atoms/Comment/CommentsList';
+import AddCommentForm from '../../../atoms/Comment/AddCommentForm';
+import EmptyText from '../../../atoms/Comment/EmptyText';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
@@ -34,35 +35,13 @@ class lessonComments extends React.Component {
           </div>
 
           <div className="comments-content">
+            {comments.length > 0 ? (
+              <CommentsList comments={comments} />
+            ) : (
+              <EmptyText />
+            )}
 
-            {comments.length > 0 &&
-            <div className="comments-list">
-              {comments.map(rootComment => ([
-                // Output Root comment.
-                <Comment comment={rootComment} key={rootComment.id} />,
-
-                // Output children comments.
-                rootComment.children.map(comment => (
-                  <Comment comment={comment} key={comment.id} />
-                )),
-              ]))}
-            </div>
-            }
-
-            {comments.length === 0 &&
-              <div className="empty-text">
-                There are no comments yet. <br /><br />
-                <strong>Want to say something and get the conversation started?</strong>
-              </div>
-            }
-
-            <div className="new-comment-form">
-              <textarea placeholder="Start the conversation" />
-              <Button block disabled>
-                Add Comment
-              </Button>
-            </div>
-
+            <AddCommentForm />
           </div>
         </div>
       </div>
