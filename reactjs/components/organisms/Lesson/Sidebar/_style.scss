@@ -1,5 +1,4 @@
 .lesson-sidebar-container {
-  //position: relative;
 
   // Hide notebook pane.
   &.closed {
@@ -40,7 +39,7 @@
   .tabs {
     border-bottom: 4px solid $notebook;
     font-size: 14px;
-    color: $warm-grey-three;
+    color: $warm-grey-two;
     display: flex;
     align-items: stretch;
 
