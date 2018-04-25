@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import * as userHelper from '../../../helpers/user';
+import * as userHelper from '../../../../helpers/user';
 
 const Comment = ({ comment }) => (
   <div className={`comment ${comment.parent ? 'nested' : ''}`}>
