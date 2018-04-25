@@ -30,9 +30,7 @@ Comment.propTypes = {
 };
 
 Comment.defaultProps = {
-  parentId: null,
-  text: '',
-  parent: null,
+
 };
 
 export default Comment;
