@@ -1,16 +1,15 @@
-uuid: ec20d923-03f7-4580-9106-50dba9004d0e
+uuid: 80f02836-b87c-4808-958d-c35b8bcae11e
 langcode: en
 status: true
 dependencies:
   module:
     - eck
-    - taxonomy
-id: anu_comment.field_comment_organization
-field_name: field_comment_organization
-entity_type: anu_comment
+id: paragraph_comment.field_comment_parent
+field_name: field_comment_parent
+entity_type: paragraph_comment
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: paragraph_comment
 module: core
 locked: false
 cardinality: 1
