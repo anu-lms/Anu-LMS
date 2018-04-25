@@ -7,7 +7,6 @@ import Comment from '../../../atoms/Comment';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class lessonComments extends React.Component {
   componentDidMount() {
     const { isLoading, dispatch } = this.props;
@@ -22,6 +21,7 @@ class lessonComments extends React.Component {
 
     return (
       <div className="lesson-comments-container">
+
         <div className="comments-header">
           <div className="title">All Comments</div>
           <div className="actions">
@@ -61,6 +61,7 @@ class lessonComments extends React.Component {
               Add Comment
             </Button>
           </div>
+
         </div>
       </div>
     );
