@@ -1,4 +1,5 @@
 .lesson-comments-container {
+  // To provide scroll support.
   min-height: calc(100% - 36px);
   max-height: 0;
   overflow-y: scroll;
