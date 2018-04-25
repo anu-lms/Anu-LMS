@@ -1,5 +1,6 @@
 export default (state = {
   paragraphId: 0,
+  comments: [],
 }, action) => {
   switch (action.type) {
     case 'LESSON_COMMENTS_SET_ACTIVE_PARAGRAPH':
@@ -18,6 +19,12 @@ export default (state = {
       return {
         ...state,
         paragraphId: 0,
+      };
+
+    case 'LESSON_COMMENTS_RECEIVED':
+      return {
+        ...state,
+        comments: action.comments,
       };
 
     default:

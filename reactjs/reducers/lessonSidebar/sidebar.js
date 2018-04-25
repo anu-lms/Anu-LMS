@@ -15,6 +15,7 @@ export default (state = {
       return {
         ...state,
         isCollapsed: true,
+        isLoading: false,
       };
 
     case 'LESSON_OPENED':
@@ -30,6 +31,19 @@ export default (state = {
       };
 
     case 'LESSON_SIDEBAR_REMOVE_LOADING_STATE':
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case 'LESSON_COMMENTS_REQUESTED':
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case 'LESSON_COMMENTS_REQUEST_FAILED':
+    case 'LESSON_COMMENTS_RECEIVED':
       return {
         ...state,
         isLoading: false,

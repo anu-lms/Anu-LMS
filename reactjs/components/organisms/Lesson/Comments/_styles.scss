@@ -1,5 +1,17 @@
 .lesson-comments-container {
 
+  .lesson-comments-scrollable {
+    // To provide scroll support.
+    min-height: calc(100% - 36px);
+    max-height: 0;
+    overflow-y: scroll;
+    position: absolute;
+    top: 36px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   .comments-header {
     padding: 0 1em;
     height: 42px;
@@ -30,10 +42,27 @@
   }
 
   .comments-content {
-    padding: 1em;
 
-    @include media-breakpoint-up(lg) {
-      padding: 2em;
+  }
+
+  .empty-text {
+    margin-bottom: 2em;
+    color: $carbon;
+  }
+
+  .new-comment-form {
+    margin-top: 2em;
+
+    textarea {
+      min-height: 88px;
+      margin-bottom: 0.75em;
+    }
+  }
+
+  .page-loader {
+    top: 36px;
+    .box {
+      background-color: $comments;
     }
   }
 }
