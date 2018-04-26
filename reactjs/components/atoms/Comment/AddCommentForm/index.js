@@ -52,6 +52,7 @@ class AddCommentForm extends React.Component {
         />
         <Button
           block
+          loading={isProcessing}
           onClick={this.submitForm}
           disabled={text.length === 0}
         >
