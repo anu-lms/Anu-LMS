@@ -1,7 +1,8 @@
-import { all, put, takeLatest, select, apply } from 'redux-saga/effects';
+import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
+import * as api from '../api/comments';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as lessonCommentsActions from '../actions/lessonComments';
 
@@ -67,11 +68,38 @@ function* sidebarIsOpened() {
   }
 }
 
+function* addComment({ text, parentId }) {
+  const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
+  try {
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Get user data to filter by user's organization.
+    const userResponse = yield request.get('/user/me?_format=json');
+    const currentUser = dataProcessors.userData(userResponse.body);
+
+    const comment = yield call(
+      api.insertComment,
+      request, currentUser.uid, paragraphId, currentUser.organization, text, parentId,
+    );
+
+    yield put(lessonCommentsActions.addCommentToStore(comment));
+  }
+  catch (error) {
+    yield put(lessonCommentsActions.addCommentError(error));
+    console.error('Could not add a comment.', error);
+    Alert.error('Could not add a comment. Please, contact site administrator.');
+  }
+}
+
 /**
  * Main entry point for all comments sagas.
  */
 export default function* lessonCommentsSagas() {
   yield all([
+    yield takeLatest('LESSON_COMMENTS_INSERT_COMMENT', addComment),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
   ]);

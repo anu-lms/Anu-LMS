@@ -27,6 +27,17 @@ export default (state = {
         comments: action.comments,
       };
 
+    // Adds given comment to the store.
+    case 'LESSON_COMMENTS_ADD_COMMENT_TO_STORE':
+
+      return {
+        ...state,
+        comments: [
+          ...state.comments,
+          action.comment,
+        ],
+      };
+
     default:
       return state;
   }
