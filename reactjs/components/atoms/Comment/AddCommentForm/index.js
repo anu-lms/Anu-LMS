@@ -42,7 +42,7 @@ class AddCommentForm extends React.Component {
     const { text } = this.state;
 
     return (
-      <div className="new-comment-form">
+      <div className="new-comment-form" id="new-comment-form">
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
