@@ -104,9 +104,9 @@ export const getOrderedComments = comments => {
 
   // Sort children comments from newlest to oldest.
   threadedComments.forEach(element => {
-    element.children.sort((a, b) => (a.created < b.created));
+    element.children.sort((a, b) => (a.created - b.created));
   });
 
   // Sort root comments from newlest to oldest.
-  return threadedComments.sort((a, b) => (a.created > b.created));
+  return threadedComments.sort((a, b) => (a.created - b.created));
 };
