@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import Comment from '../CommentItem';
 
 const CommentsList = ({ comments }) => (
-  comments.map(rootComment => ([
-    // Output Root comment.
-    <Comment comment={rootComment} key={rootComment.id} />,
+  <div className="comments-list">
+    {comments.map(rootComment => ([
+      // Output Root comment.
+      <Comment comment={rootComment} key={rootComment.id} />,
 
-    // Output children comments.
-    rootComment.children.map(comment => (
-      <Comment comment={comment} key={comment.id} />
-    )),
-  ]))
+      // Output children comments.
+      rootComment.children.map(comment => (
+        <Comment comment={comment} key={comment.id} />
+      )),
+    ]))}
+  </div>
 );
 
 CommentsList.propTypes = {
