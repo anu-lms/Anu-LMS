@@ -1,6 +1,11 @@
 export default (state = {
   paragraphId: 0,
   comments: [],
+  form: {
+    edit: null,
+    replyTo: null,
+    isProcessing: false,
+  },
 }, action) => {
   switch (action.type) {
     case 'LESSON_COMMENTS_SET_ACTIVE_PARAGRAPH':
@@ -27,6 +32,24 @@ export default (state = {
         comments: action.comments,
       };
 
+    case 'LESSON_COMMENTS_INSERT_COMMENT':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          isProcessing: true,
+        },
+      };
+
+    case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          isProcessing: false,
+        },
+      };
+
     // Adds given comment to the store.
     case 'LESSON_COMMENTS_ADD_COMMENT_TO_STORE':
 
@@ -36,6 +59,10 @@ export default (state = {
           ...state.comments,
           action.comment,
         ],
+        form: {
+          ...state.form,
+          isProcessing: false,
+        },
       };
 
     default:
