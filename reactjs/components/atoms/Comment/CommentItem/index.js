@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+// import AddCommentForm from '../AddCommentForm';
 import * as userHelper from '../../../../helpers/user';
 
 const Comment = ({ comment }) => (
@@ -29,8 +30,8 @@ const Comment = ({ comment }) => (
     </div>
 
     <div className="comment-body">
-      {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: comment.text }} />
+      {comment.text}
+      {/* <AddCommentForm initialText={comment.text} /> */}
     </div>
 
     <div className="comment-footer">
@@ -79,10 +80,6 @@ Comment.propTypes = {
       lastName: PropTypes.string,
     }),
   }).isRequired,
-};
-
-Comment.defaultProps = {
-
 };
 
 export default Comment;

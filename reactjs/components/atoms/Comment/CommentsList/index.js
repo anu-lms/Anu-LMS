@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from '../CommentItem';
+// import AddCommentForm from '../AddCommentForm';
 
 const CommentsList = ({ comments }) => (
   <div className="comments-list">
@@ -13,6 +14,8 @@ const CommentsList = ({ comments }) => (
         <Comment comment={comment} key={comment.id} />
       )),
     ]))}
+
+    {/* <AddCommentForm key={`${rootComment.id}-form`} />, */}
   </div>
 );
 
