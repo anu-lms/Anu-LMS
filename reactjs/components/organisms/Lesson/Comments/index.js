@@ -9,12 +9,28 @@ import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 class lessonComments extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.scrollToForm = this.scrollToForm.bind(this);
+  }
+
   componentDidMount() {
     const { isLoading, dispatch } = this.props;
     // When component is mounted, send action that the comments sidebar is opened.
     if (!isLoading) {
       dispatch(lessonCommentsActions.syncComments());
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isLoading && !nextProps.isLoading) {
+      document.getElementById('lesson-comments-scrollable').scrollTop = 0;
+    }
+  }
+
+  scrollToForm() {
+    lessonCommentsHelper.scrollToAddCommentForm();
   }
 
   render() {
@@ -26,11 +42,11 @@ class lessonComments extends React.Component {
           <PageLoader />
         }
 
-        <div className="lesson-comments-scrollable">
+        <div className="lesson-comments-scrollable" id="lesson-comments-scrollable">
           <div className="comments-header">
             <div className="title">All Comments</div>
             <div className="actions">
-              <div className="add-new-comment">+ New Comment</div>
+              <div className="add-new-comment" onKeyPress={this.scrollToForm} onClick={this.scrollToForm}>+ New Comment</div>
             </div>
           </div>
 

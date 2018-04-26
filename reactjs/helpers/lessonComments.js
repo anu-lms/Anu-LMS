@@ -1,4 +1,5 @@
 import Debug from 'debug';
+import { scrollTo } from '../utils/scrollTo';
 
 const debug = Debug('anu:lessonCommentsHelper');
 
@@ -109,4 +110,17 @@ export const getOrderedComments = comments => {
 
   // Sort root comments from newlest to oldest.
   return threadedComments.sort((a, b) => (a.created - b.created));
+};
+
+
+/**
+ *
+ */
+export const scrollToAddCommentForm = () => {
+  const newCommentForm = document.getElementById('new-comment-form');
+  const newCommentFormRect = newCommentForm.getBoundingClientRect();
+
+  scrollTo(document.getElementById('lesson-comments-scrollable'), newCommentFormRect.top, 1000, () => {
+    newCommentForm.getElementsByTagName('textarea')[0].focus();
+  });
 };
