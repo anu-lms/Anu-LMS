@@ -15,6 +15,7 @@ class AddCommentForm extends React.Component {
 
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,6 +39,13 @@ class AddCommentForm extends React.Component {
     });
   }
 
+  handleKeyDown(e) {
+    // Submit form on CTRL/CMD + ENTER.
+    if (e.keyCode === 13 && (e.ctrlKey || e.metaKey)) {
+      this.submitForm();
+    }
+  }
+
   render() {
     const { comments, isProcessing, className, placeholder } = this.props;
     const { text } = this.state;
@@ -54,6 +62,7 @@ class AddCommentForm extends React.Component {
           innerRef={ref => this.textarea = ref}
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
+          onKeyDown={this.handleKeyDown}
           value={text}
         />
         <Button
@@ -77,7 +86,7 @@ AddCommentForm.contextTypes = {
 
 AddCommentForm.propTypes = {
   initialText: PropTypes.string,
-  replyTo: PropTypes.number.isRequired,
+  replyTo: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -89,6 +98,7 @@ AddCommentForm.defaultProps = {
   initialText: '',
   className: '',
   placeholder: null,
+  replyTo: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
