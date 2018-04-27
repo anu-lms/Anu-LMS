@@ -32,6 +32,14 @@ export const receiveComments = comments => ({
 /**
  * Send request to the backend to add a new comment.
  */
+export const showReplyForm = commentId => ({
+  type: 'LESSON_COMMENTS_SHOW_REPLY_FORM',
+  commentId,
+});
+
+/**
+ * Send request to the backend to add a new comment.
+ */
 export const addComment = (text, parentId = null) => ({
   type: 'LESSON_COMMENTS_INSERT_COMMENT',
   text,

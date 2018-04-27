@@ -1,26 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Comment from '../CommentItem';
-// import AddCommentForm from '../AddCommentForm';
+import AddCommentForm from '../AddCommentForm';
+import * as userHelper from '../../../../helpers/user';
 
-const CommentsList = ({ comments }) => (
-  <div className="comments-list">
-    {comments.map(rootComment => ([
-      // Output Root comment.
-      <Comment comment={rootComment} key={rootComment.id} />,
+const CommentsList = ({ comments, commentsForm }) => {
+  const flatCommentsList = [];
 
-      // Output children comments.
-      rootComment.children.map(comment => (
-        <Comment comment={comment} key={comment.id} />
-      )),
-    ]))}
+  comments.forEach(rootComment => {
+    let replyToComment = null;
+    if (commentsForm.replyTo === rootComment.id) {
+      replyToComment = rootComment;
+    }
 
-    {/* <AddCommentForm key={`${rootComment.id}-form`} />, */}
-  </div>
-);
+    flatCommentsList.push(<Comment comment={rootComment} key={rootComment.id} />);
+
+    rootComment.children.forEach(comment => {
+      flatCommentsList.push(<Comment comment={comment} key={comment.id} />);
+
+      if (commentsForm.replyTo === comment.id) {
+        replyToComment = comment;
+      }
+    });
+
+    if (replyToComment) {
+      const placeholder = `Reply to ${userHelper.getUsername(replyToComment.author)}`;
+
+      flatCommentsList.push(<AddCommentForm className="nested" placeholder={placeholder} key={`${rootComment.id}-form`} />);
+    }
+  });
+
+  return (
+    <div className="comments-list">
+      {flatCommentsList}
+    </div>
+  );
+};
 
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  commentsForm: PropTypes.object.isRequired,
 };
 
-export default CommentsList;
+const mapStateToProps = ({ lessonSidebar }) => ({
+  commentsForm: lessonSidebar.comments.form,
+});
+
+export default connect(mapStateToProps)(CommentsList);
