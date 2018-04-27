@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_comments_entity_type_alter(array &$entity_types) {
+  // Adds an additional Validation for paragraph_comment entity.
+  $node = $entity_types['paragraph_comment'];
+  $node->addConstraint('ParagraphComment', []);
+}
