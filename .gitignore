@@ -1,5 +1,6 @@
 # IDE files.
 .idea
+.DS_Store
 
 # Docker mapped folders.
 drupal/mysql

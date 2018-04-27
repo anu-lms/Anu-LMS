@@ -13,6 +13,8 @@ import 'core-js/es7/array';
 import '../../../utils/polyfill/closest';
 
 import { html } from './serializer';
+import Sticky from '../Sticky';
+import * as mediaBreakpoint from '../../../utils/breakpoints';
 
 // Enable EditList plugin to handle keyboard events in lists.
 const pluginEditList = EditList({
@@ -83,6 +85,7 @@ class RichEditor extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ value: html.deserialize(this.props.initialValue) });
+    this.stickyOptionsEnter = mediaBreakpoint.isDown('md') ? this.props.stickyOptions.enterMobile : this.props.stickyOptions.enter;
   }
 
   componentDidUpdate(prevProps) {
@@ -447,13 +450,18 @@ class RichEditor extends React.Component {
         {this.state.value &&
         <div className="editor-wrapper">
 
-          <div className="editor-menu">
-            {this.renderMarkButton('bold')}
-            {this.renderMarkButton('italic')}
-            {this.renderMarkButton('underlined')}
-            {this.renderListButton('numbered-list')}
-            {this.renderListButton('bulleted-list')}
-            {/* this.renderLinkButton() */}
+          <div className="sticky-wrapper">
+
+            <Sticky enter={this.stickyOptionsEnter} rootId={this.props.stickyOptions.rootId}>
+              <div className="editor-menu">
+                {this.renderMarkButton('bold')}
+                {this.renderMarkButton('italic')}
+                {this.renderMarkButton('underlined')}
+                {this.renderListButton('numbered-list')}
+                {this.renderListButton('bulleted-list')}
+                {/* this.renderLinkButton() */}
+              </div>
+            </Sticky>
           </div>
 
           <div className="editor">
@@ -483,6 +491,11 @@ RichEditor.propTypes = {
   children: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   node: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  stickyOptions: PropTypes.shape({
+    enter: PropTypes.string,
+    enterMobile: PropTypes.string,
+    rootId: PropTypes.string,
+  }),
   attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
 };
@@ -495,6 +508,11 @@ RichEditor.defaultProps = {
   node: {},
   mark: {},
   attributes: [],
+  stickyOptions: {
+    enter: '128',
+    enterMobile: '88',
+    rootId: null,
+  },
   onChange: () => {},
 };
 
