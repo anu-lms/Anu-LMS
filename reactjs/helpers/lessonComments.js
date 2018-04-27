@@ -126,5 +126,5 @@ export const scrollToAddCommentForm = formId => {
 
     scrollTo(scrollableArea, to);
     newCommentForm.getElementsByTagName('textarea')[0].focus({ preventScroll: true });
-  }, 100);
+  }, 50);
 };
