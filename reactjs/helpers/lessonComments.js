@@ -114,7 +114,7 @@ export const getOrderedComments = comments => {
 
 
 /**
- *
+ * Scroll user to add comment form inside Comments sidebar.
  */
 export const scrollToAddCommentForm = () => {
   const newCommentForm = document.getElementById('new-comment-form');

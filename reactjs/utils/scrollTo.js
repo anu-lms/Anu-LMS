@@ -1,4 +1,3 @@
-
 const easeInOutQuad = (t, b, c, d) => {
   t /= d / 2;
   if (t < 1) return ((c / 2) * t * t) + b;
@@ -6,7 +5,11 @@ const easeInOutQuad = (t, b, c, d) => {
   return ((-c / 2) * ((t * (t - 2)) - 1)) + b;
 };
 
-// Based on https://gist.github.com/andjosh/6764939#gistcomment-2553779
+/**
+ * Scrolls user to the element.
+ *
+ * Based on https://gist.github.com/andjosh/6764939#gistcomment-2553779
+ */
 export const scrollTo = (element, to = 0, duration = 1000, callback = () => {}) => {
   const start = element.scrollTop;
   const change = to - start;

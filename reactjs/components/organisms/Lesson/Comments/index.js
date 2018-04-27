@@ -25,6 +25,7 @@ class lessonComments extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isLoading && !nextProps.isLoading) {
+      // Restore Scroll position after sidebar reload.
       document.getElementById('lesson-comments-scrollable').scrollTop = 0;
     }
   }

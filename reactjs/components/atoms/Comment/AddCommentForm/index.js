@@ -19,6 +19,7 @@ class AddCommentForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Clean up comment form when processing finished.
     if (this.props.isProcessing && !nextProps.isProcessing) {
       this.setState({
         text: '',
@@ -28,6 +29,7 @@ class AddCommentForm extends React.Component {
 
   submitForm() {
     const text = this.textarea.value;
+    // Invoke action to add a new comment.
     this.props.dispatch(lessonCommentsActions.addComment(text));
   }
 

@@ -1,7 +1,7 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
- * First time save the note on the backend.
+ * Make a request to the backend to add new paragraph_comment entity.
  */
 export const insertComment = (request, userId, paragraphId, organizationId, text = '', parentId) => new Promise((resolve, reject) => {
   request
