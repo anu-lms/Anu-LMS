@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // import AddCommentForm from '../AddCommentForm';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 const Comment = ({ comment, dispatch }) => (
   <div className={`comment ${comment.parent ? 'nested' : ''}`}>
