@@ -21,7 +21,7 @@ export const scrollTo = (element, to = 0, duration = 1000, callback = () => {}) 
 
     element.scrollTop = easeInOutQuad(currentTime, start, change, duration);
 
-    if (currentTime < duration) {
+    if (currentTime < duration && element.scrollTop !== to) {
       setTimeout(animateScroll, increment);
     }
     else {

@@ -47,7 +47,7 @@ class AddCommentForm extends React.Component {
   }
 
   render() {
-    const { comments, isProcessing, className, placeholder } = this.props;
+    const { comments, isProcessing, className, placeholder, id } = this.props;
     const { text } = this.state;
 
     let inputPlaceholder = placeholder;
@@ -56,7 +56,7 @@ class AddCommentForm extends React.Component {
     }
 
     return (
-      <div className={`new-comment-form ${className}`} id="new-comment-form">
+      <div className={`new-comment-form ${className}`} id={id}>
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
@@ -95,6 +95,7 @@ AddCommentForm.propTypes = {
 };
 
 AddCommentForm.defaultProps = {
+  id: 'new-comment-form',
   initialText: '',
   className: '',
   placeholder: null,

@@ -116,11 +116,15 @@ export const getOrderedComments = comments => {
 /**
  * Scroll user to add comment form inside Comments sidebar.
  */
-export const scrollToAddCommentForm = () => {
-  const newCommentForm = document.getElementById('new-comment-form');
-  const newCommentFormRect = newCommentForm.getBoundingClientRect();
+export const scrollToAddCommentForm = formId => {
+  setTimeout(() => {
+    const newCommentForm = document.getElementById(formId);
+    const newCommentFormRect = newCommentForm.getBoundingClientRect();
+    const scrollableArea = document.getElementById('lesson-comments-scrollable');
+    const desiredFormPosition = 400;
+    const to = scrollableArea.scrollTop + newCommentFormRect.top - desiredFormPosition;
 
-  scrollTo(document.getElementById('lesson-comments-scrollable'), newCommentFormRect.top, 1000, () => {
-    newCommentForm.getElementsByTagName('textarea')[0].focus();
-  });
+    scrollTo(scrollableArea, to);
+    newCommentForm.getElementsByTagName('textarea')[0].focus({ preventScroll: true });
+  }, 100);
 };
