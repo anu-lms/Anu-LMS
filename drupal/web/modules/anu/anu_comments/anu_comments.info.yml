@@ -1,0 +1,5 @@
+name: Anu Comments
+type: module
+description: Provides features and enhancements for Comments.
+core: 8.x
+package: Anu
