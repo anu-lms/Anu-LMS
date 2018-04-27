@@ -35,7 +35,7 @@ class lessonComments extends React.Component {
   }
 
   scrollToForm() {
-    lessonCommentsHelper.scrollToAddCommentForm();
+    lessonCommentsHelper.scrollToAddCommentForm('new-comment-form');
   }
 
   render() {

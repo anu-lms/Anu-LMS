@@ -43,7 +43,7 @@ const Comment = ({ comment, dispatch }) => (
           className="link reply"
           onClick={() => {
             dispatch(lessonCommentsActions.showReplyForm(comment.id));
-            // lessonCommentsHelper.scrollToAddCommentForm();
+            lessonCommentsHelper.scrollToAddCommentForm('reply-comment-form');
           }}
         >
           <svg

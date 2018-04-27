@@ -27,7 +27,7 @@ const CommentsList = ({ comments, commentsForm }) => {
     if (replyToComment) {
       const placeholder = `Reply to ${userHelper.getUsername(replyToComment.author)}`;
 
-      flatCommentsList.push(<AddCommentForm className="nested" placeholder={placeholder} key={`${rootComment.id}-form`} />);
+      flatCommentsList.push(<AddCommentForm className="nested" id="reply-comment-form" placeholder={placeholder} key={`${rootComment.id}-form`} />);
     }
   });
 
