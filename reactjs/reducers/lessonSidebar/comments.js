@@ -1,4 +1,4 @@
-export default (state = {
+const initialState = {
   paragraphId: 0,
   comments: [],
   form: {
@@ -6,30 +6,47 @@ export default (state = {
     replyTo: null,
     isProcessing: false,
   },
-}, action) => {
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case 'LESSON_COMMENTS_SET_ACTIVE_PARAGRAPH':
       return {
         ...state,
         paragraphId: action.paragraphId,
+        form: initialState.form,
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
       return {
         ...state,
         paragraphId: 0,
+        form: initialState.form,
       };
 
     case 'LESSON_OPENED':
       return {
         ...state,
         paragraphId: 0,
+        form: initialState.form,
       };
 
     case 'LESSON_COMMENTS_RECEIVED':
       return {
         ...state,
         comments: action.comments,
+        form: initialState.form,
+      };
+
+    case 'LESSON_COMMENTS_SHOW_REPLY_FORM':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          edit: null,
+          replyTo: action.commentId,
+          isProcessing: false,
+        },
       };
 
     case 'LESSON_COMMENTS_INSERT_COMMENT':
@@ -44,10 +61,7 @@ export default (state = {
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
       return {
         ...state,
-        form: {
-          ...state.form,
-          isProcessing: false,
-        },
+        form: initialState.form,
       };
 
     // Adds given comment to the store.
@@ -59,10 +73,7 @@ export default (state = {
           ...state.comments,
           action.comment,
         ],
-        form: {
-          ...state.form,
-          isProcessing: false,
-        },
+        form: initialState.form,
       };
 
     default:

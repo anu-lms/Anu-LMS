@@ -5,6 +5,14 @@
       padding: 1.5em;
     }
 
+    &.nested {
+      padding-left: 2em;
+      border-bottom: 1px solid $london-sky;
+      @include media-breakpoint-up(md) {
+        padding-left: 3em;
+      }
+    }
+
     textarea {
       min-height: 88px;
       margin-bottom: 0.75em;

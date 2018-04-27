@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
-import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 class AddCommentForm extends React.Component {
   constructor(props, context) {
@@ -30,7 +29,7 @@ class AddCommentForm extends React.Component {
   submitForm() {
     const text = this.textarea.value;
     // Invoke action to add a new comment.
-    this.props.dispatch(lessonCommentsActions.addComment(text));
+    this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
   }
 
   handleChange() {
@@ -40,21 +39,26 @@ class AddCommentForm extends React.Component {
   }
 
   render() {
-    const { comments, isProcessing } = this.props;
+    const { comments, isProcessing, className, placeholder } = this.props;
     const { text } = this.state;
 
+    let inputPlaceholder = placeholder;
+    if (!inputPlaceholder) {
+      inputPlaceholder = comments.length > 0 ? 'Join the conversation' : 'Start the conversation';
+    }
+
     return (
-      <div className="new-comment-form" id="new-comment-form">
+      <div className={`new-comment-form ${className}`} id="new-comment-form">
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
           onChange={this.handleChange}
-          placeholder={comments.length > 0 ? 'Join the conversation' : 'Start the conversation'}
+          placeholder={inputPlaceholder}
           value={text}
         />
         <Button
           block
-          loading={isProcessing}
+          loading={text.length !== 0 && isProcessing}
           onClick={this.submitForm}
           disabled={text.length === 0}
         >
@@ -73,18 +77,24 @@ AddCommentForm.contextTypes = {
 
 AddCommentForm.propTypes = {
   initialText: PropTypes.string,
+  replyTo: PropTypes.number.isRequired,
   isProcessing: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 AddCommentForm.defaultProps = {
   initialText: '',
+  className: '',
+  placeholder: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
+  comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
+  replyTo: lessonSidebar.comments.form.replyTo,
 });
 
 export default connect(mapStateToProps)(AddCommentForm);

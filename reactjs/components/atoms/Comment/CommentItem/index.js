@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import { connect } from 'react-redux';
 // import AddCommentForm from '../AddCommentForm';
 import * as userHelper from '../../../../helpers/user';
+import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
-const Comment = ({ comment }) => (
+const Comment = ({ comment, dispatch }) => (
   <div className={`comment ${comment.parent ? 'nested' : ''}`}>
 
     <div className="comment-header">
@@ -37,7 +39,13 @@ const Comment = ({ comment }) => (
     <div className="comment-footer">
       <div className="links">
 
-        <span className="link reply">
+        <span
+          className="link reply"
+          onClick={() => {
+            dispatch(lessonCommentsActions.showReplyForm(comment.id));
+            // lessonCommentsHelper.scrollToAddCommentForm();
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="12"
@@ -80,6 +88,7 @@ Comment.propTypes = {
       lastName: PropTypes.string,
     }),
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Comment;
+export default connect()(Comment);
