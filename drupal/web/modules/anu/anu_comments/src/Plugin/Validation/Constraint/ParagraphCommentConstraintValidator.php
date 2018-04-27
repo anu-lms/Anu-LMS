@@ -53,22 +53,26 @@ class ParagraphCommentConstraintValidator extends ConstraintValidator {
 
       // Check if current paragraph id and parent paragraph id match.
       elseif(!empty($entity->field_comment_parent->getValue())) {
-        $parent_paragraph_id = $entity->field_comment_parent
+        $parent = $entity->field_comment_parent
           ->first()
           ->get('entity')
-          ->getValue()
-          ->get('field_comment_paragraph')
-          ->getString();
+          ->getValue();
 
-        if ($paragraph_id != $parent_paragraph_id) {
-          $message = "Paragraph id @id and Parent Paragraph id @parent_id don't match.";
-          $params = ['@id' => $paragraph_id, '@parent_id' => $parent_paragraph_id];
+        if (!empty($parent)) {
+          $parent_paragraph_id = $parent
+            ->get('field_comment_paragraph')
+            ->getString();
 
-          $this->context->buildViolation($message, $params)
-            ->atPath('field_comment_parent')
-            ->addViolation();
+          if ($paragraph_id != $parent_paragraph_id) {
+            $message = "Paragraph id @id and Parent Paragraph id @parent_id don't match.";
+            $params = ['@id' => $paragraph_id, '@parent_id' => $parent_paragraph_id];
 
-          \Drupal::logger('anu_comments')->error(new FormattableMarkup($message, $params));
+            $this->context->buildViolation($message, $params)
+              ->atPath('field_comment_parent')
+              ->addViolation();
+
+            \Drupal::logger('anu_comments')->error(new FormattableMarkup($message, $params));
+          }
         }
       }
     }
