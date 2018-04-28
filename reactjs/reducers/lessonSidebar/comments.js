@@ -57,6 +57,7 @@ export default (state = initialState, action) => {
       };
 
     case 'LESSON_COMMENTS_INSERT_COMMENT':
+    case 'LESSON_COMMENTS_UPDATE_COMMENT':
       return {
         ...state,
         form: {
@@ -83,6 +84,27 @@ export default (state = initialState, action) => {
         ],
         form: initialState.form,
       };
+
+    case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE':
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.comment.id);
+
+      // If the comment was found, then we should update it.
+      if (index !== -1) {
+        return {
+          ...state,
+          comments: [
+            ...state.comments.slice(0, index),
+            action.comment,
+            ...state.comments.slice(index + 1),
+          ],
+          form: initialState.form,
+        };
+      }
+
+      // Otherwise return unchanged state, because there should not be a case
+      // when quizzes are saved, but no quizzes in the redux store.
+      return state;
 
     default:
       return state;
