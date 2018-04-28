@@ -16,4 +16,17 @@
   div[class^=dropdown---dropdown-menu---]::after {
     right: -2px;
   }
+  div[class^=dropdown---dropdown-menu---] {
+    font-size: 1em;
+    padding: 12px 0 14px;
+  }
+  div[class^=dropdown---menu-item---] {
+    line-height: 1.75em;
+    &:hover {
+      background-color: $anu-blue-30;
+    }
+  }
+  .delete div[class^=dropdown---menu-item---] {
+    color: $pinkish;
+  }
 }

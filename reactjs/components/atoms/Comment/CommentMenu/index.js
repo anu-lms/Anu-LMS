@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Dropdown, { ImportantMenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
+import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
 
 class CommentMenu extends Component {
   onCopyLink() {
@@ -27,15 +27,15 @@ class CommentMenu extends Component {
         </Dropdown.Toggle>
         <Dropdown.MenuWrapper pullRight>
           <Dropdown.Menu pullRight>
-            <ImportantMenuItem onSelect={() => { this.onCopyLink(); }} >
+            <MenuItem onSelect={() => { this.onCopyLink(); }} >
               Copy link to comment
-            </ImportantMenuItem>
-            <ImportantMenuItem onSelect={() => { this.onEdit(); }} >
+            </MenuItem>
+            <MenuItem onSelect={() => { this.onEdit(); }} >
               Edit Comment
-            </ImportantMenuItem>
-            <ImportantMenuItem onSelect={() => { this.onDelete(); }} >
+            </MenuItem>
+            <MenuItem className="delete" onSelect={() => { this.onDelete(); }} >
               Delete Comment
-            </ImportantMenuItem>
+            </MenuItem>
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>
       </Dropdown>
