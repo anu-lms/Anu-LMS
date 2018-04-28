@@ -1,0 +1,19 @@
+.comment .context-menu {
+  position: absolute;
+  right: 0;
+  top: -4px;
+
+  .menu-icon-dropdown {
+    height: 24px;
+    width: 18px;
+    svg {
+      height: 16px;
+    }
+  }
+  div[class^=dropdown---dropdown-menu-wrapper] {
+    right: -8px;
+  }
+  div[class^=dropdown---dropdown-menu---]::after {
+    right: -2px;
+  }
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 // import AddCommentForm from '../AddCommentForm';
+import CommentMenu from '../CommentMenu';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
@@ -50,6 +51,10 @@ class Comment extends React.Component {
               <Moment parse="unix" format="MMM Do, YYYY">{comment.created * 1000}</Moment>
             </div>
 
+          </div>
+
+          <div className="context-menu">
+            <CommentMenu />
           </div>
         </div>
 
