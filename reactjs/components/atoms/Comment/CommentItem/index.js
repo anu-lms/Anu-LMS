@@ -54,7 +54,7 @@ class Comment extends React.Component {
           </div>
 
           <div className="context-menu">
-            <CommentMenu />
+            <CommentMenu comment={comment} />
           </div>
         </div>
 
