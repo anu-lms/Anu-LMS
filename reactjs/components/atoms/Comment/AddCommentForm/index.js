@@ -85,6 +85,7 @@ AddCommentForm.contextTypes = {
 };
 
 AddCommentForm.propTypes = {
+  id: PropTypes.string,
   initialText: PropTypes.string,
   replyTo: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,

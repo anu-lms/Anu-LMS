@@ -5,12 +5,12 @@ import Comment from '../CommentItem';
 import AddCommentForm from '../AddCommentForm';
 import * as userHelper from '../../../../helpers/user';
 
-const CommentsList = ({ comments, commentsForm }) => {
+const CommentsList = ({ comments, replyTo }) => {
   const flatCommentsList = [];
 
   comments.forEach(rootComment => {
     let replyToComment = null;
-    if (commentsForm.replyTo === rootComment.id) {
+    if (replyTo === rootComment.id) {
       replyToComment = rootComment;
     }
 
@@ -19,7 +19,7 @@ const CommentsList = ({ comments, commentsForm }) => {
     rootComment.children.forEach(comment => {
       flatCommentsList.push(<Comment comment={comment} key={comment.id} />);
 
-      if (commentsForm.replyTo === comment.id) {
+      if (replyTo === comment.id) {
         replyToComment = comment;
       }
     });
@@ -40,11 +40,11 @@ const CommentsList = ({ comments, commentsForm }) => {
 
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  commentsForm: PropTypes.object.isRequired,
+  replyTo: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  commentsForm: lessonSidebar.comments.form,
+  replyTo: lessonSidebar.comments.form.replyTo,
 });
 
 export default connect(mapStateToProps)(CommentsList);
