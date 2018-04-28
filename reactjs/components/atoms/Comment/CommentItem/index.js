@@ -17,7 +17,11 @@ class Comment extends React.Component {
 
   showReplyForm() {
     const { comment, dispatch } = this.props;
+
+    // Let the store know that Reply form should be shown.
     dispatch(lessonCommentsActions.showReplyForm(comment.id));
+
+    // Scroll user to the reply form and set focus.
     lessonCommentsHelper.scrollToAddCommentForm('reply-comment-form');
   }
 
