@@ -5,6 +5,7 @@ import ClientAuth from '../auth/clientAuth';
 import * as api from '../api/comments';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as lessonCommentsActions from '../actions/lessonComments';
+import * as lessonCommentsHelpers from '../helpers/lessonComments';
 
 /**
  * Fetch comments from the backend.
@@ -94,12 +95,37 @@ function* addComment({ text, parentId }) {
   }
 }
 
+function* updateComment({ commentId, text }) {
+  try {
+    const comments = yield select(store => store.lessonSidebar.comments.comments);
+    const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    const responseComment = yield call(
+      api.updateComment,
+      request, comment, text,
+    );
+
+    yield put(lessonCommentsActions.updateCommentInStore(responseComment));
+  }
+  catch (error) {
+    yield put(lessonCommentsActions.addCommentError(error));
+    console.error('Could not update a comment.', error);
+    Alert.error('Could not update a comment. Please, contact site administrator.');
+  }
+}
+
 /**
  * Main entry point for all comments sagas.
  */
 export default function* lessonCommentsSagas() {
   yield all([
     yield takeLatest('LESSON_COMMENTS_INSERT_COMMENT', addComment),
+    yield takeLatest('LESSON_COMMENTS_UPDATE_COMMENT', updateComment),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
   ]);

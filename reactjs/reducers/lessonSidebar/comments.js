@@ -47,6 +47,15 @@ export default (state = initialState, action) => {
         },
       };
 
+    case 'LESSON_COMMENTS_SHOW_EDIT_FORM':
+      return {
+        ...state,
+        form: {
+          ...initialState.form,
+          edit: action.commentId,
+        },
+      };
+
     case 'LESSON_COMMENTS_INSERT_COMMENT':
       return {
         ...state,
@@ -57,6 +66,7 @@ export default (state = initialState, action) => {
       };
 
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
+    case 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR':
       return {
         ...state,
         form: initialState.form,

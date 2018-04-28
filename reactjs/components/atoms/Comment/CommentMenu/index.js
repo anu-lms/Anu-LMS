@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
+import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
 class CommentMenu extends Component {
   constructor(props, context) {
@@ -17,7 +18,10 @@ class CommentMenu extends Component {
   }
 
   onEdit() {
+    const { dispatch, comment } = this.props;
 
+    // Let the store know that Comment Edit form should be shown.
+    dispatch(lessonCommentsActions.showEditForm(comment.id));
   }
 
   onDelete() {
@@ -59,6 +63,7 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired,
   currentUserId: PropTypes.number.isRequired,
 };

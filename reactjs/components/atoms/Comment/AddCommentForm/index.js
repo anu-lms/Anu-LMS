@@ -29,8 +29,14 @@ class AddCommentForm extends React.Component {
 
   submitForm() {
     const text = this.textarea.value;
-    // Invoke action to add a new comment.
-    this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+    if (this.props.edit) {
+      // Invoke action to update a comment.
+      this.props.dispatch(lessonCommentsActions.updateComment(this.props.edit, text));
+    }
+    else {
+      // Invoke action to add a new comment.
+      this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+    }
   }
 
   handleChange() {
@@ -89,6 +95,7 @@ AddCommentForm.propTypes = {
   id: PropTypes.string,
   initialText: PropTypes.string,
   replyTo: PropTypes.number,
+  edit: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -102,12 +109,14 @@ AddCommentForm.defaultProps = {
   className: '',
   placeholder: null,
   replyTo: null,
+  edit: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
   replyTo: lessonSidebar.comments.form.replyTo,
+  edit: lessonSidebar.comments.form.edit,
 });
 
 export default connect(mapStateToProps)(AddCommentForm);
