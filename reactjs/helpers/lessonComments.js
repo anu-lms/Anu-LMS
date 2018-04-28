@@ -122,7 +122,7 @@ export const scrollToAddCommentForm = formId => {
     const newCommentFormRect = newCommentForm.getBoundingClientRect();
     const scrollableArea = document.getElementById('lesson-comments-scrollable');
     const desiredFormPosition = 400;
-    const to = scrollableArea.scrollTop + newCommentFormRect.top - desiredFormPosition;
+    const to = (scrollableArea.scrollTop + newCommentFormRect.top) - desiredFormPosition;
 
     scrollTo(scrollableArea, to);
     newCommentForm.getElementsByTagName('textarea')[0].focus({ preventScroll: true });
