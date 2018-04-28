@@ -42,10 +42,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         form: {
-          ...state.form,
-          edit: null,
+          ...initialState.form,
           replyTo: action.commentId,
-          isProcessing: false,
         },
       };
 

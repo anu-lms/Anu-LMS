@@ -30,7 +30,7 @@ export const receiveComments = comments => ({
 });
 
 /**
- * Send request to the backend to add a new comment.
+ * Show comment reply form.
  */
 export const showReplyForm = commentId => ({
   type: 'LESSON_COMMENTS_SHOW_REPLY_FORM',

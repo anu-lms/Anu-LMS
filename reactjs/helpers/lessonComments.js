@@ -118,8 +118,11 @@ export const getOrderedComments = comments => {
  */
 export const scrollToAddCommentForm = formId => {
   setTimeout(() => {
+    // Get scrollable element.
     const newCommentForm = document.getElementById(formId);
     const newCommentFormRect = newCommentForm.getBoundingClientRect();
+
+    // Get scrollable area.
     const scrollableArea = document.getElementById('lesson-comments-scrollable');
     const desiredFormPosition = 400;
     const to = (scrollableArea.scrollTop + newCommentFormRect.top) - desiredFormPosition;

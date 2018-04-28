@@ -50,6 +50,7 @@ class AddCommentForm extends React.Component {
     const { comments, isProcessing, className, placeholder, id } = this.props;
     const { text } = this.state;
 
+    // Prepare placeholder for the textarea.
     let inputPlaceholder = placeholder;
     if (!inputPlaceholder) {
       inputPlaceholder = comments.length > 0 ? 'Join the conversation' : 'Start the conversation';

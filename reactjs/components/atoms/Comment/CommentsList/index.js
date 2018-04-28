@@ -8,14 +8,17 @@ import * as userHelper from '../../../../helpers/user';
 const CommentsList = ({ comments, replyTo }) => {
   const flatCommentsList = [];
 
+  // Prepare list of comments.
   comments.forEach(rootComment => {
     let replyToComment = null;
     if (replyTo === rootComment.id) {
       replyToComment = rootComment;
     }
 
+    // Add root comment to the list.
     flatCommentsList.push(<Comment comment={rootComment} key={rootComment.id} />);
 
+    // Add all children to the list below root component.
     rootComment.children.forEach(comment => {
       flatCommentsList.push(<Comment comment={comment} key={comment.id} />);
 
@@ -24,6 +27,7 @@ const CommentsList = ({ comments, replyTo }) => {
       }
     });
 
+    // Shows Reply to form at the bottom of root component thread.
     if (replyToComment) {
       const placeholder = `Reply to ${userHelper.getUsername(replyToComment.author)}`;
 
