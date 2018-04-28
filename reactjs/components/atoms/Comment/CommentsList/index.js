@@ -44,7 +44,11 @@ const CommentsList = ({ comments, replyTo }) => {
 
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  replyTo: PropTypes.number.isRequired,
+  replyTo: PropTypes.number,
+};
+
+CommentsList.defaultProps = {
+  replyTo: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({

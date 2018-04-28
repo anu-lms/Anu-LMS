@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-// import AddCommentForm from '../AddCommentForm';
+import CommentEditForm from '../AddCommentForm';
 import CommentMenu from '../CommentMenu';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -27,7 +27,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const { comment } = this.props;
+    const { comment, editId } = this.props;
 
     return (
       <div className={`comment ${comment.parent ? 'nested' : ''}`}>
@@ -59,8 +59,11 @@ class Comment extends React.Component {
         </div>
 
         <div className="comment-body">
-          {comment.text}
-          {/* <AddCommentForm initialText={comment.text} /> */}
+          {editId && editId === comment.id ? (
+            <CommentEditForm initialText={comment.text} />
+          ) : (
+            comment.text
+          )}
         </div>
 
         <div className="comment-footer">
@@ -118,4 +121,8 @@ Comment.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(Comment);
+const mapStateToProps = ({ lessonSidebar }) => ({
+  editId: lessonSidebar.comments.form.edit,
+});
+
+export default connect(mapStateToProps)(Comment);
