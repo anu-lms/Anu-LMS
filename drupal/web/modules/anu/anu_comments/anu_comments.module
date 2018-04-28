@@ -5,6 +5,8 @@
  */
 function anu_comments_entity_type_alter(array &$entity_types) {
   // Adds an additional Validation for paragraph_comment entity.
-  $node = $entity_types['paragraph_comment'];
-  $node->addConstraint('ParagraphComment', []);
+  if (!empty($entity_types['paragraph_comment'])) {
+    $entity = $entity_types['paragraph_comment'];
+    $entity->addConstraint('ParagraphComment', []);
+  }
 }
