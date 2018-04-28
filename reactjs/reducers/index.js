@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import user from './user';
 import course from './course';
 import lesson from './lesson';
 import lessonSidebar from './lessonSidebar';
@@ -7,6 +8,7 @@ import navigation from './navigation';
 import lock from './lock';
 
 const appReducer = combineReducers({
+  user,
   course,
   lesson,
   lessonSidebar,
