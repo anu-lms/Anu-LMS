@@ -85,7 +85,7 @@ export default (state = initialState, action) => {
         form: initialState.form,
       };
 
-    case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE':
+    case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE': {
       // Search for the comment.
       const index = state.comments.findIndex(element => element.id === action.comment.id);
 
@@ -104,6 +104,7 @@ export default (state = initialState, action) => {
 
       // Otherwise return unchanged state.
       return state;
+    }
 
     default:
       return state;
