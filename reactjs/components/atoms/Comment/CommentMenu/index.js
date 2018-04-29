@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
@@ -22,6 +22,12 @@ class CommentMenu extends Component {
 
     // Let the store know that Comment Edit form should be shown.
     dispatch(lessonCommentsActions.showEditForm(comment.id));
+
+    // Set focus on the form.
+    setTimeout(() => {
+      const editCommentForm = document.getElementById('edit-comment-form');
+      editCommentForm.getElementsByTagName('textarea')[0].focus({ preventScroll: true });
+    }, 50);
   }
 
   onDelete() {
