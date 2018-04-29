@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Comment from '../CommentItem';
+import Comment from '../Item';
 import AddCommentForm from '../Form';
 import * as userHelper from '../../../../helpers/user';
 
