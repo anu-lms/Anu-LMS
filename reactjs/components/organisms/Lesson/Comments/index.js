@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PageLoader from '../../../atoms/PageLoader';
-import CommentsList from '../../../atoms/Comment/CommentsList';
+import CommentsList from '../../../atoms/Comment/List';
 import AddCommentForm from '../../../atoms/Comment/Form';
 import EmptyText from '../../../atoms/Comment/EmptyText';
 import ErrorBoundary from '../../../atoms/ErrorBoundary';
