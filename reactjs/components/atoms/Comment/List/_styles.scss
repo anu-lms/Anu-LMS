@@ -4,22 +4,18 @@
 
 .example-enter {
   opacity: 0.01;
-  height: 0;
 }
 
 .example-enter.example-enter-active {
   opacity: 1;
-  height: auto;
-  transition: 700ms;
+  transition: opacity 500ms ease-in;
 }
 
 .example-leave {
   opacity: 1;
-  height: auto;
 }
 
 .example-leave.example-leave-active {
   opacity: 0.01;
-  height: 0;
-  transition: 700ms;
+  transition: opacity 300ms ease-in;
 }
