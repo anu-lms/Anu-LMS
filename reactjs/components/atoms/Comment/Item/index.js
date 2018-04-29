@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import CommentEditForm from '../Form';
-import CommentMenu from '../CommentMenu';
+import CommentMenu from '../Menu';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
