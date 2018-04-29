@@ -62,7 +62,7 @@ class Comment extends React.Component {
           {editId && editId === comment.id ? (
             <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
           ) : (
-            comment.text
+            comment.text.trim()
           )}
         </div>
 
