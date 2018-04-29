@@ -60,12 +60,13 @@ class Comment extends React.Component {
 
         <div className="comment-body">
           {editId && editId === comment.id ? (
-            <CommentEditForm id="edit-comment-form" initialText={comment.text} />
+            <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
           ) : (
             comment.text
           )}
         </div>
 
+        {(!editId || (editId && editId !== comment.id)) &&
         <div className="comment-footer">
           <div className="links">
 
@@ -93,6 +94,7 @@ class Comment extends React.Component {
 
           </div>
         </div>
+        }
 
       </div>
     );
