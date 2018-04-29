@@ -102,8 +102,7 @@ export default (state = initialState, action) => {
         };
       }
 
-      // Otherwise return unchanged state, because there should not be a case
-      // when quizzes are saved, but no quizzes in the redux store.
+      // Otherwise return unchanged state.
       return state;
 
     default:

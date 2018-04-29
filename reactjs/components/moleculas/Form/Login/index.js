@@ -55,6 +55,7 @@ class LoginForm extends React.Component {
     try {
       await this.context.auth.login(formData.username, formData.password);
 
+      // Make request to the backend to get current user info.
       const { request } = await this.context.auth.getRequest();
       const userResponse = await request
         .get('/user/me?_format=json')
@@ -62,6 +63,8 @@ class LoginForm extends React.Component {
           throw Error(error.response.body.message);
         });
       const currentUser = dataProcessors.userData(userResponse.body);
+
+      // Store logged in user UID in application store.
       this.props.dispatch(userActionHelpers.login(currentUser.uid));
 
       Router.push('/dashboard');
