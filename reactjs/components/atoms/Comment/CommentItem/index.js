@@ -47,7 +47,7 @@ class Comment extends React.Component {
               }
             </div>
 
-            <div className="date">
+            <div className="date" title={new Date(comment.created * 1000).toLocaleString()}>
               <Moment parse="unix" format="MMM Do, YYYY">{comment.created * 1000}</Moment>
             </div>
 
