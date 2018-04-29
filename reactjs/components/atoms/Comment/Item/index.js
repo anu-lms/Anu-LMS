@@ -121,6 +121,11 @@ Comment.propTypes = {
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editId: PropTypes.number,
+};
+
+Comment.defaultProps = {
+  editId: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({

@@ -68,7 +68,7 @@ class CommentMenu extends Component {
 
 CommentMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  comment: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   currentUserId: PropTypes.number.isRequired,
 };
 
