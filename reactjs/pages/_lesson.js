@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
@@ -7,6 +8,10 @@ import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 import ErrorPage from '../components/atoms/ErrorPage';
+import * as lessonSidebarActions from '../actions/lessonSidebar';
+import * as mediaBreakpoint from '../utils/breakpoints';
+import * as navigationActions from '../actions/navigation';
+import * as lessonCommentsActions from '../actions/lessonComments';
 
 class LessonPage extends React.Component {
   static async getInitialProps({ request, query, res }) {
@@ -164,6 +169,26 @@ class LessonPage extends React.Component {
     return initialProps;
   }
 
+  componentDidUpdate() {
+    const { dispatch, isStoreRehydrated } = this.props;
+    const paragraphId = 508;
+
+    // @todo add condition to check if url contains comment params.
+    if (isStoreRehydrated) {
+    // Set active paragraph.
+      dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
+
+      // Let the application now that the sidebar is being opened.
+      dispatch(lessonSidebarActions.open('comments'));
+
+      // If sidebar is opened, close navigation pane on all devices except extra
+      // large.
+      if (mediaBreakpoint.isDown('xxl')) {
+        dispatch(navigationActions.close());
+      }
+    }
+  }
+
   render() {
     const { statusCode, lesson, course } = this.props;
     return (
@@ -188,6 +213,8 @@ LessonPage.propTypes = {
   course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   lesson: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   statusCode: PropTypes.number,
+  dispatch: PropTypes.func.isRequired,
+  isStoreRehydrated: PropTypes.bool.isRequired,
 };
 
 LessonPage.defaultProps = {
@@ -196,4 +223,16 @@ LessonPage.defaultProps = {
   statusCode: 200,
 };
 
-export default withRedux(withAuth(LessonPage));
+const mapStateToProps = store => {
+  let state = {
+    isStoreRehydrated: false,
+  };
+
+  if (typeof store._persist !== 'undefined') { // eslint-disable-line no-underscore-dangle
+    state.isStoreRehydrated = store._persist.rehydrated; // eslint-disable-line no-underscore-dangle
+  }
+
+  return state;
+};
+
+export default withRedux(connect(mapStateToProps)(withAuth(LessonPage)));
