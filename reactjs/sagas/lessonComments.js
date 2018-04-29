@@ -81,11 +81,13 @@ function* addComment({ text, parentId }) {
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
+    // Makes request to the backend to add a new comment.
     const comment = yield call(
       api.insertComment,
       request, currentUser.uid, paragraphId, currentUser.organization, text, parentId,
     );
 
+    // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
   }
   catch (error) {
@@ -105,11 +107,13 @@ function* updateComment({ commentId, text }) {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
+    // Makes request to the backend to update comment.
     const responseComment = yield call(
       api.updateComment,
       request, comment, text,
     );
 
+    // Updates comment in the application store.
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
   }
   catch (error) {
