@@ -60,7 +60,7 @@ class Comment extends React.Component {
 
         <div className="comment-body">
           {editId && editId === comment.id ? (
-            <CommentEditForm initialText={comment.text} />
+            <CommentEditForm id="edit-comment-form" initialText={comment.text} />
           ) : (
             comment.text
           )}
