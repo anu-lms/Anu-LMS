@@ -65,6 +65,7 @@
   .comment-body {
     color: $carbon;
     word-wrap: break-word;
+    white-space: pre-wrap;
   }
 
   .comment-footer {
