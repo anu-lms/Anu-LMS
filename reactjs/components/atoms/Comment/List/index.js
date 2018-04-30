@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Comment from '../Item';
 import AddCommentForm from '../Form';
 import * as userHelper from '../../../../helpers/user';
@@ -45,15 +44,7 @@ class CommentsList extends React.Component {
 
     return (
       <div className="comments-list">
-
-        <ReactCSSTransitionGroup
-          transitionName="example"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}
-        >
-
-          {flatCommentsList}
-        </ReactCSSTransitionGroup>
+        {flatCommentsList}
       </div>
     );
   }
