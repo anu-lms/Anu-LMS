@@ -35,9 +35,25 @@ class Comment extends React.Component {
 
   render() {
     const { comment, editId } = this.props;
+    const wrapperClasses = ['comment', 'fade-in'];
+    if (comment.parent) {
+      wrapperClasses.push('nested');
+    }
+    if (this.state.displayBlock) {
+      wrapperClasses.push('display-block');
+    }
+
+    if (comment.deleted) {
+      wrapperClasses.push('deleted');
+      return (
+        <div className={wrapperClasses.join(' ')}>
+          Deleted
+        </div>
+      );
+    }
 
     return (
-      <div className={`comment fade-in ${comment.parent ? 'nested' : ''} ${this.state.displayBlock ? 'display-block' : ''}`}>
+      <div className={wrapperClasses.join(' ')}>
 
         <div className="comment-header">
           <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
