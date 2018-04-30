@@ -44,7 +44,7 @@ function* fetchComments() {
     const responseComments = yield request
       .get('/jsonapi/paragraph_comment/paragraph_comment')
       .query(commentsQuery);
-
+    console.log(responseComments.body.data);
     // Normalize Comments.
     const comments = dataProcessors.processCommentsList(responseComments.body.data);
 
@@ -110,16 +110,68 @@ function* updateComment({ commentId, text }) {
     // Makes request to the backend to update comment.
     const responseComment = yield call(
       api.updateComment,
-      request, comment, text,
+      request, comment.uuid, { text },
     );
 
     // Updates comment in the application store.
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
   }
   catch (error) {
-    yield put(lessonCommentsActions.addCommentError(error));
+    yield put(lessonCommentsActions.updateCommentError(error));
     console.error('Could not update a comment.', error);
     Alert.error('Could not update a comment. Please, contact site administrator.');
+  }
+}
+
+function* markCommentAsDeleted({ commentId }) {
+  try {
+    const comments = yield select(store => store.lessonSidebar.comments.comments);
+    const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Makes request to the backend to update comment.
+    const responseComment = yield call(
+      api.updateComment,
+      request, comment.uuid, { deleted: true, text: '' },
+    );
+
+    // Updates comment in the application store.
+    yield put(lessonCommentsActions.updateCommentInStore(responseComment));
+  }
+  catch (error) {
+    yield put(lessonCommentsActions.updateCommentError(error));
+    console.error('Could not delete a comment.', error);
+    Alert.error('Could not delete a comment. Please, contact site administrator.');
+  }
+}
+
+function* deleteComment({ commentId, text }) {
+  try {
+    const comments = yield select(store => store.lessonSidebar.comments.comments);
+    const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Makes request to the backend to update comment.
+    const responseComment = yield call(
+      api.deleteComment,
+      request, comment, text,
+    );
+
+    // Updates comment in the application store.
+    yield put(lessonCommentsActions.deleteCommentFromStore(responseComment));
+  }
+  catch (error) {
+    yield put(lessonCommentsActions.deleteCommentError(error));
+    console.error('Could not delete a comment.', error);
+    Alert.error('Could not delete a comment. Please, contact site administrator.');
   }
 }
 
@@ -130,6 +182,7 @@ export default function* lessonCommentsSagas() {
   yield all([
     yield takeLatest('LESSON_COMMENTS_INSERT_COMMENT', addComment),
     yield takeLatest('LESSON_COMMENTS_UPDATE_COMMENT', updateComment),
+    yield takeLatest('LESSON_COMMENTS_MARK_AS_DELETED', markCommentAsDeleted),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
   ]);

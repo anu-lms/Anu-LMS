@@ -37,22 +37,28 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
 /**
  * Make a request to the backend to update paragraph_comment entity.
  */
-export const updateComment = (request, comment, text = '') => new Promise((resolve, reject) => {
+export const updateComment = (request, uuid, params) => new Promise((resolve, reject) => {
+  const sendParams = {};
+  if (params.hasOwnProperty('text')) {
+    sendParams.field_comment_text = {
+      value: params.text,
+      format: 'filtered_html',
+    };
+  }
+  if (params.hasOwnProperty('deleted')) {
+    sendParams.field_comment_deleted = params.deleted;
+  }
+
   request
-    .patch(`/jsonapi/paragraph_comment/paragraph_comment/${comment.uuid}`)
+    .patch(`/jsonapi/paragraph_comment/paragraph_comment/${uuid}`)
     .query({
       'include': 'uid, field_comment_parent',
     })
     .send({
       data: {
         type: 'paragraph_comment--paragraph_comment',
-        id: comment.uuid,
-        attributes: {
-          field_comment_text: {
-            value: text,
-            format: 'filtered_html',
-          },
-        },
+        id: uuid,
+        attributes: sendParams,
       },
     })
     .then(response => {
@@ -66,32 +72,14 @@ export const updateComment = (request, comment, text = '') => new Promise((resol
 });
 
 /**
- * Make a request to the backend to update paragraph_comment entity.
+ * Make a request to the backend to delete paragraph_comment entity.
  */
-export const markCommentAsDeleted = (request, comment) => new Promise((resolve, reject) => {
+export const deleteComment = (request, comment) => new Promise((resolve, reject) => {
   request
-    .patch(`/jsonapi/paragraph_comment/paragraph_comment/${comment.uuid}`)
-    .query({
-      'include': 'uid, field_comment_parent',
-    })
-    .send({
-      data: {
-        type: 'paragraph_comment--paragraph_comment',
-        id: comment.uuid,
-        attributes: {
-          field_comment_text: {
-            value: '',
-            format: 'filtered_html',
-          },
-          field_comment_deleted: {
-            value: true,
-          },
-        },
-      },
-    })
-    .then(response => {
-      const comments = dataProcessors.processCommentsList([response.body.data]);
-      resolve(comments[0]);
+    .delete(`/jsonapi/paragraph_comment/paragraph_comment/${comment.uuid}`)
+    .send()
+    .then(() => {
+      resolve();
     })
     .catch(error => {
       console.log('Could not delete a comment.', error);
