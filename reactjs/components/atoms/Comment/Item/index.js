@@ -13,7 +13,14 @@ class Comment extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      displayBlock: false,
+    };
     this.showReplyForm = this.showReplyForm.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ displayBlock: true });
   }
 
   showReplyForm() {
@@ -30,7 +37,7 @@ class Comment extends React.Component {
     const { comment, editId } = this.props;
 
     return (
-      <div className={`comment ${comment.parent ? 'nested' : ''}`}>
+      <div className={`comment fade-in ${comment.parent ? 'nested' : ''} ${this.state.displayBlock ? 'display-block' : ''}`}>
 
         <div className="comment-header">
           <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
