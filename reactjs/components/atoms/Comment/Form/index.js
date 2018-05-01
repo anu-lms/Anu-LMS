@@ -16,6 +16,7 @@ class CommentForm extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,6 +25,15 @@ class CommentForm extends React.Component {
       this.setState({
         text: '',
       });
+    }
+  }
+
+  handleTextareaFocus() {
+    const { id, replyTo, edit, dispatch } = this.props;
+
+    // Hide Edit and Reply forms if user set focus on Add new comment form.
+    if (id === 'new-comment-form' && (replyTo || edit)) {
+      dispatch(lessonCommentsActions.hideForms());
     }
   }
 
@@ -63,7 +73,7 @@ class CommentForm extends React.Component {
     }
 
     return (
-      <div className={`new-comment-form ${className}`} id={id}>
+      <div className={`comment-form ${className}`} id={id}>
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
@@ -71,6 +81,7 @@ class CommentForm extends React.Component {
           placeholder={inputPlaceholder}
           onKeyDown={this.handleKeyDown}
           value={text}
+          onFocus={this.handleTextareaFocus}
         />
         <Button
           block
