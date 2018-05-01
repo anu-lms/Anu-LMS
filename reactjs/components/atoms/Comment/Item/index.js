@@ -47,7 +47,7 @@ class Comment extends React.Component {
       wrapperClasses.push('deleted');
       return (
         <div className={wrapperClasses.join(' ')}>
-          Deleted
+          Comment Deleted
         </div>
       );
     }

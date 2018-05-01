@@ -74,9 +74,9 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
 /**
  * Make a request to the backend to delete paragraph_comment entity.
  */
-export const deleteComment = (request, comment) => new Promise((resolve, reject) => {
+export const deleteComment = (request, uuid) => new Promise((resolve, reject) => {
   request
-    .delete(`/jsonapi/paragraph_comment/paragraph_comment/${comment.uuid}`)
+    .delete(`/jsonapi/paragraph_comment/paragraph_comment/${uuid}`)
     .send()
     .then(() => {
       resolve();
