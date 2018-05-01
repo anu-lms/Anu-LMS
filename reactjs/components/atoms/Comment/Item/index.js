@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import CommentEditForm from '../Form';
@@ -8,19 +9,26 @@ import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
-
 class Comment extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
       displayBlock: false,
+      date_formatted_hrs: '',
     };
+
     this.showReplyForm = this.showReplyForm.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ displayBlock: true });
+    // We update formatted date to make sure we set the date in the user's timezone and not in the
+    // server's timezone.
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
+      displayBlock: true,
+    });
   }
 
   showReplyForm() {
@@ -65,13 +73,13 @@ class Comment extends React.Component {
               {userHelper.getUsername(comment.author)}
               {comment.parent &&
               <span className="replied-to">
-            &nbsp;&gt;&nbsp;{userHelper.getUsername(comment.parent.author)}
+                &nbsp;&gt;&nbsp;{userHelper.getUsername(comment.parent.author)}
               </span>
               }
             </div>
 
-            <div className="date" title={new Date(comment.created * 1000).toLocaleString()}>
-              <Moment parse="unix" format="MMM Do, YYYY">{comment.created * 1000}</Moment>
+            <div className="date" title={this.state.date_formatted_hrs}>
+              <Moment parse="X" format="MMM Do, YYYY">{comment.created}</Moment>
             </div>
 
           </div>
