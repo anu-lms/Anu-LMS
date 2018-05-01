@@ -30,6 +30,22 @@ export const receiveComments = comments => ({
 });
 
 /**
+ * Show comment reply form.
+ */
+export const showReplyForm = commentId => ({
+  type: 'LESSON_COMMENTS_SHOW_REPLY_FORM',
+  commentId,
+});
+
+/**
+ * Show comment edit form.
+ */
+export const showEditForm = commentId => ({
+  type: 'LESSON_COMMENTS_SHOW_EDIT_FORM',
+  commentId,
+});
+
+/**
  * Send request to the backend to add a new comment.
  */
 export const addComment = (text, parentId = null) => ({
@@ -53,13 +69,29 @@ export const addCommentToStore = comment => ({
   comment,
 });
 
-// LESSON_COMMENTS_INSERT_COMMENT
-// LESSON_COMMENTS_INSERT_COMMENT_ERROR
-// LESSON_COMMENTS_ADD_COMMENT_TO_STORE
+/**
+ * Send request to the backend to update a comment.
+ */
+export const updateComment = (commentId, text) => ({
+  type: 'LESSON_COMMENTS_UPDATE_COMMENT',
+  commentId,
+  text,
+});
 
-// LESSON_COMMENTS_UPDATE_COMMENT
-// LESSON_COMMENTS_UPDATE_COMMENT_ERROR
-// LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE
+/**
+ * Request to update a comment failed.
+ */
+export const updateCommentError = () => ({
+  type: 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR',
+});
+
+/**
+ * Update comment in the store.
+ */
+export const updateCommentInStore = comment => ({
+  type: 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE',
+  comment,
+});
 
 // LESSON_COMMENTS_DELETE_COMMENT
 // LESSON_COMMENTS_DELETE_COMMENT_ERROR
