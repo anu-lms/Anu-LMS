@@ -141,6 +141,8 @@ function* markCommentAsDeleted({ commentId }) {
 
     // Updates comment in the application store.
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
+
+    Alert.success('Comment has been successfully deleted.');
   }
   catch (error) {
     yield put(lessonCommentsActions.deleteCommentError(error));
@@ -149,7 +151,7 @@ function* markCommentAsDeleted({ commentId }) {
   }
 }
 
-function* deleteComment({ commentId }) {
+function* deleteComment({ commentId, showSuccessMessage = true }) {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
@@ -168,6 +170,10 @@ function* deleteComment({ commentId }) {
     // Updates comment in the application store.
     yield put(lessonCommentsActions.deleteCommentFromStore(commentId));
 
+    if (showSuccessMessage) {
+      Alert.success('Comment has been successfully deleted.');
+    }
+
     // Delete parent comment if it marked as deleted and has no children comments anymore.
     if (comment.parentId) {
       const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
@@ -175,7 +181,7 @@ function* deleteComment({ commentId }) {
 
       // eslint-disable-next-line max-len
       if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) {
-        yield call(deleteComment, { commentId: parentComment.id });
+        yield call(deleteComment, { commentId: parentComment.id, showSuccessMessage: false });
       }
     }
   }
