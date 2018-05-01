@@ -34,12 +34,14 @@ class CommentMenu extends Component {
   onDelete() {
     const { dispatch, comments, comment } = this.props;
 
-    // Mark Comments as deleted if it has children comments or delete at all otherwise.
-    if (lessonCommentsHelper.hasChildrenComments(comments, comment.id)) {
-      dispatch(lessonCommentsActions.markCommentAsDeleted(comment.id));
-    }
-    else {
-      dispatch(lessonCommentsActions.deleteComment(comment.id));
+    if (window.confirm('Delete this comment?')) { // eslint-disable-line no-alert
+      // Mark Comments as deleted if it has children comments or delete at all otherwise.
+      if (lessonCommentsHelper.hasChildrenComments(comments, comment.id)) {
+        dispatch(lessonCommentsActions.markCommentAsDeleted(comment.id));
+      }
+      else {
+        dispatch(lessonCommentsActions.deleteComment(comment.id));
+      }
     }
   }
 
