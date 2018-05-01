@@ -43,12 +43,12 @@ class Comment extends React.Component {
 
   render() {
     const { comment, editId } = this.props;
-    const wrapperClasses = ['comment', 'fade-in'];
+    const wrapperClasses = ['comment', 'fade-in-hidden'];
     if (comment.parent) {
       wrapperClasses.push('nested');
     }
     if (this.state.displayBlock) {
-      wrapperClasses.push('display-block');
+      wrapperClasses.push('fade-in-shown');
     }
 
     if (comment.deleted) {
