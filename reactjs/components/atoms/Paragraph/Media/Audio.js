@@ -159,7 +159,9 @@ class Audio extends React.Component {
               </div>
             </div>
 
+            {this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
             <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>

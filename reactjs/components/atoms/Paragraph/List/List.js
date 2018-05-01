@@ -45,7 +45,10 @@ class List extends React.Component {
                   <li key={getKey(index)}><span>{item}</span></li>
               ))}
             </Wrapper>
+
+            {this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
             <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
