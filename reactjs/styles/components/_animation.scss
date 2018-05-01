@@ -1,13 +1,13 @@
-.fade-in {
+.fade-in-hidden {
   visibility: hidden;
   height: 0;
   opacity: 0;
   transition: height 0.3s, opacity 0s linear;
+}
 
-  &.display-block {
-    visibility: visible;
-    height: auto;
-    opacity: 1;
-    transition: height 0.3s, opacity 0.2s linear;
-  }
+.fade-in-shown {
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+  transition: height 0.3s, opacity 0.2s linear;
 }
