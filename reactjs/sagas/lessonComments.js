@@ -170,10 +170,6 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
     // Updates comment in the application store.
     yield put(lessonCommentsActions.deleteCommentFromStore(commentId));
 
-    if (showSuccessMessage) {
-      Alert.success('Comment has been successfully deleted.');
-    }
-
     // Delete parent comment if it marked as deleted and has no children comments anymore.
     if (comment.parentId) {
       const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
@@ -183,6 +179,11 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) {
         yield call(deleteComment, { commentId: parentComment.id, showSuccessMessage: false });
       }
+    }
+
+    if (showSuccessMessage) {
+      Alert.closeAll();
+      Alert.success('Comment has been successfully deleted.');
     }
   }
   catch (error) {
