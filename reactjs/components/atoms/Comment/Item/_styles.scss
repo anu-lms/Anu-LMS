@@ -8,7 +8,7 @@
 
   &:hover {
     .comment-footer {
-      display: block;
+      opacity: 1;
     }
   }
 
@@ -64,6 +64,8 @@
 
   .comment-body {
     color: $carbon;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
 
   .comment-footer {
@@ -72,7 +74,7 @@
     right: 1.5em;
     transition: .2s all;
     @include media-breakpoint-up(lg) {
-      display: none;
+      opacity: 0;
     }
 
     .links {
@@ -98,8 +100,10 @@
       }
 
       .link {
+        transition: .2s color;
 
         &:hover {
+          transition: .2s color;
           color: $anu-blue;
 
           svg path {

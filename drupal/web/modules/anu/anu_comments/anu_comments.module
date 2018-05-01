@@ -37,3 +37,14 @@ function anu_comments_paragraph_comment_access(EntityInterface $comment, $operat
   // other Drupal access checks.
   return $user_organization == $comment_organization ? AccessResult::neutral() : AccessResult::forbidden();
 }
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_comments_entity_type_alter(array &$entity_types) {
+  // Adds an additional Validation for paragraph_comment entity.
+  if (!empty($entity_types['paragraph_comment'])) {
+    $entity = $entity_types['paragraph_comment'];
+    $entity->addConstraint('ParagraphComment', []);
+  }
+}
