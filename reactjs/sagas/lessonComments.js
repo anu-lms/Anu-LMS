@@ -173,6 +173,7 @@ function* deleteComment({ commentId }) {
       const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
       const parentComment = lessonCommentsHelpers.getCommentById(updatedComments, comment.parentId);
 
+      // eslint-disable-next-line max-len
       if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) {
         yield call(deleteComment, { commentId: parentComment.id });
       }
