@@ -29,7 +29,6 @@
     "raw-loader": "^0.5.1",
     "rc-slider": "^8.6.0",
     "react": "^16.2.0",
-    "react-addons-css-transition-group": "^15.6.2",
     "react-autosize-textarea": "^3.0.2",
     "react-circular-progressbar": "^0.6.0",
     "react-dom": "^16.2.0",
