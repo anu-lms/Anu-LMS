@@ -16,7 +16,7 @@ class CommentForm extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
+    this.handleTextareaFocus = this.handleTextareaFocus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
