@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Comment from '../CommentItem';
-import AddCommentForm from '../AddCommentForm';
+import Comment from '../Item';
+import AddCommentForm from '../Form';
 import * as userHelper from '../../../../helpers/user';
 
 const CommentsList = ({ comments, replyTo }) => {
@@ -44,7 +44,11 @@ const CommentsList = ({ comments, replyTo }) => {
 
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  replyTo: PropTypes.number.isRequired,
+  replyTo: PropTypes.number,
+};
+
+CommentsList.defaultProps = {
+  replyTo: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({

@@ -5,7 +5,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
-class AddCommentForm extends React.Component {
+class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -29,8 +29,14 @@ class AddCommentForm extends React.Component {
 
   submitForm() {
     const text = this.textarea.value;
-    // Invoke action to add a new comment.
-    this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+    if (this.props.edit) {
+      // Invoke action to update a comment.
+      this.props.dispatch(lessonCommentsActions.updateComment(this.props.edit, text));
+    }
+    else {
+      // Invoke action to add a new comment.
+      this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+    }
   }
 
   handleChange() {
@@ -79,16 +85,17 @@ class AddCommentForm extends React.Component {
   }
 }
 
-AddCommentForm.contextTypes = {
+CommentForm.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
   }),
 };
 
-AddCommentForm.propTypes = {
+CommentForm.propTypes = {
   id: PropTypes.string,
   initialText: PropTypes.string,
   replyTo: PropTypes.number,
+  edit: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -96,18 +103,20 @@ AddCommentForm.propTypes = {
   placeholder: PropTypes.string,
 };
 
-AddCommentForm.defaultProps = {
+CommentForm.defaultProps = {
   id: 'new-comment-form',
   initialText: '',
   className: '',
   placeholder: null,
   replyTo: null,
+  edit: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
   replyTo: lessonSidebar.comments.form.replyTo,
+  edit: lessonSidebar.comments.form.edit,
 });
 
-export default connect(mapStateToProps)(AddCommentForm);
+export default connect(mapStateToProps)(CommentForm);

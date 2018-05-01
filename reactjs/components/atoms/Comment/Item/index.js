@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-// import AddCommentForm from '../AddCommentForm';
+import CommentEditForm from '../Form';
+import CommentMenu from '../Menu';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
@@ -26,7 +27,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const { comment } = this.props;
+    const { comment, editId } = this.props;
 
     return (
       <div className={`comment ${comment.parent ? 'nested' : ''}`}>
@@ -46,18 +47,26 @@ class Comment extends React.Component {
               }
             </div>
 
-            <div className="date">
+            <div className="date" title={new Date(comment.created * 1000).toLocaleString()}>
               <Moment parse="unix" format="MMM Do, YYYY">{comment.created * 1000}</Moment>
             </div>
 
           </div>
+
+          <div className="context-menu">
+            <CommentMenu comment={comment} />
+          </div>
         </div>
 
         <div className="comment-body">
-          {comment.text}
-          {/* <AddCommentForm initialText={comment.text} /> */}
+          {editId && editId === comment.id ? (
+            <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
+          ) : (
+            comment.text.trim()
+          )}
         </div>
 
+        {(!editId || (editId && editId !== comment.id)) &&
         <div className="comment-footer">
           <div className="links">
 
@@ -85,6 +94,7 @@ class Comment extends React.Component {
 
           </div>
         </div>
+        }
 
       </div>
     );
@@ -111,6 +121,15 @@ Comment.propTypes = {
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editId: PropTypes.number,
 };
 
-export default connect()(Comment);
+Comment.defaultProps = {
+  editId: null,
+};
+
+const mapStateToProps = ({ lessonSidebar }) => ({
+  editId: lessonSidebar.comments.form.edit,
+});
+
+export default connect(mapStateToProps)(Comment);

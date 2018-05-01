@@ -47,7 +47,17 @@ export default (state = initialState, action) => {
         },
       };
 
+    case 'LESSON_COMMENTS_SHOW_EDIT_FORM':
+      return {
+        ...state,
+        form: {
+          ...initialState.form,
+          edit: action.commentId,
+        },
+      };
+
     case 'LESSON_COMMENTS_INSERT_COMMENT':
+    case 'LESSON_COMMENTS_UPDATE_COMMENT':
       return {
         ...state,
         form: {
@@ -57,6 +67,7 @@ export default (state = initialState, action) => {
       };
 
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
+    case 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR':
       return {
         ...state,
         form: initialState.form,
@@ -73,6 +84,27 @@ export default (state = initialState, action) => {
         ],
         form: initialState.form,
       };
+
+    case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.comment.id);
+
+      // If the comment was found, then we should update it.
+      if (index !== -1) {
+        return {
+          ...state,
+          comments: [
+            ...state.comments.slice(0, index),
+            action.comment,
+            ...state.comments.slice(index + 1),
+          ],
+          form: initialState.form,
+        };
+      }
+
+      // Otherwise return unchanged state.
+      return state;
+    }
 
     default:
       return state;
