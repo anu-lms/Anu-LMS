@@ -67,6 +67,7 @@ export default (state = initialState, action) => {
         },
       };
 
+    case 'LESSON_COMMENTS_HIDE_FORMS':
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
     case 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR':
     case 'LESSON_COMMENTS_DELETE_COMMENT_ERROR':

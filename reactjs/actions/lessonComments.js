@@ -46,6 +46,13 @@ export const showEditForm = commentId => ({
 });
 
 /**
+ * Hide Edit and Reply forms.
+ */
+export const hideForms = () => ({
+  type: 'LESSON_COMMENTS_HIDE_FORMS',
+});
+
+/**
  * Send request to the backend to add a new comment.
  */
 export const addComment = (text, parentId = null) => ({
