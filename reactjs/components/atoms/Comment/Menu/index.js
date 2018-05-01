@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 class CommentMenu extends Component {
   constructor(props, context) {
@@ -31,7 +32,17 @@ class CommentMenu extends Component {
   }
 
   onDelete() {
+    const { dispatch, comments, comment } = this.props;
 
+    if (window.confirm('Delete this comment?')) { // eslint-disable-line no-alert
+      // Mark Comments as deleted if it has children comments or delete at all otherwise.
+      if (lessonCommentsHelper.hasChildrenComments(comments, comment.id)) {
+        dispatch(lessonCommentsActions.markCommentAsDeleted(comment.id));
+      }
+      else {
+        dispatch(lessonCommentsActions.deleteComment(comment.id));
+      }
+    }
   }
 
   render() {
@@ -67,13 +78,15 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
   dispatch: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   currentUserId: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, lessonSidebar }) => ({
   currentUserId: user.uid,
+  comments: lessonSidebar.comments.comments,
 });
 
 export default connect(mapStateToProps)(CommentMenu);

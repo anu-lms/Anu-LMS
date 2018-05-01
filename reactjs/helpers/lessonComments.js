@@ -12,6 +12,14 @@ export const getCommentById = (comments, id) => {
 };
 
 /**
+ * Returns true if comment has children comments.
+ */
+export const hasChildrenComments = (comments, id) => {
+  const index = comments.findIndex(comment => comment.parentId === id);
+  return index !== -1;
+};
+
+/**
  * Converts flat list of comments to 2 level nested list.
  *
  * [
@@ -44,6 +52,7 @@ function getThreadedCommentsList(comments) {
 
       // Get parent comment object.
       const parent = getCommentById(comments, item.parentId);
+      debug('parent', parent, comments, item);
 
       // Get root id of parent comments (recursively to get root of nested comments).
       const rootId = findRootId(parent);
