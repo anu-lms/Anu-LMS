@@ -39,13 +39,13 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
  */
 export const updateComment = (request, uuid, params) => new Promise((resolve, reject) => {
   const sendParams = {};
-  if (params.hasOwnProperty('text')) {
+  if (Object.prototype.hasOwnProperty.call(params, 'text')) {
     sendParams.field_comment_text = {
       value: params.text,
       format: 'filtered_html',
     };
   }
-  if (params.hasOwnProperty('deleted')) {
+  if (Object.prototype.hasOwnProperty.call(params, 'deleted')) {
     sendParams.field_comment_deleted = params.deleted;
   }
 
