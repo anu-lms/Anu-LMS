@@ -29,7 +29,10 @@ class Video extends React.Component {
               width="100%"
               controls
             />
+
+            {this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
             <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>

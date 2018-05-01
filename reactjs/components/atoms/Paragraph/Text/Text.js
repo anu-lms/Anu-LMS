@@ -26,7 +26,10 @@ class Text extends React.Component {
             {
             // eslint-disable-next-line react/no-danger
             }<div dangerouslySetInnerHTML={{ __html: text.value }} />
-            <ShowCommentsCTA paragraphId={id} />
+
+            {this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
+              <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
