@@ -10,7 +10,7 @@ const easeInOutQuad = (t, b, c, d) => {
  *
  * Based on https://gist.github.com/andjosh/6764939#gistcomment-2553779
  */
-export const scrollTo = (element, to = 0, duration = 1000, callback = () => {}) => {
+export const scrollTo = (element, to = 0, duration = 500, callback = () => {}) => {
   const start = element.scrollTop;
   const change = to - start;
   const increment = 20;
@@ -21,7 +21,7 @@ export const scrollTo = (element, to = 0, duration = 1000, callback = () => {}) 
 
     element.scrollTop = easeInOutQuad(currentTime, start, change, duration);
 
-    if (currentTime < duration) {
+    if (currentTime < duration && element.scrollTop !== to) {
       setTimeout(animateScroll, increment);
     }
     else {
