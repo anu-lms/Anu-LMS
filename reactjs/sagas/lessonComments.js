@@ -44,7 +44,7 @@ function* fetchComments() {
     const responseComments = yield request
       .get('/jsonapi/paragraph_comment/paragraph_comment')
       .query(commentsQuery);
-    console.log(responseComments.body.data);
+
     // Normalize Comments.
     const comments = dataProcessors.processCommentsList(responseComments.body.data);
 
@@ -143,13 +143,13 @@ function* markCommentAsDeleted({ commentId }) {
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
   }
   catch (error) {
-    yield put(lessonCommentsActions.updateCommentError(error));
+    yield put(lessonCommentsActions.deleteCommentError(error));
     console.error('Could not delete a comment.', error);
     Alert.error('Could not delete a comment. Please, contact site administrator.');
   }
 }
 
-function* deleteComment({ commentId, text }) {
+function* deleteComment({ commentId }) {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
@@ -160,13 +160,23 @@ function* deleteComment({ commentId, text }) {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Makes request to the backend to update comment.
-    const responseComment = yield call(
+    yield call(
       api.deleteComment,
-      request, comment, text,
+      request, comment.uuid,
     );
 
     // Updates comment in the application store.
-    yield put(lessonCommentsActions.deleteCommentFromStore(responseComment));
+    yield put(lessonCommentsActions.deleteCommentFromStore(commentId));
+
+    // Delete parent comment if it marked as deleted and has no children comments anymore.
+    if (comment.parentId) {
+      const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
+      const parentComment = lessonCommentsHelpers.getCommentById(updatedComments, comment.parentId);
+
+      if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) {
+        yield call(deleteComment, { commentId: parentComment.id });
+      }
+    }
   }
   catch (error) {
     yield put(lessonCommentsActions.deleteCommentError(error));
@@ -182,6 +192,7 @@ export default function* lessonCommentsSagas() {
   yield all([
     yield takeLatest('LESSON_COMMENTS_INSERT_COMMENT', addComment),
     yield takeLatest('LESSON_COMMENTS_UPDATE_COMMENT', updateComment),
+    yield takeLatest('LESSON_COMMENTS_DELETE_COMMENT', deleteComment),
     yield takeLatest('LESSON_COMMENTS_MARK_AS_DELETED', markCommentAsDeleted),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
