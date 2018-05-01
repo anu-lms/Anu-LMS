@@ -19,7 +19,7 @@
         ],
         "http:\/\/drupal.org\/rest\/relation\/paragraph\/media_audio\/field_paragraph_file": [
             {
-                "href": "http:\/\/default\/file\/320?_format=hal_json"
+                "href": "http:\/\/default\/file\/5320?_format=hal_json"
             }
         ]
     },
@@ -89,7 +89,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/file\/320?_format=hal_json"
+                        "href": "http:\/\/default\/file\/5320?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/file\/audio"

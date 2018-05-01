@@ -46,6 +46,13 @@ export const showEditForm = commentId => ({
 });
 
 /**
+ * Hide Edit and Reply forms.
+ */
+export const hideForms = () => ({
+  type: 'LESSON_COMMENTS_HIDE_FORMS',
+});
+
+/**
  * Send request to the backend to add a new comment.
  */
 export const addComment = (text, parentId = null) => ({
@@ -93,6 +100,33 @@ export const updateCommentInStore = comment => ({
   comment,
 });
 
-// LESSON_COMMENTS_DELETE_COMMENT
-// LESSON_COMMENTS_DELETE_COMMENT_ERROR
-// LESSON_COMMENTS_DELETE_COMMENT_FROM_STORE
+/**
+ * Send request to the backend to delete a comment.
+ */
+export const deleteComment = commentId => ({
+  type: 'LESSON_COMMENTS_DELETE_COMMENT',
+  commentId,
+});
+
+/**
+ * Send request to the backend to mark comment as deleted.
+ */
+export const markCommentAsDeleted = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_DELETED',
+  commentId,
+});
+
+/**
+ * Request to delete a comment failed.
+ */
+export const deleteCommentError = () => ({
+  type: 'LESSON_COMMENTS_DELETE_COMMENT_ERROR',
+});
+
+/**
+ * Delete comment from the application store.
+ */
+export const deleteCommentFromStore = commentId => ({
+  type: 'LESSON_COMMENTS_DELETE_COMMENT_FROM_STORE',
+  commentId,
+});

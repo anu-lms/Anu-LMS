@@ -34,7 +34,9 @@ class TextWithHeading extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: text.value }} />
               }
 
+              {this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
               <ShowCommentsCTA paragraphId={id} />
+              }
             </div>
           </div>
         </div>
