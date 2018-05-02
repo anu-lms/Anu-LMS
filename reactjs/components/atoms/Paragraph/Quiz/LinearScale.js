@@ -45,7 +45,7 @@ class LinearScale extends React.Component {
 
             {blocks.length > 0 &&
             <div className="blocks">
-              <Paragraphs {...this.props} />
+              <Paragraphs commentsAllowed={false} {...this.props} />
             </div>
             }
 
@@ -93,11 +93,13 @@ LinearScale.propTypes = {
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
+  commentsAllowed: PropTypes.bool,
 };
 
 LinearScale.defaultProps = {
   data: null,
   columnClasses: [],
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
   handleQuizChange: () => {},
   blocks: [],

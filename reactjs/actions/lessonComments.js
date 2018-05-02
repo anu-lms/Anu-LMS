@@ -7,6 +7,21 @@ export const setActiveParagraph = paragraphId => ({
 });
 
 /**
+ * Hightlight Comment.
+ */
+export const highlightComment = commentId => ({
+  type: 'LESSON_COMMENTS_HIGHLIGHT_COMMENT',
+  commentId,
+});
+
+/**
+ * Unhightlight a Comment.
+ */
+export const unhighlightComment = () => ({
+  type: 'LESSON_COMMENTS_UNHIGHLIGHT_COMMENT',
+});
+
+/**
  * Make request to the backend to get comments.
  */
 export const syncComments = () => ({
@@ -43,6 +58,13 @@ export const showReplyForm = commentId => ({
 export const showEditForm = commentId => ({
   type: 'LESSON_COMMENTS_SHOW_EDIT_FORM',
   commentId,
+});
+
+/**
+ * Hide Edit and Reply forms.
+ */
+export const hideForms = () => ({
+  type: 'LESSON_COMMENTS_HIDE_FORMS',
 });
 
 /**

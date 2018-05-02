@@ -16,6 +16,7 @@ class CommentForm extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTextareaFocus = this.handleTextareaFocus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,11 +28,20 @@ class CommentForm extends React.Component {
     }
   }
 
+  handleTextareaFocus() {
+    const { id, replyTo, editedComment, dispatch } = this.props;
+
+    // Hide Edit and Reply forms if user set focus on Add new comment form.
+    if (id === 'new-comment-form' && (replyTo || editedComment)) {
+      dispatch(lessonCommentsActions.hideForms());
+    }
+  }
+
   submitForm() {
     const text = this.textarea.value;
-    if (this.props.edit) {
+    if (this.props.editedComment) {
       // Invoke action to update a comment.
-      this.props.dispatch(lessonCommentsActions.updateComment(this.props.edit, text));
+      this.props.dispatch(lessonCommentsActions.updateComment(this.props.editedComment, text));
     }
     else {
       // Invoke action to add a new comment.
@@ -63,7 +73,7 @@ class CommentForm extends React.Component {
     }
 
     return (
-      <div className={`new-comment-form ${className}`} id={id}>
+      <div className={`comment-form ${className}`} id={id}>
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
@@ -71,6 +81,7 @@ class CommentForm extends React.Component {
           placeholder={inputPlaceholder}
           onKeyDown={this.handleKeyDown}
           value={text}
+          onFocus={this.handleTextareaFocus}
         />
         <Button
           block
@@ -95,7 +106,7 @@ CommentForm.propTypes = {
   id: PropTypes.string,
   initialText: PropTypes.string,
   replyTo: PropTypes.number,
-  edit: PropTypes.number,
+  editedComment: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -109,14 +120,14 @@ CommentForm.defaultProps = {
   className: '',
   placeholder: null,
   replyTo: null,
-  edit: null,
+  editedComment: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
   replyTo: lessonSidebar.comments.form.replyTo,
-  edit: lessonSidebar.comments.form.edit,
+  editedComment: lessonSidebar.comments.form.editedComment,
 });
 
 export default connect(mapStateToProps)(CommentForm);

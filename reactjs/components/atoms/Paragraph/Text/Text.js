@@ -18,7 +18,7 @@ class Text extends React.Component {
   }
 
   render() {
-    const { text, columnClasses, id } = this.props;
+    const { text, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container text">
         <div className="row">
@@ -26,7 +26,10 @@ class Text extends React.Component {
             {
             // eslint-disable-next-line react/no-danger
             }<div dangerouslySetInnerHTML={{ __html: text.value }} />
-            <ShowCommentsCTA paragraphId={id} />
+
+            {commentsAllowed &&
+              <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
@@ -44,12 +47,14 @@ Text.propTypes = {
     value: PropTypes.string,
     format: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Text.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 
