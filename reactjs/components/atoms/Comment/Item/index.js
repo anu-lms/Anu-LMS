@@ -60,7 +60,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const { comment, editId, highlightedComment } = this.props;
+    const { comment, editedComment, highlightedComment } = this.props;
     const wrapperClasses = ['comment', 'fade-in-hidden'];
     if (comment.parent) {
       wrapperClasses.push('nested');
@@ -111,14 +111,14 @@ class Comment extends React.Component {
         </div>
 
         <div className="comment-body">
-          {editId && editId === comment.id ? (
+          {editedComment && editedComment === comment.id ? (
             <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
           ) : (
             comment.text.trim()
           )}
         </div>
 
-        {(!editId || (editId && editId !== comment.id)) &&
+        {(!editedComment || (editedComment && editedComment !== comment.id)) &&
         <div className="comment-footer">
           <div className="links">
 
@@ -173,17 +173,17 @@ Comment.propTypes = {
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  editId: PropTypes.number,
+  editedComment: PropTypes.number,
   highlightedComment: PropTypes.number,
 };
 
 Comment.defaultProps = {
-  editId: null,
+  editedComment: null,
   highlightedComment: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  editId: lessonSidebar.comments.form.edit,
+  editedComment: lessonSidebar.comments.form.editedComment,
   highlightedComment: lessonSidebar.comments.highlightedComment,
 });
 
