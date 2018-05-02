@@ -21,10 +21,11 @@
     color: $comments;
     font-weight: bold;
     border-bottom: 1px solid $comments;
-
+    @include media-breakpoint-up(md) {
+      height: 56px;
+    }
     @include media-breakpoint-up(lg) {
       padding: 0 2em;
-      height: 56px;
     }
 
     .title {
@@ -34,13 +35,21 @@
       }
     }
     .add-new-comment {
-      font-size: 14px;
       cursor: pointer;
-      @include media-breakpoint-up(lg) {
-        font-size: 16px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        @include media-breakpoint-up(md) {
+          width: 36px;
+          height: 36px;
+        }
       }
+
       &:hover {
-        text-decoration: underline;
+        svg path {
+          fill: lighten($comments, 10);
+        }
       }
     }
   }
