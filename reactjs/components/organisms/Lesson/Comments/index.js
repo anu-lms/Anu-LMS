@@ -29,7 +29,7 @@ class lessonComments extends React.Component {
   }
 
   componentDidUpdate() {
-    const { highlightedComment, comments, isLoading } = this.props;
+    const { highlightedComment, comments, isLoading, dispatch } = this.props;
 
     // Validate highlighted comment when comments list loaded.
     // Use DidUpdate event because `highlightedComment` variable isn't available in DidMount.
@@ -41,6 +41,11 @@ class lessonComments extends React.Component {
       else {
         scrollToElement('lesson-comments-scrollable', `comment-${highlightedComment}`);
       }
+
+      // Unhighlight a Comment in 3 sec.
+      setTimeout(() => {
+        dispatch(lessonCommentsActions.unhighlightComment());
+      }, 3000);
 
       // Set variable to don't double process.
       this.commentHightlightingProcessed = true;
