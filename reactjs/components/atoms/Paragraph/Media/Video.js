@@ -19,7 +19,7 @@ class Video extends React.Component {
   }
 
   render() {
-    const { url, columnClasses, id } = this.props;
+    const { url, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container video">
         <div className="row">
@@ -30,9 +30,8 @@ class Video extends React.Component {
               controls
             />
 
-            { // eslint-disable-next-line react/prop-types, max-len
-              this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
-              <ShowCommentsCTA paragraphId={id} />
+            {commentsAllowed &&
+            <ShowCommentsCTA paragraphId={id} />
             }
           </div>
         </div>
@@ -51,12 +50,14 @@ Video.propTypes = {
     uri: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Video.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

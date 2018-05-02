@@ -123,7 +123,7 @@ class Resource extends React.Component {
   }
 
   render() {
-    const { privatefile, title, columnClasses, id } = this.props;
+    const { privatefile, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container resource">
         <div className="row">
@@ -199,9 +199,8 @@ class Resource extends React.Component {
 
             </div>
 
-            { // eslint-disable-next-line react/prop-types, max-len
-              this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
-              <ShowCommentsCTA paragraphId={id} />
+            {commentsAllowed &&
+            <ShowCommentsCTA paragraphId={id} />
             }
           </div>
         </div>
@@ -227,6 +226,7 @@ Resource.propTypes = {
     fid: PropTypes.number,
     filename: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Resource.defaultProps = {
@@ -235,6 +235,7 @@ Resource.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 
