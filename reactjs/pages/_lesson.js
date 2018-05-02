@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import urlParse from 'url-parse';
+import Alert from 'react-s-alert';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
@@ -171,7 +172,7 @@ class LessonPage extends React.Component {
   }
 
   componentDidUpdate() {
-    const { dispatch, isStoreRehydrated } = this.props;
+    const { dispatch, isStoreRehydrated, lesson } = this.props;
 
     const parsedUrl = urlParse(window.location.href, true);
     if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
@@ -187,6 +188,13 @@ class LessonPage extends React.Component {
     const commentId = parseInt(urlParams[1], 10);
 
     if (isStoreRehydrated) {
+      const index = lesson.blocks.findIndex(block => block.id === paragraphId);
+      if (index === -1) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced paragraph doesn't exists", `Lesson: ${lesson.id}`, `Paragraph: ${paragraphId}`);
+        return;
+      }
+
       // Set active paragraph.
       dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
 

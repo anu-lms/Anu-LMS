@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Alert from 'react-s-alert';
 import { connect } from 'react-redux';
 import PageLoader from '../../../atoms/PageLoader';
 import CommentsList from '../../../atoms/Comment/List';
@@ -18,10 +19,22 @@ class lessonComments extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoading, dispatch } = this.props;
+    const { isLoading, dispatch, highlightedComment, comments } = this.props;
     // When component is mounted, send action that the comments sidebar is opened.
     if (!isLoading) {
       dispatch(lessonCommentsActions.syncComments());
+    }
+
+    // Validate highlighted comment.
+    if (highlightedComment) {
+      console.log(highlightedComment);
+      console.log(comments);
+
+      const index = comments.findIndex(block => block.id === highlightedComment);
+      if (index === -1) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
+      }
     }
   }
 
@@ -31,6 +44,16 @@ class lessonComments extends React.Component {
       const scrollableArea = document.getElementById('lesson-comments-scrollable');
       if (scrollableArea) {
         scrollableArea.scrollTop = 0;
+      }
+    }
+
+    // Validate highlighted comment.
+    // Check here as well because `highlightedComment` prop is not always available in componentDidMount.
+    if (!this.props.highlightedComment && nextProps.highlightedComment) {
+      const index = nextProps.comments.findIndex(block => block.id === nextProps.highlightedComment);
+      if (index === -1) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced comment doesn't exists", `Comment: ${nextProps.highlightedComment}`);
       }
     }
   }
@@ -79,11 +102,17 @@ lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  highlightedComment: PropTypes.number,
+};
+
+lessonComments.defaultProps = {
+  highlightedComment: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
   isLoading: lessonSidebar.sidebar.isLoading,
+  highlightedComment: lessonSidebar.comments.highlightedComment,
 });
 
 export default connect(mapStateToProps)(lessonComments);
