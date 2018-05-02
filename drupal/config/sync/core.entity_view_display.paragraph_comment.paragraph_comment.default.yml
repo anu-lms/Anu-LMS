@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.field.paragraph_comment.paragraph_comment.field_comment_deleted
     - field.field.paragraph_comment.paragraph_comment.field_comment_organization
     - field.field.paragraph_comment.paragraph_comment.field_comment_paragraph
     - field.field.paragraph_comment.paragraph_comment.field_comment_parent
@@ -26,6 +27,16 @@ content:
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
+  field_comment_deleted:
+    weight: 5
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_comment_organization:
     weight: 4
     label: above

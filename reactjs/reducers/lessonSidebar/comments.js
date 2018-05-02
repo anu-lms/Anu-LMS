@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
 
     case 'LESSON_COMMENTS_INSERT_COMMENT':
     case 'LESSON_COMMENTS_UPDATE_COMMENT':
+    case 'LESSON_COMMENTS_DELETE_COMMENT':
       return {
         ...state,
         form: {
@@ -68,6 +69,7 @@ export default (state = initialState, action) => {
 
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
     case 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR':
+    case 'LESSON_COMMENTS_DELETE_COMMENT_ERROR':
       return {
         ...state,
         form: initialState.form,
@@ -96,6 +98,26 @@ export default (state = initialState, action) => {
           comments: [
             ...state.comments.slice(0, index),
             action.comment,
+            ...state.comments.slice(index + 1),
+          ],
+          form: initialState.form,
+        };
+      }
+
+      // Otherwise return unchanged state.
+      return state;
+    }
+
+    case 'LESSON_COMMENTS_DELETE_COMMENT_FROM_STORE': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // If the comment was found, then we should delete it.
+      if (index !== -1) {
+        return {
+          ...state,
+          comments: [
+            ...state.comments.slice(0, index),
             ...state.comments.slice(index + 1),
           ],
           form: initialState.form,

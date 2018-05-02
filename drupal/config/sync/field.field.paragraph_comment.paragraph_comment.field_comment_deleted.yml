@@ -1,0 +1,23 @@
+uuid: 591bce8a-a64b-471e-ae6c-3058fc2b4569
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.storage.paragraph_comment.field_comment_deleted
+id: paragraph_comment.paragraph_comment.field_comment_deleted
+field_name: field_comment_deleted
+entity_type: paragraph_comment
+bundle: paragraph_comment
+label: 'Is deleted?'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

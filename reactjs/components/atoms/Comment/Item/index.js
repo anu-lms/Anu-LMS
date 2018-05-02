@@ -14,6 +14,7 @@ class Comment extends React.Component {
     super(props, context);
 
     this.state = {
+      displayBlock: false,
       date_formatted_hrs: '',
     };
 
@@ -26,6 +27,7 @@ class Comment extends React.Component {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
+      displayBlock: true,
     });
   }
 
@@ -41,9 +43,25 @@ class Comment extends React.Component {
 
   render() {
     const { comment, editId } = this.props;
+    const wrapperClasses = ['comment', 'fade-in-hidden'];
+    if (comment.parent) {
+      wrapperClasses.push('nested');
+    }
+    if (this.state.displayBlock) {
+      wrapperClasses.push('fade-in-shown');
+    }
+
+    if (comment.deleted) {
+      wrapperClasses.push('deleted');
+      return (
+        <div className={wrapperClasses.join(' ')}>
+          Comment Deleted
+        </div>
+      );
+    }
 
     return (
-      <div className={`comment ${comment.parent ? 'nested' : ''}`}>
+      <div className={wrapperClasses.join(' ')}>
 
         <div className="comment-header">
           <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
