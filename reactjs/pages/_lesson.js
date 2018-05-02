@@ -183,6 +183,11 @@ class LessonPage extends React.Component {
   componentDidUpdate() {
     const { dispatch, isStoreRehydrated, lesson } = this.props;
 
+    // If user was redirected to 403 page.
+    if (!lesson || !lesson.blocks) {
+      return;
+    }
+
     const parsedUrl = urlParse(window.location.href, true);
     if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
       return;
