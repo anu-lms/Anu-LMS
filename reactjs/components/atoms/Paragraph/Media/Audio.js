@@ -104,7 +104,7 @@ class Audio extends React.Component {
   }
 
   render() {
-    const { file, columnClasses, id } = this.props;
+    const { file, columnClasses, id, commentsAllowed } = this.props;
 
     if (typeof file === 'undefined') {
       return null;
@@ -159,7 +159,9 @@ class Audio extends React.Component {
               </div>
             </div>
 
+            {commentsAllowed &&
             <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
@@ -176,12 +178,14 @@ Audio.propTypes = {
   file: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Audio.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

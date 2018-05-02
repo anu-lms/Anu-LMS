@@ -123,7 +123,7 @@ class Resource extends React.Component {
   }
 
   render() {
-    const { privatefile, title, columnClasses, id } = this.props;
+    const { privatefile, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container resource">
         <div className="row">
@@ -199,7 +199,9 @@ class Resource extends React.Component {
 
             </div>
 
+            {commentsAllowed &&
             <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
@@ -224,6 +226,7 @@ Resource.propTypes = {
     fid: PropTypes.number,
     filename: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Resource.defaultProps = {
@@ -232,6 +235,7 @@ Resource.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

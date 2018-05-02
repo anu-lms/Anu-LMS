@@ -18,7 +18,7 @@ class TextWithHeading extends React.Component {
   }
 
   render() {
-    const { text, title, columnClasses, id } = this.props;
+    const { text, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="text-with-heading">
         <div className="container">
@@ -34,7 +34,9 @@ class TextWithHeading extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: text.value }} />
               }
 
+              {commentsAllowed &&
               <ShowCommentsCTA paragraphId={id} />
+              }
             </div>
           </div>
         </div>
@@ -54,6 +56,7 @@ TextWithHeading.propTypes = {
     format: PropTypes.string,
   }).isRequired,
   title: PropTypes.string,
+  commentsAllowed: PropTypes.bool,
 };
 
 TextWithHeading.defaultProps = {
@@ -61,6 +64,7 @@ TextWithHeading.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 
