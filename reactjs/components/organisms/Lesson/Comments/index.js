@@ -27,11 +27,7 @@ class lessonComments extends React.Component {
 
     // Validate highlighted comment.
     if (highlightedComment) {
-      console.log(highlightedComment);
-      console.log(comments);
-
-      const index = comments.findIndex(block => block.id === highlightedComment);
-      if (index === -1) {
+      if (!lessonCommentsHelper.getCommentById(comments, highlightedComment)) {
         Alert.error("Referenced in url comment doesn't exists");
         console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
       }
@@ -50,8 +46,7 @@ class lessonComments extends React.Component {
     // Validate highlighted comment.
     // Check here as well because `highlightedComment` prop is not always available in componentDidMount.
     if (!this.props.highlightedComment && nextProps.highlightedComment) {
-      const index = nextProps.comments.findIndex(block => block.id === nextProps.highlightedComment);
-      if (index === -1) {
+      if (!lessonCommentsHelper.getCommentById(nextProps.comments, nextProps.highlightedComment)) {
         Alert.error("Referenced in url comment doesn't exists");
         console.error("Referenced comment doesn't exists", `Comment: ${nextProps.highlightedComment}`);
       }
