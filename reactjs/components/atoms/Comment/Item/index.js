@@ -39,8 +39,9 @@ class Comment extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Scroll to the highlighted comment.
-    // Check here as well because `highlightedComment` prop is not always available in componentDidMount.
-    if (!this.props.highlightedComment && nextProps.highlightedComment && nextProps.highlightedComment === nextProps.comment.id) {
+    // Check here because `highlightedComment` prop is not always available in componentDidMount.
+    if (!this.props.highlightedComment && nextProps.highlightedComment &&
+      nextProps.highlightedComment === nextProps.comment.id) {
       scrollToElement('lesson-comments-scrollable', `comment-${nextProps.highlightedComment}`);
     }
   }
