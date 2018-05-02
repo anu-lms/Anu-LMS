@@ -14,6 +14,8 @@ import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 class lessonComments extends React.Component {
   constructor(props, context) {
     super(props, context);
+    // Defines if comment highlighting already processed.
+    this.commentHightlightingProcessed = false;
 
     this.scrollToForm = this.scrollToForm.bind(this);
   }
@@ -26,6 +28,25 @@ class lessonComments extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const { highlightedComment, comments, isLoading } = this.props;
+
+    // Validate highlighted comment when comments list loaded.
+    // Use DidUpdate event because `highlightedComment` variable isn't available in DidMount.
+    if (highlightedComment && !isLoading && !this.commentHightlightingProcessed) {
+      if (!lessonCommentsHelper.getCommentById(comments, highlightedComment)) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
+      }
+      else {
+        scrollToElement('lesson-comments-scrollable', `comment-${highlightedComment}`);
+      }
+
+      // Set variable to don't double process.
+      this.commentHightlightingProcessed = true;
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.isLoading && !nextProps.isLoading) {
       // Restore Scroll position after sidebar reload.
@@ -34,17 +55,10 @@ class lessonComments extends React.Component {
         scrollableArea.scrollTop = 0;
       }
     }
-
-    // Validate highlighted comment when comments list loaded.
-    if (this.props.comments.length === 0 && nextProps.comments.length > 0 && nextProps.highlightedComment) {
-      if (!lessonCommentsHelper.getCommentById(nextProps.comments, nextProps.highlightedComment)) {
-        Alert.error("Referenced in url comment doesn't exists");
-        console.error("Referenced comment doesn't exists", `Comment: ${nextProps.highlightedComment}`);
-      }
-    }
   }
 
   scrollToForm() {
+    // Scroll user and set focus to the New comment form.
     scrollToElement('lesson-comments-scrollable', 'new-comment-form', () => {
       document.getElementById('new-comment-form')
         .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
