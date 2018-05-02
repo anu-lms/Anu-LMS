@@ -128,11 +128,20 @@ class LessonPage extends React.Component {
         initialProps.statusCode = responseLesson.body.meta.errors[0].status;
         throw Error(responseLesson.meta.errors[0].detail);
       }
+      else if (responseLesson.body.data.length === 0) {
+        initialProps.statusCode = 404;
+        throw Error(`Lesson with id ${entity.id} not found`);
+      }
 
       initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
     } catch (error) {
       console.log('Could not load lesson.', error);
-      initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+      if (error.status) {
+        initialProps.statusCode = error.status;
+      }
+      else {
+        initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+      }
 
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
