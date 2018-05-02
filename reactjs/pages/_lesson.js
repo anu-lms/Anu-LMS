@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import urlParse from 'url-parse';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
@@ -171,12 +172,26 @@ class LessonPage extends React.Component {
 
   componentDidUpdate() {
     const { dispatch, isStoreRehydrated } = this.props;
-    const paragraphId = 508;
 
-    // @todo add condition to check if url contains comment params.
+    const parsedUrl = urlParse(window.location.href, true);
+    if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
+      return;
+    }
+
+    const urlParams = parsedUrl.query.comment.split('-');
+    if (!urlParams[0] || !urlParams[1]) {
+      return;
+    }
+
+    const paragraphId = parseInt(urlParams[0], 10);
+    const commentId = parseInt(urlParams[1], 10);
+
     if (isStoreRehydrated) {
-    // Set active paragraph.
+      // Set active paragraph.
       dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
+
+      // Highlight a comment.
+      dispatch(lessonCommentsActions.highlightComment(commentId));
 
       // Let the application now that the sidebar is being opened.
       dispatch(lessonSidebarActions.open('comments'));

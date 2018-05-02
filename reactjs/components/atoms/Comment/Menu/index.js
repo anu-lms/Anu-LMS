@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Alert from 'react-s-alert';
+import urlParse from 'url-parse';
 import copy from 'copy-to-clipboard';
 import { connect } from 'react-redux';
 import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
@@ -20,11 +21,10 @@ class CommentMenu extends Component {
     const { paragraphId, comment } = this.props;
 
     // Prepares link to the comment.
-    let link = window.location.href;
-    const symb = link.indexOf('?') > -1 ? '&' : '?';
-    link = `${window.location.href}${symb}comment=${paragraphId}-${comment.id}`;
+    let parsedUrl = urlParse(window.location.href, true);
+    parsedUrl.query.comment = `${paragraphId}-${comment.id}`;
 
-    if (copy(link)) {
+    if (copy(parsedUrl.toString())) {
       Alert.success('Link successfully copied.');
     }
     else {
