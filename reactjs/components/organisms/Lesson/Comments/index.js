@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PageLoader from '../../../atoms/PageLoader';
 import CommentsList from '../../../atoms/Comment/List';
 import AddCommentForm from '../../../atoms/Comment/Form';
+import { scrollToElement } from '../../../../utils/scrollTo';
 import EmptyText from '../../../atoms/Comment/EmptyText';
 import ErrorBoundary from '../../../atoms/ErrorBoundary';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -35,7 +36,10 @@ class lessonComments extends React.Component {
   }
 
   scrollToForm() {
-    lessonCommentsHelper.scrollToAddCommentForm('new-comment-form');
+    scrollToElement('lesson-comments-scrollable', 'new-comment-form', () => {
+      document.getElementById('new-comment-form')
+        .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
+    });
   }
 
   render() {

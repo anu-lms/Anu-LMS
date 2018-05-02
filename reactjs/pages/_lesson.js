@@ -193,10 +193,10 @@ class LessonPage extends React.Component {
       // Highlight a comment.
       dispatch(lessonCommentsActions.highlightComment(commentId));
 
-      // Unhighlight a Comment in 2 sec.
+      // Unhighlight a Comment in 3 sec.
       setTimeout(() => {
         dispatch(lessonCommentsActions.unhighlightComment());
-      }, 2000);
+      }, 3000);
 
       // Let the application now that the sidebar is being opened.
       dispatch(lessonSidebarActions.open('comments'));
