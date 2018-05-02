@@ -19,18 +19,10 @@ class lessonComments extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoading, dispatch, highlightedComment, comments } = this.props;
+    const { isLoading, dispatch } = this.props;
     // When component is mounted, send action that the comments sidebar is opened.
     if (!isLoading) {
       dispatch(lessonCommentsActions.syncComments());
-    }
-
-    // Validate highlighted comment.
-    if (highlightedComment) {
-      if (!lessonCommentsHelper.getCommentById(comments, highlightedComment)) {
-        Alert.error("Referenced in url comment doesn't exists");
-        console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
-      }
     }
   }
 
@@ -43,9 +35,8 @@ class lessonComments extends React.Component {
       }
     }
 
-    // Validate highlighted comment.
-    // Check here because `highlightedComment` prop is not always available in componentDidMount.
-    if (!this.props.highlightedComment && nextProps.highlightedComment) {
+    // Validate highlighted comment when comments list loaded.
+    if (this.props.comments.length === 0 && nextProps.comments.length > 0 && nextProps.highlightedComment) {
       if (!lessonCommentsHelper.getCommentById(nextProps.comments, nextProps.highlightedComment)) {
         Alert.error("Referenced in url comment doesn't exists");
         console.error("Referenced comment doesn't exists", `Comment: ${nextProps.highlightedComment}`);
@@ -61,7 +52,7 @@ class lessonComments extends React.Component {
   }
 
   render() {
-    const { comments, isLoading } = this.props;
+    const { orderedComments, isLoading } = this.props;
 
     return (
       <div className="lesson-comments-container">
@@ -78,8 +69,8 @@ class lessonComments extends React.Component {
             </div>
 
             <div className="comments-content">
-              {comments.length > 0 ? (
-                <CommentsList comments={comments} />
+              {orderedComments.length > 0 ? (
+                <CommentsList comments={orderedComments} />
               ) : (
                 <EmptyText />
               )}
@@ -97,6 +88,7 @@ lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  orderedComments: PropTypes.arrayOf(PropTypes.object).isRequired,
   highlightedComment: PropTypes.number,
 };
 
@@ -105,7 +97,8 @@ lessonComments.defaultProps = {
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
+  comments: lessonSidebar.comments.comments,
+  orderedComments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
   isLoading: lessonSidebar.sidebar.isLoading,
   highlightedComment: lessonSidebar.comments.highlightedComment,
 });
