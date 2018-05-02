@@ -132,7 +132,7 @@
                         "value": "3051ac3d-dd7d-4523-9f65-e21a92b0e2d5"
                     }
                 ],
-                "target_revision_id": "5367"
+                "target_revision_id": "9995367"
             },
             {
                 "_links": {
@@ -148,7 +148,7 @@
                         "value": "39929d34-e15c-434b-967f-d97ba54317ba"
                     }
                 ],
-                "target_revision_id": "5369"
+                "target_revision_id": "9995369"
             },
             {
                 "_links": {
@@ -164,7 +164,7 @@
                         "value": "1d560b9e-38d4-46f7-aaaa-65c463f0579d"
                     }
                 ],
-                "target_revision_id": "5370"
+                "target_revision_id": "9995370"
             },
             {
                 "_links": {
@@ -180,7 +180,7 @@
                         "value": "4147c147-db1d-4149-9f98-d96c3e53361d"
                     }
                 ],
-                "target_revision_id": "5372"
+                "target_revision_id": "9995372"
             },
             {
                 "_links": {
@@ -196,7 +196,7 @@
                         "value": "bddb0a7f-edba-4605-ad32-dee3840d1af0"
                     }
                 ],
-                "target_revision_id": "5373"
+                "target_revision_id": "9995373"
             },
             {
                 "_links": {
@@ -212,7 +212,7 @@
                         "value": "f5207a1e-6e82-4ebd-a4b8-d7d82849a4ca"
                     }
                 ],
-                "target_revision_id": "5375"
+                "target_revision_id": "9995375"
             },
             {
                 "_links": {
@@ -228,7 +228,7 @@
                         "value": "6376794a-5176-41a7-8154-6e47c378c0ba"
                     }
                 ],
-                "target_revision_id": "5376"
+                "target_revision_id": "9995376"
             },
             {
                 "_links": {
@@ -244,7 +244,7 @@
                         "value": "eae4b9f1-4344-4a2b-9d49-2f63fe492d1c"
                     }
                 ],
-                "target_revision_id": "5378"
+                "target_revision_id": "9995378"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/lesson\/field_lesson_course": [
