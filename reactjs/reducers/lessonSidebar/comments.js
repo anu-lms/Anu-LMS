@@ -3,7 +3,7 @@ const initialState = {
   highlightedComment: null,
   comments: [],
   form: {
-    edit: null,
+    editedComment: null,
     replyTo: null,
     isProcessing: false,
   },
@@ -65,7 +65,7 @@ export default (state = initialState, action) => {
         ...state,
         form: {
           ...initialState.form,
-          edit: action.commentId,
+          editedComment: action.commentId,
         },
       };
 
