@@ -44,7 +44,7 @@ class lessonComments extends React.Component {
     }
 
     // Validate highlighted comment.
-    // Check here as well because `highlightedComment` prop is not always available in componentDidMount.
+    // Check here because `highlightedComment` prop is not always available in componentDidMount.
     if (!this.props.highlightedComment && nextProps.highlightedComment) {
       if (!lessonCommentsHelper.getCommentById(nextProps.comments, nextProps.highlightedComment)) {
         Alert.error("Referenced in url comment doesn't exists");
