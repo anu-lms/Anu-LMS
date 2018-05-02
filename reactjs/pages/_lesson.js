@@ -188,20 +188,20 @@ class LessonPage extends React.Component {
       return;
     }
 
-    const parsedUrl = urlParse(window.location.href, true);
-    if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
-      return;
-    }
-
-    const urlParams = parsedUrl.query.comment.split('-');
-    if (!urlParams[0] || !urlParams[1]) {
-      return;
-    }
-
-    const paragraphId = parseInt(urlParams[0], 10);
-    const commentId = parseInt(urlParams[1], 10);
-
     if (isStoreRehydrated) {
+      const parsedUrl = urlParse(window.location.href, true);
+      if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
+        return;
+      }
+
+      const urlParams = parsedUrl.query.comment.split('-');
+      if (!urlParams[0] || !urlParams[1]) {
+        return;
+      }
+
+      const paragraphId = parseInt(urlParams[0], 10);
+      const commentId = parseInt(urlParams[1], 10);
+
       const index = lesson.blocks.findIndex(block => block.id === paragraphId);
       if (index === -1) {
         Alert.error("Referenced in url comment doesn't exists");
@@ -220,7 +220,7 @@ class LessonPage extends React.Component {
         dispatch(lessonCommentsActions.unhighlightComment());
       }, 3000);
 
-      // Let the application now that the sidebar is being opened.
+      // Let the application know that the sidebar is being opened.
       dispatch(lessonSidebarActions.open('comments'));
 
       // If sidebar is opened, close navigation pane on all devices except extra

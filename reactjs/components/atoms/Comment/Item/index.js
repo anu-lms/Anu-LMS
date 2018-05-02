@@ -22,7 +22,6 @@ class Comment extends React.Component {
   }
 
   componentDidMount() {
-    const { highlightedComment, comment } = this.props;
     // We update formatted date to make sure we set the date in the user's timezone and not in the
     // server's timezone.
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -30,20 +29,6 @@ class Comment extends React.Component {
       date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
       displayBlock: true,
     });
-
-    // Scroll to the highlighted comment.
-    if (highlightedComment && highlightedComment === comment.id) {
-      scrollToElement('lesson-comments-scrollable', `comment-${highlightedComment}`);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Scroll to the highlighted comment.
-    // Check here because `highlightedComment` prop is not always available in componentDidMount.
-    if (!this.props.highlightedComment && nextProps.highlightedComment &&
-      nextProps.highlightedComment === nextProps.comment.id) {
-      scrollToElement('lesson-comments-scrollable', `comment-${nextProps.highlightedComment}`);
-    }
   }
 
   showReplyForm() {
