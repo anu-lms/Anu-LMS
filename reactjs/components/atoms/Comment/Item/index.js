@@ -22,8 +22,6 @@ class Comment extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-
     // We update formatted date to make sure we set the date in the user's timezone and not in the
     // server's timezone.
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -31,11 +29,6 @@ class Comment extends React.Component {
       date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
       displayBlock: true,
     });
-
-    // Unhighlight a Comment in 2 sec.
-    setTimeout(() => {
-      dispatch(lessonCommentsActions.unhighlightComment());
-    }, 2000);
   }
 
   showReplyForm() {
