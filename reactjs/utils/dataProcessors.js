@@ -220,5 +220,6 @@ export const processCommentsList = commentsList => (
       lastName: rawComment.uid.fieldLastName || '',
     },
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
+    deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
   }))
 );
