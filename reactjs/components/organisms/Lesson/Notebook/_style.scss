@@ -71,12 +71,22 @@
       .add-note {
         margin-top: 0;
 
-        path {
-          fill: $squash;
-          &:hover {
-            fill: darken($squash, 10);
+        svg {
+          height: 24px;
+          width: 24px;
+          @include media-breakpoint-up(md) {
+            height: 34px;
+            width: 34px;
+          }
+
+          path {
+            fill: $squash;
+            &:hover {
+              fill: darken($squash, 10);
+            }
           }
         }
+
 
         .caption {
           display: none;
