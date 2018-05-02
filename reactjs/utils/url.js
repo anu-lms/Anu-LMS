@@ -16,7 +16,7 @@ export const fileUrl = url => {
     const includesClientUrl = parser.pathname.indexOf(BACKEND_CLIENT_URL) === 0;
     const drupalUrl = parser.pathname.indexOf('/sites/default/files/') !== -1;
     if (!includesClientUrl && drupalUrl) {
-      parser.pathname = BACKEND_CLIENT_URL + parser.pathname;
+      return BACKEND_CLIENT_URL + parser.pathname + parser.query;
     }
     return parser.toString();
   }

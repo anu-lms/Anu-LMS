@@ -27,7 +27,7 @@ class DashboardPage extends React.Component {
 
       // If the response is successfull it will return an array with classes
       // containing related courses.
-      if (response.body && response.body.length > 0) {
+      if (response && response.body && response.body.length > 0) {
         response.body.forEach(data => {
           // Define class item object with id / label.
           let classItem = {};
