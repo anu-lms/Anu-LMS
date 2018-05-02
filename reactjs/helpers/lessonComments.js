@@ -1,5 +1,4 @@
 import Debug from 'debug';
-import { scrollTo } from '../utils/scrollTo';
 
 const debug = Debug('anu:lessonCommentsHelper');
 
@@ -119,24 +118,4 @@ export const getOrderedComments = comments => {
 
   // Sort root comments from newlest to oldest.
   return threadedComments.sort((a, b) => (a.created - b.created));
-};
-
-
-/**
- * Scroll user to add comment form inside Comments sidebar.
- */
-export const scrollToAddCommentForm = formId => {
-  setTimeout(() => {
-    // Get scrollable element.
-    const newCommentForm = document.getElementById(formId);
-    const newCommentFormRect = newCommentForm.getBoundingClientRect();
-
-    // Get scrollable area.
-    const scrollableArea = document.getElementById('lesson-comments-scrollable');
-    const desiredFormPosition = 400;
-    const to = (scrollableArea.scrollTop + newCommentFormRect.top) - desiredFormPosition;
-
-    scrollTo(scrollableArea, to);
-    newCommentForm.getElementsByTagName('textarea')[0].focus({ preventScroll: true });
-  }, 50);
 };

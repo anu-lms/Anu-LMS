@@ -44,6 +44,7 @@ Heading.propTypes = {
   title: PropTypes.string,
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
+  commentsAllowed: PropTypes.bool,
 };
 
 Heading.defaultProps = {
@@ -51,6 +52,7 @@ Heading.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
 };
 

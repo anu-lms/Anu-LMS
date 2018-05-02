@@ -1,8 +1,9 @@
 const initialState = {
   paragraphId: 0,
+  highlightedComment: null,
   comments: [],
   form: {
-    edit: null,
+    editedComment: null,
     replyTo: null,
     isProcessing: false,
   },
@@ -15,6 +16,18 @@ export default (state = initialState, action) => {
         ...state,
         paragraphId: action.paragraphId,
         form: initialState.form,
+      };
+
+    case 'LESSON_COMMENTS_HIGHLIGHT_COMMENT':
+      return {
+        ...state,
+        highlightedComment: action.commentId,
+      };
+
+    case 'LESSON_COMMENTS_UNHIGHLIGHT_COMMENT':
+      return {
+        ...state,
+        highlightedComment: null,
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
@@ -52,7 +65,7 @@ export default (state = initialState, action) => {
         ...state,
         form: {
           ...initialState.form,
-          edit: action.commentId,
+          editedComment: action.commentId,
         },
       };
 
@@ -67,12 +80,21 @@ export default (state = initialState, action) => {
         },
       };
 
+    case 'LESSON_COMMENTS_HIDE_FORMS':
+      return {
+        ...state,
+        form: initialState.form,
+      };
+
     case 'LESSON_COMMENTS_INSERT_COMMENT_ERROR':
     case 'LESSON_COMMENTS_UPDATE_COMMENT_ERROR':
     case 'LESSON_COMMENTS_DELETE_COMMENT_ERROR':
       return {
         ...state,
-        form: initialState.form,
+        form: {
+          ...state.form,
+          isProcessing: false,
+        },
       };
 
     // Adds given comment to the store.
