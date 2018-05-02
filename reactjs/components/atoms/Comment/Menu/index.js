@@ -18,7 +18,11 @@ class CommentMenu extends Component {
 
   onCopyLink() {
     const { paragraphId, comment } = this.props;
-    const link = `${window.location.href}?comment=${paragraphId}-${comment.id}`;
+
+    // Prepares link to the comment.
+    let link = window.location.href;
+    const symb = link.indexOf('?') > -1 ? '&' : '?';
+    link = `${window.location.href}${symb}comment=${paragraphId}-${comment.id}`;
 
     if (copy(link)) {
       Alert.success('Link successfully copied.');
