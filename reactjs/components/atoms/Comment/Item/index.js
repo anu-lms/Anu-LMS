@@ -4,10 +4,10 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import CommentEditForm from '../Form';
+import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
 import * as userHelper from '../../../../helpers/user';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
-import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 
 class Comment extends React.Component {
   constructor(props, context) {
@@ -38,14 +38,20 @@ class Comment extends React.Component {
     dispatch(lessonCommentsActions.showReplyForm(comment.id));
 
     // Scroll user to the reply form and set focus.
-    lessonCommentsHelper.scrollToAddCommentForm('reply-comment-form');
+    scrollToElement('lesson-comments-scrollable', 'reply-comment-form', () => {
+      document.getElementById('reply-comment-form')
+        .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
+    });
   }
 
   render() {
-    const { comment, editId } = this.props;
+    const { comment, editedComment, highlightedComment } = this.props;
     const wrapperClasses = ['comment', 'fade-in-hidden'];
     if (comment.parent) {
       wrapperClasses.push('nested');
+    }
+    if (highlightedComment && highlightedComment === comment.id) {
+      wrapperClasses.push('highlighted');
     }
     if (this.state.displayBlock) {
       wrapperClasses.push('fade-in-shown');
@@ -61,7 +67,7 @@ class Comment extends React.Component {
     }
 
     return (
-      <div className={wrapperClasses.join(' ')}>
+      <div className={wrapperClasses.join(' ')} id={`comment-${comment.id}`}>
 
         <div className="comment-header">
           <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
@@ -90,14 +96,14 @@ class Comment extends React.Component {
         </div>
 
         <div className="comment-body">
-          {editId && editId === comment.id ? (
+          {editedComment && editedComment === comment.id ? (
             <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
           ) : (
             comment.text.trim()
           )}
         </div>
 
-        {(!editId || (editId && editId !== comment.id)) &&
+        {(!editedComment || (editedComment && editedComment !== comment.id)) &&
         <div className="comment-footer">
           <div className="links">
 
@@ -152,15 +158,18 @@ Comment.propTypes = {
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  editId: PropTypes.number,
+  editedComment: PropTypes.number,
+  highlightedComment: PropTypes.number,
 };
 
 Comment.defaultProps = {
-  editId: null,
+  editedComment: null,
+  highlightedComment: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  editId: lessonSidebar.comments.form.edit,
+  editedComment: lessonSidebar.comments.form.editedComment,
+  highlightedComment: lessonSidebar.comments.highlightedComment,
 });
 
 export default connect(mapStateToProps)(Comment);

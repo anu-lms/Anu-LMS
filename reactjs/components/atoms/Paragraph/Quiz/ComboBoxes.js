@@ -94,11 +94,13 @@ ComboBoxes.propTypes = {
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
   handleQuizChange: PropTypes.func,
   handleParagraphLoaded: PropTypes.func,
+  commentsAllowed: PropTypes.bool,
 };
 
 ComboBoxes.defaultProps = {
   data: null,
   columnClasses: [],
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
   handleQuizChange: () => {},
   blocks: [],

@@ -26,7 +26,7 @@ class ImageCentered extends React.Component {
   }
 
   render() {
-    const { image, title, columnClasses, id } = this.props;
+    const { image, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container image-centered">
         <div className="row">
@@ -42,7 +42,9 @@ class ImageCentered extends React.Component {
             <div className="caption">{title}</div>
             }
 
-            <ShowCommentsCTA paragraphId={id} />
+            {commentsAllowed &&
+              <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
@@ -65,6 +67,7 @@ ImageCentered.propTypes = {
       }),
     }),
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 ImageCentered.defaultProps = {
@@ -72,6 +75,7 @@ ImageCentered.defaultProps = {
   columnClasses: [],
   title: '',
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

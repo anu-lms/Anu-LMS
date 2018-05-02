@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Alert from 'react-s-alert';
+import urlParse from 'url-parse';
+import copy from 'copy-to-clipboard';
 import { connect } from 'react-redux';
 import Dropdown, { MenuItem, MenuIcon } from '../../../atoms/DropdownMenu';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -15,7 +18,18 @@ class CommentMenu extends Component {
   }
 
   onCopyLink() {
+    const { paragraphId, comment } = this.props;
 
+    // Prepares link to the comment.
+    let parsedUrl = urlParse(window.location.href, true);
+    parsedUrl.query.comment = `${paragraphId}-${comment.id}`;
+
+    if (copy(parsedUrl.toString())) {
+      Alert.success('Link successfully copied.');
+    }
+    else {
+      Alert.error('Could not copy link.');
+    }
   }
 
   onEdit() {
@@ -82,11 +96,13 @@ CommentMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   currentUserId: PropTypes.number.isRequired,
+  paragraphId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ user, lessonSidebar }) => ({
   currentUserId: user.uid,
   comments: lessonSidebar.comments.comments,
+  paragraphId: lessonSidebar.comments.paragraphId,
 });
 
 export default connect(mapStateToProps)(CommentMenu);

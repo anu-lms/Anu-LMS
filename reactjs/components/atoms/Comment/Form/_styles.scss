@@ -1,5 +1,5 @@
 .lesson-comments-container {
-  .new-comment-form {
+  .comment-form {
     padding: 1em;
     transform: .3s all;
     @include media-breakpoint-up(md) {
@@ -22,7 +22,7 @@
       margin-bottom: 0.75em;
     }
   }
-  .comment-body .new-comment-form {
+  .comment-body .comment-form {
     padding: 0;
   }
 }

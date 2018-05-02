@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Alert from 'react-s-alert';
 import { connect } from 'react-redux';
 import PageLoader from '../../../atoms/PageLoader';
 import CommentsList from '../../../atoms/Comment/List';
 import AddCommentForm from '../../../atoms/Comment/Form';
+import { scrollToElement } from '../../../../utils/scrollTo';
 import EmptyText from '../../../atoms/Comment/EmptyText';
 import ErrorBoundary from '../../../atoms/ErrorBoundary';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -12,6 +14,8 @@ import * as lessonCommentsHelper from '../../../../helpers/lessonComments';
 class lessonComments extends React.Component {
   constructor(props, context) {
     super(props, context);
+    // Defines if comment highlighting already processed.
+    this.commentHightlightingProcessed = false;
 
     this.scrollToForm = this.scrollToForm.bind(this);
   }
@@ -21,6 +25,30 @@ class lessonComments extends React.Component {
     // When component is mounted, send action that the comments sidebar is opened.
     if (!isLoading) {
       dispatch(lessonCommentsActions.syncComments());
+    }
+  }
+
+  componentDidUpdate() {
+    const { highlightedComment, comments, isLoading, dispatch } = this.props;
+
+    // Validate highlighted comment when comments list loaded.
+    // Use DidUpdate event because `highlightedComment` variable isn't available in DidMount.
+    if (highlightedComment && !isLoading && !this.commentHightlightingProcessed) {
+      if (!lessonCommentsHelper.getCommentById(comments, highlightedComment)) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
+      }
+      else {
+        scrollToElement('lesson-comments-scrollable', `comment-${highlightedComment}`);
+      }
+
+      // Unhighlight a Comment in 3 sec.
+      setTimeout(() => {
+        dispatch(lessonCommentsActions.unhighlightComment());
+      }, 3000);
+
+      // Set variable to don't double process.
+      this.commentHightlightingProcessed = true;
     }
   }
 
@@ -35,11 +63,15 @@ class lessonComments extends React.Component {
   }
 
   scrollToForm() {
-    lessonCommentsHelper.scrollToAddCommentForm('new-comment-form');
+    // Scroll user and set focus to the New comment form.
+    scrollToElement('lesson-comments-scrollable', 'new-comment-form', () => {
+      document.getElementById('new-comment-form')
+        .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
+    });
   }
 
   render() {
-    const { comments, isLoading } = this.props;
+    const { orderedComments, isLoading } = this.props;
 
     return (
       <div className="lesson-comments-container">
@@ -62,8 +94,8 @@ class lessonComments extends React.Component {
             </div>
 
             <div className="comments-content">
-              {comments.length > 0 ? (
-                <CommentsList comments={comments} />
+              {orderedComments.length > 0 ? (
+                <CommentsList comments={orderedComments} />
               ) : (
                 <EmptyText />
               )}
@@ -81,11 +113,19 @@ lessonComments.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  orderedComments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  highlightedComment: PropTypes.number,
+};
+
+lessonComments.defaultProps = {
+  highlightedComment: null,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
-  comments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
+  comments: lessonSidebar.comments.comments,
+  orderedComments: lessonCommentsHelper.getOrderedComments(lessonSidebar.comments.comments),
   isLoading: lessonSidebar.sidebar.isLoading,
+  highlightedComment: lessonSidebar.comments.highlightedComment,
 });
 
 export default connect(mapStateToProps)(lessonComments);
