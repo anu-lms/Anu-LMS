@@ -41,12 +41,14 @@ Divider.propTypes = {
   settings: PropTypes.object,
   handleParagraphLoaded: PropTypes.func,
   counter: PropTypes.number,
+  commentsAllowed: PropTypes.bool,
 };
 
 Divider.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
   counter: 0,
 };

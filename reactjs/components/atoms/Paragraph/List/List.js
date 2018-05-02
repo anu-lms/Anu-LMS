@@ -20,7 +20,7 @@ class List extends React.Component {
 
   render() {
     const {
-      list, type, id, columnClasses,
+      list, type, id, columnClasses, commentsAllowed,
     } = this.props;
     let Wrapper = 'ul';
 
@@ -46,9 +46,8 @@ class List extends React.Component {
               ))}
             </Wrapper>
 
-            { // eslint-disable-next-line react/prop-types, max-len
-              this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
-              <ShowCommentsCTA paragraphId={id} />
+            {commentsAllowed &&
+            <ShowCommentsCTA paragraphId={id} />
             }
           </div>
         </div>
@@ -64,12 +63,14 @@ List.propTypes = {
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
   list: PropTypes.arrayOf(PropTypes.string).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 List.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

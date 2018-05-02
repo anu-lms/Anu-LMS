@@ -26,7 +26,7 @@ class ImageCentered extends React.Component {
   }
 
   render() {
-    const { image, title, columnClasses, id } = this.props;
+    const { image, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container image-centered">
         <div className="row">
@@ -42,8 +42,7 @@ class ImageCentered extends React.Component {
             <div className="caption">{title}</div>
             }
 
-            { // eslint-disable-next-line react/prop-types, max-len
-              this.props.data === undefined && // Don't output comments icon for blocks inside quizes.
+            {commentsAllowed &&
               <ShowCommentsCTA paragraphId={id} />
             }
           </div>
@@ -68,6 +67,7 @@ ImageCentered.propTypes = {
       }),
     }),
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 ImageCentered.defaultProps = {
@@ -75,6 +75,7 @@ ImageCentered.defaultProps = {
   columnClasses: [],
   title: '',
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

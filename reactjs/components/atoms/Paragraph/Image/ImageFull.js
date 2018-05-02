@@ -62,12 +62,14 @@ ImageFull.propTypes = {
     value: PropTypes.string,
     format: PropTypes.string,
   }),
+  commentsAllowed: PropTypes.bool,
 };
 
 ImageFull.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
   text: {},
 };
