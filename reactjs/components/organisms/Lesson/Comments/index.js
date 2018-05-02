@@ -28,6 +28,16 @@ class lessonComments extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isLoading && !nextProps.isLoading) {
+      // Restore Scroll position after sidebar reload.
+      const scrollableArea = document.getElementById('lesson-comments-scrollable');
+      if (scrollableArea) {
+        scrollableArea.scrollTop = 0;
+      }
+    }
+  }
+
   componentDidUpdate() {
     const { highlightedComment, comments, isLoading, dispatch } = this.props;
 
@@ -49,16 +59,6 @@ class lessonComments extends React.Component {
 
       // Set variable to don't double process.
       this.commentHightlightingProcessed = true;
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.isLoading && !nextProps.isLoading) {
-      // Restore Scroll position after sidebar reload.
-      const scrollableArea = document.getElementById('lesson-comments-scrollable');
-      if (scrollableArea) {
-        scrollableArea.scrollTop = 0;
-      }
     }
   }
 
