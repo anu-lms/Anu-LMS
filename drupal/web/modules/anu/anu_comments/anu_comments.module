@@ -10,6 +10,15 @@ use Drupal\Core\Access\AccessResult;
  */
 
 /**
+ * Enables revisions for comment entity by default.
+ */
+function anu_comments_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof Drupal\eck\Entity\EckEntity && $entity->getEntityTypeId() == 'paragraph_comment') {
+    $entity->setNewRevision(TRUE);
+  }
+}
+
+/**
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_comments_paragraph_comment_access(EntityInterface $comment, $operation,  AccountInterface $account) {
