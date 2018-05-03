@@ -2,7 +2,7 @@
   border-bottom: 1px solid $london-sky;
   padding: 1em 1em 1.5em;
   position: relative;
-  transition: background-color .6s, height 0.3s, opacity 0s linear;
+  transition: background-color .6s, height 0.3s, opacity 0.2s linear;
   @include media-breakpoint-up(lg) {
     padding: 1.5em;
   }
