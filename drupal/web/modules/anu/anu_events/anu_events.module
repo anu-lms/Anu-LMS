@@ -1,7 +1,38 @@
 <?php
-
+use Drupal\message\Entity\Message;
+use \Drupal\Component\Render\FormattableMarkup;
 
 /**
  * @file
  * Contains hooks definition for Anu Events module.
  */
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface $entity) {
+
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+
+  try {
+    /** @var \Drupal\message\Entity\Message $message */
+    $message = Message::create([
+      'template' => 'reply_to_comment',
+      'uid' => (int) $entity->uid->target_id,
+    ]);
+    $message->field_message_comment = $entity->id();
+    $message->field_message_parent_comment = $entity->field_comment_parent->getString();
+    $message->save();
+
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not create a message for comment @id. Error: @error', [
+      '@id' => $entity->id(),
+      '@error' => $exception->getMessage()
+    ]);
+    \Drupal::logger('anu_events')->error($message);
+  }
+}
