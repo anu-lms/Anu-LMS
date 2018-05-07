@@ -44,16 +44,22 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         return $entity->getEntityTypeId() === 'node' ? true : false;
       });
 
+      // Get imported Users.
+      $users = array_filter($entities, function($entity) {
+        /* @var $entity \Drupal\Core\Entity\ContentEntityInterface */
+        return $entity->getEntityTypeId() === 'user' ? true : false;
+      });
+
       foreach ($groups as $group) {
         /* @var $group \Drupal\group\Entity\Group */
-        $this->addTestClassMembers($group);
+        $this->addTestClassMembers($group, $users);
 
         // Add all test courses and lessons into all test classes.
         /* @var $node \Drupal\node\Entity\Node */
         foreach ($nodes as $node) {
           $bundle = $node->bundle();
           if (in_array($bundle, ['course', 'lesson'])) {
-            $plugin = 'group_node:' . $node->bundle();
+            $plugin = 'group_node:' . $bundle;
             $group->addContent($node, $plugin);
           }
         }
@@ -64,8 +70,9 @@ class ImportEventSubscriber implements EventSubscriberInterface {
   /**
    * Add users into the test group.
    * @param $group \Drupal\group\Entity\Group
+   * @param $users (array) \Drupal\user\UserInterface
    */
-  public function addTestClassMembers($group) {
+  public function addTestClassMembers($group, $users) {
 
     /* @var $role \Drupal\user\Entity\Role */
     foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
@@ -96,6 +103,12 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         $group->addMember($account, $values);
       }
     }
+    /* @var $user \Drupal\user\UserInterface */
+    foreach ($users as $user) {
+      $user->activate();
+      $group->addMember($user, array('gid' => $group->id()));
+    }
+
   }
 
 }

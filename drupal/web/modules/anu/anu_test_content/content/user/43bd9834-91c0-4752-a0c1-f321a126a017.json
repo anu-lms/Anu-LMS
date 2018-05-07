@@ -1,0 +1,84 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/user\/999472?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+            }
+        ]
+    },
+    "uid": [
+        {
+            "value": 999472
+        }
+    ],
+    "uuid": [
+        {
+            "value": "43bd9834-91c0-4752-a0c1-f321a126a017"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "name": [
+        {
+            "value": "authenticated2.test"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-05-04T13:42:13+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-05-04T13:43:28+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_first_name": [
+        {
+            "value": "Test"
+        }
+    ],
+    "field_last_name": [
+        {
+            "value": "Learner 2"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "026cac35-f55e-4b84-bb8a-7ebba5b898f0"
+                    }
+                ]
+            }
+        ]
+    }
+}
