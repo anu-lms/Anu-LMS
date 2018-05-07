@@ -56,4 +56,25 @@ class AcceptanceTester extends \Codeception\Actor {
 
   }
 
+  /**
+   * Creates certain number of test comments.
+   * @param integer $count
+   *   Number of comments to create.
+   */
+  public function createComments($count) {
+
+    $I = $this;
+
+    for ($i=1; $i<=$count; $i++) {
+      $I->click('.add-new-comment');
+      $I->fillField('#new-comment-form textarea', 'Test comment ' . $i);
+      $I->wait(1);
+      // Approach below does not always work, so have to wait 1 sec :(
+      // $I->waitForElement('//div[@id="new-comment-form"]/button[@type="submit" and not(@disabled)]');
+      $I->click('#new-comment-form button[type="submit"]');
+      $I->waitForElement('//div[contains(concat(" ", normalize-space(@class), " "), " comment ")]//div[@class="comment-body" and text()="Test comment ' . $i . '"]');
+    }
+
+  }
+
 }
