@@ -1,0 +1,17 @@
+uuid: ecb42a8b-390f-4432-969c-882995a81354
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.message.mail_subject
+    - message.template.reply_to_comment
+id: message.reply_to_comment.mail_subject
+targetEntityType: message
+bundle: reply_to_comment
+mode: mail_subject
+content:
+  partial_0:
+    weight: 0
+    region: content
+hidden:
+  partial_1: true
