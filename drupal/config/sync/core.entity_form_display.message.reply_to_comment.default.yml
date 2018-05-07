@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.message.reply_to_comment.field_message_comment
-    - field.field.message.reply_to_comment.field_message_parent_comment
+    - field.field.message.reply_to_comment.field_message_recipient
     - message.template.reply_to_comment
 id: message.reply_to_comment.default
 targetEntityType: message
@@ -20,7 +20,7 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_message_parent_comment:
+  field_message_recipient:
     weight: 1
     settings:
       match_operator: CONTAINS
