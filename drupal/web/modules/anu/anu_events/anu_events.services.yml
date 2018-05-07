@@ -1,0 +1,5 @@
+services:
+  anu_events.event_subscriber:
+    class: Drupal\anu_events\EventSubscriber\EventSubScriber
+    tags:
+      - { name: 'event_subscriber' }
