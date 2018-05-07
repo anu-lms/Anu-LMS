@@ -7,7 +7,7 @@ label: 'Reply to comment '
 description: 'When user replied to the comment of another user'
 text:
   -
-    value: "<p>User&nbsp;[message:author:display-name] has replied to the comment of user [message:field_message_parent_comment:entity:uid].</p>\r\n"
+    value: "<p>User&nbsp;[message:author:display-name] has replied to the comment of user [message:field_message_recipient:entity:display-name].</p>\r\n"
     format: filtered_html
 settings:
   'token options':
