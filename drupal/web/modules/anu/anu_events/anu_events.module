@@ -13,7 +13,6 @@ use Drupal\anu_events\Event\AnuEvents;
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface $entity) {
-
   if ($entity->bundle() != 'paragraph_comment') {
     return;
   }
