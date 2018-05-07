@@ -1,0 +1,28 @@
+uuid: e01e12ec-db62-4a9f-8e5e-091dda856863
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.storage.message.field_message_comment
+    - message.template.reply_to_comment
+id: message.reply_to_comment.field_message_comment
+field_name: field_message_comment
+entity_type: message
+bundle: reply_to_comment
+label: Comment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph_comment'
+  handler_settings:
+    target_bundles:
+      paragraph_comment: paragraph_comment
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

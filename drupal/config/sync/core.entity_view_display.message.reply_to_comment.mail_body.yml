@@ -1,0 +1,17 @@
+uuid: 9ae150bf-306e-4f09-9098-2e8d8c97f7b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.message.mail_body
+    - message.template.reply_to_comment
+id: message.reply_to_comment.mail_body
+targetEntityType: message
+bundle: reply_to_comment
+mode: mail_body
+content:
+  partial_1:
+    weight: 0
+    region: content
+hidden:
+  partial_0: true

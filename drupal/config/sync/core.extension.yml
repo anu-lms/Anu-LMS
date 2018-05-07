@@ -59,6 +59,8 @@ module:
   media_entity: 0
   media_entity_browser: 0
   media_entity_image: 0
+  message: 0
+  message_notify: 0
   metatag: 0
   module_filter: 0
   node: 0
