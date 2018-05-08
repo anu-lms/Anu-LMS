@@ -71,6 +71,27 @@ function anu_lessons_file_access($entity, $operation) {
   return AccessResult::neutral();
 }
 
+/**
+ * Search for Lesson by paragraph id.
+ *
+ * @param integer $paragraph_id
+ *   Id of Paragraph.
+ *
+ * @return
+ *   Lesson object or Null;
+ */
+function get_lesson_by_paragraph_id($paragraph_id) {
+  // Load resource paragraphs from course lessons.
+  $lessons = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadByProperties([
+      'type' => 'lesson',
+      'field_lesson_blocks' => $paragraph_id
+    ]);
+
+  return !empty($lessons) ? reset($lessons) : NULL;
+}
+
 // @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
 //
 ///**

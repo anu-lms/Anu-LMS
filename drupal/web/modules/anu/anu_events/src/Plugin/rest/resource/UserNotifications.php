@@ -63,6 +63,7 @@ class UserNotifications extends ResourceBase {
    * @return \Drupal\rest\ResourceResponse
    */
   public function get() {
+    $response = [];
     try {
       $query = \Drupal::entityQuery('message')
         ->condition('field_message_recipient', \Drupal::currentUser()->id())
@@ -70,10 +71,30 @@ class UserNotifications extends ResourceBase {
         ->sort('created' , 'DESC');
 
       $entity_ids = $query->execute();
-      $response = \Drupal::entityTypeManager()
+      $messages = \Drupal::entityTypeManager()
         ->getStorage('message')
         ->loadMultiple($entity_ids);
 
+      foreach ($messages as $message) {
+        $response_item = [
+          'id' => $message->id(),
+          'bundle' => $message->bundle(),
+          'created' => (int) $message->created->getString(),
+          'triggerer' => $message->uid->first()->get('entity')->getValue(),
+        ];
+        if ($message->hasField('field_message_comment')) {
+          $comment = $message->field_message_comment->first()->get('entity')->getValue();
+          $paragraph_id = (int) $comment->field_comment_paragraph->getString();
+          $lesson = get_lesson_by_paragraph_id($paragraph_id);
+          $response_item['comment'] = [
+            'id' => $comment->id(),
+            'text' => $comment->field_comment_text->getValue()[0]['value'],
+            'paragraphId' => $paragraph_id,
+            'lessonTitle' => $lesson->label(),
+          ];
+        }
+        $response[] = $response_item;
+      }
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not load notifications for the user. Error: @error', [
         '@error' => $e->getMessage()
