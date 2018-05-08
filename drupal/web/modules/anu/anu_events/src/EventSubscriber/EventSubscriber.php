@@ -37,7 +37,7 @@ class EventSubscriber implements EventSubscriberInterface {
   /**
    * Notify every supported channel.
    */
-  public function sendNotification($event) {
+  public function sendNotification(\Drupal\anu_events\Event\AnuEvent $event) {
     foreach ($this->channels as $channel) {
       \Drupal::service('message_notify.sender')->send($event->getMessage(), [], $channel);
     }

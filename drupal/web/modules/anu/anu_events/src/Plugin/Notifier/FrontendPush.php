@@ -19,7 +19,8 @@ class FrontendPush extends MessageNotifierObject {
   public function deliver(array $output = []) {
 
     // Put here logic to send notifications to the frontend.
-    \Drupal::logger('anu_events')->notice('Notification has been sent to the frontend.');
+    \Drupal::logger('anu_events')
+      ->notice($output['message']->getText()[0] . ' (Notification has been sent to the frontend)');
     return TRUE;
   }
 
