@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package Drupal\anu_events
  */
-class EventSubscriber implements EventSubscriberInterface {
+class AnuEventSubscriber implements EventSubscriberInterface {
 
   /**
    * Supported channels.
