@@ -7,7 +7,7 @@ label: 'Add Comment to thread'
 description: 'When user added comment to the comments thread of another user'
 text:
   -
-    value: "<p>User&nbsp;[message:author:display-name] add comment to the comments thread of user [message:field_message_recipient:entity:display-name].</p>\r\n"
+    value: "<p>User&nbsp;[message:author:display-name] added comment to the comments thread of user [message:field_message_recipient:entity:display-name].</p>\r\n"
     format: filtered_html
 settings:
   'token options':
