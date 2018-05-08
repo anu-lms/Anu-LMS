@@ -17,8 +17,11 @@ abstract class AnuEvent extends Event {
 
   protected $template_name;
 
-  public function __construct($entity, $template_name = '') {
+  protected $event_name;
+
+  public function __construct($entity, $event_name = '', $template_name = '') {
     $this->entity = $entity;
+    $this->event_name = $event_name;
     $this->template_name = $template_name;
   }
 
@@ -32,6 +35,24 @@ abstract class AnuEvent extends Event {
 
   public function setMessage($message) {
     return $this->message = $message;
+  }
+
+  public function canBeTriggered() {
+    return TRUE;
+  }
+
+  public function trigger() {
+    if (empty($this->event_name)) {
+      throw new \Exception('You should define event name in class constructor.');
+    }
+
+    if (!$this->canBeTriggered()) {
+      return;
+    }
+
+    if ($this->createMessage()) {
+      \Drupal::service('event_dispatcher')->dispatch($this->event_name, $this);
+    }
   }
 
   public function createMessage() {

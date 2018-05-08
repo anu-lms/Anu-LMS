@@ -1,6 +1,6 @@
 <?php
 use Drupal\anu_events\Event\ReplyToCommentEvent;
-use Drupal\anu_events\Event\AnuEvents;
+use Drupal\anu_events\Event\AddCommentToThreadEvent;
 
 /**
  * @file
@@ -18,9 +18,13 @@ function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface 
   }
 
   if (!empty($entity->field_comment_parent->getValue())) {
-    $event = new ReplyToCommentEvent($entity);
-    if ($event->createMessage()) {
-      \Drupal::service('event_dispatcher')->dispatch(AnuEvents::REPLY_TO_COMMENT, $event);
+    $reply_to_comment_event = new ReplyToCommentEvent($entity);
+    $reply_to_comment_event->trigger();
+
+    $add_comment_to_thread = new AddCommentToThreadEvent($entity);
+    // Don't send "added to thread" notification if "replied to comment" has already been send to the same recipient.
+    if ($reply_to_comment_event->getRecipient() != $add_comment_to_thread->getRecipient()) {
+      $add_comment_to_thread->trigger();
     }
   }
 }

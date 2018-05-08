@@ -6,18 +6,14 @@ use Drupal\message\Entity\Message;
 use \Drupal\Component\Render\FormattableMarkup;
 
 
-class ReplyToCommentEvent extends AnuEvent {
+class AddCommentToThreadEvent extends AnuEvent {
 
   protected $recipient;
 
   protected $triggerer;
 
   public function __construct($entity, $template_name = '') {
-    parent::__construct($entity, AnuEvents::REPLY_TO_COMMENT,'reply_to_comment');
-  }
-
-  public function canBeTriggered() {
-    return $this->getTriggerer() !== $this->getRecipient();
+    parent::__construct($entity, AnuEvents::ADD_COMMENT_TO_THREAD, 'add_comment_to_thread');
   }
 
   public function getTriggerer() {
@@ -46,7 +42,7 @@ class ReplyToCommentEvent extends AnuEvent {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
         'template' => $this->template_name,
-        'uid' => $this->getTriggerer(),
+        'uid' => (int) $comment->uid->target_id,
       ]);
       $message->field_message_comment = $comment->id();
       $message->field_message_recipient = $this->getRecipient();
