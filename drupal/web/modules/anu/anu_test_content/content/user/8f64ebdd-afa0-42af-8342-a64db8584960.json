@@ -5,7 +5,12 @@
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
-        }
+        },
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+            }
+        ]
     },
     "uid": [
         {
@@ -51,7 +56,7 @@
     ],
     "changed": [
         {
-            "value": "2018-05-07T13:17:26+00:00",
+            "value": "2018-05-08T12:49:47+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
@@ -71,5 +76,24 @@
         {
             "value": "Teacher"
         }
-    ]
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "dcba1a5a-895b-40b9-9bee-1091c666711d"
+                    }
+                ]
+            }
+        ]
+    }
 }
