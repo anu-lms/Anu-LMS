@@ -6,6 +6,9 @@ use \Drupal\Component\Render\FormattableMarkup;
 
 class ReplyToCommentEvent extends AnuEvent {
 
+  /**
+   * {@inheritdoc}
+   */
   public function __construct($entity, $template_name = '') {
     parent::__construct($entity, AnuEvents::REPLY_TO_COMMENT,'reply_to_comment');
 
@@ -26,6 +29,9 @@ class ReplyToCommentEvent extends AnuEvent {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function attachMessageFields($message) {
     $comment = $this->getEntity();
     $message->field_message_comment = $comment->id();
