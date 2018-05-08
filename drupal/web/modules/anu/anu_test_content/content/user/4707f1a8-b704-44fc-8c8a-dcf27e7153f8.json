@@ -1,0 +1,75 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/user\/999998?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+        }
+    },
+    "uid": [
+        {
+            "value": 999998
+        }
+    ],
+    "uuid": [
+        {
+            "value": "4707f1a8-b704-44fc-8c8a-dcf27e7153f8"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "name": [
+        {
+            "value": "moderator.test"
+        }
+    ],
+    "status": [
+        {
+            "value": 1
+        }
+    ],
+    "pass": [
+        {
+            "value": "password"
+        }
+    ],
+    "roles": [
+        {
+            "target_id": "moderator"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-01-29T13:35:14+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-05-07T13:17:26+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_first_name": [
+        {
+            "value": "Test"
+        }
+    ],
+    "field_last_name": [
+        {
+            "value": "Manager"
+        }
+    ]
+}
