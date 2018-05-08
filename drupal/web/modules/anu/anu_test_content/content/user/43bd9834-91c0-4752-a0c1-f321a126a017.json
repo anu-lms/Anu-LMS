@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/default\/user\/999472?_format=hal_json"
+            "href": "http:\/\/default\/user\/999995?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -14,7 +14,7 @@
     },
     "uid": [
         {
-            "value": 999472
+            "value": 999995
         }
     ],
     "uuid": [
@@ -31,6 +31,16 @@
     "name": [
         {
             "value": "authenticated2.test"
+        }
+    ],
+    "status": [
+        {
+            "value": 1
+        }
+    ],
+    "pass": [
+        {
+            "value": "password"
         }
     ],
     "created": [
