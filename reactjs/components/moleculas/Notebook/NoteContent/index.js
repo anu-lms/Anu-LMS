@@ -30,8 +30,19 @@ class NoteContent extends React.Component {
 
   render() {
     const { note, count } = this.props;
+
+    // Pass additional options for sticky panel if notebook used on Lesson page.
+    let stickyOptions = null;
+    if (this.props.contextId === 'lesson') {
+      stickyOptions = {
+        enter: '120',
+        enterMobile: '58',
+        rootId: 'note-content',
+      };
+    }
+
     return (
-      <div className="note-content">
+      <div className="note-content" id="note-content">
 
         <div className="row note-meta">
           <div className="caption sm col-auto mr-auto">
@@ -68,6 +79,8 @@ class NoteContent extends React.Component {
           initialValue={note.body}
           placeholder="Type something..."
           onChange={this.onContentChange}
+          // eslint-disable-next-line no-unneeded-ternary
+          stickyOptions={stickyOptions ? stickyOptions : undefined}
         />
 
       </div>
@@ -79,6 +92,11 @@ NoteContent.propTypes = {
   note: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   count: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
+  contextId: PropTypes.string,
+};
+
+NoteContent.defaultProps = {
+  contextId: '',
 };
 
 const mapStateToProps = ({ notebook }) => ({
