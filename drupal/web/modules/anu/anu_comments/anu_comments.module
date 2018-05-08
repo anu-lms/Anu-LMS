@@ -57,3 +57,19 @@ function anu_comments_entity_type_alter(array &$entity_types) {
     $entity->addConstraint('ParagraphComment', []);
   }
 }
+
+/**
+ * Looking for root parent comment recursively.
+ */
+function anu_comments_paragraph_comment_get_root_comment($comment) {
+  if (!empty($comment->field_comment_parent->getValue())) {
+    $parent = $comment->field_comment_parent
+      ->first()
+      ->get('entity')
+      ->getValue();
+
+    return anu_comments_paragraph_comment_get_root_comment($parent);
+  }
+
+  return $comment;
+}

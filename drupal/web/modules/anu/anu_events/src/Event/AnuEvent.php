@@ -43,6 +43,9 @@ abstract class AnuEvent extends Event {
   }
 
   public function getRecipient() {
+    if (empty($this->recipient)) {
+      \Drupal::logger('anu_events')->error("Recipient isn't defined in Event class.");
+    }
     return $this->recipient;
   }
 
@@ -60,7 +63,8 @@ abstract class AnuEvent extends Event {
 
   public function trigger() {
     if (empty($this->event_name)) {
-      throw new \Exception('You should define event name in class constructor.');
+      \Drupal::logger('anu_events')->error('You should define event name in class constructor.');
+      return;
     }
 
     if (!$this->canBeTriggered()) {
@@ -78,7 +82,8 @@ abstract class AnuEvent extends Event {
 
   public function createMessage() {
     if (empty($this->message_bundle)) {
-      throw new \Exception('You should define template name in class constructor.');
+      \Drupal::logger('anu_events')->error('You should define message bundle name in class constructor.');
+      return FALSE;
     }
 
     try {
