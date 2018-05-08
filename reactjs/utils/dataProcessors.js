@@ -200,6 +200,14 @@ export const userData = userDataObject => {
   if (userDataObject.field_organization[0] !== undefined) {
     data.organization = userDataObject.field_organization[0].target_id;
   }
+
+  if (userDataObject.field_first_name[0] !== undefined) {
+    data.firstName = userDataObject.field_first_name[0].value;
+  }
+
+  if (userDataObject.field_last_name[0] !== undefined) {
+    data.lastName = userDataObject.field_last_name[0].value;
+  }
   return data;
 };
 
@@ -221,5 +229,15 @@ export const processCommentsList = commentsList => (
     },
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
     deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
+  }))
+);
+
+/**
+ * Internal helper to normalize User data from the backend.
+ */
+export const processNotifications = Notifications => (
+  Notifications.map(rawNotification => ({
+    ...rawNotification,
+    triggerer: userData(rawNotification.triggerer),
   }))
 );
