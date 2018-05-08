@@ -13,20 +13,37 @@ abstract class AnuEvent extends Event {
 
   protected $entity;
 
-  protected $message;
-
-  protected $template_name;
-
   protected $event_name;
 
-  public function __construct($entity, $event_name = '', $template_name = '') {
+  protected $message_bundle;
+
+  protected $triggerer;
+
+  protected $recipient;
+
+  protected $message;
+
+  public function __construct($entity, $event_name = '', $message_bundle = '') {
     $this->entity = $entity;
     $this->event_name = $event_name;
-    $this->template_name = $template_name;
+    $this->message_bundle = $message_bundle;
+    $this->triggerer = (int) $entity->uid->target_id;
   }
 
-  public function getComment() {
+  public function getEntity() {
     return $this->entity;
+  }
+
+  public function getMessageBundle() {
+    return $this->message_bundle;
+  }
+
+  public function getTriggerer() {
+    return $this->triggerer;
+  }
+
+  public function getRecipient() {
+    return $this->recipient;
   }
 
   public function getMessage() {
@@ -38,7 +55,7 @@ abstract class AnuEvent extends Event {
   }
 
   public function canBeTriggered() {
-    return TRUE;
+    return !empty($this->recipient) && $this->getTriggerer() !== $this->getRecipient();
   }
 
   public function trigger() {
@@ -55,17 +72,24 @@ abstract class AnuEvent extends Event {
     }
   }
 
+  public function attachMessageFields($message) {
+    // We don't need to attach any fields in this class by default.
+  }
+
   public function createMessage() {
-    if (empty($this->template_name)) {
+    if (empty($this->message_bundle)) {
       throw new \Exception('You should define template name in class constructor.');
     }
 
     try {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
-        'template' => $this->template_name,
-        'uid' => (int) $this->entity->uid->target_id,
+        'template' => $this->getMessageBundle(),
+        'uid' => $this->getTriggerer(),
       ]);
+
+      $this->attachMessageFields($message);
+
       $saved_status = $message->save();
 
       $this->setMessage($message);
