@@ -142,12 +142,12 @@ class LessonNotebook extends React.Component {
             />
           </div>
 
-          {!isNoteListVisible && activeNote &&
-          <div className="note-column">
-            <ShowNotesButton handleClick={this.showNotes} />
-            <NoteContent note={activeNote} />
-          </div>
-          }
+              {!isNoteListVisible && activeNote &&
+              <div className="note-column">
+                <ShowNotesButton handleClick={this.showNotes} />
+                <NoteContent note={activeNote} contextId="lesson" />
+              </div>
+              }
 
           <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
             { !isNoteListVisible && activeNote &&
