@@ -33,6 +33,7 @@ permissions:
   - 'restful get learner_progress'
   - 'restful get learner_progress_detailed'
   - 'restful get quizzes_results'
+  - 'restful get user_notifications'
   - 'restful post contact_message'
   - 'restful post learner_progress'
   - 'restful post learner_progress_detailed'

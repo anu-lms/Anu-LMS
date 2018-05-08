@@ -5,10 +5,12 @@ import * as dataProcessors from '../utils/dataProcessors';
  */
 export const fetchNotifications = request => new Promise((resolve, reject) => {
   request
-    .get('/jsonapi/notifications')
+    .get('/notifications?_format=json')
     .then(response => {
-      const comments = dataProcessors.processCommentsList([response.body.data]);
-      resolve(comments[0]);
+      // const comments = dataProcessors.processCommentsList([response.body.data]);
+      // resolve(comments[0]);
+      console.log(response.body);
+      resolve(response.body.data);
     })
     .catch(error => {
       console.log('Could not fetch notifications.', error);
