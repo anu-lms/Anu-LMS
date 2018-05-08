@@ -10,7 +10,7 @@ export const fetchNotifications = request => new Promise((resolve, reject) => {
       // const comments = dataProcessors.processCommentsList([response.body.data]);
       // resolve(comments[0]);
       console.log(response.body);
-      resolve(response.body.data);
+      resolve(response.body);
     })
     .catch(error => {
       console.log('Could not fetch notifications.', error);
