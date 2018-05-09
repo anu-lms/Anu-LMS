@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
+import 'str-truncate';
 
 const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
   <div className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`}>
@@ -19,7 +20,7 @@ const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
     <div className="title"><span dangerouslySetInnerHTML={{ __html: title }} /></div>
 
     {text &&
-      <div className="text">"{text}"</div>
+      <div className="text">"{text.truncate(200)}"</div>
     }
   </div>
 );
