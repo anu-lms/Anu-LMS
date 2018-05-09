@@ -2,7 +2,7 @@ import React from 'react';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 
-const NotificationItem = ({ icon, date, title, body, isRead }) => (
+const NotificationItem = ({ icon, date, title, text, isRead }) => (
   <div className={`notification-item ${!isRead ? 'not-read' : ''}`}>
     <div className="header">
       <div className="type-icon">{icon}</div>
@@ -14,8 +14,8 @@ const NotificationItem = ({ icon, date, title, body, isRead }) => (
 
     <div className="title">{title}</div>
 
-    {body &&
-      <div className="body">"{body}"</div>
+    {text &&
+      <div className="text">"{text}"</div>
     }
   </div>
 );
@@ -24,13 +24,13 @@ NotificationItem.propTypes = {
   icon: PropTypes.node,
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string,
+  text: PropTypes.string,
   isRead: PropTypes.bool,
 };
 
 NotificationItem.defaultProps = {
   icon: {},
-  body: '',
+  text: '',
   isRead: false,
 };
 
