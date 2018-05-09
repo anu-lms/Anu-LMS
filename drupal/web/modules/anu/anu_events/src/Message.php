@@ -15,6 +15,7 @@ class Message {
         'bundle' => $message->bundle(),
         'created' => (int) $message->created->getString(),
         'triggerer' => $message->uid->first()->get('entity')->getValue(),
+        //'isRead' => $message->field_is_read->getString(),
       ];
 
       // Prepares Comment part if Comment field exists.

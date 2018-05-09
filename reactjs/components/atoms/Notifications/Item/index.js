@@ -4,8 +4,10 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import 'str-truncate';
 
-const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
-  <div className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`}>
+const NotificationItem = ({
+  Icon, date, title, text, isRead, className, onTitleClick, onItemClick,
+}) => (
+  <div className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`} onClick={onItemClick} onKeyPress={onItemClick}>
     <div className="header">
       {Icon &&
         <div className="type-icon"><Icon /></div>
@@ -17,7 +19,9 @@ const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
     </div>
 
     {/* @todo: strip tags */}
-    <div className="title"><span dangerouslySetInnerHTML={{ __html: title }} /></div>
+    <div className="title">
+      <span onClick={onTitleClick} onKeyPress={onTitleClick} dangerouslySetInnerHTML={{ __html: title }} />
+    </div>
 
     {text &&
       <div className="text">"{text.truncate(200)}"</div>
@@ -32,6 +36,8 @@ NotificationItem.propTypes = {
   text: PropTypes.string,
   className: PropTypes.string,
   isRead: PropTypes.bool,
+  onTitleClick: PropTypes.func,
+  onItemClick: PropTypes.func,
 };
 
 NotificationItem.defaultProps = {
@@ -39,6 +45,8 @@ NotificationItem.defaultProps = {
   text: '',
   isRead: false,
   className: '',
+  onTitleClick: () => {},
+  onItemClick: () => {},
 };
 
 export default NotificationItem;
