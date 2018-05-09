@@ -16,7 +16,7 @@ const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
     </div>
 
     {/* @todo: strip tags */}
-    <div className="title" dangerouslySetInnerHTML={{ __html: title }} />
+    <div className="title"><span dangerouslySetInnerHTML={{ __html: title }} /></div>
 
     {text &&
       <div className="text">"{text}"</div>
