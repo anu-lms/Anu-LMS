@@ -52,6 +52,7 @@
     "slate-edit-list": "^0.11.2",
     "slate-html-serializer": "systemseed/slate-html-serializer#1bdf4b4",
     "slate-react": "systemseed/slate-react#c6ecd76",
+    "str-truncate": "^1.0.1",
     "striptags": "2.2.1",
     "styled-components": "^3.1.6",
     "superagent": "^3.5.2",
