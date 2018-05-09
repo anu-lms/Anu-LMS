@@ -9,9 +9,7 @@
   background-color: $white;
 
   & > .list {
-    overflow: auto;
-    height: 100%;
-    padding-bottom: 39px;
+    height: calc(100% - 39px);
   }
 
   & > .footer {
