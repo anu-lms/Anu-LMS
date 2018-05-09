@@ -1,0 +1,27 @@
+.notifications-popup {
+  width: 400px;
+  height: 500px;
+  position: absolute;
+  right: 0;
+  top: 61px;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  background-color: $white;
+
+  & > .list {
+    overflow: auto;
+    height: 100%;
+    padding-bottom: 39px;
+  }
+
+  & > .footer {
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    background-color: #c7e1f1;
+    color: $navy;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+}

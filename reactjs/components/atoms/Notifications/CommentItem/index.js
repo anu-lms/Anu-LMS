@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import NotificationItem from '../Item';
 import * as userHelper from '../../../../helpers/user';
 
+export const supportedBundles = [
+  'add_comment_to_thread',
+  'reply_to_comment',
+];
+
 const NotificationCommentItemIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
     <g fill="none" fillRule="evenodd">
@@ -18,9 +23,9 @@ const NotificationCommentItem = ({ notificationItem }) => {
 
   return (
     <NotificationItem
-      icon={NotificationCommentItemIcon}
+      Icon={NotificationCommentItemIcon}
       date={notificationItem.created}
-      title={`${triggererName} replied to your comment in ${lessonTitle}`}
+      title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
       text={notificationItem.comment.text}
       className={`comment comment-${notificationItem.bundle}`}
     />
@@ -28,7 +33,6 @@ const NotificationCommentItem = ({ notificationItem }) => {
 };
 
 NotificationCommentItem.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   notificationItem: PropTypes.shape({
     id: PropTypes.string,
     bundle: PropTypes.string,
