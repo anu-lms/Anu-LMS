@@ -25,7 +25,7 @@ const NotificationItem = ({ Icon, date, title, text, isRead, className }) => (
 );
 
 NotificationItem.propTypes = {
-  Icon: PropTypes.node,
+  Icon: PropTypes.func,
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string,

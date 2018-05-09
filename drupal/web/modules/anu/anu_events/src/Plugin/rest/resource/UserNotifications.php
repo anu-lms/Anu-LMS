@@ -67,7 +67,7 @@ class UserNotifications extends ResourceBase {
     try {
       $query = \Drupal::entityQuery('message')
         ->condition('field_message_recipient', \Drupal::currentUser()->id())
-        ->range(0, 20) // Will be enhanced with lazy loading.
+        ->range(0, 10) // Will be enhanced with lazy loading.
         ->sort('created' , 'DESC');
 
       $entity_ids = $query->execute();

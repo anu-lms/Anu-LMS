@@ -29,6 +29,11 @@
     line-height: 1.43;
   }
 
+  .title:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   .body {
     line-height: 1.43;
   }

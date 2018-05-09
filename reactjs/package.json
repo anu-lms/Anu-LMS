@@ -32,6 +32,7 @@
     "react": "^16.2.0",
     "react-autosize-textarea": "^3.0.2",
     "react-circular-progressbar": "^0.6.0",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-google-tag-manager": "^2.2.1",
     "react-howler": "^3.7.0",
