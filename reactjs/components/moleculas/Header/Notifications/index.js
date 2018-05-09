@@ -1,7 +1,8 @@
 import React from 'react';
-import * as notificationsActions from '../../../../actions/notifications';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import * as notificationsActions from '../../../../actions/notifications';
+import NotificationsPopup from '../../../atoms/Notifications/Popup';
 
 class Notifications extends React.Component {
   constructor(props) {
@@ -32,57 +33,7 @@ class Notifications extends React.Component {
           {/* <div className="icon-label">Notifications</div> */}
         </div>
 
-        <div className="notifications-popup">
-          <div className="list">
-
-            <div className="item not-read">
-              <div className="header">
-                <div className="type-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                    <g fill="none" fillRule="evenodd">
-                      <path fill="#B2B2B2" fillRule="nonzero" d="M19.99 2c0-1.1-.89-2-1.99-2H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z" />
-                      <path d="M-2-2h24v24H-2z" />
-                    </g>
-                  </svg>
-                </div>
-                <div className="date">
-                  May 7th
-                </div>
-              </div>
-              <div className="title">
-                <b>Hannah Burton</b> replied to your comment in <b>Module 3: Carbohydrates</b>
-              </div>
-              <div className="body">
-                “Body of notification, text falls into this box with 16pt padding right, 32pt padding left. Does the imbalance look odd? I don’t think so.”
-              </div>
-            </div>
-            <div className="item">
-              <div className="header">
-                <div className="type-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                    <g fill="none" fillRule="evenodd">
-                      <path fill="#B2B2B2" fillRule="nonzero" d="M19.99 2c0-1.1-.89-2-1.99-2H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z" />
-                      <path d="M-2-2h24v24H-2z" />
-                    </g>
-                  </svg>
-                </div>
-                <div className="date">
-                  May 7th
-                </div>
-              </div>
-              <div className="title">
-                <b>Hannah Burton</b> replied to your comment in <b>Module 3: Carbohydrates</b>
-              </div>
-              <div className="body">
-                “Body of notification, text falls into this box with 16pt padding right, 32pt padding left. Does the imbalance look odd? I don’t think so.”
-              </div>
-            </div>
-
-          </div>
-          <div className="footer">
-            Mark all as read
-          </div>
-        </div>
+        <NotificationsPopup />
       </div>
     );
   }
