@@ -1,0 +1,3 @@
+services:
+  anu_lessons.lesson:
+      class: Drupal\anu_lessons\Lesson

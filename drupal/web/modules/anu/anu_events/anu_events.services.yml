@@ -3,3 +3,6 @@ services:
     class: Drupal\anu_events\EventSubscriber\AnuEventSubscriber
     tags:
       - { name: 'event_subscriber' }
+
+  anu_events.message:
+      class: Drupal\anu_events\Message

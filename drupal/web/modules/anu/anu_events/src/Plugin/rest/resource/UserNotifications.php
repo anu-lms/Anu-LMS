@@ -76,24 +76,12 @@ class UserNotifications extends ResourceBase {
         ->loadMultiple($entity_ids);
 
       foreach ($messages as $message) {
-        $response_item = [
-          'id' => $message->id(),
-          'bundle' => $message->bundle(),
-          'created' => (int) $message->created->getString(),
-          'triggerer' => $message->uid->first()->get('entity')->getValue(),
-        ];
-        if ($message->hasField('field_message_comment')) {
-          $comment = $message->field_message_comment->first()->get('entity')->getValue();
-          $paragraph_id = (int) $comment->field_comment_paragraph->getString();
-          $lesson = get_lesson_by_paragraph_id($paragraph_id);
-          $response_item['comment'] = [
-            'id' => $comment->id(),
-            'text' => $comment->field_comment_text->getValue()[0]['value'],
-            'paragraphId' => $paragraph_id,
-            'lessonTitle' => $lesson->label(),
-          ];
+        /* @var $messageService \Drupal\anu_events\Message */
+        $messageService = \Drupal::service('anu_events.message');
+        $message_item = $messageService->normalize($message);
+        if (!empty($message_item)) {
+          $response[] = $message_item;
         }
-        $response[] = $response_item;
       }
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not load notifications for the user. Error: @error', [
