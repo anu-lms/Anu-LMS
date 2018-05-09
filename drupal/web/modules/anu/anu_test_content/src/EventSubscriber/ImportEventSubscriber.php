@@ -58,7 +58,7 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         /* @var $node \Drupal\node\Entity\Node */
         foreach ($nodes as $node) {
           $bundle = $node->bundle();
-          if (in_array($bundle, ['course', 'lesson'])) {
+          if (in_array($bundle, ['course'])) {
             $plugin = 'group_node:' . $bundle;
             $group->addContent($node, $plugin);
           }
@@ -70,45 +70,20 @@ class ImportEventSubscriber implements EventSubscriberInterface {
   /**
    * Add users into the test group.
    * @param $group \Drupal\group\Entity\Group
-   * @param $users (array) \Drupal\user\UserInterface
+   * @param $users \Drupal\user\Entity\User[]
    */
   public function addTestClassMembers($group, $users) {
 
-    /* @var $role \Drupal\user\Entity\Role */
-    foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
-
-      if ($role->id() == 'anonymous') {
-        continue;
-      }
-
-      switch ($role->id()) {
-        case 'teacher':
-        case 'manager':
-        case 'admin':
-          $roles = ['class-admin'];
-          break;
-        default:
-          $roles = [];
-          break;
-      }
-
-      $values = ['group_roles' => $roles, 'gid' => $group->id()];
-
-      $username = $role->id() . '.test';
-
-      /* @var $account \Drupal\user\Entity\User */
-      $account = user_load_by_name($username);
-
-      if ($account) {
-        $group->addMember($account, $values);
-      }
-    }
-    /* @var $user \Drupal\user\UserInterface */
+    /* @var $user \Drupal\user\Entity\User */
     foreach ($users as $user) {
-      $user->activate();
-      $group->addMember($user, array('gid' => $group->id()));
+
+      $roles = array_intersect($user->getRoles(), ['teacher', 'moderator', 'administrator']) ? ['class-admin'] : [];
+      $values = ['group_roles' => $roles, 'gid' => $group->id()];
+      $group->addMember($user, $values);
+
     }
 
   }
+
 
 }
