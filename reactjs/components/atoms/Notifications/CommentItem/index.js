@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import NotificationItem from '../Item';
 import * as userHelper from '../../../../helpers/user';
 
-const CommentItemIcon = () => (
+const NotificationCommentItemIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
     <g fill="none" fillRule="evenodd">
       <path fill="#B2B2B2" fillRule="nonzero" d="M19.99 2c0-1.1-.89-2-1.99-2H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z" />
@@ -12,31 +12,21 @@ const CommentItemIcon = () => (
   </svg>
 );
 
-class CommentItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const NotificationCommentItem = ({ notificationItem }) => {
+  const triggererName = userHelper.getUsername(notificationItem.triggerer);
+  const lessonTitle = notificationItem.comment.lessonTitle;
 
-  render() {
-    const { notificationItem } = this.props;
+  return (
+    <NotificationItem
+      icon={NotificationCommentItemIcon}
+      date={notificationItem.created}
+      title={`${triggererName} replied to your comment in ${lessonTitle}`}
+      text={notificationItem.comment.text}
+    />
+  );
+};
 
-    const triggererName = userHelper.getUsername(notificationItem.triggerer);
-    const lessonTitle = notificationItem.comment.lessonTitle;
-
-    const title = `${triggererName} replied to your comment in ${lessonTitle}`;
-
-    return (
-      <NotificationItem
-        icon={CommentItemIcon}
-        date={notificationItem.created}
-        title={title}
-        text={notificationItem.comment.text}
-      />
-    );
-  }
-}
-
-CommentItem.propTypes = {
+NotificationCommentItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
   notificationItem: PropTypes.shape({
     id: PropTypes.string,
@@ -49,11 +39,7 @@ CommentItem.propTypes = {
       paragraphId: PropTypes.number,
       lessonTitle: PropTypes.string,
     }),
-  }),
+  }).isRequired,
 };
 
-CommentItem.defaultProps = {
-
-};
-
-export default CommentItem;
+export default NotificationCommentItem;
