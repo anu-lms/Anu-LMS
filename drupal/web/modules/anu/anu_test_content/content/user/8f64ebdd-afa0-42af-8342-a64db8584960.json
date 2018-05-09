@@ -33,6 +33,11 @@
             "value": "teacher.test"
         }
     ],
+    "mail": [
+        {
+            "value": "test+teacher@anulms.com"
+        }
+    ],
     "status": [
         {
             "value": 1

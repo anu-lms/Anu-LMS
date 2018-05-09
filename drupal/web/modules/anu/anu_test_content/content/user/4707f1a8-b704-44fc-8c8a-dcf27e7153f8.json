@@ -33,6 +33,11 @@
             "value": "moderator.test"
         }
     ],
+    "mail": [
+        {
+            "value": "test+moderator@anulms.com"
+        }
+    ],
     "status": [
         {
             "value": 1

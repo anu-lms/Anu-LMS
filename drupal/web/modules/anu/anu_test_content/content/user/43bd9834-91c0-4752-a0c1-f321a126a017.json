@@ -33,6 +33,11 @@
             "value": "authenticated2.test"
         }
     ],
+    "mail": [
+        {
+            "value": "test+authenticated2@anulms.com"
+        }
+    ],
     "status": [
         {
             "value": 1

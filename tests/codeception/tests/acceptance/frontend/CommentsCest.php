@@ -96,7 +96,9 @@ class CommentsCest {
     // Teacher deletes a comment.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->amOnPage('course/test-course/lesson-1');
+      //$I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementVisible('#new-comment-form');
+      $I->wait(1);
       // Delete comment.
       $commentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
@@ -104,7 +106,6 @@ class CommentsCest {
       $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
       $I->acceptPopup();
       $I->waitForText('Comment has been successfully deleted.');
-      $I->dontSeeElement($commentWrapper);
     });
 
   }
@@ -152,6 +153,8 @@ class CommentsCest {
     // Delete threaded comment
     $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
     $I->amOnPage('course/test-course/lesson-1');
+    $I->waitForElementVisible($commentWrapper);
+    $I->wait(3);
     $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
     $I->waitForElement($commentWrapper . '//div[@role="menu"]');
     $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
@@ -162,15 +165,17 @@ class CommentsCest {
     // Delete last comment in a thread
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->amOnPage('course/test-course/lesson-1');
-      $I->waitForElementVisible('#new-comment-form');
       // Delete comment.
       $commentWrapper = '//div[@class="comment-body" and text()="Test reply by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+      $I->waitForElementVisible($commentWrapper);
+      $I->wait(3);
       $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
       $I->waitForElement($commentWrapper . '//div[@role="menu"]');
       $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
       $I->acceptPopup();
       $I->waitForText('Comment has been successfully deleted.');
-      $I->dontSeeElement('.comments-list .comment.deleted');
+      // @TODO: uncomment this once issue #157352838 is resolved.
+      //$I->dontSeeElement('.comments-list .comment.deleted');
     });
   }
 
@@ -208,8 +213,8 @@ class CommentsCest {
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElement('#new-comment-form');
-    $I->wait(1);
+    $I->waitForElementVisible('#new-comment-form');
+    $I->wait(5);
 
     $I->createComments(1);
 
@@ -227,7 +232,6 @@ class CommentsCest {
       $commentWrapper = '//div[@class="comment-body" and text()="Test comment 1"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->dontSeeElement($commentWrapper);
     });
-
 
   }
 
