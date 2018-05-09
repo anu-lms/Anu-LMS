@@ -2,8 +2,8 @@ import React from 'react';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 
-const NotificationItem = ({ icon, date, title, text, isRead }) => (
-  <div className={`notification-item ${!isRead ? 'not-read' : ''}`}>
+const NotificationItem = ({ icon, date, title, text, isRead, className }) => (
+  <div className={`notification-item ${className} ${!isRead ? 'not-read' : ''}`}>
     <div className="header">
       <div className="type-icon">{icon}</div>
 
@@ -25,6 +25,7 @@ NotificationItem.propTypes = {
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string,
+  className: PropTypes.string,
   isRead: PropTypes.bool,
 };
 
@@ -32,6 +33,7 @@ NotificationItem.defaultProps = {
   icon: {},
   text: '',
   isRead: false,
+  className: '',
 };
 
 export default NotificationItem;

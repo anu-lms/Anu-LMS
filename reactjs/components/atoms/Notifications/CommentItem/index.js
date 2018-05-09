@@ -22,6 +22,7 @@ const NotificationCommentItem = ({ notificationItem }) => {
       date={notificationItem.created}
       title={`${triggererName} replied to your comment in ${lessonTitle}`}
       text={notificationItem.comment.text}
+      className={`comment comment-${notificationItem.bundle}`}
     />
   );
 };
