@@ -28,6 +28,7 @@ const NotificationCommentItem = ({ notificationItem }) => {
       title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
       text={notificationItem.comment.text}
       className={`comment comment-${notificationItem.bundle}`}
+      isRead={notificationItem.isRead}
     />
   );
 };
@@ -38,6 +39,7 @@ NotificationCommentItem.propTypes = {
     bundle: PropTypes.string,
     created: PropTypes.number,
     triggerer: PropTypes.object,
+    isRead: PropTypes.object,
     comment: PropTypes.shape({
       id: PropTypes.string,
       text: PropTypes.string,
