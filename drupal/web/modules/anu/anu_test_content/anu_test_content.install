@@ -11,6 +11,9 @@ function anu_test_content_module_preinstall($module) {
   foreach ($users as $user) {
     user_delete($user->id());
   }
+  if (isset($_ENV['PLATFORM_ENVIRONMENT']) &&  $_ENV['PLATFORM_ENVIRONMENT'] === 'master') {
+    throw new Exception('anu_test_content module should never be enabled at production environment');
+  }
 }
 
 /**
@@ -28,6 +31,7 @@ function anu_test_content_install() {
 function anu_test_content_uninstall() {
   deactivateTestUsers();
 }
+
 
 /**
  * Active test users on all development environments.
