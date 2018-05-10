@@ -50,6 +50,10 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         return $entity->getEntityTypeId() === 'user' ? true : false;
       });
 
+      if ($users) {
+        $this->setUsersPasswords($users);
+      }
+
       foreach ($groups as $group) {
         /* @var $group \Drupal\group\Entity\Group */
         $this->addTestClassMembers($group, $users);
@@ -89,10 +93,10 @@ class ImportEventSubscriber implements EventSubscriberInterface {
    * Set test users passwords if they're defined at platform.sh.
    * @param $users \Drupal\user\Entity\User[]
    */
-  function setPasswords($users) {
-    if (isset($_ENV["TEST_USERS_PASS"])) {
+  function setUsersPasswords($users) {
+    if (isset($_ENV['TEST_USERS_PASS'])) {
       foreach ($users as $user) {
-        $user->setPassword($_ENV["TEST_USERS_PASS"]);
+        $user->setPassword($_ENV['TEST_USERS_PASS']);
         $user->save();
       }
     }
