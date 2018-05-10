@@ -212,7 +212,7 @@ class CommentsCest {
     // User from other organization.
     $learner2 = $I->haveFriend('learner2', 'Step\Acceptance\Learner');
     $learner2->does(function(\Step\Acceptance\Learner $I) {
-      $I->login('authenticated2.test', 'password');
+      $I->loginAsLearner2();
       $I->amOnPage('course/test-course/lesson-1');
       $I->seeElement('.comments-cta');
       $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
