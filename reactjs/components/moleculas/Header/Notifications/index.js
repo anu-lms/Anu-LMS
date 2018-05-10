@@ -1,29 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as notificationsActions from '../../../../actions/notifications';
 import withRedux from '../../../../store/withRedux';
-
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
+import * as notificationsActions from '../../../../actions/notifications';
 
 class Notifications extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = { isOpened: false };
+
     this.closePopup = this.closePopup.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
+    this.markAllAsRead = this.markAllAsRead.bind(this);
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(notificationsActions.syncNotifications());
   }
 
   closePopup() {
-    this.props.dispatch(notificationsActions.closePopup());
+    this.setState({ isOpened: false });
+    document.body.classList.remove('no-scroll');
   }
 
   togglePopup() {
-    this.props.dispatch(notificationsActions.togglePopup());
+    console.log(this.state.isOpened);
+    this.setState({ isOpened: !this.state.isOpened });
+
+    // Add no-scroll body class when popup opened and remove this class otherwise.
+    if (this.state.isOpened) {
+      document.body.classList.remove('no-scroll');
+    }
+    else {
+      document.body.classList.add('no-scroll');
+    }
+  }
+
+  markAllAsRead() {
+    console.log('All notifcations marked as read!');
+  }
+
+  // @todo: potentially pass it inside Notification item via Context API.
+  markAsRead(notificationId) {
+    console.log(`Notification with id ${notificationId} marked as read!`);
   }
 
   render() {
-    const { isOpened } = this.props;
+    const { isOpened } = this.state;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -46,7 +72,7 @@ class Notifications extends React.Component {
           </div>
         </div>
 
-        <NotificationsPopup />
+        <NotificationsPopup isOpened={isOpened} onCloseClick={this.closePopup} onMarkAllAsReadClick={this.markAllAsRead} />
       </div>
     );
   }
@@ -54,15 +80,6 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isOpened: PropTypes.bool.isRequired,
 };
 
-Notifications.defaultProps = {
-
-};
-
-const mapStateToProps = ({ notifications }) => ({
-  isOpened: notifications.isOpened,
-});
-
-export default withRedux(connect(mapStateToProps)(Notifications));
+export default withRedux(connect()(Notifications));
