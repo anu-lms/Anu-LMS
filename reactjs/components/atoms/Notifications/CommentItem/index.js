@@ -18,17 +18,18 @@ const NotificationCommentItemIcon = () => (
 );
 
 const NotificationCommentItem = ({ notificationItem }) => {
-  const triggererName = userHelper.getUsername(notificationItem.triggerer);
-  const lessonTitle = notificationItem.comment.lessonTitle;
+  const { triggerer, comment, created, bundle, isRead } = notificationItem;
+  const { lessonTitle, text } = comment;
+  const triggererName = userHelper.getUsername(triggerer);
 
   return (
     <NotificationItem
       Icon={NotificationCommentItemIcon}
-      date={notificationItem.created}
+      date={created}
       title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
-      text={notificationItem.comment.text}
-      className={`comment comment-${notificationItem.bundle}`}
-      isRead={notificationItem.isRead}
+      text={text}
+      className={`comment comment-${bundle}`}
+      isRead={isRead}
     />
   );
 };
