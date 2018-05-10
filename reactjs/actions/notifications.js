@@ -20,3 +20,17 @@ export const receiveNotifications = notifications => ({
   type: 'LESSON_NOTIFICATIONS_RECEIVED',
   notifications,
 });
+
+/**
+ *
+ */
+export const togglePopup = () => ({
+  type: 'LESSON_NOTIFICATIONS_POPUP_TOGGLE',
+});
+
+/**
+ *
+ */
+export const closePopup = () => ({
+  type: 'LESSON_NOTIFICATIONS_POPUP_CLOSE',
+});

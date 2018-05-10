@@ -16,6 +16,10 @@
     border-radius: 2px;
   }
 
+  &.closed {
+    display: none;
+  }
+
   & > .list {
     height: calc(100% - 47px);
   }
