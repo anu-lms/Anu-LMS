@@ -1,4 +1,4 @@
-import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
+import { all, put, takeLatest, apply, call } from 'redux-saga/effects';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
@@ -32,10 +32,31 @@ function* fetchNotifications() {
 }
 
 /**
+ * Adds or removes `no-scroll` class to the body when notifications popup opened or closed.
+ */
+function* toggleBodyScroll({ type }) {
+  // Remove no-scroll body class when popup closed.
+  if (type === 'NOTIFICATIONS_POPUP_CLOSE') {
+    document.body.classList.remove('no-scroll');
+  }
+  else if (type === 'NOTIFICATIONS_POPUP_TOGGLE') {
+    // Add no-scroll body class when popup opened and remove this class otherwise.
+    if (document.body.classList.contains('no-scroll')) {
+      document.body.classList.remove('no-scroll');
+    }
+    else {
+      document.body.classList.add('no-scroll');
+    }
+  }
+}
+
+/**
  * Main entry point for all notification sagas.
  */
 export default function* notificationsSagas() {
   yield all([
-    yield takeLatest('LESSON_NOTIFICATIONS_REQUESTED', fetchNotifications),
+    yield takeLatest('NOTIFICATIONS_REQUESTED', fetchNotifications),
+    yield takeLatest('NOTIFICATIONS_POPUP_TOGGLE', toggleBodyScroll),
+    yield takeLatest('NOTIFICATIONS_POPUP_CLOSE', toggleBodyScroll),
   ]);
 }

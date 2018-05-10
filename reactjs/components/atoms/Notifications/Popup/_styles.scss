@@ -1,11 +1,11 @@
 .notifications-popup {
-  position: absolute;
+  position: fixed;
   right: 0;
   left: 0;
   top: 48px;
   bottom: 0;
   background-color: $white;
-  z-index: $zindex-fixed - 1;
+  z-index: $zindex-fixed + 2;
 
   @include media-breakpoint-up(md) {
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
@@ -60,4 +60,16 @@
       }
     }
   }
+}
+
+// Page background panel, that overlap all page element except popup.
+// Closes popup when user click on it.
+.scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: $zindex-fixed + 1;
+  background-color: transparent;
 }
