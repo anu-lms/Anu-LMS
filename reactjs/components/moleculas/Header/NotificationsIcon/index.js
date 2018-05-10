@@ -23,8 +23,9 @@ class Notifications extends React.Component {
   }
 
   render() {
+    const { isOpened } = this.props;
     return (
-      <div className="notifications-icon-wrapper">
+      <div className={`notifications-icon-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
         <div className="icon icon-bell" onClick={this.togglePopup}>
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33">
@@ -53,10 +54,15 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isOpened: PropTypes.bool.isRequired,
 };
 
 Notifications.defaultProps = {
 
 };
 
-export default withRedux(connect()(Notifications));
+const mapStateToProps = ({ notifications }) => ({
+  isOpened: notifications.isOpened,
+});
+
+export default withRedux(connect(mapStateToProps)(Notifications));

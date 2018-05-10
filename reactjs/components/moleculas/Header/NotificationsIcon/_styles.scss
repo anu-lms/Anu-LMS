@@ -1,3 +1,18 @@
 .notifications-icon-wrapper {
   display: inline-block;
+
+  .icon-close {
+    display: none;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &.popup-opened {
+      .icon-close {
+        display: inline-block;
+      }
+      .icon-bell {
+        display: none;
+      }
+    }
+  }
 }

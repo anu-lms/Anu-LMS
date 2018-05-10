@@ -1,5 +1,4 @@
 .notifications-popup {
-  //display: none;
   position: absolute;
   right: 0;
   left: 0;
@@ -12,8 +11,10 @@
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
     width: 400px;
     height: 500px;
-    top: 61px;
     border-radius: 2px;
+    right: 134px;
+    left: initial;
+    top: 80px;
   }
 
   &.closed {
