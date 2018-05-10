@@ -2,7 +2,7 @@
  * Make request to the backend to get Notifications.
  */
 export const syncNotifications = () => ({
-  type: 'LESSON_NOTIFICATIONS_REQUESTED',
+  type: 'NOTIFICATIONS_REQUESTED',
 });
 
 /**
@@ -25,12 +25,12 @@ export const receiveNotifications = notifications => ({
  *
  */
 export const togglePopup = () => ({
-  type: 'LESSON_NOTIFICATIONS_POPUP_TOGGLE',
+  type: 'NOTIFICATIONS_POPUP_TOGGLE',
 });
 
 /**
  *
  */
 export const closePopup = () => ({
-  type: 'LESSON_NOTIFICATIONS_POPUP_CLOSE',
+  type: 'NOTIFICATIONS_POPUP_CLOSE',
 });

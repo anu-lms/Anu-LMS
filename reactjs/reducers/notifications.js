@@ -11,13 +11,13 @@ export default (state = initialState, action) => {
         notifications: action.notifications,
       };
 
-    case 'LESSON_NOTIFICATIONS_POPUP_TOGGLE':
+    case 'NOTIFICATIONS_POPUP_TOGGLE':
       return {
         ...state,
         isOpened: !state.isOpened,
       };
 
-    case 'LESSON_NOTIFICATIONS_POPUP_CLOSE':
+    case 'NOTIFICATIONS_POPUP_CLOSE':
       return {
         ...state,
         isOpened: false,

@@ -46,6 +46,7 @@
 
   &.not-read {
     background-color: $pale;
+    cursor: pointer;
     &:hover {
       background-color: darken($pale, 4);
     }
