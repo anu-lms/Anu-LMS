@@ -7,6 +7,31 @@
     position: relative;
     z-index: $zindex-fixed + 2;
   }
+  .icon-bell .amount {
+    background: $clay-orange;
+    position: absolute;
+    font-size: 9px;
+    color: $white;
+    font-weight: 600;
+    width: 14px;
+    height: 14px;
+    border-radius: 2.4px;
+    top: -2px;
+    right: -2px;
+    line-height: 1.6;
+    text-align: center;
+    padding-right: 1px;
+
+    @include media-breakpoint-up(md) {
+      border-radius: 4px;
+      font-size: 14px;
+      width: 24px;
+      height: 24px;
+      line-height: 1.7;
+      top: -4px;
+      right: -3px;
+    }
+  }
 
   .icon-close {
     display: none;

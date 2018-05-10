@@ -27,7 +27,6 @@ class Notifications extends React.Component {
   }
 
   togglePopup() {
-    console.log(this.state.isOpened);
     this.setState({ isOpened: !this.state.isOpened });
 
     // Add no-scroll body class when popup opened and remove this class otherwise.
@@ -50,6 +49,7 @@ class Notifications extends React.Component {
 
   render() {
     const { isOpened } = this.state;
+    const { notificationsAmount } = this.props;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -60,7 +60,10 @@ class Notifications extends React.Component {
                 <path fill="#FFF" fillRule="nonzero" d="M14 32.833c1.833 0 3.333-1.5 3.333-3.333h-6.666A3.332 3.332 0 0 0 14 32.833zm10-10V14.5c0-5.117-2.733-9.4-7.5-10.533V2.833c0-1.383-1.117-2.5-2.5-2.5a2.497 2.497 0 0 0-2.5 2.5v1.134C6.717 5.1 4 9.367 4 14.5v8.333L.667 26.167v1.666h26.666v-1.666L24 22.833z" />
               </g>
             </svg>
-            {/* <div className="icon-amount">2</div> */}
+
+            {notificationsAmount &&
+              <div className="amount">{notificationsAmount}</div>
+            }
           </div>
 
           <div className="icon icon-close" onClick={this.closePopup}>
@@ -82,4 +85,8 @@ Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default withRedux(connect()(Notifications));
+const mapStateToProps = ({ notifications }) => ({
+  notificationsAmount: notifications.notifications.length > 99 ? 99 : notifications.notifications.length,
+});
+
+export default withRedux(connect(mapStateToProps)(Notifications));
