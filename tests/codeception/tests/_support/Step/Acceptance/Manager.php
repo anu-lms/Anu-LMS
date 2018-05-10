@@ -7,7 +7,11 @@ class Manager extends \AcceptanceTester {
   public function loginAsManager() {
 
     $I = $this;
-    $I->login('moderator.test', 'password');
+
+    // Use different password at platform.sh.
+    $password = isset($_ENV["TEST_USERS_PASS"])? $_ENV["TEST_USERS_PASS"]: 'password';
+
+    $I->login('moderator.test', $password);
 
   }
 
