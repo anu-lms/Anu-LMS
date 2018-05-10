@@ -3,6 +3,10 @@
 
   .icon-close {
     display: none;
+    svg {
+      margin-left: 3px;
+      margin-bottom: 2px;
+    }
   }
 
   @include media-breakpoint-down(sm) {
