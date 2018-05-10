@@ -2,19 +2,60 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
-
 import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
+import * as notificationsActions from '../../../../actions/notifications';
 
 class NotificationsPopup extends React.Component {
   constructor(props) {
     super(props);
+    this.closePopup = this.closePopup.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.hasParentClass = this.hasParentClass.bind(this);
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(notificationsActions.syncNotifications());
+
+    document.addEventListener('click', this.handleOutsideClick, false);
+  }
+
+  closePopup() {
+    const { dispatch } = this.props;
+    dispatch(notificationsActions.closePopup());
+  }
+
+  handleOutsideClick(e) {
+    // Ignore clicks on the component itself.
+    if (this.node && this.node.contains(e.target)) {
+      return;
+    }
+
+    // Igrore clicks on the notification icons.
+    if (this.hasParentClass(e.target, 'notifications-icon-wrapper')) {
+      return;
+    }
+
+    this.closePopup();
+  }
+
+  hasParentClass(element, classname) {
+    if (!element.parentNode) {
+      return false;
+    }
+
+    if (element.className && typeof element.className === 'string' && element.className.split(' ').indexOf(classname) >= 0) {
+      return true;
+    }
+
+    return element.parentNode && this.hasParentClass(element.parentNode, classname);
   }
 
   render() {
-    const { notifications, onCloseClick } = this.props;
+    const { notifications, isOpened } = this.props;
 
     return (
-      <div className="notifications-popup">
+      <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'}`} ref={node => { this.node = node; }}>
         <div className="list">
           <Scrollbars style={{ height: '100%' }}>
             {notifications.map(item => {
@@ -27,7 +68,7 @@ class NotificationsPopup extends React.Component {
         </div>
         <div className="footer">
           <div className="button mark-as-read">Mark all as read</div>
-          <div className="button close" onClick={onCloseClick}>Close Notifications</div>
+          <div className="button close" onClick={this.closePopup}>Close Notifications</div>
         </div>
       </div>
     );
@@ -35,15 +76,16 @@ class NotificationsPopup extends React.Component {
 }
 
 NotificationsPopup.propTypes = {
-  onCloseClick: PropTypes.func,
+  dispatch: PropTypes.func.isRequired,
 };
 
 NotificationsPopup.defaultProps = {
-  onCloseClick: () => {},
+
 };
 
 const mapStateToProps = ({ notifications }) => ({
   notifications: notifications.notifications,
+  isOpened: notifications.isOpened,
 });
 
 export default connect(mapStateToProps)(NotificationsPopup);
