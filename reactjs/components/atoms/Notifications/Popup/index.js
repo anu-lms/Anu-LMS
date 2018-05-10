@@ -11,7 +11,7 @@ class NotificationsPopup extends React.Component {
   }
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, onCloseClick } = this.props;
 
     return (
       <div className="notifications-popup">
@@ -26,7 +26,8 @@ class NotificationsPopup extends React.Component {
           </Scrollbars>
         </div>
         <div className="footer">
-          Mark all as read
+          <div className="mark-as-read">Mark all as read</div>
+          <div className="close" onClick={onCloseClick}>Close Notifications</div>
         </div>
       </div>
     );
@@ -34,11 +35,11 @@ class NotificationsPopup extends React.Component {
 }
 
 NotificationsPopup.propTypes = {
-
+  onCloseClick: PropTypes.func,
 };
 
 NotificationsPopup.defaultProps = {
-
+  onCloseClick: () => {},
 };
 
 const mapStateToProps = ({ notifications }) => ({
