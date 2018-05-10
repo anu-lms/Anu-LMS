@@ -16,13 +16,22 @@ class NotificationsPopup extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(notificationsActions.syncNotifications());
-
-    document.addEventListener('click', this.handleOutsideClick, false);
   }
 
   closePopup() {
     const { dispatch } = this.props;
     dispatch(notificationsActions.closePopup());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Attach outside click only if popup opened.
+    if (!this.props.isOpened && nextProps.isOpened) {
+      document.addEventListener('click', this.handleOutsideClick);
+    }
+    // Detach outside click function when popup closed.
+    else if (this.props.isOpened && !nextProps.isOpened) {
+      document.removeEventListener('click', this.handleOutsideClick);
+    }
   }
 
   handleOutsideClick(e) {
