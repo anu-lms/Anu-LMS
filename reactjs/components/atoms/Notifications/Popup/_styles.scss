@@ -1,8 +1,12 @@
 .notifications-popup {
+  //display: none;
   position: absolute;
   right: 0;
+  left: 0;
+  top: 48px;
+  bottom: 0;
   background-color: $white;
-
+  z-index: $zindex-fixed - 1;
 
   @include media-breakpoint-up(md) {
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
@@ -13,17 +17,42 @@
   }
 
   & > .list {
-    height: calc(100% - 39px);
+    height: calc(100% - 47px);
   }
 
   & > .footer {
-    font-weight: bold;
-    text-align: center;
-    padding: 8px;
-    background-color: #c7e1f1;
-    color: $navy;
     position: absolute;
     width: 100%;
     bottom: 0;
+    display: flex;
+    align-items: stretch;
+    box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
+
+    .button {
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+      background-color: $light-blue-grey;
+      color: $navy;
+      flex: 1 1 0;
+      cursor: pointer;
+      transition: background-color .2s;
+
+      &:hover {
+        transition: background-color .2s;
+        background-color: darken($light-blue-grey, 5);
+      }
+    }
+
+    .close {
+      color: $white;
+      background-color: $slate-grey;
+      &:hover {
+        background-color: darken($slate-grey, 5);
+      }
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
   }
 }
