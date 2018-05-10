@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import App from '../application/App';
 import withAuth from '../auth/withAuth';
-import Header from '../components/organisms/Header';
+import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import withRedux from '../store/withRedux';
-import ErrorPage from '../components/atoms/ErrorPage';
 import CourseResouces from '../components/organisms/Templates/CourseResouces';
 import * as dataProcessors from '../utils/dataProcessors';
 
@@ -117,19 +115,12 @@ class CourseResoucePage extends React.Component {
   render() {
     const { course, resources, statusCode } = this.props;
     return (
-      <App>
-        <Header />
-        <div className="page-with-header lesson">
-          {statusCode === 200 ? (
-            <CourseResouces
-              course={course}
-              resources={resources}
-            />
-          ) : (
-            <ErrorPage code={statusCode} />
-          )}
-        </div>
-      </App>
+      <SiteTemplate className="lesson" statusCode={statusCode}>
+        <CourseResouces
+          course={course}
+          resources={resources}
+        />
+      </SiteTemplate>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as notificationsActions from '../../../../actions/notifications';
-import NotificationsPopup from '../../../atoms/Notifications/Popup';
+import withRedux from '../../../../store/withRedux';
 
 class Notifications extends React.Component {
   constructor(props) {
@@ -46,10 +46,6 @@ class Notifications extends React.Component {
 
           {/* <div className="icon-label">Notifications</div> */}
         </div>
-
-        {this.state.isOpen &&
-          <NotificationsPopup onCloseClick={this.closePopup} />
-        }
       </div>
     );
   }
@@ -63,4 +59,4 @@ Notifications.defaultProps = {
 
 };
 
-export default connect()(Notifications);
+export default withRedux(connect()(Notifications));
