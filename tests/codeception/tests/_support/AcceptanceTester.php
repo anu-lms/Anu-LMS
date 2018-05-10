@@ -77,4 +77,27 @@ class AcceptanceTester extends \Codeception\Actor {
 
   }
 
+
+  /**
+   * Waits for element on the page.
+   * Makes sure that throbber animation doesn't cover desired element.
+   * @param $element
+   * @param null $timeout
+   *  Timeout in seconds.
+   */
+  public function waitForElementLoaded($element, $timeout = null) {
+
+    $I = $this;
+    try {
+      $I->waitForElementVisible('.loader');
+      $I->waitForElementNotVisible('.loader', $timeout);
+    }
+    catch (\Codeception\Exception\ElementNotFound $e) {
+     // If there is no loader - wait for element as usual.
+    }
+
+    $I->waitForElement($element);
+
+  }
+
 }
