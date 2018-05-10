@@ -1,6 +1,10 @@
 .notifications-icon-wrapper {
   display: inline-block;
 
+  .icon {
+    cursor: pointer;
+  }
+
   .icon-close {
     display: none;
     svg {
