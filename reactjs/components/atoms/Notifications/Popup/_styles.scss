@@ -12,9 +12,10 @@
     width: 400px;
     height: 500px;
     border-radius: 2px;
-    right: 134px;
     left: initial;
-    top: 80px;
+    top: 61px;
+    right: -10px;
+    position: absolute;
   }
 
   &.closed {

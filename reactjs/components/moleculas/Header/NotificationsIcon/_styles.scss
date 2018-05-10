@@ -1,8 +1,11 @@
-.notifications-icon-wrapper {
+.notifications-wrapper {
   display: inline-block;
+  position: relative;
 
   .icon {
     cursor: pointer;
+    position: relative;
+    z-index: $zindex-fixed + 2;
   }
 
   .icon-close {
