@@ -26,8 +26,8 @@ class NotificationsPopup extends React.Component {
           </Scrollbars>
         </div>
         <div className="footer">
-          <div className="mark-as-read">Mark all as read</div>
-          <div className="close" onClick={onCloseClick}>Close Notifications</div>
+          <div className="button mark-as-read">Mark all as read</div>
+          <div className="button close" onClick={onCloseClick}>Close Notifications</div>
         </div>
       </div>
     );
