@@ -1,6 +1,5 @@
 const initialState = {
   notifications: [],
-  isOpened: false,
 };
 
 export default (state = initialState, action) => {
@@ -9,18 +8,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         notifications: action.notifications,
-      };
-
-    case 'NOTIFICATIONS_POPUP_TOGGLE':
-      return {
-        ...state,
-        isOpened: !state.isOpened,
-      };
-
-    case 'NOTIFICATIONS_POPUP_CLOSE':
-      return {
-        ...state,
-        isOpened: false,
       };
 
     default:
