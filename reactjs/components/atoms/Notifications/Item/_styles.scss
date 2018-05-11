@@ -50,5 +50,8 @@
     &:hover {
       background-color: darken($pale, 4);
     }
+    &:active {
+      background-color: darken($pale, 7);
+    }
   }
 }
