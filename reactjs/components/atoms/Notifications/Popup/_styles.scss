@@ -34,8 +34,8 @@
     align-items: stretch;
     box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
 
-    .button {
-      padding: 12px;
+    button {
+      padding: 14px 12px 15px;
       font-weight: bold;
       text-align: center;
       background-color: $light-blue-grey;
@@ -43,11 +43,24 @@
       flex: 1 1 0;
       cursor: pointer;
       transition: background-color .2s;
+      font-size: 1em;
+      border: none;
+      box-shadow: none;
+      font-family: $font-family-base;
+
+      @include media-breakpoint-up(md) {
+        padding: 11px 12px 10px;
+      }
 
       &:hover {
         transition: background-color .2s;
         background-color: darken($light-blue-grey, 5);
       }
+    }
+    .mark-as-read:disabled {
+      cursor: default;
+      background-color: $gray91;
+      color: $london-sky;
     }
 
     .close {
@@ -59,6 +72,12 @@
       @include media-breakpoint-up(md) {
         display: none;
       }
+    }
+  }
+
+  &.empty .footer {
+    @include media-breakpoint-up(md) {
+      display: none;
     }
   }
 }
