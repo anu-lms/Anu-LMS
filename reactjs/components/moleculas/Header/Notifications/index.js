@@ -91,6 +91,7 @@ Notifications.propTypes = {
 };
 
 const mapStateToProps = ({ notifications }) => ({
+  // eslint-disable-next-line max-len
   notificationsAmount: notifications.notifications.length > 99 ? 99 : notifications.notifications.length,
 });
 

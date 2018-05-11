@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
 import Empty from '../Empty';
 
+// eslint-disable-next-line max-len
 const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, onMarkAllAsReadClick }) => (
   <Fragment>
     <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'} ${isEmpty ? 'empty' : ''}`}>
@@ -32,7 +33,7 @@ const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, on
     </div>
 
     {isOpened &&
-    <div className="scrim" onClick={onCloseClick} />
+    <div className="scrim" onClick={onCloseClick} onKeyPress={onCloseClick} />
     }
   </Fragment>
 );
@@ -43,6 +44,7 @@ NotificationsPopup.propTypes = {
   isEmpty: PropTypes.bool.isRequired,
   onCloseClick: PropTypes.func,
   onMarkAllAsReadClick: PropTypes.func,
+  notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 NotificationsPopup.defaultProps = {
