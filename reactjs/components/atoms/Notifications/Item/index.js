@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
+import xss from 'xss';
 import 'str-truncate';
 
 const NotificationItem = ({
@@ -18,9 +19,8 @@ const NotificationItem = ({
       </div>
     </div>
 
-    {/* @todo: strip tags */}
     <div className="title">
-      <span onClick={onTitleClick} onKeyPress={onTitleClick} dangerouslySetInnerHTML={{ __html: title }} />
+      <span onClick={onTitleClick} onKeyPress={onTitleClick} dangerouslySetInnerHTML={{ __html: xss(title) }} />
     </div>
 
     {text &&

@@ -40,7 +40,7 @@ NotificationCommentItem.propTypes = {
     bundle: PropTypes.string,
     created: PropTypes.number,
     triggerer: PropTypes.object,
-    isRead: PropTypes.object,
+    isRead: PropTypes.bool,
     comment: PropTypes.shape({
       id: PropTypes.string,
       text: PropTypes.string,
