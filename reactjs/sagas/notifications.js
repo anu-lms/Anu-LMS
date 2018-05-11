@@ -1,5 +1,4 @@
 import { all, put, takeLatest, apply, call } from 'redux-saga/effects';
-import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as api from '../api/notifications';
@@ -27,7 +26,6 @@ function* fetchNotifications() {
   catch (error) {
     yield put(notificationsActions.syncNotificationsFailed(error));
     console.error('Could not update list of notifications.', error);
-    Alert.error('Could not update list of notifications. Please, contact site administrator.');
   }
 }
 
