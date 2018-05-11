@@ -26,7 +26,6 @@ SiteTemplate.propTypes = {
 
 SiteTemplate.defaultProps = {
   className: '',
-  pageTitle: '',
   statusCode: 200,
   isHeaderEmpty: false,
 };

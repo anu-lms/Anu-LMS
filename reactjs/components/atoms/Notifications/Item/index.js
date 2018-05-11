@@ -8,7 +8,11 @@ import 'str-truncate';
 const NotificationItem = ({
   Icon, date, title, text, isRead, className, onTitleClick, onItemClick,
 }) => (
-  <div className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`} onClick={onItemClick} onKeyPress={onItemClick}>
+  <div
+    className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`}
+    onClick={onItemClick}
+    onKeyPress={onItemClick}
+  >
     <div className="header">
       {Icon &&
         <div className="type-icon"><Icon /></div>
@@ -20,11 +24,15 @@ const NotificationItem = ({
     </div>
 
     <div className="title">
-      <span onClick={onTitleClick} onKeyPress={onTitleClick} dangerouslySetInnerHTML={{ __html: xss(title) }} />
+      <span
+        onClick={onTitleClick}
+        onKeyPress={onTitleClick}
+        dangerouslySetInnerHTML={{ __html: xss(title) }} // eslint-disable-line react/no-danger
+      />
     </div>
 
     {text &&
-      <div className="text">"{text.truncate(200)}"</div>
+      <div className="text">"{text.truncate(200)}"</div> // eslint-disable-line react/no-unescaped-entities
     }
   </div>
 );
