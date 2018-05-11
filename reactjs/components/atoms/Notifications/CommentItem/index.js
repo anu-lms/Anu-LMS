@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NotificationItem from '../Item';
+import { Router } from '../../../../routes';
 import * as userHelper from '../../../../helpers/user';
 
 export const supportedBundles = [
@@ -17,22 +18,36 @@ const NotificationCommentItemIcon = () => (
   </svg>
 );
 
-const NotificationCommentItem = ({ notificationItem }) => {
-  const { triggerer, comment, created, bundle, isRead } = notificationItem;
-  const { lessonTitle, text } = comment;
-  const triggererName = userHelper.getUsername(triggerer);
+class NotificationCommentItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onTitleClick = this.onTitleClick.bind(this);
+  }
 
-  return (
-    <NotificationItem
-      Icon={NotificationCommentItemIcon}
-      date={created}
-      title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
-      text={text}
-      className={`comment comment-${bundle}`}
-      isRead={isRead}
-    />
-  );
-};
+  onTitleClick() {
+    const { commentUrl } = this.props.notificationItem.comment;
+    Router.replaceRoute(commentUrl);
+  }
+
+  render() {
+    const { id, triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
+    const { lessonTitle, text } = comment;
+    const triggererName = userHelper.getUsername(triggerer);
+
+    return (
+      <NotificationItem
+        id={id}
+        Icon={NotificationCommentItemIcon}
+        date={created}
+        title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
+        text={text}
+        className={`comment comment-${bundle}`}
+        isRead={isRead}
+        onTitleClick={this.onTitleClick}
+      />
+    );
+  }
+}
 
 NotificationCommentItem.propTypes = {
   notificationItem: PropTypes.shape({
