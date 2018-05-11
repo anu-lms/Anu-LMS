@@ -6,6 +6,9 @@ use Drupal\Component\Render\FormattableMarkup;
 
 class Message {
 
+  /**
+   * Returns an object prepared to pass to frontend from given Message entity.
+   */
   public function normalize($message) {
     $response_item = NULL;
     try {
