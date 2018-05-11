@@ -3,25 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
+import Empty from '../Empty';
 
-const NotificationsPopup = ({ notifications, isOpened, onCloseClick, onMarkAllAsReadClick }) => (
+const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, onMarkAllAsReadClick }) => (
   <Fragment>
-    <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'}`}>
+    <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'} ${isEmpty ? 'empty' : ''}`}>
 
-      <div className="list">
-        <Scrollbars style={{ height: '100%' }}>
-          {notifications.map(item => {
-            if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
-              return <NotificationCommentItem notificationItem={item} key={item.id} />;
-            }
-            return null;
-          })}
-        </Scrollbars>
-      </div>
+      {!isEmpty ? (
+        <div className="list">
+          <Scrollbars style={{ height: '100%' }}>
+            {notifications.map(item => {
+              if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
+                return <NotificationCommentItem notificationItem={item} key={item.id} />;
+              }
+              return null;
+            })}
+          </Scrollbars>
+        </div>
+      ) : (
+        <Empty />
+      )}
 
       <div className="footer">
-        <div className="button mark-as-read" onClick={onMarkAllAsReadClick}>Mark all as read</div>
-        <div className="button close" onClick={onCloseClick}>Close Notifications</div>
+        <button className="mark-as-read" disabled={isEmpty} onClick={onMarkAllAsReadClick}>Mark all as read</button>
+        <button className="close" onClick={onCloseClick}>Close Notifications</button>
       </div>
 
     </div>
@@ -35,6 +40,7 @@ const NotificationsPopup = ({ notifications, isOpened, onCloseClick, onMarkAllAs
 NotificationsPopup.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isOpened: PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
   onCloseClick: PropTypes.func,
   onMarkAllAsReadClick: PropTypes.func,
 };
@@ -46,6 +52,7 @@ NotificationsPopup.defaultProps = {
 
 const mapStateToProps = ({ notifications }) => ({
   notifications: notifications.notifications,
+  isEmpty: notifications.notifications.length === 0,
 });
 
 export default connect(mapStateToProps)(NotificationsPopup);
