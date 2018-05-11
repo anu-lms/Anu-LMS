@@ -6,7 +6,7 @@ import xss from 'xss';
 import 'str-truncate';
 
 const NotificationItem = ({
-  id, Icon, date, title, text, isRead, className, onTitleClick, onItemClick,
+  Icon, date, title, text, isRead, className, onTitleClick, onItemClick,
 }) => (
   <div
     className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`}
@@ -38,7 +38,6 @@ const NotificationItem = ({
 );
 
 NotificationItem.propTypes = {
-  id: PropTypes.string.isRequired,
   Icon: PropTypes.func,
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,

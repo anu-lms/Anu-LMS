@@ -30,13 +30,12 @@ class NotificationCommentItem extends React.Component {
   }
 
   render() {
-    const { id, triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
+    const { triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
     const { lessonTitle, text } = comment;
     const triggererName = userHelper.getUsername(triggerer);
 
     return (
       <NotificationItem
-        id={id}
         Icon={NotificationCommentItemIcon}
         date={created}
         title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
