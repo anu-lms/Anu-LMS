@@ -3,6 +3,7 @@
 namespace Drupal\anu_events;
 
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Component\Utility\UrlHelper;
 
 class Message {
 
@@ -29,11 +30,17 @@ class Message {
         $lesson = \Drupal::service('anu_lessons.lesson')->loadByParagraphId($paragraph_id);
         $text = $comment->field_comment_text->getValue();
 
+        // Generates Comment's url.
+        $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
+        $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
+        $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
+
         $response_item['comment'] = [
           'id' => $comment->id(),
           'text' => !empty($text[0]['value']) ? $text[0]['value'] : '',
           'paragraphId' => $paragraph_id,
           'lessonTitle' => !empty($lesson) ? $lesson->label() : '',
+          'commentUrl' => $commentUrl,
         ];
       }
     } catch(\Exception $e) {
