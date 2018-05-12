@@ -1,6 +1,8 @@
 <?php
+
 use Drupal\anu_events\Event\ReplyToCommentEvent;
 use Drupal\anu_events\Event\AddCommentToThreadEvent;
+use \Drupal\Component\Render\FormattableMarkup;
 
 /**
  * @file
@@ -29,5 +31,35 @@ function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface 
     if ($reply_to_comment_event->getRecipient() != $add_comment_to_thread->getRecipient()) {
       $add_comment_to_thread->trigger();
     }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_events_paragraph_comment_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+
+  try {
+    // Load notifications created for the comment.
+    $query = \Drupal::entityQuery('message')
+      ->condition('field_message_comment', $entity->id());
+    $entity_ids = $query->execute();
+
+    // Delete all existing notifications for deleted comment.
+    $controller = \Drupal::entityTypeManager()->getStorage('message');
+    $entities = $controller->loadMultiple($entity_ids);
+    $controller->delete($entities);
+
+  } catch (\Exception $exception) {
+    $message = new FormattableMarkup('Could not remove notifications for deleted comment with id @comment_id. Error: @error', [
+      '@comment_id' => $entity->id(),
+      '@error' => $exception->getMessage(),
+    ]);
+    \Drupal::logger('anu_events')->error($message);
   }
 }
