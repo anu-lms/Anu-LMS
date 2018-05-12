@@ -33,7 +33,7 @@ function anu_comments_paragraph_comment_access(EntityInterface $comment, $operat
     $user_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : null;
   }
 
-  // Get value of the commeªnt's organization in which the comment had been
+  // Get value of the comment's organization in which the comment had been
   // left off.
   $comment_organization = null;
   if ($comment->hasField('field_comment_organization')) {

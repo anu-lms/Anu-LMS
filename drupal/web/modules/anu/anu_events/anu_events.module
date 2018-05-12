@@ -2,6 +2,9 @@
 
 use Drupal\anu_events\Event\ReplyToCommentEvent;
 use Drupal\anu_events\Event\AddCommentToThreadEvent;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * @file
@@ -13,7 +16,7 @@ use Drupal\anu_events\Event\AddCommentToThreadEvent;
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_events_paragraph_comment_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
     return;
   }
@@ -38,7 +41,7 @@ function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface 
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_events_paragraph_comment_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_events_paragraph_comment_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
     return;
   }
@@ -52,7 +55,7 @@ function anu_events_paragraph_comment_delete(Drupal\Core\Entity\EntityInterface 
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_events_paragraph_comment_update(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_events_paragraph_comment_update(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
     return;
   }
@@ -61,4 +64,18 @@ function anu_events_paragraph_comment_update(Drupal\Core\Entity\EntityInterface 
     $messageService = \Drupal::service('anu_events.message');
     $messageService->deleteByCommentId($entity->id());
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_events_message_access(EntityInterface $message, $operation,  AccountInterface $account) {
+
+  // User shouldn't see notifications if he has no an access to the referenced comment (was moved to another org eg).
+  if ($message->hasField('field_message_comment')) {
+    return $message->field_message_comment->first()->get('entity')->getValue()->access('view') ? AccessResult::allowed() : AccessResult::forbidden();
+  }
+
+  // Returns allowed instead of neutral because message access method returns FALSE for any cases by default.
+  return AccessResult::allowed();
 }
