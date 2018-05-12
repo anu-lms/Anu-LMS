@@ -53,4 +53,27 @@ class Message {
     return $response_item;
   }
 
+  /**
+   * Deletes message entities created for comment with given Id.
+   */
+  public function deleteByCommentId($commentId) {
+    try {
+      // Load notifications created for the comment.
+      $query = \Drupal::entityQuery('message')
+        ->condition('field_message_comment', $commentId);
+      $entity_ids = $query->execute();
+
+      // Delete all existing notifications for deleted comment.
+      $controller = \Drupal::entityTypeManager()->getStorage('message');
+      $entities = $controller->loadMultiple($entity_ids);
+      $controller->delete($entities);
+
+    } catch (\Exception $exception) {
+      $message = new FormattableMarkup('Could not remove notifications for deleted comment with id @comment_id. Error: @error', [
+        '@comment_id' => $commentId,
+        '@error' => $exception->getMessage(),
+      ]);
+      \Drupal::logger('anu_events')->error($message);
+    }
+  }
 }
