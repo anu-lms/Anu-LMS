@@ -76,11 +76,14 @@ class UserNotifications extends ResourceBase {
         ->loadMultiple($entity_ids);
 
       foreach ($messages as $message) {
-        /* @var $messageService \Drupal\anu_events\Message */
-        $messageService = \Drupal::service('anu_events.message');
-        $message_item = $messageService->normalize($message);
-        if (!empty($message_item)) {
-          $response[] = $message_item;
+        if ($message->access('view')) {
+
+          /* @var $messageService \Drupal\anu_events\Message */
+          $messageService = \Drupal::service('anu_events.message');
+          $message_item = $messageService->normalize($message);
+          if (!empty($message_item)) {
+            $response[] = $message_item;
+          }
         }
       }
     } catch(\Exception $e) {
