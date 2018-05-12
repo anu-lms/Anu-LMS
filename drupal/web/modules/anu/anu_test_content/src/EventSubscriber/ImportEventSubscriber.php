@@ -52,7 +52,7 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         /* @var $node \Drupal\node\Entity\Node */
         foreach ($nodes as $node) {
           $bundle = $node->bundle();
-          if (in_array($bundle, ['course', 'lesson'])) {
+          if (in_array($bundle, ['course'])) {
             $plugin = 'group_node:' . $node->bundle();
             $group->addContent($node, $plugin);
           }
