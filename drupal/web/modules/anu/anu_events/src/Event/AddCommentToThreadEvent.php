@@ -11,7 +11,7 @@ class AddCommentToThreadEvent extends AnuEvent {
     parent::__construct($entity, AnuEvents::ADD_COMMENT_TO_THREAD, 'add_comment_to_thread');
 
     // Search for the root parent comment.
-    $rootComment = anu_comments_paragraph_comment_get_root_comment($this->entity);
+    $rootComment = \Drupal::service('anu_comments.comment')->getRootComment($this->entity);
     $this->recipient = (int) $rootComment->uid->target_id;
   }
 
