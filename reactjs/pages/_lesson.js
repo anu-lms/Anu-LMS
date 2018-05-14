@@ -186,6 +186,7 @@ class LessonPage extends React.Component {
     this.hightlightComment();
   }
 
+  // @todo: consider to move it to comments related components.
   hightlightComment() {
     const { dispatch, isStoreRehydrated, lesson } = this.props;
 
