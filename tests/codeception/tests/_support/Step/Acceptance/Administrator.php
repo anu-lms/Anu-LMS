@@ -9,7 +9,7 @@ class Administrator extends \AcceptanceTester {
     $I = $this;
 
     // Use different password at platform.sh.
-    $password = isset($_ENV["TEST_USERS_PASS"])? $_ENV["TEST_USERS_PASS"]: 'password';
+    $password = isset($_ENV['TEST_USERS_PASS'])? $_ENV['TEST_USERS_PASS']: 'password';
 
     $I->login('administrator.test', $password);
 
