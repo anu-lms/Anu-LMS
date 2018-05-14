@@ -47,6 +47,7 @@ class Message {
     $text = $comment->field_comment_text->getValue();
 
     // Generates Comment's url.
+    // @todo: Backend shouldn't define url structure for the frontend.
     $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
     $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
     $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
