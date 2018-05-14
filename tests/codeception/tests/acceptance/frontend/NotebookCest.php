@@ -10,7 +10,6 @@ namespace frontend;
 class NotebookCest {
 
   public function NotebookOperations(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->seeElement('a.notebook');
 
@@ -42,7 +41,6 @@ class NotebookCest {
     $I->click('//div[@class="context-menu"]//div[@role="menu"]//span[@class="menu-icon menu-icon-delete"]/ancestor::div[@role="menuitem"]');
     $I->acceptPopup();
     $I->dontSee('Note title edited');
-
   }
 
 }
