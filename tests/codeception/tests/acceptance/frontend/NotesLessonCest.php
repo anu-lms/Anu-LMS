@@ -10,7 +10,6 @@ namespace frontend;
 class NotesLessonCest {
 
   public function LessonNotebookOperations(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->openTestCourseLanding();
     $I->resumeCourseFromLanding();
@@ -37,7 +36,7 @@ class NotesLessonCest {
 
     // Edit note
     $I->click('//div[@class="notes-list"]//div[text()="Note title"]/ancestor::div[contains(concat(" ", normalize-space(@class), " "), " notes-list-item ")]');
-    $I->waitForElement('.note-content h5.title');
+    $I->waitForElementVisible('.note-content h5.title');
     $I->click('.note-content h5.title');
     $I->pressKey('.note-content h5.title span', ' edited');
     $I->click('.show-note-button');
@@ -51,7 +50,6 @@ class NotesLessonCest {
     $I->acceptPopup();
     $I->waitForText('All Notes');
     $I->dontSee('Note title edited');
-
   }
 
 }
