@@ -91,6 +91,6 @@ class UserNotifications extends ResourceBase {
       return new ResourceResponse(['message' => $message], 406);
     }
 
-    return !empty($response) ? new ResourceResponse(array_values($response)) : new ResourceResponse();
+    return new ResourceResponse(array_values($response));
   }
 }
