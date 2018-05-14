@@ -23,19 +23,10 @@ class Notifications extends React.Component {
 
   closePopup() {
     this.setState({ isOpened: false });
-    document.body.classList.remove('no-scroll');
   }
 
   togglePopup() {
     this.setState({ isOpened: !this.state.isOpened });
-
-    // Add no-scroll body class when popup opened and remove this class otherwise.
-    if (this.state.isOpened) {
-      document.body.classList.remove('no-scroll');
-    }
-    else {
-      document.body.classList.add('no-scroll');
-    }
   }
 
   markAllAsRead() {
