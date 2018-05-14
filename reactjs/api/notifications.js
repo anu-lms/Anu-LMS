@@ -27,8 +27,8 @@ export const fetchNotifications = (request, isRead) => new Promise((resolve, rej
 export const markAllAsRead = request => new Promise((resolve, reject) => {
   request
     .get('/notifications?_format=json')
-    .then(response => {
-      resolve(dataProcessors.processNotifications(response.body));
+    .then(() => {
+      resolve();
     })
     .catch(error => {
       console.log('Could not fetch notifications.', error);
@@ -39,14 +39,23 @@ export const markAllAsRead = request => new Promise((resolve, reject) => {
 /**
  * Make a request to the backend to get user notifications.
  */
-export const markAsRead = (request, notificationId) => new Promise((resolve, reject) => {
+export const markAsRead = (request, bundle, uuid) => new Promise((resolve, reject) => {
   request
-    .get('/notifications?_format=json')
-    .then(response => {
-      resolve(dataProcessors.processNotifications(response.body));
+    .patch(`/jsonapi/message/${bundle}/${uuid}`)
+    .send({
+      data: {
+        type: `message--${bundle}`,
+        id: uuid,
+        attributes: {
+          field_message_is_read: true,
+        },
+      },
+    })
+    .then(() => {
+      resolve();
     })
     .catch(error => {
-      console.log('Could not fetch notifications.', error);
+      console.log('Could not mark notification as read.', error);
       reject(error);
     });
 });

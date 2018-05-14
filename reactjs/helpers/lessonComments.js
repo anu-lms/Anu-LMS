@@ -7,7 +7,7 @@ const debug = Debug('anu:lessonCommentsHelper');
  */
 export const getCommentById = (comments, id) => {
   const index = comments.findIndex(comment => comment.id === id);
-  return comments[index] ? comments[index] : null;
+  return index !== -1 ? comments[index] : null;
 };
 
 /**

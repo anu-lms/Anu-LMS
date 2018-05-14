@@ -15,7 +15,8 @@ class Message {
     try {
       // Prepared common comment data.
       $response_item = [
-        'id' => $message->id(),
+        'id' => (int) $message->id(),
+        'uuid' => $message->uuid(),
         'bundle' => $message->bundle(),
         'created' => (int) $message->created->getString(),
         'triggerer' => $message->uid->first()->get('entity')->getValue(),
