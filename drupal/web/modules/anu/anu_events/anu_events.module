@@ -30,4 +30,9 @@ function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface 
       $add_comment_to_thread->trigger();
     }
   }
+
+  $anu_event_plugins = \Drupal::service('plugin.manager.anu_event')->getDefinitions();
+  foreach ($anu_event_plugins as $anu_event_plugin) {
+    $anu_event_plugin->trigger('entity_insert', ['entity' => $entity]);
+  }
 }
