@@ -26,8 +26,10 @@ class NotificationCommentItem extends React.Component {
 
   onTitleClick() {
     const { notificationItem, closePopup } = this.props;
-    Router.replaceRoute(notificationItem.comment.commentUrl);
-    closePopup();
+    if (notificationItem.comment.commentUrl) {
+      Router.replaceRoute(notificationItem.comment.commentUrl);
+      closePopup();
+    }
   }
 
   render() {

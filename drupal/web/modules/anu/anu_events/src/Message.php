@@ -50,7 +50,10 @@ class Message {
     // @todo: Backend shouldn't define url structure for the frontend.
     $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
     $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
-    $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
+    $commentUrl = '';
+    if (!empty($lesson_url) && !empty($course_url)) {
+      $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
+    }
 
     return [
       'id' => $comment->id(),
