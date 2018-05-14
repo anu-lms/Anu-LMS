@@ -2,12 +2,10 @@
 
 namespace Drupal\anu_events\Plugin\Notifier;
 
-use Drupal\message_notify\Plugin\Notifier\MessageNotifierBase;
-
 /**
  * An abstract implementation of MessageNotifierObject.
  */
-abstract class MessageNotifierObject extends MessageNotifierBase {
+abstract class MessageNotifierBase extends \Drupal\message_notify\Plugin\Notifier\MessageNotifierBase {
 
   /**
    * {@inheritdoc}

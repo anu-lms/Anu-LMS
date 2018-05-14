@@ -11,7 +11,7 @@ namespace Drupal\anu_events\Plugin\Notifier;
  *   description = @Translation("Send push notification to the frontend"),
  * )
  */
-class FrontendPush extends MessageNotifierObject {
+class FrontendPush extends MessageNotifierBase {
 
   /**
    * {@inheritdoc}
