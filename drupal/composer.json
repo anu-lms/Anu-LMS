@@ -42,7 +42,7 @@
     "drupal/hide_revision_field": "^1.1",
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/json_field": "^1.0@beta",
-    "drupal/jsonapi": "^1.14",
+    "drupal/jsonapi": "^1.17",
     "drupal/jsonapi_extras": "^2.0",
     "drupal/media_entity": "^1.6",
     "drupal/media_entity_browser": "^1.0@beta",
