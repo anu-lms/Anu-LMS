@@ -15,7 +15,13 @@ const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, on
           <Scrollbars style={{ height: '100%' }}>
             {notifications.map(item => {
               if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
-                return <NotificationCommentItem notificationItem={item} key={item.id} closePopup={onCloseClick} />;
+                return (
+                  <NotificationCommentItem
+                    notificationItem={item}
+                    key={item.id}
+                    closePopup={onCloseClick}
+                  />
+                );
               }
               return null;
             })}
