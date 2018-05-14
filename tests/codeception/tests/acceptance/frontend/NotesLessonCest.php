@@ -10,7 +10,6 @@ namespace frontend;
 class NotesLessonCest {
 
   public function LessonNotebookOperations(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->openTestCourseLanding();
     $I->resumeCourseFromLanding();
@@ -51,7 +50,6 @@ class NotesLessonCest {
     $I->acceptPopup();
     $I->waitForText('All Notes');
     $I->dontSee('Note title edited');
-
   }
 
 }
