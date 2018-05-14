@@ -9,7 +9,7 @@ export const syncNotifications = () => ({
  * Request to the backend to get Notifications failed.
  */
 export const syncNotificationsFailed = error => ({
-  type: 'LESSON_NOTIFICATIONS_REQUEST_FAILED',
+  type: 'NOTIFICATIONS_REQUEST_FAILED',
   error,
 });
 
@@ -17,6 +17,6 @@ export const syncNotificationsFailed = error => ({
  * Save received from backend Notifications to the application store.
  */
 export const receiveNotifications = notifications => ({
-  type: 'LESSON_NOTIFICATIONS_RECEIVED',
+  type: 'NOTIFICATIONS_RECEIVED',
   notifications,
 });
