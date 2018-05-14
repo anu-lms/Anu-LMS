@@ -24,6 +24,16 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   protected abstract function getTriggerer();
 
   /**
+   *
+   */
+  public static function triggerAnuEvents($hook, $context) {
+    $anu_event_plugins = \Drupal::service('plugin.manager.anu_event')->getDefinitions();
+    foreach ($anu_event_plugins as $anu_event_plugin) {
+      $anu_event_plugin->trigger($hook, $context);
+    }
+  }
+
+  /**
    * Check if event can be triggered, creates Message entity and dispatch itself.
    */
   public function trigger($hook, $context) {

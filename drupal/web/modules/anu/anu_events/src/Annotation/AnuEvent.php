@@ -11,4 +11,29 @@ use Drupal\Component\Annotation\Plugin;
  */
 class AnuEvent extends Plugin {
 
+  /**
+   * The plugin ID.
+   *
+   * @var string
+   */
+  public $id;
+
+  /**
+   * The human-readable title.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $title;
+
+  /**
+   * The description.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $description;
+
 }
