@@ -20,8 +20,22 @@ class AcceptanceTester extends \Codeception\Actor {
 
   use _generated\AcceptanceTesterActions;
 
-  public function login($name, $password) {
+  /**
+   * @param $name
+   *  User name.
+   * @param $password
+   *  User password.
+   * @param bool $replace_pass
+   *  If different password is defined at CircleCI environment, use it instead of provided one.
+   * @throws Exception
+   */
+  public function login($name, $password, $replace_pass = FALSE) {
     $I = $this;
+
+    if ($replace_pass) {
+      // Use different password at platform.sh.
+      $password = isset($_ENV["TEST_USERS_PASS"])? $_ENV["TEST_USERS_PASS"]: $password;
+    }
 
     // Logging in.
     $I->amOnPage('/');
