@@ -19,8 +19,7 @@ class Message {
         'bundle' => $message->bundle(),
         'created' => (int) $message->created->getString(),
         'triggerer' => $message->uid->first()->get('entity')->getValue(),
-        'isRead' => ($message->id() % 2 == 0), // @todo: replace with proper value.
-        //'isRead' => $message->field_is_read->getString(),
+        'isRead' => (bool) $message->field_message_is_read->getString(),
       ];
 
       // Prepares Comment part if Comment field exists.

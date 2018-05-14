@@ -18,6 +18,7 @@ function* fetchNotifications() {
     const notifications = yield call(
       api.fetchNotifications,
       request,
+      false,
     );
 
     // Let store know that notifications were received.
