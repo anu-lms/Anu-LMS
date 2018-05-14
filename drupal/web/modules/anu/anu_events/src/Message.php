@@ -65,14 +65,15 @@ class Message {
    */
   public function deleteByCommentId($commentId) {
     try {
-      // Load notifications created for the comment.
-      $query = \Drupal::entityQuery('message')
-        ->condition('field_message_comment', $commentId);
-      $entity_ids = $query->execute();
+      // Load paragraphs of the resource type for course lessons.
+      $entities = \Drupal::entityTypeManager()
+        ->getStorage('message')
+        ->loadByProperties([
+          'field_message_comment' => $commentId
+        ]);
 
       // Delete all existing notifications for deleted comment.
       $controller = \Drupal::entityTypeManager()->getStorage('message');
-      $entities = $controller->loadMultiple($entity_ids);
       $controller->delete($entities);
 
     } catch (\Exception $exception) {
