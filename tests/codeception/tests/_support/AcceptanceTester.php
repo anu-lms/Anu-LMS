@@ -21,7 +21,6 @@ class AcceptanceTester extends \Codeception\Actor {
   use _generated\AcceptanceTesterActions;
 
   public function login($name, $password) {
-
     $I = $this;
 
     // Logging in.
@@ -32,28 +31,23 @@ class AcceptanceTester extends \Codeception\Actor {
 
     // Make sure authentication succeeded.
     $I->waitForElement('.card');
-
   }
 
   public function openTestCourseLanding() {
-
     $I = $this;
 
     $I->scrollTo('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
     $I->click('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
     $I->waitForText('Course Content');
-
   }
 
   public function resumeCourseFromLanding() {
-
     $I = $this;
 
     $courseTitle = $I->grabTextFrom('h4');
 
     $I->click('//a[text()="Start" or text()="Resume"]');
     $I->waitForText($courseTitle, 20, '.navigation');
-
   }
 
   /**
@@ -62,7 +56,6 @@ class AcceptanceTester extends \Codeception\Actor {
    *   Number of comments to create.
    */
   public function createComments($count) {
-
     $I = $this;
 
     for ($i=1; $i<=$count; $i++) {
@@ -74,9 +67,7 @@ class AcceptanceTester extends \Codeception\Actor {
       $I->click('#new-comment-form button[type="submit"]');
       $I->waitForElement('//div[contains(concat(" ", normalize-space(@class), " "), " comment ")]//div[@class="comment-body" and text()="Test comment ' . $i . '"]');
     }
-
   }
-
 
   /**
    * Waits for element on the page.
@@ -86,7 +77,6 @@ class AcceptanceTester extends \Codeception\Actor {
    *  Timeout in seconds.
    */
   public function waitForElementLoaded($element, $timeout = null) {
-
     $I = $this;
     try {
       $I->waitForElementVisible('.loader');
@@ -97,7 +87,6 @@ class AcceptanceTester extends \Codeception\Actor {
     }
 
     $I->waitForElement($element);
-
   }
 
 }

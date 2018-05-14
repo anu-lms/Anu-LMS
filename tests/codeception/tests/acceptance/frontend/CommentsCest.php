@@ -10,7 +10,6 @@ namespace frontend;
 class CommentsCest {
 
   public function LessonComments(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
@@ -20,11 +19,9 @@ class CommentsCest {
     $I->waitForElement('.notes-list-column.visible');
     $I->click('.lesson-sidebar-container .tab.comments');
     $I->waitForElement('.lesson-comments-scrollable');
-
   }
 
   public function LessonCommentOperations(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
@@ -57,11 +54,9 @@ class CommentsCest {
     $I->acceptPopup();
     $I->waitForText('Comment has been successfully deleted.');
     $I->dontSeeElement($commentWrapper);
-
   }
 
   public function LessonCommentPermissions(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
 
     // Teacher creates a comment.
@@ -104,11 +99,9 @@ class CommentsCest {
       $I->acceptPopup();
       $I->waitForText('Comment has been successfully deleted.');
     });
-
   }
 
   public function LessonCommentsThread(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
@@ -173,7 +166,6 @@ class CommentsCest {
   }
 
   public function LessonCommentlink(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
@@ -196,11 +188,9 @@ class CommentsCest {
     $url = parse_url($url, PHP_URL_PATH) . '?' . parse_url($url, PHP_URL_QUERY);
     $I->amOnPage($url);
     $I->waitForElement('.comments-list .comment.highlighted');
-
   }
 
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->seeElement('.comments-cta');
@@ -222,8 +212,6 @@ class CommentsCest {
       $commentWrapper = '//div[@class="comment-body" and text()="Test comment 1"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->dontSeeElement($commentWrapper);
     });
-
   }
-
 
 }
