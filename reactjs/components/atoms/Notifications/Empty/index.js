@@ -1,5 +1,6 @@
 import React from 'react';
 
+/* eslint-disable react/no-unescaped-entities */
 const NotificationsEmpty = () => (
   <div className="notifications-empty">
     <div className="top-text">There’s nothing here yet!</div>
