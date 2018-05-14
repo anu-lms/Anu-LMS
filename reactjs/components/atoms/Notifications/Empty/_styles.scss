@@ -19,6 +19,9 @@
   }
   .illustration {
     margin-bottom: 0.9em;
+    @media screen and (max-height: 540px) {
+      display: none;
+    }
   }
   .quote {
     color: $anu-blue;
