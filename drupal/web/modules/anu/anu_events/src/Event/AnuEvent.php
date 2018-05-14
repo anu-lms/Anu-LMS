@@ -91,6 +91,8 @@ abstract class AnuEvent extends Event {
    * Returns true if Event can be triggered.
    */
   public function canBeTriggered() {
+    // We shouldn't trigger event if Recipient and Triggerer the same.
+    // For example when user replies to his own comment.
     return $this->getTriggerer() !== $this->getRecipient();
   }
 
