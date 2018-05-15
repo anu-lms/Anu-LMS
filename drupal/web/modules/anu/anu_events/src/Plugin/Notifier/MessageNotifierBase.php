@@ -7,6 +7,10 @@ namespace Drupal\anu_events\Plugin\Notifier;
  */
 abstract class MessageNotifierBase extends \Drupal\message_notify\Plugin\Notifier\MessageNotifierBase {
 
+  public function shouldTrigger() {
+    return TRUE;
+  }
+
   /**
    * {@inheritdoc}
    *
