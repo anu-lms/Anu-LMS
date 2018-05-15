@@ -10,10 +10,17 @@ services:
     working_dir: /app
     labels:
       - 'traefik.backend=node'
-      - 'traefik.port=3000'
-      - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local'
+      # React.js app.
+      - 'traefik.app.port=3000'
+      - 'traefik.app.frontend.rule=Host:app.docker.localhost, app.docker.local'
+      - 'traefik.app.frontend.entryPoints=http'
+      # Web socket.
+      - 'traefik.socket.port=8000'
+      - 'traefik.socket.frontend.rule=Host:app.docker.localhost'
+      - 'traefik.socket.frontend.entryPoints=socket'
     expose:
-      - "3000"
+      - "3000" # React.js app
+      - "8000" # Web socket.
     volumes:
       - ./reactjs:/app
       ## For macOS users
@@ -111,7 +118,6 @@ services:
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
 
-
   #########################
   ### CODECEPTION #########
   #########################
@@ -136,7 +142,6 @@ services:
       - 4444
     shm_size: 2gb
 
-
   ##########################
   ### REVERSE PROXY ########
   ##########################
@@ -144,9 +149,10 @@ services:
   traefik:
     image: traefik
     restart: unless-stopped
-    command: -c /dev/null --web --docker --logLevel=INFO
+    command: -c /dev/null --web --docker --logLevel=INFO --entryPoints="Name:http Address::80" --entryPoints="Name:socket Address::8000"
     ports:
-      - '80:80'
+      - '80:80' # frontend and backend applications.
+      - '8000:8000' # web socket (socket.io)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

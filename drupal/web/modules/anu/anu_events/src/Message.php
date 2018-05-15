@@ -23,6 +23,12 @@ class Message {
         //'isRead' => $message->field_is_read->getString(),
       ];
 
+      // Always add a recipient user ID to the message item.
+      if ($message->hasField('field_message_recipient')) {
+        $value = $message->field_message_recipient->first()->getValue();
+        $response_item['recipient'] = $value['target_id'];
+      }
+
       // Prepares Comment part if Comment field exists.
       if ($message->hasField('field_message_comment')) {
         $comment = $message->field_message_comment->first()->get('entity')->getValue();

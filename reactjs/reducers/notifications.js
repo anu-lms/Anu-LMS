@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
     case 'LESSON_NOTIFICATIONS_RECEIVED':
       return {
         ...state,
-        notifications: action.notifications,
+        notifications: [...action.notifications, ...state.notifications]
       };
 
     default:
