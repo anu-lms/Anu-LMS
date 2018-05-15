@@ -47,7 +47,6 @@ class AssessmentCest {
     $I->see('Lorem ipsum', '//div[@class="title" and text()="Free answer question"]/following-sibling::textarea');
     $I->seeCheckboxIsChecked('//label[text()="Checkbox Option 1"]/preceding-sibling::input');
     $I->seeCheckboxIsChecked('//label[text()="Checkbox Option 3"]/preceding-sibling::input');
-
   }
 
 }
