@@ -30,7 +30,7 @@ export const markAsRead = notificationId => ({
 });
 
 /**
- * Mark notification item as read.
+ * Mark notification item as read in applications store.
  */
 export const markAsReadInStore = notificationId => ({
   type: 'NOTIFICATIONS_MARK_AS_READ_IN_STORE',
@@ -42,4 +42,11 @@ export const markAsReadInStore = notificationId => ({
  */
 export const markAllAsRead = () => ({
   type: 'NOTIFICATIONS_MARK_ALL_AS_READ',
+});
+
+/**
+ * Mark all notification items as read in applications store.
+ */
+export const markAllAsReadInStore = () => ({
+  type: 'NOTIFICATIONS_MARK_ALL_AS_READ_IN_STORE',
 });

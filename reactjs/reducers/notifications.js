@@ -33,6 +33,18 @@ export default (state = initialState, action) => {
       return state;
     }
 
+    case 'NOTIFICATIONS_MARK_ALL_AS_READ_IN_STORE': {
+      const updatedNotifications = state.notifications.map(notification => ({
+        ...notification,
+        isRead: true,
+      }));
+
+      return {
+        ...state,
+        notifications: updatedNotifications,
+      };
+    }
+
     default:
       return state;
   }

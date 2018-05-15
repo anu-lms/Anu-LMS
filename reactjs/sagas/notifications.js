@@ -32,7 +32,7 @@ function* fetchNotifications() {
 }
 
 /**
- * Fetch notifications from the backend.
+ * Send request to the backend to mark notification as read.
  */
 function* markAsRead({ notificationId }) {
   try {
@@ -53,7 +53,31 @@ function* markAsRead({ notificationId }) {
     );
   }
   catch (error) {
-    console.error('Could not update list of notifications.', error);
+    console.error('Could not mark notifications as read.', error);
+  }
+}
+
+/**
+ * Send request to the backend to mark all notifications as read.
+ */
+function* markAllAsRead() {
+  try {
+    const token = yield request.get('/session/token');
+    request.set('X-CSRF-Token', token.text);
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Makes request to the backend to update comment.
+    yield call(
+      api.markAllAsRead,
+      request,
+    );
+  }
+  catch (error) {
+    console.error('Could not mark all notifications as read.', error);
   }
 }
 
@@ -64,6 +88,6 @@ export default function* notificationsSagas() {
   yield all([
     yield takeLatest('NOTIFICATIONS_REQUESTED', fetchNotifications),
     yield takeLatest('NOTIFICATIONS_MARK_AS_READ', markAsRead),
-    yield takeLatest('NOTIFICATIONS_MARK_ALL_AS_READ', fetchNotifications),
+    yield takeLatest('NOTIFICATIONS_MARK_ALL_AS_READ', markAllAsRead),
   ]);
 }

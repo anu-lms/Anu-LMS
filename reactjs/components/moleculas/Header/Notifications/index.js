@@ -39,12 +39,9 @@ class Notifications extends React.Component {
   }
 
   markAllAsRead() {
-    console.log('All notifcations marked as read!');
-  }
-
-  // @todo: potentially pass it inside Notification item via Context API.
-  markAsRead(notificationId) {
-    console.log(`Notification with id ${notificationId} marked as read!`);
+    const { dispatch } = this.props;
+    dispatch(notificationsActions.markAllAsRead());
+    dispatch(notificationsActions.markAllAsReadInStore());
   }
 
   render() {

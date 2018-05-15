@@ -6,7 +6,7 @@ import NotificationCommentItem, { supportedBundles as commentSupportedBundles } 
 import Empty from '../Empty';
 
 // eslint-disable-next-line max-len
-const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, onMarkAllAsReadClick }) => (
+const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, onMarkAllAsReadClick, unreadAmount }) => (
   <Fragment>
     <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'} ${isEmpty ? 'empty' : ''}`}>
 
@@ -32,7 +32,7 @@ const NotificationsPopup = ({ notifications, isOpened, isEmpty, onCloseClick, on
       )}
 
       <div className="footer">
-        <button className="mark-as-read" disabled={isEmpty} onClick={onMarkAllAsReadClick}>Mark all as read</button>
+        <button className="mark-as-read" disabled={isEmpty || unreadAmount === 0} onClick={onMarkAllAsReadClick}>Mark all as read</button>
         <button className="close" onClick={onCloseClick}>Close Notifications</button>
       </div>
 
@@ -61,6 +61,7 @@ NotificationsPopup.defaultProps = {
 const mapStateToProps = ({ notifications }) => ({
   notifications: notifications.notifications,
   isEmpty: notifications.notifications.length === 0,
+  unreadAmount: notifications.notifications.length,
 });
 
 export default connect(mapStateToProps)(NotificationsPopup);
