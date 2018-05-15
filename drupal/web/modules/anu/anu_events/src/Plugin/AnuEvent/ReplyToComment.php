@@ -3,7 +3,7 @@
 namespace Drupal\anu_events\Plugin\AnuEvent;
 
 use Drupal\anu_events\AnuEventBase;
-use Drupal\Component\Render\FormattableMarkup;
+use Psr\Log\LoggerInterface;
 
 /**
  * Reply to the Comment event.
@@ -16,18 +16,18 @@ use Drupal\Component\Render\FormattableMarkup;
  */
 class ReplyToComment extends AnuEventBase {
 
-  /**
-   *
-   */
-  const MESSAGE_BUNDLE = 'reply_to_comment';
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, $notifier_manager, $hook = '', array $context = []) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $notifier_manager, $hook, $context);
 
-  function shouldTrigger($hook, $context) {
-    if ($hook !== 'entity_insert' || empty($context['entity'])) {
+    $this->entity = !empty($context['entity']) ? $context['entity'] : NULL;
+  }
+
+  function shouldTrigger() {
+    if ($this->hook !== 'entity_insert' || empty($this->entity)) {
       return FALSE;
     }
 
-    $entity = $context['entity'];
-    if ($entity->type() !== 'paragraph_comment' || $entity->bundle() !== 'paragraph_comment') {
+    if ($this->entity->getEntityTypeId() !== 'paragraph_comment' || $this->entity->bundle() !== 'paragraph_comment') {
       return FALSE;
     }
 
@@ -36,35 +36,29 @@ class ReplyToComment extends AnuEventBase {
     return $this->getTriggerer() !== $this->getRecipient();
   }
 
-  protected function getTriggerer() {
-    return (int) $entity->uid->target_id;
+  protected function getMessageBundle() {
+    // Use plugin Id as message bundle name by default.
+    return $this->pluginId;
   }
 
-  protected function getMessageBundle() {
-    return self::MESSAGE_BUNDLE;
+  protected function getTriggerer() {
+    return (int) $this->entity->uid->target_id;
   }
 
   protected function getRecipient() {
-    try {
-      $this->recipient = (int) $this->entity->field_comment_parent
+    if (!empty($this->entity->field_comment_parent->getValue())) {
+      return (int) $this->entity->field_comment_parent
         ->first()
         ->get('entity')
         ->getValue()
         ->uid
         ->target_id;
     }
-    catch (\Exception $exception) {
-      $message = new FormattableMarkup('Could not set notification recipient for comment @id. Error: @error', [
-        '@id' => $this->entity->id(),
-        '@error' => $exception->getMessage()
-      ]);
-      \Drupal::logger('anu_events')->error($message);
-    }
+    return NULL;
   }
 
   protected function attachMessageFields($message) {
-    $comment = $this->getEntity();
-    $message->field_message_comment = $comment->id();
+    $message->field_message_comment = $this->entity->id();
     $message->field_message_recipient = $this->getRecipient();
   }
 }

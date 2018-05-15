@@ -5,13 +5,15 @@ namespace Drupal\anu_events;
 use Drupal\message\Entity\Message;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Render\FormattableMarkup;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
 
   /**
    * Returns true if Event can be triggered.
    */
-  public abstract function shouldTrigger($hook, $context);
+  public abstract function shouldTrigger();
 
   /**
    * Returns true if Event can be triggered.
@@ -24,21 +26,62 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   protected abstract function getTriggerer();
 
   /**
+   * Constructs the plugin.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
+   *   The message_notify logger channel.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The rendering service.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, $notifier_manager, $hook = '', array $context = []) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+    $this->logger = $logger;
+    $this->hook = $hook;
+    $this->context = $context;
+    $this->notifierManager = $notifier_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, $hook = '', array $context = NULL) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('logger.factory')->get('anu_events'),
+      $container->get('plugin.message_notify.notifier.manager'),
+      $hook,
+      $context
+    );
+  }
+
+  /**
    *
    */
   public static function triggerAnuEvents($hook, $context) {
     $anu_event_plugins = \Drupal::service('plugin.manager.anu_event')->getDefinitions();
     foreach ($anu_event_plugins as $anu_event_plugin) {
-      $anu_event_plugin->trigger($hook, $context);
+      $anu_event = \Drupal::service('plugin.manager.anu_event')->createInstance($anu_event_plugin['id'], [], $hook, $context);
+      $anu_event->trigger();
     }
   }
 
   /**
    * Check if event can be triggered, creates Message entity and dispatch itself.
    */
-  public function trigger($hook, $context) {
+  public function trigger() {
     // Check if event can be triggered.
-    if (!$this->shouldTrigger($hook, $context)) {
+    if (!$this->shouldTrigger()) {
       return;
     }
 
@@ -52,11 +95,10 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    * @param $message
    */
   private function notifyChannels($message) {
-    $notifier_service = \Drupal::service('plugin.message_notify.notifier.manager');
-    $notifier_plugins = $notifier_service->getDefinitions();
+    $notifier_plugins = $this->notifierManager->getDefinitions();
 
     foreach ($notifier_plugins as $notifier_plugin) {
-      $notifier = $notifier_service->createInstance($notifier_plugin['id'], [], $message);
+      $notifier = $this->notifierManager->createInstance($notifier_plugin['id'], [], $message);
 
       if ($notifier->access()) {
         $notifier->send();
@@ -78,11 +120,6 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    *   Returns True if Message was successfully created, or False otherwise.
    */
   private function createMessage() {
-    if (empty($this->message_bundle)) {
-      \Drupal::logger('anu_events')->error('You should define message bundle name in class constructor.');
-      return NULL;
-    }
-
     try {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
@@ -102,7 +139,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
       $message = new FormattableMarkup('Could not create a message. Error: @error', [
         '@error' => $exception->getMessage()
       ]);
-      \Drupal::logger('anu_events')->error($message);
+      $this->logger->error($message);
     }
 
     return NULL;
