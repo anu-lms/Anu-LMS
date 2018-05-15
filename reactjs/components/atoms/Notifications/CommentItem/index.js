@@ -69,6 +69,7 @@ class NotificationCommentItem extends React.Component {
 }
 
 NotificationCommentItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   notificationItem: PropTypes.shape({
     id: PropTypes.number,
     bundle: PropTypes.string,

@@ -9,6 +9,7 @@ export default (state = initialState, action) => {
       const updatedItems = action.notifications.map(item => item.id);
 
       // Leave only old items that doesn't exists in fetched items.
+      // eslint-disable-next-line max-len
       const updatedNotifications = state.notifications.filter(item => updatedItems.indexOf(item.id) === -1);
 
       return {

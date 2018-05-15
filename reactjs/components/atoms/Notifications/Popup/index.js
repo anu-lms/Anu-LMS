@@ -37,7 +37,8 @@ const NotificationsPopup = ({ notifications, unreadAmount, isOpened, onCloseClic
             className="mark-as-read"
             disabled={isEmpty || unreadAmount === 0}
             onClick={onMarkAllAsReadClick}
-          >Mark all as read
+          >
+            Mark all as read
           </button>
           <button className="close" onClick={onCloseClick} onKeyPress={onCloseClick}>Close Notifications</button>
         </div>
@@ -52,6 +53,7 @@ const NotificationsPopup = ({ notifications, unreadAmount, isOpened, onCloseClic
 
 NotificationsPopup.propTypes = {
   isOpened: PropTypes.bool.isRequired,
+  unreadAmount: PropTypes.number.isRequired,
   onCloseClick: PropTypes.func,
   onMarkAllAsReadClick: PropTypes.func,
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
