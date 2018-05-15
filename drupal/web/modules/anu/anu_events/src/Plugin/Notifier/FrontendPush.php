@@ -21,11 +21,17 @@ class FrontendPush extends MessageNotifierObject {
    */
   public function deliver(array $output = []) {
 
+    // Load notification message.
     $messageService = \Drupal::service('anu_events.message');
     $message = $messageService->normalize($output['message']);
 
-    $host = 'http://app.docker.localhost:8000';
-    $client = new Client(new Version2X($host));
+    // Get websocket URL.
+    $websocket_port = 8000;
+    $websocket_host = \Drupal::request()->getSchemeAndHttpHost();
+    $websocket =  $websocket_host . ':' . $websocket_port;
+
+    // Send notification message to websocket.
+    $client = new Client(new Version2X($websocket));
     $client->initialize();
     $client->emit('notification', \Drupal::service('serializer')->normalize($message, 'json'));
     $client->close();
@@ -34,9 +40,8 @@ class FrontendPush extends MessageNotifierObject {
     // TODO: Error handling
     // TODO: Filter notifications on socket level.
 
-    // Put here logic to send notifications to the frontend.
-    \Drupal::logger('anu_events')
-      ->notice($output['message']->getText()[0] . ' (Notification has been sent to the frontend)');
+    //\Drupal::logger('anu_events')
+    //  ->notice($output['message']->getText()[0] . ' (Notification has been sent to the frontend)');
     return TRUE;
   }
 

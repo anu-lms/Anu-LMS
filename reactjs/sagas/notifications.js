@@ -1,4 +1,5 @@
 import { all, put, select, takeEvery, takeLatest, apply, call } from 'redux-saga/effects';
+import { store } from '../store/store';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import socketio from 'socket.io-client';
@@ -7,13 +8,14 @@ import * as notificationsActions from '../actions/notifications';
 import * as arrayHelper from '../utils/array';
 import * as dataProcessors from '../utils/dataProcessors';
 
-import { store } from '../store/store';
-const socket = socketio('http://app.docker.localhost:8000');
+// TODO: Move to clientside only.
+if (typeof window !== 'undefined') {
+  const socket = socketio(window.location.protocol + '//' + window.location.hostname + ':8000');
 
-socket.on('notification', function(notification) {
-  console.log('a new notification incoming...');
-  store.dispatch(notificationsActions.liveNotificationAdd(notification));
-});
+  socket.on('notification', function(notification) {
+    store.dispatch(notificationsActions.liveNotificationAdd(notification));
+  });
+}
 
 /**
  * Fetch notifications from the backend.
