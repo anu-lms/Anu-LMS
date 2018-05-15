@@ -1,38 +1,11 @@
 <?php
 
 use Drupal\anu_events\AnuEventBase;
-use Drupal\anu_events\Event\ReplyToCommentEvent;
-use Drupal\anu_events\Event\AddCommentToThreadEvent;
 
 /**
  * @file
  * Contains hooks definition for Anu Events module.
  */
-
-/**
- * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- */
-function anu_events_paragraph_comment_insert2(Drupal\Core\Entity\EntityInterface $entity) {
-  if ($entity->bundle() != 'paragraph_comment') {
-    return;
-  }
-
-  if (!empty($entity->field_comment_parent->getValue())) {
-    // Trigger event when user replied to the comment of another user.
-    $reply_to_comment_event = new ReplyToCommentEvent($entity);
-    $reply_to_comment_event->trigger();
-
-    // Trigger event when user added comment to the thread of another user.
-    $add_comment_to_thread = new AddCommentToThreadEvent($entity);
-
-    // Don't send "added to thread" notification if "replied to comment" has already been send to the same recipient.
-    if ($reply_to_comment_event->getRecipient() != $add_comment_to_thread->getRecipient()) {
-      $add_comment_to_thread->trigger();
-    }
-  }
-}
 
 /**
  * Implements hook_entity_insert().
