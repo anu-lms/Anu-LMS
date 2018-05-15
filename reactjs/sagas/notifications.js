@@ -8,7 +8,7 @@ import * as arrayHelper from '../utils/array';
 /**
  * Fetch notifications from the backend.
  */
-function* fetchNotifications() {
+function* fetchNotifications({ isRead }) {
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -19,7 +19,7 @@ function* fetchNotifications() {
     const notifications = yield call(
       api.fetchNotifications,
       request,
-      false,
+      isRead,
     );
 
     // Let store know that notifications were received.

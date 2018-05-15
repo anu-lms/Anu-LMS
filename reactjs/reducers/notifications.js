@@ -4,11 +4,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'NOTIFICATIONS_RECEIVED':
+    case 'NOTIFICATIONS_RECEIVED': {
+      const updatedItems = action.notifications.map(item => item.id);
+
+      // Remove items presented in updated array.
+      const updatedNotifications = state.notifications.filter(item => updatedItems.indexOf(item.id) === -1);
+
       return {
         ...state,
-        notifications: action.notifications,
+        notifications: [].concat(updatedNotifications, action.notifications),
       };
+    }
 
     case 'NOTIFICATIONS_MARK_AS_READ_IN_STORE': {
       // Search for the notification.
