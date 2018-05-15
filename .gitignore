@@ -13,3 +13,6 @@ dev
 
 # Docker Sync
 .docker-sync
+
+# Custom overrides for local env.
+docker-compose.override.yml
