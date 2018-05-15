@@ -5,13 +5,15 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'NOTIFICATIONS_RECEIVED': {
+      // Get ids of all fetcher notifications.
       const updatedItems = action.notifications.map(item => item.id);
 
-      // Remove items presented in updated array.
+      // Leave only old items that doesn't exists in fetched items.
       const updatedNotifications = state.notifications.filter(item => updatedItems.indexOf(item.id) === -1);
 
       return {
         ...state,
+        // Merge exist notifications and received.
         notifications: [].concat(updatedNotifications, action.notifications),
       };
     }
