@@ -1,0 +1,18 @@
+uuid: 5b4b3aaf-95c9-4d6f-96b1-b21bc6505d16
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_events
+    - serialization
+    - simple_oauth
+id: notifications_mark_all_as_read
+plugin_id: notifications_mark_all_as_read
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2

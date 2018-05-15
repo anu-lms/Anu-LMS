@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import NotificationItem from '../Item';
 import { Router } from '../../../../routes';
 import * as userHelper from '../../../../helpers/user';
+import * as notificationActions from '../../../../actions/notifications';
 
 export const supportedBundles = [
   'add_comment_to_thread',
@@ -22,12 +24,24 @@ class NotificationCommentItem extends React.Component {
   constructor(props) {
     super(props);
     this.onTitleClick = this.onTitleClick.bind(this);
+    this.onItemClick = this.onItemClick.bind(this);
   }
 
   onTitleClick() {
     const { notificationItem, closePopup } = this.props;
-    Router.replaceRoute(notificationItem.comment.commentUrl);
-    closePopup();
+    if (notificationItem.comment.commentUrl) {
+      Router.replaceRoute(notificationItem.comment.commentUrl);
+      closePopup();
+    }
+  }
+
+  onItemClick() {
+    const { notificationItem, dispatch } = this.props;
+
+    if (!notificationItem.isRead) {
+      dispatch(notificationActions.markAsRead(notificationItem.id));
+      dispatch(notificationActions.markAsReadInStore(notificationItem.id));
+    }
   }
 
   render() {
@@ -48,14 +62,16 @@ class NotificationCommentItem extends React.Component {
         className={`comment comment-${bundle}`}
         isRead={isRead}
         onTitleClick={this.onTitleClick}
+        onItemClick={this.onItemClick}
       />
     );
   }
 }
 
 NotificationCommentItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   notificationItem: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     bundle: PropTypes.string,
     created: PropTypes.number,
     triggerer: PropTypes.object,
@@ -75,4 +91,4 @@ NotificationCommentItem.defaultProps = {
   closePopup: () => {},
 };
 
-export default NotificationCommentItem;
+export default connect()(NotificationCommentItem);

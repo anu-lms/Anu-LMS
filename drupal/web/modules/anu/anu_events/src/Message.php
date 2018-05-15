@@ -15,12 +15,12 @@ class Message {
     try {
       // Prepared common comment data.
       $response_item = [
-        'id' => $message->id(),
+        'id' => (int) $message->id(),
+        'uuid' => $message->uuid(),
         'bundle' => $message->bundle(),
         'created' => (int) $message->created->getString(),
         'triggerer' => $message->uid->first()->get('entity')->getValue(),
-        'isRead' => ($message->id() % 2 == 0), // @todo: replace with proper value.
-        //'isRead' => $message->field_is_read->getString(),
+        'isRead' => (bool) $message->field_message_is_read->getString(),
       ];
 
       // Always add a recipient user ID to the message item.
@@ -53,9 +53,13 @@ class Message {
     $text = $comment->field_comment_text->getValue();
 
     // Generates Comment's url.
+    // @todo: Backend shouldn't define url structure for the frontend.
     $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
     $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
-    $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
+    $commentUrl = '';
+    if (!empty($lesson_url) && !empty($course_url)) {
+      $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
+    }
 
     return [
       'id' => $comment->id(),
@@ -71,14 +75,15 @@ class Message {
    */
   public function deleteByCommentId($commentId) {
     try {
-      // Load notifications created for the comment.
-      $query = \Drupal::entityQuery('message')
-        ->condition('field_message_comment', $commentId);
-      $entity_ids = $query->execute();
+      // Load paragraphs of the resource type for course lessons.
+      $entities = \Drupal::entityTypeManager()
+        ->getStorage('message')
+        ->loadByProperties([
+          'field_message_comment' => $commentId
+        ]);
 
       // Delete all existing notifications for deleted comment.
       $controller = \Drupal::entityTypeManager()->getStorage('message');
-      $entities = $controller->loadMultiple($entity_ids);
       $controller->delete($entities);
 
     } catch (\Exception $exception) {

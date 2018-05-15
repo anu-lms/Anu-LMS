@@ -1,0 +1,18 @@
+uuid: 16ce1b0d-3e00-4ad6-851e-1c7c909ce4d3
+langcode: en
+status: true
+dependencies:
+  module:
+    - message
+id: message.field_message_is_read
+field_name: field_message_is_read
+entity_type: message
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
