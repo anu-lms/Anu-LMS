@@ -10,7 +10,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 
 // TODO: Move to clientside only.
 if (typeof window !== 'undefined') {
-  const socket = socketio(`${window.location.protocol}//${window.location.hostname}:8000`);
+  const socket = socketio();
 
   socket.on('notification', notification => {
     store.dispatch(notificationsActions.liveNotificationAdd(notification));
