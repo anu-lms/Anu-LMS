@@ -26,12 +26,13 @@ export const fetchNotifications = (request, isRead) => new Promise((resolve, rej
  */
 export const markAllAsRead = request => new Promise((resolve, reject) => {
   request
-    .get('/notifications?_format=json')
+    .post('/notifications/mark-all-as-read?_format=json')
+    .set('Content-Type', 'application/json')
     .then(() => {
       resolve();
     })
     .catch(error => {
-      console.log('Could not fetch notifications.', error);
+      console.log('Could not mark all notifications as read.', error);
       reject(error);
     });
 });
