@@ -1,8 +1,8 @@
 import { all, put, select, takeEvery, takeLatest, apply, call } from 'redux-saga/effects';
+import socketio from 'socket.io-client';
 import { store } from '../store/store';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
-import socketio from 'socket.io-client';
 import * as api from '../api/notifications';
 import * as notificationsActions from '../actions/notifications';
 import * as arrayHelper from '../utils/array';
@@ -10,9 +10,9 @@ import * as dataProcessors from '../utils/dataProcessors';
 
 // TODO: Move to clientside only.
 if (typeof window !== 'undefined') {
-  const socket = socketio(window.location.protocol + '//' + window.location.hostname + ':8000');
+  const socket = socketio(`${window.location.protocol}//${window.location.hostname}:8000`);
 
-  socket.on('notification', function(notification) {
+  socket.on('notification', notification => {
     store.dispatch(notificationsActions.liveNotificationAdd(notification));
   });
 }
@@ -48,7 +48,7 @@ function* fetchNotifications({ isRead }) {
  */
 function* markAsRead({ notificationId }) {
   try {
-    const notifications = yield select(store => store.notifications.notifications);
+    const notifications = yield select(reduxStore => reduxStore.notifications.notifications);
     const notificationItem = arrayHelper.getObjectById(notifications, notificationId);
 
     // Making sure the request object includes the valid access token.
@@ -97,8 +97,7 @@ function* markAllAsRead() {
  * TODO: Comment.
  */
 function* handleIncomingLiveNotification({ notification }) {
-
-  const currentUserUid = yield select(store => store.user.uid);
+  const currentUserUid = yield select(reduxStore => reduxStore.user.uid);
 
   if (notification.recipient === currentUserUid) {
     const notifications = dataProcessors.processNotifications([notification]);

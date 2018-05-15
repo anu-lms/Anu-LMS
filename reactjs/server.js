@@ -1,6 +1,10 @@
 const compression = require('compression');
 const express = require('express');
+
+const server = express();
 const basicAuth = require('express-basic-auth');
+const serverio = require('http').Server(server);
+const socketio = require('socket.io')(serverio);
 const nextjs = require('next');
 const sass = require('node-sass');
 const routes = require('./routes');
@@ -45,11 +49,6 @@ const handler = routes.getRequestHandler(app);
 
 app.prepare()
   .then(() => {
-    const server = express();
-
-    var serverio = require('http').Server(server);
-    var socketio = require('socket.io')(serverio);
-
     // Make sure we enable http auth only on platform.sh dev branches.
     if (process.env.PLATFORM_BRANCH && process.env.PLATFORM_BRANCH !== 'master') {
       // Make sure that we do have http user & password set in variables.
@@ -100,8 +99,8 @@ app.prepare()
     // TODO: Configure origins.
     // io.origins(['foo.example.com:443']);
 
-    socketio.on('connection', function(socket) {
-      socket.on('notification', function(notification){
+    socketio.on('connection', socket => {
+      socket.on('notification', notification => {
         socketio.emit('notification', notification);
       });
     });
