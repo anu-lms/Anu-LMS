@@ -20,3 +20,8 @@ export const receiveNotifications = notifications => ({
   type: 'LESSON_NOTIFICATIONS_RECEIVED',
   notifications,
 });
+
+export const liveNotificationAdd = notification => ({
+  type: 'NOTIFICATIONS_LIVE_NOTIFICATION_ADD',
+  notification
+});

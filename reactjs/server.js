@@ -47,6 +47,9 @@ app.prepare()
   .then(() => {
     const server = express();
 
+    var serverio = require('http').Server(server);
+    var socketio = require('socket.io')(serverio);
+
     // Make sure we enable http auth only on platform.sh dev branches.
     if (process.env.PLATFORM_BRANCH && process.env.PLATFORM_BRANCH !== 'master') {
       // Make sure that we do have http user & password set in variables.
@@ -93,4 +96,15 @@ app.prepare()
     }));
 
     server.use(handler).listen(process.env.PORT);
+
+    // TODO: Configure origins.
+    // io.origins(['foo.example.com:443']);
+
+    socketio.on('connection', function(socket) {
+      socket.on('notification', function(notification){
+        socketio.emit('notification', notification);
+      });
+    });
+
+    socketio.listen(8000);
   });
