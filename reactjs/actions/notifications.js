@@ -1,5 +1,5 @@
 /**
- * Make request to the backend to get Notifications.
+ * Make request to the backend to get read Notifications.
  */
 export const fetchRead = () => ({
   type: 'NOTIFICATIONS_REQUESTED',
@@ -7,7 +7,7 @@ export const fetchRead = () => ({
 });
 
 /**
- * Make request to the backend to get Notifications.
+ * Make request to the backend to get unread Notifications.
  */
 export const fetchUnread = () => ({
   type: 'NOTIFICATIONS_REQUESTED',

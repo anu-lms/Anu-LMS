@@ -22,7 +22,7 @@ export const fetchNotifications = (request, isRead) => new Promise((resolve, rej
 });
 
 /**
- * Make a request to the backend to get user notifications.
+ * Make a request to the backend to mark all notifications as read.
  */
 export const markAllAsRead = request => new Promise((resolve, reject) => {
   request
@@ -38,7 +38,7 @@ export const markAllAsRead = request => new Promise((resolve, reject) => {
 });
 
 /**
- * Make a request to the backend to get user notifications.
+ * Make a request to the backend to mark notification item as read.
  */
 export const markAsRead = (request, bundle, uuid) => new Promise((resolve, reject) => {
   request
