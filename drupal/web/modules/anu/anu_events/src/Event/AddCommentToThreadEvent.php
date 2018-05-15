@@ -22,5 +22,6 @@ class AddCommentToThreadEvent extends AnuEvent {
     $comment = $this->getEntity();
     $message->field_message_comment = $comment->id();
     $message->field_message_recipient = $this->getRecipient();
+    $message->field_message_is_read = false;
   }
 }

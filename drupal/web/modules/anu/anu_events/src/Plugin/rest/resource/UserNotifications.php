@@ -6,6 +6,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\Component\Render\FormattableMarkup;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -40,8 +41,11 @@ class UserNotifications extends ResourceBase {
     $plugin_id,
     $plugin_definition,
     array $serializer_formats,
-    LoggerInterface $logger) {
+    LoggerInterface $logger,
+    Request $current_request) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+
+    $this->currentRequest = $current_request;
   }
 
   /**
@@ -53,7 +57,8 @@ class UserNotifications extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('anu_events')
+      $container->get('logger.factory')->get('anu_events'),
+      $container->get('request_stack')->getCurrentRequest()
     );
   }
 
@@ -67,8 +72,14 @@ class UserNotifications extends ResourceBase {
     try {
       $query = \Drupal::entityQuery('message')
         ->condition('field_message_recipient', \Drupal::currentUser()->id())
-        ->range(0, 10) // Will be enhanced with lazy loading.
+//        ->range(0, 10) // Will be enhanced with lazy loading.
         ->sort('created' , 'DESC');
+
+      // Filter by isRead get param if exists.
+      $is_read = $this->currentRequest->query->get('isRead');
+      if ($is_read != null) {
+        $query->condition('field_message_is_read', (bool) $is_read);
+      }
 
       $entity_ids = $query->execute();
       $messages = \Drupal::entityTypeManager()
@@ -94,6 +105,6 @@ class UserNotifications extends ResourceBase {
       return new ResourceResponse(['message' => $message], 406);
     }
 
-    return !empty($response) ? new ResourceResponse(array_values($response)) : new ResourceResponse();
+    return new ResourceResponse(array_values($response));
   }
 }
