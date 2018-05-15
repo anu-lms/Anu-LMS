@@ -36,10 +36,6 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    *   The plugin implementation definition.
    * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
    *   The message_notify logger channel.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager service.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The rendering service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, $notifier_manager, $hook = '', array $context = []) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
