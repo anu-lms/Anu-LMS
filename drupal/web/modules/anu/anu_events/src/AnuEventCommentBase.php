@@ -4,13 +4,10 @@ namespace Drupal\anu_events;
 
 use Psr\Log\LoggerInterface;
 
-/**
- * Reply to the Comment event.
- */
 abstract class AnuEventCommentBase extends AnuEventBase {
 
   /**
-   *
+   * Returns ID of user who should receive notification.
    */
   abstract protected function getRecipient();
 
@@ -27,6 +24,7 @@ abstract class AnuEventCommentBase extends AnuEventBase {
    * {@inheritdoc}
    */
   function shouldTrigger() {
+    // We process only comment insert hook for now, feel free to move to another level in future.
     if ($this->hook !== 'entity_insert' || empty($this->entity)) {
       return FALSE;
     }

@@ -7,6 +7,9 @@ namespace Drupal\anu_events\Plugin\Notifier;
  */
 abstract class MessageNotifierBase extends \Drupal\message_notify\Plugin\Notifier\MessageNotifierBase {
 
+  /**
+   * Returns TRUE if channel should be triggered.
+   */
   public function shouldTrigger() {
     return TRUE;
   }
