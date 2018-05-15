@@ -29,8 +29,10 @@ class NotificationCommentItem extends React.Component {
 
   onTitleClick() {
     const { notificationItem, closePopup } = this.props;
-    Router.replaceRoute(notificationItem.comment.commentUrl);
-    closePopup();
+    if (notificationItem.comment.commentUrl) {
+      Router.replaceRoute(notificationItem.comment.commentUrl);
+      closePopup();
+    }
   }
 
   onItemClick() {
@@ -46,12 +48,16 @@ class NotificationCommentItem extends React.Component {
     const { triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
     const { lessonTitle, text } = comment;
     const triggererName = userHelper.getUsername(triggerer);
+    let titleCopy = 'replied to your comment in';
+    if (bundle === 'add_comment_to_thread') {
+      titleCopy = 'commented in your thread in';
+    }
 
     return (
       <NotificationItem
         Icon={NotificationCommentItemIcon}
         date={created}
-        title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
+        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lessonTitle}</strong>`}
         text={text}
         className={`comment comment-${bundle}`}
         isRead={isRead}
