@@ -19,7 +19,6 @@ class Notifications extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(notificationsActions.fetchUnread());
-    // dispatch(notificationsActions.fetchRead());
   }
 
   closePopup() {
@@ -28,7 +27,12 @@ class Notifications extends React.Component {
   }
 
   togglePopup() {
+    const { dispatch, notifications } = this.props;
     this.setState({ isOpened: !this.state.isOpened });
+
+    if (!this.state.isOpened && notifications.length < 10) {
+      dispatch(notificationsActions.fetchRead());
+    }
 
     // Add no-scroll body class when popup opened and remove this class otherwise.
     if (this.state.isOpened) {
