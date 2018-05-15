@@ -10,17 +10,11 @@ services:
     working_dir: /app
     labels:
       - 'traefik.backend=node'
-      # React.js app.
-      - 'traefik.app.port=3000'
-      - 'traefik.app.frontend.rule=Host:app.docker.localhost, app.docker.local'
-      - 'traefik.app.frontend.entryPoints=http'
-      # Web socket.
-      - 'traefik.socket.port=8000'
-      - 'traefik.socket.frontend.rule=Host:app.docker.localhost'
-      - 'traefik.socket.frontend.entryPoints=socket'
+      - 'traefik.port=3000'
+      - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local'
+      - 'traefik.frontend.entryPoints=http'
     expose:
-      - "3000" # React.js app
-      - "8000" # Web socket.
+      - "3000"
     volumes:
       - ./reactjs:/app
       ## For macOS users
@@ -149,10 +143,9 @@ services:
   traefik:
     image: traefik
     restart: unless-stopped
-    command: -c /dev/null --web --docker --logLevel=INFO --entryPoints="Name:http Address::80" --entryPoints="Name:socket Address::8000"
+    command: -c /dev/null --web --docker --logLevel=INFO
     ports:
-      - '80:80' # frontend and backend applications.
-      - '8000:8000' # web socket (socket.io)
+      - '80:80'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

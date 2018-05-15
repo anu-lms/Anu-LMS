@@ -26,9 +26,7 @@ class FrontendPush extends MessageNotifierObject {
     $message = $messageService->normalize($output['message']);
 
     // Get websocket URL.
-    $websocket_port = 8000;
-    $websocket_host = \Drupal::request()->getSchemeAndHttpHost();
-    $websocket =  $websocket_host . ':' . $websocket_port;
+    $websocket = \Drupal::request()->getSchemeAndHttpHost();
 
     // Send notification message to websocket.
     $client = new Client(new Version2X($websocket));
