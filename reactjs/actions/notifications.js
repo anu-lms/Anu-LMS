@@ -1,8 +1,17 @@
 /**
  * Make request to the backend to get Notifications.
  */
-export const syncNotifications = () => ({
+export const fetchRead = () => ({
   type: 'NOTIFICATIONS_REQUESTED',
+  isRead: true,
+});
+
+/**
+ * Make request to the backend to get Notifications.
+ */
+export const fetchUnread = () => ({
+  type: 'NOTIFICATIONS_REQUESTED',
+  isRead: false,
 });
 
 /**

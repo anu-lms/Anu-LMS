@@ -18,7 +18,8 @@ class Notifications extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(notificationsActions.syncNotifications());
+    dispatch(notificationsActions.fetchUnread());
+    // dispatch(notificationsActions.fetchRead());
   }
 
   closePopup() {
@@ -46,7 +47,7 @@ class Notifications extends React.Component {
 
   render() {
     const { isOpened } = this.state;
-    const { notificationsAmount } = this.props;
+    const { unreadAmount, notifications } = this.props;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -58,8 +59,8 @@ class Notifications extends React.Component {
               </g>
             </svg>
 
-            {notificationsAmount > 0 &&
-              <div className="amount">{notificationsAmount}</div>
+            {unreadAmount > 0 &&
+              <div className="amount">{unreadAmount > 99 ? 99 : unreadAmount}</div>
             }
           </div>
 
@@ -73,6 +74,8 @@ class Notifications extends React.Component {
         </div>
 
         <NotificationsPopup
+          notifications={notifications}
+          unreadAmount={unreadAmount}
           isOpened={isOpened}
           onCloseClick={this.closePopup}
           onMarkAllAsReadClick={this.markAllAsRead}
@@ -84,12 +87,13 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  notificationsAmount: PropTypes.number.isRequired,
+  unreadAmount: PropTypes.number.isRequired,
+  notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = ({ notifications }) => ({
-  // eslint-disable-next-line max-len
-  notificationsAmount: notifications.notifications.length > 99 ? 99 : notifications.notifications.length,
+  notifications: notifications.notifications.sort((a, b) => (b.created - a.created)),
+  unreadAmount: notifications.notifications.filter(item => !item.isRead).length,
 });
 
 export default withRedux(connect(mapStateToProps)(Notifications));
