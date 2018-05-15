@@ -1,8 +1,4 @@
 services:
-  anu_events.event_subscriber:
-    class: Drupal\anu_events\EventSubscriber\AnuEventSubscriber
-    tags:
-      - { name: 'event_subscriber' }
   plugin.manager.anu_event:
     class: Drupal\anu_events\AnuEventPluginManager
     parent: default_plugin_manager
