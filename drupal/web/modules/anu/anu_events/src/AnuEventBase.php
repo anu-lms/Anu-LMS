@@ -100,7 +100,9 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
     foreach ($notifier_plugins as $notifier_plugin) {
       $notifier = $this->notifierManager->createInstance($notifier_plugin['id'], [], $message);
 
-      if ($notifier->access()) {
+      // Send only to plugins that supports shouldTrigger() method,
+      // to avoid triggering unnecessary channels (it triggers all channels by default (including default email))
+      if ($notifier->access() && method_exists($notifier, 'shouldTrigger') && $notifier->shouldTrigger()) {
         $notifier->send();
       }
     }
