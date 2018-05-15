@@ -65,5 +65,5 @@ export const markAllAsReadInStore = () => ({
  */
 export const liveNotificationAdd = notification => ({
   type: 'NOTIFICATIONS_LIVE_NOTIFICATION_ADD',
-  notification
+  notification,
 });
