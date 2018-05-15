@@ -44,16 +44,26 @@ class ImportEventSubscriber implements EventSubscriberInterface {
         return $entity->getEntityTypeId() === 'node' ? true : false;
       });
 
+      // Get imported Users.
+      $users = array_filter($entities, function($entity) {
+        /* @var $entity \Drupal\Core\Entity\ContentEntityInterface */
+        return $entity->getEntityTypeId() === 'user' ? true : false;
+      });
+
+      if ($users) {
+        $this->setUsersPasswords($users);
+      }
+
       foreach ($groups as $group) {
         /* @var $group \Drupal\group\Entity\Group */
-        $this->addTestClassMembers($group);
+        $this->addTestClassMembers($group, $users);
 
         // Add all test courses and lessons into all test classes.
         /* @var $node \Drupal\node\Entity\Node */
         foreach ($nodes as $node) {
           $bundle = $node->bundle();
-          if (in_array($bundle, ['course', 'lesson'])) {
-            $plugin = 'group_node:' . $node->bundle();
+          if (in_array($bundle, ['course'])) {
+            $plugin = 'group_node:' . $bundle;
             $group->addContent($node, $plugin);
           }
         }
@@ -64,36 +74,30 @@ class ImportEventSubscriber implements EventSubscriberInterface {
   /**
    * Add users into the test group.
    * @param $group \Drupal\group\Entity\Group
+   * @param $users \Drupal\user\Entity\User[]
    */
-  public function addTestClassMembers($group) {
+  public function addTestClassMembers($group, $users) {
 
-    /* @var $role \Drupal\user\Entity\Role */
-    foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
+    /* @var $user \Drupal\user\Entity\User */
+    foreach ($users as $user) {
 
-      if ($role->id() == 'anonymous') {
-        continue;
-      }
-
-      switch ($role->id()) {
-        case 'teacher':
-        case 'manager':
-        case 'admin':
-          $roles = ['class-admin'];
-          break;
-        default:
-          $roles = [];
-          break;
-      }
-
+      $roles = array_intersect($user->getRoles(), ['teacher', 'moderator', 'administrator']) ? ['class-admin'] : [];
       $values = ['group_roles' => $roles, 'gid' => $group->id()];
+      $group->addMember($user, $values);
 
-      $username = $role->id() . '.test';
+    }
 
-      /* @var $account \Drupal\user\Entity\User */
-      $account = user_load_by_name($username);
+  }
 
-      if ($account) {
-        $group->addMember($account, $values);
+  /**
+   * Set test users passwords if they're defined at platform.sh.
+   * @param $users \Drupal\user\Entity\User[]
+   */
+  function setUsersPasswords($users) {
+    if (isset($_ENV['TEST_USERS_PASS'])) {
+      foreach ($users as $user) {
+        $user->setPassword($_ENV['TEST_USERS_PASS']);
+        $user->save();
       }
     }
   }
