@@ -5,16 +5,19 @@ namespace Drupal\anu_events\Plugin\AnuEvent;
 use Drupal\anu_events\AnuEventCommentBase;
 
 /**
- * Reply to the Comment event.
+ * Add comment to thread event.
  *
  * @AnuEvent(
  *   id = "add_comment_to_thread",
- *   title = @Translation("Reply to comment"),
- *   description = @Translation("Triggered when user replied to the comment"),
+ *   title = @Translation("Add comment to thread"),
+ *   description = @Translation("Triggered when user added comment to the thread of another user"),
  * )
  */
 class AddCommentToThread extends AnuEventCommentBase {
 
+  /**
+   * {@inheritdoc}
+   */
   function shouldTrigger() {
 
     if (!parent::shouldTrigger()) {
@@ -31,6 +34,9 @@ class AddCommentToThread extends AnuEventCommentBase {
     return TRUE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getRecipient() {
 
     // Search for the root parent comment.
@@ -38,6 +44,9 @@ class AddCommentToThread extends AnuEventCommentBase {
     return (int) $rootComment->uid->target_id;
   }
 
+  /**
+   * Returns id of parent comment author.
+   */
   private function getParentCommentUid() {
     if (!empty($this->entity->field_comment_parent->getValue())) {
       return (int) $this->entity->field_comment_parent

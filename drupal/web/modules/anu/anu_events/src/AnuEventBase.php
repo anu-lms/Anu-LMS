@@ -62,7 +62,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   }
 
   /**
-   *
+   * Triggers Anu events.
    */
   public static function triggerAnuEvents($hook, $context) {
     $anu_event_plugins = \Drupal::service('plugin.manager.anu_event')->getDefinitions();
@@ -88,7 +88,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   }
 
   /**
-   * @param $message
+   * Notifies channels about happend event.
    */
   private function notifyChannels($message) {
     $notifier_plugins = $this->notifierManager->getDefinitions();

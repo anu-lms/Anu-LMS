@@ -15,6 +15,9 @@ use Drupal\anu_events\AnuEventCommentBase;
  */
 class ReplyToComment extends AnuEventCommentBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getRecipient() {
     if (!empty($this->entity->field_comment_parent->getValue())) {
       return (int) $this->entity->field_comment_parent
