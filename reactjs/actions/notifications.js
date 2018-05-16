@@ -1,9 +1,10 @@
 /**
  * Make request to the backend to get read Notifications.
  */
-export const fetchRead = () => ({
+export const fetchRead = lastFetchedTimestamp => ({
   type: 'NOTIFICATIONS_REQUESTED',
   isRead: true,
+  lastFetchedTimestamp,
 });
 
 /**

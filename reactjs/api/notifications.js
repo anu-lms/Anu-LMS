@@ -3,12 +3,18 @@ import * as dataProcessors from '../utils/dataProcessors';
 /**
  * Make a request to the backend to get user notifications.
  */
-export const fetchNotifications = (request, isRead) => new Promise((resolve, reject) => {
+// eslint-disable-next-line max-len
+export const fetchNotifications = (request, isRead, lastFetchedTimestamp) => new Promise((resolve, reject) => {
   const query = {};
 
   if (isRead !== undefined) {
     query.isRead = isRead ? 1 : 0;
   }
+
+  if (lastFetchedTimestamp !== undefined) {
+    query.lastFetchedTimestamp = lastFetchedTimestamp;
+  }
+
   request
     .get('/notifications?_format=json')
     .query(query)

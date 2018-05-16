@@ -12,6 +12,7 @@ class Notifications extends React.Component {
     this.state = { isOpened: false };
 
     this.closePopup = this.closePopup.bind(this);
+    this.loadMore = this.loadMore.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.markAllAsRead = this.markAllAsRead.bind(this);
   }
@@ -24,6 +25,18 @@ class Notifications extends React.Component {
   closePopup() {
     this.setState({ isOpened: false });
     document.body.classList.remove('no-scroll-mobile');
+  }
+
+  /**
+   * Request another piece of notifications.
+   */
+  loadMore() {
+    const { dispatch, lastFetchedTimestamp, isLoading } = this.props;
+
+    if (!isLoading) {
+      dispatch(notificationsActions.fetchRead(lastFetchedTimestamp));
+      this.currentLastFetchedTimestamp = lastFetchedTimestamp;
+    }
   }
 
   togglePopup() {
@@ -51,7 +64,9 @@ class Notifications extends React.Component {
 
   render() {
     const { isOpened } = this.state;
-    const { unreadAmount, notifications } = this.props;
+    const { unreadAmount, notifications, isLoading, lastFetchedTimestamp } = this.props;
+    const hasMore = lastFetchedTimestamp === undefined ||
+      this.currentLastFetchedTimestamp !== lastFetchedTimestamp;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -83,6 +98,9 @@ class Notifications extends React.Component {
           isOpened={isOpened}
           onCloseClick={this.closePopup}
           onMarkAllAsReadClick={this.markAllAsRead}
+          loadMore={this.loadMore}
+          hasMore={hasMore}
+          isLoading={isLoading}
         />
       </div>
     );
@@ -92,12 +110,30 @@ class Notifications extends React.Component {
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
   unreadAmount: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  lastFetchedTimestamp: PropTypes.number,
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = ({ notifications }) => ({
-  notifications: notifications.notifications.sort((a, b) => (b.created - a.created)),
-  unreadAmount: notifications.notifications.filter(item => !item.isRead).length,
-});
+Notifications.defaultProps = {
+  lastFetchedTimestamp: undefined,
+};
+
+const mapStateToProps = ({ notifications }) => {
+  const sortedNotifications = notifications.notifications.sort((a, b) => (b.created - a.created));
+
+  const sortedReadNotifications = sortedNotifications.filter(item => item.isRead);
+  let lastFetchedTimestamp;
+  if (sortedReadNotifications.length > 0) {
+    lastFetchedTimestamp = sortedReadNotifications[sortedReadNotifications.length - 1].created;
+  }
+
+  return {
+    notifications: sortedNotifications,
+    unreadAmount: sortedNotifications.filter(item => !item.isRead).length,
+    isLoading: notifications.isLoading,
+    lastFetchedTimestamp,
+  };
+};
 
 export default withRedux(connect(mapStateToProps)(Notifications));

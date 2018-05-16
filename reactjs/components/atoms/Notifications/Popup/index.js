@@ -1,11 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
 import Empty from '../Empty';
 
-// eslint-disable-next-line max-len
-const NotificationsPopup = ({ notifications, unreadAmount, isOpened, onCloseClick, onMarkAllAsReadClick }) => {
+const NotificationsPopup = ({
+  notifications, unreadAmount, isOpened, onCloseClick,
+  onMarkAllAsReadClick, loadMore, hasMore, isLoading,
+}) => {
   const isEmpty = notifications.length === 0;
   return (
     <Fragment>
@@ -14,22 +17,32 @@ const NotificationsPopup = ({ notifications, unreadAmount, isOpened, onCloseClic
         {!isEmpty ? (
           <div className="list">
             <Scrollbars style={{ height: '100%' }}>
-              {notifications.map(item => {
-              if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
-                return (
-                  <NotificationCommentItem
-                    notificationItem={item}
-                    key={item.id}
-                    closePopup={onCloseClick}
-                  />
-                );
-              }
-              return null;
-            })}
+              <InfiniteScroll
+                dataLength={notifications.length}
+                next={loadMore}
+                hasMore={hasMore}
+                height={460}
+              >
+                {notifications.map(item => {
+                  if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
+                    return (
+                      <NotificationCommentItem
+                        notificationItem={item}
+                        key={item.id}
+                        closePopup={onCloseClick}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+                <div className={`spinner ${isLoading ? 'show' : ''}`}>
+                  <img src="/static/img/spinner-small.gif" alt="Loading..." />
+                </div>
+              </InfiniteScroll>
             </Scrollbars>
           </div>
         ) : (
-          <Empty />
+          <Empty isLoading={isLoading} />
         )}
 
         <div className="footer">
@@ -52,16 +65,20 @@ const NotificationsPopup = ({ notifications, unreadAmount, isOpened, onCloseClic
 };
 
 NotificationsPopup.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  hasMore: PropTypes.bool.isRequired,
   isOpened: PropTypes.bool.isRequired,
   unreadAmount: PropTypes.number.isRequired,
   onCloseClick: PropTypes.func,
   onMarkAllAsReadClick: PropTypes.func,
+  loadMore: PropTypes.func,
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 NotificationsPopup.defaultProps = {
   onCloseClick: () => {},
   onMarkAllAsReadClick: () => {},
+  loadMore: () => {},
 };
 
 export default NotificationsPopup;

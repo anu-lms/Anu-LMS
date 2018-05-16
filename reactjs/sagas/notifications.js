@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
 /**
  * Fetch notifications from the backend.
  */
-function* fetchNotifications({ isRead }) {
+function* fetchNotifications({ isRead, lastFetchedTimestamp }) {
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -33,6 +33,7 @@ function* fetchNotifications({ isRead }) {
       api.fetchNotifications,
       request,
       isRead,
+      lastFetchedTimestamp,
     );
 
     // Let store know that notifications were received.

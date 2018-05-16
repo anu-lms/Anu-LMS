@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import PageLoader from '../../../atoms/PageLoader';
 
-/* eslint-disable react/no-unescaped-entities */
-const NotificationsEmpty = () => (
+const NotificationsEmpty = ({ isLoading }) => (
   <div className="notifications-empty">
     <div className="top-text">There’s nothing here yet!</div>
     <div className="illustration">
@@ -74,7 +75,15 @@ const NotificationsEmpty = () => (
       “Silence is golden<br />when you can't think of a good answer”
     </div>
     <div className="quote-author">Muhammad Ali</div>
+
+    {isLoading &&
+      <PageLoader />
+    }
   </div>
 );
+
+NotificationsEmpty.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+};
 
 export default NotificationsEmpty;
