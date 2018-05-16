@@ -1,7 +1,11 @@
 .notifications-wrapper {
   display: inline-block;
   position: relative;
+  height: 100%;
 
+  .notifications-icons {
+    height: 100%;
+  }
   .icon {
     cursor: pointer;
     position: relative;
@@ -43,7 +47,7 @@
   @include media-breakpoint-down(sm) {
     &.popup-opened {
       .icon-close {
-        display: inline-block;
+        display: inline-flex;
       }
       .icon-bell {
         display: none;
