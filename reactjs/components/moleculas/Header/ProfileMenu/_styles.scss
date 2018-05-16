@@ -1,8 +1,14 @@
 // Using id here to override default dropdown styles.
 #profile-menu {
-  margin-left: 0.8em;
+  height: 100%;
+  & > button {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
   div[class^=dropdown---dropdown-menu-wrapper] {
-    right: -10px;
+    right: -3px;
     @include media-breakpoint-up(lg) {
       right: -14px;
     }
