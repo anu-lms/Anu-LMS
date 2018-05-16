@@ -72,13 +72,21 @@ class UserNotifications extends ResourceBase {
     try {
       $query = \Drupal::entityQuery('message')
         ->condition('field_message_recipient', \Drupal::currentUser()->id())
-//        ->range(0, 10) // Will be enhanced with lazy loading.
         ->sort('created' , 'DESC');
 
       // Filter by isRead get param if exists.
       $is_read = $this->currentRequest->query->get('isRead');
       if ($is_read != null) {
         $query->condition('field_message_is_read', (bool) $is_read);
+
+        if ($is_read) {
+          $query->range(0, 3);
+
+          $lastFetchedTimestamp = $this->currentRequest->query->get('lastFetchedTimestamp');
+          if ($lastFetchedTimestamp != null) {
+            $query->condition('created', (int)$lastFetchedTimestamp, '<=');
+          }
+        }
       }
 
       $entity_ids = $query->execute();
