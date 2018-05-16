@@ -72,7 +72,7 @@ const NotificationsEmpty = ({ isLoading }) => (
       </svg>
     </div>
     <div className="quote">
-      “Silence is golden<br />when you can't think of a good answer”
+      &ldquo;Silence is golden<br />when you can&#39;t think of a good answer&rdquo;
     </div>
     <div className="quote-author">Muhammad Ali</div>
 

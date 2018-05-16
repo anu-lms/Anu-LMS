@@ -103,7 +103,6 @@ function* handleIncomingLiveNotification({ notification }) {
 
   // Make sure the event recipient matches the current user id.
   if (notification.recipient === currentUserUid) {
-
     // Format the notification properly.
     const notifications = dataProcessors.processNotifications([notification]);
 
