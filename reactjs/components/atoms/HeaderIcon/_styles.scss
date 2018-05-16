@@ -10,7 +10,7 @@
 
   @include media-breakpoint-up(md) {
     padding-top: 5px;
-    margin: 0 0.5em;
+    margin: 0 0.4em;
   }
 
   .icon {
@@ -19,6 +19,7 @@
     @include media-breakpoint-up(md) {
       width: 2.5em;
       height: 2.5em;
+      position: relative;
     }
 
     svg {
@@ -46,8 +47,21 @@
 }
 
 
-
-
+.header-icon.home .icon {
+  top: 7px;
+}
+.header-icon.notebook .icon {
+  top: 4px;
+}
+.header-icon.profile .icon {
+  top: 3px;
+}
+.header-icon.icon-bell .icon {
+  top: 0;
+  @include media-breakpoint-up(md) {
+    top: 5px;
+  }
+}
 .icon222 {
   display: inline-block;
   width: 1.5em;
