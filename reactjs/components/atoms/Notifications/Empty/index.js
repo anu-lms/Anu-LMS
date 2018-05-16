@@ -1,5 +1,6 @@
 import React from 'react';
 
+/* eslint-disable react/no-unescaped-entities */
 const NotificationsEmpty = () => (
   <div className="notifications-empty">
     <div className="top-text">There’s nothing here yet!</div>
@@ -70,7 +71,7 @@ const NotificationsEmpty = () => (
       </svg>
     </div>
     <div className="quote">
-      “Silence is golden <br /> when you can’t think of a good answer”
+      “Silence is golden<br />when you can't think of a good answer”
     </div>
     <div className="quote-author">Muhammad Ali</div>
   </div>
