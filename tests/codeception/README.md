@@ -11,6 +11,12 @@ docker-compose run codecept run acceptance --debug
 
 It will run all acceptance tests using chromedriver instance from codecept container.
 
+### Run single test
+
+```
+docker-compose run codecept run acceptance frontend/TestClassName:testName --debug
+```
+
 
 ## Tests structure
 

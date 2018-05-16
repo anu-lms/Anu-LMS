@@ -42,7 +42,7 @@
     "drupal/hide_revision_field": "^1.1",
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/json_field": "^1.0@beta",
-    "drupal/jsonapi": "^1.14",
+    "drupal/jsonapi": "^1.17",
     "drupal/jsonapi_extras": "^2.0",
     "drupal/media_entity": "^1.6",
     "drupal/media_entity_browser": "^1.0@beta",
@@ -67,7 +67,8 @@
     "drupal/views_bulk_operations": "^2.0",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
-    "webmozart/path-util": "^2.3"
+    "webmozart/path-util": "^2.3",
+    "wisembly/elephant.io": "^3.3"
   },
   "require-dev": {
     "codeception/codeception": "^2.4",

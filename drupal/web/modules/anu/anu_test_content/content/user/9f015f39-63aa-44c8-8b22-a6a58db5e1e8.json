@@ -1,0 +1,104 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/user\/999999?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+            }
+        ]
+    },
+    "uid": [
+        {
+            "value": 999999
+        }
+    ],
+    "uuid": [
+        {
+            "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "name": [
+        {
+            "value": "administrator.test"
+        }
+    ],
+    "mail": [
+        {
+            "value": "test+administrator@anulms.com"
+        }
+    ],
+    "status": [
+        {
+            "value": 1
+        }
+    ],
+    "pass": [
+        {
+            "value": "password"
+        }
+    ],
+    "roles": [
+        {
+            "target_id": "administrator"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-02-26T17:01:50+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-05-08T12:49:47+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_first_name": [
+        {
+            "value": "Admin"
+        }
+    ],
+    "field_last_name": [
+        {
+            "value": "Test"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "dcba1a5a-895b-40b9-9bee-1091c666711d"
+                    }
+                ]
+            }
+        ]
+    }
+}

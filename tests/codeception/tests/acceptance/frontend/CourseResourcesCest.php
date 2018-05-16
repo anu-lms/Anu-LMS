@@ -12,7 +12,6 @@ use \Codeception\Util\Locator;
 class CourseResourcesCest {
 
   public function viewCourseResources(\Step\Acceptance\Learner $I) {
-
     $I->loginAsLearner();
     $I->openTestCourseLanding();
     $I->see('View all Course Resources here');
@@ -20,7 +19,6 @@ class CourseResourcesCest {
     $I->waitForText('Course Resources', 10, 'h1');
     $I->click(Locator::contains('div.title', 'Sample PDF file'));
     $I->waitForText('SAMPLE PDF FILE');
-
   }
 
 }
