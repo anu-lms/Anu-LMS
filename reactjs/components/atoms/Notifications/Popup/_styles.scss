@@ -92,6 +92,15 @@
       display: none;
     }
   }
+
+  .spinner {
+    text-align: center;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
 }
 
 // Page background panel, that overlap all page element except popup.
