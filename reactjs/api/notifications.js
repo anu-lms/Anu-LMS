@@ -3,6 +3,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 /**
  * Make a request to the backend to get user notifications.
  */
+// eslint-disable-next-line max-len
 export const fetchNotifications = (request, isRead, lastFetchedTimestamp) => new Promise((resolve, reject) => {
   const query = {};
 

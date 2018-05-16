@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PageLoader from '../../../atoms/PageLoader';
 
 const NotificationsEmpty = ({ isLoading }) => (
@@ -80,5 +81,9 @@ const NotificationsEmpty = ({ isLoading }) => (
     }
   </div>
 );
+
+NotificationsEmpty.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+};
 
 export default NotificationsEmpty;

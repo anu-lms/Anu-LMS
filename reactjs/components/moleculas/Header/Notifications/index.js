@@ -62,6 +62,8 @@ class Notifications extends React.Component {
   render() {
     const { isOpened } = this.state;
     const { unreadAmount, notifications, isLoading, lastFetchedTimestamp } = this.props;
+    const hasMore = lastFetchedTimestamp === undefined ||
+      this.currentLastFetchedTimestamp !== lastFetchedTimestamp;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -94,7 +96,7 @@ class Notifications extends React.Component {
           onCloseClick={this.closePopup}
           onMarkAllAsReadClick={this.markAllAsRead}
           loadMore={this.loadMore}
-          hasMore={lastFetchedTimestamp === undefined || this.currentLastFetchedTimestamp !== lastFetchedTimestamp}
+          hasMore={hasMore}
           isLoading={isLoading}
         />
       </div>
@@ -106,6 +108,7 @@ Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  lastFetchedTimestamp: PropTypes.number.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
