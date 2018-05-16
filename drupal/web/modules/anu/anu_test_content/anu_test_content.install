@@ -3,10 +3,26 @@
 use Drupal\user\Entity\User;
 
 /**
+ * Implements hook_module_preinstall().
+ * Delete existing test users if any.
+ */
+function anu_test_content_module_preinstall($module) {
+  $users = getTestUsers();
+  foreach ($users as $user) {
+    user_delete($user->id());
+  }
+  if (isset($_ENV['PLATFORM_ENVIRONMENT']) &&  substr($_ENV['PLATFORM_ENVIRONMENT'], 0, 6) === 'master') {
+    throw new Exception('anu_test_content module should never be enabled at production environment');
+  }
+}
+
+/**
  * Implements hook_install().
  */
 function anu_test_content_install() {
-  activateTestUsers();
+  // Users are imported and activated as default content.
+  // @see Drupal\anu_test_content\EventSubscriber\ImportEventSubscriber.
+  //activateTestUsers();
 }
 
 /**
@@ -15,6 +31,7 @@ function anu_test_content_install() {
 function anu_test_content_uninstall() {
   deactivateTestUsers();
 }
+
 
 /**
  * Active test users on all development environments.
@@ -58,14 +75,25 @@ function activateTestUsers() {
  */
 function deactivateTestUsers() {
 
-  /* @var $role \Drupal\user\Entity\Role */
-  foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
-
-    /* @var $account \Drupal\user\Entity\User */
-    $account = user_load_by_name($role->id() . '.test');
-    if (!empty($account)) {
-      $account->block();
-      $account->save();
-    }
+  $users = getTestUsers();
+  /* @var $user \Drupal\user\Entity\User */
+  foreach ($users as $user) {
+    $user->block();
+    $user->save();
   }
+
+}
+
+/**
+ * Load array of test users.
+ * @return \Drupal\Core\Entity\EntityInterface[]|static[]
+ */
+function getTestUsers() {
+
+  $ids = \Drupal::entityQuery('user')
+    ->condition('name', '.test', 'ENDS_WITH')
+    ->execute();
+  $users = User::loadMultiple($ids);
+
+  return $users;
 }

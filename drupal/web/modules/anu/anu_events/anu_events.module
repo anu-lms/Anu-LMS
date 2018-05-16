@@ -1,7 +1,6 @@
 <?php
 
-use Drupal\anu_events\Event\ReplyToCommentEvent;
-use Drupal\anu_events\Event\AddCommentToThreadEvent;
+use Drupal\anu_events\AnuEventBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
@@ -12,28 +11,12 @@ use Drupal\Core\Entity\EntityInterface;
  */
 
 /**
- * Implements hook_ENTITY_TYPE_insert().
+ * Implements hook_entity_insert().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_events_paragraph_comment_insert(EntityInterface $entity) {
-  if ($entity->bundle() != 'paragraph_comment') {
-    return;
-  }
-
-  if (!empty($entity->field_comment_parent->getValue())) {
-    // Trigger event when user replied to the comment of another user.
-    $reply_to_comment_event = new ReplyToCommentEvent($entity);
-    $reply_to_comment_event->trigger();
-
-    // Trigger event when user added comment to the thread of another user.
-    $add_comment_to_thread = new AddCommentToThreadEvent($entity);
-
-    // Don't send "added to thread" notification if "replied to comment" has already been send to the same recipient.
-    if ($reply_to_comment_event->getRecipient() != $add_comment_to_thread->getRecipient()) {
-      $add_comment_to_thread->trigger();
-    }
-  }
+function anu_events_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  AnuEventBase::triggerAnuEvents('entity_insert', ['entity' => $entity]);
 }
 
 /**
@@ -72,8 +55,12 @@ function anu_events_paragraph_comment_update(EntityInterface $entity) {
 function anu_events_message_access(EntityInterface $message, $operation,  AccountInterface $account) {
 
   // User shouldn't see notifications if he has no an access to the referenced comment (was moved to another org eg).
-  if ($message->hasField('field_message_comment') && $message->field_message_comment->getValue()) {
-    return $message->field_message_comment->first()->get('entity')->getValue()->access('view') ? AccessResult::allowed() : AccessResult::forbidden();
+  if ($operation == 'view' &&
+    $message->hasField('field_message_comment') &&
+    $message->field_message_comment->getValue()) {
+
+    $comment = $message->field_message_comment->first()->get('entity')->getValue();
+    return $comment->access('view') ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
   return AccessResult::neutral();

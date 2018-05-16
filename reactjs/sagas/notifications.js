@@ -1,9 +1,22 @@
-import { all, put, takeLatest, apply, call, select } from 'redux-saga/effects';
+import { all, put, select, takeEvery, takeLatest, apply, call } from 'redux-saga/effects';
+import socketio from 'socket.io-client';
+import { store } from '../store/store';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as api from '../api/notifications';
 import * as notificationsActions from '../actions/notifications';
 import * as arrayHelper from '../utils/array';
+import * as dataProcessors from '../utils/dataProcessors';
+
+// TODO: Move to a better place when a user is authenticated.
+if (typeof window !== 'undefined') {
+  const socket = socketio();
+
+  // Listen for a new notification to arrive from socket.
+  socket.on('notification', notification => {
+    store.dispatch(notificationsActions.liveNotificationAdd(notification));
+  });
+}
 
 /**
  * Fetch notifications from the backend.
@@ -37,7 +50,7 @@ function* fetchNotifications({ isRead, lastFetchedTimestamp }) {
  */
 function* markAsRead({ notificationId }) {
   try {
-    const notifications = yield select(store => store.notifications.notifications);
+    const notifications = yield select(reduxStore => reduxStore.notifications.notifications);
     const notificationItem = arrayHelper.getObjectById(notifications, notificationId);
 
     // Making sure the request object includes the valid access token.
@@ -83,6 +96,22 @@ function* markAllAsRead() {
 }
 
 /**
+ * Handles an event when a new notification arrives from the websocket.
+ */
+function* handleIncomingLiveNotification({ notification }) {
+  const currentUserUid = yield select(reduxStore => reduxStore.user.uid);
+
+  // Make sure the event recipient matches the current user id.
+  if (notification.recipient === currentUserUid) {
+    // Format the notification properly.
+    const notifications = dataProcessors.processNotifications([notification]);
+
+    // Let store know that notifications were received.
+    yield put(notificationsActions.receiveNotifications(notifications));
+  }
+}
+
+/**
  * Main entry point for all notification sagas.
  */
 export default function* notificationsSagas() {
@@ -90,5 +119,6 @@ export default function* notificationsSagas() {
     yield takeLatest('NOTIFICATIONS_REQUESTED', fetchNotifications),
     yield takeLatest('NOTIFICATIONS_MARK_AS_READ', markAsRead),
     yield takeLatest('NOTIFICATIONS_MARK_ALL_AS_READ', markAllAsRead),
+    yield takeEvery('NOTIFICATIONS_LIVE_NOTIFICATION_ADD', handleIncomingLiveNotification),
   ]);
 }

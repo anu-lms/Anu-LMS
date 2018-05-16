@@ -78,7 +78,8 @@ services:
       - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local;PathPrefix:/admin'
 
   mariadb:
-    image: wodby/mariadb:10.1-2.3.3
+    image: wodby/mariadb:10.1-3.1.3
+    stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: drupal
@@ -111,7 +112,6 @@ services:
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
 
-
   #########################
   ### CODECEPTION #########
   #########################
@@ -135,7 +135,6 @@ services:
     expose:
       - 4444
     shm_size: 2gb
-
 
   ##########################
   ### REVERSE PROXY ########
