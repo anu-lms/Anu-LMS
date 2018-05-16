@@ -15,13 +15,19 @@ class Message {
     try {
       // Prepared common comment data.
       $response_item = [
-        'id' => $message->id(),
+        'id' => (int) $message->id(),
+        'uuid' => $message->uuid(),
         'bundle' => $message->bundle(),
         'created' => (int) $message->created->getString(),
         'triggerer' => $message->uid->first()->get('entity')->getValue(),
-        'isRead' => ($message->id() % 2 == 0), // @todo: replace with proper value.
-        //'isRead' => $message->field_is_read->getString(),
+        'isRead' => (bool) $message->field_message_is_read->getString(),
       ];
+
+      // Always add a recipient user ID to the message item.
+      if ($message->hasField('field_message_recipient')) {
+        $value = $message->field_message_recipient->first()->getValue();
+        $response_item['recipient'] = $value['target_id'];
+      }
 
       // Prepares Comment part if Comment field exists.
       if ($message->hasField('field_message_comment')) {

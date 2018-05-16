@@ -50,6 +50,7 @@
       border: none;
       box-shadow: none;
       font-family: $font-family-base;
+      margin: 0;
 
       @include media-breakpoint-up(md) {
         padding: 10px 12px 11px;
@@ -90,6 +91,29 @@
   &.empty .footer {
     @include media-breakpoint-up(md) {
       display: none;
+    }
+  }
+
+  .spinner {
+    text-align: center;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  // Fix for infinite scroll wrapper block.
+  .list > div > div > div {
+    width: 100%;
+  }
+  @include media-breakpoint-down(sm) {
+    // Fix auto height for infinite scroll on mobile.
+    .list > div > div {
+      display: flex;
+    }
+    .infinite-scroll-component {
+      height: 100% !important;
     }
   }
 }
