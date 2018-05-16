@@ -1,0 +1,83 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/group\/99926?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/group\/class"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/uid": [
+            {
+                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "lang": "en"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 99926
+        }
+    ],
+    "uuid": [
+        {
+            "value": "c5dc0c11-ed58-45a7-b63e-43c11530cdfe"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "class"
+        }
+    ],
+    "label": [
+        {
+            "value": "Test Class",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                    }
+                ],
+                "lang": "en"
+            }
+        ]
+    },
+    "created": [
+        {
+            "value": "2018-04-06T12:33:13+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-04-06T12:33:13+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ]
+}

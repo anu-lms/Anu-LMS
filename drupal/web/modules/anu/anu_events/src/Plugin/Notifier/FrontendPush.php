@@ -14,7 +14,7 @@ use ElephantIO\Engine\SocketIO\Version2X;
  *   description = @Translation("Send push notification to the frontend"),
  * )
  */
-class FrontendPush extends MessageNotifierObject {
+class FrontendPush extends MessageNotifierBase {
 
   /**
    * {@inheritdoc}
