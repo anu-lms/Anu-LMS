@@ -5,9 +5,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
 import Empty from '../Empty';
 
-// eslint-disable-next-line max-len
 const NotificationsPopup = ({
-  notifications, unreadAmount, isOpened, onCloseClick, onMarkAllAsReadClick, loadMore, hasMore, isLoading,
+  notifications, unreadAmount, isOpened, onCloseClick,
+  onMarkAllAsReadClick, loadMore, hasMore, isLoading,
 }) => {
   const isEmpty = notifications.length === 0;
   return (
@@ -35,7 +35,9 @@ const NotificationsPopup = ({
                   }
                   return null;
                 })}
-                <div className={`spinner ${isLoading ? 'show' : ''}`}><img src="/static/img/spinner-small.gif" /></div>
+                <div className={`spinner ${isLoading ? 'show' : ''}`}>
+                  <img src="/static/img/spinner-small.gif" alt="Loading..." />
+                </div>
               </InfiniteScroll>
             </Scrollbars>
           </div>
@@ -63,6 +65,8 @@ const NotificationsPopup = ({
 };
 
 NotificationsPopup.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  hasMore: PropTypes.bool.isRequired,
   isOpened: PropTypes.bool.isRequired,
   unreadAmount: PropTypes.number.isRequired,
   onCloseClick: PropTypes.func,
