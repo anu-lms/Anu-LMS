@@ -1,0 +1,21 @@
+uuid: da8637fe-dd7d-4413-8078-f505c4ac7b24
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_is_read
+    - message.template.reply_to_comment
+id: message.reply_to_comment.field_message_is_read
+field_name: field_message_is_read
+entity_type: message
+bundle: reply_to_comment
+label: 'Is Read'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
