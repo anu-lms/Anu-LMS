@@ -178,7 +178,16 @@ class LessonPage extends React.Component {
     return initialProps;
   }
 
+  componentDidMount() {
+    this.hightlightComment();
+  }
+
   componentDidUpdate() {
+    this.hightlightComment();
+  }
+
+  // @todo: consider to move it to comments related components.
+  hightlightComment() {
     const { dispatch, isStoreRehydrated, lesson } = this.props;
 
     // If user was redirected to 403 page.

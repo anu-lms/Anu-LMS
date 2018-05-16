@@ -55,6 +55,9 @@ class lessonComments extends React.Component {
       // Unhighlight a Comment in 3 sec.
       setTimeout(() => {
         dispatch(lessonCommentsActions.unhighlightComment());
+
+        // Reset flag.
+        this.commentHightlightingProcessed = false;
       }, 3000);
 
       // Set variable to don't double process.
