@@ -2,14 +2,18 @@
   display: inline-block;
   position: relative;
   height: 100%;
+  text-align: left;
 
   .notifications-icons {
     height: 100%;
   }
-  .icon {
+  .header-icon {
     cursor: pointer;
     position: relative;
     z-index: $zindex-fixed + 2;
+    .icon {
+      position: relative;
+    }
   }
   .icon-bell .amount {
     background: $clay-orange;
@@ -39,10 +43,10 @@
 
   .icon-close {
     display: none;
-    svg {
-      margin-left: 3px;
-      margin-bottom: 2px;
-    }
+  }
+
+  &.popup-opened .header-icon {
+    background-color: $slate-grey;
   }
 
   @include media-breakpoint-down(sm) {
