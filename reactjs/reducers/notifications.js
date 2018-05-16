@@ -1,9 +1,17 @@
 const initialState = {
   notifications: [],
+  isLoading: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'NOTIFICATIONS_REQUESTED': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
     case 'NOTIFICATIONS_RECEIVED': {
       // Get ids of all fetcher notifications.
       const updatedItems = action.notifications.map(item => item.id);
@@ -16,6 +24,14 @@ export default (state = initialState, action) => {
         ...state,
         // Merge exist notifications and received.
         notifications: [].concat(updatedNotifications, action.notifications),
+        isLoading: false,
+      };
+    }
+
+    case 'NOTIFICATIONS_REQUEST_FAILED': {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
 
