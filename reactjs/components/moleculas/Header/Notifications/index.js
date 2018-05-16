@@ -111,8 +111,12 @@ Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  lastFetchedTimestamp: PropTypes.number.isRequired,
+  lastFetchedTimestamp: PropTypes.number,
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+Notifications.defaultProps = {
+  lastFetchedTimestamp: undefined,
 };
 
 const mapStateToProps = ({ notifications }) => {
