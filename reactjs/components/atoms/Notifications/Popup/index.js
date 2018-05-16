@@ -35,9 +35,7 @@ const NotificationsPopup = ({
                   }
                   return null;
                 })}
-                {isLoading &&
-                  <div>Loading...</div>
-                }
+                <div className={`spinner ${isLoading ? 'show' : ''}`}><img src="/static/img/spinner-small.gif" /></div>
               </InfiniteScroll>
             </Scrollbars>
           </div>
