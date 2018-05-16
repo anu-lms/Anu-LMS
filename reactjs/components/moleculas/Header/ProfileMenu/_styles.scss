@@ -8,9 +8,9 @@
     border: none;
   }
   div[class^=dropdown---dropdown-menu-wrapper] {
-    right: -3px;
+    right: -2px;
     @include media-breakpoint-up(lg) {
-      right: -14px;
+      right: -6px;
     }
   }
   div[class^=dropdown---dropdown-menu---] {
