@@ -47,7 +47,6 @@ const handler = routes.getRequestHandler(app);
 
 app.prepare()
   .then(() => {
-
     // Initialize express.js server.
     const expressServer = express();
 
@@ -75,7 +74,7 @@ app.prepare()
     const sassResult = sass.renderSync({
       file: './styles/theme.scss',
       outputStyle: 'compressed',
-      importer: globImporter()
+      importer: globImporter(),
     });
 
     expressServer.get('/assets/:id/main.css', (req, res) => {
@@ -111,7 +110,6 @@ app.prepare()
     // io.origins(['foo.example.com:443']);
 
     io.on('connection', socket => {
-
       // Wait for new notification to come in and emit this event to
       // all connected browsers.
       socket.on('notification', notification => {
