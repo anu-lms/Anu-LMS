@@ -125,10 +125,6 @@
       "drupal/entity_reference_revisions": {
         "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
       },
-      "drupal/consumer_image_styles": {
-        "Fixed compatability with jsonapi": "https://www.drupal.org/files/issues/2018-03-30/consumer_image_styles-jsonapi_1_14-2955296-6.patch",
-        "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
-      },
       "drupal/simple_oauth": {
         "Refine cases when access token is revoked": "https://www.drupal.org/files/issues/simple_oauth-auth-revoke-2946882-11.patch"
       },
