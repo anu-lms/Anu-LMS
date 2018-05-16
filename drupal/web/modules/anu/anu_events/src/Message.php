@@ -25,8 +25,10 @@ class Message {
 
       // Always add a recipient user ID to the message item.
       if ($message->hasField('field_message_recipient')) {
-        $value = $message->field_message_recipient->first()->getValue();
-        $response_item['recipient'] = $value['target_id'];
+        if (!empty($message->field_message_recipient->getValue())) {
+          $value = $message->field_message_recipient->first()->getValue();
+          $response_item['recipient'] = $value['target_id'];
+        }
       }
 
       // Prepares Comment part if Comment field exists.
