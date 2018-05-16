@@ -27,6 +27,9 @@ class Notifications extends React.Component {
     document.body.classList.remove('no-scroll');
   }
 
+  /**
+   * Request another piece of notifications.
+   */
   loadMore() {
     const { dispatch, lastFetchedTimestamp, isLoading } = this.props;
 
