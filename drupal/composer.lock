@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39b476aac195000fec6a6c956e4ca0b3",
+    "content-hash": "4bac9029c36b913f9aa099c3ad2b51b0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1887,8 +1887,7 @@
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
                     }
-                },
-                "patches_applied": []
+                }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
@@ -3216,17 +3215,11 @@
         },
         {
             "name": "drupal/json_field",
-            "version": "1.0.0-rc1",
+            "version": "dev-1.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/json_field",
-                "reference": "8.x-1.0-rc1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/json_field-8.x-1.0-rc1.zip",
-                "reference": "8.x-1.0-rc1",
-                "shasum": "10a3441c40b7da0b5fe48275c812b6ac2b5cc91c"
+                "reference": "cd0785f2680cd4ed40a84984f79dc80f13dae2b8"
             },
             "require": {
                 "drupal/core": "*"
@@ -3237,7 +3230,7 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-rc1",
+                    "version": "8.x-1.0-rc1+1-dev",
                     "datestamp": "1521463384",
                     "security-coverage": {
                         "status": "not-covered",
@@ -3272,7 +3265,8 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/json_field",
                 "issues": "https://www.drupal.org/project/issues/json_field"
-            }
+            },
+            "time": "2018-04-24T12:26:13+00:00"
         },
         {
             "name": "drupal/jsonapi",
@@ -10222,7 +10216,7 @@
         "drupal/file_entity": 10,
         "drupal/group": 5,
         "drupal/inline_entity_form": 10,
-        "drupal/json_field": 10,
+        "drupal/json_field": 20,
         "drupal/media_entity_browser": 10,
         "drupal/message": 5,
         "drupal/message_notify": 10,
