@@ -17,6 +17,6 @@
 # Disable caching for websocket.
 "https://{default}/socket.io":
     type: upstream
-    upstream: "app:http"
+    upstream: "frontend:http"
     cache:
         enabled: false
