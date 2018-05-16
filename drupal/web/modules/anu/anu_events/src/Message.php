@@ -8,19 +8,6 @@ use Drupal\Component\Utility\UrlHelper;
 class Message {
 
   /**
-   * Check an access to the given message.
-   */
-  public function access($message) {
-
-    // User shouldn't see notifications if he has no an access to the referenced comment (was moved to another org eg).
-    if ($message->hasField('field_message_comment') && $message->field_message_comment->getValue()) {
-      return $message->field_message_comment->first()->get('entity')->getValue()->access('view');
-    }
-
-    return TRUE;
-  }
-
-  /**
    * Returns an object prepared to pass to frontend from given Message entity.
    */
   public function normalize($message) {
