@@ -77,11 +77,15 @@ class UserNotifications extends ResourceBase {
       // Filter by isRead get param if exists.
       $is_read = $this->currentRequest->query->get('isRead');
       if ($is_read != null) {
+        // We load all unread notifications.
         $query->condition('field_message_is_read', (bool) $is_read);
 
         if ($is_read) {
-          $query->range(0, 3);
+          // Load limited amount of notifications at once.
+          $query->range(0, 8);
 
+          // Fetch only notifications older then requested early.
+          // Use '<=' to fetch notifications with same timestamp also, duplicates will be ignored on frontend.
           $lastFetchedTimestamp = $this->currentRequest->query->get('lastFetchedTimestamp');
           if ($lastFetchedTimestamp != null) {
             $query->condition('created', (int)$lastFetchedTimestamp, '<=');
