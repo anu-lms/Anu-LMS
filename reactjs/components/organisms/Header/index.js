@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
+import Notifications from '../../moleculas/Header/Notifications';
 
 /* eslint-disable max-len */
 const Header = ({ isEmpty }) => (
@@ -52,6 +53,8 @@ const Header = ({ isEmpty }) => (
             </svg>
           </div>
         </div> */}
+
+        <Notifications />
 
         <Link to="/notebook">
           <a className="icon notebook">

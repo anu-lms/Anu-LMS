@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as dataProcessors from '../../utils/dataProcessors';
-import App from '../../application/App';
 import withAuth from '../../auth/withAuth';
-import Header from '../../components/organisms/Header';
+import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 import UserEditForm from '../../components/moleculas/Form/User';
 
@@ -26,14 +25,11 @@ class UserEditPage extends Component {
 
   render() {
     return (
-      <App>
-        <Header />
-        <div className="page-with-header">
-          <OneColumnLayout pageTitle="Edit Profile" className="short">
-            <UserEditForm user={this.props.user} />
-          </OneColumnLayout>
-        </div>
-      </App>
+      <SiteTemplate>
+        <OneColumnLayout pageTitle="Edit Profile" className="short">
+          <UserEditForm user={this.props.user} />
+        </OneColumnLayout>
+      </SiteTemplate>
     );
   }
 }

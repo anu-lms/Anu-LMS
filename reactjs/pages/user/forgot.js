@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from '../../routes';
-import App from '../../application/App';
 import withAuth from '../../auth/withAuth';
-import Header from '../../components/organisms/Header';
+import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
 class ForgotPasswordPage extends Component {
@@ -26,12 +25,9 @@ class ForgotPasswordPage extends Component {
 
   render() {
     return (
-      <App>
-        <Header isEmpty />
-        <div className="page-with-header page-reset-password">
-          <ForgotPassword />
-        </div>
-      </App>
+      <SiteTemplate isHeaderEmpty className="page-reset-password">
+        <ForgotPassword />
+      </SiteTemplate>
     );
   }
 }

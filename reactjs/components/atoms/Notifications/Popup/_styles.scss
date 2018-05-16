@@ -1,0 +1,131 @@
+.notifications-popup {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 48px;
+  bottom: 0;
+  background-color: $white;
+  z-index: $zindex-fixed + 2;
+
+  @include media-breakpoint-up(md) {
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 500px;
+    border-radius: 2px;
+    left: initial;
+    top: 61px;
+    right: -10px;
+    position: absolute;
+  }
+
+  &.closed {
+    display: none;
+  }
+
+  & > .list {
+    height: calc(100% - 47px);
+    @include media-breakpoint-up(md) {
+      height: calc(100% - 39px);
+    }
+  }
+
+  & > .footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: stretch;
+    box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
+
+    button {
+      padding: 14px 12px 15px;
+      font-weight: bold;
+      text-align: center;
+      background-color: $light-blue-grey;
+      color: $navy;
+      flex: 1 1 0;
+      cursor: pointer;
+      transition: background-color .2s;
+      font-size: 1em;
+      border: none;
+      box-shadow: none;
+      font-family: $font-family-base;
+      margin: 0;
+
+      @include media-breakpoint-up(md) {
+        padding: 10px 12px 11px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        transition: background-color .2s;
+        background-color: darken($light-blue-grey, 5);
+      }
+      &:active {
+        background-color: darken($light-blue-grey, 8);
+      }
+    }
+    .mark-as-read:disabled {
+      cursor: default;
+      background-color: $gray91;
+      color: $london-sky;
+    }
+
+    .close {
+      color: $white;
+      background-color: $slate-grey;
+      &:hover {
+        background-color: darken($slate-grey, 5);
+      }
+      &:active {
+        background-color: darken($slate-grey, 8);
+      }
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
+  }
+
+  &.empty .footer {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
+  .spinner {
+    text-align: center;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  // Fix for infinite scroll wrapper block.
+  .list > div > div > div {
+    width: 100%;
+  }
+  @include media-breakpoint-down(sm) {
+    // Fix auto height for infinite scroll on mobile.
+    .list > div > div {
+      display: flex;
+    }
+    .infinite-scroll-component {
+      height: 100% !important;
+    }
+  }
+}
+
+// Page background panel, that overlap all page element except popup.
+// Closes popup when user click on it.
+.scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: $zindex-fixed + 1;
+  background-color: transparent;
+}
