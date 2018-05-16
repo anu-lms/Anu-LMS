@@ -1,4 +1,4 @@
-header {
+.site-header {
   background-color: $carbon;
   position: fixed;
   top: 0;
@@ -9,18 +9,11 @@ header {
   box-shadow: $shadow1;
   display: flex;
   padding: 0 0.5em;
+  justify-content: space-between;
 
   @include media-breakpoint-up(md) {
     height: 80px;
-    //padding: 1.2em 2em;
-  }
-
-  .left,
-  .right {
-    width: 100%;
-  }
-  .right {
-    text-align: right;
+    padding: 0 2em;
   }
 
   .search {
