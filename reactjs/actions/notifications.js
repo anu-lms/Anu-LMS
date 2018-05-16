@@ -61,7 +61,7 @@ export const markAllAsReadInStore = () => ({
 });
 
 /**
- * TODO: Comment.
+ * Invokes event when a new live notification arrives through socket.
  */
 export const liveNotificationAdd = notification => ({
   type: 'NOTIFICATIONS_LIVE_NOTIFICATION_ADD',
