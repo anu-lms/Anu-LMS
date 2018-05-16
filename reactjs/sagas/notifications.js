@@ -8,10 +8,11 @@ import * as notificationsActions from '../actions/notifications';
 import * as arrayHelper from '../utils/array';
 import * as dataProcessors from '../utils/dataProcessors';
 
-// TODO: Move to clientside only.
+// TODO: Move to a better place when a user is authenticated.
 if (typeof window !== 'undefined') {
   const socket = socketio();
 
+  // Listen for a new notification to arrive from socket.
   socket.on('notification', notification => {
     store.dispatch(notificationsActions.liveNotificationAdd(notification));
   });
@@ -94,12 +95,15 @@ function* markAllAsRead() {
 }
 
 /**
- * TODO: Comment.
+ * Handles an event when a new notification arrives from the websocket.
  */
 function* handleIncomingLiveNotification({ notification }) {
   const currentUserUid = yield select(reduxStore => reduxStore.user.uid);
 
+  // Make sure the event recipient matches the current user id.
   if (notification.recipient === currentUserUid) {
+
+    // Format the notification properly.
     const notifications = dataProcessors.processNotifications([notification]);
 
     // Let store know that notifications were received.

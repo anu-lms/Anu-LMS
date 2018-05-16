@@ -12,7 +12,6 @@ services:
       - 'traefik.backend=node'
       - 'traefik.port=3000'
       - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local'
-      - 'traefik.frontend.entryPoints=http'
     expose:
       - "3000"
     volumes:
