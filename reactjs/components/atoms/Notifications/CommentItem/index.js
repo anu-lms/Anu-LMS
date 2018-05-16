@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import NotificationItem from '../Item';
+import { Router } from '../../../../routes';
 import * as userHelper from '../../../../helpers/user';
+import * as notificationActions from '../../../../actions/notifications';
 
 export const supportedBundles = [
   'add_comment_to_thread',
@@ -17,26 +20,58 @@ const NotificationCommentItemIcon = () => (
   </svg>
 );
 
-const NotificationCommentItem = ({ notificationItem }) => {
-  const { triggerer, comment, created, bundle, isRead } = notificationItem;
-  const { lessonTitle, text } = comment;
-  const triggererName = userHelper.getUsername(triggerer);
+class NotificationCommentItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onTitleClick = this.onTitleClick.bind(this);
+    this.onItemClick = this.onItemClick.bind(this);
+  }
 
-  return (
-    <NotificationItem
-      Icon={NotificationCommentItemIcon}
-      date={created}
-      title={`<strong>${triggererName}</strong> replied to your comment in <strong>${lessonTitle}</strong>`}
-      text={text}
-      className={`comment comment-${bundle}`}
-      isRead={isRead}
-    />
-  );
-};
+  onTitleClick() {
+    const { notificationItem, closePopup } = this.props;
+    if (notificationItem.comment.commentUrl) {
+      Router.replaceRoute(notificationItem.comment.commentUrl);
+      closePopup();
+    }
+  }
+
+  onItemClick() {
+    const { notificationItem, dispatch } = this.props;
+
+    if (!notificationItem.isRead) {
+      dispatch(notificationActions.markAsRead(notificationItem.id));
+      dispatch(notificationActions.markAsReadInStore(notificationItem.id));
+    }
+  }
+
+  render() {
+    const { triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
+    const { lessonTitle, text } = comment;
+    const triggererName = userHelper.getUsername(triggerer);
+    let titleCopy = 'replied to your comment in';
+    if (bundle === 'add_comment_to_thread') {
+      titleCopy = 'commented in your thread in';
+    }
+
+    return (
+      <NotificationItem
+        Icon={NotificationCommentItemIcon}
+        date={created}
+        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lessonTitle}</strong>`}
+        text={text}
+        className={`comment comment-${bundle}`}
+        isRead={isRead}
+        onTitleClick={this.onTitleClick}
+        onItemClick={this.onItemClick}
+      />
+    );
+  }
+}
 
 NotificationCommentItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   notificationItem: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     bundle: PropTypes.string,
     created: PropTypes.number,
     triggerer: PropTypes.object,
@@ -44,10 +79,16 @@ NotificationCommentItem.propTypes = {
     comment: PropTypes.shape({
       id: PropTypes.string,
       text: PropTypes.string,
+      commentUrl: PropTypes.string,
       paragraphId: PropTypes.number,
       lessonTitle: PropTypes.string,
     }),
   }).isRequired,
+  closePopup: PropTypes.func,
 };
 
-export default NotificationCommentItem;
+NotificationCommentItem.defaultProps = {
+  closePopup: () => {},
+};
+
+export default connect()(NotificationCommentItem);

@@ -1,6 +1,10 @@
 <?php
+
 use Drupal\anu_events\Event\ReplyToCommentEvent;
 use Drupal\anu_events\Event\AddCommentToThreadEvent;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * @file
@@ -12,7 +16,7 @@ use Drupal\anu_events\Event\AddCommentToThreadEvent;
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_events_paragraph_comment_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
     return;
   }
@@ -30,4 +34,51 @@ function anu_events_paragraph_comment_insert(Drupal\Core\Entity\EntityInterface 
       $add_comment_to_thread->trigger();
     }
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_events_paragraph_comment_delete(EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+  // Deletes notifications entities created for comment if comment has been removed.
+  $messageService = \Drupal::service('anu_events.message');
+  $messageService->deleteByCommentId($entity->id());
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_events_paragraph_comment_update(EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+  // Deletes notifications entities created for comment if comment has been marked as removed.
+  if ($entity->original->field_comment_deleted->getString() == '0' && $entity->field_comment_deleted->getString() == '1') {
+    $messageService = \Drupal::service('anu_events.message');
+    $messageService->deleteByCommentId($entity->id());
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_events_message_access(EntityInterface $message, $operation,  AccountInterface $account) {
+
+  // User shouldn't see notifications if he has no an access to the referenced comment (was moved to another org eg).
+  if ($operation == 'view' &&
+    $message->hasField('field_message_comment') &&
+    $message->field_message_comment->getValue()) {
+
+    $comment = $message->field_message_comment->first()->get('entity')->getValue();
+    return $comment->access('view') ? AccessResult::allowed() : AccessResult::forbidden();
+  }
+
+  return AccessResult::neutral();
 }

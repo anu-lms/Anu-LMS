@@ -12,13 +12,14 @@ class Notifications extends React.Component {
     this.state = { isOpened: false };
 
     this.closePopup = this.closePopup.bind(this);
+    this.loadMore = this.loadMore.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.markAllAsRead = this.markAllAsRead.bind(this);
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(notificationsActions.syncNotifications());
+    dispatch(notificationsActions.fetchUnread());
   }
 
   closePopup() {
@@ -26,8 +27,25 @@ class Notifications extends React.Component {
     document.body.classList.remove('no-scroll-mobile');
   }
 
+  /**
+   * Request another piece of notifications.
+   */
+  loadMore() {
+    const { dispatch, lastFetchedTimestamp, isLoading } = this.props;
+
+    if (!isLoading) {
+      dispatch(notificationsActions.fetchRead(lastFetchedTimestamp));
+      this.currentLastFetchedTimestamp = lastFetchedTimestamp;
+    }
+  }
+
   togglePopup() {
+    const { dispatch, notifications } = this.props;
     this.setState({ isOpened: !this.state.isOpened });
+
+    if (!this.state.isOpened && notifications.length < 10) {
+      dispatch(notificationsActions.fetchRead());
+    }
 
     // Add no-scroll body class when popup opened and remove this class otherwise.
     if (this.state.isOpened) {
@@ -39,17 +57,16 @@ class Notifications extends React.Component {
   }
 
   markAllAsRead() {
-    console.log('All notifcations marked as read!');
-  }
-
-  // @todo: potentially pass it inside Notification item via Context API.
-  markAsRead(notificationId) {
-    console.log(`Notification with id ${notificationId} marked as read!`);
+    const { dispatch } = this.props;
+    dispatch(notificationsActions.markAllAsRead());
+    dispatch(notificationsActions.markAllAsReadInStore());
   }
 
   render() {
     const { isOpened } = this.state;
-    const { notificationsAmount } = this.props;
+    const { unreadAmount, notifications, isLoading, lastFetchedTimestamp } = this.props;
+    const hasMore = lastFetchedTimestamp === undefined ||
+      this.currentLastFetchedTimestamp !== lastFetchedTimestamp;
     return (
       <div className={`notifications-wrapper ${isOpened ? 'popup-opened' : 'popup-closed'}`}>
 
@@ -61,8 +78,8 @@ class Notifications extends React.Component {
               </g>
             </svg>
 
-            {notificationsAmount > 0 &&
-              <div className="amount">{notificationsAmount}</div>
+            {unreadAmount > 0 &&
+              <div className="amount">{unreadAmount > 99 ? 99 : unreadAmount}</div>
             }
           </div>
 
@@ -76,9 +93,14 @@ class Notifications extends React.Component {
         </div>
 
         <NotificationsPopup
+          notifications={notifications}
+          unreadAmount={unreadAmount}
           isOpened={isOpened}
           onCloseClick={this.closePopup}
           onMarkAllAsReadClick={this.markAllAsRead}
+          loadMore={this.loadMore}
+          hasMore={hasMore}
+          isLoading={isLoading}
         />
       </div>
     );
@@ -87,12 +109,31 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  notificationsAmount: PropTypes.number.isRequired,
+  unreadAmount: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  lastFetchedTimestamp: PropTypes.number,
+  notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = ({ notifications }) => ({
-  // eslint-disable-next-line max-len
-  notificationsAmount: notifications.notifications.length > 99 ? 99 : notifications.notifications.length,
-});
+Notifications.defaultProps = {
+  lastFetchedTimestamp: undefined,
+};
+
+const mapStateToProps = ({ notifications }) => {
+  const sortedNotifications = notifications.notifications.sort((a, b) => (b.created - a.created));
+
+  const sortedReadNotifications = sortedNotifications.filter(item => item.isRead);
+  let lastFetchedTimestamp;
+  if (sortedReadNotifications.length > 0) {
+    lastFetchedTimestamp = sortedReadNotifications[sortedReadNotifications.length - 1].created;
+  }
+
+  return {
+    notifications: sortedNotifications,
+    unreadAmount: sortedNotifications.filter(item => !item.isRead).length,
+    isLoading: notifications.isLoading,
+    lastFetchedTimestamp,
+  };
+};
 
 export default withRedux(connect(mapStateToProps)(Notifications));

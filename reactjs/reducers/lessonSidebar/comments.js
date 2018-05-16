@@ -35,6 +35,7 @@ export default (state = initialState, action) => {
         ...state,
         paragraphId: 0,
         form: initialState.form,
+        highlightedComment: null,
       };
 
     case 'LESSON_OPENED':
