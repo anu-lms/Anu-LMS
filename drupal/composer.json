@@ -67,7 +67,8 @@
     "drupal/views_bulk_operations": "^2.0",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
-    "webmozart/path-util": "^2.3"
+    "webmozart/path-util": "^2.3",
+    "wisembly/elephant.io": "^3.3"
   },
   "require-dev": {
     "codeception/codeception": "^2.4",

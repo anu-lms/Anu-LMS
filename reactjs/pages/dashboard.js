@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as dataProcessors from '../utils/dataProcessors';
-import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import Dashboard from '../components/organisms/Templates/Dashboard';
-import Header from '../components/organisms/Header';
-import ErrorPage from '../components/atoms/ErrorPage';
+import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 
 class DashboardPage extends React.Component {
   static async getInitialProps({ request, res }) {
@@ -86,16 +84,9 @@ class DashboardPage extends React.Component {
   render() {
     const { statusCode } = this.props;
     return (
-      <App>
-        <Header />
-        <div className="page-with-header">
-          {statusCode === 200 ? (
-            <Dashboard {...this.props} />
-          ) : (
-            <ErrorPage code={statusCode} />
-          )}
-        </div>
-      </App>
+      <SiteTemplate statusCode={statusCode}>
+        <Dashboard {...this.props} />
+      </SiteTemplate>
     );
   }
 }
