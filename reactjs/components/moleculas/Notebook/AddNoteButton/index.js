@@ -53,8 +53,7 @@ class AddNoteButton extends React.Component {
     }
     catch (error) {
       this.setState({ isSaving: false });
-      Alert.error('Could not create a new note. Please, try refreshing the page.');
-      console.log(error);
+      Alert.error('Could not create a new note. Please, try refreshing the page.', error);
     }
 
     lock.release(lockId);

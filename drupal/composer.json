@@ -28,7 +28,7 @@
     "drupal/console": "~1.0",
     "drupal/consumer_image_styles": "^2.0@RC",
     "drupal/consumers": "^1.0@beta",
-    "drupal/core": "~8.5.0",
+    "drupal/core": "^8.5",
     "drupal/decoupled_router": "^1.0@beta",
     "drupal/default_content": "^1.0@alpha",
     "drupal/double_field": "^3.1",
@@ -42,7 +42,7 @@
     "drupal/hide_revision_field": "^1.1",
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/json_field": "^1.0@beta",
-    "drupal/jsonapi": "^1.14",
+    "drupal/jsonapi": "^1.17",
     "drupal/jsonapi_extras": "^2.0",
     "drupal/media_entity": "^1.6",
     "drupal/media_entity_browser": "^1.0@beta",
@@ -128,6 +128,9 @@
       },
       "drupal/simple_oauth": {
         "Refine cases when access token is revoked": "https://www.drupal.org/files/issues/simple_oauth-auth-revoke-2946882-11.patch"
+      },
+      "drupal/core": {
+        "Entity reference views": "https://www.drupal.org/files/issues/2018-03-09/drupal-use_view_output_for_entityreference_options-2174633-206.patch"
       }
     }
   }

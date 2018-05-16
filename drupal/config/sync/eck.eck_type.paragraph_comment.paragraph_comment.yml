@@ -1,0 +1,9 @@
+uuid: 6fd05de1-6a4f-47b7-ade1-31148b7ce339
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.paragraph_comment
+name: Comment
+type: paragraph_comment
+description: ''

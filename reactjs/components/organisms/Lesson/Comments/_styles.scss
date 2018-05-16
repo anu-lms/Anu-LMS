@@ -1,0 +1,64 @@
+.lesson-comments-container {
+
+  .lesson-comments-scrollable {
+    // To provide scroll support.
+    min-height: calc(100% - 36px);
+    max-height: 0;
+    overflow-y: scroll;
+    position: absolute;
+    top: 36px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .comments-header {
+    padding: 0 1em;
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $comments;
+    font-weight: bold;
+    border-bottom: 1px solid $comments;
+    @include media-breakpoint-up(md) {
+      height: 56px;
+    }
+    @include media-breakpoint-up(lg) {
+      padding: 0 2em;
+    }
+
+    .title {
+      font-size: 16px;
+      @include media-breakpoint-up(lg) {
+        font-size: 20px;
+      }
+    }
+    .add-new-comment {
+      cursor: pointer;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        @include media-breakpoint-up(md) {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      &:hover {
+        svg path {
+          fill: lighten($comments, 10);
+        }
+      }
+    }
+  }
+
+  .page-loader {
+    top: 36px;
+    .box {
+      background-color: $comments;
+    }
+  }
+}
+

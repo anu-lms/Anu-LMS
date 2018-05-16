@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import urlParse from 'url-parse';
+import Alert from 'react-s-alert';
 import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
@@ -7,6 +10,10 @@ import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 import ErrorPage from '../components/atoms/ErrorPage';
+import * as lessonSidebarActions from '../actions/lessonSidebar';
+import * as mediaBreakpoint from '../utils/breakpoints';
+import * as navigationActions from '../actions/navigation';
+import * as lessonCommentsActions from '../actions/lessonComments';
 
 class LessonPage extends React.Component {
   static async getInitialProps({ request, query, res }) {
@@ -121,11 +128,20 @@ class LessonPage extends React.Component {
         initialProps.statusCode = responseLesson.body.meta.errors[0].status;
         throw Error(responseLesson.meta.errors[0].detail);
       }
+      else if (responseLesson.body.data.length === 0) {
+        initialProps.statusCode = 404;
+        throw Error(`Lesson with id ${entity.id} not found`);
+      }
 
       initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
     } catch (error) {
       console.log('Could not load lesson.', error);
-      initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+      if (error.status) {
+        initialProps.statusCode = error.status;
+      }
+      else {
+        initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
+      }
 
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
@@ -164,6 +180,52 @@ class LessonPage extends React.Component {
     return initialProps;
   }
 
+  componentDidUpdate() {
+    const { dispatch, isStoreRehydrated, lesson } = this.props;
+
+    // If user was redirected to 403 page.
+    if (!lesson || !lesson.blocks) {
+      return;
+    }
+
+    if (isStoreRehydrated) {
+      const parsedUrl = urlParse(window.location.href, true);
+      if (parsedUrl.query.length === 0 || !parsedUrl.query.comment) {
+        return;
+      }
+
+      const urlParams = parsedUrl.query.comment.split('-');
+      if (!urlParams[0] || !urlParams[1]) {
+        return;
+      }
+
+      const paragraphId = parseInt(urlParams[0], 10);
+      const commentId = parseInt(urlParams[1], 10);
+
+      const index = lesson.blocks.findIndex(block => block.id === paragraphId);
+      if (index === -1) {
+        Alert.error("Referenced in url comment doesn't exists");
+        console.error("Referenced paragraph doesn't exists", `Lesson: ${lesson.id}`, `Paragraph: ${paragraphId}`);
+        return;
+      }
+
+      // Set active paragraph.
+      dispatch(lessonCommentsActions.setActiveParagraph(paragraphId));
+
+      // Highlight a comment.
+      dispatch(lessonCommentsActions.highlightComment(commentId));
+
+      // Let the application know that the sidebar is being opened.
+      dispatch(lessonSidebarActions.open('comments'));
+
+      // If sidebar is opened, close navigation pane on all devices except extra
+      // large.
+      if (mediaBreakpoint.isDown('xxl')) {
+        dispatch(navigationActions.close());
+      }
+    }
+  }
+
   render() {
     const { statusCode, lesson, course } = this.props;
     return (
@@ -188,6 +250,8 @@ LessonPage.propTypes = {
   course: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   lesson: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   statusCode: PropTypes.number,
+  dispatch: PropTypes.func.isRequired,
+  isStoreRehydrated: PropTypes.bool.isRequired,
 };
 
 LessonPage.defaultProps = {
@@ -196,4 +260,16 @@ LessonPage.defaultProps = {
   statusCode: 200,
 };
 
-export default withRedux(withAuth(LessonPage));
+const mapStateToProps = store => {
+  let state = {
+    isStoreRehydrated: false,
+  };
+
+  if (typeof store._persist !== 'undefined') { // eslint-disable-line no-underscore-dangle
+    state.isStoreRehydrated = store._persist.rehydrated; // eslint-disable-line no-underscore-dangle
+  }
+
+  return state;
+};
+
+export default withRedux(connect(mapStateToProps)(withAuth(LessonPage)));

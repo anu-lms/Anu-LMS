@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggle } from '../../../actions/navigation';
 import * as mediaBreakpoint from '../../../utils/breakpoints';
-import * as lessonNotebookActions from '../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../actions/lessonSidebar';
 
 class CollapsibleNavigation extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class CollapsibleNavigation extends React.Component {
     // Close notebook pane on Tablet devices if navigation opened,
     // leave both panes opened on extra large screens.
     if (mediaBreakpoint.isBetween('md', 'xxl')) {
-      dispatch(lessonNotebookActions.close());
+      dispatch(lessonSidebarActions.close());
     }
   }
 

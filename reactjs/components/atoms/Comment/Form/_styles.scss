@@ -1,0 +1,28 @@
+.lesson-comments-container {
+  .comment-form {
+    padding: 1em;
+    transform: .3s all;
+    @include media-breakpoint-up(md) {
+      padding: 1.5em 1em;
+    }
+    @include media-breakpoint-up(lg) {
+      padding: 1.5em 1.5em;
+    }
+
+    &.nested {
+      padding-left: 2em;
+      border-bottom: 1px solid $london-sky;
+      @include media-breakpoint-up(lg) {
+        padding-left: 3em;
+      }
+    }
+
+    textarea {
+      min-height: 88px;
+      margin-bottom: 0.75em;
+    }
+  }
+  .comment-body .comment-form {
+    padding: 0;
+  }
+}

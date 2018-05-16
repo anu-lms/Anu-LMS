@@ -1,3 +1,6 @@
+# Mac artifacts.
+.DS_Store
+
 # IDE files.
 .idea
 .DS_Store

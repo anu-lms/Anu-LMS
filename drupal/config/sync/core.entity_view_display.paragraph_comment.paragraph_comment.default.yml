@@ -1,0 +1,81 @@
+uuid: 6fa1a19c-4164-4651-ae08-6d1bc0d538ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.field.paragraph_comment.paragraph_comment.field_comment_deleted
+    - field.field.paragraph_comment.paragraph_comment.field_comment_organization
+    - field.field.paragraph_comment.paragraph_comment.field_comment_paragraph
+    - field.field.paragraph_comment.paragraph_comment.field_comment_parent
+    - field.field.paragraph_comment.paragraph_comment.field_comment_text
+  module:
+    - text
+    - user
+id: paragraph_comment.paragraph_comment.default
+targetEntityType: paragraph_comment
+bundle: paragraph_comment
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_comment_deleted:
+    weight: 5
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_comment_organization:
+    weight: 4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_comment_paragraph:
+    weight: 2
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_comment_parent:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_comment_text:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  changed: true
+  langcode: true

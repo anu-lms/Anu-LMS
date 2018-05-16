@@ -1,0 +1,20 @@
+uuid: 8e0c2bec-9cc2-427e-ae52-6fa369ad9898
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+id: paragraph_comment.field_comment_paragraph
+field_name: field_comment_paragraph
+entity_type: paragraph_comment
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

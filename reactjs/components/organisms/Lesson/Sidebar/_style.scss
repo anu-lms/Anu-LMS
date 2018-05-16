@@ -1,0 +1,125 @@
+.lesson-sidebar-container {
+
+  // Hide notebook pane.
+  &.closed {
+    .lesson-sidebar {
+      right: -104%;
+      @include media-breakpoint-up(md) {
+        right: -356px;
+      }
+      @include media-breakpoint-up(lg) {
+        right: -484px;
+      }
+    }
+    > .header {
+      right: -104%;
+    }
+  }
+
+  .lesson-sidebar {
+    overflow: hidden;
+    position: fixed;
+    top: 3em;
+    bottom: 0;
+    right: 0;
+    z-index: $zindex-fixed - 2;
+    width: 100%;
+    background: $white;
+    box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.5);
+    transition: right .2s;
+    @include media-breakpoint-up(md) {
+      width: 350px;
+      top: 80px;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 480px;
+    }
+  }
+
+  .tabs {
+    border-bottom: 4px solid $notebook;
+    font-size: 14px;
+    color: $warm-grey-two;
+    display: flex;
+    align-items: stretch;
+
+    > div {
+      cursor: pointer;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab {
+      flex: 1 1 0;
+      transition: .2s all;
+      &.active {
+        background-color: $notebook;
+        color: $white;
+        font-weight: bold;
+      }
+      &:not(.active):hover {
+        background-color: lighten($notebook, 10);
+        color: $white;
+        transition: .2s all;
+      }
+    }
+
+    .comments {
+      &.active {
+        background-color: $comments;
+      }
+      &:not(.active):hover {
+        background-color: lighten($comments, 10);
+      }
+    }
+
+    .close {
+      width: 32px;
+      display: none;
+      svg path {
+        transition: .2s all;
+      }
+      @include media-breakpoint-up(md) {
+        display: flex;
+      }
+
+      &:hover {
+        svg path {
+          fill: lighten($carbon, 20);
+          transition: .2s all;
+        }
+      }
+    }
+  }
+  .active-tab-comments .tabs {
+    border-bottom-color: $comments;
+  }
+
+  > .header {
+    background-color: $carbon;
+    height: 48px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+    padding: .75em 1em;
+    color: $white;
+    font-size: 0.875em;
+    font-weight: bold;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: $zindex-fixed;
+    transition: right .2s;
+
+    .back-to-lesson svg {
+      position: relative;
+      top: 3px;
+      margin-right: 8px;
+    }
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+}

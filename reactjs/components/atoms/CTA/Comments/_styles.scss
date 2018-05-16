@@ -1,0 +1,21 @@
+.comments-cta {
+  cursor: pointer;
+  position: absolute;
+  bottom: -36px;
+  right: 15px;
+
+  svg path {
+    transition: .2s fill;
+  }
+  &:hover {
+    svg path {
+      fill: #bb8de4;
+      transition: .2s fill;
+    }
+  }
+  &.active {
+    svg path {
+      fill: #431c65;
+    }
+  }
+}

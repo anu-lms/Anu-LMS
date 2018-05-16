@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
-import LessonNotebookOpenCTA from '../../../atoms/LessonNotebookOpenCTA';
 import PageLoader from '../../../atoms/PageLoader';
-import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
-import * as navigationActions from '../../../../actions/navigation';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 
@@ -18,70 +16,23 @@ class LessonNotebook extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // Indicates if the notebook pane is being opened.
-      isNotebookOpening: false,
-    };
-
     this.showNotes = this.showNotes.bind(this);
     this.openNote = this.openNote.bind(this);
     this.onBeforeNoteCreated = this.onBeforeNoteCreated.bind(this);
     this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
-    this.handleNotebookOpen = this.handleNotebookOpen.bind(this);
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
   }
 
-  /**
-   * Callback gets executed as soon as a user click
-   * on note create button.
-   */
-  onBeforeNoteCreated() {
-    // Set loading background.
-    this.setState({ isNotebookOpening: true });
-  }
+  async componentDidMount() {
+    const { dispatch, notes, isCollapsed } = this.props;
 
-  /**
-   * Callback gets executed as soon as a note was
-   * created on the backend.
-   */
-  onAfterNoteCreated(note) {
-    // Remove loading background and open a note.
-    this.setState({ isNotebookOpening: false });
-    this.openNote(note.id);
-  }
-
-  showNotes() {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.showNotes());
-  }
-
-  openNote(id) {
-    const { dispatch } = this.props;
-    dispatch(lessonNotebookActions.setActiveNote(id));
-  }
-
-  /**
-   * Performs actions when notebook pane is being opened.
-   */
-  async handleNotebookOpen() {
-    const { dispatch } = this.props;
-
-    // As soon as notebook icon is clicked, we change the opening state.
-    // It will show a loader instead of note until note is ready to be shown.
-    this.setState({ isNotebookOpening: true });
-
-    // Let the application now that the notebook is being opened.
-    dispatch(lessonNotebookActions.open());
-
-    // If notebook is opened, close navigation pane on all devices except extra
-    // large.
-    if (mediaBreakpoint.isDown('xxl')) {
-      dispatch(navigationActions.close());
-    }
-
-    try {
+    // We need to load notes when User click Notes tab, but notes list is empty.
+    // @todo: move to separate function.
+    if (!isCollapsed && notes.length === 0) {
       // Get superagent request with authentication token.
       const { request } = await this.context.auth.getRequest();
+
+      dispatch(lessonSidebarActions.setLoadingState());
 
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
@@ -100,124 +51,128 @@ class LessonNotebook extends React.Component {
           'sort': 'changed',
         });
 
-      const notes = dataProcessors.notebookData(responseNotebook.body.data);
+      const notesList = dataProcessors.notebookData(responseNotebook.body.data);
 
       // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());
 
       // Add all notes from the backend to the notebook storage.
-      notes.forEach(note => {
+      notesList.forEach(note => {
         dispatch(notebookActions.addNote(note));
       });
 
-      // Make a request to the backend to create a new note.
-      const note = await notebookHelpers.createNote(request);
+      this.showNotes();
 
-      // Add recently created note to the notebook's redux state.
-      dispatch(notebookActions.addNote(note));
-
-      // Set the active note id for the lesson.
-      dispatch(lessonNotebookActions.setActiveNote(note.id));
-    } catch (error) {
-      console.log('Could not create a new note. Error:');
-      console.log(error);
+      // Dismiss sidebar opening state.
+      dispatch(lessonSidebarActions.removeLoadingState());
     }
+  }
 
-    // Dismiss notebook opening state.
-    this.setState({ isNotebookOpening: false });
+  /**
+   * Callback gets executed as soon as a user click
+   * on note create button.
+   */
+  onBeforeNoteCreated() {
+    // Set loading background.
+    this.props.dispatch(lessonSidebarActions.setLoadingState());
+  }
+
+  /**
+   * Callback gets executed as soon as a note was
+   * created on the backend.
+   */
+  onAfterNoteCreated(note) {
+    // Remove loading background and open a note.
+    this.props.dispatch(lessonSidebarActions.removeLoadingState());
+    this.openNote(note.id);
+  }
+
+  showNotes() {
+    this.props.dispatch(lessonNotebookActions.showNotes());
+  }
+
+  openNote(id) {
+    this.props.dispatch(lessonNotebookActions.setActiveNote(id));
   }
 
   /**
    * Perform actions on closing the notebook pane.
    */
   handleNotebookClose() {
-    const { activeNote } = this.props;
+    const { activeNote, dispatch } = this.props;
 
     // Force save note to the backend.
     if (activeNote) {
       // Do not save empty note - it will be automatically removed.
       if (!notebookHelpers.isEmptyNote(activeNote)) {
-        this.props.dispatch(notebookActions.saveNote(activeNote));
+        dispatch(notebookActions.saveNote(activeNote));
       }
     }
 
     // Close the notebook pane.
-    this.props.dispatch(lessonNotebookActions.close());
+    dispatch(lessonSidebarActions.close());
   }
 
   render() {
-    const { isCollapsed, isNoteListVisible, notes, activeNote } = this.props;
+    const { isNoteListVisible, isLoading, notes, activeNote } = this.props;
 
     return (
-      <div className={`collapsible-notebook lesson  ${isCollapsed ? 'closed' : 'opened'}`}>
-
-        {isCollapsed &&
-        <LessonNotebookOpenCTA handleNotebookOpen={this.handleNotebookOpen} />
+      <div className="lesson-notebook">
+        {isLoading &&
+        <PageLoader />
         }
 
-        <div className="lesson-notebook-wrapper">
-          {!isCollapsed &&
-          <div className="lesson-notebook">
+        {!isLoading &&
+        <Fragment>
 
-            {this.state.isNotebookOpening &&
-            <PageLoader />
-            }
+          <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
 
-            {!this.state.isNotebookOpening &&
-            <Fragment>
+            <div className="notes-list-heading">
+              <div className="title">All Notes</div>
+              <AddNoteButton
+                onBeforeSubmit={this.onBeforeNoteCreated}
+                onAfterSubmit={this.onAfterNoteCreated}
+              />
+            </div>
 
-              <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
-
-                <div className="notes-list-heading">
-                  <div className="title">All Notes</div>
-                  <AddNoteButton
-                    onBeforeSubmit={this.onBeforeNoteCreated}
-                    onAfterSubmit={this.onAfterNoteCreated}
-                  />
-                </div>
-
-                <NotesList
-                  notes={notes}
-                  activeNoteId={activeNote ? activeNote.id : 0}
-                  onClick={this.openNote}
-                />
-              </div>
-
-              {!isNoteListVisible && activeNote &&
-              <Fragment>
-                <ShowNotesButton handleClick={this.showNotes} />
-                <NoteContent note={activeNote} contextId="lesson" />
-              </Fragment>
-              }
-
-              <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
-                { !isNoteListVisible && activeNote &&
-                <Fragment>
-                  {notebookHelpers.isEmptyNote(activeNote) ?
-                    'Discard and Close' :
-                    'Save and Close'
-                  }
-                </Fragment>
-                }
-                { isNoteListVisible &&
-                <Fragment>Close Notes</Fragment>
-                }
-
-                <span className="close-arrow">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                    <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z" />
-                  </svg>
-                </span>
-              </div>
-
-            </Fragment>
-            }
+            <NotesList
+              notes={notes}
+              activeNoteId={activeNote ? activeNote.id : 0}
+              onClick={this.openNote}
+            />
           </div>
 
+          {!isNoteListVisible && activeNote &&
+          <div className="note-column">
+            <ShowNotesButton handleClick={this.showNotes} />
+            <NoteContent note={activeNote} />
+          </div>
           }
-        </div>
 
+          <div className="save-close" onClick={() => this.handleNotebookClose()} onKeyPress={() => this.handleNotebookClose()}>
+            { !isNoteListVisible && activeNote &&
+            <Fragment>
+              {notebookHelpers.isEmptyNote(activeNote) ?
+                'Discard and Close' :
+                'Save and Close'
+              }
+            </Fragment>
+            }
+            { isNoteListVisible &&
+            <Fragment>Close Notes</Fragment>
+            }
+
+            <span className="close-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                <path fill="#FFF" fillRule="nonzero" d="M0 9h12.17l-5.59 5.59L8 16l8-8-8-8-1.41 1.41L12.17 7H0z" />
+              </svg>
+            </span>
+          </div>
+
+        </Fragment>
+        }
       </div>
+
     );
   }
 }
@@ -226,6 +181,7 @@ LessonNotebook.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeNote: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isCollapsed: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isNoteListVisible: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
@@ -240,12 +196,13 @@ LessonNotebook.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ lessonNotebook, notebook }) => ({
-  isCollapsed: lessonNotebook.isCollapsed,
-  activeNote: notebookHelpers.getNoteById(notebook.notes, lessonNotebook.noteId),
+const mapStateToProps = ({ lessonSidebar, notebook }) => ({
+  isCollapsed: lessonSidebar.sidebar.isCollapsed,
+  isLoading: lessonSidebar.sidebar.isLoading,
+  activeNote: notebookHelpers.getNoteById(notebook.notes, lessonSidebar.notes.noteId),
   // Display only non-empty notes in the list.
   notes: notebook.notes.filter(note => !notebookHelpers.isEmptyNote(note)),
-  isNoteListVisible: lessonNotebook.isNoteListVisible,
+  isNoteListVisible: lessonSidebar.notes.isNoteListVisible,
 });
 
 export default connect(mapStateToProps)(LessonNotebook);

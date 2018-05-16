@@ -1,0 +1,134 @@
+.comment {
+  border-bottom: 1px solid $london-sky;
+  padding: 1em 1em 1.5em;
+  position: relative;
+  transition: background-color .6s, height 0.3s, opacity 0.2s linear;
+  @include media-breakpoint-up(lg) {
+    padding: 1.5em;
+  }
+
+  &:hover {
+    .comment-footer {
+      opacity: 1;
+    }
+  }
+
+  &.nested {
+    padding-left: 2em;
+    @include media-breakpoint-up(lg) {
+      padding-left: 3em;
+    }
+  }
+
+  .comment-header {
+    position: relative;
+    margin-bottom: 1em;
+    height: 2em;
+
+    .avatar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: $anu-black;
+      width: 2em;
+      height: 2em;
+      color: $white;
+      border-radius: 50%;
+      font-size: 1em;
+      line-height: 2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .right {
+      margin-left: 3em;
+
+      .username {
+        color: $carbon;
+        font-weight: bold;
+        font-size: 1em;
+        margin-bottom: 6px;
+        line-height: 1em;
+
+        .replied-to {
+          color: $london-sky;
+        }
+      }
+
+      .date {
+        color: $london-sky;
+        font-size: .6875em;
+        line-height: .75em;
+      }
+    }
+  }
+
+  .comment-body {
+    color: $carbon;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .comment-footer {
+    position: absolute;
+    bottom: .25em;
+    right: 1.5em;
+    transition: .2s all;
+    @include media-breakpoint-up(lg) {
+      opacity: 0;
+    }
+
+    .links {
+      color: $london-sky;
+      font-size: .75em;
+      cursor: pointer;
+      transition: .2s all;
+      @include media-breakpoint-up(lg) {
+        color: $carbon;
+      }
+
+      svg {
+        position: relative;
+        top: 1px;
+
+        path {
+          fill: $london-sky;
+          transition: .2s all;
+          @include media-breakpoint-up(lg) {
+            fill: $carbon;
+          }
+        }
+      }
+
+      .link {
+        transition: .2s color;
+
+        &:hover {
+          transition: .2s color;
+          color: $anu-blue;
+
+          svg path {
+            fill: $anu-blue;
+          }
+        }
+
+        .label {
+          margin-left: .5em;
+        }
+      }
+
+    }
+  }
+
+  &.deleted {
+    font-style: italic;
+    color: $london-sky;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  &.highlighted {
+    background-color: $highlighted;
+    transition: background-color .6s;
+  }
+}

@@ -1,0 +1,59 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * @file
+ * Contains hooks definition for Anu Comments module.
+ */
+
+/**
+ * Enables revisions for comment entity by default.
+ */
+function anu_comments_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof Drupal\eck\Entity\EckEntity && $entity->getEntityTypeId() == 'paragraph_comment') {
+    $entity->setNewRevision(TRUE);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_comments_paragraph_comment_access(EntityInterface $comment, $operation,  AccountInterface $account) {
+
+  // Load the user object with all fields.
+  $user = \Drupal\user\Entity\User::load($account->id());
+
+  // Get value of the current user organization.
+  $user_organization = null;
+  if ($user->hasField('field_organization')) {
+    $value = $user->get('field_organization')->getValue();
+    $user_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : null;
+  }
+
+  // Get value of the commeªnt's organization in which the comment had been
+  // left off.
+  $comment_organization = null;
+  if ($comment->hasField('field_comment_organization')) {
+    $value = $comment->get('field_comment_organization')->getValue();
+    $comment_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : null;
+  }
+
+  // We do not allow users from different organization has any access to the
+  // comments from other organizations. In the other scenario we fallback to
+  // other Drupal access checks.
+  return $user_organization == $comment_organization ? AccessResult::neutral() : AccessResult::forbidden();
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_comments_entity_type_alter(array &$entity_types) {
+  // Adds an additional Validation for paragraph_comment entity.
+  if (!empty($entity_types['paragraph_comment'])) {
+    $entity = $entity_types['paragraph_comment'];
+    $entity->addConstraint('ParagraphComment', []);
+  }
+}

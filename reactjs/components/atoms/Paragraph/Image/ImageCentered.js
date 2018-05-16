@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fileUrl } from '../../../../utils/url';
+import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class ImageCentered extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class ImageCentered extends React.Component {
   }
 
   render() {
-    const { image, title, columnClasses } = this.props;
+    const { image, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container image-centered">
         <div className="row">
@@ -39,6 +40,10 @@ class ImageCentered extends React.Component {
             />
             {title &&
             <div className="caption">{title}</div>
+            }
+
+            {commentsAllowed &&
+              <ShowCommentsCTA paragraphId={id} />
             }
           </div>
         </div>
@@ -62,6 +67,7 @@ ImageCentered.propTypes = {
       }),
     }),
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 ImageCentered.defaultProps = {
@@ -69,6 +75,7 @@ ImageCentered.defaultProps = {
   columnClasses: [],
   title: '',
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 

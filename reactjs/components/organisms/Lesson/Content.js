@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import Paragraphs from '../../atoms/Paragraph';
 import Button from '../../atoms/Button';
+import OpenNotesCTA from '../../moleculas/Lesson/OpenNotesCTA';
 import { Link, Router } from '../../../routes';
 import * as lessonActions from '../../../actions/lesson';
 import * as lessonHelpers from '../../../helpers/lesson';
@@ -236,7 +237,7 @@ class LessonContent extends React.Component {
   }
 
   render() {
-    const { lesson, course, navigation, lessonNotebook, quizzesSaved } = this.props;
+    const { lesson, course, navigation, lessonSidebar, quizzesSaved } = this.props;
     const nextLesson = lessonHelpers.getNextLesson(course.lessons, lesson.id);
 
     let buttons = [];
@@ -279,8 +280,8 @@ class LessonContent extends React.Component {
       wrapperClasses.push('nav-collapsed');
     }
     // Defines classes if notebook opened.
-    if (lessonNotebook.isCollapsed) {
-      wrapperClasses.push('notebook-collapsed');
+    if (lessonSidebar.isCollapsed) {
+      wrapperClasses.push('sidebar-collapsed');
       columnClasses.push('offset-md-1');
       columnClasses.push('col-md-10');
       columnClasses.push('offset-lg-2');
@@ -311,6 +312,10 @@ class LessonContent extends React.Component {
           />
         </div>
 
+        {lessonSidebar.isCollapsed &&
+          <OpenNotesCTA />
+        }
+
         <div className="lesson-navigation container">
           <div className="row">
             <div className={columnClasses.join(' ')}>
@@ -329,7 +334,7 @@ const mapStateToProps = (store, ownProps) => ({
   quizzesSaved: lessonHelpers.areQuizzesSaved(store.lesson, ownProps.lesson.id),
   navigation: store.navigation,
   storeLessons: store.lesson,
-  lessonNotebook: store.lessonNotebook,
+  lessonSidebar: store.lessonSidebar.sidebar,
 });
 
 LessonContent.contextTypes = {
@@ -343,7 +348,7 @@ LessonContent.propTypes = {
   course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   lesson: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  lessonNotebook: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  lessonSidebar: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   quizzesSaved: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,

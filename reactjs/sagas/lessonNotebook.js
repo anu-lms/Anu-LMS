@@ -11,11 +11,11 @@ import * as notebookActions from '../actions/notebook';
  */
 export default function* lessonNotebookSagas() {
   yield all([
-    takeEvery('LESSON_NOTEBOOK_OPEN', lockMobileScroll),
-    takeEvery('LESSON_NOTEBOOK_CLOSE', unlockMobileScroll),
+    takeEvery('LESSON_SIDEBAR_OPEN', lockMobileScroll),
+    takeEvery('LESSON_SIDEBAR_CLOSE', unlockMobileScroll),
     takeEvery('persist/REHYDRATE', lockOrUnlockMobileScroll),
     takeEvery('LESSON_NOTEBOOK_SHOW_NOTES', removeEmptyNote),
-    takeEvery('LESSON_NOTEBOOK_CLOSE', removeEmptyNote),
+    takeEvery('LESSON_SIDEBAR_CLOSE', removeEmptyNote),
   ]);
 }
 
@@ -24,7 +24,7 @@ export default function* lessonNotebookSagas() {
  * as empty.
  */
 function* removeEmptyNote() {
-  const activeNoteId = yield select(store => store.lessonNotebook.noteId);
+  const activeNoteId = yield select(store => store.lessonSidebar.notes.noteId);
   // eslint-disable-next-line max-len
   const note = yield select(store => notebookHelpers.getNoteById(store.notebook.notes, activeNoteId));
 
@@ -74,7 +74,7 @@ function* unlockMobileScroll() { // eslint-disable-line require-yield
  * depending on the current notebook pane state.
  */
 function* lockOrUnlockMobileScroll() {
-  const isNotebookCollapsed = yield select(store => store.lessonNotebook.isCollapsed);
+  const isNotebookCollapsed = yield select(store => store.lessonSidebar.notes.isCollapsed);
   // eslint-disable-next-line no-unused-expressions
   isNotebookCollapsed ? yield unlockMobileScroll() : yield lockMobileScroll();
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Player from 'react-player';
+import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Video extends React.Component {
   componentDidMount() {
@@ -18,7 +19,7 @@ class Video extends React.Component {
   }
 
   render() {
-    const { url, columnClasses } = this.props;
+    const { url, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div className="container video">
         <div className="row">
@@ -28,6 +29,10 @@ class Video extends React.Component {
               width="100%"
               controls
             />
+
+            {commentsAllowed &&
+            <ShowCommentsCTA paragraphId={id} />
+            }
           </div>
         </div>
       </div>
@@ -45,12 +50,14 @@ Video.propTypes = {
     uri: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
+  commentsAllowed: PropTypes.bool,
 };
 
 Video.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 
