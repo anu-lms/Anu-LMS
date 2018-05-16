@@ -19,8 +19,12 @@ class AddCommentToThread extends AnuEventCommentBase {
    * {@inheritdoc}
    */
   function shouldTrigger() {
-
     if (!parent::shouldTrigger()) {
+      return FALSE;
+    }
+
+    // Catch only replies.
+    if (empty($this->entity->field_comment_parent->getValue())) {
       return FALSE;
     }
 
