@@ -18,6 +18,23 @@ class ReplyToComment extends AnuEventCommentBase {
   /**
    * {@inheritdoc}
    */
+  function shouldTrigger() {
+    if (!parent::shouldTrigger()) {
+      return FALSE;
+    }
+
+    // Catch only replies.
+    if (empty($this->entity->field_comment_parent->getValue())) {
+      return FALSE;
+    }
+
+    // Returns TRUE if all conditions above have passed.
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getRecipient() {
     if (!empty($this->entity->field_comment_parent->getValue())) {
       return (int) $this->entity->field_comment_parent
