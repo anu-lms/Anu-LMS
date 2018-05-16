@@ -13,3 +13,10 @@
     upstream: "backend:http"
     cache:
         enabled: false
+
+# Disable caching for websocket.
+"https://{default}/socket.io":
+    type: upstream
+    upstream: "app:http"
+    cache:
+        enabled: false
