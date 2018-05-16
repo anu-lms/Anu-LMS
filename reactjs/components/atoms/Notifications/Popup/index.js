@@ -40,7 +40,7 @@ const NotificationsPopup = ({
             </Scrollbars>
           </div>
         ) : (
-          <Empty />
+          <Empty isLoading={isLoading} />
         )}
 
         <div className="footer">
