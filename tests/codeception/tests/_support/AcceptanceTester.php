@@ -98,6 +98,7 @@ class AcceptanceTester extends \Codeception\Actor {
     }
     catch (\Codeception\Exception\ElementNotFound $e) {
      // If there is no loader - wait for element as usual.
+      $I->comment('Loader animation was not found. Waiting for element as usual.');
     }
 
     $I->waitForElement($element);
