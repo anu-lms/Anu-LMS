@@ -12,10 +12,10 @@ class NotebookCest {
   public function NotebookOperations(\Step\Acceptance\Learner $I) {
 
     $I->loginAsLearner();
-    $I->seeElement('a.notebook');
+    $I->seeElement('.header-icon.notebook');
 
     // Open notes page
-    $I->click('a.notebook');
+    $I->click('.header-icon.notebook');
     $I->waitForText('My Notebook');
     $I->seeElement('.add-note');
 
