@@ -59,5 +59,6 @@ abstract class AnuEventCommentBase extends AnuEventBase {
   protected function attachMessageFields($message) {
     $message->field_message_comment = $this->entity->id();
     $message->field_message_recipient = $this->getRecipient();
+    $message->field_message_is_read = FALSE;
   }
 }
