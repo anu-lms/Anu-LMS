@@ -12,7 +12,7 @@ class CommentsCest {
   public function LessonComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElement('.lesson-comments-scrollable');
     $I->click('.lesson-sidebar-container .tab.notes');
@@ -24,7 +24,7 @@ class CommentsCest {
   public function LessonCommentOperations(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
@@ -64,7 +64,7 @@ class CommentsCest {
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->loginAsTeacher();
       $I->amOnPage('course/test-course/lesson-1');
-      $I->seeElement('.comments-cta');
+      $I->WaitForElement('.comments-cta');
       $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
       // Create comment.
@@ -78,7 +78,7 @@ class CommentsCest {
     $teachersCommentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
 
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElement($teachersCommentWrapper);
     $I->click( $teachersCommentWrapper . '//div[@class="context-menu"]//button');
@@ -104,7 +104,7 @@ class CommentsCest {
   public function LessonCommentsThread(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
@@ -123,7 +123,7 @@ class CommentsCest {
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->loginAsTeacher();
       $I->amOnPage('course/test-course/lesson-1');
-      $I->seeElement('.comments-cta');
+      $I->WaitForElement('.comments-cta');
       $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
       // Reply to a comment.
@@ -168,7 +168,7 @@ class CommentsCest {
   public function LessonCommentlink(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
@@ -193,7 +193,7 @@ class CommentsCest {
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
-    $I->seeElement('.comments-cta');
+    $I->WaitForElement('.comments-cta');
     $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
@@ -204,7 +204,7 @@ class CommentsCest {
     $learner2->does(function(\Step\Acceptance\Learner $I) {
       $I->loginAsLearner2();
       $I->amOnPage('course/test-course/lesson-1');
-      $I->seeElement('.comments-cta');
+      $I->WaitForElement('.comments-cta');
       $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
 
