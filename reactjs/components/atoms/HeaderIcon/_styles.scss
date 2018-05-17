@@ -29,6 +29,7 @@
     }
   }
 
+  &.active,
   &:hover {
     background-color: $slate-grey;
     transition: background-color .2s;
