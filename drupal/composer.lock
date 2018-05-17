@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a3258dfa377afaa876d5a55de41a910",
+    "content-hash": "414cd3b8c47d4fdc7ac836a01e8c3dfb",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3304,20 +3304,20 @@
         },
         {
             "name": "drupal/jsonapi",
-            "version": "1.17.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/jsonapi",
-                "reference": "8.x-1.17"
+                "reference": "8.x-1.14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jsonapi-8.x-1.17.zip",
-                "reference": "8.x-1.17",
-                "shasum": "fbe3f36bfbbb804c2d7b0314136d30338002b1a0"
+                "url": "https://ftp.drupal.org/files/projects/jsonapi-8.x-1.14.zip",
+                "reference": "8.x-1.14",
+                "shasum": "2b5d99c935ee20e751d3e40ea5118da9b225ef34"
             },
             "require": {
-                "drupal/core": "^8.4.3"
+                "drupal/core": "^8.3"
             },
             "require-dev": {
                 "drupal/schemata": "1.x-dev#8325d172e1d6880aa24073f8f751ef089282cf9a",
@@ -3330,8 +3330,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.17",
-                    "datestamp": "1525889880",
+                    "version": "8.x-1.14",
+                    "datestamp": "1524679677",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
