@@ -63,10 +63,5 @@ function anu_events_message_access(EntityInterface $message, $operation,  Accoun
     return $comment->access('view') ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
-  // Allowes users to update their own message entity.
-  if ($operation == 'update' && $message->uid->target_id == $account->id()) {
-    return AccessResult::allowed();
-  }
-
   return AccessResult::neutral();
 }
