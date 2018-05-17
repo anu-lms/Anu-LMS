@@ -29,7 +29,7 @@ const NotificationsList = ({
           return null;
         })}
         <div className={`spinner ${isLoading ? 'show' : ''}`}>
-          <img src="/static/img/spinner-small.gif" alt="Loading..." />
+          <img src="/static/img/spinner-small.svg" alt="Loading..." />
         </div>
       </InfiniteScroll>
     </Scrollbars>
