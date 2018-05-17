@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39b476aac195000fec6a6c956e4ca0b3",
+    "content-hash": "8a3258dfa377afaa876d5a55de41a910",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3249,17 +3249,17 @@
         },
         {
             "name": "drupal/json_field",
-            "version": "1.0.0-rc1",
+            "version": "1.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/json_field",
-                "reference": "8.x-1.0-rc1"
+                "reference": "8.x-1.0-beta2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/json_field-8.x-1.0-rc1.zip",
-                "reference": "8.x-1.0-rc1",
-                "shasum": "10a3441c40b7da0b5fe48275c812b6ac2b5cc91c"
+                "url": "https://ftp.drupal.org/files/projects/json_field-8.x-1.0-beta2.zip",
+                "reference": "8.x-1.0-beta2",
+                "shasum": "b0c228f46d3f32a89252ee10e127b34ea5ab38a2"
             },
             "require": {
                 "drupal/core": "*"
@@ -3270,7 +3270,7 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-rc1",
+                    "version": "8.x-1.0-beta2",
                     "datestamp": "1521463384",
                     "security-coverage": {
                         "status": "not-covered",
@@ -3280,13 +3280,12 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
-                    "name": "See contributors",
-                    "homepage": "https://www.drupal.org/node/2653746/committers",
-                    "role": "Developer"
+                    "name": "DamienMcKenna",
+                    "homepage": "https://www.drupal.org/user/108450"
                 },
                 {
                     "name": "Jaesin",
@@ -3297,14 +3296,10 @@
                     "homepage": "https://www.drupal.org/user/99340"
                 }
             ],
-            "description": "Provides a JSON field, formatter and views integration",
+            "description": "Provides a JSON field, formatter and views integration.",
             "homepage": "https://www.drupal.org/project/json_field",
-            "keywords": [
-                "Drupal"
-            ],
             "support": {
-                "source": "http://cgit.drupalcode.org/json_field",
-                "issues": "https://www.drupal.org/project/issues/json_field"
+                "source": "http://cgit.drupalcode.org/json_field"
             }
         },
         {
@@ -10563,7 +10558,6 @@
         "drupal/file_entity": 10,
         "drupal/group": 5,
         "drupal/inline_entity_form": 10,
-        "drupal/json_field": 10,
         "drupal/media_entity_browser": 10,
         "drupal/message": 5,
         "drupal/message_notify": 10,
