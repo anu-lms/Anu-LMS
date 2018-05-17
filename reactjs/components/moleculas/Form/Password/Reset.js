@@ -1,6 +1,7 @@
 import React from 'react';
 import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes';
@@ -63,6 +64,7 @@ class PasswordForm extends React.Component {
   }
 
   async submitForm({ formData }) {
+    const { sessionToken } = this.props;
     if (formData.password_new !== formData.password_new_confirm) {
       Alert.error("New password and Confirm New Password fields don't match");
       return;
@@ -73,11 +75,10 @@ class PasswordForm extends React.Component {
     });
 
     try {
-      const tokenResponse = await request.get('/session/token');
       await request
         .post('/user/password/reset?_format=json')
         .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', tokenResponse.text)
+        .set('X-CSRF-Token', sessionToken)
         .send({
           password_new: formData.password_new,
           ...this.props.tokenParams,
@@ -139,4 +140,8 @@ PasswordForm.propTypes = {
   tokenParams: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default PasswordForm;
+const mapStateToProps = ({ user }) => ({
+  sessionToken: user.sessionToken,
+});
+
+export default connect(mapStateToProps)(PasswordForm);
