@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Scrollbars } from 'react-custom-scrollbars';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import NotificationCommentItem, { supportedBundles as commentSupportedBundles } from '../CommentItem';
 import Empty from '../Empty';
+import List from '../List';
+import ErrorBoundary from '../../../atoms/ErrorBoundary';
 
 const NotificationsPopup = ({
   notifications, unreadAmount, isOpened, onCloseClick,
@@ -13,49 +12,31 @@ const NotificationsPopup = ({
   return (
     <Fragment>
       <div className={`notifications-popup ${isOpened ? 'opened' : 'closed'} ${isEmpty ? 'empty' : ''}`}>
+        <ErrorBoundary>
+          {!isEmpty ? (
+            <List
+              notifications={notifications}
+              onCloseClick={onCloseClick}
+              loadMore={loadMore}
+              hasMore={hasMore}
+              isLoading={isLoading}
+            />
+          ) : (
+            <Empty isLoading={isLoading} />
+          )}
 
-        {!isEmpty ? (
-          <div className="list">
-            <Scrollbars style={{ height: '100%' }}>
-              <InfiniteScroll
-                dataLength={notifications.length}
-                next={loadMore}
-                hasMore={hasMore}
-                height={460}
-              >
-                {notifications.map(item => {
-                  if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
-                    return (
-                      <NotificationCommentItem
-                        notificationItem={item}
-                        key={item.id}
-                        closePopup={onCloseClick}
-                      />
-                    );
-                  }
-                  return null;
-                })}
-                <div className={`spinner ${isLoading ? 'show' : ''}`}>
-                  <img src="/static/img/spinner-small.gif" alt="Loading..." />
-                </div>
-              </InfiniteScroll>
-            </Scrollbars>
-          </div>
-        ) : (
-          <Empty isLoading={isLoading} />
-        )}
-
-        <div className="footer">
-          <button
-            className="mark-as-read"
-            disabled={isEmpty || unreadAmount === 0}
-            onClick={onMarkAllAsReadClick}
-          >
+          <div className="footer">
+            <button
+              className="mark-as-read"
+              disabled={isEmpty || unreadAmount === 0}
+              onClick={onMarkAllAsReadClick}
+            >
             Mark all as read
-          </button>
-          <button className="close" onClick={onCloseClick} onKeyPress={onCloseClick}>Close Notifications</button>
-        </div>
+            </button>
+            <button className="close" onClick={onCloseClick} onKeyPress={onCloseClick}>Close Notifications</button>
+          </div>
 
+        </ErrorBoundary>
       </div>
 
       {isOpened &&
