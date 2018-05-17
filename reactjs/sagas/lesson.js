@@ -34,16 +34,20 @@ function* lessonProgressSyncWatcher(action) {
   // TODO: Figure out if session token can be requested just once on login.
   // TODO: Figure out if we can ignore session cookie in requests.
   // Get session token which is necessary for all post requests.
-  const token = yield request
-    .get('/session/token');
+  let sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+
+  if (!sessionToken) {
+    const sessionResponse = yield request.get('/session/token');
+    sessionToken = sessionResponse.text;
+  }
 
   // As soon as lesson is opened, we send request to the backend to log
   // a page hit.
-  yield fork(sendLessonProgress, lesson, 0, token.text);
+  yield fork(sendLessonProgress, lesson, 0, sessionToken);
 
   // Run sync operation in the background. This operation will send lesson
   // progress to the backend every ${backendSyncDelay} milliseconds.
-  const task = yield fork(syncLessonProgressInBackground, lesson, token.text);
+  const task = yield fork(syncLessonProgressInBackground, lesson, sessionToken);
 
   // As soon as lesson is opened, the saga is already awaiting for the dispatch
   // action which closes the lesson.
