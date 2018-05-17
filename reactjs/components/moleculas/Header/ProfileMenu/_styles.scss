@@ -8,13 +8,7 @@
     border: none;
   }
   div[class^=dropdown---dropdown-menu-wrapper] {
-    right: -2px;
-    @include media-breakpoint-up(md) {
-      right: 6px;
-    }
-    @include media-breakpoint-up(lg) {
-      right: 1px;
-    }
+    right: 0;
   }
   div[class^=dropdown---dropdown-menu---] {
     padding: 12px 0 14px;
