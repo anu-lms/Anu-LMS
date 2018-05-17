@@ -3,6 +3,7 @@ import withAuth from '../../auth/withAuth';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import EditPasswordForm from '../../components/moleculas/Form/Password/Edit';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
+import withRedux from '../../store/withRedux';
 
 const UserPasswordPage = () => (
   <SiteTemplate className="page-password">
@@ -12,4 +13,4 @@ const UserPasswordPage = () => (
   </SiteTemplate>
 );
 
-export default withAuth(UserPasswordPage);
+export default withRedux(withAuth(UserPasswordPage));

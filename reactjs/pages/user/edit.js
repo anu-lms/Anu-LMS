@@ -5,6 +5,7 @@ import withAuth from '../../auth/withAuth';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 import UserEditForm from '../../components/moleculas/Form/User';
+import withRedux from '../../store/withRedux';
 
 class UserEditPage extends Component {
   static async getInitialProps({ request }) {
@@ -38,4 +39,4 @@ UserEditPage.propTypes = {
   user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withAuth(UserEditPage);
+export default withRedux(withAuth(UserEditPage));
