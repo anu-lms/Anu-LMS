@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Router } from '../../../routes';
+import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 import Notifications from '../../moleculas/Header/Notifications';
 import HeaderIcon from '../../atoms/HeaderIcon';
@@ -45,7 +45,7 @@ const Header = ({ isEmpty }) => (
         </Link>
 
         <Link to="/notebook">
-          <HeaderIcon className={`notebook ${Router.router && Router.router.pathname === '/notebook' ? 'active' : ''}`} label="Notebook">
+          <HeaderIcon className="notebook" label="Notebook">
             <a>
               <svg xmlns="http://www.w3.org/2000/svg" width="29" height="34" viewBox="0 0 29 34">
                 <g fill="none" fillRule="evenodd">
