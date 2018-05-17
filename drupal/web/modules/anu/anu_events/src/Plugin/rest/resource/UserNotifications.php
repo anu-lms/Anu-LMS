@@ -88,7 +88,7 @@ class UserNotifications extends ResourceBase {
           // Use '<=' to fetch notifications with same timestamp also, duplicates will be ignored on frontend.
           $lastFetchedTimestamp = $this->currentRequest->query->get('lastFetchedTimestamp');
           if ($lastFetchedTimestamp != null) {
-            $query->condition('created', (int)$lastFetchedTimestamp, '<=');
+            $query->condition('created', (int) $lastFetchedTimestamp, '<=');
           }
         }
       }
