@@ -14,7 +14,7 @@ const NotificationsList = ({
         dataLength={notifications.length}
         next={loadMore}
         hasMore={hasMore}
-        height={460}
+        height={461}
       >
         {notifications.map(item => {
           if (commentSupportedBundles.indexOf(item.bundle) >= 0) {
