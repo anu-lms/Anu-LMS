@@ -6,6 +6,7 @@ import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../../utils/dataProcessors';
 import ResetForm from '../../components/moleculas/Form/Password/Reset';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
+import withRedux from '../../store/withRedux';
 
 class ResetPasswordPage extends Component {
   // Skip initial redirection in withAuth module
@@ -65,4 +66,4 @@ ResetPasswordPage.defaultProps = {
   user: {},
 };
 
-export default withAuth(ResetPasswordPage);
+export default withRedux(withAuth(ResetPasswordPage));
