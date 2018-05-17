@@ -20,7 +20,7 @@ class OpenNotesCTA extends React.Component {
    * Performs actions when notebook pane is being opened.
    */
   async openNotebook() {
-    const { dispatch, sessionToken } = this.props;
+    const { dispatch } = this.props;
 
     // As soon as notebook icon is clicked, we change the opening state.
     // It will show a loader instead of note until note is ready to be shown.
@@ -66,8 +66,6 @@ class OpenNotesCTA extends React.Component {
         dispatch(notebookActions.addNote(note));
       });
 
-      request.set('X-CSRF-Token', sessionToken);
-
       // Make a request to the backend to create a new note.
       const note = await notebookHelpers.createNote(request);
 
@@ -105,9 +103,8 @@ OpenNotesCTA.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ lessonSidebar, user }) => ({
+const mapStateToProps = ({ lessonSidebar }) => ({
   activeParagraphId: lessonSidebar.comments.paragraphId,
-  sessionToken: user.sessionToken,
 });
 
 export default connect(mapStateToProps)(OpenNotesCTA);
