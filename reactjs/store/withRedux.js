@@ -49,7 +49,7 @@ export default function (PageComponent) {
         <Provider store={store}>
           <Fragment>
             { !this.state.storageLoaded &&
-            <PageLoader />
+            <PageLoader type="fixed" />
             }
             <PageComponent {...this.props} />
           </Fragment>
