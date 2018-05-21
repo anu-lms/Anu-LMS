@@ -51,7 +51,7 @@
   .sticky-element.sticky {
     top: 48px;
     background: $eggshell-white;
-    /*width: 100%;*/
+    width: 100%;
 
     @include media-breakpoint-up(md) {
       top: 80px;
@@ -62,8 +62,15 @@
 .lesson-notebook {
   .sticky-element.sticky {
     top: 84px;
+    width: calc(100% - 31px);
+
     @include media-breakpoint-up(md) {
       top: 172px;
+      width: 318px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      width: 432px;
     }
   }
 }
