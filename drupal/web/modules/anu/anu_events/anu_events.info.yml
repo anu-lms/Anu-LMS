@@ -1,0 +1,7 @@
+name: Anu Events
+type: module
+description: Helpers for Events system.
+core: 8.x
+package: Anu
+dependencies:
+  - anu_comments

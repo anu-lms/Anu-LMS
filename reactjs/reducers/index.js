@@ -5,6 +5,7 @@ import lesson from './lesson';
 import lessonSidebar from './lessonSidebar';
 import notebook from './notebook';
 import navigation from './navigation';
+import notifications from './notifications';
 import lock from './lock';
 
 const appReducer = combineReducers({
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   lessonSidebar,
   notebook,
   navigation,
+  notifications,
   lock,
 });
 

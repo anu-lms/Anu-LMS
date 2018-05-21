@@ -7,6 +7,7 @@ module:
   anu_comments: 0
   anu_content_administration: 0
   anu_course_resources: 0
+  anu_events: 0
   anu_group: 0
   anu_learner_progress: 0
   anu_lessons: 0
@@ -59,6 +60,8 @@ module:
   media_entity: 0
   media_entity_browser: 0
   media_entity_image: 0
+  message: 0
+  message_notify: 0
   metatag: 0
   module_filter: 0
   node: 0

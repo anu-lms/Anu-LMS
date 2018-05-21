@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import urlParse from 'url-parse';
 import Alert from 'react-s-alert';
-import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
-import Header from '../components/organisms/Header';
 import * as dataProcessors from '../utils/dataProcessors';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
-import ErrorPage from '../components/atoms/ErrorPage';
+import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import * as lessonSidebarActions from '../actions/lessonSidebar';
 import * as mediaBreakpoint from '../utils/breakpoints';
 import * as navigationActions from '../actions/navigation';
@@ -180,7 +178,16 @@ class LessonPage extends React.Component {
     return initialProps;
   }
 
+  componentDidMount() {
+    this.hightlightComment();
+  }
+
   componentDidUpdate() {
+    this.hightlightComment();
+  }
+
+  // @todo: consider to move it to comments related components.
+  hightlightComment() {
     const { dispatch, isStoreRehydrated, lesson } = this.props;
 
     // If user was redirected to 403 page.
@@ -229,19 +236,12 @@ class LessonPage extends React.Component {
   render() {
     const { statusCode, lesson, course } = this.props;
     return (
-      <App>
-        <Header />
-        <div className="page-with-header lesson">
-          {statusCode === 200 ? (
-            <LessonPageTemplate
-              lesson={lesson}
-              course={course}
-            />
-          ) : (
-            <ErrorPage code={statusCode} />
-          )}
-        </div>
-      </App>
+      <SiteTemplate className="lesson" statusCode={statusCode}>
+        <LessonPageTemplate
+          lesson={lesson}
+          course={course}
+        />
+      </SiteTemplate>
     );
   }
 }
