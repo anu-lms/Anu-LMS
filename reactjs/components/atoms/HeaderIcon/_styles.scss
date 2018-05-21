@@ -1,5 +1,5 @@
 .header-icon {
-  height: 100%;
+  height: 48px;
   display: inline-flex;
   align-items: center;
   padding: 0 0.6em;
@@ -10,6 +10,7 @@
   transition: background-color .2s;
 
   @include media-breakpoint-up(md) {
+    height: 80px;
     margin: 0;
     padding: 5px 1em 0;
   }
