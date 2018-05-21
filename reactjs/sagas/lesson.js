@@ -31,12 +31,11 @@ export default function* lessonSagas() {
 function* lessonProgressSyncWatcher(action) {
   const { lesson } = action;
 
-  // TODO: Figure out if session token can be requested just once on login.
-  // TODO: Figure out if we can ignore session cookie in requests.
   // Get session token which is necessary for all post requests.
   let sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
 
   if (!sessionToken) {
+    // Store is empty yet when function executes first time (after page reload).
     const sessionResponse = yield request.get('/session/token');
     sessionToken = sessionResponse.text;
   }
