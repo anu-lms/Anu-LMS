@@ -11,7 +11,7 @@ import * as dataProcessors from '../../../../utils/dataProcessors';
 class SiteTemplate extends React.Component {
   constructor(props) {
     super(props);
-    this.loginParamsUpdateRequested = false;
+    this.loginUpdateRequested = false;
   }
 
   async componentDidUpdate() {
@@ -22,7 +22,7 @@ class SiteTemplate extends React.Component {
     // We should initialize these variables for users who stay logged in after deploy
     // and have no these variables yet.
     // @todo: Can be removed later. Potentially we should find better place to do it.
-    if (!this.loginParamsUpdateRequested && (!uid || !sessionToken)) {
+    if (!this.loginUpdateRequested && (!uid || !sessionToken) && this.context.auth.isLoggedIn()) {
       // Get superagent request with authentication token.
       const { request } = await this.context.auth.getRequest();
 
@@ -36,7 +36,7 @@ class SiteTemplate extends React.Component {
       // Store logged in user UID in application store.
       dispatch(userActionHelpers.login(currentUser.uid, requestedSessionToken.text));
 
-      this.loginParamsUpdateRequested = true;
+      this.loginUpdateRequested = true;
     }
   }
 
@@ -73,6 +73,7 @@ SiteTemplate.defaultProps = {
 SiteTemplate.contextTypes = {
   auth: PropTypes.shape({
     getRequest: PropTypes.func,
+    isLoggedIn: PropTypes.func,
   }),
 };
 
