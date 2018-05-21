@@ -26,6 +26,7 @@ HeaderIcon.propTypes = {
   isActive: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   activePaths: PropTypes.arrayOf(PropTypes.string),
 };
 
