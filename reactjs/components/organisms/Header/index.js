@@ -33,7 +33,7 @@ const Header = ({ isEmpty }) => (
 
       <div className="left">
         <Link to="/dashboard">
-          <HeaderIcon className="home" label="Home">
+          <HeaderIcon className="home" label="Home" activePaths={['/dashboard']}>
             <a rel="home">
               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
                 <g fill="none" fillRule="evenodd">
@@ -45,7 +45,7 @@ const Header = ({ isEmpty }) => (
         </Link>
 
         <Link to="/notebook">
-          <HeaderIcon className="notebook" label="Notebook">
+          <HeaderIcon className="notebook" label="Notebook" activePaths={['/notebook']}>
             <a>
               <svg xmlns="http://www.w3.org/2000/svg" width="29" height="34" viewBox="0 0 29 34">
                 <g fill="none" fillRule="evenodd">
