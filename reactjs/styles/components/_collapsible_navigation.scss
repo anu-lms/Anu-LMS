@@ -15,21 +15,17 @@
   }
 
   .toggle {
-    background-color: $slate-grey;
     width: 40px;
     height: 48px;
     padding: 0;
     position: fixed;
     top: 0;
-    left: 90px;
+    left: 88px;
     z-index: $zindex-fixed;
     transition: all .3s;
     @include media-breakpoint-up(md) {
-      background-color: $slate-grey;
-      left: 180px;
-      padding: 0;
-      top: 0;
-      width: 76px;
+      left: 190px;
+      width: 88px;
       height: 80px;
       padding-top: 6px;
     }
@@ -75,9 +71,6 @@
 
     .overlay {
       display: none;
-    }
-    .toggle {
-      background: none;
     }
     .navigation {
       left: -220px;

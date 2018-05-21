@@ -1,24 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withRouter } from 'next/router';
 
-const HeaderIcon = ({ label, children, className, ...props }) => (
-  <div className={`header-icon ${className}`} {...props}>
-    <div className="icon">{children}</div>
-    {label &&
+const HeaderIcon = ({
+  label, children, className, isActive, activePaths, router, ...props
+}) => {
+  let active = isActive;
+  if (!active && activePaths && activePaths.indexOf(router.pathname) !== -1) {
+    active = true;
+  }
+
+  return (
+    <div className={classNames(['header-icon', className, { active }])} {...props}>
+      <div className="icon">{children}</div>
+      {label &&
       <div className="label">{label}</div>
-    }
-  </div>
-);
+      }
+    </div>
+  );
+};
 
 HeaderIcon.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
   label: PropTypes.string,
+  isActive: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  activePaths: PropTypes.arrayOf(PropTypes.string),
 };
 
 HeaderIcon.defaultProps = {
-  className: '',
   label: '',
+  className: '',
+  activePaths: [],
+  isActive: false,
 };
 
-export default HeaderIcon;
+export default withRouter(HeaderIcon);
