@@ -55,7 +55,7 @@ function getThreadedCommentsList(comments) {
 
       if (!parent) {
         console.error(`Wrong structure of comments. Comment id: ${item.id}`);
-        return;
+        return; // eslint-disable-line consistent-return
       }
 
       // Get root id of parent comments (recursively to get root of nested comments).
@@ -63,7 +63,7 @@ function getThreadedCommentsList(comments) {
       debug('findRootId', item.id, parent.id, rootId);
 
       if (!rootId) {
-        return;
+        return; // eslint-disable-line consistent-return
       }
 
       // Save some parent data to current element to use it in render.
