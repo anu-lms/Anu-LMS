@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Router } from '../../routes';
-import App from '../../application/App';
 import withAuth from '../../auth/withAuth';
-import Header from '../../components/organisms/Header';
+import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../../utils/dataProcessors';
 import ResetForm from '../../components/moleculas/Form/Password/Reset';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
@@ -44,19 +43,15 @@ class ResetPasswordPage extends Component {
     const layoutStyles = user ? 'short' : '';
 
     return (
-      <App>
-        <Header isEmpty />
-        <div className="page-with-header page-reset-password">
-          <OneColumnLayout pageTitle={pageTitle} className={layoutStyles}>
-            {user &&
+      <SiteTemplate isHeaderEmpty className="page-reset-password">
+        <OneColumnLayout pageTitle={pageTitle} className={layoutStyles}>
+          {user ? (
             <ResetForm user={user} tokenParams={url.query} />
-            }
-            {!user &&
+          ) : (
             <div>You have tried to use a one-time login link that has expired.<br />Please request a new one on <Link to="/user/forgot"><a>Forgot Password</a></Link> page.</div>
-            }
-          </OneColumnLayout>
-        </div>
-      </App>
+          )}
+        </OneColumnLayout>
+      </SiteTemplate>
     );
   }
 }

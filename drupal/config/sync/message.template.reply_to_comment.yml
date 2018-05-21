@@ -1,0 +1,17 @@
+uuid: 231ba91f-9cfb-4917-9209-b350340b0ffc
+langcode: en
+status: true
+dependencies: {  }
+template: reply_to_comment
+label: 'Reply to comment '
+description: 'When user replied to the comment of another user'
+text:
+  -
+    value: "<p>User&nbsp;[message:author:display-name] has replied to the comment of user [message:field_message_recipient:entity:display-name].</p>\r\n"
+    format: filtered_html
+settings:
+  'token options':
+    clear: false
+    'token replace': true
+  purge_override: false
+  purge_methods: {  }

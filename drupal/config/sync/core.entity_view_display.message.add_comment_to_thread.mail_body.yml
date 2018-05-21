@@ -1,0 +1,19 @@
+uuid: 02880ed8-7604-474c-9fff-76260d4aff52
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.message.mail_body
+    - message.template.add_comment_to_thread
+id: message.add_comment_to_thread.mail_body
+targetEntityType: message
+bundle: add_comment_to_thread
+mode: mail_body
+content:
+  partial_1:
+    weight: 0
+    region: content
+hidden:
+  field_message_comment: true
+  field_message_is_read: true
+  partial_0: true

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import App from '../application/App';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
-import Header from '../components/organisms/Header';
-import ErrorPage from '../components/atoms/ErrorPage';
+import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from '../actions/notebook';
 import * as notebookHelpers from '../helpers/notebook';
@@ -93,16 +91,9 @@ class NotebookPage extends Component {
   render() {
     const { statusCode } = this.props;
     return (
-      <App>
-        <Header />
-        <div className="page-with-header page-notebook">
-          {statusCode === 200 ? (
-            <NotebookTemplate />
-          ) : (
-            <ErrorPage code={statusCode} />
-          )}
-        </div>
-      </App>
+      <SiteTemplate statusCode={statusCode} className="page-notebook">
+        <NotebookTemplate />
+      </SiteTemplate>
     );
   }
 }

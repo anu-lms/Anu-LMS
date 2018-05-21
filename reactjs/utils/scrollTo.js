@@ -39,10 +39,16 @@ export const scrollToElement = (scrollableAreaId, elementId, callback = () => {}
   setTimeout(() => {
     // Get scrollable element.
     const element = document.getElementById(elementId);
+    if (!element) {
+      return;
+    }
     const elementRect = element.getBoundingClientRect();
 
     // Get scrollable area.
     const scrollableArea = document.getElementById(scrollableAreaId);
+    if (!scrollableArea) {
+      return;
+    }
     const desiredElementPosition = 400;
     const to = (scrollableArea.scrollTop + elementRect.top) - desiredElementPosition;
 

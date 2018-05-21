@@ -1,0 +1,20 @@
+uuid: 6adba384-4dc5-4a27-ae6a-e041beb58fa0
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+    - message
+id: message.field_message_comment
+field_name: field_message_comment
+entity_type: message
+type: entity_reference
+settings:
+  target_type: paragraph_comment
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
