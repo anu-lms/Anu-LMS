@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import App from '../../../../application/App';
 import Header from '../../Header';
 import ErrorPage from '../../../atoms/ErrorPage';
-import { connect } from 'react-redux';
 import withRedux from '../../../../store/withRedux';
 import * as userActionHelpers from '../../../../actions/user';
 import * as dataProcessors from '../../../../utils/dataProcessors';
