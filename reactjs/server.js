@@ -109,7 +109,7 @@ app.prepare()
     // On platform.sh no one should be able to connect to the socket
     // outside of the domain.
     if (process.env.PLATFORM_PROJECT) {
-      io.origins([process.env.BASE_UR + ':443']);
+      io.origins([process.env.BASE_URL + ':443']);
     }
 
     io.on('connection', socket => {
