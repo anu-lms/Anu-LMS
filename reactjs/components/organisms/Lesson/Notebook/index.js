@@ -143,7 +143,7 @@ class LessonNotebook extends React.Component {
           </div>
 
           {!isNoteListVisible && activeNote &&
-          <div className="note-column">
+          <div className="note-column" id="note-column">
             <ShowNotesButton handleClick={this.showNotes} />
             <NoteContent note={activeNote} contextId="lesson" />
           </div>
