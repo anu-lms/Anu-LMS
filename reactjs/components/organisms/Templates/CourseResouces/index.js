@@ -43,6 +43,7 @@ const CourseResourcesTemplate = ({ course, resources, navigation }) => {
                       filename: resource.filename,
                     }}
                     columnClasses={[]}
+                    commentsAllowed={false}
                   />
                 ))}
 
