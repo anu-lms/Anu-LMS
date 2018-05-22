@@ -9,11 +9,16 @@ namespace frontend;
  */
 class CommentsCest {
 
+  CONST COMMENTS_BUTTON = '//div[@class="lesson-content"]
+    /div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+    //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]';
+
   public function LessonComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElement('.lesson-comments-scrollable');
     $I->click('.lesson-sidebar-container .tab.notes');
     $I->waitForElement('.notes-list-column.visible');
@@ -25,29 +30,24 @@ class CommentsCest {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
     // Create comment.
-    $I->click('.add-new-comment');
-    $I->fillField('#new-comment-form textarea', 'Test comment');
-    $I->wait(1);
-    // Approach below does not always work, so have to wait 1 sec :(
-    // $I->waitForElement('//div[@id="new-comment-form"]/button[@type="submit" and not(@disabled)]');
-    $I->click('#new-comment-form button[type="submit"]');
-    $I->waitForElement('//div[@class="comment-body" and text()="Test comment"]');
+    $comment = $I->createComments(1)[0];
 
     // Edit comment.
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+    $commentWrapper = $I->findCommentWrapperXpath($comment);
     $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
     $I->waitForElement($commentWrapper . '//div[@role="menu"]');
     $I->click($commentWrapper . '//div[@role="menuitem" and text()="Edit Comment"]');
     $I->pressKey('#edit-comment-form textarea', ' (edited)');
     $I->click('#edit-comment-form button[type="submit"]');
-    $I->waitForElement('//div[contains(concat(" ", normalize-space(@class), " "), " comment ")]//div[@class="comment-body" and text()="Test comment (edited)"]');
+    $commentWrapper = $I->findCommentWrapperXpath($comment . ' (edited)');
+    $I->waitForElement($commentWrapper);
 
     // Delete comment.
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment (edited)"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
     $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
     $I->waitForElement($commentWrapper . '//div[@role="menu"]');
     $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
@@ -65,7 +65,8 @@ class CommentsCest {
       $I->loginAsTeacher();
       $I->amOnPage('course/test-course/lesson-1');
       $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+        //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
       // Create comment.
       $I->click('.add-new-comment');
@@ -75,11 +76,13 @@ class CommentsCest {
       $I->waitForElement('//div[@class="comment-body" and text()="Test comment by Teacher"]');
     });
 
-    $teachersCommentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+    $teachersCommentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
 
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElement($teachersCommentWrapper);
     $I->click( $teachersCommentWrapper . '//div[@class="context-menu"]//button');
     $I->waitForElement($teachersCommentWrapper . '//div[@role="menu"]');
@@ -89,10 +92,12 @@ class CommentsCest {
     // Teacher deletes a comment.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->amOnPage('course/test-course/lesson-1');
-      //$I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+      //$I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //  //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
       // Delete comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+      $commentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]
+        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
       $I->waitForElement($commentWrapper . '//div[@role="menu"]');
       $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
@@ -105,7 +110,8 @@ class CommentsCest {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
     // Create comment.
@@ -124,10 +130,12 @@ class CommentsCest {
       $I->loginAsTeacher();
       $I->amOnPage('course/test-course/lesson-1');
       $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+        //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
       // Reply to a comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+      $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]
+        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->click($commentWrapper . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
       // Make sure input is in focus
       $I->wait(1);
@@ -139,7 +147,8 @@ class CommentsCest {
     });
 
     // Delete threaded comment
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+    $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded($commentWrapper);
     $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
@@ -153,7 +162,8 @@ class CommentsCest {
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->amOnPage('course/test-course/lesson-1');
       // Delete comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test reply by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+      $commentWrapper = '//div[@class="comment-body" and text()="Test reply by Teacher"]
+        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->waitForElementLoaded($commentWrapper);
       $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
       $I->waitForElement($commentWrapper . '//div[@role="menu"]');
@@ -169,12 +179,15 @@ class CommentsCest {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
-    $I->createComments(7);
+    $comments = $I->createComments(7);
+    $comment = end(array_values($comments));
 
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment 7"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+    $commentWrapper = '//div[@class="comment-body" and text()="'. $comment .'"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
     $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
     $I->waitForElement($commentWrapper . '//div[@role="menu"]');
     $I->click($commentWrapper . '//div[@role="menuitem" and text()="Copy link to comment"]');
@@ -194,22 +207,27 @@ class CommentsCest {
     $I->loginAsLearner();
     $I->amOnPage('course/test-course/lesson-1');
     $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
     $I->waitForElementLoaded('#new-comment-form');
 
-    $I->createComments(1);
+    $comments = $I->createComments(1);
 
     // User from other organization.
     $learner2 = $I->haveFriend('learner2', 'Step\Acceptance\Learner');
     $learner2->does(function(\Step\Acceptance\Learner $I) {
+      global $comments;
+
       $I->loginAsLearner2();
       $I->amOnPage('course/test-course/lesson-1');
       $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+        //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
       $I->waitForElementLoaded('#new-comment-form');
 
       // Create comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment 1"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+      $commentWrapper = '//div[@class="comment-body" and text()="'. $comments[0] .'"]
+        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
       $I->dontSeeElement($commentWrapper);
     });
   }
