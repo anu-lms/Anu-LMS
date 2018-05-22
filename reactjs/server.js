@@ -106,8 +106,11 @@ app.prepare()
     const server = httpServer.Server(expressServer);
     const io = socketio(server);
 
-    // TODO: Configure origins.
-    // io.origins(['foo.example.com:443']);
+    // On platform.sh no one should be able to connect to the socket
+    // outside of the domain.
+    if (process.env.PLATFORM_PROJECT) {
+      io.origins([process.env.BASE_URL + ':443']);
+    }
 
     io.on('connection', socket => {
       // Wait for new notification to come in and emit this event to
