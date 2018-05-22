@@ -61,26 +61,59 @@ class AcceptanceTester extends \Codeception\Actor {
     $courseTitle = $I->grabTextFrom('h4');
 
     $I->click('//a[text()="Start" or text()="Resume"]');
-    $I->waitForText($courseTitle, 20, '.navigation');
+    $I->waitForText($courseTitle, 2, '.navigation');
+  }
+
+  public function findCommentWrapperXpath($commentText) {
+    $commentWrapper = '//div[@class="comment-body" and text()="' . $commentText . '"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+
+    return $commentWrapper;
   }
 
   /**
    * Creates certain number of test comments.
    * @param integer $count
-   *   Number of comments to create.
+   *  Number of comments to create.
+   * @param [optional] $comment
+   *  Comment text to reply to.
+   * @return array $comments
+   *  array of comments.
+   * @throws Exception
    */
-  public function createComments($count) {
+  public function createComments($count, $comment = null) {
     $I = $this;
 
+    $comments = array();
+
     for ($i=1; $i<=$count; $i++) {
-      $I->click('.add-new-comment');
-      $I->fillField('#new-comment-form textarea', 'Test comment ' . $i);
-      $I->wait(1);
-      // Approach below does not always work, so have to wait 1 sec :(
-      // $I->waitForElement('//div[@id="new-comment-form"]/button[@type="submit" and not(@disabled)]');
-      $I->click('#new-comment-form button[type="submit"]');
-      $I->waitForElement('//div[contains(concat(" ", normalize-space(@class), " "), " comment ")]//div[@class="comment-body" and text()="Test comment ' . $i . '"]');
+      $comment_text = uniqid('Test comment ');
+
+      if ($comment) {
+        $commentWrapper = '//div[@class="comment-body" and text()="' . $comment . '"]
+          //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+        $comment_button = $commentWrapper . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]';
+        $comment_field = '#reply-comment-form textarea';
+        $comment_submit = '#reply-comment-form button[type="submit"]';
+      }
+      else {
+        $comment_button = '.add-new-comment';
+        $comment_field = '#new-comment-form textarea';
+        $comment_submit = '#new-comment-form button[type="submit"]';
+      }
+
+      $I->click($comment_button);
+      $I->fillField($comment_field, $comment_text);
+      $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
+        return $el->isEnabled();
+      }, 1);
+      $I->click($comment_submit);
+      $I->waitForElement('//div[@class="comment-body" and text()="' . $comment_text . '"]');
+
+      $comments[] = $comment_text;
     }
+
+    return $comments;
   }
 
   /**
@@ -89,6 +122,7 @@ class AcceptanceTester extends \Codeception\Actor {
    * @param $element
    * @param null $timeout
    *  Timeout in seconds.
+   * @throws Exception
    */
   public function waitForElementLoaded($element, $timeout = 2) {
     $I = $this;
