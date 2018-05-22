@@ -4,7 +4,6 @@ import withRedux from '../../store/withRedux';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import EditPasswordForm from '../../components/moleculas/Form/Password/Edit';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
-import withRedux from '../../store/withRedux';
 
 const UserPasswordPage = () => (
   <SiteTemplate className="page-password">
