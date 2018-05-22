@@ -90,13 +90,13 @@ class AcceptanceTester extends \Codeception\Actor {
    * @param null $timeout
    *  Timeout in seconds.
    */
-  public function waitForElementLoaded($element, $timeout = null) {
+  public function waitForElementLoaded($element, $timeout = 2) {
     $I = $this;
     try {
-      $I->waitForElementVisible('.loader');
+      $I->waitForElementVisible('.loader', 1);
       $I->waitForElementNotVisible('.loader', $timeout);
     }
-    catch (\Codeception\Exception\ElementNotFound $e) {
+    catch (Facebook\WebDriver\Exception\NoSuchElementException $e) {
      // If there is no loader - wait for element as usual.
       $I->comment('Loader animation was not found. Waiting for element as usual.');
     }
