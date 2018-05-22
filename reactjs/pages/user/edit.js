@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as dataProcessors from '../../utils/dataProcessors';
 import withAuth from '../../auth/withAuth';
+import withRedux from '../../store/withRedux';
+import * as dataProcessors from '../../utils/dataProcessors';
+import UserEditForm from '../../components/moleculas/Form/User';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
-import UserEditForm from '../../components/moleculas/Form/User';
-import withRedux from '../../store/withRedux';
 
 class UserEditPage extends Component {
   static async getInitialProps({ request }) {
