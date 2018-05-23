@@ -60,6 +60,8 @@
     "drupal/require_login": "^1.10",
     "drupal/restui": "^1.15",
     "drupal/role_delegation": "^1.0@alpha",
+    "drupal/search_api": "^1.8",
+    "drupal/search_api_solr": "^1.2",
     "drupal/simple_oauth": "3.x-dev#b07da37",
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",
