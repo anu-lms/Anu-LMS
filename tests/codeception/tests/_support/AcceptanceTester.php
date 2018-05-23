@@ -50,9 +50,40 @@ class AcceptanceTester extends \Codeception\Actor {
   public function openTestCourseLanding() {
     $I = $this;
 
-    $I->scrollTo('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
-    $I->click('//h4[text()="Test Class"]/following-sibling::div[@class="row"]//a[text()="Test Course"]/ancestor::div[@class="card"]//a[text()="View"]');
+    $I->scrollTo('//h4[text()="Test Class"]
+      /following-sibling::div[@class="row"]
+      //a[text()="Test Course"]
+      /ancestor::div[@class="card"]
+      //a[text()="View"]'
+    );
+    $I->click('//h4[text()="Test Class"]
+      /following-sibling::div[@class="row"]
+      //a[text()="Test Course"]
+      /ancestor::div[@class="card"]
+      //a[text()="View"]'
+    );
     $I->waitForText('Course Content');
+  }
+
+  public function openVideoComments() {
+    $I = $this;
+
+    $I->amOnPage('course/test-course/lesson-1');
+    // Wait for the page to be fully loaded.
+    $I->waitForElementLoaded('.comments-cta');
+    try {
+      // Check if comments tab is already active.
+      $I->seeElement('.lesson-sidebar.active-tab-comments');
+    }
+    catch (Exception $e) {
+      // Open comments list of the first video paragraph.
+      $I->click('//div[@class="lesson-content"]
+      /div[contains(concat(" ", normalize-space(@class), " "), " video ")]
+      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+    }
+
+    // Wait for the comments list to be fully loaded.
+    $I->waitForElementLoaded('#new-comment-form');
   }
 
   public function resumeCourseFromLanding() {
@@ -61,14 +92,7 @@ class AcceptanceTester extends \Codeception\Actor {
     $courseTitle = $I->grabTextFrom('h4');
 
     $I->click('//a[text()="Start" or text()="Resume"]');
-    $I->waitForText($courseTitle, 2, '.navigation');
-  }
-
-  public function findCommentWrapperXpath($commentText) {
-    $commentWrapper = '//div[@class="comment-body" and text()="' . $commentText . '"]
-      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-
-    return $commentWrapper;
+    $I->waitForText($courseTitle, 5, '.navigation');
   }
 
   /**
@@ -107,13 +131,36 @@ class AcceptanceTester extends \Codeception\Actor {
       $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
         return $el->isEnabled();
       }, 1);
+      $I->scrollTo($comment_submit);
+      $I->wait(0.2); // it doesn't work consistently without this line :(
       $I->click($comment_submit);
       $I->waitForElement('//div[@class="comment-body" and text()="' . $comment_text . '"]');
 
-      $comments[] = $comment_text;
+      $comments[] = array(
+        'text' => $comment_text,
+        'xpath' => '//div[@class="comment-body" and text()="' . $comment_text . '"]
+          //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]',
+      );
     }
 
     return $comments;
+  }
+
+  public function deleteComment($comment_text) {
+    $I = $this;
+
+    $commentWrapper = '//div[@class="comment-body" and text()="' . $comment_text . '"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
+    // Open comment operations menu.
+    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
+    // Wait for menu to be opened.
+    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
+    // Execute comment deletion.
+    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
+    // Accept deleting comment.
+    $I->acceptPopup();
+    // Wait for delete confirmation.
+    $I->waitForText('Comment has been successfully deleted.');
   }
 
   /**
@@ -124,7 +171,7 @@ class AcceptanceTester extends \Codeception\Actor {
    *  Timeout in seconds.
    * @throws Exception
    */
-  public function waitForElementLoaded($element, $timeout = 2) {
+  public function waitForElementLoaded($element, $timeout = 5) {
     $I = $this;
     try {
       $I->waitForElementVisible('.loader', 1);
@@ -136,6 +183,23 @@ class AcceptanceTester extends \Codeception\Actor {
     }
 
     $I->waitForElement($element);
+  }
+
+  public function getNotificationsCount() {
+    $I = $this;
+
+    $notifications_count = 0;
+
+    // Check notifications counter
+    try {
+      $I->seeElement('.notifications-wrapper .amount');
+      $notifications_count = $I->grabTextFrom('.notifications-wrapper .amount');
+    }
+    catch(Exception $e) {
+      $notifications_count = 0;
+    }
+
+    return $notifications_count;
   }
 
 }
