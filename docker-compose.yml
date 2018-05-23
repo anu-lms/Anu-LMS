@@ -97,9 +97,9 @@ services:
     environment:
       SOLR_HEAP: 1024m
     volumes:
-      - .platform/solr:/opt/solr/server/solr/local
+      - .platform/solr:/opt/solr/server/solr/maincore
       ## For macOS users
-      # - .platform/solr:/opt/solr/server/solr/local:cached
+      # - .platform/solr:/opt/solr/server/solr/maincore:cached
     labels:
       - 'traefik.backend=solr'
       - 'traefik.port=8983'
