@@ -25,6 +25,7 @@ build:
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
     database: 'mariadb:mysql'
+    solr: 'solrsearch:main'
 
 # The build-time dependencies of the app.
 dependencies:
