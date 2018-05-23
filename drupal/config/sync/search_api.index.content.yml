@@ -4,10 +4,17 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph_comment.field_comment_text
+    - field.storage.node.field_lesson_blocks
+    - field.storage.paragraph.field_paragraph_text
+    - field.storage.paragraph.field_paragraph_title
+    - field.storage.paragraph.field_paragraph_list
+    - field.storage.paragraph.field_quiz_options
+    - field.storage.paragraph.field_quiz_blocks
     - field.storage.notebook.field_notebook_body
     - field.storage.notebook.field_notebook_title
     - search_api.server.solr_server
   module:
+    - paragraphs
     - search_api
     - eck
     - node
@@ -61,6 +68,76 @@ field_settings:
     type: integer
     indexed_locked: true
     type_locked: true
+  field_paragraph_text:
+    label: 'Blocks » Paragraph » Text'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_paragraph_text'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_paragraph_text
+      module:
+        - paragraphs
+  field_paragraph_title:
+    label: 'Blocks » Paragraph » Caption'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_paragraph_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_paragraph_title
+      module:
+        - paragraphs
+  field_paragraph_list:
+    label: 'Blocks » Paragraph » List'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_paragraph_list'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_paragraph_list
+      module:
+        - paragraphs
+  field_quiz_options:
+    label: 'Blocks » Paragraph » Options'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_quiz_options'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_quiz_options
+      module:
+        - paragraphs
+  field_paragraph_text_1:
+    label: 'Blocks » Paragraph » Question details » Paragraph » Text'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_quiz_blocks:entity:field_paragraph_text'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_quiz_blocks
+        - field.storage.paragraph.field_paragraph_text
+      module:
+        - paragraphs
+        - paragraphs
+  field_paragraph_title_1:
+    label: 'Blocks » Paragraph » Question details » Paragraph » Caption'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:field_quiz_blocks:entity:field_paragraph_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+        - field.storage.paragraph.field_quiz_blocks
+        - field.storage.paragraph.field_paragraph_title
+      module:
+        - paragraphs
+        - paragraphs
   field_notebook_body:
     label: Body
     datasource_id: 'entity:notebook'
@@ -123,6 +200,12 @@ processor_settings:
       - fulltext
       - field_comment_text
       - title
+      - field_paragraph_text
+      - field_paragraph_title
+      - field_paragraph_list
+      - field_quiz_options
+      - field_paragraph_text_1
+      - field_paragraph_title_1
       - field_notebook_body
       - field_notebook_title
     weights:
@@ -134,9 +217,10 @@ processor_settings:
   html_filter:
     all_fields: false
     fields:
-      - field_comment_text
-      - field_notebook_body
       - fulltext
+      - field_comment_text
+      - field_paragraph_text
+      - field_notebook_body
     title: true
     alt: true
     tags:
