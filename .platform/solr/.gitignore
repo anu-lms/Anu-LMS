@@ -1,0 +1,2 @@
+# Ignore local Solr server files and directories.
+/data

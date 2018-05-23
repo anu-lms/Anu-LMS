@@ -28,6 +28,30 @@ if (isset($_ENV['PLATFORM_RELATIONSHIPS'])) {
       }
     }
   }
+
+  // @see platform.sh solr documentation: https://docs.platform.sh/frameworks/drupal8/solr.html
+  if (!empty($relationships['solr'][0])) {
+    // Edit this value to use the the machine name of the Solr server in Drupal
+    // if you are using a different server than the default one automatically
+    // created by the module Search API Solr, which is named 'default_solr_server'.
+    $solr_server_name = 'solr_server';
+
+    $solr = $relationships['solr'][0];
+
+    // Gets the name of the Solr core from the Platform.sh relationship. Uses
+    // 'collection1' if empty to conform with the default Solr service single
+    // core configuration for versions lower than 6.x.
+    $core = substr($solr['path'], 5) ? : 'collection1';
+
+    $config['search_api.server.' . $solr_server_name]['backend_config']['connector_config']['core'] = $core;
+
+    // The path is always 'solr'.
+    $config['search_api.server.' . $solr_server_name]['backend_config']['connector_config']['path'] = '/solr';
+
+    // Gets the host and port from the values returned from the relationship.
+    $config['search_api.server.' . $solr_server_name]['backend_config']['connector_config']['host'] = $solr['host'];
+    $config['search_api.server.' . $solr_server_name]['backend_config']['connector_config']['port'] = $solr['port'];
+  }
 }
 
 if (isset($_ENV['PLATFORM_APP_DIR'])) {

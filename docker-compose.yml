@@ -96,6 +96,10 @@ services:
     image: wodby/drupal-solr:8-6.6-2.4.0
     environment:
       SOLR_HEAP: 1024m
+    volumes:
+      - .platform/solr:/opt/solr/server/solr/local
+      ## For macOS users
+      # - .platform/solr:/opt/solr/server/solr/local:cached
     labels:
       - 'traefik.backend=solr'
       - 'traefik.port=8983'
