@@ -92,6 +92,15 @@ services:
       # - ./drupal/mysql/init:/docker-entrypoint-initdb.d:cached
       # - ./drupal/mysql/data:/var/lib/mysql:cached
 
+  solr:
+    image: wodby/drupal-solr:8-6.6-2.4.0
+    environment:
+      SOLR_HEAP: 1024m
+    labels:
+      - 'traefik.backend=solr'
+      - 'traefik.port=8983'
+      - 'traefik.frontend.rule=Host:solr.docker.localhost'
+
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
