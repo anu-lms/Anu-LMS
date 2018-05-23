@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import withRedux from '../../../../store/withRedux';
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import * as notificationsActions from '../../../../actions/notifications';
@@ -136,4 +135,4 @@ const mapStateToProps = ({ notifications }) => {
   };
 };
 
-export default withRedux(connect(mapStateToProps)(Notifications));
+export default connect(mapStateToProps)(Notifications);

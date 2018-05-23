@@ -28,17 +28,20 @@ export default function (PageComponent) {
     }
 
     componentDidMount() {
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState({ storageLoaded: true });
-
       const state = store.getState();
-      // If storage was already rehydrated, then skip setup store step.
-      // eslint-disable-next-line no-underscore-dangle
-      if (typeof state._persist !== 'undefined' && state._persist.rehydrated) {
-        return;
+
+      // If storage was already rehydrated, then set state appropriately.
+      if (typeof state._persist !== 'undefined') { // eslint-disable-line no-underscore-dangle
+        if (state._persist.rehydrated) { // eslint-disable-line no-underscore-dangle
+          // eslint-disable-next-line react/no-did-mount-set-state
+          this.setState({ storageLoaded: true });
+          return;
+        }
       }
 
-      persistStore(store);
+      persistStore(store, null, () => {
+        this.setState({ storageLoaded: true });
+      });
     }
 
     render() {
