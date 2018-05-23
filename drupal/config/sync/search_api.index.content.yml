@@ -30,17 +30,6 @@ field_settings:
     indexed_locked: true
     type_locked: true
     hidden: true
-  fulltext:
-    label: 'Fulltext search'
-    property_path: aggregated_field
-    type: text
-    configuration:
-      type: union
-      fields:
-        - 'entity:paragraph_comment/field_comment_text'
-        - 'entity:node/title'
-        - 'entity:notebook/field_notebook_body'
-        - 'entity:notebook/field_notebook_title'
   field_comment_text:
     label: Text
     datasource_id: 'entity:paragraph_comment'
@@ -197,7 +186,6 @@ processor_settings:
   ignorecase:
     all_fields: true
     fields:
-      - fulltext
       - field_comment_text
       - title
       - field_paragraph_text
@@ -217,7 +205,6 @@ processor_settings:
   html_filter:
     all_fields: false
     fields:
-      - fulltext
       - field_comment_text
       - field_paragraph_text
       - field_paragraph_text_1
