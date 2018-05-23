@@ -220,6 +220,7 @@ processor_settings:
       - fulltext
       - field_comment_text
       - field_paragraph_text
+      - field_paragraph_text_1
       - field_notebook_body
     title: true
     alt: true
