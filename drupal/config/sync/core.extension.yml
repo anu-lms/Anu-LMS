@@ -13,6 +13,7 @@ module:
   anu_lessons: 0
   anu_private_files: 0
   anu_quizzes: 0
+  anu_search: 0
   anu_user: 0
   block: 0
   breakpoint: 0
