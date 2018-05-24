@@ -36,7 +36,7 @@ class CommentsCest {
     // REPLY FORM.
     $I->click($this->comments[0]['xpath'] . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
     // Make sure input is in focus
-    $I->wait(0.2);
+    $I->wait(0.4);
     $I->assertTrue($I->executeJS('return document.querySelector("#reply-comment-form textarea") === document.activeElement'));
 
     // EDIT COMMENT.
