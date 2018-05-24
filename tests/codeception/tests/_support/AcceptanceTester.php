@@ -180,7 +180,7 @@ class AcceptanceTester extends \Codeception\Actor {
    * @throws Exception
    * @TODO Timeout is way too long now. Need to review performance.
    */
-  public function waitForElementLoaded($element, $timeout = 10) {
+  public function waitForElementLoaded($element, $timeout = 20) {
     $I = $this;
     $loading = false;
 
