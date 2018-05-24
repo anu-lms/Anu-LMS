@@ -70,7 +70,8 @@ class AcceptanceTester extends \Codeception\Actor {
 
     $I->amOnPage('course/test-course/lesson-1');
     // Wait for the page to be fully loaded.
-    $I->waitForElementLoaded('.comments-cta');
+    $I->waitForText('Lesson 1');
+
     try {
       // Check if comments tab is already active.
       $I->seeElement('.lesson-sidebar.active-tab-comments');
@@ -83,7 +84,9 @@ class AcceptanceTester extends \Codeception\Actor {
     }
 
     // Wait for the comments list to be fully loaded.
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->waitForText('All Comments');
+    // Wait for fadein animation to finish.
+    $I->wait(1);
   }
 
   public function resumeCourseFromLanding() {
@@ -99,13 +102,13 @@ class AcceptanceTester extends \Codeception\Actor {
    * Creates certain number of test comments.
    * @param integer $count
    *  Number of comments to create.
-   * @param [optional] $comment
+   * @param [optional] $reply_to
    *  Comment text to reply to.
    * @return array $comments
    *  array of comments.
    * @throws Exception
    */
-  public function createComments($count, $comment = null) {
+  public function createComments($count, $reply_to = null) {
     $I = $this;
 
     $comments = array();
@@ -113,8 +116,8 @@ class AcceptanceTester extends \Codeception\Actor {
     for ($i=1; $i<=$count; $i++) {
       $comment_text = uniqid('Test comment ');
 
-      if ($comment) {
-        $xpath = $this->getCommentXpath($comment_text);
+      if ($reply_to) {
+        $xpath = $this->getCommentXpath($reply_to);
         $comment_button = $xpath . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]';
         $comment_field = '#reply-comment-form textarea';
         $comment_submit = '#reply-comment-form button[type="submit"]';
@@ -133,7 +136,8 @@ class AcceptanceTester extends \Codeception\Actor {
       $I->scrollTo($comment_submit);
       $I->wait(0.2); // it doesn't work consistently without this line :(
       $I->click($comment_submit);
-      $I->waitForElement('//div[@class="comment-body" and text()="' . $comment_text . '"]');
+      $I->waitForText($comment_text);
+      $I->wait(1);
 
       $comments[] = array(
         'text' => $comment_text,
