@@ -125,16 +125,33 @@ class AcceptanceTester extends \Codeception\Actor {
         $comment_submit = '#new-comment-form button[type="submit"]';
       }
 
+      $I->amGoingTo(($reply_to ? 'Reply with' : 'Create') . " $i comment: $comment_text");
+
+      // Makes sure there is no loading process.
+      $I->waitForElementLoaded($comment_button);
+
+      if ($reply_to) {
+        // Move mouse over comment, because reply visible only on hover.
+        $I->moveMouseOver($comment_button);
+        // Make sure we can see reply button
+        $I->seeElement($comment_button);
+      }
+
+      // Click Add new comment or Reply buttons.
       $I->click($comment_button);
+      // Make sure Add new comment or Reply forms are visible.
+      $I->waitForElement($comment_field, 5);
+
       $I->fillField($comment_field, $comment_text);
       $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
         return $el->isEnabled();
-      }, 1);
+      }, 2);
       $I->scrollTo($comment_submit);
-      $I->wait(0.2); // it doesn't work consistently without this line :(
+      $I->wait(1); // it doesn't work consistently without this line :(
       $I->click($comment_submit);
       $I->waitForText($comment_text);
       $I->wait(1);
+      $I->comment("Added $i comment with text: $comment_text.");
 
       $comments[] = array(
         'text' => $comment_text,
@@ -200,7 +217,7 @@ class AcceptanceTester extends \Codeception\Actor {
     while ($I->seePageHasElement('.loader', 2) && $loading_time < $loading_timeout) {
       $I->wait($wait_for_loading);
       $loading_time += $wait_for_loading;
-      $I->comment("I've been waiting for loading for $loading_time seconds.");
+      $I->comment("I've been waiting element $element loading for $loading_time seconds.");
     }
 
     $I->waitForElement($element, $timeout);
