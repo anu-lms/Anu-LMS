@@ -68,10 +68,9 @@ class AcceptanceTester extends \Codeception\Actor {
   public function openVideoComments() {
     $I = $this;
 
-    $I->amOnPage('course/test-course/lesson-1');
+    $I->amOnPage('/course/test-course/lesson-1');
     // Wait for the page to be fully loaded.
-    $I->waitForText('Lesson 1');
-
+    $I->waitForElementLoaded('.comments-cta');
     try {
       // Check if comments tab is already active.
       $I->seeElement('.lesson-sidebar.active-tab-comments');
@@ -84,9 +83,7 @@ class AcceptanceTester extends \Codeception\Actor {
     }
 
     // Wait for the comments list to be fully loaded.
-    $I->waitForText('All Comments');
-    // Wait for fadein animation to finish.
-    $I->wait(1);
+    $I->waitForElementLoaded('#new-comment-form');
   }
 
   public function resumeCourseFromLanding() {
@@ -175,6 +172,17 @@ class AcceptanceTester extends \Codeception\Actor {
       //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
   }
 
+  public function seePageHasElement($element, $wait = 5) {
+    $I = $this;
+    try {
+      $I->waitForElementVisible($element, $wait);
+    }
+    catch (\Exception $e) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Waits for element on the page.
    * Makes sure that throbber animation doesn't cover desired element.
@@ -182,33 +190,20 @@ class AcceptanceTester extends \Codeception\Actor {
    * @param null $timeout
    *  Timeout in seconds.
    * @throws Exception
-   * @TODO Timeout is way too long now. Need to review performance.
    */
-  public function waitForElementLoaded($element, $timeout = 20) {
+  public function waitForElementLoaded($element, $timeout = 5) {
     $I = $this;
-    $loading = false;
 
-    try {
-      $I->waitForElement('.loader', 0.2);
-      $loading = true;
-    }
-    catch (Exception $e) {
-     // If there is no loader - wait for element as usual.
-      $type = ['Facebook\WebDriver\Exception\NoSuchElementException', 'Facebook\WebDriver\Exception\TimeOutException'];
-      if (in_array(get_class($e), $type)) {
-        $I->comment('Loader animation was not found. Waiting for element as usual.');
-      }
-      else {
-        $I->comment('Something went wrong while waiting for loader.');
-        throwException($e);
-      }
+    $loading_timeout = 10;
+    $loading_time = 0;
+    $wait_for_loading = 1;
+    while ($I->seePageHasElement('.loader', 2) && $loading_time < $loading_timeout) {
+      $I->wait($wait_for_loading);
+      $loading_time += $wait_for_loading;
+      $I->comment("I've been waiting for loading for $loading_time seconds.");
     }
 
-    if ($loading) {
-      $I->waitForElementNotVisible('.loader', $timeout);
-    }
-
-    $I->waitForElement($element);
+    $I->waitForElement($element, $timeout);
   }
 
   public function getNotificationsCount() {
