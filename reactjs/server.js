@@ -110,7 +110,7 @@ app.prepare()
     // outside of the domain.
     if (process.env.PLATFORM_PROJECT) {
       // eslint-disable-next-line
-      io.origins([process.env.BASE_URL + ':443']);
+      // io.origins([process.env.BASE_URL + ':443']);
     }
 
     io.on('connection', socket => {
