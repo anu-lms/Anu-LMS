@@ -161,7 +161,7 @@ class AcceptanceTester extends \Codeception\Actor {
     // Open comment operations menu.
     $I->click( $xpath . '//div[@class="context-menu"]//button');
     // Wait for menu to be opened.
-    $I->waitForElement($xpath . '//div[@role="menu"]');
+    $I->waitForElementVisible($xpath . '//div[@role="menu"]');
     // Click menu item.
     $I->click($xpath . '//div[@role="menuitem" and text()="' . $menu_item . '"]');
   }
@@ -195,6 +195,7 @@ class AcceptanceTester extends \Codeception\Actor {
         $I->comment('Loader animation was not found. Waiting for element as usual.');
       }
       else {
+        $I->comment('Something went wrong while waiting for loader.');
         throwException($e);
       }
     }
