@@ -7,7 +7,9 @@ dependencies:
     - field.storage.paragraph_comment.field_comment_text
     - search_api.index.content
   module:
+    - rest
     - search_api
+    - serialization
     - text
 id: site_search
 label: 'Site Search'
@@ -387,6 +389,54 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+      tags:
+        - 'config:field.storage.notebook.field_notebook_title'
+        - 'config:field.storage.paragraph_comment.field_comment_text'
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: Page
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: search
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+      tags:
+        - 'config:field.storage.notebook.field_notebook_title'
+        - 'config:field.storage.paragraph_comment.field_comment_text'
+  rest_export_1:
+    display_plugin: rest_export
+    id: rest_export_1
+    display_title: 'REST export'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      path: site/search
+      auth:
+        - oauth2
+      style:
+        type: serializer
+        options:
+          uses_fields: false
+          formats:
+            json: json
+      row:
+        type: data_entity
+        options: {  }
+      enabled: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
       tags:
         - 'config:field.storage.notebook.field_notebook_title'
         - 'config:field.storage.paragraph_comment.field_comment_text'
