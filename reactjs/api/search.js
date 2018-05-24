@@ -7,10 +7,9 @@ export const fetch = request => new Promise((resolve, reject) => {
     .get('/site/search')
     .query({
       _format: 'json',
-      search_api_fulltext: 'welcome',
+      'filter[fulltext][condition][fulltext]': 'search',
     })
     .then(response => {
-      console.log(response);
       resolve(response.body);
     })
     .catch(error => {

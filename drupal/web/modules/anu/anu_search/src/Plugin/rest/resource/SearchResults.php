@@ -2,9 +2,14 @@
 
 namespace Drupal\anu_search\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Drupal\search_api\ParseMode\ParseModePluginManager;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\jsonapi\Resource\EntityCollection;
+use Drupal\jsonapi\Resource\JsonApiDocumentTopLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -42,10 +47,16 @@ class SearchResults extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    Request $current_request) {
+    Request $current_request,
+    EntityTypeManagerInterface $entity_type_manager,
+    ParseModePluginManager $parse_mode_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 
     $this->currentRequest = $current_request;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->index = $entity_type_manager->getStorage('search_api_index')->load('content');
+
+    $this->parseModeManager = $parse_mode_manager;
   }
 
   /**
@@ -58,7 +69,9 @@ class SearchResults extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('anu_search'),
-      $container->get('request_stack')->getCurrentRequest()
+      $container->get('request_stack')->getCurrentRequest(),
+      $container->get('entity_type.manager'),
+      $container->get('plugin.manager.search_api.parse_mode')
     );
   }
 
@@ -68,55 +81,81 @@ class SearchResults extends ResourceBase {
    * @return \Drupal\rest\ResourceResponse
    */
   public function get() {
-    $response = [];
-    try {
-      $query = \Drupal::entityQuery('message')
-        ->condition('field_message_recipient', \Drupal::currentUser()->id())
-        ->sort('created' , 'DESC');
+    $fulltext = NULL;
 
-      // Filter by isRead get param if exists.
-      $is_read = $this->currentRequest->query->get('isRead');
-      if ($is_read != null) {
-        // We load all unread notifications.
-        $query->condition('field_message_is_read', (bool) $is_read);
-
-        if ($is_read) {
-          // Load limited amount of notifications at once.
-          $query->range(0, 8);
-
-          // Fetch only notifications older then requested early.
-          // Use '<=' to fetch notifications with same timestamp also, duplicates will be ignored on frontend.
-          $lastFetchedTimestamp = $this->currentRequest->query->get('lastFetchedTimestamp');
-          if ($lastFetchedTimestamp != null) {
-            $query->condition('created', (int) $lastFetchedTimestamp, '<=');
-          }
-        }
+    $filters = $this->currentRequest->query->get('filter');
+    if ($filters != NULL) {
+      if (isset($filters['fulltext'])) {
+        $fulltext = $filters['fulltext']['condition']['fulltext'];
       }
+    }
+    $page = 0;
 
-      $entity_ids = $query->execute();
-      $messages = \Drupal::entityTypeManager()
-        ->getStorage('message')
-        ->loadMultiple($entity_ids);
+    /* @var $query \Drupal\search_api\Query\QueryInterface */
+    $query = $this->index->query();
+    $parse_mode = $this->parseModeManager->createInstance('terms');
+    $parse_mode->setConjunction('AND');
+    $query->setParseMode($parse_mode);
 
-      foreach ($messages as $message) {
-        if ($message->access('view')) {
-
-          /* @var $messageService \Drupal\anu_events\Message */
-          $messageService = \Drupal::service('anu_events.message');
-          $message_item = $messageService->normalize($message);
-          if (!empty($message_item)) {
-            $response[] = $message_item;
-          }
-        }
-      }
-    } catch(\Exception $e) {
-      $message = new FormattableMarkup('Could not load notifications for the user. Error: @error', [
-        '@error' => $e->getMessage()
-      ]);
-      $this->logger->critical($message);
-      return new ResourceResponse(['message' => $message], 406);
+    if (!empty($fulltext)) {
+      $query->keys([$fulltext]);
     }
 
-    return new ResourceResponse(array_values($response));
+    $query->setFulltextFields([
+      'field_comment_text', 'title', 'field_paragraph_text',
+      'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
+      'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
+      'field_notebook_title'
+    ]);
+
+    $conditions = $query->createConditionGroup();
+    if (!empty($conditions->getConditions())) {
+
+//      $conditions
+//        ->addCondition('search_api_datasource', 'entity:node', '<>')
+//        ->addCondition('created', 7 * 24 * 3600, '>=');
+
+      $query->addConditionGroup($conditions);
+    }
+
+    $query->sort('search_api_relevance', 'DESC');
+
+
+//    $location_options = (array) $query->getOption('search_api_location', []);
+//    $location_options[] = [
+//      'field' => 'latlon',
+//      'lat' => $latitude,
+//      'lon' => $longitude,
+//      'radius' => '8.04672',
+//    ];
+//    $query->setOption('search_api_location', $location_options);
+
+
+    $query->range(($page * 20), 20);
+
+    /** @var \Drupal\search_api\Query\ResultSetInterface $result_set */
+    $result_set = $query->execute();
+
+    $entities = [];
+    /** @var \Drupal\search_api\Item\ItemInterface $item */
+    foreach ($result_set->getResultItems() as $item) {
+      $entity = $item->getOriginalObject()->getValue();
+      //$normalizad_entity = \Drupal::service('serializer')->normalize($entity, 'json');
+      //$entities[] = $entity;
+      $entities[] = $item->getExcerpt();
+    }
+
+    return new ResourceResponse(array_values($entities), 200);
+
+//    $entity_collection = new EntityCollection($entities);
+//    $response = new ResourceResponse(new JsonApiDocumentTopLevel($entity_collection), 200, []);
+//    $cacheable_metadata = new CacheableMetadata();
+//    $cacheable_metadata->setCacheContexts([
+//      'url.query_args',
+//      'url.query_args:filter',
+//    ]);
+//    $response->addCacheableDependency($cacheable_metadata);
+//    return $response;
   }
+
 }
