@@ -108,7 +108,10 @@ class AcceptanceTester extends \Codeception\Actor {
   public function createComments($count, $reply_to = null) {
     $I = $this;
 
-    $comments = array();
+    $comments = [];
+
+    // Makes sure there is no active loading process.
+    $I->waitForElementLoaded('.add-new-comment');
 
     for ($i=1; $i<=$count; $i++) {
       $comment_text = uniqid('Test comment ');
@@ -125,33 +128,53 @@ class AcceptanceTester extends \Codeception\Actor {
         $comment_submit = '#new-comment-form button[type="submit"]';
       }
 
-      $I->amGoingTo(($reply_to ? 'Reply with' : 'Create') . " $i comment: $comment_text");
-
-      // Makes sure there is no loading process.
-      $I->waitForElementLoaded($comment_button);
+      $I->amGoingTo(($reply_to ? 'Reply with' : 'Create') . " comment #$i: $comment_text");
 
       if ($reply_to) {
+        // Scroll to the Replied comment to click reply button.
+        $I->scrollTo($xpath);
+        $I->wait(1);
+
         // Move mouse over comment, because reply visible only on hover.
-        $I->moveMouseOver($comment_button);
+        $I->moveMouseOver($xpath);
         // Make sure we can see reply button
         $I->seeElement($comment_button);
       }
 
-      // Click Add new comment or Reply buttons.
+      // Click Add new comment or Reply button.
       $I->click($comment_button);
+
       // Make sure Add new comment or Reply forms are visible.
       $I->waitForElement($comment_field, 5);
 
+      // Scroll to the New comment or Reply textarea field.
+      $I->scrollTo($comment_field);
+      $I->wait(1);
+
       $I->fillField($comment_field, $comment_text);
+      // Make sure Submit button is clickable.
       $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
         return $el->isEnabled();
       }, 2);
-      $I->scrollTo($comment_submit);
-      $I->wait(1); // it doesn't work consistently without this line :(
+
       $I->click($comment_submit);
-      $I->waitForText($comment_text);
-      $I->wait(1);
-      $I->comment("Added $i comment with text: $comment_text.");
+
+      // Wait while comment is saving.
+      if ($reply_to) {
+        // Wait until reply form disappear.
+        $I->waitForElementNotVisible($comment_field, 5);
+      }
+      else {
+        // Wait until submit button showing loading progress (disabled);
+        $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
+          return !$el->isEnabled();
+        }, 5);
+      }
+
+      // Make sure comment has been added to the list.
+      $I->waitForText($comment_text, 5);
+
+      $I->comment("Added comment #$i with text: $comment_text.");
 
       $comments[] = array(
         'text' => $comment_text,
