@@ -114,9 +114,8 @@ class AcceptanceTester extends \Codeception\Actor {
       $comment_text = uniqid('Test comment ');
 
       if ($comment) {
-        $commentWrapper = '//div[@class="comment-body" and text()="' . $comment . '"]
-          //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-        $comment_button = $commentWrapper . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]';
+        $xpath = $this->getCommentXpath($comment_text);
+        $comment_button = $xpath . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]';
         $comment_field = '#reply-comment-form textarea';
         $comment_submit = '#reply-comment-form button[type="submit"]';
       }
@@ -138,8 +137,7 @@ class AcceptanceTester extends \Codeception\Actor {
 
       $comments[] = array(
         'text' => $comment_text,
-        'xpath' => '//div[@class="comment-body" and text()="' . $comment_text . '"]
-          //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]',
+        'xpath' => $this->getCommentXpath($comment_text)
       );
     }
 
@@ -149,18 +147,28 @@ class AcceptanceTester extends \Codeception\Actor {
   public function deleteComment($comment_text) {
     $I = $this;
 
-    $commentWrapper = '//div[@class="comment-body" and text()="' . $comment_text . '"]
-      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-    // Open comment operations menu.
-    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-    // Wait for menu to be opened.
-    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-    // Execute comment deletion.
-    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
+    $I->clickCommentMenuItem($comment_text, 'Delete Comment');
     // Accept deleting comment.
     $I->acceptPopup();
     // Wait for delete confirmation.
     $I->waitForText('Comment has been successfully deleted.');
+  }
+
+  public function clickCommentMenuItem($comment_text, $menu_item) {
+    $I = $this;
+
+    $xpath = $this->getCommentXpath($comment_text);
+    // Open comment operations menu.
+    $I->click( $xpath . '//div[@class="context-menu"]//button');
+    // Wait for menu to be opened.
+    $I->waitForElement($xpath . '//div[@role="menu"]');
+    // Click menu item.
+    $I->click($xpath . '//div[@role="menuitem" and text()="' . $menu_item . '"]');
+  }
+
+  private function getCommentXpath($comment_text) {
+    return '//div[@class="comment-body" and text()="' . $comment_text . '"]
+      //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
   }
 
   /**
@@ -170,16 +178,29 @@ class AcceptanceTester extends \Codeception\Actor {
    * @param null $timeout
    *  Timeout in seconds.
    * @throws Exception
+   * @TODO Timeout is way too long now. Need to review performance.
    */
-  public function waitForElementLoaded($element, $timeout = 5) {
+  public function waitForElementLoaded($element, $timeout = 10) {
     $I = $this;
+    $loading = false;
+
     try {
-      $I->waitForElementVisible('.loader', 1);
-      $I->waitForElementNotVisible('.loader', $timeout);
+      $I->waitForElement('.loader', 0.2);
+      $loading = true;
     }
-    catch (Facebook\WebDriver\Exception\NoSuchElementException $e) {
+    catch (Exception $e) {
      // If there is no loader - wait for element as usual.
-      $I->comment('Loader animation was not found. Waiting for element as usual.');
+      $type = ['Facebook\WebDriver\Exception\NoSuchElementException', 'Facebook\WebDriver\Exception\TimeOutException'];
+      if (in_array(get_class($e), $type)) {
+        $I->comment('Loader animation was not found. Waiting for element as usual.');
+      }
+      else {
+        throwException($e);
+      }
+    }
+
+    if ($loading) {
+      $I->waitForElementNotVisible('.loader', $timeout);
     }
 
     $I->waitForElement($element);

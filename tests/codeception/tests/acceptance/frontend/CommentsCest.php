@@ -18,7 +18,7 @@ class CommentsCest {
     // Switch to notes tab.
     $I->click('.lesson-sidebar-container .tab.notes');
     // Wait for notes to be fully loaded.
-    $I->waitForElement('.notes-list-column.visible');
+    $I->waitForElementLoaded('.notes-list-column.visible');
     // Switch back to comments.
     $I->click('.lesson-sidebar-container .tab.comments');
     // Wait for comments to be fully loaded.
@@ -36,16 +36,11 @@ class CommentsCest {
     // REPLY FORM.
     $I->click($this->comments[0]['xpath'] . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
     // Make sure input is in focus
-    $I->wait(1);
+    $I->wait(0.2);
     $I->assertTrue($I->executeJS('return document.querySelector("#reply-comment-form textarea") === document.activeElement'));
 
     // EDIT COMMENT.
-    // Open comment operations menu.
-    $I->click( $this->comments[0]['xpath'] . '//div[@class="context-menu"]//button');
-    // Wait for menu to be opened.
-    $I->waitForElement($this->comments[0]['xpath'] . '//div[@role="menu"]');
-    // Open comment editing form.
-    $I->click($this->comments[0]['xpath'] . '//div[@role="menuitem" and text()="Edit Comment"]');
+    $I->clickCommentMenuItem($this->comments[0]['text'],'Edit Comment');
     // Edit comment.
     $I->pressKey('#edit-comment-form textarea', ' (edited)');
     // Save comment.
@@ -133,9 +128,7 @@ class CommentsCest {
     $this->comments = $I->createComments(7);
 
     // Copy last comment link.
-    $I->click( $this->comments[6]['xpath'] . '//div[@class="context-menu"]//button');
-    $I->waitForElement($this->comments[6]['xpath'] . '//div[@role="menu"]');
-    $I->click($this->comments[6]['xpath'] . '//div[@role="menuitem" and text()="Copy link to comment"]');
+    $I->clickCommentMenuItem($this->comments[6]['text'], 'Copy link to comment');
     $I->waitForText('Link successfully copied.');
 
     // @TODO: Is there a better way to get data from the clipboard?
@@ -147,7 +140,7 @@ class CommentsCest {
     $I->amOnPage($url);
 
     // Make sure comment is highlighted.
-    $I->waitForElement('.comments-list .comment.highlighted');
+    $I->waitForElementLoaded('.comments-list .comment.highlighted');
   }
 
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
