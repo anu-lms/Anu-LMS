@@ -84,6 +84,7 @@ class AcceptanceTester extends \Codeception\Actor {
 
     // Wait for the comments list to be fully loaded.
     $I->waitForElementLoaded('#new-comment-form');
+    $I->wait(1); // This sucker doesn't work without this line!!!
   }
 
   public function resumeCourseFromLanding() {
