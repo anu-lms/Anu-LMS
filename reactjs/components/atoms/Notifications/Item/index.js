@@ -24,6 +24,7 @@ const NotificationItem = ({
     </div>
 
     <div className="title">
+      {/* @todo: We should cosider to use link if it leads to other page */}
       <span
         onClick={onTitleClick}
         onKeyPress={onTitleClick}
