@@ -138,6 +138,8 @@ class AcceptanceTester extends \Codeception\Actor {
 
         // Move mouse over comment, because reply visible only on hover.
         $I->moveMouseOver($xpath);
+        // Wait for fadein animation to finish.
+        $I->wait(0.2);
         // Make sure we can see reply button
         $I->seeElement($comment_button);
       }
