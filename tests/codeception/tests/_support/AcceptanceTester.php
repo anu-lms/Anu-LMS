@@ -183,6 +183,9 @@ class AcceptanceTester extends \Codeception\Actor {
       );
     }
 
+    // Wait for last fadein animation to finish.
+    $I->wait(0.5);
+
     return $comments;
   }
 
