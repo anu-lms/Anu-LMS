@@ -7,7 +7,7 @@ modules:
     config:
       WebDriver:
         port: 4444
-        wait: 0.1
+        wait: 0.5
         browser: chrome
         restart: true
         window_size: 1280x960

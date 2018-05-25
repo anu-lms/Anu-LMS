@@ -9,51 +9,55 @@ namespace frontend;
  */
 class CommentsCest {
 
-  public function LessonComments(\Step\Acceptance\Learner $I) {
-    $I->loginAsLearner();
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElement('.lesson-comments-scrollable');
-    $I->click('.lesson-sidebar-container .tab.notes');
-    $I->waitForElement('.notes-list-column.visible');
-    $I->click('.lesson-sidebar-container .tab.comments');
-    $I->waitForElement('.lesson-comments-scrollable');
-  }
+  private $comments;
 
   public function LessonCommentOperations(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->openVideoComments();
 
-    // Create comment.
+    // Switch to notes tab.
+    $I->click('.lesson-sidebar-container .tab.notes');
+    // Wait for notes to be fully loaded.
+    $I->waitForElementLoaded('.notes-list-column.visible');
+    // Switch back to comments.
+    $I->click('.lesson-sidebar-container .tab.comments');
+    // Wait for comments to be fully loaded.
+    $I->waitForElementLoaded('.lesson-comments-scrollable');
+
+    // CREATE A COMMENT.
+    // Open comment creation form.
     $I->click('.add-new-comment');
-    $I->fillField('#new-comment-form textarea', 'Test comment');
+    // Make sure input is in focus.
     $I->wait(1);
-    // Approach below does not always work, so have to wait 1 sec :(
-    // $I->waitForElement('//div[@id="new-comment-form"]/button[@type="submit" and not(@disabled)]');
-    $I->click('#new-comment-form button[type="submit"]');
-    $I->waitForElement('//div[@class="comment-body" and text()="Test comment"]');
+    $I->assertTrue($I->executeJS('return document.querySelector("#new-comment-form textarea") === document.activeElement'));
+    // Create a comment.
+    $this->comments = $I->createComments(1);
 
+    // REPLY FORM.
+    $I->click($this->comments[0]['xpath'] . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
+    // Make sure input is in focus
+    $I->wait(0.4);
+    $I->assertTrue($I->executeJS('return document.querySelector("#reply-comment-form textarea") === document.activeElement'));
+
+    // EDIT COMMENT.
+    $I->clickCommentMenuItem($this->comments[0]['text'],'Edit Comment');
     // Edit comment.
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Edit Comment"]');
     $I->pressKey('#edit-comment-form textarea', ' (edited)');
+    // Save comment.
     $I->click('#edit-comment-form button[type="submit"]');
-    $I->waitForElement('//div[contains(concat(" ", normalize-space(@class), " "), " comment ")]//div[@class="comment-body" and text()="Test comment (edited)"]');
+    // Update comment element.
+    $this->comments[0] = array(
+      'text' => $this->comments[0]['text'] . ' (edited)',
+      'xpath' => '//div[@class="comment-body" and text()="' . $this->comments[0]['text'] . ' (edited)"]
+        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]'
+    );
+    // Wait for comment to be updated.
+    $I->waitForElement($this->comments[0]['xpath']);
 
-    // Delete comment.
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment (edited)"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
-    $I->acceptPopup();
-    $I->waitForText('Comment has been successfully deleted.');
-    $I->dontSeeElement($commentWrapper);
+    // DELETE COMMENT.
+    $I->deleteComment($this->comments[0]['text']);
+    // Check that comment is not in the list any more.
+    $I->dontSeeElement($this->comments[0]['xpath']);
   }
 
   public function LessonCommentPermissions(\Step\Acceptance\Learner $I) {
@@ -63,103 +67,54 @@ class CommentsCest {
     $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->loginAsTeacher();
-      $I->amOnPage('course/test-course/lesson-1');
-      $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-      $I->waitForElementLoaded('#new-comment-form');
-      // Create comment.
-      $I->click('.add-new-comment');
-      $I->fillField('#new-comment-form textarea', 'Test comment by Teacher');
-      $I->wait(1);
-      $I->click('#new-comment-form button[type="submit"]');
-      $I->waitForElement('//div[@class="comment-body" and text()="Test comment by Teacher"]');
+      $I->openVideoComments();
+      // Create a comment.
+      $this->comments = $I->createComments(1);
     });
 
-    $teachersCommentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElement($teachersCommentWrapper);
-    $I->click( $teachersCommentWrapper . '//div[@class="context-menu"]//button');
-    $I->waitForElement($teachersCommentWrapper . '//div[@role="menu"]');
-    $I->dontSeeElement($teachersCommentWrapper . '//div[@role="menuitem" and text()="Edit Comment"]');
-    $I->dontSeeElement($teachersCommentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
+    // Check comment created by teacher.
+    $I->openVideoComments();
+    // Open comment operations menu.
+    $I->click( $this->comments[0]['xpath'] . '//div[@class="context-menu"]//button');
+    // Wait for menu to be opened.
+    $I->waitForElement($this->comments[0]['xpath'] . '//div[@role="menu"]');
+    // Check that edit and delete operations are not available.
+    $I->dontSeeElement($this->comments[0]['xpath'] . '//div[@role="menuitem" and text()="Edit Comment"]');
+    $I->dontSeeElement($this->comments[0]['xpath'] . '//div[@role="menuitem" and text()="Delete Comment"]');
 
     // Teacher deletes a comment.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
-      $I->amOnPage('course/test-course/lesson-1');
-      //$I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-      $I->waitForElementLoaded('#new-comment-form');
-      // Delete comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-      $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-      $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-      $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
-      $I->acceptPopup();
-      $I->waitForText('Comment has been successfully deleted.');
+      $I->openVideoComments();
+      $I->deleteComment($this->comments[0]['text']);
     });
   }
 
   public function LessonCommentsThread(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->openVideoComments();
 
-    // Create comment.
-    $I->click('.add-new-comment');
-    // Make sure input is in focus
-    $I->wait(1);
-    $I->assertTrue($I->executeJS('return document.getElementById("new-comment-form").getElementsByTagName("textarea")[0] === document.activeElement'));
-    $I->fillField('#new-comment-form textarea', 'Test comment');
-    $I->wait(1);
-    $I->click('#new-comment-form button[type="submit"]');
-    $I->waitForElement('//div[@class="comment-body" and text()="Test comment"]');
+    // Create a comment.
+    $this->comments = $I->createComments(1);
 
-    // Teacher replies to a comment.
+    // Teacher replies to the comment.
     $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->loginAsTeacher();
-      $I->amOnPage('course/test-course/lesson-1');
-      $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-      $I->waitForElementLoaded('#new-comment-form');
-      // Reply to a comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-      $I->click($commentWrapper . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
-      // Make sure input is in focus
-      $I->wait(1);
-      $I->assertTrue($I->executeJS('return document.getElementById("reply-comment-form").getElementsByTagName("textarea")[0] === document.activeElement'));
-      $I->fillField('#reply-comment-form textarea', 'Test reply by Teacher');
-      $I->wait(1);
-      $I->click('#reply-comment-form button[type="submit"]');
-      $I->waitForElement('//div[@class="comment-body" and text()="Test reply by Teacher"]');
+      $I->openVideoComments();
+      // Reply to the comment.
+      $this->comments = array_merge($this->comments, $I->createComments(1, $this->comments[0]['text']));
     });
 
-    // Delete threaded comment
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded($commentWrapper);
-    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
-    $I->acceptPopup();
-    $I->waitForText('Comment has been successfully deleted.');
+    // Delete threaded comment.
+    $I->openVideoComments();
+    $I->deleteComment($this->comments[0]['text']);
+    // Make sure thread is not deleted.
     $I->waitForElement('.comments-list .comment.deleted');
 
-    // Delete last comment in a thread
+    // Delete last comment in a thread.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
-      $I->amOnPage('course/test-course/lesson-1');
-      // Delete comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test reply by Teacher"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-      $I->waitForElementLoaded($commentWrapper);
-      $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-      $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-      $I->click($commentWrapper . '//div[@role="menuitem" and text()="Delete Comment"]');
-      $I->acceptPopup();
-      $I->waitForText('Comment has been successfully deleted.');
+      $I->openVideoComments();
+      $I->deleteComment($this->comments[1]['text']);
       // @TODO: uncomment this once issue #157352838 is resolved.
       //$I->dontSeeElement('.comments-list .comment.deleted');
     });
@@ -167,50 +122,40 @@ class CommentsCest {
 
   public function LessonCommentlink(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->openVideoComments();
 
-    $I->createComments(7);
+    // Create comments.
+    $this->comments = $I->createComments(7);
 
-    $commentWrapper = '//div[@class="comment-body" and text()="Test comment 7"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-    $I->click( $commentWrapper . '//div[@class="context-menu"]//button');
-    $I->waitForElement($commentWrapper . '//div[@role="menu"]');
-    $I->click($commentWrapper . '//div[@role="menuitem" and text()="Copy link to comment"]');
+    // Copy last comment link.
+    $I->clickCommentMenuItem($this->comments[6]['text'], 'Copy link to comment');
     $I->waitForText('Link successfully copied.');
 
-    // Is there a better way to get data from the clipboard?
+    // @TODO: Is there a better way to get data from the clipboard?
     $I->pressKey('#new-comment-form textarea', array('ctrl', 'v'));
     $url = $I->grabValueFrom('#new-comment-form textarea');
 
-    // Go to comment link
+    // Go to the comment link.
     $url = parse_url($url, PHP_URL_PATH) . '?' . parse_url($url, PHP_URL_QUERY);
     $I->amOnPage($url);
-    $I->waitForElement('.comments-list .comment.highlighted');
+
+    // Make sure comment is highlighted.
+    $I->waitForElementLoaded('.comments-list .comment.highlighted');
   }
 
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
-    $I->amOnPage('course/test-course/lesson-1');
-    $I->waitForElementLoaded('.comments-cta');
-    $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->openVideoComments();
 
-    $I->createComments(1);
+    $this->comments = $I->createComments(1);
 
     // User from other organization.
     $learner2 = $I->haveFriend('learner2', 'Step\Acceptance\Learner');
     $learner2->does(function(\Step\Acceptance\Learner $I) {
       $I->loginAsLearner2();
-      $I->amOnPage('course/test-course/lesson-1');
-      $I->waitForElementLoaded('.comments-cta');
-      $I->click('//div[@class="lesson-content"]/div[contains(concat(" ", normalize-space(@class), " "), " video ")]//span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
-      $I->waitForElementLoaded('#new-comment-form');
-
-      // Create comment.
-      $commentWrapper = '//div[@class="comment-body" and text()="Test comment 1"]//ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
-      $I->dontSeeElement($commentWrapper);
+      $I->openVideoComments();
+      // Make sure comment is not visible for another organization.
+      $I->dontSeeElement($this->comments[0]['xpath']);
     });
   }
 
