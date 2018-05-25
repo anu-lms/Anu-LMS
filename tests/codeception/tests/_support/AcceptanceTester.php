@@ -231,17 +231,21 @@ class AcceptanceTester extends \Codeception\Actor {
    *  Timeout in seconds.
    * @throws Exception
    */
-  public function waitForElementLoaded($element, $timeout = 5) {
+  public function waitForElementLoaded($element, $timeout = 10) {
     $I = $this;
 
-    $loading_timeout = 10;
+    //$loading_timeout = 10;
     $loading_time = 0;
-    $wait_for_loading = 1;
-    while ($I->seePageHasElement('.loader', 2) && $loading_time < $loading_timeout) {
+    $wait_for_loading = 0.2;
+    while ($I->seePageHasElement('.loader', $wait_for_loading) && $loading_time < $timeout) {
       $I->wait($wait_for_loading);
       $loading_time += $wait_for_loading;
-      $I->comment("I've been waiting element $element loading for $loading_time seconds.");
     }
+
+    // If there was no .loader we waited $wait_for_loading sec anyway.
+    $loading_time = max($loading_time, $wait_for_loading);
+
+    $I->comment("I've been waiting element $element loading for $loading_time seconds.");
 
     $I->waitForElement($element, $timeout);
   }
