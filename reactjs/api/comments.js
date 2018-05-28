@@ -25,7 +25,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
       },
     })
     .then(response => {
-      const comments = dataProcessors.processCommentsList([response.body.data]);
+      const comments = dataProcessors.processComment(response.body.data);
       resolve(comments[0]);
     })
     .catch(error => {
@@ -62,7 +62,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
       },
     })
     .then(response => {
-      const comments = dataProcessors.processCommentsList([response.body.data]);
+      const comments = dataProcessors.processComment(response.body.data);
       resolve(comments[0]);
     })
     .catch(error => {

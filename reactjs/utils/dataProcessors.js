@@ -210,32 +210,52 @@ export const userData = userDataObject => {
 };
 
 /**
- * Internal helper to normalize User data from the backend.
+ * Internal helper to normalize Comment data from the backend.
  */
-export const processCommentsList = commentsList => (
-  commentsList.map(rawComment => ({
+export const processComment = rawComment => {
+  const comment = {
     id: rawComment.id,
     uuid: rawComment.uuid,
     created: rawComment.created,
     changed: rawComment.changed,
     text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
-    author: {
+    parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
+    paragraphId: rawComment.fieldCommentParagraph,
+    deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
+  };
+
+  if (rawComment.uid && rawComment.uid.uid) {
+    comment.author = {
       uid: rawComment.uid.uid,
       name: rawComment.uid.name,
       firstName: rawComment.uid.fieldFirstName || '',
       lastName: rawComment.uid.fieldLastName || '',
-    },
-    parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
-    deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
-  }))
-);
+    };
+  }
+
+  if (rawComment.lesson) {
+    comment.lesson = lessonData(rawComment.lesson);
+
+    comment.url = `${comment.lesson.url}?comment=${comment.paragraphId}-${comment.id}`;
+  }
+
+  return comment;
+};
 
 /**
- * Internal helper to normalize User data from the backend.
+ * Internal helper to normalize Notification data from the backend.
  */
 export const processNotifications = Notifications => (
-  Notifications.map(rawNotification => ({
-    ...rawNotification,
-    triggerer: userData(rawNotification.triggerer),
-  }))
+  Notifications.map(rawNotification => {
+    const notification = {
+      ...rawNotification,
+      triggerer: userData(rawNotification.triggerer),
+    };
+
+    if (rawNotification.comment) {
+      notification.comment = processComment(rawNotification.comment);
+    }
+
+    return notification;
+  })
 );

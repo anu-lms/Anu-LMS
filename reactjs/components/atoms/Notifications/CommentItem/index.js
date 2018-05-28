@@ -46,7 +46,7 @@ class NotificationCommentItem extends React.Component {
 
   render() {
     const { triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
-    const { lessonTitle, text } = comment;
+    const { lesson, text } = comment;
     const triggererName = userHelper.getUsername(triggerer);
     let titleCopy = 'replied to your comment in';
     if (bundle === 'add_comment_to_thread') {
@@ -57,7 +57,7 @@ class NotificationCommentItem extends React.Component {
       <NotificationItem
         Icon={NotificationCommentItemIcon}
         date={created}
-        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lessonTitle}</strong>`}
+        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lesson.title}</strong>`}
         text={text}
         className={`comment comment-${bundle}`}
         isRead={isRead}
@@ -81,7 +81,7 @@ NotificationCommentItem.propTypes = {
       text: PropTypes.string,
       url: PropTypes.string,
       paragraphId: PropTypes.number,
-      lessonTitle: PropTypes.string,
+      lesson: PropTypes.object,
     }),
   }).isRequired,
   closePopup: PropTypes.func,
