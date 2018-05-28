@@ -22,7 +22,7 @@ abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInte
   /**
    *
    */
-  public static function normalizeEntity($entity, $include_fields) {
+  public static function normalizeEntity($entity, $include_fields = []) {
     $anu_normalizer_plugins = \Drupal::service('plugin.manager.anu_normalizer')->getDefinitions();
     foreach ($anu_normalizer_plugins as $anu_normalizer_plugin) {
       $anu_normalizer = \Drupal::service('plugin.manager.anu_normalizer')->createInstance($anu_normalizer_plugin['id']);
@@ -32,6 +32,7 @@ abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInte
         return $anu_normalizer->normalize($entity, $include_fields);
       }
     }
+
     return $entity;
   }
 
