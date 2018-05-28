@@ -3,7 +3,7 @@
 namespace Drupal\anu_events;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Utility\UrlHelper;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 
 class Message {
 
@@ -34,7 +34,7 @@ class Message {
       // Prepares Comment part if Comment field exists.
       if ($message->hasField('field_message_comment')) {
         $comment = $message->field_message_comment->first()->get('entity')->getValue();
-        $response_item['comment'] = $this->normalizeComment($comment);
+        $response_item['comment'] = AnuNormalizerBase::normalizeEntity($comment, ['url', 'lesson_title']);
       }
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not normalize message entity. Error: @error', [
@@ -44,32 +44,6 @@ class Message {
     }
 
     return $response_item;
-  }
-
-  /**
-   * Returns a comment object prepared to pass to frontend from given Message entity.
-   */
-  protected function normalizeComment($comment) {
-    $paragraph_id = (int) $comment->field_comment_paragraph->getString();
-    $lesson = \Drupal::service('anu_lessons.lesson')->loadByParagraphId($paragraph_id);
-    $text = $comment->field_comment_text->getValue();
-
-    // Generates Comment's url.
-    // @todo: Backend shouldn't define url structure for the frontend.
-    $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
-    $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
-    $commentUrl = '';
-    if (!empty($lesson_url) && !empty($course_url)) {
-      $commentUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $comment->id()]);
-    }
-
-    return [
-      'id' => $comment->id(),
-      'text' => !empty($text[0]['value']) ? $text[0]['value'] : '',
-      'paragraphId' => $paragraph_id,
-      'lessonTitle' => !empty($lesson) ? $lesson->label() : '',
-      'commentUrl' => $commentUrl,
-    ];
   }
 
   /**
