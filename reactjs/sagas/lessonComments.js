@@ -46,7 +46,7 @@ function* fetchComments() {
       .query(commentsQuery);
 
     // Normalize Comments.
-    const comments = dataProcessors.processCommentsList(responseComments.body.data);
+    const comments = responseComments.body.data.map(rawComment => processComment(rawComment));
 
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));

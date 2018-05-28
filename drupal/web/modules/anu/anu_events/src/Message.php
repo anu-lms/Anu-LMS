@@ -34,7 +34,7 @@ class Message {
       // Prepares Comment part if Comment field exists.
       if ($message->hasField('field_message_comment')) {
         $comment = $message->field_message_comment->first()->get('entity')->getValue();
-        $response_item['comment'] = AnuNormalizerBase::normalizeEntity($comment, ['url', 'lesson_title']);
+        $response_item['comment'] = AnuNormalizerBase::normalizeEntity($comment, ['lesson']);
       }
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not normalize message entity. Error: @error', [
