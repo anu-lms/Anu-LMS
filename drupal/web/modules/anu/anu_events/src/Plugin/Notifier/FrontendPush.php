@@ -30,7 +30,19 @@ class FrontendPush extends MessageNotifierBase {
 
     // Send notification message to websocket.
     try {
-      $client = new Client(new Version2X($websocket));
+
+      $httpContext = [
+        'header' => [
+          'Origin: ' . $websocket,
+        ],
+      ];
+
+      $client = new Client(new Version2X($websocket, [
+        'context' => [
+          'http' => $httpContext,
+        ],
+      ]));
+
       $client->initialize();
       $client->emit('notification', \Drupal::service('serializer')
         ->normalize($message, 'json'));
@@ -39,7 +51,8 @@ class FrontendPush extends MessageNotifierBase {
 
       \Drupal::logger('anu_events')
         ->critical('Could not write notification to socket. Error: @error', [
-          '@error' => $exception->getMessage()]
+            '@error' => $exception->getMessage(),
+          ]
         );
     }
 
