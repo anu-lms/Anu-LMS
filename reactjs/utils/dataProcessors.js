@@ -157,6 +157,7 @@ export const lessonData = lessonDataObject => {
   return {
     id: lessonDataObject.nid,
     uuid: lessonDataObject.uuid,
+    // eslint-disable-next-line max-len
     url: lessonHelper.getUrl(lessonDataObject.fieldLessonCourse.path.alias, lessonDataObject.path.alias),
     title: lessonDataObject.title,
     isAssessment: lessonDataObject.fieldIsAssessment ? lessonDataObject.fieldIsAssessment : false,
