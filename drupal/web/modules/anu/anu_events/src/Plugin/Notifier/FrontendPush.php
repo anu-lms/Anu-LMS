@@ -37,11 +37,11 @@ class FrontendPush extends MessageNotifierBase {
         ],
       ];
 
-      $client = new Client(new Version2X($websocket), [
+      $client = new Client(new Version2X($websocket, [
         'context' => [
           'http' => $httpContext,
         ],
-      ]);
+      ]));
 
       $client->initialize();
       $client->emit('notification', \Drupal::service('serializer')
