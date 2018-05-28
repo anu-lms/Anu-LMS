@@ -29,8 +29,8 @@ class NotificationCommentItem extends React.Component {
 
   onTitleClick() {
     const { notificationItem, closePopup } = this.props;
-    if (notificationItem.comment.commentUrl) {
-      Router.replaceRoute(notificationItem.comment.commentUrl);
+    if (notificationItem.comment.url) {
+      Router.replaceRoute(notificationItem.comment.url);
       closePopup();
     }
   }
@@ -79,7 +79,7 @@ NotificationCommentItem.propTypes = {
     comment: PropTypes.shape({
       id: PropTypes.string,
       text: PropTypes.string,
-      commentUrl: PropTypes.string,
+      url: PropTypes.string,
       paragraphId: PropTypes.number,
       lessonTitle: PropTypes.string,
     }),

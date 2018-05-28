@@ -1,0 +1,4 @@
+services:
+  plugin.manager.anu_normalizer:
+    class: Drupal\anu_normalizer\AnuNormalizerPluginManager
+    parent: default_plugin_manager

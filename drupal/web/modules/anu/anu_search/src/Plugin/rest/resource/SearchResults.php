@@ -76,7 +76,7 @@ class SearchResults extends ResourceBase {
   }
 
   /**
-   * Return list of notifications for the current user.
+   * Return search results by given query params.
    *
    * @return \Drupal\rest\ResourceResponse
    */
@@ -142,7 +142,28 @@ class SearchResults extends ResourceBase {
       $entity = $item->getOriginalObject()->getValue();
       //$normalizad_entity = \Drupal::service('serializer')->normalize($entity, 'json');
       //$entities[] = $entity;
-      $entities[] = $item->getExcerpt();
+      $entities[] = [
+        'entity',
+        'excerpt' => $item->getExcerpt()
+      ];
+
+      $comment = [
+        'entity' => [
+
+        ],
+        'excerpt' => $item->getExcerpt(),
+      ];
+      $lesson = [
+        'entity' => [
+          'id',
+          'title' => 'Module 3: Protein',
+          'url_parts' => [
+            'course' => 'test-course',
+            'lesson' => 'module-3-protein'
+          ],
+        ],
+        'excerpt' => $item->getExcerpt(),
+      ];
     }
 
     return new ResourceResponse(array_values($entities), 200);
