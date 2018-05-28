@@ -25,8 +25,8 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
       },
     })
     .then(response => {
-      const comments = dataProcessors.processComment(response.body.data);
-      resolve(comments[0]);
+      const comment = dataProcessors.processComment(response.body.data);
+      resolve(comment);
     })
     .catch(error => {
       console.log('Could not save the comment.', error);
@@ -62,8 +62,8 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
       },
     })
     .then(response => {
-      const comments = dataProcessors.processComment(response.body.data);
-      resolve(comments[0]);
+      const comment = dataProcessors.processComment(response.body.data);
+      resolve(comment);
     })
     .catch(error => {
       console.log('Could not update a comment.', error);
