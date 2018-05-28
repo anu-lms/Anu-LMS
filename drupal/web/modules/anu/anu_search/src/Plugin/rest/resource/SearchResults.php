@@ -13,6 +13,7 @@ use Drupal\jsonapi\Resource\JsonApiDocumentTopLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**
  * Provides a resource to load notifications of the current user.
@@ -140,28 +141,15 @@ class SearchResults extends ResourceBase {
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($result_set->getResultItems() as $item) {
       $entity = $item->getOriginalObject()->getValue();
-      //$normalizad_entity = \Drupal::service('serializer')->normalize($entity, 'json');
-      //$entities[] = $entity;
+
+      $include_fields = [];
+      if ($entity->getEntityTypeId() == 'paragraph_comment') {
+        $include_fields = ['lesson'];
+      }
+
       $entities[] = [
-        'entity',
-        'excerpt' => $item->getExcerpt()
-      ];
-
-      $comment = [
-        'entity' => [
-
-        ],
-        'excerpt' => $item->getExcerpt(),
-      ];
-      $lesson = [
-        'entity' => [
-          'id',
-          'title' => 'Module 3: Protein',
-          'url_parts' => [
-            'course' => 'test-course',
-            'lesson' => 'module-3-protein'
-          ],
-        ],
+        'type' => $entity->bundle(),
+        'entity' => AnuNormalizerBase::normalizeEntity($entity, $include_fields),
         'excerpt' => $item->getExcerpt(),
       ];
     }

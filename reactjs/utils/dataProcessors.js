@@ -149,19 +149,17 @@ const processParagraphs = paragraphs => {
 };
 
 export const lessonData = lessonDataObject => {
-  const lesson = lessonDataObject.entityId;
-
   let blocks = [];
-  if (lesson.fieldLessonBlocks) {
-    blocks = processParagraphs(lesson.fieldLessonBlocks);
+  if (lessonDataObject.fieldLessonBlocks) {
+    blocks = processParagraphs(lessonDataObject.fieldLessonBlocks);
   }
 
   return {
-    id: lesson.nid,
-    uuid: lesson.id,
-    url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
-    title: lesson.title,
-    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
+    id: lessonDataObject.nid,
+    uuid: lessonDataObject.uuid,
+    url: lessonHelper.getUrl(lessonDataObject.fieldLessonCourse.path.alias, lessonDataObject.path.alias),
+    title: lessonDataObject.title,
+    isAssessment: lessonDataObject.fieldIsAssessment ? lessonDataObject.fieldIsAssessment : false,
     progress: 0,
     blocks,
   };

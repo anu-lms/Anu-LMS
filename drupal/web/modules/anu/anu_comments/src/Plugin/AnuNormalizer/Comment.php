@@ -35,30 +35,19 @@ class Comment extends AnuNormalizerBase {
 
       $output = [
         'id' => $entity->id(),
-        'text' => !empty($text[0]['value']) ? $text[0]['value'] : '',
-        'paragraphId' => $paragraph_id,
+        'uuid' => $entity->uuid(),
+        'created' => (int) $entity->created->getString(),
+        'changed' => (int) $entity->changed->getString(),
+        'fieldCommentText' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
+        'fieldCommentParagraph' => $paragraph_id,
+        'fieldCommentDeleted' => (bool) $entity->field_comment_deleted->getString(),
       ];
 
-      if (in_array('url', $include_fields) || in_array('lesson_title', $include_fields)) {
+      if (in_array('lesson', $include_fields)) {
 
         $lesson = \Drupal::service('anu_lessons.lesson')->loadByParagraphId($paragraph_id);
 
-        if (in_array('lesson_title', $include_fields)) {
-          $output['lessonTitle'] = !empty($lesson) ? $lesson->label() : '';
-        }
-
-        if (in_array('url', $include_fields)) {
-          // Generates Comment's url.
-          // @todo: Backend shouldn't define url structure for the frontend.
-          $lesson_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->id());
-          $course_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $lesson->field_lesson_course->getString());
-          $entityUrl = '';
-          if (!empty($lesson_url) && !empty($course_url)) {
-            $entityUrl = '/course' . $course_url . $lesson_url . '?' . UrlHelper::buildQuery(['comment' => $paragraph_id . '-' . $entity->id()]);
-          }
-
-          $output['url'] = $entityUrl;
-        }
+        $output['lesson'] = AnuNormalizerBase::normalizeEntity($lesson);
       }
 
       return $output;

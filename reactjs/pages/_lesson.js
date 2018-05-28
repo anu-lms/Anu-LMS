@@ -131,7 +131,7 @@ class LessonPage extends React.Component {
         throw Error(`Lesson with id ${entity.id} not found`);
       }
 
-      initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
+      initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0].entityId);
     } catch (error) {
       console.log('Could not load lesson.', error);
       if (error.status) {
