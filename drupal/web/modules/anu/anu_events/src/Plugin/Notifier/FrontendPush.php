@@ -4,6 +4,7 @@ namespace Drupal\anu_events\Plugin\Notifier;
 
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version2X;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**
  * Frontend Push notifier.
@@ -22,8 +23,7 @@ class FrontendPush extends MessageNotifierBase {
   public function deliver(array $output = []) {
 
     // Load notification message.
-    $messageService = \Drupal::service('anu_events.message');
-    $message = $messageService->normalize($output['message']);
+    $message = AnuNormalizerBase::normalizeEntity($output['message'], ['lesson']);
 
     // Get websocket URL.
     $websocket = \Drupal::request()->getSchemeAndHttpHost();
