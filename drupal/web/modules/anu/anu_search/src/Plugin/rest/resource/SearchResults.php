@@ -6,10 +6,7 @@ use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\search_api\ParseMode\ParseModePluginManager;
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\jsonapi\Resource\EntityCollection;
-use Drupal\jsonapi\Resource\JsonApiDocumentTopLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,7 +37,7 @@ class SearchResults extends ResourceBase {
    * @param array $serializer_formats
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
-   *   A current user instance.
+   *   Logger service.
    */
   public function __construct(
     array $configuration,
@@ -84,24 +81,30 @@ class SearchResults extends ResourceBase {
   public function get() {
     $fulltext = NULL;
 
+    // Get given query params.
     $filters = $this->currentRequest->query->get('filter');
     if ($filters != NULL) {
       if (isset($filters['fulltext'])) {
         $fulltext = $filters['fulltext']['condition']['fulltext'];
       }
     }
+
+    // @todo: might be enhanced on infinite scroll step.
     $page = 0;
 
+    // Defines search params. @see: \Drupal\search_api\Plugin\search_api\parse_mode\Terms.
     /* @var $query \Drupal\search_api\Query\QueryInterface */
     $query = $this->index->query();
     $parse_mode = $this->parseModeManager->createInstance('terms');
     $parse_mode->setConjunction('AND');
     $query->setParseMode($parse_mode);
 
+    // Defines keywords to filter by.
     if (!empty($fulltext)) {
       $query->keys([$fulltext]);
     }
 
+    // Defines fulltext search fields.
     $query->setFulltextFields([
       'field_comment_text', 'title', 'field_paragraph_text',
       'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
@@ -109,19 +112,18 @@ class SearchResults extends ResourceBase {
       'field_notebook_title'
     ]);
 
-    $conditions = $query->createConditionGroup();
-    if (!empty($conditions->getConditions())) {
-
+    // @todo: An example of conditions, remove if unnecessary.
+//    $conditions = $query->createConditionGroup();
+//    if (!empty($conditions->getConditions())) {
+//
 //      $conditions
 //        ->addCondition('search_api_datasource', 'entity:node', '<>')
 //        ->addCondition('created', 7 * 24 * 3600, '>=');
+//
+//      $query->addConditionGroup($conditions);
+//    }
 
-      $query->addConditionGroup($conditions);
-    }
-
-    $query->sort('search_api_relevance', 'DESC');
-
-
+    // @todo: An example of conditions, remove if unnecessary.
 //    $location_options = (array) $query->getOption('search_api_location', []);
 //    $location_options[] = [
 //      'field' => 'latlon',
@@ -131,7 +133,10 @@ class SearchResults extends ResourceBase {
 //    ];
 //    $query->setOption('search_api_location', $location_options);
 
+    // Defines default sort.
+    $query->sort('search_api_relevance', 'DESC');
 
+    // Defines pager. @todo: might be enhanced on infinite scroll step.
     $query->range(($page * 20), 20);
 
     /** @var \Drupal\search_api\Query\ResultSetInterface $result_set */
@@ -143,10 +148,12 @@ class SearchResults extends ResourceBase {
       $entity = $item->getOriginalObject()->getValue();
 
       $include_fields = [];
+      // Prepares additional fields for normalizer function.
       if ($entity->getEntityTypeId() == 'paragraph_comment') {
         $include_fields = ['lesson'];
       }
 
+      // Normalizes entity and add to the results array.
       if ($entity_normalized = AnuNormalizerBase::normalizeEntity($entity, $include_fields)) {
         $entities[] = [
           'type' => $entity->bundle(),
@@ -158,8 +165,7 @@ class SearchResults extends ResourceBase {
 
     return new ResourceResponse(array_values($entities), 200);
 
-//    $entity_collection = new EntityCollection($entities);
-//    $response = new ResourceResponse(new JsonApiDocumentTopLevel($entity_collection), 200, []);
+    // @todo: An example, remove if unnecessary.
 //    $cacheable_metadata = new CacheableMetadata();
 //    $cacheable_metadata->setCacheContexts([
 //      'url.query_args',
