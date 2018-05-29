@@ -88,6 +88,9 @@ export const courseData = courseDataObject => {
 
 /**
  * Internal helper to process paragraphs data from the backend.
+ *
+ * @todo: Improve names of functions (entityData or processEntity),
+ * consider to move to separate folder.
  */
 const processParagraphs = paragraphs => {
   let blocks = [];
@@ -167,18 +170,23 @@ export const lessonData = lessonDataObject => {
 };
 
 /**
- * Internal helper to normalize notebook notes data from the backend.
+ * Internal helper to normalize notebook note data from the backend.
  */
-export const notebookData = notebookDataObject =>
+export const notebookData = note => ({
+  id: note.id,
+  uuid: note.uuid,
+  created: note.created,
+  changed: note.changed,
+  title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
+  body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
+});
+
+/**
+ * Internal helper to normalize list of notebook notes from the backend.
+ */
+export const notebookListData = notebookDataObject =>
   // Custom mapping for notebook notes.
-  notebookDataObject.map(note => ({
-    id: note.id,
-    uuid: note.uuid,
-    created: note.created,
-    changed: note.changed,
-    title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
-    body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
-  }));
+  notebookDataObject.map(note => (notebookData(note)));
 
 /**
  * Internal helper to normalize User data from the backend.
@@ -245,6 +253,8 @@ export const processComment = rawComment => {
 
 /**
  * Internal helper to normalize Notification data from the backend.
+ *
+ * @todo: all process functions should eather process an array or object.
  */
 export const processNotifications = Notifications => (
   Notifications.map(rawNotification => {

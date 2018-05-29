@@ -39,7 +39,7 @@ class NotebookPage extends Component {
           'sort': 'changed',
         });
 
-      initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
+      initialProps.notes = dataProcessors.notebookListData(responseNotebook.body.data);
     } catch (error) {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;

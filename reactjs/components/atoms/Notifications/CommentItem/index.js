@@ -77,7 +77,7 @@ NotificationCommentItem.propTypes = {
     triggerer: PropTypes.object,
     isRead: PropTypes.bool,
     comment: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       text: PropTypes.string,
       url: PropTypes.string,
       paragraphId: PropTypes.number,
