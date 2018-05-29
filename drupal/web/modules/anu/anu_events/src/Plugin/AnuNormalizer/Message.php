@@ -6,7 +6,7 @@ use Drupal\anu_normalizer\AnuNormalizerBase;
 use Drupal\Component\Render\FormattableMarkup;
 
 /**
- *
+ * Provides normalizer for Message entity.
  *
  * @AnuNormalizer(
  *   id = "message_normalizer",
@@ -28,42 +28,48 @@ class Message extends AnuNormalizerBase {
    * {@inheritdoc}
    */
   function normalize($entity, $include_fields) {
-    if ($this->shouldApply($entity)) {
-
-      try {
-        // Prepared common comment data.
-        $output = [
-          'id' => (int) $entity->id(),
-          'uuid' => $entity->uuid(),
-          'bundle' => $entity->bundle(),
-          'created' => (int) $entity->created->getString(),
-          'triggerer' => $entity->uid->first()->get('entity')->getValue(),
-          'isRead' => (bool) $entity->field_message_is_read->getString(),
-        ];
-
-        // Always add a recipient user ID to the message item.
-        if ($entity->hasField('field_message_recipient')) {
-          if (!empty($entity->field_message_recipient->getValue())) {
-            $value = $entity->field_message_recipient->first()->getValue();
-            $output['recipient'] = $value['target_id'];
-          }
-        }
-
-        // Prepares Comment part if Comment field exists.
-        if ($entity->hasField('field_message_comment')) {
-          $comment = $entity->field_message_comment->first()->get('entity')->getValue();
-          $output['comment'] = AnuNormalizerBase::normalizeEntity($comment, ['lesson']);
-        }
-      } catch(\Exception $e) {
-        $entity = new FormattableMarkup('Could not normalize message entity. Error: @error', [
-          '@error' => $e->getMessage()
-        ]);
-        \Drupal::logger('anu_events')->critical($entity);
-      }
-
+    $output = NULL;
+    if (!$this->shouldApply($entity)) {
       return $output;
     }
 
-    return $entity;
+    try {
+      // Prepare common entity data.
+      $output = [
+        'id' => (int) $entity->id(),
+        'uuid' => $entity->uuid(),
+        'bundle' => $entity->bundle(),
+        'created' => (int) $entity->created->getString(),
+        'triggerer' => $entity->uid->first()->get('entity')->getValue(),
+        'isRead' => (bool) $entity->field_message_is_read->getString(),
+      ];
+
+      // Always add a recipient user ID to the message item.
+      if ($entity->hasField('field_message_recipient')) {
+        if (!empty($entity->field_message_recipient->getValue())) {
+
+          $value = $entity->field_message_recipient->first()->getValue();
+          $output['recipient'] = $value['target_id'];
+        }
+      }
+
+      // Prepares Comment part if Comment field exists.
+      if ($entity->hasField('field_message_comment')) {
+        $comment = $entity->field_message_comment->first()->get('entity')->getValue();
+
+        // Normalize comment entity with lesson data included.
+        if ($comment && $comment_normalized = AnuNormalizerBase::normalizeEntity($comment, ['lesson'])) {
+          $output['comment'] = $comment_normalized;
+        }
+      }
+
+    } catch(\Exception $e) {
+      $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      $this->logger->critical($message);
+    }
+
+    return $output;
   }
 }

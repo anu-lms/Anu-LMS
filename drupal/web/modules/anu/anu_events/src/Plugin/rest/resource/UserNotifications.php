@@ -102,8 +102,7 @@ class UserNotifications extends ResourceBase {
       foreach ($messages as $message) {
         if ($message->access('view')) {
 
-          $message_item = AnuNormalizerBase::normalizeEntity($message, ['lesson']);
-          if (!empty($message_item)) {
+          if ($message_item = AnuNormalizerBase::normalizeEntity($message, ['lesson'])) {
             $response[] = $message_item;
           }
         }

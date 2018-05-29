@@ -3,9 +3,10 @@
 namespace Drupal\anu_notebook\Plugin\AnuNormalizer;
 
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
- *
+ * Provides normalizer for Notebook entity.
  *
  * @AnuNormalizer(
  *   id = "notebook_normalizer",
@@ -27,11 +28,15 @@ class Notebook extends AnuNormalizerBase {
    * {@inheritdoc}
    */
   function normalize($entity, $include_fields) {
-    if ($this->shouldApply($entity)) {
+    $output = NULL;
+    if (!$this->shouldApply($entity)) {
+      return $output;
+    }
 
+    try {
       $text = $entity->field_notebook_body->getValue();
       $output = [
-        'id' => $entity->id(),
+        'id' => (int) $entity->id(),
         'uuid' => $entity->uuid(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
@@ -39,9 +44,13 @@ class Notebook extends AnuNormalizerBase {
         'fieldNotebookBody' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
       ];
 
-      return $output;
+    } catch(\Exception $e) {
+      $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      $this->logger->critical($message);
     }
 
-    return $entity;
+    return $output;
   }
 }
