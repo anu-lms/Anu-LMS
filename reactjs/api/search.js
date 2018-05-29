@@ -7,7 +7,7 @@ export const fetch = request => new Promise((resolve, reject) => {
     .get('/site/search')
     .query({
       _format: 'json',
-      'filter[fulltext][condition][fulltext]': 'search',
+      'filter[fulltext][condition][fulltext]': 'search', // @todo: replace hardcoded value.
     })
     .then(response => {
       resolve(response.body);
