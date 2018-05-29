@@ -147,11 +147,13 @@ class SearchResults extends ResourceBase {
         $include_fields = ['lesson'];
       }
 
-      $entities[] = [
-        'type' => $entity->bundle(),
-        'entity' => AnuNormalizerBase::normalizeEntity($entity, $include_fields),
-        'excerpt' => $item->getExcerpt(),
-      ];
+      if ($entity_normalized = AnuNormalizerBase::normalizeEntity($entity, $include_fields)) {
+        $entities[] = [
+          'type' => $entity->bundle(),
+          'entity' => $entity_normalized,
+          'excerpt' => $item->getExcerpt(),
+        ];
+      }
     }
 
     return new ResourceResponse(array_values($entities), 200);

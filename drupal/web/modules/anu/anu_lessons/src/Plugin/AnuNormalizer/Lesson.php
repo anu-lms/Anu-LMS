@@ -3,9 +3,10 @@
 namespace Drupal\anu_lessons\Plugin\AnuNormalizer;
 
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
- *
+ * Provides normalizer for Lesson node.
  *
  * @AnuNormalizer(
  *   id = "lesson_normalizer",
@@ -27,11 +28,16 @@ class Lesson extends AnuNormalizerBase {
    * {@inheritdoc}
    */
   function normalize($entity, $include_fields) {
-    if ($this->shouldApply($entity)) {
+    $output = NULL;
+    if (!$this->shouldApply($entity)) {
+      return $output;
+    }
+
+    try {
       $alias_service = \Drupal::service('path.alias_manager');
 
       $output = [
-        'nid' => $entity->id(),
+        'nid' => (int) $entity->id(),
         'uuid' => $entity->uuid(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
@@ -47,9 +53,13 @@ class Lesson extends AnuNormalizerBase {
         ],
       ];
 
-      return $output;
+    } catch(\Exception $e) {
+      $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      $this->logger->critical($message);
     }
 
-    return $entity;
+    return $output;
   }
 }

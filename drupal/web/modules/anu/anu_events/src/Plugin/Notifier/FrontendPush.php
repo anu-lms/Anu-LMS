@@ -22,15 +22,19 @@ class FrontendPush extends MessageNotifierBase {
    */
   public function deliver(array $output = []) {
 
-    // Load notification message.
-    $message = AnuNormalizerBase::normalizeEntity($output['message'], ['lesson']);
-
-    // Get websocket URL.
-    $websocket = \Drupal::request()->getSchemeAndHttpHost();
-
-    // Send notification message to websocket.
     try {
 
+      // Load notification message.
+      $message = AnuNormalizerBase::normalizeEntity($output['message'], ['lesson']);
+
+      if (!$message) {
+        throw new \Exception("Message entity can't be normalized.");
+      }
+
+      // Get websocket URL.
+      $websocket = \Drupal::request()->getSchemeAndHttpHost();
+
+      // Send notification message to websocket.
       $httpContext = [
         'header' => [
           'Origin: ' . $websocket,

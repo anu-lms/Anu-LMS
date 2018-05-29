@@ -3,10 +3,10 @@
 namespace Drupal\anu_comments\Plugin\AnuNormalizer;
 
 use Drupal\anu_normalizer\AnuNormalizerBase;
-use Drupal\Component\Utility\UrlHelper;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
- * Reply to the Comment event.
+ * Provides normalizer for Comment entity.
  *
  * @AnuNormalizer(
  *   id = "comment_normalizer",
@@ -28,13 +28,17 @@ class Comment extends AnuNormalizerBase {
    * {@inheritdoc}
    */
   function normalize($entity, $include_fields) {
-    if ($this->shouldApply($entity)) {
+    $output = NULL;
+    if (!$this->shouldApply($entity)) {
+      return $output;
+    }
 
+    try {
       $text = $entity->field_comment_text->getValue();
       $paragraph_id = (int) $entity->field_comment_paragraph->getString();
 
       $output = [
-        'id' => $entity->id(),
+        'id' => (int) $entity->id(),
         'uuid' => $entity->uuid(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
@@ -43,16 +47,24 @@ class Comment extends AnuNormalizerBase {
         'fieldCommentDeleted' => (bool) $entity->field_comment_deleted->getString(),
       ];
 
+      // Attaches lesson data if necessary.
       if (in_array('lesson', $include_fields)) {
 
         $lesson = \Drupal::service('anu_lessons.lesson')->loadByParagraphId($paragraph_id);
 
-        $output['lesson'] = AnuNormalizerBase::normalizeEntity($lesson);
+        // Normalize lesson entity with lesson data included.
+        if ($lesson && $lesson_normalized = AnuNormalizerBase::normalizeEntity($lesson)) {
+          $output['lesson'] = $lesson_normalized;
+        }
       }
 
-      return $output;
+    } catch(\Exception $e) {
+      $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      $this->logger->critical($message);
     }
 
-    return $entity;
+    return $output;
   }
 }
