@@ -5,8 +5,8 @@ import AddNoteCTA from '../../../atoms/CTA/AddNote';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as navigationActions from '../../../../actions/navigation';
-import * as notebookApi from '../../../../api/notebook';
 import * as userApi from '../../../../api/user';
+import * as notebookApi from '../../../../api/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookActions from '../../../../actions/notebook';
 
