@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '../../../routes';
+import * as userApi from '../../../api/user';
 
 const errors = {
   403: 'Access denied',
@@ -22,6 +23,7 @@ class ErrorPage extends React.Component {
 
       // If user authenticated, but can't get /user/me, we logout and
       // redirect him to the front page.
+      // @todo: replace with userApi.fetchCurrent().
       await request
         .get('/user/me?_format=json')
         .catch(() => (
