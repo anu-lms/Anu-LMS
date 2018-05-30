@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate-react';
-import EditList from 'slate-edit-list';
-import { isKeyHotkey } from 'is-hotkey';
-import he from 'he';
-import isUrl from 'is-url';
+
+// IE 11: 'Symbol' is undefined.
+import 'core-js/fn/symbol/iterator';
+import 'core-js/fn/symbol';
 
 // IE 11: Object doesn't support property or method 'includes'.
 import 'core-js/es7/array';
@@ -12,6 +11,11 @@ import 'core-js/es7/array';
 // IE 11: Object doesn't support property or method 'closest'.
 import '../../../utils/polyfill/closest';
 
+import { Editor } from 'slate-react';
+import EditList from 'slate-edit-list';
+import { isKeyHotkey } from 'is-hotkey';
+import he from 'he';
+import isUrl from 'is-url';
 import { html } from './serializer';
 import Sticky from '../Sticky';
 import * as mediaBreakpoint from '../../../utils/breakpoints';
