@@ -4,6 +4,7 @@ import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as lock from '../utils/lock';
 import * as notebookApi from '../api/notebook';
+import * as notebookHelpers from '../helpers/notebook';
 import * as notebookActions from '../actions/notebook';
 
 /**

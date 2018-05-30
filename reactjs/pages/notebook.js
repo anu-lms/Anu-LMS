@@ -20,7 +20,7 @@ class NotebookPage extends Component {
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
       const userResponse = await request
-        .get('/user/me?_format=json')
+        .get('/user/me?_format=json') // @todo: replace with userApi.fetchCurrent().
         .catch(error => {
           initialProps.statusCode = error.response.status;
           throw Error(error.response.body.message);

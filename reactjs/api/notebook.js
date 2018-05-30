@@ -1,6 +1,31 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
+ * Fetch notes from the backend.
+ */
+export const fetch = (request, uid) => new Promise((resolve, reject) => {
+  request
+    .get('/jsonapi/notebook/notebook')
+    .query({
+      // Filter notes by current user.
+      'filter[uid][value]': uid,
+      // Sort by changed date. Here we sort in the reverse
+      // order from what we need, because in the reducer all new notes
+      // get added to the start of the queue, which will make the final
+      // order of the notes on the page correct.
+      'sort': 'changed',
+    })
+    .then(response => {
+      const notes = dataProcessors.notebookData(response.body.data);
+      resolve(notes);
+    })
+    .catch(error => {
+      console.log('Could not fetch notes. Error:', error);
+      reject(error);
+    });
+});
+
+/**
  * First time save the note on the backend.
  */
 export const createNote = (request, title = '', body = '') => new Promise((resolve, reject) => {

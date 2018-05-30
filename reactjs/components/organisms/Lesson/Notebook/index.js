@@ -37,6 +37,7 @@ class LessonNotebook extends React.Component {
 
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
+      // @todo: replace with userApi.fetchCurrent().
       const userResponse = await request.get('/user/me?_format=json');
       const currentUser = dataProcessors.userData(userResponse.body);
 

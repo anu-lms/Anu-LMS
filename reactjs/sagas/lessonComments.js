@@ -19,6 +19,7 @@ function* fetchComments() {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
@@ -81,6 +82,7 @@ function* addComment({ text, parentId }) {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
