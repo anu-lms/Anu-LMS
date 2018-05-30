@@ -4,6 +4,7 @@ import ClientAuth from '../auth/clientAuth';
 import request from '../utils/request';
 import * as lock from '../utils/lock';
 import * as notebookActions from '../actions/notebook';
+import * as notebookApi from '../api/notebook';
 /* eslint-disable no-use-before-define */
 
 /**
@@ -48,7 +49,7 @@ function* removeEmptyNote() {
       request.set('Authorization', `Bearer ${accessToken}`);
 
       // Sending backend request to remove the note.
-      yield notebookHelpers.deleteNote(request, note.uuid);
+      yield notebookApi.deleteNote(request, note.uuid);
     }
     catch (error) {
       console.log('Could not delete the note. Error: ');

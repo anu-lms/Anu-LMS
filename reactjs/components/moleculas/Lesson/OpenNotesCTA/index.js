@@ -6,7 +6,7 @@ import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as navigationActions from '../../../../actions/navigation';
 import * as dataProcessors from '../../../../utils/dataProcessors';
-import * as notebookHelpers from '../../../../helpers/notebook';
+import * as notebookApi from '../../../../api/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as notebookActions from '../../../../actions/notebook';
 
@@ -69,7 +69,7 @@ class OpenNotesCTA extends React.Component {
       request.set('X-CSRF-Token', sessionToken);
 
       // Make a request to the backend to create a new note.
-      const note = await notebookHelpers.createNote(request);
+      const note = await notebookApi.createNote(request);
 
       // Add recently created note to the notebook's redux state.
       dispatch(notebookActions.addNote(note));

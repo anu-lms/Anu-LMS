@@ -3,7 +3,7 @@ import { delay } from 'redux-saga';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as lock from '../utils/lock';
-import * as notebookHelpers from '../helpers/notebook';
+import * as notebookApi from '../api/notebook';
 import * as notebookActions from '../actions/notebook';
 
 /**
@@ -87,7 +87,7 @@ function* noteSave(note) {
 
   try {
     // Send backend request to update the note.
-    yield notebookHelpers.updateNote(request, note.title, note.body, note.uuid);
+    yield notebookApi.updateNote(request, note.title, note.body, note.uuid);
 
     // TODO: DON'T SAVE IF CHANGES WERE MADE WHILE THE NOTE WAS SAVING.
 

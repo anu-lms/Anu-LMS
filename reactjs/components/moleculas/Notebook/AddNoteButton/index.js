@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import * as notebookActions from '../../../../actions/notebook';
-import * as notebookHelpers from '../../../../helpers/notebook';
+import * as notebookApi from '../../../../api/notebook';
 import * as lock from '../../../../utils/lock';
 
 class AddNoteButton extends React.Component {
@@ -43,7 +43,7 @@ class AddNoteButton extends React.Component {
       request.set('X-CSRF-Token', sessionToken);
 
       // Saving a note and adding to the notebook.
-      const note = await notebookHelpers.createNote(request);
+      const note = await notebookApi.createNote(request);
       dispatch(notebookActions.addNote(note));
 
       // Execute callback when note was added.
