@@ -3,3 +3,6 @@ type: module
 description: Enhancements for search in the platform.
 core: 8.x
 package: Anu
+dependencies:
+  - search_api
+  - search_api_solr
