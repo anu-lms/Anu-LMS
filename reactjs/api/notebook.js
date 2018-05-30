@@ -20,7 +20,7 @@ export const fetch = (request, uid) => new Promise((resolve, reject) => {
       resolve(notes);
     })
     .catch(error => {
-      console.log('Could not fetch notes. Error:', error);
+      console.log('Could not fetch notes.', error);
       reject(error);
     });
 });
@@ -48,7 +48,7 @@ export const createNote = (request, title = '', body = '') => new Promise((resol
       resolve(notes[0]);
     })
     .catch(error => {
-      console.log('Could not save the note. Error:', error);
+      console.log('Could not save the note.', error);
       reject(error);
     });
 });
@@ -77,7 +77,7 @@ export const updateNote = (request, title, body, uuid) => new Promise((resolve, 
       resolve(notes[0]);
     })
     .catch(error => {
-      console.log('Could not update the note. Error:', error);
+      console.log('Could not update the note.', error);
       reject(error);
     });
 });
@@ -93,7 +93,7 @@ export const deleteNote = (request, uuid) => new Promise((resolve, reject) => {
       resolve();
     })
     .catch(error => {
-      console.log('Could not delete the note. Error:', error);
+      console.log('Could not delete the note.', error);
       reject(error);
     });
 });

@@ -11,7 +11,8 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
-import * as dataProcessors from '../../../../utils/dataProcessors';
+import * as userApi from '../../../../api/user';
+import * as notebookApi from '../../../../api/notebook';
 
 class LessonNotebook extends React.Component {
   constructor(props) {
@@ -37,23 +38,9 @@ class LessonNotebook extends React.Component {
 
       // Get currently logged in user.
       // @todo: consider to store user id in local storage after user login.
-      // @todo: replace with userApi.fetchCurrent().
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
+      const currentUser = await userApi.fetchCurrent(request);
 
-      const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook')
-        .query({
-          // Filter notes by current user.
-          'filter[uid][value]': currentUser.uid,
-          // Sort by changed date. Here we sort in the reverse
-          // order from what we need, because in the reducer all new notes
-          // get added to the start of the queue, which will make the final
-          // order of the notes on the page correct.
-          'sort': 'changed',
-        });
-
-      const notesList = dataProcessors.notebookData(responseNotebook.body.data);
+      const notesList = await notebookApi.fetch(request, currentUser.uid);
 
       // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());
