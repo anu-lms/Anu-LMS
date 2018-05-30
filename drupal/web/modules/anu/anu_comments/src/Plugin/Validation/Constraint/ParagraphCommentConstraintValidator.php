@@ -45,7 +45,7 @@ class ParagraphCommentConstraintValidator extends ConstraintValidator {
         $params = ['@id' => $paragraph_id];
 
         $this->context->buildViolation($message, $params)
-          ->atPath('field_comment_parent')
+          ->atPath('field_comment_paragraph')
           ->addViolation();
 
         \Drupal::logger('anu_comments')->error(new FormattableMarkup($message, $params));

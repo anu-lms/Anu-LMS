@@ -26,6 +26,7 @@ class NotesLessonCest {
     $I->see('Save and Close');
     $I->click('div.save-close');
     $I->waitForElementNotVisible('.lesson-notebook-wrapper');
+    $I->wait(0.2); // it doesn't work consistently without this line :(
 
     // Open notes list
     $I->waitForElement('.add-note-button');

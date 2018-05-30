@@ -112,7 +112,6 @@ services:
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
 
-
   #########################
   ### CODECEPTION #########
   #########################
@@ -136,7 +135,6 @@ services:
     expose:
       - 4444
     shm_size: 2gb
-
 
   ##########################
   ### REVERSE PROXY ########

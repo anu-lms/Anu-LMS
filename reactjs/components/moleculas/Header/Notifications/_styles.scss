@@ -1,0 +1,61 @@
+.notifications-wrapper {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  text-align: left;
+
+  .notifications-icons {
+    height: 100%;
+  }
+  .header-icon {
+    cursor: pointer;
+    position: relative;
+    z-index: $zindex-fixed + 2;
+    .icon {
+      position: relative;
+    }
+  }
+  .icon-bell .amount {
+    background: $clay-orange;
+    position: absolute;
+    font-size: 9px;
+    color: $white;
+    width: 14px;
+    height: 14px;
+    border-radius: 2.4px;
+    top: -2px;
+    right: -2px;
+    line-height: 1.6;
+    text-align: center;
+    padding-right: 1px;
+
+    @include media-breakpoint-up(md) {
+      border-radius: 4px;
+      font-size: 14px;
+      width: 24px;
+      height: 24px;
+      line-height: 1.7;
+      top: -7px;
+      right: -4px;
+    }
+  }
+
+  .icon-close {
+    display: none;
+  }
+
+  &.popup-opened .header-icon {
+    background-color: $slate-grey;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &.popup-opened {
+      .icon-close {
+        display: inline-flex;
+      }
+      .icon-bell {
+        display: none;
+      }
+    }
+  }
+}

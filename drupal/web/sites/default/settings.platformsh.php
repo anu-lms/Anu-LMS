@@ -58,7 +58,7 @@ if (isset($_ENV['PLATFORM_ROUTES']) && !isset($settings['trusted_host_patterns']
     }
 
     // Defines Frontend application domain.
-    if ($route['type'] == 'upstream' && !empty($route['upstream']) && $route['upstream'] == 'frontend') {
+    if ($route['type'] == 'upstream' && !empty($route['original_url']) && $route['original_url'] == 'https://{default}/') {
       $settings['frontend_domain'] = $url;
     }
   }

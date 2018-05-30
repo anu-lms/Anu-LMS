@@ -85,7 +85,8 @@ class RichEditor extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ value: html.deserialize(this.props.initialValue) });
-    this.stickyOptionsEnter = mediaBreakpoint.isDown('md') ? this.props.stickyOptions.enterMobile : this.props.stickyOptions.enter;
+    this.stickyOptionsEnter = mediaBreakpoint.isDown('md') ? this.props.stickyOptions.mobile.enter : this.props.stickyOptions.desktop.enter;
+    this.stickyOptionsId = mediaBreakpoint.isDown('md') ? this.props.stickyOptions.mobile.rootId : this.props.stickyOptions.desktop.rootId;
   }
 
   componentDidUpdate(prevProps) {
@@ -452,7 +453,7 @@ class RichEditor extends React.Component {
 
           <div className="sticky-wrapper">
 
-            <Sticky enter={this.stickyOptionsEnter} rootId={this.props.stickyOptions.rootId}>
+            <Sticky enter={this.stickyOptionsEnter} rootId={this.stickyOptionsId}>
               <div className="editor-menu">
                 {this.renderMarkButton('bold')}
                 {this.renderMarkButton('italic')}
@@ -492,9 +493,14 @@ RichEditor.propTypes = {
   node: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   mark: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   stickyOptions: PropTypes.shape({
-    enter: PropTypes.string,
-    enterMobile: PropTypes.string,
-    rootId: PropTypes.string,
+    desktop: PropTypes.shape({
+      enter: PropTypes.string,
+      rootId: PropTypes.string,
+    }),
+    mobile: PropTypes.shape({
+      enter: PropTypes.string,
+      rootId: PropTypes.string,
+    }),
   }),
   attributes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func,
@@ -509,9 +515,14 @@ RichEditor.defaultProps = {
   mark: {},
   attributes: [],
   stickyOptions: {
-    enter: '128',
-    enterMobile: '88',
-    rootId: null,
+    desktop: {
+      enter: '128',
+      rootId: null,
+    },
+    mobile: {
+      enter: '88',
+      rootId: null,
+    },
   },
   onChange: () => {},
 };

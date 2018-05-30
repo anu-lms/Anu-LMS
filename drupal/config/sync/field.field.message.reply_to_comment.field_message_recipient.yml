@@ -1,0 +1,28 @@
+uuid: 6c3a2008-41db-433b-8c52-5ff4197f01b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_recipient
+    - message.template.reply_to_comment
+id: message.reply_to_comment.field_message_recipient
+field_name: field_message_recipient
+entity_type: message
+bundle: reply_to_comment
+label: Recipient
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

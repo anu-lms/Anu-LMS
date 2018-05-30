@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
+import Notifications from '../../moleculas/Header/Notifications';
+import HeaderIcon from '../../atoms/HeaderIcon';
 
 /* eslint-disable max-len */
 const Header = ({ isEmpty }) => (
@@ -31,13 +33,27 @@ const Header = ({ isEmpty }) => (
 
       <div className="left">
         <Link to="/dashboard">
-          <a className="icon" rel="home">
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="29" viewBox="0 0 34 29">
-              <g fill="none" fillRule="evenodd">
-                <path fill="#FFF" fillRule="nonzero" d="M13.667 28.333v-10h6.666v10h8.334V15h5L17 0 .333 15h5v13.333z" />
-              </g>
-            </svg>
-          </a>
+          <HeaderIcon className="home" label="Home" activePaths={['/dashboard']}>
+            <a rel="home">
+              <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+                <g fill="none" fillRule="evenodd">
+                  <path fill="#FFF" fillRule="nonzero" d="M13.667 28.333v-10h6.666v10h8.334V15h5L17 0 .333 15h5v13.333z" />
+                </g>
+              </svg>
+            </a>
+          </HeaderIcon>
+        </Link>
+
+        <Link to="/notebook">
+          <HeaderIcon className="notebook" label="Notebook" activePaths={['/notebook']}>
+            <a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="29" height="34" viewBox="0 0 29 34">
+                <g fill="none" fillRule="evenodd">
+                  <path fill="#FFF" fillRule="nonzero" d="M25 .333H5a3.333 3.333 0 0 0-3.333 3.334v1.666a1.667 1.667 0 1 0 0 3.334V12a1.667 1.667 0 0 0 0 3.333v3.334a1.667 1.667 0 1 0 0 3.333v3.333a1.667 1.667 0 0 0 0 3.334v1.666A3.333 3.333 0 0 0 5 33.667h20a3.333 3.333 0 0 0 3.333-3.334V3.667A3.333 3.333 0 0 0 25 .333zM6.667 7h10v2.5h-10V7zm16.666 17.5H6.667V22h16.666v2.5zm0-5H6.667V17h16.666v2.5zm0-5H6.667V12h16.666v2.5z" />
+                </g>
+              </svg>
+            </a>
+          </HeaderIcon>
         </Link>
       </div>
 
@@ -53,18 +69,9 @@ const Header = ({ isEmpty }) => (
           </div>
         </div> */}
 
-        <Link to="/notebook">
-          <a className="icon notebook">
-            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="34" viewBox="0 0 29 34">
-              <g fill="none" fillRule="evenodd">
-                <path fill="#FFF" fillRule="nonzero" d="M25 .333H5a3.333 3.333 0 0 0-3.333 3.334v1.666a1.667 1.667 0 1 0 0 3.334V12a1.667 1.667 0 0 0 0 3.333v3.334a1.667 1.667 0 1 0 0 3.333v3.333a1.667 1.667 0 0 0 0 3.334v1.666A3.333 3.333 0 0 0 5 33.667h20a3.333 3.333 0 0 0 3.333-3.334V3.667A3.333 3.333 0 0 0 25 .333zM6.667 7h10v2.5h-10V7zm16.666 17.5H6.667V22h16.666v2.5zm0-5H6.667V17h16.666v2.5zm0-5H6.667V12h16.666v2.5z" />
-              </g>
-            </svg>
-          </a>
-        </Link>
+        <Notifications />
 
         <ProfileMenu />
-
       </div>
     </Fragment>
     }

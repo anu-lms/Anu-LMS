@@ -1,19 +1,16 @@
 import React from 'react';
-import App from '../../application/App';
 import withAuth from '../../auth/withAuth';
-import Header from '../../components/organisms/Header';
+import withRedux from '../../store/withRedux';
+import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import EditPasswordForm from '../../components/moleculas/Form/Password/Edit';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
 
 const UserPasswordPage = () => (
-  <App>
-    <Header />
-    <div className="page-with-header page-password">
-      <OneColumnLayout pageTitle="Edit Password" className="short">
-        <EditPasswordForm />
-      </OneColumnLayout>
-    </div>
-  </App>
+  <SiteTemplate className="page-password">
+    <OneColumnLayout pageTitle="Edit Password" className="short">
+      <EditPasswordForm />
+    </OneColumnLayout>
+  </SiteTemplate>
 );
 
-export default withAuth(UserPasswordPage);
+export default withRedux(withAuth(UserPasswordPage));

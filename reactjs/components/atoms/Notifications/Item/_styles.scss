@@ -1,0 +1,58 @@
+.notifications-item {
+  border-bottom: 1px solid $london-sky;
+  font-size: 0.875em;
+  color: $carbon;
+  padding: 0.75em 2.5em;
+  position: relative;
+
+  &:hover {
+    background-color: darken($white, 4);
+  }
+
+  .type-icon {
+    position: absolute;
+    left: 11px;
+    top: 12px;
+    svg {
+      width: 14px;
+    }
+  }
+
+  .date {
+    font-size: 12px;
+    color: $carbon;
+    position: absolute;
+    right: 24px;
+    font-weight: 300;
+    margin-top: -1px;
+  }
+
+  .title {
+    color: $anu-blue;
+    padding-right: 3em;
+    padding-bottom: 0.75em;
+    line-height: 1.43;
+
+    span {
+      cursor: pointer;
+    }
+    span:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .body {
+    line-height: 1.43;
+  }
+
+  &.not-read {
+    background-color: $pale;
+    cursor: pointer;
+    &:hover {
+      background-color: darken($pale, 4);
+    }
+    &:active {
+      background-color: darken($pale, 7);
+    }
+  }
+}

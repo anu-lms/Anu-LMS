@@ -1,0 +1,40 @@
+uuid: 9b19fc6c-f6c0-404e-b99c-c549f047b573
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.message.add_comment_to_thread.field_message_comment
+    - field.field.message.add_comment_to_thread.field_message_is_read
+    - field.field.message.add_comment_to_thread.field_message_recipient
+    - message.template.add_comment_to_thread
+id: message.add_comment_to_thread.default
+targetEntityType: message
+bundle: add_comment_to_thread
+mode: default
+content:
+  field_message_comment:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_message_is_read:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_message_recipient:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden: {  }

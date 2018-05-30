@@ -7,7 +7,7 @@ const debug = Debug('anu:lessonCommentsHelper');
  */
 export const getCommentById = (comments, id) => {
   const index = comments.findIndex(comment => comment.id === id);
-  return comments[index] ? comments[index] : null;
+  return index !== -1 ? comments[index] : null;
 };
 
 /**
@@ -53,9 +53,18 @@ function getThreadedCommentsList(comments) {
       const parent = getCommentById(comments, item.parentId);
       debug('parent', parent, comments, item);
 
+      if (!parent) {
+        console.error(`Wrong structure of comments. Comment id: ${item.id}`);
+        return; // eslint-disable-line consistent-return
+      }
+
       // Get root id of parent comments (recursively to get root of nested comments).
       const rootId = findRootId(parent);
       debug('findRootId', item.id, parent.id, rootId);
+
+      if (!rootId) {
+        return; // eslint-disable-line consistent-return
+      }
 
       // Save some parent data to current element to use it in render.
       item.parent = {

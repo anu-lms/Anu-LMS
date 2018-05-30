@@ -15,29 +15,27 @@
   }
 
   .toggle {
-    background: $seafoam-green;
-    cursor: pointer;
-    width: 2em;
-    height: 2em;
-    padding: 0.45em;
+    width: 40px;
+    height: 48px;
+    padding: 0;
     position: fixed;
-    top: .5em;
-    left: 3.5em;
+    top: 0;
+    left: 88px;
     z-index: $zindex-fixed;
     transition: all .3s;
     @include media-breakpoint-up(md) {
-      background: $seafoam-green;
-      width: 3em;
-      height: 2.7em;
-      padding: 0.75em 0.45em;
-      left: 6em;
-      top: 1.1em;
+      left: 190px;
+      width: 88px;
+      height: 80px;
+      padding-top: 6px;
     }
 
     svg {
       width: 18px;
       @include media-breakpoint-up(md) {
         width: 34px;
+        position: relative;
+        top: 14px;
       }
       path {
         fill: white;
@@ -73,9 +71,6 @@
 
     .overlay {
       display: none;
-    }
-    .toggle {
-      background: none;
     }
     .navigation {
       left: -220px;
