@@ -30,6 +30,7 @@ class NotebookPage extends Component {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
+      return initialProps;
     }
 
     // If no notes available on the backend - add a welcome note by default.
