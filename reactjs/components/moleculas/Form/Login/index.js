@@ -64,8 +64,11 @@ class LoginForm extends React.Component {
         });
       const currentUser = dataProcessors.userData(userResponse.body);
 
+      // Makes request to get session token that will be used for post requests.
+      const sessionToken = await request.get('/session/token');
+
       // Store logged in user UID in application store.
-      this.props.dispatch(userActionHelpers.login(currentUser.uid));
+      this.props.dispatch(userActionHelpers.login(currentUser.uid, sessionToken.text));
 
       Router.push('/dashboard');
     } catch (error) {

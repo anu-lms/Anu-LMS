@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implements hook_update_N().
+ */
+function anu_user_update_8001() {
+  // We have added 'uid' and 'sessionToken' variables to the application store
+  // and should logout users to make them fill these variables on log in.
+  // Truncates Oauth tables to log out users.
+  $storage = \Drupal::entityTypeManager()->getStorage('oauth2_token');
+  $entities = $storage->loadMultiple();
+  $storage->delete($entities);
+}

@@ -38,6 +38,10 @@ function* removeEmptyNote() {
 
     // Make DELETE request.
     try {
+      // Attaches session token to the request.
+      const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+      request.set('X-CSRF-Token', sessionToken);
+
       // Making sure the request object includes the valid access token.
       const auth = new ClientAuth();
       const accessToken = yield apply(auth, auth.getAccessToken);
