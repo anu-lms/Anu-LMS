@@ -12,7 +12,7 @@ export const fetchCurrent = (request) => new Promise((resolve, reject) => {
       resolve(user);
     })
     .catch(error => {
-      console.log('Could not fetch current user.', error);
+      console.error('Could not fetch current user.', error);
       reject(error);
     });
 });
