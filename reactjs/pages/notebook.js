@@ -7,7 +7,7 @@ import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from '../actions/notebook';
-import * as notebookHelpers from '../helpers/notebook';
+import * as notebookApi from '../api/notebook';
 
 class NotebookPage extends Component {
   static async getInitialProps({ request, res }) {
@@ -55,7 +55,7 @@ class NotebookPage extends Component {
         const sessionToken = await request.get('/session/token');
         request.set('X-CSRF-Token', sessionToken.text);
 
-        const note = await notebookHelpers.createNote(request, title, body);
+        const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
         console.log('Could not create a welcome note.', error);
