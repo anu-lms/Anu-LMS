@@ -23,7 +23,7 @@ class AddNoteButton extends React.Component {
       return;
     }
 
-    const { dispatch, onBeforeSubmit, onAfterSubmit } = this.props;
+    const { dispatch, onBeforeSubmit, onAfterSubmit, sessionToken } = this.props;
 
     // Execute callback before adding a new note.
     if (onBeforeSubmit) {
@@ -39,6 +39,8 @@ class AddNoteButton extends React.Component {
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
+
+      request.set('X-CSRF-Token', sessionToken);
 
       // Saving a note and adding to the notebook.
       const note = await notebookHelpers.createNote(request);
@@ -91,4 +93,8 @@ AddNoteButton.contextTypes = {
   }),
 };
 
-export default connect()(AddNoteButton);
+const mapStateToProps = ({ user }) => ({
+  sessionToken: user.sessionToken,
+});
+
+export default connect(mapStateToProps)(AddNoteButton);
