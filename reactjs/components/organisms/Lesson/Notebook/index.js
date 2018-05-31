@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import NoteContent from '../../../moleculas/Notebook/NoteContent';
 import NotesList from '../../../moleculas/Notebook/NotesList';
 import PageLoader from '../../../atoms/PageLoader';
+import ErrorBoundary from '../../../atoms/ErrorBoundary';
 import ShowNotesButton from '../../../moleculas/Notebook/ShowNotesButton';
 import AddNoteButton from '../../../moleculas/Notebook/AddNoteButton';
 import * as notebookActions from '../../../../actions/notebook';
@@ -123,7 +124,7 @@ class LessonNotebook extends React.Component {
         }
 
         {!isLoading &&
-        <Fragment>
+        <ErrorBoundary>
 
           <div className={`notes-list-column ${isNoteListVisible ? 'visible' : 'hidden'}`}>
 
@@ -169,7 +170,7 @@ class LessonNotebook extends React.Component {
             </span>
           </div>
 
-        </Fragment>
+        </ErrorBoundary>
         }
       </div>
 
