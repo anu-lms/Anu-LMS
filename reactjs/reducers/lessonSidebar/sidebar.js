@@ -36,14 +36,17 @@ export default (state = {
         isLoading: false,
       };
 
+    case 'NOTES_REQUESTED':
     case 'LESSON_COMMENTS_REQUESTED':
       return {
         ...state,
         isLoading: true,
       };
 
-    case 'LESSON_COMMENTS_REQUEST_FAILED':
+    case 'NOTES_RECEIVED':
+    case 'NOTES_REQUEST_FAILED':
     case 'LESSON_COMMENTS_RECEIVED':
+    case 'LESSON_COMMENTS_REQUEST_FAILED':
       return {
         ...state,
         isLoading: false,

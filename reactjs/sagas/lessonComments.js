@@ -23,6 +23,7 @@ function* fetchComments() {
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
+    // @todo: move to the api folder.
     const commentsQuery = {
       'include': 'uid, field_comment_parent',
       // Filter by paragraph id.

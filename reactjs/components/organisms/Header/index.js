@@ -32,6 +32,7 @@ const Header = ({ isEmpty }) => (
       </div>
 
       <div className="left">
+        {/* @todo: Icons should be clickable as links */}
         <Link to="/dashboard">
           <HeaderIcon className="home" label="Home" activePaths={['/dashboard']}>
             <a rel="home">
