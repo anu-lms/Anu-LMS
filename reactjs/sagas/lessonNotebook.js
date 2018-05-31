@@ -48,14 +48,37 @@ function* removeEmptyNote() {
 }
 
 /**
+ * Adds a class to the body to freeze body's scroll bar.
+ */
+function* lockMobileScroll() { // eslint-disable-line require-yield
+  document.body.classList.add('no-scroll-mobile');
+}
+
+/**
+ * Removes a class from the body which freezes body's scroll bar.
+ */
+function* unlockMobileScroll() { // eslint-disable-line require-yield
+  document.body.classList.remove('no-scroll-mobile');
+}
+
+/**
+ * Figure out if the body's scroll bar has to be locked or unlocked,
+ * depending on the current notebook pane state.
+ */
+function* lockOrUnlockMobileScroll() {
+  const isNotebookCollapsed = yield select(store => store.lessonSidebar.notes.isCollapsed);
+  // eslint-disable-next-line no-unused-expressions
+  isNotebookCollapsed ? yield unlockMobileScroll() : yield lockMobileScroll();
+}
+
+/**
  * Sidebar is opened event happend.
  */
-function* sidebarIsOpened({activeTab, context}) {
+function* sidebarIsOpened({ activeTab, context }) {
   // Adds a class to the body to freeze body's scroll bar.
   yield lockMobileScroll();
 
   if (activeTab === 'notes') {
-
     // Creates a new note and set it active.
     if (context === 'add_new_note') {
       // Set loading state.
@@ -91,35 +114,10 @@ function* sidebarIsOpened({activeTab, context}) {
       yield put(lessonSidebarActions.removeLoadingState());
     }
     else {
-
       // Sync notes in app store when user open sidebar.
       yield put(notebookActions.syncNotes());
     }
   }
-}
-
-/**
- * Adds a class to the body to freeze body's scroll bar.
- */
-function* lockMobileScroll() { // eslint-disable-line require-yield
-  document.body.classList.add('no-scroll-mobile');
-}
-
-/**
- * Removes a class from the body which freezes body's scroll bar.
- */
-function* unlockMobileScroll() { // eslint-disable-line require-yield
-  document.body.classList.remove('no-scroll-mobile');
-}
-
-/**
- * Figure out if the body's scroll bar has to be locked or unlocked,
- * depending on the current notebook pane state.
- */
-function* lockOrUnlockMobileScroll() {
-  const isNotebookCollapsed = yield select(store => store.lessonSidebar.notes.isCollapsed);
-  // eslint-disable-next-line no-unused-expressions
-  isNotebookCollapsed ? yield unlockMobileScroll() : yield lockMobileScroll();
 }
 
 /**
