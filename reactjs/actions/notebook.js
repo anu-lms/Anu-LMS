@@ -22,10 +22,10 @@ export const receiveNotes = notes => ({
 });
 
 /**
- * Adds or updates an existing note in the notebook.
+ * Adds or updates an existing note in the store.
  */
-export const addNote = note => ({
-  type: 'NOTE_ADD',
+export const addNoteToStore = note => ({
+  type: 'NOTE_ADD_TO_STORE',
   note,
 });
 
