@@ -45,8 +45,6 @@ class LessonNotebook extends React.Component {
   showNotes() {
     // Initialize notes syncronization.
     this.props.dispatch(lessonSidebarActions.open());
-
-    this.props.dispatch(lessonNotebookActions.showNotes());
   }
 
   openNote(id) {
