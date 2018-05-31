@@ -27,7 +27,7 @@ export default (state = {
       };
 
     // Adds existing note to the notebook store.
-    case 'NOTE_ADD':
+    case 'NOTE_ADD_TO_STORE':
 
       // Search for the existing note.
       index = state.notes.findIndex(element => element.id === action.note.id);

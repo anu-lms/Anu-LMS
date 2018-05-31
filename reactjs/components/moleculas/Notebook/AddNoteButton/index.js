@@ -44,7 +44,7 @@ class AddNoteButton extends React.Component {
 
       // Saving a note and adding to the notebook.
       const note = await notebookApi.createNote(request);
-      dispatch(notebookActions.addNote(note));
+      dispatch(notebookActions.addNoteToStore(note));
 
       // Execute callback when note was added.
       if (onAfterSubmit) {

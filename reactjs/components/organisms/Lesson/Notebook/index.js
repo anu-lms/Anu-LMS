@@ -11,8 +11,6 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
-import * as userApi from '../../../../api/user';
-import * as notebookApi from '../../../../api/notebook';
 
 class LessonNotebook extends React.Component {
   constructor(props) {
@@ -23,38 +21,6 @@ class LessonNotebook extends React.Component {
     this.onBeforeNoteCreated = this.onBeforeNoteCreated.bind(this);
     this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
-  }
-
-  async componentDidMount() {
-    const { dispatch, notes, isCollapsed } = this.props;
-
-    // We need to load notes when User click Notes tab, but notes list is empty.
-    // @todo: move to separate function.
-    if (!isCollapsed && notes.length === 0) {
-      // Get superagent request with authentication token.
-      const { request } = await this.context.auth.getRequest();
-
-      dispatch(lessonSidebarActions.setLoadingState());
-
-      // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      const currentUser = await userApi.fetchCurrent(request);
-
-      const notesList = await notebookApi.fetch(request, currentUser.uid);
-
-      // Reset all existing notes in the notebook.
-      dispatch(notebookActions.clear());
-
-      // Add all notes from the backend to the notebook storage.
-      notesList.forEach(note => {
-        dispatch(notebookActions.addNote(note));
-      });
-
-      this.showNotes();
-
-      // Dismiss sidebar opening state.
-      dispatch(lessonSidebarActions.removeLoadingState());
-    }
   }
 
   /**
@@ -77,6 +43,9 @@ class LessonNotebook extends React.Component {
   }
 
   showNotes() {
+    // Initialize notes syncronization.
+    this.props.dispatch(lessonSidebarActions.open());
+
     this.props.dispatch(lessonNotebookActions.showNotes());
   }
 

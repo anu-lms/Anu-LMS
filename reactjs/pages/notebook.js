@@ -68,7 +68,7 @@ class NotebookPage extends Component {
 
       // Add all notes from the backend to the notebook storage.
       notes.forEach(note => {
-        dispatch(notebookActions.addNote(note));
+        dispatch(notebookActions.addNoteToStore(note));
       });
 
       // Automatically set the last note (first in the displayed list) as
