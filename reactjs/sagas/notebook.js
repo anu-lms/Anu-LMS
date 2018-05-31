@@ -1,5 +1,6 @@
-import { all, put, takeEvery, select, apply } from 'redux-saga/effects';
+import { all, put, call, takeEvery, takeLatest, select, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as lock from '../utils/lock';
@@ -12,16 +13,6 @@ import * as notebookActions from '../actions/notebook';
  * to sync changed with backend (if there are some updates).
  */
 const backendSyncDelay = 4000;
-
-/**
- * Main entry point for all notebook sagas.
- */
-export default function* notebookSagas() {
-  yield all([
-    notebookDataSyncWatcher(), // eslint-disable-line no-use-before-define
-    takeEvery('NOTE_SAVE', notebookNoteDataSave), // eslint-disable-line no-use-before-define
-  ]);
-}
 
 /**
  * Saga watcher.
@@ -101,4 +92,55 @@ function* noteSave(note) {
   }
 
   lock.release(lockId);
+}
+
+/**
+ * Sync notes in app store when user open sidebar.
+ */
+function* sidebarIsOpened() {
+  const activeTab = yield select(store => store.lessonSidebar.sidebar.activeTab);
+
+  if (activeTab === 'notes') {
+    yield put(notebookActions.syncNotes());
+  }
+}
+
+/**
+ * Fetch notes from the backend.
+ */
+function* fetchNotes() {
+  const uid = yield select(reduxStore => reduxStore.user.uid);
+  try {
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Makes request to the backend to fetch notes.
+    const notes = yield call(
+      notebookApi.fetch,
+      request,
+      uid,
+    );
+
+    // Let store know that notifications were received.
+    yield put(notebookActions.receiveNotes(notes));
+  }
+  catch (error) {
+    yield put(notebookActions.syncNotesFailed(error));
+    console.error('Could not update list of notes.', error);
+    Alert.error('Could not update list of notes. Please, contact site administrator.');
+  }
+}
+
+/**
+ * Main entry point for all notebook sagas.
+ */
+export default function* notebookSagas() {
+  yield all([
+    notebookDataSyncWatcher(),
+    takeEvery('NOTE_SAVE', notebookNoteDataSave),
+    takeLatest('NOTES_REQUESTED', fetchNotes),
+    takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
+  ]);
 }

@@ -1,4 +1,27 @@
 /**
+ * Make request to the backend to get notes.
+ */
+export const syncNotes = () => ({
+  type: 'NOTES_REQUESTED',
+});
+
+/**
+ * Request to the backend to get notes failed.
+ */
+export const syncNotesFailed = error => ({
+  type: 'NOTES_REQUEST_FAILED',
+  error,
+});
+
+/**
+ * Save received from backend notes to the application store.
+ */
+export const receiveNotes = notes => ({
+  type: 'NOTES_RECEIVED',
+  notes,
+});
+
+/**
  * Adds or updates an existing note in the notebook.
  */
 export const addNote = note => ({
