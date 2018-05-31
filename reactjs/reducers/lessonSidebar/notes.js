@@ -3,6 +3,16 @@ export default (state = {
   noteId: 0,
 }, action) => {
   switch (action.type) {
+    case 'LESSON_SIDEBAR_OPEN': {
+      if (action.activeTab === 'notes' && !action.context) {
+        return {
+          ...state,
+          isNoteListVisible: true,
+        };
+      }
+      return state;
+    }
+
     case 'LESSON_NOTEBOOK_SET_ACTIVE_NOTE':
       return {
         ...state,
