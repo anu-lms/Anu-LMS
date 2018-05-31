@@ -1,5 +1,4 @@
 import striptags from 'striptags';
-import * as dataProcessors from '../utils/dataProcessors';
 
 export const getTeaser = (body, rowNumber) => {
   const maxTeaserLength = 256;

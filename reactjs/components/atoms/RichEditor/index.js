@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+/* eslint-disable import/first */
+
 // IE 11: 'Symbol' is undefined.
 import 'core-js/fn/symbol/iterator';
 import 'core-js/fn/symbol';

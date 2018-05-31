@@ -3,7 +3,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 /**
  * Fetch current user.
  */
-export const fetchCurrent = (request) => new Promise((resolve, reject) => {
+export const fetchCurrent = request => new Promise((resolve, reject) => {
   request
     .get('/user/me')
     .query({ '_format': 'json' })
