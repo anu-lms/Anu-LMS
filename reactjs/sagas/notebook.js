@@ -112,8 +112,8 @@ function* fetchNotes() {
       uid,
     );
 
-    // Let store know that notifications were received.
-    yield put(notebookActions.receiveNotes(notes));
+    // Add received notes to the application store.
+    yield put(notebookActions.addNotesToStore(notes));
   }
   catch (error) {
     yield put(notebookActions.syncNotesFailed(error));
