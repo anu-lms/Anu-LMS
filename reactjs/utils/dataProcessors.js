@@ -88,6 +88,9 @@ export const courseData = courseDataObject => {
 
 /**
  * Internal helper to process paragraphs data from the backend.
+ *
+ * @todo: Improve names of functions (entityData or processEntity),
+ * consider to move to separate folder.
  */
 const processParagraphs = paragraphs => {
   let blocks = [];
@@ -149,37 +152,41 @@ const processParagraphs = paragraphs => {
 };
 
 export const lessonData = lessonDataObject => {
-  const lesson = lessonDataObject.entityId;
-
   let blocks = [];
-  if (lesson.fieldLessonBlocks) {
-    blocks = processParagraphs(lesson.fieldLessonBlocks);
+  if (lessonDataObject.fieldLessonBlocks) {
+    blocks = processParagraphs(lessonDataObject.fieldLessonBlocks);
   }
 
   return {
-    id: lesson.nid,
-    uuid: lesson.id,
-    url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
-    title: lesson.title,
-    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
+    id: lessonDataObject.nid,
+    uuid: lessonDataObject.uuid,
+    // eslint-disable-next-line max-len
+    url: lessonHelper.getUrl(lessonDataObject.fieldLessonCourse.path.alias, lessonDataObject.path.alias),
+    title: lessonDataObject.title,
+    isAssessment: lessonDataObject.fieldIsAssessment ? lessonDataObject.fieldIsAssessment : false,
     progress: 0,
     blocks,
   };
 };
 
 /**
- * Internal helper to normalize notebook notes data from the backend.
+ * Internal helper to normalize notebook note data from the backend.
  */
-export const notebookData = notebookDataObject =>
+export const notebookData = note => ({
+  id: note.id,
+  uuid: note.uuid,
+  created: note.created,
+  changed: note.changed,
+  title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
+  body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
+});
+
+/**
+ * Internal helper to normalize list of notebook notes from the backend.
+ */
+export const notebookListData = notebookDataObject =>
   // Custom mapping for notebook notes.
-  notebookDataObject.map(note => ({
-    id: note.id,
-    uuid: note.uuid,
-    created: note.created,
-    changed: note.changed,
-    title: note.fieldNotebookTitle ? note.fieldNotebookTitle : '',
-    body: note.fieldNotebookBody ? note.fieldNotebookBody.value : '',
-  }));
+  notebookDataObject.map(note => (notebookData(note)));
 
 /**
  * Internal helper to normalize User data from the backend.
@@ -212,32 +219,54 @@ export const userData = userDataObject => {
 };
 
 /**
- * Internal helper to normalize User data from the backend.
+ * Internal helper to normalize Comment data from the backend.
  */
-export const processCommentsList = commentsList => (
-  commentsList.map(rawComment => ({
+export const processComment = rawComment => {
+  const comment = {
     id: rawComment.id,
     uuid: rawComment.uuid,
     created: rawComment.created,
     changed: rawComment.changed,
     text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
-    author: {
+    parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
+    paragraphId: rawComment.fieldCommentParagraph,
+    deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
+  };
+
+  if (rawComment.uid && rawComment.uid.uid) {
+    comment.author = {
       uid: rawComment.uid.uid,
       name: rawComment.uid.name,
       firstName: rawComment.uid.fieldFirstName || '',
       lastName: rawComment.uid.fieldLastName || '',
-    },
-    parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
-    deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
-  }))
-);
+    };
+  }
+
+  if (rawComment.lesson) {
+    comment.lesson = lessonData(rawComment.lesson);
+
+    comment.url = `${comment.lesson.url}?comment=${comment.paragraphId}-${comment.id}`;
+  }
+
+  return comment;
+};
 
 /**
- * Internal helper to normalize User data from the backend.
+ * Internal helper to normalize Notification data from the backend.
+ *
+ * @todo: all process functions should eather process an array or object.
  */
 export const processNotifications = Notifications => (
-  Notifications.map(rawNotification => ({
-    ...rawNotification,
-    triggerer: userData(rawNotification.triggerer),
-  }))
+  Notifications.map(rawNotification => {
+    const notification = {
+      ...rawNotification,
+      triggerer: userData(rawNotification.triggerer),
+    };
+
+    if (rawNotification.comment) {
+      notification.comment = processComment(rawNotification.comment);
+    }
+
+    return notification;
+  })
 );

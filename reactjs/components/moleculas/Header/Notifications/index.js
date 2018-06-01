@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import * as notificationsActions from '../../../../actions/notifications';
+import * as searchActions from '../../../../actions/search';
 
 class Notifications extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Notifications extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(notificationsActions.fetchUnread());
+    dispatch(searchActions.fetch()); // @todo: invoked here for test purposes.
   }
 
   closePopup() {

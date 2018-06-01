@@ -56,7 +56,7 @@ class OpenNotesCTA extends React.Component {
           'sort': 'changed',
         });
 
-      const notes = dataProcessors.notebookData(responseNotebook.body.data);
+      const notes = dataProcessors.notebookListData(responseNotebook.body.data);
 
       // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());
