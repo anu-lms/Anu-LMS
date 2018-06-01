@@ -16,8 +16,8 @@ export const syncNotesFailed = error => ({
 /**
  * Save received from backend notes to the application store.
  */
-export const receiveNotes = notes => ({
-  type: 'NOTES_RECEIVED',
+export const addNotesToStore = notes => ({
+  type: 'NOTES_ADD_TO_STORE',
   notes,
 });
 

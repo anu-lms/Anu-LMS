@@ -10,7 +10,7 @@ export default (state = {
 
   switch (action.type) {
     // Add received notes to the application store.
-    case 'NOTES_RECEIVED': {
+    case 'NOTES_ADD_TO_STORE': {
       const receivedNotes = action.notes
         .map(note => ({
           ...note,

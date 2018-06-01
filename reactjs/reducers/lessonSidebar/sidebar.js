@@ -43,7 +43,7 @@ export default (state = {
         isLoading: true,
       };
 
-    case 'NOTES_RECEIVED':
+    case 'NOTES_ADD_TO_STORE':
     case 'NOTES_REQUEST_FAILED':
     case 'LESSON_COMMENTS_RECEIVED':
     case 'LESSON_COMMENTS_REQUEST_FAILED':
