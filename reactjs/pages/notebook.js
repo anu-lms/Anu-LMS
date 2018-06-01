@@ -5,9 +5,9 @@ import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
-import * as dataProcessors from '../utils/dataProcessors';
 import * as notebookActions from '../actions/notebook';
-import * as notebookHelpers from '../helpers/notebook';
+import * as userApi from '../api/user';
+import * as notebookApi from '../api/notebook';
 
 class NotebookPage extends Component {
   static async getInitialProps({ request, res }) {
@@ -18,32 +18,19 @@ class NotebookPage extends Component {
 
     try {
       // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      const userResponse = await request
-        .get('/user/me?_format=json')
+      const currentUser = await userApi
+        .fetchCurrent(request)
         .catch(error => {
           initialProps.statusCode = error.response.status;
           throw Error(error.response.body.message);
         });
-      const currentUser = dataProcessors.userData(userResponse.body);
 
-      const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook')
-        .query({
-          // Filter notes by current user.
-          'filter[uid][value]': currentUser.uid,
-          // Sort by changed date. Here we sort in the reverse
-          // order from what we need, because in the reducer all new notes
-          // get added to the start of the queue, which will make the final
-          // order of the notes on the page correct.
-          'sort': 'changed',
-        });
-
-      initialProps.notes = dataProcessors.notebookData(responseNotebook.body.data);
+      initialProps.notes = await notebookApi.fetchNotes(request, currentUser.uid);
     } catch (error) {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
+      return initialProps;
     }
 
     // If no notes available on the backend - add a welcome note by default.
@@ -55,7 +42,7 @@ class NotebookPage extends Component {
         const sessionToken = await request.get('/session/token');
         request.set('X-CSRF-Token', sessionToken.text);
 
-        const note = await notebookHelpers.createNote(request, title, body);
+        const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
         console.log('Could not create a welcome note.', error);
@@ -81,7 +68,7 @@ class NotebookPage extends Component {
 
       // Add all notes from the backend to the notebook storage.
       notes.forEach(note => {
-        dispatch(notebookActions.addNote(note));
+        dispatch(notebookActions.addNoteToStore(note));
       });
 
       // Automatically set the last note (first in the displayed list) as

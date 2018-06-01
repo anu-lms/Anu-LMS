@@ -1,6 +1,7 @@
-export const open = (activeTab = 'notes') => ({
+export const open = (activeTab = 'notes', context = '') => ({
   type: 'LESSON_SIDEBAR_OPEN',
   activeTab,
+  context,
 });
 
 export const close = () => ({

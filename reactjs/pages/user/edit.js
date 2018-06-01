@@ -11,6 +11,7 @@ class UserEditPage extends Component {
   static async getInitialProps({ request }) {
     // Fetch current user using custom endpoint.
     try {
+      // @todo: replace with userApi.fetchCurrent().
       const response = await request.get('/user/me?_format=json');
 
       return {

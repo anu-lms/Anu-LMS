@@ -58,7 +58,7 @@ class LoginForm extends React.Component {
       // Make request to the backend to get current user info.
       const { request } = await this.context.auth.getRequest();
       const userResponse = await request
-        .get('/user/me?_format=json')
+        .get('/user/me?_format=json') // @todo: replace with userApi.fetchCurrent().
         .catch(error => {
           throw Error(error.response.body.message);
         });
