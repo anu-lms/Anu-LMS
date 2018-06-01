@@ -14,7 +14,7 @@ export const fetch = request => new Promise((resolve, reject) => {
     .then(response => {
       // @todo: an example of normalization, improve where necessary.
       const items = response.body.map(item => {
-        let normalizedEntity = null;
+        let normalizedEntity = item.entity;
         if (item.type === 'notebook') {
           normalizedEntity = dataProcessors.notebookData(item.entity);
         }
@@ -23,6 +23,9 @@ export const fetch = request => new Promise((resolve, reject) => {
         }
         if (item.type === 'paragraph_comment') {
           normalizedEntity = dataProcessors.processComment(item.entity);
+        }
+        if (item.type === 'media_resource') {
+          normalizedEntity = dataProcessors.resourceData(item.entity);
         }
 
         return {

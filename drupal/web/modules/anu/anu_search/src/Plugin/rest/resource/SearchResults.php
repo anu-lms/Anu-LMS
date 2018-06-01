@@ -149,7 +149,7 @@ class SearchResults extends ResourceBase {
 
       $include_fields = [];
       // Prepares additional fields for normalizer function.
-      if ($entity->getEntityTypeId() == 'paragraph_comment') {
+      if (in_array($entity->getEntityTypeId(), ['paragraph_comment', 'paragraph'])) {
         $include_fields = ['lesson'];
       }
 
