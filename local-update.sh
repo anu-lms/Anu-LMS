@@ -16,11 +16,17 @@ if [ -n "$1" -a -f "${local_project_path}${1}" ];
     docker-compose exec --user=82:82 php drush --root=$docker_root sql-query --file="${1}"
 fi
 
-# Import all existing configs into the site.
+# Rebuild caches.
+docker-compose exec --user=82:82 php sh -c "cd web && drush cr"
+
+# Apply database updates.
+docker-compose exec --user=82:82 php sh -c "cd web && drush updb -y"
+
+# Import new configurations.
 docker-compose exec --user=82:82 php sh -c "cd web && drush cim -y"
 
-# Clear all cache
-docker-compose exec --user=82:82 php sh -c "cd web && drush cr"
+# Apply entity updates.
+docker-compose exec --user=82:82 php sh -c "cd web && drush entup -y"
 
 # Set the right permis for the cert keys.
 docker-compose exec php sh -c "sudo chmod 660 keys/public.key keys/private.key"
