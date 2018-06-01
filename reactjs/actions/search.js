@@ -1,8 +1,9 @@
 /**
  * Make request to the backend to search results.
  */
-export const fetch = () => ({
+export const fetch = text => ({
   type: 'SEARCH_REQUESTED',
+  text,
 });
 
 /**
@@ -19,4 +20,11 @@ export const fetchFailed = error => ({
 export const received = results => ({
   type: 'SEARCH_RECEIVED',
   results,
+});
+
+/**
+ * Flush search results.
+ */
+export const clear = () => ({
+  type: 'SEARCH_CLEAR',
 });
