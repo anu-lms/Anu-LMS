@@ -51,7 +51,7 @@ class LessonNotebook extends React.Component {
           'sort': 'changed',
         });
 
-      const notesList = dataProcessors.notebookData(responseNotebook.body.data);
+      const notesList = dataProcessors.notebookListData(responseNotebook.body.data);
 
       // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());

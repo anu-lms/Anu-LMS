@@ -91,8 +91,8 @@ export const createNote = (request, title = '', body = '') => new Promise((resol
       },
     })
     .then(response => {
-      const notes = dataProcessors.notebookData([response.body.data]);
-      resolve(notes[0]);
+      const note = dataProcessors.notebookData(response.body.data);
+      resolve(note);
     })
     .catch(error => {
       console.log('Could not save the note. Error:');
@@ -121,8 +121,8 @@ export const updateNote = (request, title, body, uuid) => new Promise((resolve, 
       },
     })
     .then(response => {
-      const notes = dataProcessors.notebookData([response.body.data]);
-      resolve(notes[0]);
+      const note = dataProcessors.notebookData(response.body.data);
+      resolve(note);
     })
     .catch(error => {
       console.log('Could not update the note. Error:');
