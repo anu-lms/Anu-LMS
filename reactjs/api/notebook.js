@@ -16,7 +16,7 @@ export const fetchNotes = (request, uid) => new Promise((resolve, reject) => {
       'sort': 'changed',
     })
     .then(response => {
-      const notes = dataProcessors.notebookData(response.body.data);
+      const notes = dataProcessors.notebookListData(response.body.data);
       resolve(notes);
     })
     .catch(error => {
@@ -44,8 +44,8 @@ export const createNote = (request, title = '', body = '') => new Promise((resol
       },
     })
     .then(response => {
-      const notes = dataProcessors.notebookData([response.body.data]);
-      resolve(notes[0]);
+      const note = dataProcessors.notebookData(response.body.data);
+      resolve(note);
     })
     .catch(error => {
       console.error('Could not save the note.', error);
@@ -73,8 +73,8 @@ export const updateNote = (request, title, body, uuid) => new Promise((resolve, 
       },
     })
     .then(response => {
-      const notes = dataProcessors.notebookData([response.body.data]);
-      resolve(notes[0]);
+      const note = dataProcessors.notebookData(response.body.data);
+      resolve(note);
     })
     .catch(error => {
       console.error('Could not update the note.', error);
