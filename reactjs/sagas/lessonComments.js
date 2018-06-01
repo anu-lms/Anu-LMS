@@ -19,9 +19,11 @@ function* fetchComments() {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
+    // @todo: move to the api folder.
     const commentsQuery = {
       'include': 'uid, field_comment_parent',
       // Filter by paragraph id.
@@ -81,6 +83,7 @@ function* addComment({ text, parentId }) {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 

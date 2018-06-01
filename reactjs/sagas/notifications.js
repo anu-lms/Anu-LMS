@@ -28,7 +28,7 @@ function* fetchNotifications({ isRead, lastFetchedTimestamp }) {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Makes request to the backend to update comment.
+    // Makes request to the backend to fetch notifications.
     const notifications = yield call(
       api.fetchNotifications,
       request,

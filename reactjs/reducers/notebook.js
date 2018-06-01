@@ -9,8 +9,25 @@ export default (state = {
   let index;
 
   switch (action.type) {
+    // Add received notes to the application store.
+    case 'NOTES_ADD_TO_STORE': {
+      const receivedNotes = action.notes
+        .map(note => ({
+          ...note,
+          isSaved: true,
+          isSaving: false,
+        }))
+        // Read comment in fetch function why we sort here additionally.
+        .sort((a, b) => (b.changed - a.changed));
+
+      return {
+        ...state,
+        notes: receivedNotes,
+      };
+    }
+
     // Adds existing note to the notebook store.
-    case 'NOTE_ADD':
+    case 'NOTE_ADD_TO_STORE':
 
       // Search for the existing note.
       index = state.notes.findIndex(element => element.id === action.note.id);
