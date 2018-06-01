@@ -123,6 +123,7 @@
     background: $eggshell-white;
     @include media-breakpoint-up(md) {
       min-height: calc(100% - 56px);
+      height: calc(100% - 56px);
       max-height: 0;
       overflow-y: scroll;
     }

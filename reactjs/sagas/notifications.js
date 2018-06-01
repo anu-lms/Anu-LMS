@@ -28,7 +28,7 @@ function* fetchNotifications({ isRead, lastFetchedTimestamp }) {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Makes request to the backend to update comment.
+    // Makes request to the backend to fetch notifications.
     const notifications = yield call(
       api.fetchNotifications,
       request,
@@ -53,6 +53,10 @@ function* markAsRead({ notificationId }) {
     const notifications = yield select(reduxStore => reduxStore.notifications.notifications);
     const notificationItem = arrayHelper.getObjectById(notifications, notificationId);
 
+    // Attaches session token to the request.
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
+
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -76,8 +80,9 @@ function* markAsRead({ notificationId }) {
  */
 function* markAllAsRead() {
   try {
-    const token = yield request.get('/session/token');
-    request.set('X-CSRF-Token', token.text);
+    // Attaches session token to the request.
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();

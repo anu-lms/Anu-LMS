@@ -1,8 +1,10 @@
-import { all, put, takeEvery, select, apply } from 'redux-saga/effects';
+import { all, put, call, takeEvery, takeLatest, select, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as lock from '../utils/lock';
+import * as notebookApi from '../api/notebook';
 import * as notebookHelpers from '../helpers/notebook';
 import * as notebookActions from '../actions/notebook';
 
@@ -11,16 +13,6 @@ import * as notebookActions from '../actions/notebook';
  * to sync changed with backend (if there are some updates).
  */
 const backendSyncDelay = 4000;
-
-/**
- * Main entry point for all notebook sagas.
- */
-export default function* notebookSagas() {
-  yield all([
-    notebookDataSyncWatcher(), // eslint-disable-line no-use-before-define
-    takeEvery('NOTE_SAVE', notebookNoteDataSave), // eslint-disable-line no-use-before-define
-  ]);
-}
 
 /**
  * Saga watcher.
@@ -70,6 +62,10 @@ function* notebookNoteDataSave(action) {
  *   Note object.
  */
 function* noteSave(note) {
+  // Attaches session token to the request.
+  const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+  request.set('X-CSRF-Token', sessionToken);
+
   // Making sure the request object includes the valid access token.
   const auth = new ClientAuth();
   const accessToken = yield apply(auth, auth.getAccessToken);
@@ -83,7 +79,7 @@ function* noteSave(note) {
 
   try {
     // Send backend request to update the note.
-    yield notebookHelpers.updateNote(request, note.title, note.body, note.uuid);
+    yield notebookApi.updateNote(request, note.title, note.body, note.uuid);
 
     // TODO: DON'T SAVE IF CHANGES WERE MADE WHILE THE NOTE WAS SAVING.
 
@@ -96,4 +92,43 @@ function* noteSave(note) {
   }
 
   lock.release(lockId);
+}
+
+/**
+ * Fetch notes from the backend.
+ */
+function* fetchNotes() {
+  const uid = yield select(reduxStore => reduxStore.user.uid);
+  try {
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Makes request to the backend to fetch notes.
+    const notes = yield call(
+      notebookApi.fetchNotes,
+      request,
+      uid,
+    );
+
+    // Add received notes to the application store.
+    yield put(notebookActions.addNotesToStore(notes));
+  }
+  catch (error) {
+    yield put(notebookActions.syncNotesFailed(error));
+    console.error('Could not update list of notes.', error);
+    Alert.error('Could not update list of notes. Please, contact site administrator.');
+  }
+}
+
+/**
+ * Main entry point for all notebook sagas.
+ */
+export default function* notebookSagas() {
+  yield all([
+    notebookDataSyncWatcher(),
+    takeEvery('NOTE_SAVE', notebookNoteDataSave),
+    takeLatest('NOTES_REQUESTED', fetchNotes),
+  ]);
 }
