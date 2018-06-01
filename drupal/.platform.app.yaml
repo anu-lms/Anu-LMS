@@ -116,6 +116,9 @@ hooks:
     chmod 600 keys/private.key keys/public.key
     chmod +x scripts/dump_db.sh
 
+   # Adding Tika configuration. Based on https://thinktandem.io/blog/2017/11/10/apache-tika-on-platform-sh
+    mkdir -p /app/srv/bin
+    cd /app/srv/bin && curl -OL http://download.nextag.com/apache/tika/tika-app-1.18.jar
 
     # The deploy hook runs after your application has been deployed and started.
     #deploy: |
