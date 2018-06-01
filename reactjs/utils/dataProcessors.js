@@ -182,6 +182,22 @@ export const notebookData = note => ({
 });
 
 /**
+ * Internal helper to normalize resource data from the backend.
+ */
+export const resourceData = rawResource => {
+  const resource = {
+    id: rawResource.id,
+    title: rawResource.fieldParagraphTitle ? rawResource.fieldParagraphTitle : '',
+  };
+
+  if (rawResource.lesson) {
+    resource.lesson = lessonData(rawResource.lesson);
+  }
+
+  return resource;
+};
+
+/**
  * Internal helper to normalize list of notebook notes from the backend.
  */
 export const notebookListData = notebookDataObject =>

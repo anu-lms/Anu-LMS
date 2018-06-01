@@ -34,19 +34,33 @@ class Resource extends AnuNormalizerBase {
     }
 
     try {
-      // Load the file from paragraph.
-      $file = $entity->field_paragraph_private_file
-        ->first()
-        ->get('entity')
-        ->getTarget()
-        ->getValue();
-
       $output = [
         'id' => (int) $entity->id(),
-        'title' => $entity->field_paragraph_title->getString(),
-        'fileId' => (int) $file->id(),
-        'fileName' => $file->filename->getString(),
+        'fieldParagraphTitle' => $entity->field_paragraph_title->getString(),
       ];
+
+      if (in_array('file', $include_fields)) {
+        // Load the file from paragraph.
+        $file = $entity->field_paragraph_private_file
+          ->first()
+          ->get('entity')
+          ->getTarget()
+          ->getValue();
+
+        $output['file'] = [
+          'id' => (int) $file->id(),
+          'filename' => $file->filename->getString(),
+        ];
+      }
+
+      if (in_array('lesson', $include_fields)) {
+        $lesson = $entity->getParentEntity();
+
+        // Normalize lesson entity with lesson data included.
+        if ($lesson && $lesson_normalized = AnuNormalizerBase::normalizeEntity($lesson)) {
+          $output['lesson'] = $lesson_normalized;
+        }
+      }
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
         '@error' => $e->getMessage()
