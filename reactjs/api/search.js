@@ -2,14 +2,14 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
- * Make a request to the backend to get user notifications.
+ * Make a request to the backend to perform a search.
  */
-export const fetch = request => new Promise((resolve, reject) => {
+export const fetch = (request, text) => new Promise((resolve, reject) => {
   request
     .get('/site/search')
     .query({
       _format: 'json',
-      'filter[fulltext][condition][fulltext]': 'search', // @todo: replace hardcoded value.
+      'filter[fulltext][condition][fulltext]': text,
     })
     .then(response => {
       // @todo: an example of normalization, improve where necessary.

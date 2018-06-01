@@ -21,7 +21,6 @@ class Notifications extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(notificationsActions.fetchUnread());
-    dispatch(searchActions.fetch()); // @todo: invoked here for test purposes.
   }
 
   closePopup() {
