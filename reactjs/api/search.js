@@ -9,7 +9,7 @@ export const fetch = request => new Promise((resolve, reject) => {
     .get('/site/search')
     .query({
       _format: 'json',
-      'filter[fulltext][condition][fulltext]': 'search', // @todo: replace hardcoded value.
+      'filter[fulltext][condition][fulltext]': 'sample', // @todo: replace hardcoded value.
     })
     .then(response => {
       // @todo: an example of normalization, improve where necessary.
