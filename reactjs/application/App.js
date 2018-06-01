@@ -7,10 +7,6 @@ import sAlertStore from 'react-s-alert/dist/s-alert-parts/s-alert-store';
 // issue on login page in iOS 8 and IE 11.
 import 'es6-shim';
 
-// Adds IE11 support.
-import 'core-js/fn/symbol/iterator';
-import 'core-js/fn/symbol';
-
 import HtmlHead from './HtmlHead';
 import routerEvents from '../router-events';
 import '../components/atoms/ProgressBar/PageProgress';

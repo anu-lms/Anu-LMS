@@ -10,7 +10,7 @@ dependencies:
 web:
 
   commands:
-    start: "PM2_HOME=$PLATFORM_APP_DIR/run NODE_ENV=production DEBUG='*' pm2 start server.js --no-daemon"
+    start: "PM2_HOME=$PLATFORM_APP_DIR/run NODE_ENV=production pm2 start server.js --no-daemon"
 
   locations:
     "/":
