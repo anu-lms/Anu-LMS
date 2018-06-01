@@ -11,7 +11,6 @@ import * as notebookActions from '../../../../actions/notebook';
 import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as notebookHelpers from '../../../../helpers/notebook';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 
 class LessonNotebook extends React.Component {
   constructor(props) {
@@ -22,51 +21,6 @@ class LessonNotebook extends React.Component {
     this.onBeforeNoteCreated = this.onBeforeNoteCreated.bind(this);
     this.onAfterNoteCreated = this.onAfterNoteCreated.bind(this);
     this.handleNotebookClose = this.handleNotebookClose.bind(this);
-  }
-
-  async componentDidMount() {
-    const { dispatch, notes, isCollapsed } = this.props;
-
-    // We need to load notes when User click Notes tab, but notes list is empty.
-    // @todo: move to separate function.
-    if (!isCollapsed && notes.length === 0) {
-      // Get superagent request with authentication token.
-      const { request } = await this.context.auth.getRequest();
-
-      dispatch(lessonSidebarActions.setLoadingState());
-
-      // Get currently logged in user.
-      // @todo: consider to store user id in local storage after user login.
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
-
-      const responseNotebook = await request
-        .get('/jsonapi/notebook/notebook')
-        .query({
-          // Filter notes by current user.
-          'filter[uid][value]': currentUser.uid,
-          // Sort by changed date. Here we sort in the reverse
-          // order from what we need, because in the reducer all new notes
-          // get added to the start of the queue, which will make the final
-          // order of the notes on the page correct.
-          'sort': 'changed',
-        });
-
-      const notesList = dataProcessors.notebookListData(responseNotebook.body.data);
-
-      // Reset all existing notes in the notebook.
-      dispatch(notebookActions.clear());
-
-      // Add all notes from the backend to the notebook storage.
-      notesList.forEach(note => {
-        dispatch(notebookActions.addNote(note));
-      });
-
-      this.showNotes();
-
-      // Dismiss sidebar opening state.
-      dispatch(lessonSidebarActions.removeLoadingState());
-    }
   }
 
   /**
@@ -89,7 +43,8 @@ class LessonNotebook extends React.Component {
   }
 
   showNotes() {
-    this.props.dispatch(lessonNotebookActions.showNotes());
+    // Initialize notes syncronization.
+    this.props.dispatch(lessonSidebarActions.open());
   }
 
   openNote(id) {

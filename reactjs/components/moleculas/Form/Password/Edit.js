@@ -92,6 +92,7 @@ class PasswordForm extends React.Component {
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
+      // @todo: replace with userApi.fetchCurrent().
       const userResponse = await request.get('/user/me?_format=json');
       const currentUser = dataProcessors.userData(userResponse.body);
 
