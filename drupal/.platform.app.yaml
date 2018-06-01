@@ -111,6 +111,7 @@ mounts:
 # The hooks executed at various points in the lifecycle of the application.
 hooks:
     # The build hook runs to build all dependencies together.
+    # Adding Tika configuration. Based on https://thinktandem.io/blog/2017/11/10/apache-tika-on-platform-sh
     build: |
       chmod 600 keys/private.key keys/public.key
       chmod +x scripts/dump_db.sh
