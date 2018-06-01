@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 
+# This script can be executed like `./local-update.sh dump.sql` to import the db during update.
+# dump.sql should be placed in ./drupal/web/dump.sql.
+
+local_project_path=./drupal/web/
+docker_root=/var/www/html/web
+
 # Install and update all Drupal components.
 docker-compose run php composer install --verbose
+
+# Searching for the file from the arguments if there are some.
+if [ -n "$1" -a -f "${local_project_path}${1}" ];
+  then
+    echo "Importing database..."
+    docker-compose exec --user=82:82 php drush --root=$docker_root sql-query --file="${1}"
+fi
 
 # Import all existing configs into the site.
 docker-compose exec --user=82:82 php sh -c "cd web && drush cim -y"
