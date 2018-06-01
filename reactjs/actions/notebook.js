@@ -1,8 +1,31 @@
 /**
- * Adds or updates an existing note in the notebook.
+ * Make request to the backend to get notes.
  */
-export const addNote = note => ({
-  type: 'NOTE_ADD',
+export const syncNotes = () => ({
+  type: 'NOTES_REQUESTED',
+});
+
+/**
+ * Request to the backend to get notes failed.
+ */
+export const syncNotesFailed = error => ({
+  type: 'NOTES_REQUEST_FAILED',
+  error,
+});
+
+/**
+ * Save received from backend notes to the application store.
+ */
+export const addNotesToStore = notes => ({
+  type: 'NOTES_ADD_TO_STORE',
+  notes,
+});
+
+/**
+ * Adds or updates an existing note in the store.
+ */
+export const addNoteToStore = note => ({
+  type: 'NOTE_ADD_TO_STORE',
   note,
 });
 

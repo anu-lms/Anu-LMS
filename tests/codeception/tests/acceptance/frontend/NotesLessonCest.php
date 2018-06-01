@@ -40,6 +40,10 @@ class NotesLessonCest {
     $I->waitForElementVisible('.note-content h5.title');
     $I->click('.note-content h5.title');
     $I->pressKey('.note-content h5.title span', ' edited');
+    // Make sure user can see correct saving status.
+    $I->waitForText('Not saved');
+    $I->waitForText('Saving...');
+    $I->waitForText('Saved');
     $I->click('.show-note-button');
     $I->waitForText('Note title edited');
 

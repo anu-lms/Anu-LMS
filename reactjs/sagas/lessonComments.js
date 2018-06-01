@@ -19,9 +19,11 @@ function* fetchComments() {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
+    // @todo: move to the api folder.
     const commentsQuery = {
       'include': 'uid, field_comment_parent',
       // Filter by paragraph id.
@@ -73,12 +75,16 @@ function* sidebarIsOpened() {
 function* addComment({ text, parentId }) {
   const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
   try {
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
+
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get user data to filter by user's organization.
+    // @todo: replace with userApi.fetchCurrent().
     const userResponse = yield request.get('/user/me?_format=json');
     const currentUser = dataProcessors.userData(userResponse.body);
 
@@ -102,6 +108,9 @@ function* updateComment({ commentId, text }) {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -128,6 +137,10 @@ function* markCommentAsDeleted({ commentId }) {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    // Attaches session token to the request.
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -156,6 +169,10 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
+
+    // Attaches session token to the request.
+    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
+    request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
