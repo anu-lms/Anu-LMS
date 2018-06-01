@@ -16,6 +16,7 @@ dependencies:
   module:
     - paragraphs
     - search_api
+    - search_api_attachments
     - eck
     - node
 id: content
@@ -30,6 +31,11 @@ field_settings:
     indexed_locked: true
     type_locked: true
     hidden: true
+  saa_field_paragraph_private_file:
+    label: 'Search api attachments: File'
+    property_path: saa_field_paragraph_private_file
+    type: text
+    boost: 0.8
   field_comment_text:
     label: Text
     datasource_id: 'entity:paragraph_comment'
@@ -150,6 +156,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.notebook.field_notebook_title
+  field_paragraph_title_2:
+    label: Name
+    datasource_id: 'entity:paragraph'
+    property_path: field_paragraph_title
+    type: text
+    dependencies:
+      config:
+        - field.storage.paragraph.field_paragraph_title
 datasource_settings:
   'entity:paragraph_comment':
     bundles:
@@ -175,6 +189,14 @@ datasource_settings:
     languages:
       default: true
       selected: {  }
+  'entity:paragraph':
+    bundles:
+      default: false
+      selected:
+        - media_resource
+    languages:
+      default: true
+      selected: {  }
 processor_settings:
   rendered_item: {  }
   add_url: {  }
@@ -193,6 +215,7 @@ processor_settings:
   ignorecase:
     all_fields: true
     fields:
+      - saa_field_paragraph_private_file
       - field_comment_text
       - title
       - field_paragraph_text
@@ -203,6 +226,7 @@ processor_settings:
       - field_paragraph_title_1
       - field_notebook_body
       - field_notebook_title
+      - field_paragraph_title_2
     weights:
       preprocess_index: -20
       preprocess_query: -20
@@ -227,6 +251,12 @@ processor_settings:
     weights:
       preprocess_index: -15
       preprocess_query: -15
+  file_attachments:
+    excluded_extensions: 'aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv'
+    number_indexed: 0
+    max_filesize: '0'
+    excluded_private: 0
+    excluded_mimes: 'audio/x-aiff image/x-jg video/x-msvideo image/x-ms-bmp image/gif image/vnd.microsoft.icon video/quicktime audio/ogg video/ogg image/png image/x-photoshop audio/x-realaudio audio/x-pn-realaudio image/x-rgb video/x-flv'
 tracker_settings:
   default:
     indexing_order: fifo
