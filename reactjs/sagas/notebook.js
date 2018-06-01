@@ -107,7 +107,7 @@ function* fetchNotes() {
 
     // Makes request to the backend to fetch notes.
     const notes = yield call(
-      notebookApi.fetch,
+      notebookApi.fetchNotes,
       request,
       uid,
     );

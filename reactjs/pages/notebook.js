@@ -25,7 +25,7 @@ class NotebookPage extends Component {
           throw Error(error.response.body.message);
         });
 
-      initialProps.notes = await notebookApi.fetch(request, currentUser.uid);
+      initialProps.notes = await notebookApi.fetchNotes(request, currentUser.uid);
     } catch (error) {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;

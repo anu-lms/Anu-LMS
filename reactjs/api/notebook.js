@@ -3,7 +3,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 /**
  * Fetch notes from the backend.
  */
-export const fetch = (request, uid) => new Promise((resolve, reject) => {
+export const fetchNotes = (request, uid) => new Promise((resolve, reject) => {
   request
     .get('/jsonapi/notebook/notebook')
     .query({
