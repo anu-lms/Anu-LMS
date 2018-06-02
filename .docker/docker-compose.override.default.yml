@@ -70,7 +70,7 @@ services:
   #########################
 
   chrome:
-    image: selenium/standalone-chrome:3.11.0
+    image: selenium/standalone-chrome:$CHROME_TAG
     expose:
       - 4444
     shm_size: 2gb
