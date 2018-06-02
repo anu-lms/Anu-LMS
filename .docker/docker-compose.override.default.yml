@@ -34,10 +34,6 @@ services:
 #    volumes:
 #      - ../.platform/solr:/opt/solr/server/solr/maincore:cached
 #
-#  codecept:
-#    volumes:
-#      - ../tests/codeception:/project:cached
-#
 #  #########################
 #  ### PhpMyAdmin ##########
 #  #########################
@@ -66,6 +62,8 @@ services:
       - nginx
     volumes:
       - ../tests/codeception:/project
+      # For macOS users (https://wodby.com/stacks/drupal/docs/local/docker-for-mac/)
+#      - ../tests/codeception:/project:cached
 
   #########################
   ### CHROME FOR TESTS ####
