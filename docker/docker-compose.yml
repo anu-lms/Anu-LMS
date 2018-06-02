@@ -128,6 +128,20 @@ services:
     shm_size: 2gb
 
   ##########################
+  ### DOCKER MANAGEMENT ####
+  ##########################
+
+  portainer:
+    image: portainer/portainer
+    command: --no-auth -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - 'traefik.backend=portainer'
+      - 'traefik.port=9000'
+      - 'traefik.frontend.rule=Host:portainer.docker.localhost'
+
+  ##########################
   ### REVERSE PROXY ########
   ##########################
 
