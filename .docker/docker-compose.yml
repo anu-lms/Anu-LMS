@@ -78,23 +78,6 @@ services:
       - 'traefik.frontend.rule=Host:solr.docker.localhost'
 
   #########################
-  ### PhpMyAdmin ##########
-  #########################
-
-  pma:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: drupal
-      PMA_PASSWORD: drupal
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    labels:
-      - 'traefik.backend=pma'
-      - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:pma.docker.localhost'
-
-  #########################
   ### MAILHOG #############
   #########################
 
@@ -104,42 +87,6 @@ services:
       - 'traefik.backend=mailhog'
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
-
-  #########################
-  ### CODECEPTION #########
-  #########################
-
-  codecept:
-    image: codeception/codeception
-    depends_on:
-      - chrome
-      - nginx
-    volumes:
-      - ../tests/codeception:/project
-
-  #########################
-  ### CHROME FOR TESTS ####
-  #########################
-
-  chrome:
-    image: selenium/standalone-chrome:3.11.0
-    expose:
-      - 4444
-    shm_size: 2gb
-
-  ##########################
-  ### DOCKER MANAGEMENT ####
-  ##########################
-
-  portainer:
-    image: portainer/portainer
-    command: --no-auth -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      - 'traefik.backend=portainer'
-      - 'traefik.port=9000'
-      - 'traefik.frontend.rule=Host:portainer.docker.localhost'
 
   ##########################
   ### REVERSE PROXY ########
