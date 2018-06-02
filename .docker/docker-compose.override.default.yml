@@ -56,7 +56,7 @@ services:
   #########################
 
   codecept:
-    image: codeception/codeception
+    image: codeception/codeception:$CODECEPT_TAG
     depends_on:
       - chrome
       - nginx
