@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
 
   ##########################
@@ -15,7 +15,7 @@ services:
     expose:
       - "3000"
     volumes:
-      - ./reactjs:/app
+      - ../reactjs:/app
     command: sh -c 'yarn install && yarn run start:dev'
 
   ##########################
@@ -32,7 +32,7 @@ services:
       DB_NAME: drupal
       DB_DRIVER: mysql
     volumes:
-      - ./drupal:/var/www/html
+      - ../drupal:/var/www/html
 
   nginx:
     image: wodby/drupal-nginx:8-1.13-2.4.2
@@ -45,7 +45,7 @@ services:
       NGINX_SERVER_ROOT: /var/www/html/web
       NGINX_SERVER_EXTRA_CONF_FILEPATH: /var/www/html/drupal-server.conf
     volumes:
-      - ./drupal:/var/www/html
+      - ../drupal:/var/www/html
     labels:
       - 'traefik.backend=nginx'
       - 'traefik.port=80'
@@ -60,7 +60,7 @@ services:
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
     volumes:
-      - ./drupal/mysql/data:/var/lib/mysql
+      - ../drupal/mysql/data:/var/lib/mysql
 
   ##########################
   ### DONATIONS BACKEND ####
@@ -71,7 +71,7 @@ services:
     environment:
       SOLR_HEAP: 1024m
     volumes:
-      - .platform/solr:/opt/solr/server/solr/maincore
+      - ../.platform/solr:/opt/solr/server/solr/maincore
     labels:
       - 'traefik.backend=solr'
       - 'traefik.port=8983'
@@ -115,7 +115,7 @@ services:
       - chrome
       - nginx
     volumes:
-      - ./tests/codeception:/project
+      - ../tests/codeception:/project
 
   #########################
   ### CHROME FOR TESTS ####
