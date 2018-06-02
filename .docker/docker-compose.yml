@@ -11,7 +11,7 @@ services:
     labels:
       - 'traefik.backend=node'
       - 'traefik.port=3000'
-      - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local'
+      - 'traefik.frontend.rule=Host:app.${PROJECT_BASE_URL}, app.${PROJECT_BASE_URL_TESTS}'
     expose:
       - "3000"
     volumes:
@@ -49,7 +49,7 @@ services:
     labels:
       - 'traefik.backend=nginx'
       - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:app.docker.localhost, app.docker.local;PathPrefix:/admin'
+      - 'traefik.frontend.rule=Host:app.${PROJECT_BASE_URL}, app.${PROJECT_BASE_URL_TESTS};PathPrefix:/admin'
 
   mariadb:
     image: wodby/mariadb:$MARIADB_TAG
@@ -60,7 +60,7 @@ services:
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
     volumes:
-      - ../drupal/mysql/data:/var/lib/mysql
+      - $MYSQL_DATA_DIR:/var/lib/mysql
 
   ##########################
   ### DONATIONS BACKEND ####
@@ -75,7 +75,7 @@ services:
     labels:
       - 'traefik.backend=solr'
       - 'traefik.port=8983'
-      - 'traefik.frontend.rule=Host:solr.docker.localhost'
+      - 'traefik.frontend.rule=Host:solr.${PROJECT_BASE_URL}'
 
   #########################
   ### MAILHOG #############
@@ -86,7 +86,7 @@ services:
     labels:
       - 'traefik.backend=mailhog'
       - 'traefik.port=8025'
-      - 'traefik.frontend.rule=Host:mailhog.docker.localhost'
+      - 'traefik.frontend.rule=Host:mailhog.${PROJECT_BASE_URL}'
 
   ##########################
   ### REVERSE PROXY ########
@@ -103,5 +103,5 @@ services:
     networks:
       default:
         aliases:
-          - app.docker.localhost
-          - app.docker.local
+          - app.$PROJECT_BASE_URL
+          - app.$PROJECT_BASE_URL_TESTS
