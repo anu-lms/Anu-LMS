@@ -1,0 +1,39 @@
+version: "2"
+
+services:
+  node:
+    volumes:
+      # For macOS users (https://wodby.com/stacks/drupal/docs/local/docker-for-mac/)
+      - ./reactjs:/app:cached
+
+  php:
+#    environment:
+#      # Read instructions at https://wodby.com/stacks/drupal/docs/local/xdebug/
+#      PHP_XDEBUG: 1
+#      PHP_XDEBUG_DEFAULT_ENABLE: 1
+#      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+#      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ & Linux/Mac/Win
+#      PHP_IDE_CONFIG: serverName=my-ide
+#      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
+    volumes:
+      - ./drupal:/var/www/html:cached
+#      # For Xdebug profiler files
+#      - files:/mnt/files
+
+  nginx:
+    volumes:
+      - ./drupal:/var/www/html:cached
+
+  mariadb:
+    volumes:
+      - ./drupal/mysql/data:/var/lib/mysql:cached
+
+  solr:
+    volumes:
+      - .platform/solr:/opt/solr/server/solr/maincore:cached
+
+  codecept:
+    volumes:
+      - ./tests/codeception:/project:cached
