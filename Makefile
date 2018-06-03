@@ -23,24 +23,20 @@ COLOR_END=\033[0;37m
 
 default: up
 
-pull:
-	@echo "${YELLOW}Updating Docker images...${COLOR_END}"
-	docker-compose pull
-
-up: | pull
-	@echo "Build and run containers..."
+up:
+	@echo "${YELLOW}Build and run containers...${COLOR_END}"
 	docker-compose up -d --remove-orphans
 
 stop:
-	@echo "Stopping containers..."
+	@echo "${YELLOW}Stopping containers...${COLOR_END}"
 	docker-compose stop
 
 restart:
-	@echo "Restarting containers..."
+	@echo "${YELLOW}Restarting containers...${COLOR_END}"
 	docker-compose restart
 
 down:
-	@echo "Removing network & containers..."
+	@echo "${YELLOW}Removing network & containers...${COLOR_END}"
 	docker-compose down -v --remove-orphans
 
 shell:
@@ -52,11 +48,11 @@ cr:
 prepare: | prepare\:project prepare\:permissions
 
 prepare\:project:
-	@echo "Adding Platform.sh remote..."
+	@echo "${YELLOW}Adding Platform.sh remote...${COLOR_END}"
 	-$(shell platform project:set-remote ${PLATFORM_PROJECT_ID})
 
 prepare\:permissions:
-	@echo "Fixing directory permissions..."
+	@echo "${YELLOW}Fixing directory permissions...${COLOR_END}"
 	$(shell chmod 777 \.\/public\/sites\/default\/files)
 
 install: | prepare up db\:dump reinstall
@@ -64,42 +60,43 @@ install: | prepare up db\:dump reinstall
 reinstall: | db\:import update
 
 db\:dump:
-	@echo "Creating DB dump..."
-	-$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=drupal/${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
+	@echo "${YELLOW}Creating DB dump...${COLOR_END}"
+	$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=drupal/${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
 
 db\:dump\:local:
-	@echo "Creating DB dump..."
+	@echo "${YELLOW}Creating DB dump...${COLOR_END}"
 	$(call docker, drush sql-dump --gzip --result-file=../${BACKUP_DIR}/local-dump.sql --skip-tables-list=cache,cache_*,flood,watchdog)
 
 db\:drop:
-	@echo "Dropping DB..."
+	@echo "${YELLOW}Dropping DB...${COLOR_END}"
 	$(call docker-drupal, drush sql-drop -y)
 
 db\:import: | db\:drop
 	sleep 5
-	@echo "Importing ${PLATFORM_ENVIRONMENT} DB..."
+	@echo "${YELLOW}Importing ${PLATFORM_ENVIRONMENT} DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
 
 db\:import\:local: | db\:drop
 	sleep 5
-	@echo "Importing Local DB..."
+	@echo "${YELLOW}Importing Local DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/local-dump.sql.gz | drush sql-cli")
 
 update:
-	@echo "Updating the code from the git remote branch..."
+	@echo "${YELLOW}Updating the code from the git remote branch...${COLOR_END}"
 # 	Use "| true" to skip errors if branch wasn't pushed to origin yet.
 	@git pull origin $(shell git rev-parse --abbrev-ref HEAD) | true
 
 # 	Frontend restart is not needed, because containers restart will
 # 	trigger "yarn install" anyway.
-	@echo "Restarting Docker containers..."
+	@echo "${YELLOW}Restarting Docker containers...${COLOR_END}"
 	@docker-compose down --remove-orphans
+	docker-compose pull
 	docker-compose up -d --remove-orphans
 
-	@echo "Updating composer dependencies for the backend..."
+	@echo "${YELLOW}Updating composer dependencies for the backend...${COLOR_END}"
 	$(call docker, composer install)
 
-	@echo "Running flush caches, DB updates..."
+	@echo "${YELLOW}Running flush caches, DB updates...${COLOR_END}"
 	$(call docker-drupal, drush cr)
 	$(call docker-drupal, drush updb -y)
 	$(call docker-drupal, drush cim -y)
