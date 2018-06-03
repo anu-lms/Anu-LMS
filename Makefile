@@ -57,10 +57,14 @@ install: | prepare up db\:dump reinstall
 
 reinstall: | db\:import update
 
-# todo: exclude unnecessary tables.
 db\:dump:
 	@echo "Creating DB dump..."
 	-$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=drupal/${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
+
+db\:dump\:local:
+	@echo "Creating DB dump..."
+	#$(call docker-drupal, ls -l)
+	$(call docker, drush sql-dump --gzip --result-file=../${BACKUP_DIR}/local-dump.sql --skip-tables-list=cache,cache_*,flood,watchdog)
 
 db\:drop:
 	@echo "Dropping DB..."
@@ -68,8 +72,13 @@ db\:drop:
 
 db\:import: | db\:drop
 	sleep 5
-	@echo "Importing DB..."
+	@echo "Importing ${PLATFORM_ENVIRONMENT} DB..."
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
+
+db\:import\:local: | db\:drop
+	sleep 5
+	@echo "Importing Local DB..."
+	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/local-dump.sql.gz | drush sql-cli")
 
 update:
 	@echo "Running flush caches, DB updates..."
