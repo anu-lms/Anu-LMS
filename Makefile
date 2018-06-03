@@ -114,6 +114,7 @@ update:
 
 # Defines short aliases.
 # You can also add `alias mk='make'` to ~/.bash_profile (MacOS) to use short `mk` indead of `make`.
+# `make` without arguments will run default `up` rule.
 st: stop
 rs: restart
 dw: down
