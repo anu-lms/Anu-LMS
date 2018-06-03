@@ -29,8 +29,12 @@ stop:
 	@echo "Stopping containers..."
 	docker-compose stop
 
+restart:
+	@echo "Restarting containers..."
+	docker-compose restart
+
 down:
-	@echo "Removing network & containers for $(COMPOSE_PROJECT_NAME)..."
+	@echo "Removing network & containers..."
 	docker-compose down -v --remove-orphans
 
 shell:
