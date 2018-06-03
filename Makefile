@@ -59,6 +59,7 @@ prepare\:permissions:
 	@echo "${YELLOW}Fixing directory permissions...${COLOR_END}"
 	$(shell chmod 777 \.\/public\/sites\/default\/files)
 
+# Install rule wasn't tested. @todo: review and improve this part.
 install:
 	$(MAKE) -s prepare
 	$(MAKE) -s up
