@@ -1,5 +1,5 @@
 .PHONY: default up up stop restart down shell shell\:node cr prepare prepare\:project prepare\:permissions \
-install reinstall db\:dump db\:dump\:local db\:import db\:import\:local update tests tests\:debug eslint
+install reinstall db\:dump db\:dump\:local db\:import db\:import\:local update tests tests\:debug eslint cscheck csfix
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -129,6 +129,26 @@ tests\:debug:
 eslint:
 	@echo "${YELLOW}Analysing js code for the standats following...${COLOR_END}"
 	docker-compose exec node yarn eslint
+
+# Check custom modules in /modules/anu folder for coding standarts.
+# Examples:
+# make cscheck
+# make cscheck anu_search
+cscheck:
+#	Remove the first argument `tests` from the list of make commands.
+	$(eval ARGS := $(filter-out $@,$(MAKECMDGOALS)))
+	$(call docker, ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer)
+	$(call docker, ./vendor/bin/phpcs --config-set show_progress 1)
+	$(call docker, ./vendor/bin/phpcs --colors --warning-severity=0 --standard=Drupal ./web/modules/anu/$(ARGS))
+
+# Fix issues with coding standarts in /modules/anu folder.
+# Examples:
+# make csfix
+# make csfix anu_search
+csfix:
+#	Remove the first argument `tests` from the list of make commands.
+	$(eval ARGS := $(filter-out $@,$(MAKECMDGOALS)))
+	$(call docker, ./vendor/bin/phpcbf --colors --standard=Drupal ./web/modules/anu/$(ARGS))
 
 # Defines short aliases.
 # You can also add `alias mk='make'` to ~/.bash_profile (MacOS) to use short `mk` indead of `make`.
