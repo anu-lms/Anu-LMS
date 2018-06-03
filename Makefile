@@ -60,8 +60,16 @@ reinstall: | db\:import update
 # todo: exclude unnecessary tables.
 db\:dump:
 	@echo "Creating DB dump..."
-	-$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
+	-$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=drupal/${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
 
+db\:drop:
+	@echo "Dropping DB..."
+	$(call docker-drupal, drush sql-drop -y)
+
+db\:import: | db\:drop
+	sleep 5
+	@echo "Importing DB..."
+	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
 
 # todo: Define aliases.
 
