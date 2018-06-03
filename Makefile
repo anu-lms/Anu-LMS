@@ -1,4 +1,4 @@
-.PHONY: default up pull up stop down shell db\:drop db\:import tests
+.PHONY: default up pull up stop down shell db\:drop db\:import tests reinstall
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -14,8 +14,7 @@ include .env
 docker-drupal = docker-compose exec -T --user=82:82 php time ${1}
 docker = docker-compose exec -T php time ${1}
 
-# Defines colors for echo, eg: @echo "${GREEN}Hello World${COLOR_END}"
-# more colors: https://stackoverflow.com/a/43670199/3090657
+# Defines colors for echo, eg: @echo "${GREEN}Hello World${COLOR_END}". More colors: https://stackoverflow.com/a/43670199/3090657
 YELLOW=\033[0;33m
 RED=\033[0;31m
 GREEN=\033[0;32m
@@ -45,7 +44,9 @@ shell:
 cr:
 	$(call docker-drupal, drush cr)
 
-prepare: | prepare\:project prepare\:permissions
+prepare:
+	$(MAKE) -s prepare\:project
+	$(MAKE) -s prepare\:permissions
 
 prepare\:project:
 	@echo "${YELLOW}Adding Platform.sh remote...${COLOR_END}"
@@ -55,9 +56,15 @@ prepare\:permissions:
 	@echo "${YELLOW}Fixing directory permissions...${COLOR_END}"
 	$(shell chmod 777 \.\/public\/sites\/default\/files)
 
-install: | prepare up db\:dump reinstall
+install:
+	$(MAKE) -s prepare
+	$(MAKE) -s up
+	$(MAKE) -s db\:dump
+	$(MAKE) -s reinstall
 
-reinstall: | db\:import update
+reinstall:
+	$(MAKE) -s db\:import
+	$(MAKE) -s update
 
 db\:dump:
 	@echo "${YELLOW}Creating DB dump...${COLOR_END}"
@@ -71,13 +78,13 @@ db\:drop:
 	@echo "${YELLOW}Dropping DB...${COLOR_END}"
 	$(call docker-drupal, drush sql-drop -y)
 
-db\:import: | db\:drop
-	sleep 5
+db\:import:
+	$(MAKE) -s db\:drop
 	@echo "${YELLOW}Importing ${PLATFORM_ENVIRONMENT} DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
 
-db\:import\:local: | db\:drop
-	sleep 5
+db\:import\:local:
+	$(MAKE) -s db\:drop
 	@echo "${YELLOW}Importing Local DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/local-dump.sql.gz | drush sql-cli")
 
