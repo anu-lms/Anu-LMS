@@ -81,11 +81,17 @@ db\:import\:local: | db\:drop
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/local-dump.sql.gz | drush sql-cli")
 
 update:
+	@echo "Updating the code from the git remote branch..."
+	@git pull origin $(shell git rev-parse --abbrev-ref HEAD) | true
+
+	@echo "Updating composer dependencies for the backend..."
+	$(call docker, composer install)
+
 	@echo "Running flush caches, DB updates..."
-	$(call docker-drupal, drush cr)
-	$(call docker-drupal, drush updb -y)
-	$(call docker-drupal, drush cim -y)
-	$(call docker-drupal, drush entup -y)
+	#$(call docker-drupal, drush cr)
+	#$(call docker-drupal, drush updb -y)
+	#$(call docker-drupal, drush cim -y)
+	#$(call docker-drupal, drush entup -y)
 
 # todo: Define aliases.
 
