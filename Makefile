@@ -88,10 +88,10 @@ update:
 	$(call docker, composer install)
 
 	@echo "Running flush caches, DB updates..."
-	#$(call docker-drupal, drush cr)
-	#$(call docker-drupal, drush updb -y)
-	#$(call docker-drupal, drush cim -y)
-	#$(call docker-drupal, drush entup -y)
+	$(call docker-drupal, drush cr)
+	$(call docker-drupal, drush updb -y)
+	$(call docker-drupal, drush cim -y)
+	$(call docker-drupal, drush entup -y)
 
 # todo: Define aliases.
 
