@@ -122,7 +122,7 @@ sh:
 shn:
 	$(MAKE) -s shell\:node
 ins: install
-rins: reinstall
+ri: reinstall
 dbd:
 	$(MAKE) -s db\:dump
 dbdl:
