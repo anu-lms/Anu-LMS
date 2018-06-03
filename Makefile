@@ -1,4 +1,4 @@
-.PHONY: default up pull up stop down exec
+.PHONY: default up pull up stop down shell db\:drop db\:import
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -70,6 +70,13 @@ db\:import: | db\:drop
 	sleep 5
 	@echo "Importing DB..."
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
+
+update:
+	@echo "Running flush caches, DB updates..."
+	$(call docker-drupal, drush cr)
+	$(call docker-drupal, drush updb -y)
+	$(call docker-drupal, drush cim -y)
+	$(call docker-drupal, drush entup -y)
 
 # todo: Define aliases.
 
