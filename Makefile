@@ -38,7 +38,7 @@ down:
 	@echo "${YELLOW}Removing network & containers...${COLOR_END}"
 	docker-compose down -v --remove-orphans
 
-shell\:php:
+shell:
 	docker-compose exec --user=82:82 php sh
 
 shell\:node:
@@ -135,8 +135,7 @@ eslint:
 st: stop
 rs: restart
 dn: down
-sh:
-	$(MAKE) -s shell\:php
+sh: shell
 shn:
 	$(MAKE) -s shell\:node
 ins: install
