@@ -123,8 +123,11 @@ tests:
 	docker-compose run codecept run acceptance $(ARGS) --debug
 
 tests\:debug:
-	@echo "${YELLOW}Running tests in DEBUG group...${COLOR_END}"
 	docker-compose run codecept run acceptance --group debug --debug
+
+eslint:
+	@echo "${YELLOW}Analysing js code for the standats following...${COLOR_END}"
+	docker-compose exec node yarn eslint
 
 # Defines short aliases.
 # You can also add `alias mk='make'` to ~/.bash_profile (MacOS) to use short `mk` indead of `make`.
@@ -149,6 +152,7 @@ dbil:
 upd: update
 td:
 	$(MAKE) -s tests\:debug
+el: eslint
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
