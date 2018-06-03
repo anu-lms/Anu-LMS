@@ -1,4 +1,4 @@
-.PHONY: default up pull up stop down shell db\:drop db\:import
+.PHONY: default up pull up stop down shell db\:drop db\:import tests
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -14,11 +14,17 @@ include .env
 docker-drupal = docker-compose exec -T --user=82:82 php time ${1}
 docker = docker-compose exec -T php time ${1}
 
+# Defines colors for echo, eg: @echo "${GREEN}Hello World${COLOR_END}"
+# more colors: https://stackoverflow.com/a/43670199/3090657
+YELLOW=\033[0;33m
+RED=\033[0;31m
+GREEN=\033[0;32m
+COLOR_END=\033[0;37m
 
 default: up
 
 pull:
-	@echo "Updating Docker images..."
+	@echo "${YELLOW}Updating Docker images...${COLOR_END}"
 	docker-compose pull
 
 up: | pull
@@ -81,7 +87,14 @@ db\:import\:local: | db\:drop
 
 update:
 	@echo "Updating the code from the git remote branch..."
+# 	Use "| true" to skip errors if branch wasn't pushed to origin yet.
 	@git pull origin $(shell git rev-parse --abbrev-ref HEAD) | true
+
+# 	Frontend restart is not needed, because containers restart will
+# 	trigger "yarn install" anyway.
+	@echo "Restarting Docker containers..."
+	@docker-compose down --remove-orphans
+	docker-compose up -d --remove-orphans
 
 	@echo "Updating composer dependencies for the backend..."
 	$(call docker, composer install)
