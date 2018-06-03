@@ -1,4 +1,4 @@
-.PHONY: default up pull up stop down shell\:php shell\:node db\:drop db\:import tests reinstall
+.PHONY: default up pull up stop down shell\:php shell\:node db\:drop db\:import tests reinstall drush
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -113,6 +113,19 @@ update:
 	$(call docker-drupal, drush cim -y)
 	$(call docker-drupal, drush entup -y)
 
+# Examples:
+# make tests
+# make tests frontend/DashboardCest.php:viewDashboard
+tests:
+#	Remove the first argument `tests` from the list of make commands.
+	$(eval ARGS := $(filter-out $@,$(MAKECMDGOALS)))
+	@echo "${YELLOW}Running tests $(ARGS)...${COLOR_END}"
+	docker-compose run codecept run acceptance $(ARGS) --debug
+
+tests\:debug:
+	@echo "${YELLOW}Running tests in DEBUG group...${COLOR_END}"
+	docker-compose run codecept run acceptance --group debug --debug
+
 # Defines short aliases.
 # You can also add `alias mk='make'` to ~/.bash_profile (MacOS) to use short `mk` indead of `make`.
 # `make` without arguments will run default `up` rule.
@@ -134,6 +147,8 @@ dbi:
 dbil:
 	$(MAKE) -s db\:import\:local
 upd: update
+td:
+	$(MAKE) -s tests\:debug
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
