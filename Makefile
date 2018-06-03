@@ -121,7 +121,8 @@ sh:
 	$(MAKE) -s shell\:php
 shn:
 	$(MAKE) -s shell\:node
-ri: reinstall
+ins: install
+rins: reinstall
 dbd:
 	$(MAKE) -s db\:dump
 dbdl:
