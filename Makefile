@@ -1,4 +1,4 @@
-.PHONY: default up pull up stop down shell db\:drop db\:import tests reinstall
+.PHONY: default up pull up stop down shell\:php shell\:node db\:drop db\:import tests reinstall
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -38,8 +38,11 @@ down:
 	@echo "${YELLOW}Removing network & containers...${COLOR_END}"
 	docker-compose down -v --remove-orphans
 
-shell:
+shell\:php:
 	docker-compose exec --user=82:82 php sh
+
+shell\:node:
+	docker-compose exec node sh
 
 cr:
 	$(call docker-drupal, drush cr)
@@ -74,17 +77,17 @@ db\:dump\:local:
 	@echo "${YELLOW}Creating DB dump...${COLOR_END}"
 	$(call docker, drush sql-dump --gzip --result-file=../${BACKUP_DIR}/local-dump.sql --skip-tables-list=cache,cache_*,flood,watchdog)
 
-db\:drop:
+db\:import:
 	@echo "${YELLOW}Dropping DB...${COLOR_END}"
 	$(call docker-drupal, drush sql-drop -y)
 
-db\:import:
-	$(MAKE) -s db\:drop
 	@echo "${YELLOW}Importing ${PLATFORM_ENVIRONMENT} DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz | drush sql-cli")
 
 db\:import\:local:
-	$(MAKE) -s db\:drop
+	@echo "${YELLOW}Dropping DB...${COLOR_END}"
+	$(call docker-drupal, drush sql-drop -y)
+
 	@echo "${YELLOW}Importing Local DB...${COLOR_END}"
 	$(call docker-drupal, /bin/sh -c "zcat ${BACKUP_DIR}/local-dump.sql.gz | drush sql-cli")
 
@@ -109,7 +112,25 @@ update:
 	$(call docker-drupal, drush cim -y)
 	$(call docker-drupal, drush entup -y)
 
-# todo: Define aliases.
+# Defines short aliases.
+# You can also add `alias mk='make'` to ~/.bash_profile (MacOS) to use short `mk` indead of `make`.
+st: stop
+rs: restart
+dw: down
+sh:
+	$(MAKE) -s shell\:php
+shn:
+	$(MAKE) -s shell\:node
+ri: reinstall
+dbd:
+	$(MAKE) -s db\:dump
+dbdl:
+	$(MAKE) -s db\:dump\:local
+dbi:
+	$(MAKE) -s db\:import
+dbil:
+	$(MAKE) -s db\:import\:local
+upd: update
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
