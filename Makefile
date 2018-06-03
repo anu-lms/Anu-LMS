@@ -117,7 +117,7 @@ update:
 # `make` without arguments will run default `up` rule.
 st: stop
 rs: restart
-dw: down
+dn: down
 sh:
 	$(MAKE) -s shell\:php
 shn:
