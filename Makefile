@@ -40,6 +40,31 @@ down:
 shell:
 	docker-compose exec --user=82:82 php sh
 
+cr:
+	$(call docker-drupal, drush cr)
+
+prepare: | prepare\:project prepare\:permissions
+
+prepare\:project:
+	@echo "Adding Platform.sh remote..."
+	-$(shell platform project:set-remote ${PLATFORM_PROJECT_ID})
+
+prepare\:permissions:
+	@echo "Fixing directory permissions..."
+	$(shell chmod 777 \.\/public\/sites\/default\/files)
+
+install: | prepare up db\:dump reinstall
+
+reinstall: | db\:import update
+
+# todo: exclude unnecessary tables.
+db\:dump:
+	@echo "Creating DB dump..."
+	-$(shell platform db:dump -y --project=${PLATFORM_PROJECT_ID} --environment=${PLATFORM_ENVIRONMENT} --app=backend --exclude-table=cache,cache_*,flood,watchdog --gzip --file=${BACKUP_DIR}/${PLATFORM_ENVIRONMENT}-dump.sql.gz)
+
+
+# todo: Define aliases.
+
 # https://stackoverflow.com/a/6273809/1826109
 %:
 	@:
