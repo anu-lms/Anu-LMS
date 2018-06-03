@@ -1,4 +1,5 @@
-.PHONY: default up pull up stop down shell\:php shell\:node db\:drop db\:import tests reinstall drush
+.PHONY: default up up stop restart down shell shell\:node cr prepare prepare\:project prepare\:permissions \
+install reinstall db\:dump db\:dump\:local db\:import db\:import\:local update tests tests\:debug eslint
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
