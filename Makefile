@@ -63,7 +63,6 @@ db\:dump:
 
 db\:dump\:local:
 	@echo "Creating DB dump..."
-	#$(call docker-drupal, ls -l)
 	$(call docker, drush sql-dump --gzip --result-file=../${BACKUP_DIR}/local-dump.sql --skip-tables-list=cache,cache_*,flood,watchdog)
 
 db\:drop:
