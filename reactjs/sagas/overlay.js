@@ -6,7 +6,7 @@ import { all, takeEvery } from 'redux-saga/effects';
 function* overlayOpened() {
   // When overlay is opened, the body content should become not
   // scrollable.
-  document.body.classList.add('no-scroll');
+  yield document.body.classList.add('no-scroll');
 }
 
 /**
@@ -15,7 +15,7 @@ function* overlayOpened() {
 function* overlayClosed() {
   // When overlay is closed, the body content should become scrollable
   // again.
-  document.body.classList.remove('no-scroll');
+  yield document.body.classList.remove('no-scroll');
 }
 
 /**
