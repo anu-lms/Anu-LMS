@@ -73,12 +73,7 @@ class Overlay extends React.Component {
         </div>
 
         <div className="content">
-          {!isError &&
-          content
-          }
-          {isError &&
-          <div className="error">{content}</div>
-          }
+          {!isError ? content : <div className="error">{content}</div>}
         </div>
 
       </div>
