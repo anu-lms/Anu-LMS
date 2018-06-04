@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SearchIcon from '../../../atoms/Search/Icon';
 import SearchBar from '../../../atoms/Search/Bar';
@@ -8,7 +9,6 @@ import * as searchActions from '../../../../actions/search';
 import * as overlayActions from '../../../../actions/overlay';
 
 class Search extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -25,8 +25,8 @@ class Search extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <SearchTabs/>
-            <SearchResults/>
+            <SearchTabs />
+            <SearchResults />
           </div>
         </div>
       </div>
@@ -42,9 +42,9 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div className="search" onClick={this.onHeaderSearchClick}>
+      <div className="search" onClick={this.onHeaderSearchClick} onKeyPress={() => {}}>
 
-        <input type="text" placeholder="Search" disabled="disabled"/>
+        <input type="text" placeholder="Search" disabled="disabled" />
 
         <div className="header-icon search-bar">
           <div className="icon">{SearchIcon}</div>
@@ -55,5 +55,13 @@ class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  dispatch: PropTypes.func,
+};
+
+Search.defaultProps = {
+  dispatch: () => {},
+};
 
 export default connect()(Search);

@@ -4,23 +4,16 @@ import { connect } from 'react-redux';
 import _isEmpty from 'lodash/isEmpty';
 import { Page } from 'react-pdf';
 import { Document } from 'react-pdf/dist/entry.noworker';
-import ClientAuth from '../../../../auth/clientAuth';
-import { humanizeFileName } from '../../../../utils/string';
-import * as breakpoints from '../../../../utils/breakpoints';
-import * as privateFileHelper from '../../../../helpers/privateFile';
-import * as overlayActions from '../../../../actions/overlay';
-import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
+import ClientAuth from '../../../../../auth/clientAuth';
+import { humanizeFileName } from '../../../../../utils/string';
+import * as breakpoints from '../../../../../utils/breakpoints';
+import * as privateFileHelper from '../../../../../helpers/privateFile';
+import * as overlayActions from '../../../../../actions/overlay';
+import ShowCommentsCTA from '../../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Resource extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      filePages: 0,
-      fileLoaded: false,
-      fileDisplayWidth: 800,
-      fileLoadError: false,
-    };
 
     this.onFileViewOpen = this.onFileViewOpen.bind(this);
     this.onFileLoadSuccess = this.onFileLoadSuccess.bind(this);
@@ -72,7 +65,7 @@ class Resource extends React.Component {
     // to trigger onLoadSuccess() or onLoadError() events.
     const content = (
       <Document
-        file={privateFileHelper.viewUrl(123, accessToken)}
+        file={privateFileHelper.viewUrl(privatefile.fid, accessToken)}
         onLoadSuccess={this.onFileLoadSuccess}
         onLoadError={this.onFileLoadError}
         loading=""
@@ -105,11 +98,11 @@ class Resource extends React.Component {
     }
 
     const header = (
-      <div className="download cta" onClick={this.onFileDownloadClick}>
+      <div className="download cta" onClick={this.onFileDownloadClick} onKeyPress={() => {}}>
         <div className="icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 29">
             <g fill="none" fillRule="evenodd">
-              <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z"/>
+              <path fillRule="nonzero" d="M23.667 10H17V0H7v10H.333L12 21.667 23.667 10zM.333 25v3.333h23.334V25H.333z" />
             </g>
           </svg>
         </div>
@@ -172,7 +165,7 @@ class Resource extends React.Component {
 
             </div>
 
-            {commentsAllowed && <ShowCommentsCTA paragraphId={id}/>}
+            {commentsAllowed && <ShowCommentsCTA paragraphId={id} />}
           </div>
         </div>
       </div>);
@@ -196,6 +189,7 @@ Resource.propTypes = {
     fid: PropTypes.number, filename: PropTypes.string,
   }).isRequired,
   commentsAllowed: PropTypes.bool,
+  dispatch: PropTypes.func,
 };
 
 Resource.defaultProps = {
@@ -206,6 +200,7 @@ Resource.defaultProps = {
   settings: {},
   commentsAllowed: true,
   handleParagraphLoaded: () => {},
+  dispatch: () => {},
 };
 
 export default connect()(Resource);
