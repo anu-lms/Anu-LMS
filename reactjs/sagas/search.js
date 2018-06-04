@@ -18,7 +18,7 @@ function* fetchSearch({ text }) {
     const searchResults = yield call(
       api.fetch,
       request,
-      text
+      text,
     );
 
     console.log(searchResults);

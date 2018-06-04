@@ -7,7 +7,6 @@ export default (state = {
   onClose: () => {},
 }, action) => {
   switch (action.type) {
-
     case 'OVERLAY_OPEN':
 
       // When overlay is opened, the body content should become not
