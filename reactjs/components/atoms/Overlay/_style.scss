@@ -7,7 +7,8 @@
   z-index: 1050;
 
   .overlay {
-    background: #000;
+    transition: 1s all;
+    background: black;
     position: absolute;
     cursor: pointer;
     left: 0;
@@ -15,6 +16,7 @@
     top: 0;
     bottom: 0;
     z-index: 1051;
+    @include fadeIn(.2s);
     @include media-breakpoint-up(lg) {
       background: rgba(0, 0, 0, .93);
     }
@@ -23,6 +25,7 @@
   .page-loader {
     background: none;
     z-index: 1053;
+    @include fadeIn(.2s);
 
     .loader {
       .box {
@@ -35,6 +38,7 @@
     height: 48px;
     position: relative;
     z-index: 1054;
+    @include fadeIn(.2s);
     @include media-breakpoint-up(md) {
       height: 80px;
     }
@@ -111,9 +115,16 @@
     height: calc(100% - 48px);
     overflow-y: auto;
     overflow-x: hidden;
+    @include fadeIn(.2s);
     @include media-breakpoint-up(md) {
       margin: 0 auto;
       height: calc(100% - 80px);
     }
+
+    .error {
+      color: $white;
+      text-align: center;
+    }
   }
+
 }

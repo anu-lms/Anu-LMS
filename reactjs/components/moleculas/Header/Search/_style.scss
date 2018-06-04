@@ -37,7 +37,9 @@
     }
 
     &:hover {
-      background: none;
+      @include media-breakpoint-up(lg) {
+        background: none;
+      }
     }
 
     .icon {

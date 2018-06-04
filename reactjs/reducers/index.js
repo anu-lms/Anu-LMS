@@ -8,6 +8,7 @@ import navigation from './navigation';
 import notifications from './notifications';
 import lock from './lock';
 import search from './search';
+import overlay from './overlay';
 
 const appReducer = combineReducers({
   user,
@@ -18,7 +19,8 @@ const appReducer = combineReducers({
   navigation,
   notifications,
   lock,
-  search
+  search,
+  overlay,
 });
 
 export default (state, action) => {
