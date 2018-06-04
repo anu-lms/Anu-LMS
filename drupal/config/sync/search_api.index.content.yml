@@ -31,7 +31,7 @@ field_settings:
     indexed_locked: true
     type_locked: true
     hidden: true
-  saa_field_paragraph_private_file:
+  field_paragraph_private_file:
     label: 'Search api attachments: File'
     property_path: saa_field_paragraph_private_file
     type: text
@@ -156,7 +156,7 @@ field_settings:
     dependencies:
       config:
         - field.storage.notebook.field_notebook_title
-  field_paragraph_title_2:
+  field_resource_title:
     label: Name
     datasource_id: 'entity:paragraph'
     property_path: field_paragraph_title
