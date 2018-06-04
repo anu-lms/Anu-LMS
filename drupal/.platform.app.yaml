@@ -115,8 +115,8 @@ hooks:
       chmod 600 keys/private.key keys/public.key
       chmod +x scripts/dump_db.sh
 
-# Adding Tika configuration. Tika is used to parse attached documents (pdf) and use it in search_api.
-# Based on https://thinktandem.io/blog/2017/11/10/apache-tika-on-platform-sh
+      # Adding Tika configuration. Tika is used to parse attached documents (pdf) and use it in search_api.
+      # Based on https://thinktandem.io/blog/2017/11/10/apache-tika-on-platform-sh
       mkdir -p /app/srv/bin
       cd /app/srv/bin && curl -OL http://download.nextag.com/apache/tika/tika-app-1.18.jar
 
