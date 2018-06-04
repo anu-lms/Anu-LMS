@@ -215,7 +215,7 @@ processor_settings:
   ignorecase:
     all_fields: true
     fields:
-      - saa_field_paragraph_private_file
+      - field_paragraph_private_file
       - field_comment_text
       - title
       - field_paragraph_text
@@ -226,7 +226,7 @@ processor_settings:
       - field_paragraph_title_1
       - field_notebook_body
       - field_notebook_title
-      - field_paragraph_title_2
+      - field_resource_title
     weights:
       preprocess_index: -20
       preprocess_query: -20
