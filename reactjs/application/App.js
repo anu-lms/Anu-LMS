@@ -2,11 +2,11 @@ import React from 'react';
 import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
 import sAlertStore from 'react-s-alert/dist/s-alert-parts/s-alert-store';
+import Overlay from '../components/atoms/Overlay';
 
 // Fix "undefined is not a constructor (evaluating 'Object.assign')"
 // issue on login page in iOS 8 and IE 11.
 import 'es6-shim';
-
 import HtmlHead from './HtmlHead';
 import routerEvents from '../router-events';
 import '../components/atoms/ProgressBar/PageProgress';
@@ -27,6 +27,7 @@ const App = ({ children }) => (
       effect="slide"
     />
     { children }
+    <Overlay />
   </div>
 );
 
