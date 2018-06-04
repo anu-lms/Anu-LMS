@@ -129,6 +129,10 @@ jobs:
           <<: *install_platform_cli
 
       - run:
+          name: Install CodeSnippet packages
+          command: composer require drupal/coder:^8.2
+
+      - run:
           name: Run CodeSnipper for the Custom Drupal code.
           command: |
             ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
@@ -158,10 +162,6 @@ jobs:
       - run:
           name: Install test dependencies
           command: composer require codeception/codeception:^2.3.8
-
-      - run:
-          name: Install CodeSnippet packages
-          command: composer require drupal/coder:^8.2
 
       - save_cache:
           key: composer-cache-{{ arch }}-{{ .Branch }}
