@@ -12,6 +12,12 @@ class SearchBar extends Component {
       value: '',
     };
 
+    // Create a reference object.
+    this.searchInput = null;
+    this.setSearchInput = element => {
+      this.searchInput = element;
+    };
+
     this.onValueChange = this.onValueChange.bind(this);
     this.onClearInputClick = this.onClearInputClick.bind(this);
   }
@@ -38,7 +44,7 @@ class SearchBar extends Component {
           <input
             type="text"
             placeholder="Search"
-            ref={input => { this.searchInput = input; }}
+            ref={this.setSearchInput}
             value={this.state.value}
             onChange={this.onValueChange}
           />
