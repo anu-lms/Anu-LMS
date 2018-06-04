@@ -33,7 +33,12 @@
     padding: 0 40px 3px 35px;
     font-size: 1em;
     line-height: 1em;
+    float: right;
     transition: .3s all;
+    -webkit-animation: search-appear .2s linear;
+    -moz-animation:    search-appear .2s linear;
+    -o-animation:      search-appear .2s linear;
+    animation:         search-appear .2s linear;
     @include placeholder($london-sky);
     @include media-breakpoint-up(md) {
       font-size: 1.125em;
@@ -94,4 +99,24 @@
       background: darken($london-sky, 10);
     }
   }
+}
+
+/**
+ * Search input appearance animation.
+ */
+@-webkit-keyframes search-appear {
+  0%   { width: 10%; }
+  100% { width: 100%; }
+}
+@-moz-keyframes search-appear {
+  0%   { width: 10%; }
+  100% { width: 100%; }
+}
+@-o-keyframes search-appear {
+  0%   { width: 10%; }
+  100% { width: 100%; }
+}
+@keyframes search-appear {
+  0%   { width: 10%; }
+  100% { width: 100%; }
 }
