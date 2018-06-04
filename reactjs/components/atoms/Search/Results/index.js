@@ -13,14 +13,14 @@ const SearchResults = ({ results, isFetched, isError }) => (
       </div>
     ))}
 
-    {results.length === 0 && isFetched &&
-    <div className="empty-results">
+    {results.length === 0 && isFetched && !isError &&
+    <div>
       There are no search results. Please someone smart - update this copy.
     </div>
     }
 
     {isError &&
-    <div className="error">
+    <div>
       The error has occurred. Please someone smart - update this copy.
     </div>
     }
