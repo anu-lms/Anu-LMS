@@ -137,7 +137,7 @@ jobs:
           command: |
             ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
             ./vendor/bin/phpcs --config-set show_progress 1
-            ./vendor/bin/phpcs --colors --warning-severity=0 --standard=Drupal ./web/modules/anu || true
+            ./vendor/bin/phpcs --colors --warning-severity=0 --standard=Drupal ./drupal/web/modules/anu || true
 
       - run:
           name: Run ESLint for the React application.
