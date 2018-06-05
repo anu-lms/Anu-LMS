@@ -93,5 +93,9 @@
   .inner {
     padding-left: 15px;
     padding-right: 15px;
+    @include media-breakpoint-up(md) {
+      padding-left: 96px;
+      padding-right: 96px;
+    }
   }
 }
