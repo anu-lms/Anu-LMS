@@ -109,7 +109,7 @@ class SearchResults extends ResourceBase {
       'field_comment_text', 'title', 'field_paragraph_text',
       'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
       'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
-      'field_notebook_title'
+      'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title'
     ]);
 
     // @todo: An example of conditions, remove if unnecessary.
@@ -149,7 +149,7 @@ class SearchResults extends ResourceBase {
 
       $include_fields = [];
       // Prepares additional fields for normalizer function.
-      if ($entity->getEntityTypeId() == 'paragraph_comment') {
+      if (in_array($entity->getEntityTypeId(), ['paragraph_comment', 'paragraph'])) {
         $include_fields = ['lesson'];
       }
 
