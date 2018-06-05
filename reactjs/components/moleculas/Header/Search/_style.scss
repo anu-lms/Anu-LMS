@@ -85,3 +85,11 @@
 
   }
 }
+.search-overlay-content {
+  height: 100%;
+  overflow: hidden;
+  .row,
+  .col-12 {
+    height: 100%;
+  }
+}
