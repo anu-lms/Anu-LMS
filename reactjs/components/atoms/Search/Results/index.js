@@ -1,27 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
-import LessonItem from '../LessonItem';
-import CommentItem from '../CommentItem';
-import NotebookItem from '../NotebookItem';
-import ResourceItem from '../ResourceItem';
+
+const availableSearchComponents = {
+  'lesson': dynamic(import('../LessonItem')),
+  'paragraph_comment': dynamic(import('../CommentItem')),
+  'notebook': dynamic(import('../NotebookItem')),
+  'media_resource': dynamic(import('../ResourceItem')),
+};
 
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
 
     {!isError && results.map(resultItem => {
-      switch (resultItem.type) {
-        case 'lesson':
-          return <LessonItem key={resultItem.entity.uuid} searchItem={resultItem} />;
-        case 'paragraph_comment':
-          return <CommentItem key={resultItem.entity.uuid} searchItem={resultItem} />;
-        case 'notebook':
-          return <NotebookItem key={resultItem.entity.uuid} searchItem={resultItem} />;
-        case 'media_resource':
-          return <ResourceItem key={resultItem.entity.uuid} searchItem={resultItem} />;
-        default:
-          return null;
+      const SearchItemComponent = availableSearchComponents[resultItem.type];
+      if (SearchItemComponent) {
+        return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
       }
+      return null;
     })}
 
     {results.length === 0 && isFetched && !isError &&
