@@ -1,0 +1,21 @@
+.search-results {
+  color: $white;
+
+  .item {
+    margin-bottom: 1em;
+    @include media-breakpoint-up(md) {
+      margin-bottom: 2em;
+    }
+
+    .title {
+      font-size: 1.125em;
+      font-weight: bold;
+      margin-bottom: .5em;
+    }
+
+    .body {
+
+    }
+  }
+
+}
