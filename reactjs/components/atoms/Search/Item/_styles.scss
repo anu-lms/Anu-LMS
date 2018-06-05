@@ -8,13 +8,15 @@
     padding-top: 0.75em;
     padding-bottom: 0.75em;
 
+    @include media-breakpoint-up(md) {
+      padding-top: 1.25em;
+      padding-bottom: 1.25em;
+    }
+
     &:hover {
       text-decoration: none;
     }
   }
-  //@include media-breakpoint-up(md) {
-  //  margin-bottom: 2em;
-  //}
 
   .type-icon {
     position: absolute;
@@ -22,6 +24,10 @@
     text-align: center;
     top: 15px;
     transition: .08s color;
+    @include media-breakpoint-up(md) {
+      top: 23px;
+      left: -36px;
+    }
   }
   > a:hover .type-icon svg path {
     fill: $anu-blue;
@@ -33,6 +39,9 @@
     margin-bottom: .5em;
     padding-left: 30px;
     transition: .08s color;
+    @include media-breakpoint-up(md) {
+      padding-left: 0;
+    }
     .thin {
       font-weight: 300;
       font-style: italic;
@@ -44,6 +53,9 @@
 
   .body {
     padding-left: 30px;
+    @include media-breakpoint-up(md) {
+      padding-left: 0;
+    }
     strong {
       color: #f3c06d;
     }
