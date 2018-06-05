@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SearchItem from '../Item';
-import Icon from '../../Icons/Lesson';
+import Icon from '../../Icons/Comment';
 
-class LessonSearchItem extends React.Component {
+class CommentSearchItem extends React.Component {
   render() {
     const { excerpt, entity, type } = this.props.searchItem;
-    const { title, url } = entity;
+    const { lesson, url } = entity;
 
     return (
       <SearchItem
         icon={Icon}
-        title={title}
+        title={`Comment in ${lesson.title}`}
         body={excerpt}
         className={type}
         itemLink={url}
@@ -20,7 +20,7 @@ class LessonSearchItem extends React.Component {
   }
 }
 
-LessonSearchItem.propTypes = {
+CommentSearchItem.propTypes = {
   searchItem: PropTypes.shape({
     type: PropTypes.string,
     excerpt: PropTypes.string,
@@ -28,4 +28,4 @@ LessonSearchItem.propTypes = {
   }).isRequired,
 };
 
-export default LessonSearchItem;
+export default CommentSearchItem;
