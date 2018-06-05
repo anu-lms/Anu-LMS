@@ -14,30 +14,32 @@ const availableSearchComponents = {
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
     <Scrollbars style={{ height: '100%' }}>
-      <div className="inner">
-        {!isError && results.length > 0 &&
-        <div className="list">
-          {results.map(resultItem => {
+      <div className="inner-wrapper">
+        <div className="inner">
+          {!isError && results.length > 0 &&
+          <div className="list">
+            {results.map(resultItem => {
             const SearchItemComponent = availableSearchComponents[resultItem.type];
             if (SearchItemComponent) {
               return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
             }
             return null;
           })}
-        </div>
-    }
+          </div>
+          }
 
-        {results.length === 0 && isFetched && !isError &&
-        <div>
-      There are no search results. Please someone smart - update this copy.
-        </div>
-    }
+          {results.length === 0 && isFetched && !isError &&
+          <div>
+            There are no search results. Please someone smart - update this copy.
+          </div>
+          }
 
-        {isError &&
-        <div>
-      The error has occurred. Please someone smart - update this copy.
+          {isError &&
+          <div>
+            The error has occurred. Please someone smart - update this copy.
+          </div>
+          }
         </div>
-    }
       </div>
     </Scrollbars>
   </div>
