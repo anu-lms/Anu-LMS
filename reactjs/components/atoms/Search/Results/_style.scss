@@ -1,5 +1,6 @@
 .search-results {
   color: $white;
+  height: 100%;
 
   .item {
     margin-bottom: 1em;
@@ -18,4 +19,7 @@
     }
   }
 
+  .list {
+    height: calc(100% - 80px);
+  }
 }

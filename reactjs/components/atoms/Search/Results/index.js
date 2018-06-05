@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const availableSearchComponents = {
   'lesson': dynamic(import('../LessonItem')),
@@ -13,13 +14,19 @@ const availableSearchComponents = {
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
 
-    {!isError && results.map(resultItem => {
-      const SearchItemComponent = availableSearchComponents[resultItem.type];
-      if (SearchItemComponent) {
-        return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
-      }
-      return null;
-    })}
+    {!isError && results.length > 0 &&
+    <div className="list">
+      <Scrollbars style={{ height: '100%' }}>
+        {results.map(resultItem => {
+            const SearchItemComponent = availableSearchComponents[resultItem.type];
+            if (SearchItemComponent) {
+              return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
+            }
+            return null;
+          })}
+      </Scrollbars>
+    </div>
+    }
 
     {results.length === 0 && isFetched && !isError &&
     <div>
