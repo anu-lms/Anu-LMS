@@ -22,13 +22,9 @@ class Search extends React.Component {
     const header = <SearchBar />;
 
     const content = (
-      <div className="container search-overlay-content">
-        <div className="row">
-          <div className="col-12">
-            <SearchTabs />
-            <SearchResults />
-          </div>
-        </div>
+      <div className="search-container">
+        <SearchTabs />
+        <SearchResults />
       </div>
     );
 

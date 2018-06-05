@@ -1,6 +1,6 @@
 .search-tabs {
   margin-top: 5px;
-  margin-bottom: 1em;
+  border-bottom: 1px solid $anu-black;
   @include media-breakpoint-up(md) {
     margin-bottom: 2em;
   }
