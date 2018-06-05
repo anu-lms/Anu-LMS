@@ -7,13 +7,7 @@ export default (state = {
   onClose: () => {},
 }, action) => {
   switch (action.type) {
-
     case 'OVERLAY_OPEN':
-
-      // When overlay is opened, the body content should become not
-      // scrollable.
-      document.body.classList.add('no-scroll');
-
       return {
         ...state,
         content: action.content,
@@ -25,11 +19,6 @@ export default (state = {
       };
 
     case 'OVERLAY_CLOSE':
-
-      // When overlay is closed, the body content should become scrollable
-      // again.
-      document.body.classList.remove('no-scroll');
-
       return {
         ...state,
         content: null,

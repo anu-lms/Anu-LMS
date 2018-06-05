@@ -1,0 +1,18 @@
+.react-pdf__Document {
+  margin-top: 5px;
+  @include media-breakpoint-up(md) {
+    margin-top: 0;
+  }
+
+  .react-pdf__Page__canvas {
+    margin: 0 auto 1em;
+  }
+
+  .react-pdf__message {
+    color: $white;
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    text-align: center;
+  }
+}

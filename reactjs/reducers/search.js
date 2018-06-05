@@ -5,7 +5,6 @@ export default (state = {
   isError: false,
 }, action) => {
   switch (action.type) {
-
     case 'SEARCH_RECEIVED':
       return {
         ...state,
