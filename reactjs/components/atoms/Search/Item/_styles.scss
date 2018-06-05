@@ -33,6 +33,10 @@
     margin-bottom: .5em;
     padding-left: 30px;
     transition: .08s color;
+    .thin {
+      font-weight: 300;
+      font-style: italic;
+    }
   }
   > a:hover .title {
     color: $anu-blue;
