@@ -1,3 +1,46 @@
 .search-item {
+  color: $white;
+  position: relative;
 
+  > a {
+    color: $white;
+    display: block;
+    padding-bottom: 1.5em;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  //@include media-breakpoint-up(md) {
+  //  margin-bottom: 2em;
+  //}
+
+  .type-icon {
+    position: absolute;
+    width: 20px;
+    text-align: center;
+    top: 3px;
+    transition: .08s color;
+  }
+  > a:hover .type-icon svg path {
+    fill: $anu-blue;
+  }
+
+  .title {
+    font-size: 1.125em;
+    font-weight: bold;
+    margin-bottom: .5em;
+    padding-left: 30px;
+    transition: .08s color;
+  }
+  > a:hover .title {
+    color: $anu-blue;
+  }
+
+  .body {
+    padding-left: 30px;
+    strong {
+      color: #f3c06d;
+    }
+  }
 }
