@@ -15,3 +15,7 @@
 
 # SSL keys
 keys
+
+# DB dumps/backups.
+/backup/*
+!/backup/.gitkeep
