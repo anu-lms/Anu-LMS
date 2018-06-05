@@ -7,7 +7,7 @@ class ResourceSearchItem extends React.PureComponent {
   render() {
     const { excerpt, entity, type } = this.props.searchItem;
     const { id, title, lesson } = entity;
-    const itemTitle = `From ${title} in ${lesson.title}`;
+    const itemTitle = `<span class="thin">From</span> ${title} <span class="thin">in</span> ${lesson.title}`;
     return (
       <SearchItem
         icon={Icon}

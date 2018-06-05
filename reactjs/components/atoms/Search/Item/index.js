@@ -10,7 +10,7 @@ const SearchItem = ({ icon, title, body, className, itemLink }) => (
       {icon &&
       <div className="type-icon">{icon}</div>
        }
-      <div className="title">{title}</div>
+      <div className="title" dangerouslySetInnerHTML={{ __html: xss(title, { whiteList: { span: 'class' } }) }} />
       <div className="body" dangerouslySetInnerHTML={{ __html: xss(body) }} />
     </LinkWrap>
   </div>
