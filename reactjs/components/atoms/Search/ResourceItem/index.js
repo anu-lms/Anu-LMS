@@ -14,7 +14,7 @@ class ResourceSearchItem extends React.PureComponent {
         title={itemTitle}
         body={excerpt}
         className={type}
-        itemLink={`${lesson.url}?paragraph=${id}`}
+        itemLink={`${lesson.url}?section=${id}`}
       />
     );
   }
