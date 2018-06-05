@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LessonItem from '../LessonItem';
 import CommentItem from '../CommentItem';
 import NotebookItem from '../NotebookItem';
+import ResourceItem from '../ResourceItem';
 
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
@@ -16,6 +17,8 @@ const SearchResults = ({ results, isFetched, isError }) => (
           return <CommentItem key={resultItem.entity.uuid} searchItem={resultItem} />;
         case 'notebook':
           return <NotebookItem key={resultItem.entity.uuid} searchItem={resultItem} />;
+        case 'media_resource':
+          return <ResourceItem key={resultItem.entity.uuid} searchItem={resultItem} />;
         default:
           return null;
       }
