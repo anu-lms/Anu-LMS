@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LessonItem from '../LessonItem';
 import CommentItem from '../CommentItem';
+import NotebookItem from '../NotebookItem';
 
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
@@ -13,6 +14,8 @@ const SearchResults = ({ results, isFetched, isError }) => (
           return <LessonItem key={resultItem.entity.uuid} searchItem={resultItem} />;
         case 'paragraph_comment':
           return <CommentItem key={resultItem.entity.uuid} searchItem={resultItem} />;
+        case 'notebook':
+          return <NotebookItem key={resultItem.entity.uuid} searchItem={resultItem} />;
         default:
           return null;
       }
