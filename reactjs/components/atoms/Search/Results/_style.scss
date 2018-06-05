@@ -1,8 +1,12 @@
 .search-results {
   color: $white;
-  height: 100%;
+  height: calc(100% - 40px);
 
+  .inner {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+  }
   .list {
-    height: calc(100% - 80px);
+
   }
 }

@@ -5,7 +5,8 @@
   > a {
     color: $white;
     display: block;
-    padding-bottom: 1.5em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
 
     &:hover {
       text-decoration: none;
@@ -19,7 +20,7 @@
     position: absolute;
     width: 20px;
     text-align: center;
-    top: 3px;
+    top: 15px;
     transition: .08s color;
   }
   > a:hover .type-icon svg path {
