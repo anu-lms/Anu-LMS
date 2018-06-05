@@ -7,7 +7,7 @@ import * as searchActions from '../actions/search';
 /**
  * Fetch search results from the backend.
  */
-function* fetchSearch() {
+function* fetchSearch({ text }) {
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -18,6 +18,7 @@ function* fetchSearch() {
     const searchResults = yield call(
       api.fetch,
       request,
+      text,
     );
 
     console.log(searchResults);

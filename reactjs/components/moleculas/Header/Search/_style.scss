@@ -1,0 +1,87 @@
+.search {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  text-align: left;
+  vertical-align: top;
+  @include media-breakpoint-up(lg) {
+    top: 1em;
+    margin: 0 1em 0 0;
+    height: auto;
+  }
+
+  input {
+    display: none;
+    @include placeholder($london-sky);
+    @include media-breakpoint-up(lg) {
+      cursor: text;
+      display: block;
+      font-size: 1.125em;
+      outline: none;
+      width: 280px;
+      height: 48px;
+      padding: 0 16px 0 48px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    &::-ms-clear {
+      display: none;
+    }
+  }
+
+  .search-bar {
+    @include media-breakpoint-up(lg) {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 0;
+      display: block;
+      height: auto;
+    }
+
+    &:hover {
+      @include media-breakpoint-up(lg) {
+        background: none;
+      }
+    }
+
+    .icon {
+      @include media-breakpoint-up(md) {
+        position: relative;
+        top: 5px;
+      }
+      @include media-breakpoint-up(lg) {
+        width: auto;
+        height: 24px;
+        position: static;
+      }
+    }
+
+    .label {
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      @include media-breakpoint-up(md) {
+        width: 33px;
+        height: 33px;
+      }
+      @include media-breakpoint-up(lg) {
+        width: 24px;
+        height: 24px;
+      }
+
+      path {
+        @include media-breakpoint-up(lg) {
+          fill: $carbon;
+        }
+      }
+    }
+
+  }
+}
