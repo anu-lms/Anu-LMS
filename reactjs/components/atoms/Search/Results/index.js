@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import LessonItem from '../LessonItem';
 
 const SearchResults = ({ results, isFetched, isError }) => (
   <div className="search-results">
 
-    {!isError && results.map(result => (
-      <div className="item" key={result.entity.uuid}>
-        <div className="title">{result.entity.title}</div>
-        {/* eslint-disable-next-line react/no-danger */}
-        <div className="body" dangerouslySetInnerHTML={{ __html: result.excerpt }} />
-      </div>
-    ))}
+    {!isError && results.map(resultItem => {
+      switch (resultItem.type) {
+        case 'lesson':
+          return <LessonItem key={resultItem.entity.uuid} searchItem={resultItem} />;
+        default:
+          return null;
+      }
+    })}
 
     {results.length === 0 && isFetched && !isError &&
     <div>
