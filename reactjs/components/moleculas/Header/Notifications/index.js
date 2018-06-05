@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import * as notificationsActions from '../../../../actions/notifications';
-import * as searchActions from '../../../../actions/search';
 
 class Notifications extends React.Component {
   constructor(props) {

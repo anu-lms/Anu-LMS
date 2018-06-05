@@ -5,7 +5,6 @@ import PageLoader from '../../atoms/PageLoader';
 import * as overlayActions from '../../../actions/overlay';
 
 class Overlay extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -26,7 +25,7 @@ class Overlay extends React.Component {
   /**
    * Close popup window on ESC press.
    */
-  onKeyPress() {
+  onKeyPress(event) {
     if (event.keyCode === 27) {
       this.closeOverlay();
     }
@@ -48,7 +47,7 @@ class Overlay extends React.Component {
     return (
       <div className="lightbox">
 
-        <div className="overlay animate"/>
+        <div className="overlay animate" />
 
         {isLoading &&
         <PageLoader />
@@ -56,11 +55,11 @@ class Overlay extends React.Component {
 
         <div className="navigation">
 
-          <div className="back cta" onClick={this.closeOverlay}>
+          <div className="back cta" onClick={this.closeOverlay} onKeyPress={() => {}}>
             <div className="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
                 <g fill="none" fillRule="evenodd">
-                  <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z"/>
+                  <path fillRule="nonzero" d="M27.333 12.333H7.05l9.317-9.316L14 .667.667 14 14 27.333l2.35-2.35-9.3-9.316h20.283z" />
                 </g>
               </svg>
             </div>
@@ -74,12 +73,7 @@ class Overlay extends React.Component {
         </div>
 
         <div className="content">
-          {!isError &&
-          content
-          }
-          {isError &&
-          <div className="error">{content}</div>
-          }
+          {!isError ? content : <div className="error">{content}</div>}
         </div>
 
       </div>
@@ -94,6 +88,17 @@ Overlay.propTypes = {
   isLoading: PropTypes.bool,
   isError: PropTypes.bool,
   isOpened: PropTypes.bool,
+  dispatch: PropTypes.func,
+};
+
+Overlay.defaultProps = {
+  content: null,
+  header: null,
+  onClose: () => {},
+  isLoading: false,
+  isError: false,
+  isOpened: false,
+  dispatch: () => {},
 };
 
 const mapStateToProps = ({ overlay }) => ({
