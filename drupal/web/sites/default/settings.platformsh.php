@@ -123,3 +123,11 @@ if (isset($_ENV['PLATFORM_VARIABLES'])) {
 if (isset($_ENV['PLATFORM_PROJECT_ENTROPY']) && empty($settings['hash_salt'])) {
   $settings['hash_salt'] = $_ENV['PLATFORM_PROJECT_ENTROPY'];
 }
+
+// Use default solr extractor method on local, and override it with Tika Extractor on platform.
+// We use Tika Extractor for search within attached documents.
+$config['search_api_attachments.admin_config']['extraction_method'] = 'tika_extractor';
+$config['search_api_attachments.admin_config']['tika_extractor_configuration'] = [
+  'java_path' => 'java',
+  'tika_path' => '/app/srv/bin/tika-app-1.18.jar',
+];
