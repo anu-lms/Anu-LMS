@@ -4,21 +4,15 @@ import SearchItem from '../Item';
 import Icon from '../../Icons/Notebook';
 import * as notebookHelpers from '../../../../helpers/notebook';
 
-class NotebookSearchItem extends React.PureComponent {
-  render() {
-    const { excerpt, entity, type } = this.props.searchItem;
-    const { id, title, body } = entity;
-    return (
-      <SearchItem
-        icon={Icon}
-        title={title || notebookHelpers.getTeaser(body, 1)}
-        body={excerpt}
-        className={type}
-        itemLink={`/notebook?note=${id}`}
-      />
-    );
-  }
-}
+const NotebookSearchItem = ({ searchItem }) => (
+  <SearchItem
+    icon={Icon}
+    title={searchItem.entity.title || notebookHelpers.getTeaser(searchItem.entity.body, 1)}
+    body={searchItem.excerpt}
+    className={searchItem.type}
+    itemLink={`/notebook?note=${searchItem.entity.id}`}
+  />
+);
 
 NotebookSearchItem.propTypes = {
   searchItem: PropTypes.shape({

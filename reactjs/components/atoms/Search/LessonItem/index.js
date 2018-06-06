@@ -3,22 +3,15 @@ import PropTypes from 'prop-types';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Lesson';
 
-class LessonSearchItem extends React.Component {
-  render() {
-    const { excerpt, entity, type } = this.props.searchItem;
-    const { title, url } = entity;
-
-    return (
-      <SearchItem
-        icon={Icon}
-        title={title}
-        body={excerpt}
-        className={type}
-        itemLink={url}
-      />
-    );
-  }
-}
+const LessonSearchItem = ({ searchItem }) => (
+  <SearchItem
+    icon={Icon}
+    title={searchItem.entity.title}
+    body={searchItem.excerpt}
+    className={searchItem.type}
+    itemLink={searchItem.entity.url}
+  />
+);
 
 LessonSearchItem.propTypes = {
   searchItem: PropTypes.shape({
