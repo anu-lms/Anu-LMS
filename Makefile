@@ -33,7 +33,8 @@ stop:
 
 restart:
 	@echo "${YELLOW}Restarting containers...${COLOR_END}"
-	docker-compose restart
+	$(MAKE) -s down
+	$(MAKE) -s up
 
 down:
 	@echo "${YELLOW}Removing network & containers...${COLOR_END}"
