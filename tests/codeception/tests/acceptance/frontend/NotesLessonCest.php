@@ -17,7 +17,7 @@ class NotesLessonCest {
 
     // Open notes form
     $I->click('.add-note-button');
-    $I->waitForElement('.note-content');
+    $I->waitForElementLoaded('.note-content');
     $I->see('Discard and Close');
 
     // Add note
@@ -26,11 +26,11 @@ class NotesLessonCest {
     $I->see('Save and Close');
     $I->click('div.save-close');
     $I->waitForElementNotVisible('.lesson-notebook-wrapper');
-    $I->wait(0.2); // it doesn't work consistently without this line :(
+    //$I->wait(0.2); // it doesn't work consistently without this line :(
 
     // Open notes list
-    $I->waitForElement('.add-note-button');
-    $I->click('.add-note-button');
+    //$I->waitForElementClickable('.add-note-button');
+    $I->scrollAndClick('.add-note-button');
     $I->waitForText('All Notes');
     $I->click('.show-note-button');
     $I->waitForText('Note title');
@@ -42,7 +42,7 @@ class NotesLessonCest {
     $I->pressKey('.note-content h5.title span', ' edited');
     // Make sure user can see correct saving status.
     $I->waitForText('Not saved');
-    $I->waitForText('Saving...');
+    //$I->waitForText('Saving...'); Sometimes it fails because of too snappy saving process :)
     $I->waitForText('Saved');
     $I->click('.show-note-button');
     $I->waitForText('Note title edited');
