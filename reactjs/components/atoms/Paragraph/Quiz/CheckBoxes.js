@@ -40,7 +40,7 @@ class Checkboxes extends React.Component {
 
   render() {
     const {
-      title, blocks, options, data, columnClasses, id
+      title, blocks, options, data, columnClasses, id,
     } = this.props;
     return (
       <div id={`paragraph-${id}`} className="container quiz checkboxes">
