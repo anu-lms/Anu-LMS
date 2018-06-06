@@ -125,7 +125,7 @@ class Resource extends React.Component {
   render() {
     const { privatefile, title, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div className="container resource">
+      <div id={`paragraph-${id}`} className="container resource">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="inner">

@@ -40,10 +40,10 @@ class Checkboxes extends React.Component {
 
   render() {
     const {
-      title, blocks, options, data, columnClasses,
+      title, blocks, options, data, columnClasses, id
     } = this.props;
     return (
-      <div className="container quiz checkboxes">
+      <div id={`paragraph-${id}`} className="container quiz checkboxes">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>
