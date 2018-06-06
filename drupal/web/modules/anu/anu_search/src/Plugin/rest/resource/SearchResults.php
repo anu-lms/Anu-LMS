@@ -89,6 +89,11 @@ class SearchResults extends ResourceBase {
       }
     }
 
+    // Don't process short search queries.
+    if (empty($fulltext) || strlen($fulltext) < 2) {
+      return new ResourceResponse([], 200);
+    }
+
     // @todo: might be enhanced on infinite scroll step.
     $page = 0;
 
