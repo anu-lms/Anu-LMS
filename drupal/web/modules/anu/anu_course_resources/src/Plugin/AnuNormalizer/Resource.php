@@ -36,10 +36,11 @@ class Resource extends AnuNormalizerBase {
     try {
       $output = [
         'id' => (int) $entity->id(),
+        'uuid' => $entity->uuid(),
         'fieldParagraphTitle' => $entity->field_paragraph_title->getString(),
       ];
 
-      if (in_array('file', $include_fields)) {
+      if (in_array('file', $include_fields) || empty($entity->field_paragraph_title->getString())) {
         // Load the file from paragraph.
         $file = $entity->field_paragraph_private_file
           ->first()

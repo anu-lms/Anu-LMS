@@ -1,6 +1,7 @@
 import * as courseHelper from '../helpers/course';
 import * as lessonHelper from '../helpers/lesson';
-import * as urlUtils from '../utils/url';
+import * as urlUtils from './url';
+import { humanizeFileName } from './string';
 
 /**
  * Processes data of a course from custom REST endpoint.
@@ -187,8 +188,14 @@ export const notebookData = note => ({
 export const resourceData = rawResource => {
   const resource = {
     id: rawResource.id,
-    title: rawResource.fieldParagraphTitle ? rawResource.fieldParagraphTitle : '',
+    uuid: rawResource.uuid,
+    title: rawResource.fieldParagraphTitle,
   };
+
+  // Use Normalized file name if title field is empty.
+  if (!rawResource.fieldParagraphTitle) {
+    resource.title = humanizeFileName(rawResource.file.filename);
+  }
 
   if (rawResource.lesson) {
     resource.lesson = lessonData(rawResource.lesson);
