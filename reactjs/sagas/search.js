@@ -16,10 +16,8 @@ const backendSearchDelay = 350;
  */
 function* fetchSearch({ text }) {
   try {
-
     let searchResults = [];
     if (text && text.length > 1) {
-
       // There's a small delay between a user finishing the typing and frontend
       // sending request to search. It is introduced in order to avoid flooding
       // the backend with tons of requests if a user types in fast. If a user
