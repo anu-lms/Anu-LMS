@@ -40,7 +40,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div className="search-container">
+      <div className="search-bar-container">
         <div className="inner">
           <input
             type="text"

@@ -197,6 +197,7 @@ export default (state = {
       return {
         ...state,
         activeNoteId: action.id,
+        isMobileContentVisible: true,
       };
 
     // Return to the initial state.

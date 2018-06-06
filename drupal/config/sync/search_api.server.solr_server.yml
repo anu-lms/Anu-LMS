@@ -2,6 +2,8 @@ uuid: cb27e055-383c-4487-bcc6-cbe23010e92a
 langcode: en
 status: true
 dependencies:
+  config:
+    - search_api_solr.solr_field_type.text_und_4_5_0
   module:
     - search_api_solr
 id: solr_server
@@ -24,9 +26,6 @@ backend_config:
     http_method: AUTO
   retrieve_data: false
   highlight_data: false
-  excerpt: true
   skip_schema_check: false
+  domain: generic
   site_hash: false
-  suggest_suffix: true
-  suggest_corrections: true
-  suggest_words: false
