@@ -1,6 +1,7 @@
 export default (state = {
   results: [],
   query: '',
+  category: 'all',
   isFetching: false,
   isFetched: false,
   isError: false,
@@ -19,6 +20,7 @@ export default (state = {
       return {
         ...state,
         query: action.text,
+        category: action.category,
         isFetching: true,
         isFetched: false,
         isError: false,
@@ -36,6 +38,7 @@ export default (state = {
       return {
         ...state,
         query: '',
+        category: 'all',
         results: [],
         isFetching: false,
         isFetched: false,

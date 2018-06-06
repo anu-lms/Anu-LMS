@@ -1,9 +1,10 @@
 /**
  * Make request to the backend to search results.
  */
-export const fetch = text => ({
+export const fetch = (text, category = 'all') => ({
   type: 'SEARCH_REQUESTED',
   text,
+  category,
 });
 
 /**
