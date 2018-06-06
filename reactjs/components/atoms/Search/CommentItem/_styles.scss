@@ -1,0 +1,8 @@
+
+.paragraph_comment {
+  .type-icon {
+    @include media-breakpoint-up(md) {
+      top: 25px;
+    }
+  }
+}

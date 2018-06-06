@@ -129,6 +129,17 @@ jobs:
           <<: *install_platform_cli
 
       - run:
+          name: Install CodeSnippet packages
+          command: composer require drupal/coder:^8.2
+
+      - run:
+          name: Run CodeSnipper for the Custom Drupal code.
+          command: |
+            ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
+            ./vendor/bin/phpcs --config-set show_progress 1
+            ./vendor/bin/phpcs --colors --warning-severity=0 --standard=Drupal ./drupal/web/modules/anu || true
+
+      - run:
           name: Run ESLint for the React application.
           command: platform ssh -A frontend "yarn eslint"
 
@@ -241,7 +252,7 @@ jobs:
 
             # Create a new variable $client_repos which is now array of env vars
             # starting with CLIENT_*.
-            read -a client_repos <<<$vars
+            client_repos=($vars)
 
             # Every CLIENT_* variable should define a remote git repo.
             # So we loop through client repos and deploy changes to each of those.

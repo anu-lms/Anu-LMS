@@ -30,8 +30,11 @@ function* fetchSearch({ text }) {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Makes request to the backend to update comment.
-    const searchResults = yield call(api.fetch, request, text);
+    let searchResults = [];
+    if (text && text.length > 1) {
+      // Makes request to the backend to fetch search results.
+      searchResults = yield call(apii.fetch, request, text);
+    }
 
     // Let store know that search results were received.
     yield put(searchActions.received(searchResults));
