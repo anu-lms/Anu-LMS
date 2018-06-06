@@ -1,9 +1,9 @@
 .search-item {
-  color: $white;
+  color: $white-grey;
   position: relative;
 
   > a {
-    color: $white;
+    color: $white-grey;
     display: block;
     padding-top: 0.75em;
     padding-bottom: 0.75em;
@@ -27,6 +27,9 @@
     text-align: center;
     top: 15px;
     transition: .08s color;
+    svg path {
+      fill: $white-grey;
+    }
     @include media-breakpoint-up(md) {
       top: 23px;
       left: -36px;
@@ -66,7 +69,7 @@
       max-width: 800px;
     }
     strong {
-      color: #f3c06d;
+      color: $gold;
     }
   }
 }
