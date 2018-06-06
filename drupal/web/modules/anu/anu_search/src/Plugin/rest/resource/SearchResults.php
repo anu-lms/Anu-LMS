@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_search\Plugin\rest\resource;
 
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\search_api\ParseMode\ParseModePluginManager;
@@ -114,30 +113,28 @@ class SearchResults extends ResourceBase {
       'field_comment_text', 'title', 'field_paragraph_text',
       'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
       'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
-      'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title'
+      'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title',
     ]);
 
     // @todo: An example of conditions, remove if unnecessary.
-//    $conditions = $query->createConditionGroup();
-//    if (!empty($conditions->getConditions())) {
-//
-//      $conditions
-//        ->addCondition('search_api_datasource', 'entity:node', '<>')
-//        ->addCondition('created', 7 * 24 * 3600, '>=');
-//
-//      $query->addConditionGroup($conditions);
-//    }
-
+    //    $conditions = $query->createConditionGroup();
+    //    if (!empty($conditions->getConditions())) {
+    //
+    //      $conditions
+    //        ->addCondition('search_api_datasource', 'entity:node', '<>')
+    //        ->addCondition('created', 7 * 24 * 3600, '>=');
+    //
+    //      $query->addConditionGroup($conditions);
+    //    }
     // @todo: An example of conditions, remove if unnecessary.
-//    $location_options = (array) $query->getOption('search_api_location', []);
-//    $location_options[] = [
-//      'field' => 'latlon',
-//      'lat' => $latitude,
-//      'lon' => $longitude,
-//      'radius' => '8.04672',
-//    ];
-//    $query->setOption('search_api_location', $location_options);
-
+    //    $location_options = (array) $query->getOption('search_api_location', []);
+    //    $location_options[] = [
+    //      'field' => 'latlon',
+    //      'lat' => $latitude,
+    //      'lon' => $longitude,
+    //      'radius' => '8.04672',
+    //    ];
+    //    $query->setOption('search_api_location', $location_options);
     // Defines default sort.
     $query->sort('search_api_relevance', 'DESC');
 
@@ -171,13 +168,13 @@ class SearchResults extends ResourceBase {
     return new ResourceResponse(array_values($entities), 200);
 
     // @todo: An example, remove if unnecessary.
-//    $cacheable_metadata = new CacheableMetadata();
-//    $cacheable_metadata->setCacheContexts([
-//      'url.query_args',
-//      'url.query_args:filter',
-//    ]);
-//    $response->addCacheableDependency($cacheable_metadata);
-//    return $response;
+    //    $cacheable_metadata = new CacheableMetadata();
+    //    $cacheable_metadata->setCacheContexts([
+    //      'url.query_args',
+    //      'url.query_args:filter',
+    //    ]);
+    //    $response->addCacheableDependency($cacheable_metadata);
+    //    return $response;
   }
 
 }
