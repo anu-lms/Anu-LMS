@@ -51,8 +51,8 @@ class SearchBar extends Component {
           />
           <div className="search-bar">
             {this.props.isFetching ?
-            <SearchLoader/> :
-            <div className="icon"><SearchIcon/></div>
+              <SearchLoader /> :
+              <div className="icon"><SearchIcon /></div>
             }
           </div>
           {this.state.value !== '' &&
@@ -72,10 +72,12 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   dispatch: PropTypes.func,
+  isFetching: PropTypes.bool,
 };
 
 SearchBar.defaultProps = {
   dispatch: () => {},
+  isFetching: false,
 };
 
 const mapStateToProps = ({ search }) => ({
