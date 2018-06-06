@@ -32,7 +32,7 @@ const HtmlHead = ({ title, favicon }) => {
       {gtmId &&
       <GoogleTagManager gtmId={gtmId} previewVariables={query} />
       }
-      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,600" rel="stylesheet" />
       {!!favicon && <link rel="shortcut icon" href={favicon} type="image/vnd.microsoft.icon" />}
       {stylesheets}
     </Head>
