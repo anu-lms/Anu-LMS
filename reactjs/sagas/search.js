@@ -16,7 +16,6 @@ const backendSearchDelay = 350;
  */
 function* fetchSearch({ text }) {
   try {
-
     // There's a small delay between a user finishing the typing and frontend
     // sending request to search. It is introduced in order to avoid flooding
     // the backend with tons of requests if a user types in fast. If a user
@@ -33,7 +32,7 @@ function* fetchSearch({ text }) {
     let searchResults = [];
     if (text && text.length > 1) {
       // Makes request to the backend to fetch search results.
-      searchResults = yield call(apii.fetch, request, text);
+      searchResults = yield call(api.fetch, request, text);
     }
 
     // Let store know that search results were received.
