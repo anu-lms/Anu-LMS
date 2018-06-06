@@ -15,8 +15,12 @@ const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
     <LinkWrap url={itemLink}>
       {icon &&
       <div className="type-icon">{icon}</div>
-       }
+      }
+
+      {/* eslint-disable-next-line react/no-danger */}
       <div className="title" dangerouslySetInnerHTML={{ __html: xss(title, { whiteList: { span: 'class' } }) }} />
+
+      {/* eslint-disable-next-line react/no-danger */}
       <div className="body" dangerouslySetInnerHTML={{ __html: xss(body) }} />
     </LinkWrap>
   </div>
