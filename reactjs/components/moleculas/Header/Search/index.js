@@ -47,7 +47,7 @@ class Search extends React.Component {
         <input type="text" placeholder="Search" disabled="disabled" />
 
         <div className="header-icon search-bar">
-          <div className="icon">{SearchIcon}</div>
+          <div className="icon"><SearchIcon /></div>
           <div className="label">Search</div>
         </div>
 
