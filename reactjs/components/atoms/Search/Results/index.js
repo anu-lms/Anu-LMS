@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import SearchTabs from '../Tabs';
 import Empty from '../Empty';
+import LessonItem from '../LessonItem';
+import CommentItem from '../CommentItem';
+import NotebookItem from '../NotebookItem';
+import ResourceItem from '../ResourceItem';
 
 const availableSearchComponents = {
-  'lesson': dynamic(import('../LessonItem')),
-  'paragraph_comment': dynamic(import('../CommentItem')),
-  'notebook': dynamic(import('../NotebookItem')),
-  'media_resource': dynamic(import('../ResourceItem')),
+  'lesson': LessonItem,
+  'paragraph_comment': CommentItem,
+  'notebook': NotebookItem,
+  'media_resource': ResourceItem,
 };
 
 class SearchResults extends React.Component {
