@@ -184,7 +184,7 @@ class AcceptanceTester extends \Codeception\Actor {
       // Wait for fadein animation to finish.
       $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($xpath) {
         $by = $this->getLocator($xpath);
-        $webdriver->wait(0.3)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+        $webdriver->wait(1)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
       });
 
       $I->comment("Added comment #$i with text: $comment_text.");
