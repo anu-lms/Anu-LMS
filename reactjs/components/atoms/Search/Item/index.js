@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import xss from 'xss';
 import classNames from 'classnames';
+import xss from 'xss';
 import LinkWrap from '../../Link/LinkWrap';
+import * as searchActions from '../../../../actions/search';
 import * as overlayActions from '../../../../actions/overlay';
 
 const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
   <div
     className={classNames('search-item', className)}
-    onClick={() => { dispatch(overlayActions.close()); }}
-    onKeyPress={() => { dispatch(overlayActions.close()); }}
+    onClick={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
+    onKeyPress={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
   >
     <LinkWrap url={itemLink}>
       {icon &&
