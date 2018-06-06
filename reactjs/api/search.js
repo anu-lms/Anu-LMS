@@ -2,6 +2,24 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
+ * Returns normalized search item object.
+ */
+const normalizeSearchItem = item => {
+  switch (item.type) {
+    case 'notebook':
+      return dataProcessors.notebookData(item.entity);
+    case 'lesson':
+      return dataProcessors.lessonData(item.entity);
+    case 'paragraph_comment':
+      return dataProcessors.processComment(item.entity);
+    case 'media_resource':
+      return dataProcessors.resourceData(item.entity);
+    default:
+      return item.entity;
+  }
+};
+
+/**
  * Make a request to the backend to perform a search.
  */
 export const fetch = (request, text) => new Promise((resolve, reject) => {
@@ -12,27 +30,10 @@ export const fetch = (request, text) => new Promise((resolve, reject) => {
       'filter[fulltext][condition][fulltext]': text,
     })
     .then(response => {
-      // @todo: an example of normalization, improve where necessary.
-      const items = response.body.map(item => {
-        let normalizedEntity = item.entity;
-        if (item.type === 'notebook') {
-          normalizedEntity = dataProcessors.notebookData(item.entity);
-        }
-        if (item.type === 'lesson') {
-          normalizedEntity = dataProcessors.lessonData(item.entity);
-        }
-        if (item.type === 'paragraph_comment') {
-          normalizedEntity = dataProcessors.processComment(item.entity);
-        }
-        if (item.type === 'media_resource') {
-          normalizedEntity = dataProcessors.resourceData(item.entity);
-        }
-
-        return {
-          ...item,
-          entity: normalizedEntity,
-        };
-      });
+      const items = response.body.map(item => ({
+        ...item,
+        entity: normalizeSearchItem(item),
+      }));
 
       resolve(items);
     })
