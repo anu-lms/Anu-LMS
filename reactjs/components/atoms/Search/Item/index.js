@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import xss from 'xss';
 import classNames from 'classnames';
 import LinkWrap from '../../Link/LinkWrap';
+import * as overlayActions from '../../../../actions/overlay';
 
-const SearchItem = ({ icon, title, body, className, itemLink }) => (
-  <div className={classNames('search-item', className)}>
+const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
+  <div
+    className={classNames('search-item', className)}
+    onClick={() => { dispatch(overlayActions.close()); }}
+    onKeyPress={() => { dispatch(overlayActions.close()); }}
+  >
     <LinkWrap url={itemLink}>
       {icon &&
       <div className="type-icon">{icon}</div>
@@ -22,6 +28,7 @@ SearchItem.propTypes = {
   body: PropTypes.string,
   className: PropTypes.string,
   itemLink: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
 };
 
 SearchItem.defaultProps = {
@@ -31,4 +38,4 @@ SearchItem.defaultProps = {
   itemLink: null,
 };
 
-export default SearchItem;
+export default connect()(SearchItem);
