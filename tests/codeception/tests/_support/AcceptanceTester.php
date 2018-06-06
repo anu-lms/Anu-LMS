@@ -179,10 +179,16 @@ class AcceptanceTester extends \Codeception\Actor {
 
       // Make sure comment has been added to the list.
       $I->waitForText($comment_text, self::TIMEOUT);
+      $xpath = $this->getCommentXpath($comment_text);
+
+      // Wait for fadein animation to finish.
+      $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($xpath) {
+        $by = $this->getLocator($xpath);
+        $webdriver->wait(0.3)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+      });
 
       $I->comment("Added comment #$i with text: $comment_text.");
 
-      $xpath = $this->getCommentXpath($comment_text);
       $id = $I->grabAttributeFrom($xpath, 'id');
 
       $comments[] = $id;
