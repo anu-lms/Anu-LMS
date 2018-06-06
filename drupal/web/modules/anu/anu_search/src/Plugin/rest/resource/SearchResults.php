@@ -148,17 +148,22 @@ class SearchResults extends ResourceBase {
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($result_set->getResultItems() as $item) {
       $entity = $item->getOriginalObject()->getValue();
+      $entity_type = $entity->getEntityTypeId();
+      $entity_bundle = $entity->bundle();
 
       $include_fields = [];
       // Prepares additional fields for normalizer function.
-      if (in_array($entity->getEntityTypeId(), ['paragraph_comment', 'paragraph'])) {
+      if ($entity_type == 'paragraph_comment') {
+        $include_fields = ['lesson'];
+      }
+      elseif ($entity_type == 'paragraph' && $entity_bundle == 'media_resource') {
         $include_fields = ['lesson'];
       }
 
       // Normalizes entity and add to the results array.
       if ($entity_normalized = AnuNormalizerBase::normalizeEntity($entity, $include_fields)) {
         $entities[] = [
-          'type' => $entity->bundle(),
+          'type' => $entity_bundle,
           'entity' => $entity_normalized,
           'excerpt' => $item->getExcerpt(),
         ];
