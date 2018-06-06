@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
+import Empty from '../Empty';
 
 const availableSearchComponents = {
   'lesson': dynamic(import('../LessonItem')),
@@ -11,32 +12,32 @@ const availableSearchComponents = {
   'media_resource': dynamic(import('../ResourceItem')),
 };
 
-const SearchResults = ({ results, isFetched, isError }) => (
+const SearchResults = ({ query, results, isFetched, isError }) => (
   <div className="search-results">
     <Scrollbars style={{ height: '100%' }}>
       <div className="inner-wrapper">
         <div className="inner">
+
           {!isError && results.length > 0 &&
           <div className="list">
             {results.map(resultItem => {
-            const SearchItemComponent = availableSearchComponents[resultItem.type];
-            if (SearchItemComponent) {
-              return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
-            }
-            return null;
-          })}
+              const SearchItemComponent = availableSearchComponents[resultItem.type];
+              if (SearchItemComponent) {
+                return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
+              }
+
+              return null;
+            })}
           </div>
           }
 
           {results.length === 0 && isFetched && !isError &&
-          <div>
-            There are no search results. Please someone smart - update this copy.
-          </div>
+          <Empty />
           }
 
           {isError &&
-          <div>
-            The error has occurred. Please someone smart - update this copy.
+          <div className="search-error">
+            The error has occurred. Please try to reload the page or contact site administrator.
           </div>
           }
         </div>
@@ -46,7 +47,7 @@ const SearchResults = ({ results, isFetched, isError }) => (
 );
 
 SearchResults.propTypes = {
-  results: PropTypes.arrayOf(PropTypes.shape()),
+  results: PropTypes.arrayOf(PropTypes.shape),
   isFetching: PropTypes.bool,
   isFetched: PropTypes.bool,
   isError: PropTypes.bool,

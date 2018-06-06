@@ -1,5 +1,6 @@
 export default (state = {
   results: [],
+  query: '',
   isFetching: false,
   isFetched: false,
   isError: false,
@@ -17,6 +18,7 @@ export default (state = {
     case 'SEARCH_REQUESTED':
       return {
         ...state,
+        query: action.text,
         isFetching: true,
         isFetched: false,
         isError: false,
@@ -33,6 +35,7 @@ export default (state = {
     case 'SEARCH_CLEAR':
       return {
         ...state,
+        query: '',
         results: [],
         isFetching: false,
         isFetched: false,
