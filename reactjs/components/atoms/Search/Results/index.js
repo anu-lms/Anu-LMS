@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
+import SearchTabs from '../Tabs';
 import Empty from '../Empty';
 
 const availableSearchComponents = {
@@ -13,36 +14,42 @@ const availableSearchComponents = {
 };
 
 const SearchResults = ({ query, results, isFetched, isError }) => (
-  <div className="search-results">
-    <Scrollbars style={{ height: '100%' }}>
-      <div className="inner-wrapper">
-        <div className="inner">
+  <div className="search-container">
+    {query && query.length > 1 &&
+    <SearchTabs />
+    }
 
-          {!isError && results.length > 0 &&
-          <div className="list">
-            {results.map(resultItem => {
-              const SearchItemComponent = availableSearchComponents[resultItem.type];
-              if (SearchItemComponent) {
-                return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
-              }
+    <div className="search-results">
+      <Scrollbars style={{ height: '100%' }}>
+        <div className="inner-wrapper">
+          <div className="inner">
 
-              return null;
-            })}
+            {!isError && results.length > 0 &&
+            <div className="list">
+              {results.map(resultItem => {
+                const SearchItemComponent = availableSearchComponents[resultItem.type];
+                if (SearchItemComponent) {
+                  return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
+                }
+
+                return null;
+              })}
+            </div>
+            }
+
+            {query && query.length > 1 && results.length === 0 && isFetched && !isError &&
+              <Empty />
+            }
+
+            {isError &&
+              <div className="search-error">
+              The error has occurred. Please try to reload the page or contact site administrator.
+              </div>
+            }
           </div>
-          }
-
-          {results.length === 0 && isFetched && !isError &&
-          <Empty />
-          }
-
-          {isError &&
-          <div className="search-error">
-            The error has occurred. Please try to reload the page or contact site administrator.
-          </div>
-          }
         </div>
-      </div>
-    </Scrollbars>
+      </Scrollbars>
+    </div>
   </div>
 );
 
@@ -61,6 +68,7 @@ SearchResults.defaultProps = {
 };
 
 const mapStateToProps = ({ search }) => ({
+  query: search.query,
   results: search.results,
   isFetching: search.isFetching,
   isFetched: search.isFetched,

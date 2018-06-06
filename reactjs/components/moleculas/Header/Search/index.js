@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SearchIcon from '../../../atoms/Search/Icon';
 import SearchBar from '../../../atoms/Search/Bar';
-import SearchTabs from '../../../atoms/Search/Tabs';
 import SearchResults from '../../../atoms/Search/Results';
 import * as searchActions from '../../../../actions/search';
 import * as overlayActions from '../../../../actions/overlay';
@@ -21,12 +20,7 @@ class Search extends React.Component {
 
     const header = <SearchBar />;
 
-    const content = (
-      <div className="search-container">
-        <SearchTabs />
-        <SearchResults />
-      </div>
-    );
+    const content = <SearchResults />;
 
     // Open an overlay with search components inside of it.
     dispatch(overlayActions.open(content, header, this.onOverlayClose));
