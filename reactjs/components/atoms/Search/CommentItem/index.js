@@ -3,22 +3,15 @@ import PropTypes from 'prop-types';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Comment';
 
-class CommentSearchItem extends React.Component {
-  render() {
-    const { excerpt, entity, type } = this.props.searchItem;
-    const { lesson, url } = entity;
-
-    return (
-      <SearchItem
-        icon={Icon}
-        title={`Comment in ${lesson.title}`}
-        body={excerpt}
-        className={type}
-        itemLink={url}
-      />
-    );
-  }
-}
+const CommentSearchItem = ({ searchItem }) => (
+  <SearchItem
+    icon={Icon}
+    title={`Comment in ${searchItem.entity.title}`}
+    body={searchItem.excerpt}
+    className={searchItem.type}
+    itemLink={searchItem.entity.url}
+  />
+);
 
 CommentSearchItem.propTypes = {
   searchItem: PropTypes.shape({
