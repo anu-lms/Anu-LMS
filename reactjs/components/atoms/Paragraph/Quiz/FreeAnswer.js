@@ -32,7 +32,7 @@ class FreeAnswer extends React.Component {
 
   render() {
     const {
-      title, blocks, columnClasses, data, id
+      title, blocks, columnClasses, data, id,
     } = this.props;
     return (
       <div id={`paragraph-${id}`} className="container quiz textarea">
