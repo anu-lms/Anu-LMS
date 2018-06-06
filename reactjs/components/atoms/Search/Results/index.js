@@ -8,6 +8,7 @@ import LessonItem from '../LessonItem';
 import CommentItem from '../CommentItem';
 import NotebookItem from '../NotebookItem';
 import ResourceItem from '../ResourceItem';
+import * as searchActions from '../../../../actions/search';
 
 const availableSearchComponents = {
   'lesson': LessonItem,
@@ -25,6 +26,12 @@ class SearchResults extends React.Component {
     };
 
     this.toggleTabsBorder = this.toggleTabsBorder.bind(this);
+    this.tabClick = this.tabClick.bind(this);
+  }
+
+  tabClick(category) {
+    const { query } = this.props;
+    this.props.dispatch(searchActions.fetch(query, category));
   }
 
   /**
@@ -44,12 +51,16 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const { query, results, isFetched, isError } = this.props;
+    const { category, query, results, isFetched, isError } = this.props;
 
     return (
       <div className="search-container">
         {query && query.length > 1 &&
-        <SearchTabs showBorder={this.state.showTabsBorder} />
+        <SearchTabs
+          activeTab={category}
+          onTabClick={this.tabClick}
+          showBorder={this.state.showTabsBorder}
+        />
         }
 
         <div className="search-results">
@@ -93,14 +104,17 @@ class SearchResults extends React.Component {
 SearchResults.propTypes = {
   results: PropTypes.arrayOf(PropTypes.shape),
   query: PropTypes.string,
+  category: PropTypes.oneOf(['all', 'media', 'resources']),
   isFetching: PropTypes.bool,
   isFetched: PropTypes.bool,
   isError: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
 };
 
 SearchResults.defaultProps = {
   results: [],
   query: '',
+  category: 'all',
   isFetching: false,
   isFetched: false,
   isError: false,
@@ -108,6 +122,7 @@ SearchResults.defaultProps = {
 
 const mapStateToProps = ({ search }) => ({
   query: search.query,
+  category: search.category,
   results: search.results,
   isFetching: search.isFetching,
   isFetched: search.isFetched,
