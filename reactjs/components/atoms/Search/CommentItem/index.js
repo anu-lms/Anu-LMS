@@ -6,7 +6,7 @@ import Icon from '../../Icons/Comment';
 const CommentSearchItem = ({ searchItem }) => (
   <SearchItem
     icon={Icon}
-    title={`Comment in ${searchItem.entity.title}`}
+    title={`Comment in ${searchItem.entity.lesson.title}`}
     body={searchItem.excerpt}
     className={searchItem.type}
     itemLink={searchItem.entity.url}
