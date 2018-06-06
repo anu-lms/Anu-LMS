@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NotificationItem from '../Item';
+import Icon from '../../Icons/Comment';
 import { Router } from '../../../../routes';
 import * as userHelper from '../../../../helpers/user';
 import * as notificationActions from '../../../../actions/notifications';
@@ -10,15 +11,6 @@ export const supportedBundles = [
   'add_comment_to_thread',
   'reply_to_comment',
 ];
-
-const NotificationCommentItemIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-    <g fill="none" fillRule="evenodd">
-      <path fill="#B2B2B2" fillRule="nonzero" d="M19.99 2c0-1.1-.89-2-1.99-2H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z" />
-      <path d="M-2-2h24v24H-2z" />
-    </g>
-  </svg>
-);
 
 class NotificationCommentItem extends React.Component {
   constructor(props) {
@@ -55,7 +47,7 @@ class NotificationCommentItem extends React.Component {
 
     return (
       <NotificationItem
-        Icon={NotificationCommentItemIcon}
+        icon={Icon}
         date={created}
         title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lesson.title}</strong>`}
         text={text}
