@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SearchIcon from '../Icon';
+import SearchLoader from '../Loader';
 import * as searchActions from '../../../../actions/search';
 
 class SearchBar extends Component {
@@ -49,7 +50,10 @@ class SearchBar extends Component {
             onChange={this.onValueChange}
           />
           <div className="search-bar">
-            <div className="icon">{SearchIcon}</div>
+            {this.props.isFetching ?
+            <SearchLoader/> :
+            <div className="icon"><SearchIcon/></div>
+            }
           </div>
           {this.state.value !== '' &&
           <div className="clear" onClick={this.onClearInputClick} onKeyPress={() => {}}>
@@ -74,4 +78,8 @@ SearchBar.defaultProps = {
   dispatch: () => {},
 };
 
-export default connect()(SearchBar);
+const mapStateToProps = ({ search }) => ({
+  isFetching: search.isFetching,
+});
+
+export default connect(mapStateToProps)(SearchBar);
