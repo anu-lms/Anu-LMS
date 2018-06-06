@@ -1,8 +1,10 @@
 .search-tabs {
   margin-top: 5px;
-  border-bottom: 1px solid $anu-black;
-  @include media-breakpoint-up(md) {
-    //margin-bottom: 2em;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color .04s;
+
+  &.show-border {
+    border-bottom-color: $anu-black;
   }
 
   span {
