@@ -44,6 +44,12 @@ class SearchResults extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   Logger service.
+   * @param \Symfony\Component\HttpFoundation\Request $current_request
+   *   Request represents an HTTP request.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   An interface for entity type managers.
+   * @param \Drupal\search_api\ParseMode\ParseModePluginManager $parse_mode_manager
+   *   Manages parse mode plugins.
    */
   public function __construct(
     array $configuration,
@@ -83,6 +89,7 @@ class SearchResults extends ResourceBase {
    * Return search results by given query params.
    *
    * @return \Drupal\rest\ResourceResponse
+   *   Response with an array of search items.
    */
   public function get() {
     $fulltext = NULL;
