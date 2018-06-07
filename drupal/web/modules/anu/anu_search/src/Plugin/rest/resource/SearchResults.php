@@ -2,14 +2,14 @@
 
 namespace Drupal\anu_search\Plugin\rest\resource;
 
-use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
-use Drupal\search_api\ParseMode\ParseModePluginManager;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\rest\ResourceResponse;
+use Drupal\rest\Plugin\ResourceBase;
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\search_api\ParseMode\ParseModePluginManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a resource to load notifications of the current user.
@@ -23,6 +23,13 @@ use Drupal\anu_normalizer\AnuNormalizerBase;
  * )
  */
 class SearchResults extends ResourceBase {
+
+  /**
+   * Defines search category constants.
+   */
+  const CATEGORY_ALL = 'all';
+  const CATEGORY_MEDIA = 'media';
+  const CATEGORY_RESOURCES = 'resources';
 
   /**
    * Constructs a new SearchResults object.
@@ -79,7 +86,7 @@ class SearchResults extends ResourceBase {
    */
   public function get() {
     $fulltext = NULL;
-    $category = 'all'; //@todo: move to consts
+    $category = self::CATEGORY_ALL;
 
     // Get given query params.
     $filters = $this->currentRequest->query->get('filter');
@@ -113,7 +120,7 @@ class SearchResults extends ResourceBase {
       $query->keys([$fulltext]);
     }
 
-    if ($category == 'media') {
+    if ($category == self::CATEGORY_MEDIA) {
       // Fields related to the Lesson content.
       $full_text_fields = [
         'title', 'field_paragraph_text', 'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
@@ -124,7 +131,7 @@ class SearchResults extends ResourceBase {
         ->addCondition('search_api_datasource', 'entity:node')
         ->addCondition('content_type', 'lesson');
     }
-    elseif ($category == 'resources') {
+    elseif ($category == self::CATEGORY_RESOURCES) {
       // Fields related to the Resources content.
       $full_text_fields = [
         'field_paragraph_private_file', 'field_resource_title',
