@@ -2,6 +2,13 @@ uuid: a396f246-6dee-42c5-9eac-134cf1a41233
 langcode: en
 status: true
 dependencies:
+  module:
+    - search_api_solr
+    - paragraphs
+    - search_api
+    - search_api_attachments
+    - eck
+    - node
   config:
     - field.storage.paragraph_comment.field_comment_text
     - field.storage.node.field_lesson_blocks
@@ -13,12 +20,11 @@ dependencies:
     - field.storage.notebook.field_notebook_body
     - field.storage.notebook.field_notebook_title
     - search_api.server.solr_server
-  module:
-    - paragraphs
-    - search_api
-    - search_api_attachments
-    - eck
-    - node
+third_party_settings:
+  search_api_solr:
+    finalize: false
+    commit_before_finalize: false
+    commit_after_finalize: false
 id: content
 name: Content
 description: ''
@@ -257,6 +263,9 @@ processor_settings:
     max_filesize: '0'
     excluded_private: 0
     excluded_mimes: 'audio/x-aiff image/x-jg video/x-msvideo image/x-ms-bmp image/gif image/vnd.microsoft.icon video/quicktime audio/ogg video/ogg image/png image/x-photoshop audio/x-realaudio audio/x-pn-realaudio image/x-rgb video/x-flv'
+  solr_date_range:
+    weights:
+      preprocess_index: 0
 tracker_settings:
   default:
     indexing_order: fifo

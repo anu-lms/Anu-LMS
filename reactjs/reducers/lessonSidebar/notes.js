@@ -1,6 +1,6 @@
 export default (state = {
   isNoteListVisible: false,
-  noteId: 0,
+  noteId: 0, // @todo: consider to use active note id from notebook storage instead?
 }, action) => {
   switch (action.type) {
     case 'LESSON_SIDEBAR_OPEN': {
