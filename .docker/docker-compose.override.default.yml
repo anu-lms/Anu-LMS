@@ -1,0 +1,90 @@
+version: "2"
+
+services:
+#  node:
+#    volumes:
+#      # For macOS users (https://wodby.com/stacks/drupal/docs/local/docker-for-mac/)
+#      - ../reactjs:/app:cached
+#
+#  php:
+##    environment:
+##      # Read instructions at https://wodby.com/stacks/drupal/docs/local/xdebug/
+##      PHP_XDEBUG: 1
+##      PHP_XDEBUG_DEFAULT_ENABLE: 1
+##      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+##      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ & Linux/Mac/Win
+##      PHP_IDE_CONFIG: serverName=my-ide
+##      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux, Docker < 18.03
+##      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
+##      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
+#    volumes:
+#      - ../drupal:/var/www/html:cached
+##      # For Xdebug profiler files
+##      - files:/mnt/files
+#
+#  nginx:
+#    volumes:
+#      - ../drupal:/var/www/html:cached
+#
+#  mariadb:
+#    volumes:
+#      - ../drupal/mysql/data:/var/lib/mysql:cached
+#
+#  solr:
+#    volumes:
+#      - ../.platform/solr:/opt/solr/server/solr/maincore:cached
+#
+#  #########################
+#  ### PhpMyAdmin ##########
+#  #########################
+#
+#  pma:
+#    image: phpmyadmin/phpmyadmin
+#    environment:
+#      PMA_HOST: mariadb
+#      PMA_USER: drupal
+#      PMA_PASSWORD: drupal
+#      PHP_UPLOAD_MAX_FILESIZE: 1G
+#      PHP_MAX_INPUT_VARS: 1G
+#    labels:
+#      - 'traefik.backend=pma'
+#      - 'traefik.port=80'
+#      - 'traefik.frontend.rule=Host:pma.docker.localhost'
+
+  #########################
+  ### CODECEPTION #########
+  #########################
+
+  codecept:
+    image: codeception/codeception:$CODECEPT_TAG
+    depends_on:
+      - chrome
+      - nginx
+    volumes:
+      - ../tests/codeception:/project
+      # For macOS users (https://wodby.com/stacks/drupal/docs/local/docker-for-mac/)
+#      - ../tests/codeception:/project:cached
+
+  #########################
+  ### CHROME FOR TESTS ####
+  #########################
+
+  chrome:
+    image: selenium/standalone-chrome:$CHROME_TAG
+    expose:
+      - 4444
+    shm_size: 2gb
+#
+#  ##########################
+#  ### DOCKER MANAGEMENT ####
+#  ##########################
+#
+#  portainer:
+#    image: portainer/portainer
+#    command: --no-auth -H unix:///var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    labels:
+#      - 'traefik.backend=portainer'
+#      - 'traefik.port=9000'
+#      - 'traefik.frontend.rule=Host:portainer.docker.localhost'

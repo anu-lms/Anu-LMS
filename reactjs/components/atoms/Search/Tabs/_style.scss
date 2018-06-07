@@ -1,0 +1,36 @@
+.search-tabs {
+  margin-top: 5px;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color .04s;
+
+  &.show-border {
+    border-bottom-color: $anu-black;
+  }
+
+  span {
+    font-size: .875em;
+    color: $white;
+    cursor: pointer;
+    padding: .5em .6em 0;
+    display: inline-block;
+    margin: 0 .4em;
+    @include media-breakpoint-up(md) {
+      font-size: 1.125em;
+      padding: .5em .3em .2em;
+      margin: 0 .7em;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:hover {
+      color: $anu-blue;
+    }
+
+    &.active {
+      color: $anu-blue;
+      border-bottom: 4px solid $anu-blue;
+    }
+  }
+}

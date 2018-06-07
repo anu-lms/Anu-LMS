@@ -1,0 +1,18 @@
+uuid: 7de0a8d8-aa5b-44bf-91ab-4eeb2cfc071c
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_search
+    - serialization
+    - simple_oauth
+id: search_results
+plugin_id: search_results
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2

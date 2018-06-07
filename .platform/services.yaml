@@ -8,3 +8,14 @@ mariadb:
     type: "mysql:10.0"
     disk: 2048
     size: S
+
+solrsearch:
+    type: solr:6.6
+    disk: 512
+    configuration:
+        cores:
+            maincore:
+                conf_dir: !archive "solr/conf"
+        endpoints:
+            main:
+                core: maincore

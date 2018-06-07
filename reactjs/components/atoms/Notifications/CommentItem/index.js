@@ -29,8 +29,8 @@ class NotificationCommentItem extends React.Component {
 
   onTitleClick() {
     const { notificationItem, closePopup } = this.props;
-    if (notificationItem.comment.commentUrl) {
-      Router.replaceRoute(notificationItem.comment.commentUrl);
+    if (notificationItem.comment.url) {
+      Router.replaceRoute(notificationItem.comment.url);
       closePopup();
     }
   }
@@ -46,7 +46,7 @@ class NotificationCommentItem extends React.Component {
 
   render() {
     const { triggerer, comment, created, bundle, isRead } = this.props.notificationItem;
-    const { lessonTitle, text } = comment;
+    const { lesson, text } = comment;
     const triggererName = userHelper.getUsername(triggerer);
     let titleCopy = 'replied to your comment in';
     if (bundle === 'add_comment_to_thread') {
@@ -57,7 +57,7 @@ class NotificationCommentItem extends React.Component {
       <NotificationItem
         Icon={NotificationCommentItemIcon}
         date={created}
-        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lessonTitle}</strong>`}
+        title={`<strong>${triggererName}</strong> ${titleCopy} <strong>${lesson.title}</strong>`}
         text={text}
         className={`comment comment-${bundle}`}
         isRead={isRead}
@@ -77,11 +77,11 @@ NotificationCommentItem.propTypes = {
     triggerer: PropTypes.object,
     isRead: PropTypes.bool,
     comment: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       text: PropTypes.string,
-      commentUrl: PropTypes.string,
+      url: PropTypes.string,
       paragraphId: PropTypes.number,
-      lessonTitle: PropTypes.string,
+      lesson: PropTypes.object,
     }),
   }).isRequired,
   closePopup: PropTypes.func,
