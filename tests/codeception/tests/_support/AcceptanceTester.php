@@ -20,13 +20,17 @@ class AcceptanceTester extends \Codeception\Actor {
 
   use _generated\AcceptanceTesterActions;
 
+  const TIMEOUT = 5;
+
   /**
+   * Authenticates user into the frontend.
+   *
    * @param $name
-   *  User name.
+   *   User name.
    * @param $password
-   *  User password.
+   *   User password.
    * @param bool $replace_pass
-   *  If different password is defined at CircleCI environment, use it instead of provided one.
+   *   If different password is defined at CircleCI environment, use it instead of provided one.
    * @throws Exception
    */
   public function login($name, $password, $replace_pass = FALSE) {
@@ -47,6 +51,12 @@ class AcceptanceTester extends \Codeception\Actor {
     $I->waitForElement('.card');
   }
 
+
+  /**
+   * Opens Test Course landing page from the dashboard.
+   *
+   * @throws Exception
+   */
   public function openTestCourseLanding() {
     $I = $this;
 
@@ -65,60 +75,68 @@ class AcceptanceTester extends \Codeception\Actor {
     $I->waitForText('Course Content');
   }
 
+  /**
+   * Opens comments section of the first video paragraph within Lesson 1.
+   *
+   * @throws Exception
+   */
   public function openVideoComments() {
     $I = $this;
 
     $I->amOnPage('/course/test-course/lesson-1');
     // Wait for the page to be fully loaded.
-    $I->waitForElementLoaded('.comments-cta');
+    $I->waitForElementClickable('.comments-cta');
     try {
       // Check if comments tab is already active.
       $I->seeElement('.lesson-sidebar.active-tab-comments');
     }
     catch (Exception $e) {
       // Open comments list of the first video paragraph.
-      $I->click('//div[@class="lesson-content"]
-      /div[contains(concat(" ", normalize-space(@class), " "), " video ")]
-      //span[contains(concat(" ", normalize-space(@class), " "), " comments-cta ")]');
+      $I->click('#paragraph-9991191 .comments-cta');
     }
 
     // Wait for the comments list to be fully loaded.
-    $I->waitForElementLoaded('#new-comment-form');
+    $I->waitForElementLoaded('.add-new-comment');
   }
 
+  /**
+   * Pressing Start or Resume button at course landing page.
+   *
+   * @throws Exception
+   */
   public function resumeCourseFromLanding() {
     $I = $this;
 
     $courseTitle = $I->grabTextFrom('h4');
 
     $I->click('//a[text()="Start" or text()="Resume"]');
-    $I->waitForText($courseTitle, 5, '.navigation');
+    $I->waitForText($courseTitle, self::TIMEOUT, '.navigation');
   }
 
   /**
    * Creates certain number of test comments.
+   *
    * @param integer $count
    *  Number of comments to create.
-   * @param [optional] $reply_to
-   *  Comment text to reply to.
+   * @param [optional] $comment_id
+   *  Comment id to reply to.
    * @return array $comments
    *  array of comments.
    * @throws Exception
    */
-  public function createComments($count, $reply_to = null) {
+  public function createComments($count, $comment_id = null) {
     $I = $this;
 
     $comments = [];
 
     // Makes sure there is no active loading process.
-    $I->waitForElementLoaded('.add-new-comment');
+    $I->waitForElementClickable('.add-new-comment');
 
     for ($i=1; $i<=$count; $i++) {
       $comment_text = uniqid('Test comment ');
 
-      if ($reply_to) {
-        $xpath = $this->getCommentXpath($reply_to);
-        $comment_button = $xpath . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]';
+      if ($comment_id) {
+        $comment_button = "#$comment_id .reply";
         $comment_field = '#reply-comment-form textarea';
         $comment_submit = '#reply-comment-form button[type="submit"]';
       }
@@ -128,94 +146,113 @@ class AcceptanceTester extends \Codeception\Actor {
         $comment_submit = '#new-comment-form button[type="submit"]';
       }
 
-      $I->amGoingTo(($reply_to ? 'Reply with' : 'Create') . " comment #$i: $comment_text");
-
-      if ($reply_to) {
-        // Scroll to the Replied comment to click reply button.
-        $I->scrollTo($xpath);
-        $I->wait(1);
-
-        // Move mouse over comment, because reply visible only on hover.
-        $I->moveMouseOver($xpath);
-        // Make sure we can see reply button
-        $I->seeElement($comment_button);
-      }
+      $I->amGoingTo(($comment_id ? 'Reply with' : 'Create') . " comment #$i: $comment_text");
 
       // Click Add new comment or Reply button.
-      $I->click($comment_button);
+      $I->scrollAndClick($comment_button);
 
-      // Make sure Add new comment or Reply forms are visible.
-      $I->waitForElement($comment_field, 5);
+      // Make sure that input field is ready for interaction.
+      $I->scrollAndClick($comment_field);
 
-      // Scroll to the New comment or Reply textarea field.
-      $I->scrollTo($comment_field);
-      $I->wait(1);
-
+      // Fill in comment text.
       $I->fillField($comment_field, $comment_text);
+
       // Make sure Submit button is clickable.
       $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
         return $el->isEnabled();
       }, 2);
 
-      $I->click($comment_submit);
+      // Submit comment.
+      $I->scrollAndClick($comment_submit);
 
       // Wait while comment is saving.
-      if ($reply_to) {
+      if ($comment_id) {
         // Wait until reply form disappear.
-        $I->waitForElementNotVisible($comment_field, 5);
+        $I->waitForElementNotVisible($comment_field, self::TIMEOUT);
       }
       else {
-        // Wait until submit button showing loading progress (disabled);
+        // Wait until submit button showing loading progress (disabled).
         $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
           return !$el->isEnabled();
-        }, 5);
+        }, self::TIMEOUT);
       }
 
       // Make sure comment has been added to the list.
-      $I->waitForText($comment_text, 5);
+      $I->waitForText($comment_text, self::TIMEOUT);
+      $xpath = $this->getCommentXpath($comment_text);
+
+      // Wait for fadein animation to finish.
+      $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($xpath) {
+        $by = $this->getLocator($xpath);
+        $webdriver->wait(1)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+      });
 
       $I->comment("Added comment #$i with text: $comment_text.");
 
-      $comments[] = array(
-        'text' => $comment_text,
-        'xpath' => $this->getCommentXpath($comment_text)
-      );
+      $id = $I->grabAttributeFrom($xpath, 'id');
+
+      $comments[] = $id;
     }
 
     return $comments;
   }
 
-  public function deleteComment($comment_text) {
+  /**
+   * Deletes comment.
+   *
+   * @param $comment_text
+   * @throws Exception
+   */
+  public function deleteComment($comment_id) {
     $I = $this;
 
-    $I->clickCommentMenuItem($comment_text, 'Delete Comment');
+    $I->clickCommentMenuItem($comment_id, 'delete');
     // Accept deleting comment.
     $I->acceptPopup();
     // Wait for delete confirmation.
     $I->waitForText('Comment has been successfully deleted.');
   }
 
-  public function clickCommentMenuItem($comment_text, $menu_item) {
+  /**
+   * Clicks comment's contextual menu item by comment text and menu item class.
+   *
+   * @param $comment_text
+   * @param $menu_item
+   * @throws Exception
+   */
+  public function clickCommentMenuItem($comment_id, $menu_item) {
     $I = $this;
 
-    $xpath = $this->getCommentXpath($comment_text);
     // Open comment operations menu.
-    $I->click( $xpath . '//div[@class="context-menu"]//button');
+    $I->click( "#$comment_id .context-menu button");
     // Wait for menu to be opened.
-    $I->waitForElementVisible($xpath . '//div[@role="menu"]');
+    $I->waitForElementVisible("#$comment_id div[role='menu']");
     // Click menu item.
-    $I->click($xpath . '//div[@role="menuitem" and text()="' . $menu_item . '"]');
+    $I->click("#$comment_id div[role='menu'] .$menu_item");
   }
 
+  /**
+   * Gets xPath selector of a comment by it's text.
+   *
+   * @param $comment_text
+   * @return string
+   */
   private function getCommentXpath($comment_text) {
     return '//div[@class="comment-body" and text()="' . $comment_text . '"]
       //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
   }
 
-  public function seePageHasElement($element, $wait = 5) {
+  /**
+   * Waits for element to appear on the page.
+   *
+   * @param $el
+   * @param int $timeout
+   * @return bool
+   */
+  public function seePageHasElement($el, $timeout = self::TIMEOUT) {
     $I = $this;
     try {
-      $I->waitForElementVisible($element, $wait);
+      $I->waitForElementVisible($el, $timeout);
     }
     catch (\Exception $e) {
       return false;
@@ -225,27 +262,142 @@ class AcceptanceTester extends \Codeception\Actor {
 
   /**
    * Waits for element on the page.
+   *
    * Makes sure that throbber animation doesn't cover desired element.
+   *
    * @param $element
    * @param null $timeout
    *  Timeout in seconds.
    * @throws Exception
    */
-  public function waitForElementLoaded($element, $timeout = 5) {
+  public function waitForElementLoaded($el, $timeout = self::TIMEOUT) {
     $I = $this;
 
-    $loading_timeout = 10;
-    $loading_time = 0;
-    $wait_for_loading = 1;
-    while ($I->seePageHasElement('.loader', 2) && $loading_time < $loading_timeout) {
-      $I->wait($wait_for_loading);
-      $loading_time += $wait_for_loading;
-      $I->comment("I've been waiting element $element loading for $loading_time seconds.");
-    }
+    $I->amGoingTo("Wait until $el is loaded.");
 
-    $I->waitForElement($element, $timeout);
+    $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($el, $timeout) {
+      try {
+        // Locator for loading animation.
+        $by = $this->getLocator('.loader');
+        // Wait for .loader to appear.
+        $webdriver->wait(0.5)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+        // Wait for .loader to disappear.
+        $webdriver->wait($timeout)->until(WebDriverExpectedCondition::invisibilityOfElementLocated($by));
+      }
+      catch (Exception $e) {
+        // If there is no loader - wait as usual.
+      }
+      // Locator for target element.
+      $by = $this->getLocator($el);
+      // Make sure desired element is loaded.
+      $webdriver->wait($timeout)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+    });
   }
 
+  /**
+   * An expectation for checking an element is visible and enabled such that you can click it.
+   *
+   * @param $el
+   * @param int $timeout
+   */
+  public function waitForElementClickable($el, $timeout = self::TIMEOUT) {
+    $I = $this;
+
+    $I->amGoingTo("Wait until $el is clickable.");
+
+    $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($el, $timeout) {
+      $by = $this->getLocator($el);
+      $webdriver->wait($timeout)->until(WebDriverExpectedCondition::elementToBeClickable($by));
+    });
+  }
+
+  /**
+   * Gets instance of WebDriverBy by selector.
+   *
+   * Have to use this because \Facebook\WebDriver::getLocator is protected.
+   *
+   * @param $selector
+   * @return \Facebook\WebDriver\WebDriverBy
+   * @throws \InvalidArgumentException
+   */
+  protected function getLocator($selector) {
+    if ($selector instanceof \Facebook\WebDriver\WebDriverBy) {
+      return $selector;
+    }
+    if (is_array($selector)) {
+      return $this->getStrictLocator($selector);
+    }
+    if (Codeception\Util\Locator::isID($selector)) {
+      return WebDriverBy::id(substr($selector, 1));
+    }
+    if (Codeception\Util\Locator::isCSS($selector)) {
+      return WebDriverBy::cssSelector($selector);
+    }
+    if (Codeception\Util\Locator::isXPath($selector)) {
+      return WebDriverBy::xpath($selector);
+    }
+    throw new \InvalidArgumentException("Only CSS or XPath allowed");
+  }
+
+  /**
+   * Gets instance of WebDriverBy by strict selector.
+   *
+   * Have to use this because \Facebook\WebDriver::getStrictLocator is protected.
+   *
+   * @param array $by
+   * @return \Facebook\WebDriver\WebDriverBy
+   */
+  protected function getStrictLocator(array $by) {
+    $type = key($by);
+    $locator = $by[$type];
+    switch ($type) {
+      case 'id':
+        return WebDriverBy::id($locator);
+      case 'name':
+        return WebDriverBy::name($locator);
+      case 'css':
+        return WebDriverBy::cssSelector($locator);
+      case 'xpath':
+        return WebDriverBy::xpath($locator);
+      case 'link':
+        return WebDriverBy::linkText($locator);
+      case 'class':
+        return WebDriverBy::className($locator);
+      default:
+        throw new Codeception\Exception\MalformedLocatorException(
+          "$by => $locator",
+          "Strict locator can be either xpath, css, id, link, class, name: "
+        );
+    }
+  }
+
+
+  /**
+   * Scrolls to element and clicks it.
+   *
+   * More reliable method for clicking elements.
+   *
+   * @param $selector
+   */
+  public function scrollAndClick($selector) {
+    $I = $this;
+
+    $I->scrollTo($selector);
+    $I->moveMouseOver($selector);
+    $I->waitForElementClickable($selector);
+
+    $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($selector) {
+      $by = $this->getLocator($selector);
+      $el = $webdriver->findElements($by);
+      $webdriver->executeScript('arguments[0].click();', $el);
+    });
+  }
+
+  /**
+   * Gets amount of unread notifications from the header.
+   *
+   * @return int
+   */
   public function getNotificationsCount() {
     $I = $this;
 

@@ -71,18 +71,18 @@ class CommentMenu extends Component {
         </Dropdown.Toggle>
         <Dropdown.MenuWrapper pullRight>
           <Dropdown.Menu pullRight>
-            <MenuItem onSelect={this.onCopyLink} >
+            <MenuItem className="copy" onSelect={this.onCopyLink} >
               Copy link to comment
             </MenuItem>
             {comment.author.uid === currentUserId &&
-              <MenuItem onSelect={this.onEdit}>
-                Edit Comment
-              </MenuItem>
+            <MenuItem className="edit" onSelect={this.onEdit}>
+              Edit Comment
+            </MenuItem>
             }
             {comment.author.uid === currentUserId &&
-              <MenuItem className="delete" onSelect={this.onDelete} >
-                Delete Comment
-              </MenuItem>
+            <MenuItem className="delete" onSelect={this.onDelete} >
+              Delete Comment
+            </MenuItem>
             }
           </Dropdown.Menu>
         </Dropdown.MenuWrapper>

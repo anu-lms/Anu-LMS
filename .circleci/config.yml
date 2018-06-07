@@ -179,6 +179,12 @@ jobs:
           command: |
             ./vendor/bin/codecept run acceptance -c ./tests/codeception -o 'modules: config: WebDriver: host: localhost' --debug -g failed
 
+      - run:
+          name: Cleanup data created during tests
+          shell: /bin/bash
+          command: |
+            platform ssh -A backend "cd web && drush tc"
+
       - store_artifacts:
           path: tests/codeception/tests/_output
 
