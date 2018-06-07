@@ -14,7 +14,7 @@ const backendSearchDelay = 350;
 /**
  * Fetch search results from the backend.
  */
-function* fetchSearch({ text }) {
+function* fetchSearch({ text, category }) {
   try {
     let searchResults = [];
     if (text && text.length > 1) {
@@ -32,7 +32,7 @@ function* fetchSearch({ text }) {
       request.set('Authorization', `Bearer ${accessToken}`);
 
       // Makes request to the backend to fetch search results.
-      searchResults = yield call(api.fetch, request, text);
+      searchResults = yield call(api.fetch, request, text, category);
     }
 
     // Let store know that search results were received.
