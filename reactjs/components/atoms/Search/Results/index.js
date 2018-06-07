@@ -8,14 +8,9 @@ import LessonItem from '../LessonItem';
 import CommentItem from '../CommentItem';
 import NotebookItem from '../NotebookItem';
 import ResourceItem from '../ResourceItem';
+import MediaItem from '../MediaItem';
 import * as searchActions from '../../../../actions/search';
 
-const availableSearchComponents = {
-  'lesson': LessonItem,
-  'paragraph_comment': CommentItem,
-  'notebook': NotebookItem,
-  'media_resource': ResourceItem,
-};
 
 class SearchResults extends React.Component {
   constructor(props) {
@@ -32,6 +27,16 @@ class SearchResults extends React.Component {
   tabClick(category) {
     const { query } = this.props;
     this.props.dispatch(searchActions.fetch(query, category));
+  }
+
+  getSearchComponentName(type, category) {
+    const components = {
+      'lesson': category === 'media' ? MediaItem : LessonItem,
+      'paragraph_comment': CommentItem,
+      'notebook': NotebookItem,
+      'media_resource': ResourceItem,
+    };
+    return components[type] ? components[type] : null;
   }
 
   /**
@@ -71,7 +76,7 @@ class SearchResults extends React.Component {
                 {!isError && results.length > 0 &&
                 <div className="list">
                   {results.map(resultItem => {
-                    const SearchItemComponent = availableSearchComponents[resultItem.type];
+                    const SearchItemComponent = this.getSearchComponentName(resultItem.type, category);
                     if (SearchItemComponent) {
                       // eslint-disable-next-line max-len
                       return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;

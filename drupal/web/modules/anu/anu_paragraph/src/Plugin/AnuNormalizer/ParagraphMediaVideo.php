@@ -41,14 +41,12 @@ class ParagraphMediaVideo extends AnuNormalizerBase {
         'created' => (int) $entity->created->getString(),
       ];
 
-//      if (!$entity->field_paragraph_url->isEmpty()) {
-//        $uri = $entity->field_paragraph_url->entity->getFileUri();
-//        //$image_url = ImageStyle::load('576x450')->buildUrl($uri);
-//
-//        $output['fieldParagraphImage'] = [
-//          'uri' => $uri
-//        ];
-//      }
+      if (!$entity->field_paragraph_url->isEmpty()) {
+        $uri = $entity->field_paragraph_url->getValue();
+        $output['fieldParagraphUrl'] = [
+          'uri' => $uri[0]['uri'],
+        ];
+      }
 
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
