@@ -28,7 +28,7 @@ class ImageCentered extends React.Component {
   render() {
     const { image, title, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div className="container image-centered">
+      <div id={`paragraph-${id}`} className="container image-centered">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <img

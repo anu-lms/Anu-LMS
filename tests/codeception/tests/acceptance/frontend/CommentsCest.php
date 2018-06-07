@@ -18,46 +18,43 @@ class CommentsCest {
     // Switch to notes tab.
     $I->click('.lesson-sidebar-container .tab.notes');
     // Wait for notes to be fully loaded.
-    $I->waitForElementLoaded('.notes-list-column.visible');
+    $I->waitForElementLoaded('.add-note');
     // Switch back to comments.
     $I->click('.lesson-sidebar-container .tab.comments');
     // Wait for comments to be fully loaded.
-    $I->waitForElementLoaded('.lesson-comments-scrollable');
+    $I->waitForElementLoaded('.add-new-comment');
 
     // CREATE A COMMENT.
     // Open comment creation form.
     $I->click('.add-new-comment');
     // Make sure input is in focus.
-    $I->wait(1);
+    $I->wait(0.4);
     $I->assertTrue($I->executeJS('return document.querySelector("#new-comment-form textarea") === document.activeElement'));
     // Create a comment.
     $this->comments = $I->createComments(1);
+    // ID of the comment we just created.
+    $id = $this->comments[0];
 
     // REPLY FORM.
-    $I->click($this->comments[0]['xpath'] . '//span[contains(concat(" ", normalize-space(@class), " "), " reply ")]');
+    $I->click("#$id .reply");
     // Make sure input is in focus
     $I->wait(0.4);
     $I->assertTrue($I->executeJS('return document.querySelector("#reply-comment-form textarea") === document.activeElement'));
 
     // EDIT COMMENT.
-    $I->clickCommentMenuItem($this->comments[0]['text'],'Edit Comment');
+    $comment_text = $I->grabTextFrom("#$id .comment-body");
+    $I->clickCommentMenuItem($id,'edit');
     // Edit comment.
     $I->pressKey('#edit-comment-form textarea', ' (edited)');
     // Save comment.
     $I->click('#edit-comment-form button[type="submit"]');
-    // Update comment element.
-    $this->comments[0] = array(
-      'text' => $this->comments[0]['text'] . ' (edited)',
-      'xpath' => '//div[@class="comment-body" and text()="' . $this->comments[0]['text'] . ' (edited)"]
-        //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]'
-    );
     // Wait for comment to be updated.
-    $I->waitForElement($this->comments[0]['xpath']);
+    $I->waitForText($comment_text . ' (edited)', null, "#$id .comment-body");
 
     // DELETE COMMENT.
-    $I->deleteComment($this->comments[0]['text']);
+    $I->deleteComment($id);
     // Check that comment is not in the list any more.
-    $I->dontSeeElement($this->comments[0]['xpath']);
+    $I->dontSeeElement("#$id");
   }
 
   public function LessonCommentPermissions(\Step\Acceptance\Learner $I) {
@@ -72,20 +69,22 @@ class CommentsCest {
       $this->comments = $I->createComments(1);
     });
 
+    // ID of the comment we just created.
+    $id = $this->comments[0];
     // Check comment created by teacher.
     $I->openVideoComments();
     // Open comment operations menu.
-    $I->click( $this->comments[0]['xpath'] . '//div[@class="context-menu"]//button');
+    $I->scrollAndClick( "#$id .context-menu button");
     // Wait for menu to be opened.
-    $I->waitForElement($this->comments[0]['xpath'] . '//div[@role="menu"]');
+    $I->waitForElementVisible("#$id div[role='menu']");
     // Check that edit and delete operations are not available.
-    $I->dontSeeElement($this->comments[0]['xpath'] . '//div[@role="menuitem" and text()="Edit Comment"]');
-    $I->dontSeeElement($this->comments[0]['xpath'] . '//div[@role="menuitem" and text()="Delete Comment"]');
+    $I->dontSeeElement("#$id div[role='menu'] .edit");
+    $I->dontSeeElement("#$id div[role='menu'] .delete");
 
     // Teacher deletes a comment.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->openVideoComments();
-      $I->deleteComment($this->comments[0]['text']);
+      $I->deleteComment($this->comments[0]);
     });
   }
 
@@ -102,19 +101,19 @@ class CommentsCest {
       $I->loginAsTeacher();
       $I->openVideoComments();
       // Reply to the comment.
-      $this->comments = array_merge($this->comments, $I->createComments(1, $this->comments[0]['text']));
+      $this->comments = array_merge($this->comments, $I->createComments(1, $this->comments[0]));
     });
 
     // Delete threaded comment.
     $I->openVideoComments();
-    $I->deleteComment($this->comments[0]['text']);
+    $I->deleteComment($this->comments[0]);
     // Make sure thread is not deleted.
     $I->waitForElement('.comments-list .comment.deleted');
 
     // Delete last comment in a thread.
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->openVideoComments();
-      $I->deleteComment($this->comments[1]['text']);
+      $I->deleteComment($this->comments[1]);
       // @TODO: uncomment this once issue #157352838 is resolved.
       //$I->dontSeeElement('.comments-list .comment.deleted');
     });
@@ -128,7 +127,7 @@ class CommentsCest {
     $this->comments = $I->createComments(7);
 
     // Copy last comment link.
-    $I->clickCommentMenuItem($this->comments[6]['text'], 'Copy link to comment');
+    $I->clickCommentMenuItem($this->comments[6], 'copy');
     $I->waitForText('Link successfully copied.');
 
     // @TODO: Is there a better way to get data from the clipboard?
@@ -141,6 +140,12 @@ class CommentsCest {
 
     // Make sure comment is highlighted.
     $I->waitForElementLoaded('.comments-list .comment.highlighted');
+
+    // Cleanup.
+    /*foreach ($this->comments as $id) {
+      $I->deleteComment($id);
+    }*/
+
   }
 
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
@@ -155,8 +160,15 @@ class CommentsCest {
       $I->loginAsLearner2();
       $I->openVideoComments();
       // Make sure comment is not visible for another organization.
-      $I->dontSeeElement($this->comments[0]['xpath']);
+      $I->dontSeeElement('#' . $this->comments[0]);
     });
+
+    // Cleanup.
+    //$I->deleteComment($this->comments[0]);
+  }
+
+  public function _after(\AcceptanceTester $I) {
+
   }
 
 }
