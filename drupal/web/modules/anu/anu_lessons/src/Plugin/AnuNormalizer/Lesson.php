@@ -42,16 +42,31 @@ class Lesson extends AnuNormalizerBase {
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
         'title' => $entity->title->getString(),
-        'fieldIsAssessment' => (bool) $entity->field_is_assessment->getString(),
         'path' => [
           'alias' => $alias_service->getAliasByPath('/node/' . $entity->id())
         ],
+        'fieldIsAssessment' => (bool) $entity->field_is_assessment->getString(),
         'fieldLessonCourse' => [
           'path' => [
             'alias' => $alias_service->getAliasByPath('/node/' . $entity->field_lesson_course->getString())
           ],
         ],
       ];
+
+      // Attaches media paragraphs data if necessary.
+      if (in_array('media', $include_fields)) {
+        $output['blocks'] = [];
+
+        $types = ['media_video', 'image_centered_caption'];
+        $media_blocks = \Drupal::service('anu_lessons.lesson')->loadParagraphsByType($entity->id(), $types);
+
+        foreach ($media_blocks as $media_block_entity) {
+          // Normalize media paragraph entity.
+          if ($block_normalized = AnuNormalizerBase::normalizeEntity($media_block_entity)) {
+            $output['blocks'][] = $block_normalized;
+          }
+        }
+      }
 
     } catch(\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [

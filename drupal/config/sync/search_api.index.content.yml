@@ -150,6 +150,16 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: type
     type: string
+  content_paragraph_type:
+    label: 'Blocks » Paragraph » Type'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:type'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+      module:
+        - paragraphs
   field_notebook_body:
     label: Body
     datasource_id: 'entity:notebook'
@@ -241,6 +251,7 @@ processor_settings:
       - field_paragraph_text_1
       - field_paragraph_title_1
       - content_type
+      - content_paragraph_type
       - field_notebook_body
       - field_notebook_title
       - field_resource_title
