@@ -21,6 +21,7 @@ class NotebookCest {
     // Add note
     $I->click('.add-note');
     $I->waitForElement('.note-content h5.title .placeholder');
+    $I->wait(1); // Sometimes text is splitted between several notes without this timeout.
     $I->see('New Note', '.notes-list');
     $I->click('.note-content h5.title .placeholder');
     $I->pressKey('.note-content h5.title span', 'Note title');
