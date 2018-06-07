@@ -1,5 +1,6 @@
 .PHONY: default up up stop restart down shell shell\:node cr prepare prepare\:project prepare\:permissions \
-install reinstall db\:dump db\:dump\:local db\:import db\:import\:local update tests tests\:debug eslint cscheck csfix
+install reinstall db\:dump db\:dump\:local db\:import db\:import\:local update tests tests\:debug eslint cscheck csfix \
+cex
 
 # Make sure the local file with docker-compose overrides exist.
 $(shell ! test -e \.\/.docker\/docker-compose\.override\.yml && cat \.\/.docker\/docker-compose\.override\.default\.yml > \.\/.docker\/docker-compose\.override\.yml)
@@ -48,6 +49,23 @@ shell\:node:
 
 cr:
 	$(call docker-drupal, drush cr)
+
+cex:
+	@echo "${YELLOW}Exporting config...${COLOR_END}"
+	$(call docker-drupal, drush cex -y)
+
+# Download module by composer and enable it.
+# Examples:
+# make en search_api
+en:
+#	Remove the first argument `en` from the list of make commands.
+	$(eval ARGS := $(filter-out $@,$(MAKECMDGOALS)))
+
+	@echo "${YELLOW}Installing $(ARGS) as composer dependency...${COLOR_END}"
+	$(call docker, composer require $(ARGS))
+
+	@echo "${YELLOW}Enabling $(ARGS) module...${COLOR_END}"
+	$(call docker-drupal, drush en $(ARGS) -y)
 
 prepare:
 	$(MAKE) -s prepare\:project
