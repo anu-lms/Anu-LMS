@@ -103,7 +103,6 @@ update:
 # 	trigger "yarn install" anyway.
 	@echo "${YELLOW}Restarting Docker containers...${COLOR_END}"
 	@docker-compose down --remove-orphans
-	docker-compose pull
 	docker-compose up -d --remove-orphans
 
 	@echo "${YELLOW}Updating composer dependencies for the backend...${COLOR_END}"
