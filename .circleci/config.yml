@@ -183,7 +183,7 @@ jobs:
           name: Cleanup data created during tests
           shell: /bin/bash
           command: |
-            platform --app=backend drush tc
+            platform ssh -A backend "cd web && drush tc"
 
       - store_artifacts:
           path: tests/codeception/tests/_output
