@@ -34,10 +34,10 @@ class Search extends React.Component {
     return (
       <div className="search" onClick={this.onHeaderSearchClick} onKeyPress={() => {}}>
 
-        <input type="text" placeholder="Search" disabled="disabled" />
+        <input type="text" placeholder="Search" value="" onChange={() => {}} />
 
         <div className="header-icon search-bar">
-          <div className="icon">{SearchIcon}</div>
+          <div className="icon"><SearchIcon /></div>
           <div className="label">Search</div>
         </div>
 
