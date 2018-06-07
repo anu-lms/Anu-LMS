@@ -79,12 +79,17 @@ class SearchResults extends ResourceBase {
    */
   public function get() {
     $fulltext = NULL;
+    $category = 'all'; //@todo: move to consts
 
     // Get given query params.
     $filters = $this->currentRequest->query->get('filter');
     if ($filters != NULL) {
-      if (isset($filters['fulltext'])) {
+      if (isset($filters['fulltext']['condition']['fulltext'])) {
         $fulltext = $filters['fulltext']['condition']['fulltext'];
+      }
+
+      if (isset($filters['category']['condition']['category'])) {
+        $category = $filters['category']['condition']['category'];
       }
     }
 
@@ -108,13 +113,32 @@ class SearchResults extends ResourceBase {
       $query->keys([$fulltext]);
     }
 
+    if ($category == 'media') {
+      // Fields related to the Lesson content.
+      $full_text_fields = [
+        'title', 'field_paragraph_text', 'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
+        'field_paragraph_text_1', 'field_paragraph_title_1',
+      ];
+    }
+    elseif ($category == 'resources') {
+      // Fields related to the Resources content.
+      $full_text_fields = [
+        'field_paragraph_private_file', 'field_resource_title',
+      ];
+    }
+    else {
+      // Fields related to the all content.
+      $full_text_fields = [
+        'field_comment_text', 'title', 'field_paragraph_text',
+        'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
+        'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
+        'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title',
+      ];
+    }
+
     // Defines fulltext search fields.
-    $query->setFulltextFields([
-      'field_comment_text', 'title', 'field_paragraph_text',
-      'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
-      'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
-      'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title',
-    ]);
+    $query->setFulltextFields($full_text_fields);
+
 
     // @todo: An example of conditions, remove if unnecessary.
     //    $conditions = $query->createConditionGroup();
