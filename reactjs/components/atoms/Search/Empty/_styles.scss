@@ -1,0 +1,12 @@
+.search-empty-text {
+  font-size: 1.125em;
+  font-style: italic;
+  color: $london-sky;
+  padding-top: 0.75em;
+
+  .search-query {
+    font-style: normal;
+    font-weight: bold;
+    color: $white;
+  }
+}
