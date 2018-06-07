@@ -122,14 +122,16 @@ class SearchResults extends ResourceBase {
       $query
         ->addCondition('status', 1)
         ->addCondition('search_api_datasource', 'entity:node')
-        ->addCondition('type', 'lesson');
+        ->addCondition('content_type', 'lesson');
     }
     elseif ($category == 'resources') {
       // Fields related to the Resources content.
       $full_text_fields = [
         'field_paragraph_private_file', 'field_resource_title',
       ];
-      $query->addCondition('search_api_datasource', 'entity:node');
+      $query
+        ->addCondition('search_api_datasource', 'entity:paragraph')
+        ->addCondition('paragraph_type', 'media_resource');
     }
     else {
       // Fields related to the all content.
