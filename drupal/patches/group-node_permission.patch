@@ -1,0 +1,18 @@
+diff --git a/modules/gnode/gnode.module b/modules/gnode/gnode.module
+index 01c5e9c..908501b 100644
+--- a/modules/gnode/gnode.module
++++ b/modules/gnode/gnode.module
+@@ -133,6 +133,13 @@ function gnode_node_access(NodeInterface $node, $op, AccountInterface $account)
+       break;
+   }
+ 
++  // If the node exist within a group (or a groups) but the the access was not
++  // explicitly granted to the user, then we force disable access to this node.
++  // No node permissions managements should happen outside of the group.
++  if (!empty($groups)) {
++    return AccessResult::forbidden();
++  }
++
+   // Instead of outright forbidding access when no group granted it, we return
+   // a neutral access result to play nice with other modules. If the end result
+   // is still neutral, Drupal will deny access anyway unless the node grants

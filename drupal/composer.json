@@ -141,6 +141,9 @@
       },
       "drupal/message": {
         "Added a return for the Message save function": "https://patch-diff.githubusercontent.com/raw/Gizra/message/pull/220.patch"
+      },
+      "drupal/group": {
+        "Disable access to group nodes outside of groups": "patches/group-node_permission.patch"
       }
     }
   }
