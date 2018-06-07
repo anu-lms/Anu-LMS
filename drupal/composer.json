@@ -77,6 +77,7 @@
     "codeception/codeception": "^2.4",
     "drupal/coder": "^8.2",
     "drupal/devel": "^1.2",
+    "drupal/devel_codemirror": "^1.0",
     "drupal/reroute_email": "^1.0@beta",
     "drupal/stage_file_proxy": "^1.0@alpha"
   },

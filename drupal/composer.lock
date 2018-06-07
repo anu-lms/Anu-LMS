@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa92315f4041e7857d580583925d3ff8",
+    "content-hash": "a3cba7a8663f010e491973887b432e87",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -9169,6 +9169,61 @@
                 "source": "http://cgit.drupalcode.org/devel",
                 "issues": "http://drupal.org/project/devel",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
+            }
+        },
+        {
+            "name": "drupal/devel_codemirror",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/devel_codemirror",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/devel_codemirror-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "628d9e250836d1af70d4bb8eea9cc7a72d3cc730"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/devel": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1515941885",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": {
+                "0": {
+                    "name": "el7cosmos",
+                    "homepage": "https://www.drupal.org/user/251087"
+                },
+                "name": "Luhur Abdi Rizal (el7cosmos)",
+                "homepage": "https://www.drupal.org/u/el7cosmos",
+                "role": "Maintainer"
+            },
+            "description": "Enable Codemirror text editor for devel/php",
+            "homepage": "https://www.drupal.org/project/devel_codemirror",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/devel_codemirror",
+                "issues": "https://www.drupal.org/project/issues/devel_codemirror"
             }
         },
         {
