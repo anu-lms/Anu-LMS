@@ -101,15 +101,19 @@ const processParagraphs = paragraphs => {
     // Couldn't get paragraph type out of the jsonapi request, therefore
     // have to use this workaround to get the paragraph type from the
     // link to fetch the current paragraph.
-    const type = regExp.exec(block.links.self);
+    let type = block.type ? block.type : null;
+    if (!type) {
+      const regType = regExp.exec(block.links.self);
+      type = regType[1];
+    }
 
     blocks[order] = {
-      type: type[1],
+      type,
       id: block.id,
     };
 
     // For numbered divider we add automated counter.
-    if (type[1] === 'divider_numbered') {
+    if (type === 'divider_numbered') {
       blocks[order].counter = counter++; // eslint-disable-line no-plusplus
     }
 
@@ -148,13 +152,14 @@ const processParagraphs = paragraphs => {
 
     return block;
   });
-
+  console.log(blocks);
   return blocks;
 };
 
 export const lessonData = lessonDataObject => {
   let blocks = [];
   if (lessonDataObject.fieldLessonBlocks) {
+    console.log(lessonDataObject.fieldLessonBlocks);
     blocks = processParagraphs(lessonDataObject.fieldLessonBlocks);
   }
 

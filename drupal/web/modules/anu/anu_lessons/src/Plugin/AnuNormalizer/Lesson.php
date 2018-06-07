@@ -55,7 +55,7 @@ class Lesson extends AnuNormalizerBase {
 
       // Attaches media paragraphs data if necessary.
       if (in_array('media', $include_fields)) {
-        $output['blocks'] = [];
+        $output['fieldLessonBlocks'] = [];
 
         $types = ['media_video', 'image_centered_caption'];
         $media_blocks = \Drupal::service('anu_lessons.lesson')->loadParagraphsByType($entity->id(), $types);
@@ -63,7 +63,7 @@ class Lesson extends AnuNormalizerBase {
         foreach ($media_blocks as $media_block_entity) {
           // Normalize media paragraph entity.
           if ($block_normalized = AnuNormalizerBase::normalizeEntity($media_block_entity)) {
-            $output['blocks'][] = $block_normalized;
+            $output['fieldLessonBlocks'][] = $block_normalized;
           }
         }
       }
