@@ -62,7 +62,7 @@ en:
 	$(eval ARGS := $(filter-out $@,$(MAKECMDGOALS)))
 
 	@echo "${YELLOW}Installing $(ARGS) as composer dependency...${COLOR_END}"
-	$(call docker, composer require $(ARGS))
+	$(call docker, composer require drupal/$(ARGS))
 
 	@echo "${YELLOW}Enabling $(ARGS) module...${COLOR_END}"
 	$(call docker-drupal, drush en $(ARGS) -y)
