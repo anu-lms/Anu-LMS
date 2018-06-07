@@ -5,6 +5,7 @@ namespace Drupal\anu_events\Plugin\rest\resource;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -101,10 +102,7 @@ class UserNotifications extends ResourceBase {
       foreach ($messages as $message) {
         if ($message->access('view')) {
 
-          /* @var $messageService \Drupal\anu_events\Message */
-          $messageService = \Drupal::service('anu_events.message');
-          $message_item = $messageService->normalize($message);
-          if (!empty($message_item)) {
+          if ($message_item = AnuNormalizerBase::normalizeEntity($message, ['lesson'])) {
             $response[] = $message_item;
           }
         }

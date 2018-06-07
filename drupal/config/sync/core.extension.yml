@@ -11,8 +11,11 @@ module:
   anu_group: 0
   anu_learner_progress: 0
   anu_lessons: 0
+  anu_normalizer: 0
+  anu_notebook: 0
   anu_private_files: 0
   anu_quizzes: 0
+  anu_search: 0
   anu_user: 0
   block: 0
   breakpoint: 0
@@ -74,6 +77,9 @@ module:
   rest: 0
   restui: 0
   role_delegation: 0
+  search_api: 0
+  search_api_attachments: 0
+  search_api_solr: 0
   serialization: 0
   simple_oauth: 0
   simple_oauth_extras: 0

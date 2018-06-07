@@ -86,6 +86,11 @@ function getThreadedCommentsList(comments) {
   };
 
   for (let i = 0; i < comments.length; i += 1) {
+    if (!comments[i]) {
+      console.error('Wrong structure of comments.');
+      continue; // eslint-disable-line no-continue
+    }
+
     const item = comments[i];
     // Skip processed elements, they've already added to rootOf array in findRootId function.
     if (processed[item.id]) {
