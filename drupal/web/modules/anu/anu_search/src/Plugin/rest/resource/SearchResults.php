@@ -133,6 +133,7 @@ class SearchResults extends ResourceBase {
         'title', 'field_paragraph_text', 'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
         'field_paragraph_text_1', 'field_paragraph_title_1',
       ];
+      // @todo: filter only by media paragraph types.
       $query
         ->addCondition('status', 1)
         ->addCondition('search_api_datasource', 'entity:node')
@@ -183,6 +184,9 @@ class SearchResults extends ResourceBase {
       }
       elseif ($entity_type == 'paragraph' && $entity_bundle == 'media_resource') {
         $include_fields = ['lesson'];
+      }
+      elseif ($entity_type == 'node' && $entity_bundle == 'lesson' && $category == self::CATEGORY_MEDIA) {
+        $include_fields = ['media'];
       }
 
       // Normalizes entity and add to the results array.
