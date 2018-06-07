@@ -172,9 +172,15 @@ class SearchResults extends ResourceBase {
     $entities = [];
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($result_set->getResultItems() as $item) {
+      /** @var $entity \Drupal\entity\Entity\RevisionableEntityBundleInterface  */
       $entity = $item->getOriginalObject()->getValue();
       $entity_type = $entity->getEntityTypeId();
       $entity_bundle = $entity->bundle();
+
+      // Never show entities a user can't access.
+      if (!$entity->access('view')) {
+        continue;
+      }
 
       $include_fields = [];
       // Prepares additional fields for normalizer function.
