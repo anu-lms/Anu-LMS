@@ -24,12 +24,12 @@ class SearchResults extends React.Component {
     this.tabClick = this.tabClick.bind(this);
   }
 
-  tabClick(category) {
-    const { query } = this.props;
-    this.props.dispatch(searchActions.fetch(query, category));
+  shouldComponentUpdate(nextProps) {
+    // Don't rerender results list if search in progress.
+    return !nextProps.isFetching;
   }
 
-  getSearchComponentName(type, category) {
+  getSearchComponent(type, category) {
     const components = {
       'lesson': category === 'media' ? MediaItem : LessonItem,
       'paragraph_comment': CommentItem,
@@ -37,6 +37,11 @@ class SearchResults extends React.Component {
       'media_resource': ResourceItem,
     };
     return components[type] ? components[type] : null;
+  }
+
+  tabClick(category) {
+    const { query } = this.props;
+    this.props.dispatch(searchActions.fetch(query, category));
   }
 
   /**
@@ -76,7 +81,7 @@ class SearchResults extends React.Component {
                 {!isError && results.length > 0 &&
                 <div className="list">
                   {results.map(resultItem => {
-                    const SearchItemComponent = this.getSearchComponentName(resultItem.type, category);
+                    const SearchItemComponent = this.getSearchComponent(resultItem.type, category);
                     if (SearchItemComponent) {
                       // eslint-disable-next-line max-len
                       return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
