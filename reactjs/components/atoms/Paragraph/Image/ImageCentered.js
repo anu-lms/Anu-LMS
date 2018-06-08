@@ -9,6 +9,9 @@ class ImageCentered extends React.Component {
     this.contentLoaded = this.contentLoaded.bind(this);
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps() {
     if (this.element.complete) {
       // Report to the parent component that the loading is done.

@@ -24,6 +24,9 @@ class CollapsibleNavigation extends React.Component {
     });
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps(nextProps) {
     // Use isCollapsedMobile property for mobile devices and isCollapsed for desktop.
     this.setState({

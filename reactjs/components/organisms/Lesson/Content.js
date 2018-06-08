@@ -55,6 +55,9 @@ class LessonContent extends React.Component {
     this.props.dispatch(lessonActions.opened(this.props.lesson));
   }
 
+  /**
+   * @todo: Deprecated method.
+   */
   componentWillUpdate(nextProps) {
     // Gather list of paragraphs once per lesson page load.
     if (nextProps.lesson.id !== this.props.lesson.id) {
