@@ -29,7 +29,7 @@ class SearchBar extends Component {
 
   onValueChange(event) {
     this.setState({ value: event.target.value });
-    this.props.dispatch(searchActions.fetch(event.target.value));
+    this.props.dispatch(searchActions.fetch(event.target.value, this.props.category));
   }
 
   onClearInputClick() {
@@ -82,6 +82,7 @@ SearchBar.defaultProps = {
 
 const mapStateToProps = ({ search }) => ({
   isFetching: search.isFetching,
+  category: search.category,
 });
 
 export default connect(mapStateToProps)(SearchBar);
