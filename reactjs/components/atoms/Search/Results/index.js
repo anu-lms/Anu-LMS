@@ -11,13 +11,13 @@ import ResourceItem from '../ResourceItem';
 import MediaItem from '../MediaItem';
 import * as searchActions from '../../../../actions/search';
 
-
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       showTabsBorder: false,
+      isOpenedFirstTime: true,
     };
 
     this.toggleTabsBorder = this.toggleTabsBorder.bind(this);
@@ -27,6 +27,17 @@ class SearchResults extends React.Component {
   shouldComponentUpdate(nextProps) {
     // Don't rerender results list if search in progress.
     return !nextProps.isFetching;
+  }
+
+  /**
+   * Use deprecated method here instead of new getDerivedStateFromProps because
+   * nextjs doesn't support it yet https://github.com/zeit/next.js/pull/4090.
+   * @todo: update when nextjs can be update to the stable 6.0.4 version.
+   */
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpenedFirstTime && nextProps.query.length > 1) {
+      nextState.isOpenedFirstTime = false;
+    }
   }
 
   getSearchComponent(type, category) {
@@ -65,7 +76,7 @@ class SearchResults extends React.Component {
 
     return (
       <div className="search-container">
-        {query && query.length > 1 &&
+        {!this.state.isOpenedFirstTime &&
         <SearchTabs
           activeTab={category}
           onTabClick={this.tabClick}
@@ -92,7 +103,7 @@ class SearchResults extends React.Component {
                 </div>
                 }
 
-                {query && query.length > 1 && results.length === 0 && isFetched && !isError &&
+                {!this.state.isOpenedFirstTime && query && query.length > 1 && results.length === 0 && isFetched && !isError &&
                 <Empty />
                 }
 
