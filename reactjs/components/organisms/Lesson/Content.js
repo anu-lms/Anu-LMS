@@ -299,7 +299,7 @@ class LessonContent extends React.Component {
             </div>
           </div>
         </div>
-
+        {/* @todo: update ref to the new format */}
         <div className="lesson-content" ref={element => this.container = element}>
           <Paragraphs
             lessonId={lesson.id}

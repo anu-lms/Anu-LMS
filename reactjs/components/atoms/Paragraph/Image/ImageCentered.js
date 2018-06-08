@@ -35,7 +35,7 @@ class ImageCentered extends React.Component {
               src={fileUrl(image.meta.derivatives.w730)}
               onLoad={this.contentLoaded}
               onError={this.contentLoaded}
-              ref={element => this.element = element}
+              ref={element => this.element = element} // @todo: update ref to the new format
               alt=""
             />
             {title &&
