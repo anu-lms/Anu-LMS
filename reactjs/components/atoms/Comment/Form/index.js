@@ -19,6 +19,9 @@ class CommentForm extends React.Component {
     this.handleTextareaFocus = this.handleTextareaFocus.bind(this);
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps(nextProps) {
     // Clean up comment form when processing finished.
     if (this.props.isProcessing && !nextProps.isProcessing) {

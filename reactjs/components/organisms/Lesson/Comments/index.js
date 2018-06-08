@@ -28,6 +28,9 @@ class lessonComments extends React.Component {
     }
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.isLoading && !nextProps.isLoading) {
       // Restore Scroll position after sidebar reload.
