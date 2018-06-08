@@ -129,7 +129,7 @@ class PasswordStrength extends Component {
           {...inputProps}
           className={inputClasses.join(' ')}
           onChange={this.handleChange}
-          ref={ref => this.passwordStrengthInput = ref}
+          ref={ref => this.passwordStrengthInput = ref} // @todo: update ref to the new format
           value={password}
         />
         {inputProps.id && inputProps.label &&
