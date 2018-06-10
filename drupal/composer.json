@@ -62,7 +62,7 @@
     "drupal/role_delegation": "^1.0@alpha",
     "drupal/search_api": "^1.8",
     "drupal/search_api_attachments": "^1.0@beta",
-    "drupal/search_api_solr": "^2.0@rc",
+    "drupal/search_api_solr": "^2.0",
     "drupal/simple_oauth": "3.x-dev#b07da37",
     "drupal/smtp": "^1.0@beta",
     "drupal/subrequests": "^2.0@beta",

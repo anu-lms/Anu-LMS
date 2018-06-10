@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3cba7a8663f010e491973887b432e87",
+    "content-hash": "e2359617b9467cf32cbadc1c73943155",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4593,17 +4593,17 @@
         },
         {
             "name": "drupal/search_api_solr",
-            "version": "2.0.0-rc1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/search_api_solr",
-                "reference": "8.x-2.0-rc1"
+                "reference": "8.x-2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/search_api_solr-8.x-2.0-rc1.zip",
-                "reference": "8.x-2.0-rc1",
-                "shasum": "c2b58b5f293b5b3156cd93e40097d281b583349d"
+                "url": "https://ftp.drupal.org/files/projects/search_api_solr-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "75bcaf281ced575adb3cba2764ea77759b7f6ea0"
             },
             "require": {
                 "drupal/core": "^8.5",
@@ -4635,11 +4635,11 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-rc1",
-                    "datestamp": "1527080584",
+                    "version": "8.x-2.0",
+                    "datestamp": "1527877684",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -10941,7 +10941,6 @@
         "drupal/page_manager": 20,
         "drupal/role_delegation": 15,
         "drupal/search_api_attachments": 10,
-        "drupal/search_api_solr": 5,
         "drupal/simple_oauth": 20,
         "drupal/smtp": 10,
         "drupal/subrequests": 10,
