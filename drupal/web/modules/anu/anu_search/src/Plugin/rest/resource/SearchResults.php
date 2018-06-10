@@ -133,11 +133,11 @@ class SearchResults extends ResourceBase {
         'title', 'field_paragraph_text', 'field_paragraph_title', 'field_paragraph_list', 'field_quiz_options',
         'field_paragraph_text_1', 'field_paragraph_title_1',
       ];
-      // @todo: filter only by media paragraph types.
       $query
         ->addCondition('status', 1)
         ->addCondition('search_api_datasource', 'entity:node')
-        ->addCondition('content_type', 'lesson');
+        ->addCondition('content_type', 'lesson')
+        ->addCondition('content_paragraph_type', ['image_centered_caption', 'media_video'], 'IN');
     }
     elseif ($category == self::CATEGORY_RESOURCES) {
       // Fields related to the Resources content.

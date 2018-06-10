@@ -152,14 +152,13 @@ const processParagraphs = paragraphs => {
 
     return block;
   });
-  console.log(blocks);
+
   return blocks;
 };
 
 export const lessonData = lessonDataObject => {
   let blocks = [];
   if (lessonDataObject.fieldLessonBlocks) {
-    console.log(lessonDataObject.fieldLessonBlocks);
     blocks = processParagraphs(lessonDataObject.fieldLessonBlocks);
   }
 
