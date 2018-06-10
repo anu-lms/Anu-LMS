@@ -40,6 +40,7 @@ class Resource extends AnuNormalizerBase {
         'fieldParagraphTitle' => $entity->field_paragraph_title->getString(),
       ];
 
+      // Attaches file entity by given param or if title doesn't exists.
       if (in_array('file', $include_fields) || empty($entity->field_paragraph_title->getString())) {
         // Load the file from paragraph.
         $file = $entity->field_paragraph_private_file
