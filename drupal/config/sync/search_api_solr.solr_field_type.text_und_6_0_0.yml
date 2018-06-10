@@ -1,23 +1,22 @@
-uuid: 606353a3-38c9-46d0-999f-ee80d66dff9f
+uuid: b239d99a-38a9-4c88-a8cb-ed52339d7006
 langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: V1PPQznmlP-uafca6le-zpgolI1KiuGSeZkU4tkiIpI
-id: m_text_en_7_0_0
-label: 'English Text Field'
-managed_schema: true
-minimum_solr_version: 7.0.0
+  default_config_hash: bgNYmE4QqU0I8KLuaB3sPe0WTwuri59XQS_d1xlTkmk
+id: text_und_6_0_0
+label: 'Language Undefined Text Field'
+managed_schema: false
+minimum_solr_version: 6.0.0
 custom_code: ''
-field_type_language_code: en
+field_type_language_code: und
 domains: {  }
 field_type:
-  name: text_en
+  name: text_und
   class: solr.TextField
   positionIncrementGap: 100
   analyzers:
     -
-      type: index
       charFilters:
         -
           class: solr.MappingCharFilterFactory
@@ -26,10 +25,11 @@ field_type:
         class: solr.WhitespaceTokenizerFactory
       filters:
         -
-          class: solr.ManagedStopFilterFactory
-          managed: stopwords_en
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords.txt
         -
-          class: solr.WordDelimiterGraphFilterFactory
+          class: solr.WordDelimiterFilterFactory
           catenateNumbers: 1
           generateNumberParts: 1
           protected: protwords.txt
@@ -45,13 +45,9 @@ field_type:
         -
           class: solr.LowerCaseFilterFactory
         -
-          class: solr.SnowballPorterFilterFactory
-          language: English
-          protected: protwords.txt
-        -
           class: solr.RemoveDuplicatesTokenFilterFactory
+      type: index
     -
-      type: query
       charFilters:
         -
           class: solr.MappingCharFilterFactory
@@ -60,14 +56,16 @@ field_type:
         class: solr.WhitespaceTokenizerFactory
       filters:
         -
-          class: solr.ManagedSynonymFilterFactory
-          managed: synonyms_en
+          class: solr.SynonymFilterFactory
+          synonyms: synonyms.txt
           expand: true
+          ignoreCase: true
         -
-          class: solr.ManagedStopFilterFactory
-          managed: stopwords_en
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords.txt
         -
-          class: solr.WordDelimiterGraphFilterFactory
+          class: solr.WordDelimiterFilterFactory
           catenateNumbers: 0
           generateNumberParts: 1
           protected: protwords.txt
@@ -83,11 +81,8 @@ field_type:
         -
           class: solr.LowerCaseFilterFactory
         -
-          class: solr.SnowballPorterFilterFactory
-          language: English
-          protected: protwords.txt
-        -
           class: solr.RemoveDuplicatesTokenFilterFactory
+      type: query
 solr_configs:
   searchComponents:
     -
@@ -99,7 +94,7 @@ solr_configs:
           str:
             -
               name: name
-              VALUE: en
+              VALUE: und
             -
               name: lookupImpl
               VALUE: AnalyzingInfixLookupFactory
@@ -111,7 +106,7 @@ solr_configs:
               VALUE: twm_suggest
             -
               name: suggestAnalyzerFieldType
-              VALUE: text_en
+              VALUE: text_und
             -
               name: contextField
               VALUE: sm_context_tags
