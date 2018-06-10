@@ -111,7 +111,7 @@ class Audio extends React.Component {
     }
 
     return (
-      <div className="container audio">
+      <div id={`paragraph-${id}`} className="container audio">
         <div className="row">
           <div className={columnClasses.join(' ')}>
 
