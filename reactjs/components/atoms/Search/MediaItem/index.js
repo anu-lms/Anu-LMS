@@ -7,6 +7,7 @@ const MediaItem = ({ searchItem }) => {
   const { entity, type } = searchItem;
   const { title, url } = entity;
 
+  // Prepares list of media urls.
   const urls = entity.blocks.map(block => {
     let mediaUrl = null;
     if (block.type === 'image_centered_caption') {
@@ -18,11 +19,10 @@ const MediaItem = ({ searchItem }) => {
     return mediaUrl;
   });
 
-  const itemTitle = `<span class="thin">From</span> ${title}`;
   return (
     <SearchItem
       icon={Icon}
-      title={itemTitle}
+      title={`<span class="thin">From</span> ${title}`}
       body={urls.join('<br /> ')}
       className={type}
       itemLink={url}

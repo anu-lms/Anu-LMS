@@ -57,6 +57,7 @@ class Lesson extends AnuNormalizerBase {
       if (in_array('media', $include_fields)) {
         $output['fieldLessonBlocks'] = [];
 
+        // Load lesson's paragraphs by given types.
         $types = ['media_video', 'image_centered_caption'];
         $media_blocks = \Drupal::service('anu_lessons.lesson')->loadParagraphsByType($entity->id(), $types);
 

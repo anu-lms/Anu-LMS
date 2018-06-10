@@ -35,7 +35,7 @@ class Lesson {
    *   Paragraph types. Eg: ['media_video', 'image_centered_caption']
    *
    * @return
-   *   Lesson object or Null;
+   *   An array of Paragraph objects.
    */
   public function loadParagraphsByType($lesson_id, $types = []) {
     $query = \Drupal::entityQuery('paragraph')
@@ -45,9 +45,7 @@ class Lesson {
     }
 
     $ids = $query->execute();
-    $blocks = Paragraph::loadMultiple($ids);
-
-    return $blocks;
+    return Paragraph::loadMultiple($ids);
   }
 
 }

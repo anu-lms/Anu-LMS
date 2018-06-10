@@ -40,6 +40,9 @@ class SearchResults extends React.Component {
     }
   }
 
+  /**
+   * Returns Component by given type and category.
+   */
   getSearchComponent(type, category) {
     const components = {
       'lesson': category === 'media' ? MediaItem : LessonItem,
@@ -50,6 +53,9 @@ class SearchResults extends React.Component {
     return components[type] ? components[type] : null;
   }
 
+  /**
+   * Click tab link.
+   */
   tabClick(category) {
     const { query } = this.props;
     this.props.dispatch(searchActions.fetch(query, category));
