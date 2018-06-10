@@ -286,9 +286,7 @@ processor_settings:
     max_filesize: '0'
     excluded_private: 0
     excluded_mimes: 'audio/x-aiff image/x-jg video/x-msvideo image/x-ms-bmp image/gif image/vnd.microsoft.icon video/quicktime audio/ogg video/ogg image/png image/x-photoshop audio/x-realaudio audio/x-pn-realaudio image/x-rgb video/x-flv'
-  solr_date_range:
-    weights:
-      preprocess_index: 0
+  solr_date_range: {  }
 tracker_settings:
   default:
     indexing_order: fifo
