@@ -10,6 +10,7 @@
     <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" protected="protwords.txt" splitOnCaseChange="0" generateWordParts="1" preserveOriginal="1" catenateAll="0" catenateWords="1"/>
     <filter class="solr.LengthFilterFactory" min="2" max="100"/>
     <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="25"/>
     <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
   </analyzer>
   <analyzer type="query">

@@ -45,6 +45,10 @@ field_type:
         -
           class: solr.LowerCaseFilterFactory
         -
+          class: solr.EdgeNGramFilterFactory
+          minGramSize: 2
+          maxGramSize: 25
+        -
           class: solr.RemoveDuplicatesTokenFilterFactory
       type: index
     -
