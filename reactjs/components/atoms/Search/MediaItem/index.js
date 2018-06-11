@@ -82,7 +82,6 @@ class MediaItem extends React.Component {
         title={`<span class="thin">From</span> ${title}`}
         body=""
         className="media"
-        itemLink={url}
       >
         <div className="thumbnails">{mediaItems}</div>
       </SearchItem>
