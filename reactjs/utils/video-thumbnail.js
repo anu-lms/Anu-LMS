@@ -50,7 +50,6 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
         .get(`https://vimeo.com/api/v2/video/${videoId}.json`)
         .query({ '_format': 'json' })
         .then(({ body }) => {
-          console.log(body);
           resolve({
             url: body[0].thumbnail_large,
             width: 640, // 4:3
