@@ -7,7 +7,9 @@ import LinkWrap from '../../Link/LinkWrap';
 import * as searchActions from '../../../../actions/search';
 import * as overlayActions from '../../../../actions/overlay';
 
-const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
+const SearchItem = ({
+  icon, title, body, className, itemLink, dispatch, children,
+}) => (
   <div
     className={classNames('search-item', className)}
     onClick={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
@@ -23,6 +25,7 @@ const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
 
       {/* eslint-disable-next-line react/no-danger */}
       <div className="body" dangerouslySetInnerHTML={{ __html: xss(body) }} />
+      {children}
     </LinkWrap>
   </div>
 );
