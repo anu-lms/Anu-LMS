@@ -73,6 +73,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   dispatch: PropTypes.func,
   isFetching: PropTypes.bool,
+  category: PropTypes.oneOf(['all', 'media', 'resources']).isRequired,
 };
 
 SearchBar.defaultProps = {
