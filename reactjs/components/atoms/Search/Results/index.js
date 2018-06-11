@@ -78,11 +78,12 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const { category, query, results, isFetched, isError } = this.props;
+    const { category, query, results, isError } = this.props;
+    const { isOpenedFirstTime } = this.state;
 
     return (
       <div className="search-container">
-        {!this.state.isOpenedFirstTime &&
+        {!isOpenedFirstTime &&
         <SearchTabs
           activeTab={category}
           onTabClick={this.tabClick}
@@ -109,7 +110,7 @@ class SearchResults extends React.Component {
                 </div>
                 }
 
-                {!this.state.isOpenedFirstTime && query && query.length > 1 && results.length === 0 && isFetched && !isError &&
+                {!isOpenedFirstTime && query.length > 1 && results.length === 0 && !isError &&
                 <Empty />
                 }
 

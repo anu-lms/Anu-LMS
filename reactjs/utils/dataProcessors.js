@@ -104,7 +104,7 @@ const processParagraphs = paragraphs => {
     let type = block.type ? block.type : null;
     if (!type) {
       const regType = regExp.exec(block.links.self);
-      type = regType[1];
+      type = regType[1]; // eslint-disable-line prefer-destructuring
     }
 
     blocks[order] = {
