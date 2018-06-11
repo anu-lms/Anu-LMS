@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { getThumbnail } from '../../../../utils/video-thumbnail';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Lesson';
+import VideoPlay from '../../Icons/VideoPlay';
 import LinkWrap from '../../Link/LinkWrap';
+import SearchLoader from '../Loader';
 
 class MediaItem extends React.Component {
   constructor(props) {
@@ -65,12 +67,20 @@ class MediaItem extends React.Component {
 
     const mediaItems = this.state.thumbnails.map(item => {
       const mediaUrl = `${url}?section=${item.id}`;
+      const divStyles = {
+        backgroundImage: `url(${item.url})`,
+      };
 
       return (
         <LinkWrap url={mediaUrl}>
-          <div className="image-wrapper">
-            <img className="thumbnail-image" src={item.url} key={item.id} alt={item.title} title={item.title} />
-            <img className="spinner" src="/static/img/spinner-small.svg" alt="Loading..." />
+          <div className="image-wrapper" key={item.id}>
+            <div style={divStyles} className="thumbnail-image" title={item.title} />
+            {/* <img className="thumbnail-image" src={item.url} key={item.id} alt={item.title} title={item.title} /> */}
+            {/* <img className="spinner" src="/static/img/spinner-small.svg" alt="Loading..." /> */}
+            <SearchLoader />
+            {item.type === 'media_video' &&
+              <div className="play-icon"><VideoPlay /></div>
+            }
           </div>
         </LinkWrap>
       );
