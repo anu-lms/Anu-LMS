@@ -1,31 +1,56 @@
 .search-item.media .thumbnails  {
-  min-height: 150px;
   text-align: center;
   margin-top: 18px;
+  overflow: hidden;
+  @media screen and (min-width: 415px) {
+    text-align: left;
+
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+  }
 
   > a {
     display: inline-block;
     margin-bottom: 10px;
+    width: 100%;
     &:last-child {
       margin-bottom: 0;
+    }
+
+    @media screen and (min-width: 415px) {
+      padding: 0 0.5em;
+      width: 50%;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 33.33%;
+    }
+    @include media-breakpoint-up(xl) {
+      width: 25%;
     }
   }
 
 
   .image-wrapper {
-    min-height: 150px;
-    min-width: 150px;
     display: inline-block;
     position: relative;
     background-color: $white;
+    width: 100%;
 
     .thumbnail-image {
       z-index: $zindex-fixed + 2;
       position: relative;
-      width: 280px;
+      width: 100%;
       height: 210px;
       background-size: cover;
       background-position: center center;
+
+      @media (min-width: 415px) {
+        height: 135px;
+      }
+
+      @media (min-width: 540px) {
+        height: 210px;
+      }
     }
 
     &:after {
@@ -46,8 +71,7 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
-    .search-loader,
-    .spinner {
+    .search-loader {
       position: absolute;
       top: calc(50% - 20px);
       left: calc(50% - 20px);

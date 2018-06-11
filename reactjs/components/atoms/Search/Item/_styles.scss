@@ -3,7 +3,9 @@
   position: relative;
 
   @include media-breakpoint-up(lg) {
-    max-width: 840px;
+    &:not(.media) {
+      max-width: 840px;
+    }
   }
 
   .item-wrapper {
