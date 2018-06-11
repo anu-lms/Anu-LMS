@@ -34,6 +34,7 @@ class MediaItem extends React.Component {
     const thumbnails = await this.getThumbnailsData();
 
     // Updates list of thumbnails.
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       thumbnails,
     });
@@ -53,6 +54,7 @@ class MediaItem extends React.Component {
     const { entity } = searchItem;
     const thumbnails = [];
 
+    // eslint-disable-next-line no-restricted-syntax
     for (let block of entity.blocks) {
       let item = null;
       if (block.type === 'image_centered_caption') {
@@ -64,6 +66,7 @@ class MediaItem extends React.Component {
         };
       }
       else if (block.type === 'media_video') {
+        // eslint-disable-next-line no-await-in-loop
         const thumbnail = await getThumbnail(block.url.uri);
         item = {
           url: thumbnail.url,
@@ -94,10 +97,9 @@ class MediaItem extends React.Component {
       }
 
       return (
-        <LinkWrap url={`${url}?section=${item.id}`}>
+        <LinkWrap url={`${url}?section=${item.id}`} key={item.id}>
           <div
             className="image-wrapper"
-            key={item.id}
             onClick={this.onItemClick}
             onKeyPress={this.onItemClick}
           >
@@ -131,6 +133,7 @@ MediaItem.propTypes = {
     excerpt: PropTypes.string,
     entity: PropTypes.object,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect()(MediaItem);
