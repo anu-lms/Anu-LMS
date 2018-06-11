@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { getThumbnail } from '../../../../utils/video-thumbnail';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Lesson';
 import VideoPlay from '../../Icons/VideoPlay';
 import LinkWrap from '../../Link/LinkWrap';
 import SearchLoader from '../Loader';
+import * as searchActions from '../../../../actions/search';
+import * as overlayActions from '../../../../actions/overlay';
 
 class MediaItem extends React.Component {
   constructor(props) {
@@ -23,6 +26,7 @@ class MediaItem extends React.Component {
     this.state = {
       thumbnails,
     };
+    this.onItemClick = this.onItemClick.bind(this);
   }
 
   async componentDidMount() {
@@ -33,6 +37,15 @@ class MediaItem extends React.Component {
     this.setState({
       thumbnails,
     });
+  }
+
+  /**
+   * Closes overlay on item click.
+   */
+  onItemClick() {
+    const { dispatch } = this.props;
+    dispatch(overlayActions.close());
+    dispatch(searchActions.clear());
   }
 
   async getThumbnailsData() {
@@ -82,7 +95,12 @@ class MediaItem extends React.Component {
 
       return (
         <LinkWrap url={`${url}?section=${item.id}`}>
-          <div className="image-wrapper" key={item.id}>
+          <div
+            className="image-wrapper"
+            key={item.id}
+            onClick={this.onItemClick}
+            onKeyPress={this.onItemClick}
+          >
             <div style={imageStyles} className="thumbnail-image" title={item.title} />
             <SearchLoader />
 
@@ -115,4 +133,4 @@ MediaItem.propTypes = {
   }).isRequired,
 };
 
-export default MediaItem;
+export default connect()(MediaItem);
