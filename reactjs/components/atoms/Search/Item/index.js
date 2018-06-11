@@ -53,6 +53,7 @@ SearchItem.propTypes = {
   className: PropTypes.string,
   itemLink: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 SearchItem.defaultProps = {
@@ -60,6 +61,7 @@ SearchItem.defaultProps = {
   body: '',
   className: '',
   itemLink: null,
+  children: null,
 };
 
 export default connect()(SearchItem);

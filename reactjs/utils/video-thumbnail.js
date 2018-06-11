@@ -36,8 +36,8 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
       });
     }
     else {
-      console.error('Could not fetch Youtube thumbnail image.', error);
-      reject(error);
+      console.error('Could not fetch Youtube thumbnail image.');
+      reject(new Error('Could not fetch Youtube thumbnail image.'));
     }
   }
 
@@ -63,10 +63,10 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
         });
     }
     else {
-      reject("Can't parse url to get Vimeo thumbnail image.");
+      reject(new Error("Can't parse url to get Vimeo thumbnail image."));
     }
   }
   else {
-    reject("Can't parse url to get thumbnail image.");
+    reject(new Error("Can't parse url to get thumbnail image."));
   }
 });
