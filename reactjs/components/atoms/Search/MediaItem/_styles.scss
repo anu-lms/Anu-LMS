@@ -1,4 +1,5 @@
 .search-item.media .thumbnails  {
+  min-height: 150px;
   img {
     //max-width: 200px;
     max-height: 150px;
@@ -10,15 +11,34 @@
     display: inline-block;
     position: relative;
 
+    .thumbnail-image {
+      z-index: $zindex-fixed + 2;
+      position: relative;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border: transparent solid 3px;
+      z-index: $zindex-fixed + 4;
+      transition: border .2s, background-color .1s;
+    }
+    &:hover:after {
+      border-color: $anu-blue;
+    }
+    &:active:after {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
     .spinner {
       position: absolute;
       top: calc(50% - 28px);
       left: calc(50% - 28px);
       z-index: $zindex-fixed;
-    }
-    .thumbnail-image {
-      z-index: $zindex-fixed + 2;
-      position: relative;
     }
   }
 }

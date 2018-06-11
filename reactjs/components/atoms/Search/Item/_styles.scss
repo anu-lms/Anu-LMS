@@ -6,7 +6,7 @@
     max-width: 840px;
   }
 
-  > a {
+  .item-wrapper {
     color: $white-grey;
     display: block;
     padding-top: 0.75em;
@@ -19,7 +19,9 @@
     @include media-breakpoint-up(lg) {
        padding-left: 38px;
     }
+  }
 
+  > a {
     &:hover {
       text-decoration: none;
     }

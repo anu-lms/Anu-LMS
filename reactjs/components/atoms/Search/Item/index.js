@@ -15,7 +15,7 @@ const SearchItem = ({
     onClick={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
     onKeyPress={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
   >
-    <LinkWrap url={itemLink}>
+    <LinkWrap url={itemLink} className="item-wrapper">
       {icon &&
       <div className="type-icon">{icon}</div>
       }
