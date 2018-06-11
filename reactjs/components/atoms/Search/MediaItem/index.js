@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getThumbnailUrl } from '../../../../utils/video-thumbnail-url';
+import { getThumbnail } from '../../../../utils/video-thumbnail';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Lesson';
+import LinkWrap from '../../Link/LinkWrap';
 
 class MediaItem extends React.Component {
   constructor(props) {
@@ -10,54 +11,80 @@ class MediaItem extends React.Component {
 
     this.state = {
       isLoading: false,
-      thumbUrls: [],
+      thumbnails: [],
     };
   }
 
-  async getThumbnailUrls() {
+  async getThumbnailsData() {
     const { searchItem } = this.props;
     const { entity } = searchItem;
-    const mediaItems = [];
+    const thumbnails = [];
 
     for (let block of entity.blocks) {
       let item = null;
       if (block.type === 'image_centered_caption') {
-        item = <img src={block.image.uri.url} key={block.id} alt="" />;
+        item = {
+          id: block.id,
+          url: block.image.uri.url,
+          type: block.type,
+          width: block.image.width,
+          height: block.image.height,
+          title: '',
+        };
       }
       else if (block.type === 'media_video') {
-        const videoUrl = await getThumbnailUrl(block.url.uri);
-        item = <img src={videoUrl} key={block.id} alt="" />;
+        const thumbnail = await getThumbnail(block.url.uri);
+        item = {
+          id: block.id,
+          url: thumbnail.url,
+          type: block.type,
+          width: thumbnail.width,
+          height: thumbnail.height,
+          title: thumbnail.title,
+        };
       }
-      mediaItems.push(item);
+      thumbnails.push(item);
     }
 
-    return mediaItems;
+    return thumbnails;
   }
 
   async componentDidMount() {
     // Prepares list of media urls.
-    const mediaItems = await this.getThumbnailUrls();
-    console.log(mediaItems);
+    const thumbnails = await this.getThumbnailsData();
+
     this.setState({
-      thumbUrls: mediaItems,
+      thumbnails,
     });
   }
 
-
   render() {
     const { searchItem } = this.props;
-    const { entity, type } = searchItem;
+    const { entity } = searchItem;
     const { title, url } = entity;
+
+    const mediaItems = this.state.thumbnails.map(item => {
+      const mediaUrl = `${url}?section=${item.id}`;
+
+      return (
+        <LinkWrap url={mediaUrl}>
+          <div className="image-wrapper">
+            <img className="thumbnail-image" src={item.url} key={item.id} alt={item.title} title={item.title} />
+            <img className="spinner" src="/static/img/spinner-small.svg" alt="Loading..." />
+          </div>
+        </LinkWrap>
+      );
+    });
 
     return (
       <SearchItem
         icon={Icon}
         title={`<span class="thin">From</span> ${title}`}
         body=""
-        className={type}
+        className="media"
         itemLink={url}
       >
-        {this.state.thumbUrls}
+        <div className="thumbnails">{mediaItems}</div>
       </SearchItem>
     );
   }
