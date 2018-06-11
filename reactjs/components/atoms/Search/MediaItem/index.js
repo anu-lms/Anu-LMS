@@ -10,11 +10,29 @@ import SearchLoader from '../Loader';
 class MediaItem extends React.Component {
   constructor(props) {
     super(props);
+    const { searchItem } = this.props;
+
+    // Defines initial thumbnail images, showing loading circle by default.
+    const thumbnails = searchItem.entity.blocks.map(item => ({
+      id: item.id,
+      type: item.type,
+      title: '',
+      url: '',
+    }));
 
     this.state = {
-      isLoading: false,
-      thumbnails: [],
+      thumbnails,
     };
+  }
+
+  async componentDidMount() {
+    // Prepares list of media urls.
+    const thumbnails = await this.getThumbnailsData();
+
+    // Updates list of thumbnails.
+    this.setState({
+      thumbnails,
+    });
   }
 
   async getThumbnailsData() {
@@ -26,9 +44,7 @@ class MediaItem extends React.Component {
       let item = null;
       if (block.type === 'image_centered_caption') {
         item = {
-          id: block.id,
           url: block.image.uri.url,
-          type: block.type,
           width: block.image.width,
           height: block.image.height,
           title: '',
@@ -37,27 +53,20 @@ class MediaItem extends React.Component {
       else if (block.type === 'media_video') {
         const thumbnail = await getThumbnail(block.url.uri);
         item = {
-          id: block.id,
           url: thumbnail.url,
-          type: block.type,
           width: thumbnail.width,
           height: thumbnail.height,
           title: thumbnail.title,
         };
       }
-      thumbnails.push(item);
+      thumbnails.push({
+        id: block.id,
+        type: block.type,
+        ...item,
+      });
     }
 
     return thumbnails;
-  }
-
-  async componentDidMount() {
-    // Prepares list of media urls.
-    const thumbnails = await this.getThumbnailsData();
-
-    this.setState({
-      thumbnails,
-    });
   }
 
   render() {
@@ -66,18 +75,17 @@ class MediaItem extends React.Component {
     const { title, url } = entity;
 
     const mediaItems = this.state.thumbnails.map(item => {
-      const mediaUrl = `${url}?section=${item.id}`;
-      const divStyles = {
-        backgroundImage: `url(${item.url})`,
-      };
+      let imageStyles = {};
+      if (item.url) {
+        imageStyles.backgroundImage = `url(${item.url})`;
+      }
 
       return (
-        <LinkWrap url={mediaUrl}>
+        <LinkWrap url={`${url}?section=${item.id}`}>
           <div className="image-wrapper" key={item.id}>
-            <div style={divStyles} className="thumbnail-image" title={item.title} />
-            {/* <img className="thumbnail-image" src={item.url} key={item.id} alt={item.title} title={item.title} /> */}
-            {/* <img className="spinner" src="/static/img/spinner-small.svg" alt="Loading..." /> */}
+            <div style={imageStyles} className="thumbnail-image" title={item.title} />
             <SearchLoader />
+
             {item.type === 'media_video' &&
               <div className="play-icon"><VideoPlay /></div>
             }
