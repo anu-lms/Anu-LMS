@@ -50,7 +50,9 @@ class ParagraphImageCentered extends AnuNormalizerBase {
         $output['fieldParagraphImage'] = [
           'uri' => [
             'url' => $image_url,
-          ]
+          ],
+          'width' => 576,
+          'height' => 450,
         ];
       }
 

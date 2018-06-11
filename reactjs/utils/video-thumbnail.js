@@ -10,7 +10,7 @@ const RE_YOUTUBE = /^(?:\/embed)?\/([\w-]{10,12})$/;
  *
  * Based on https://github.com/Producters/video-thumbnail-url/blob/master/src/index.js
  */
-export const getThumbnailUrl = url => new Promise((resolve, reject) => {
+export const getThumbnail = url => new Promise((resolve, reject) => {
   url = url || '';
   const urlobj = urlParse(url, true);
 
@@ -28,7 +28,12 @@ export const getThumbnailUrl = url => new Promise((resolve, reject) => {
       }
     }
     if (videoId) {
-      resolve(`http://img.youtube.com/vi/${videoId}/mqdefault.jpg`);
+      resolve({
+        url: `http://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+        width: 320, // 16:9
+        height: 180,
+        title: '',
+      });
     }
     else {
       console.error('Could not fetch Youtube thumbnail image.', error);
@@ -45,7 +50,13 @@ export const getThumbnailUrl = url => new Promise((resolve, reject) => {
         .get(`https://vimeo.com/api/v2/video/${videoId}.json`)
         .query({ '_format': 'json' })
         .then(({ body }) => {
-          resolve(body[0].thumbnail_medium);
+          console.log(body);
+          resolve({
+            url: body[0].thumbnail_medium,
+            width: 200, // 4:3
+            height: 150,
+            title: body[0].title,
+          });
         })
         .catch(error => {
           console.error('Could not fetch Vimeo thumbnail image.', error);
