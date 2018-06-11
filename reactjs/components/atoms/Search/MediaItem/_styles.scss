@@ -1,19 +1,31 @@
 .search-item.media .thumbnails  {
   min-height: 150px;
-  img {
-    //max-width: 200px;
-    max-height: 150px;
-    display: block;
+  text-align: center;
+  margin-top: 18px;
+
+  > a {
+    display: inline-block;
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
+
+
   .image-wrapper {
     min-height: 150px;
     min-width: 150px;
     display: inline-block;
     position: relative;
+    background-color: $white;
 
     .thumbnail-image {
       z-index: $zindex-fixed + 2;
       position: relative;
+      width: 280px;
+      height: 210px;
+      background-size: cover;
+      background-position: center center;
     }
 
     &:after {
@@ -34,11 +46,24 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
+    .search-loader,
     .spinner {
       position: absolute;
-      top: calc(50% - 28px);
-      left: calc(50% - 28px);
+      top: calc(50% - 20px);
+      left: calc(50% - 20px);
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
       z-index: $zindex-fixed;
+    }
+    .play-icon {
+      left: 10px;
+      position: absolute;
+      bottom: 6px;
+      z-index: $zindex-fixed + 3;
+      text-align: center;
+      width: 32px;
+      height: 32px;
     }
   }
 }

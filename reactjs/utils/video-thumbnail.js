@@ -52,9 +52,9 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
         .then(({ body }) => {
           console.log(body);
           resolve({
-            url: body[0].thumbnail_medium,
-            width: 200, // 4:3
-            height: 150,
+            url: body[0].thumbnail_large,
+            width: 640, // 4:3
+            height: 476,
             title: body[0].title,
           });
         })
