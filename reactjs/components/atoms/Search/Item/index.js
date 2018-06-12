@@ -23,14 +23,16 @@ class SearchItem extends React.Component {
   }
 
   render() {
-    const { icon, title, excerpt, className, itemLink, children } = this.props;
+    const {
+      icon, title, excerpt, className, itemLink, linkProps, children,
+    } = this.props;
     return (
       <div
         className={classNames('search-item', className)}
         onClick={this.onItemClick}
         onKeyPress={this.onItemClick}
       >
-        <LinkWrap url={itemLink} className="item-wrapper">
+        <LinkWrap url={itemLink} {...linkProps} className="item-wrapper">
           {icon &&
           <div className="type-icon">{icon}</div>
           }
@@ -53,6 +55,7 @@ SearchItem.propTypes = {
   excerpt: PropTypes.string,
   className: PropTypes.string,
   itemLink: PropTypes.string,
+  linkProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
@@ -63,6 +66,7 @@ SearchItem.defaultProps = {
   className: '',
   itemLink: null,
   children: null,
+  linkProps: {},
 };
 
 export default connect()(SearchItem);

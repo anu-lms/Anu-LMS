@@ -14,6 +14,7 @@ const ResourceSearchItem = ({ searchItem }) => {
       excerpt={excerpt}
       className={type}
       itemLink={`${lesson.url}?section=${id}`}
+      linkProps={{ scroll: false }} // Disables default link scroll to the top.
     />
   );
 };
