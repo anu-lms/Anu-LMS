@@ -109,7 +109,7 @@ class MediaItem extends React.Component {
       }
 
       return (
-        <LinkWrap url={`${url}?section=${item.id}`} key={item.id}>
+        <LinkWrap scroll={false} url={`${url}?section=${item.id}`} key={item.id}>
           <div
             className="image-wrapper"
             onClick={this.onItemClick}
