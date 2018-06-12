@@ -35,7 +35,10 @@ const scrollTo = (element, to = 0, duration = 500, callback = () => {}) => {
 /**
  * Scroll user to the element.
  */
-export const scrollToElement = (scrollableAreaId, elementId, callback = () => {}) => {
+export const scrollToElement = (
+  elementId, scrollableAreaId = null,
+  desiredElementPosition = 90, callback = () => {},
+) => {
   setTimeout(() => {
     // Get scrollable element.
     const element = document.getElementById(elementId);
@@ -45,14 +48,16 @@ export const scrollToElement = (scrollableAreaId, elementId, callback = () => {}
     const elementRect = element.getBoundingClientRect();
 
     // Get scrollable area.
-    const scrollableArea = document.getElementById(scrollableAreaId);
+    const scrollableArea = scrollableAreaId !== null ?
+      document.getElementById(scrollableAreaId) :
+      document.documentElement;
+
     if (!scrollableArea) {
       return;
     }
-    const desiredElementPosition = 400;
     const to = (scrollableArea.scrollTop + elementRect.top) - desiredElementPosition;
 
     scrollTo(scrollableArea, to);
-    callback();
+    callback(element);
   }, 50);
 };
