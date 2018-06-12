@@ -7,7 +7,7 @@ const LinkWrap = ({ url, children, className, ...props }) => (
   url ? (
     <Link to={url} {...props}><a className={className}>{children}</a></Link>
   ) : (
-    <span {...props}>{children}</span>
+    <span className={className}>{children}</span>
   )
 );
 
