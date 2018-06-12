@@ -92,6 +92,7 @@ class SearchResults extends ResourceBase {
    *   Response with an array of search items.
    */
   public function get() {
+    $page = 0;
     $fulltext = NULL;
     $category = self::CATEGORY_ALL;
 
@@ -107,13 +108,15 @@ class SearchResults extends ResourceBase {
       }
     }
 
+    $pageParam = $this->currentRequest->query->get('page');
+    if ($pageParam != NULL) {
+      $page = (int) $pageParam;
+    }
+
     // Don't process short search queries.
     if (empty($fulltext) || strlen($fulltext) < 2) {
       return new ResourceResponse([], 200);
     }
-
-    // @todo: might be enhanced on infinite scroll step.
-    $page = 0;
 
     // Defines search params. @see: \Drupal\search_api\Plugin\search_api\parse_mode\Terms.
     /* @var $query \Drupal\search_api\Query\QueryInterface */
@@ -164,8 +167,8 @@ class SearchResults extends ResourceBase {
     // Defines default sort.
     $query->sort('search_api_relevance', 'DESC');
 
-    // Defines pager. @todo: might be enhanced on infinite scroll step.
-    $query->range(($page * 20), 20);
+    // Defines pager.
+    $query->range(($page * 7), 7);
 
     /** @var \Drupal\search_api\Query\ResultSetInterface $result_set */
     $result_set = $query->execute();
