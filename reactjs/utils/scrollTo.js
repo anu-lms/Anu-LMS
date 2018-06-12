@@ -48,10 +48,13 @@ export const scrollToElement = (
     const elementRect = element.getBoundingClientRect();
 
     // Get scrollable area.
-    const scrollableArea = scrollableAreaId !== null ?
-      document.getElementById(scrollableAreaId) :
-      document.documentElement;
-
+    let scrollableArea = null;
+    if (scrollableAreaId !== null) {
+      scrollableArea = document.getElementById(scrollableAreaId);
+    }
+    else {
+      scrollableArea = document.scrollingElement || document.documentElement;
+    }
     if (!scrollableArea) {
       return;
     }
