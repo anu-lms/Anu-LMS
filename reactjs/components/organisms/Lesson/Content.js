@@ -29,6 +29,9 @@ class LessonContent extends React.Component {
     // component that they have been loaded.
     this.paragraphsToLoad = [];
 
+    // Recently highlighted paragraph. Save this value to avoid rehighlighting.
+    this.highlightedParagraphId = 0;
+
     // Method is responsible for handling lesson read progress.
     this.updateReadProgress = this.updateReadProgress.bind(this);
 
@@ -72,6 +75,12 @@ class LessonContent extends React.Component {
       // is opened.
       this.props.dispatch(lessonActions.closed(this.props.lesson));
       this.props.dispatch(lessonActions.opened(nextProps.lesson));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.paragraphsToLoad.length === 0) {
+      this.highlightParagraph();
     }
   }
 
@@ -175,6 +184,12 @@ class LessonContent extends React.Component {
     // Get paragraph id from the url query.
     const paragraphId = parseInt(parsedUrl.query.section, 10);
 
+    // Don't highlight paragraph twice.
+    if (this.highlightedParagraphId > 0 && this.highlightedParagraphId === paragraphId) {
+      return;
+    }
+    this.highlightedParagraphId = paragraphId;
+
     // Show an error if given paragraph id doesn't exist.
     const index = lesson.blocks.findIndex(block => block.id === paragraphId);
     if (index === -1) {
@@ -186,6 +201,9 @@ class LessonContent extends React.Component {
     // Scroll to the paragraph.
     scrollToElement(`paragraph-${paragraphId}`, null, 90, element => {
       element.classList.add('highlighted');
+
+      // In some cases browser try to restore previous position, it conflicts with custom scrolling.
+      history.scrollRestoration = 'manual'; // eslint-disable-line no-undef, no-restricted-globals
 
       // Unhighlight paragraph in 3 sec.
       setTimeout(() => {
