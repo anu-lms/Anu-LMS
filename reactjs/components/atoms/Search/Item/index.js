@@ -32,7 +32,7 @@ class SearchItem extends React.Component {
         onClick={this.onItemClick}
         onKeyPress={this.onItemClick}
       >
-        <LinkWrap url={itemLink} {...linkProps} className="item-wrapper">
+        <LinkWrap url={itemLink} className="item-wrapper" {...linkProps}>
           {icon &&
           <div className="type-icon">{icon}</div>
           }
