@@ -2,11 +2,11 @@
   text-align: center;
   margin-top: 18px;
   overflow: hidden;
-  @media screen and (min-width: 415px) {
-    text-align: left;
 
+  @media screen and (min-width: 415px) {
     margin-left: -0.5em;
     margin-right: -0.5em;
+    text-align: left;
   }
 
   > a {
@@ -29,13 +29,13 @@
     }
   }
 
-
   .image-wrapper {
     display: inline-block;
     position: relative;
     background-color: $white;
     width: 100%;
 
+    // Main item image.
     .thumbnail-image {
       z-index: $zindex-fixed + 2;
       position: relative;
@@ -53,6 +53,7 @@
       }
     }
 
+    // Hidden element to show inner border on hover.
     &:after {
       content: '';
       position: absolute;
@@ -71,6 +72,7 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
+    // Circle loading animation.
     .search-loader {
       position: absolute;
       top: calc(50% - 20px);
@@ -80,6 +82,8 @@
       border-width: 3px;
       z-index: $zindex-fixed;
     }
+
+    // Play button is shown on video items.
     .play-icon {
       left: 10px;
       position: absolute;

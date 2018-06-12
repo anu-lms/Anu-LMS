@@ -7,7 +7,7 @@ const LessonSearchItem = ({ searchItem }) => (
   <SearchItem
     icon={Icon}
     title={searchItem.entity.title}
-    body={searchItem.excerpt}
+    excerpt={searchItem.excerpt}
     className={searchItem.type}
     itemLink={searchItem.entity.url}
   />

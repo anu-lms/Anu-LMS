@@ -43,9 +43,10 @@ class ParagraphImageCentered extends AnuNormalizerBase {
         'fieldParagraphTitle' => $entity->field_paragraph_title->getString(),
       ];
 
+      // Attaches image field.
       if (!$entity->field_paragraph_image->isEmpty()) {
         $uri = $entity->field_paragraph_image->entity->getFileUri();
-        $image_url = ImageStyle::load('576x450')->buildUrl($uri); // @todo: Update image style.
+        $image_url = ImageStyle::load('576x450')->buildUrl($uri);
 
         $output['fieldParagraphImage'] = [
           'uri' => [

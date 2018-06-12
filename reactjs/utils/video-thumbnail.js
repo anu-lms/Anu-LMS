@@ -6,7 +6,7 @@ const RE_VIMEO = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d
 const RE_YOUTUBE = /^(?:\/embed)?\/([\w-]{10,12})$/;
 
 /**
- *
+ * Returns an object with size and url to video preview by given video url (vimeo or youtube).
  *
  * Based on https://github.com/Producters/video-thumbnail-url/blob/master/src/index.js
  */
@@ -14,7 +14,7 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
   url = url || '';
   const urlobj = urlParse(url, true);
 
-  // Youtube
+  // Process Youtube link.
   if (['www.youtube.com', 'youtube.com', 'youtu.be'].indexOf(urlobj.host) !== -1) {
     let videoId = null;
     if ('v' in urlobj.query) {
@@ -41,7 +41,7 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
     }
   }
 
-  // Vimeo
+  // Process Vimeo link.
   else if (['www.vimeo.com', 'vimeo.com', 'player.vimeo.com'].indexOf(urlobj.host) !== -1) {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {

@@ -13,6 +13,7 @@ class SearchItem extends React.Component {
     this.onItemClick = this.onItemClick.bind(this);
   }
 
+  // Close overlay on item click if item has wrapped by link.
   onItemClick() {
     const { itemLink, dispatch } = this.props;
     if (itemLink) {
@@ -22,7 +23,7 @@ class SearchItem extends React.Component {
   }
 
   render() {
-    const { icon, title, body, className, itemLink, children } = this.props;
+    const { icon, title, excerpt, className, itemLink, children } = this.props;
     return (
       <div
         className={classNames('search-item', className)}
@@ -38,7 +39,7 @@ class SearchItem extends React.Component {
           <div className="title" dangerouslySetInnerHTML={{ __html: xss(title, { whiteList: { span: 'class' } }) }} />
 
           {/* eslint-disable-next-line react/no-danger */}
-          <div className="body" dangerouslySetInnerHTML={{ __html: xss(body) }} />
+          <div className="excerpt" dangerouslySetInnerHTML={{ __html: xss(excerpt) }} />
           {children}
         </LinkWrap>
       </div>
@@ -49,7 +50,7 @@ class SearchItem extends React.Component {
 SearchItem.propTypes = {
   icon: PropTypes.node,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string,
+  excerpt: PropTypes.string,
   className: PropTypes.string,
   itemLink: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
@@ -58,7 +59,7 @@ SearchItem.propTypes = {
 
 SearchItem.defaultProps = {
   icon: null,
-  body: '',
+  excerpt: '',
   className: '',
   itemLink: null,
   children: null,
