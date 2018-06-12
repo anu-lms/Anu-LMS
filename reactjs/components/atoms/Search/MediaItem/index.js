@@ -15,7 +15,7 @@ class MediaItem extends React.Component {
     super(props);
     const { searchItem } = this.props;
 
-    // Defines initial thumbnail images, showing loading circle by default.
+    // Defines list of initial thumbnail images, showing loading circle by default.
     const thumbnails = searchItem.entity.blocks.map(item => ({
       id: item.id,
       type: item.type,
@@ -30,7 +30,7 @@ class MediaItem extends React.Component {
   }
 
   async componentDidMount() {
-    // Prepares list of media urls.
+    // Prepares list of media items.
     const thumbnails = await this.getThumbnailsData();
 
     // Updates list of thumbnails.
@@ -49,6 +49,9 @@ class MediaItem extends React.Component {
     dispatch(searchActions.clear());
   }
 
+  /**
+   * Returns list of media thumbnails.
+   */
   async getThumbnailsData() {
     const { searchItem } = this.props;
     const { entity } = searchItem;
@@ -56,7 +59,9 @@ class MediaItem extends React.Component {
 
     // eslint-disable-next-line no-restricted-syntax
     for (let block of entity.blocks) {
-      let item = null;
+      let item = {};
+
+      // Process image item.
       if (block.type === 'image_centered_caption') {
         item = {
           url: block.image.uri.url,
@@ -65,6 +70,8 @@ class MediaItem extends React.Component {
           title: '',
         };
       }
+
+      // Process video item.
       else if (block.type === 'media_video') {
         // eslint-disable-next-line no-await-in-loop
         const thumbnail = await getThumbnail(block.url.uri);
@@ -90,6 +97,7 @@ class MediaItem extends React.Component {
     const { entity } = searchItem;
     const { title, url } = entity;
 
+    // Defines list of media thumbnails inside search item.
     const mediaItems = this.state.thumbnails.map(item => {
       let imageStyles = {};
       if (item.url) {
@@ -118,7 +126,7 @@ class MediaItem extends React.Component {
       <SearchItem
         icon={Icon}
         title={`<span class="thin">From</span> ${title}`}
-        body=""
+        excerpt=""
         className="media"
       >
         <div className="thumbnails">{mediaItems}</div>

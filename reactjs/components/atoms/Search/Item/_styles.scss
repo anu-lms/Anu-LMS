@@ -23,10 +23,8 @@
     }
   }
 
-  > a {
-    &:hover {
-      text-decoration: none;
-    }
+  a.item-wrapper:hover {
+    text-decoration: none;
   }
 
   .type-icon {
@@ -46,7 +44,7 @@
       left: 0;
     }
   }
-  > a:hover .type-icon svg path {
+  a.item-wrapper:hover .type-icon svg path {
     fill: $anu-blue;
   }
 
@@ -64,11 +62,11 @@
       font-style: italic;
     }
   }
-  > a:hover .title {
+  a.item-wrapper:hover .title {
     color: $anu-blue;
   }
 
-  .body {
+  .excerpt {
     padding-left: 30px;
     @include media-breakpoint-up(md) {
       padding-left: 0;
