@@ -63,7 +63,7 @@ services:
       - $MYSQL_DATA_DIR:/var/lib/mysql
 
   ##########################
-  ### DONATIONS BACKEND ####
+  ### SEARCH ###############
   ##########################
 
   solr:
