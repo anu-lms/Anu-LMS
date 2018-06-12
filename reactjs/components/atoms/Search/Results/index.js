@@ -122,6 +122,7 @@ class SearchResults extends React.Component {
                   {!isError && results.length > 0 &&
                   <div className="list">
                     {results.map(resultItem => {
+                      // eslint-disable-next-line max-len
                       const SearchItemComponent = this.getSearchComponent(resultItem.type, category);
                       if (SearchItemComponent) {
                         // eslint-disable-next-line max-len
@@ -165,6 +166,7 @@ SearchResults.propTypes = {
   isFetching: PropTypes.bool,
   isFetched: PropTypes.bool,
   isError: PropTypes.bool,
+  isLoadMoreFetching: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
 };
 
@@ -175,6 +177,7 @@ SearchResults.defaultProps = {
   isFetching: false,
   isFetched: false,
   isError: false,
+  isLoadMoreFetching: false,
 };
 
 const mapStateToProps = ({ search }) => ({
