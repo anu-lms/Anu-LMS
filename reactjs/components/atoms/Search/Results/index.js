@@ -93,12 +93,16 @@ class SearchResults extends React.Component {
         }
 
         <div className="search-results">
-          <Scrollbars style={{ height: '100%' }} onScroll={this.toggleTabsBorder}>
+          <Scrollbars
+            style={{ height: '100%' }}
+            onScroll={this.toggleTabsBorder}
+            renderView={props => <div {...props} id="search-results-scroll" />}
+          >
             <InfiniteScroll
               dataLength={results.length}
-              next={() => { console.log('aaaaa'); }}
+              next={() => { console.log('Lets request some more data'); }}
               hasMore
-              // height={461}
+              scrollableTarget="search-results-scroll"
             >
               <div id="search-results-list" className="inner-wrapper">
                 <div className="inner">
