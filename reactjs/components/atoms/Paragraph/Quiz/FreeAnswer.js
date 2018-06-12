@@ -35,7 +35,7 @@ class FreeAnswer extends React.Component {
       title, blocks, columnClasses, data, id,
     } = this.props;
     return (
-      <div id={`paragraph-${id}`} className="container quiz textarea">
+      <div id={`paragraph-${id}`} className="container paragraph quiz textarea">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>
