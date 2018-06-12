@@ -29,7 +29,7 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
     }
     if (videoId) {
       resolve({
-        url: `http://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+        url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
         width: 320, // 16:9
         height: 180,
         title: '',

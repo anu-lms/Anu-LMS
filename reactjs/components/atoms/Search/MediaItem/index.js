@@ -73,14 +73,18 @@ class MediaItem extends React.Component {
 
       // Process video item.
       else if (block.type === 'media_video') {
+        // Get thumbnail data, added catch to proceed execution if case of issues.
         // eslint-disable-next-line no-await-in-loop
-        const thumbnail = await getThumbnail(block.url.uri);
-        item = {
-          url: thumbnail.url,
-          width: thumbnail.width,
-          height: thumbnail.height,
-          title: thumbnail.title,
-        };
+        const thumbnail = await getThumbnail(block.url.uri).catch(() => {});
+
+        if (thumbnail && thumbnail.url) {
+          item = {
+            url: thumbnail.url,
+            width: thumbnail.width,
+            height: thumbnail.height,
+            title: thumbnail.title,
+          };
+        }
       }
       thumbnails.push({
         id: block.id,
