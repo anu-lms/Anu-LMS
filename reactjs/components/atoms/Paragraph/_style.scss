@@ -1,3 +1,11 @@
+.paragraph {
+  transition: background-color .6s;
+  &.highlighted {
+    background-color: $highlighted;
+    transition: background-color .6s;
+  }
+}
+
 .heading {
   margin-bottom: 1.5em !important;
 

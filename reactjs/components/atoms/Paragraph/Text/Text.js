@@ -20,7 +20,7 @@ class Text extends React.Component {
   render() {
     const { text, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div id={`paragraph-${id}`} className="container text">
+      <div id={`paragraph-${id}`} className="container paragraph text">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             {
