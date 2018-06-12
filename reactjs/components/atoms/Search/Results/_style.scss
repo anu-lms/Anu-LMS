@@ -15,4 +15,17 @@
       padding-bottom: 1.3em;
     }
   }
+
+  .load-more-loader {
+    text-align: center;
+    .search-loader {
+      display: inline-block;
+    }
+
+    @include media-breakpoint-up(lg) {
+      &:not(.media) {
+        max-width: 840px;
+      }
+    }
+  }
 }
