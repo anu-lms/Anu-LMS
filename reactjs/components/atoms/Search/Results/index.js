@@ -9,6 +9,7 @@ import LessonItem from '../LessonItem';
 import CommentItem from '../CommentItem';
 import NotebookItem from '../NotebookItem';
 import ResourceItem from '../ResourceItem';
+import SearchLoader from '../Loader';
 import MediaItem from '../MediaItem';
 import * as searchActions from '../../../../actions/search';
 
@@ -23,6 +24,7 @@ class SearchResults extends React.Component {
 
     this.toggleTabsBorder = this.toggleTabsBorder.bind(this);
     this.tabClick = this.tabClick.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -58,8 +60,18 @@ class SearchResults extends React.Component {
    * Click tab link.
    */
   tabClick(category) {
-    const { query } = this.props;
-    this.props.dispatch(searchActions.fetch(query, category));
+    const { query, dispatch } = this.props;
+    dispatch(searchActions.fetch(query, category));
+  }
+
+  /**
+   * Request another piece of notifications.
+   */
+  loadMore() {
+    const { dispatch, isFetching, isLoadMoreFetching } = this.props;
+    if (!isFetching && !isLoadMoreFetching) {
+      dispatch(searchActions.loadMore());
+    }
   }
 
   /**
@@ -79,7 +91,7 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const { category, query, results, isError } = this.props;
+    const { category, query, results, isError, isLoadMoreFetching } = this.props;
     const { isOpenedFirstTime } = this.state;
 
     return (
@@ -100,7 +112,7 @@ class SearchResults extends React.Component {
           >
             <InfiniteScroll
               dataLength={results.length}
-              next={() => { console.log('Lets request some more data'); }}
+              next={this.loadMore}
               hasMore
               scrollableTarget="search-results-scroll"
             >
@@ -110,27 +122,31 @@ class SearchResults extends React.Component {
                   {!isError && results.length > 0 &&
                   <div className="list">
                     {results.map(resultItem => {
-                    const SearchItemComponent = this.getSearchComponent(resultItem.type, category);
-                    if (SearchItemComponent) {
-                      // eslint-disable-next-line max-len
-                      return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
-                    }
+                      const SearchItemComponent = this.getSearchComponent(resultItem.type, category);
+                      if (SearchItemComponent) {
+                        // eslint-disable-next-line max-len
+                        return <SearchItemComponent key={resultItem.entity.uuid} searchItem={resultItem} />;
+                      }
 
-                    return null;
-                  })}
+                      return null;
+                    })}
+
+                    {isLoadMoreFetching &&
+                    <div className="load-more-loader"><SearchLoader /></div>
+                    }
                   </div>
-                }
+                  }
 
                   {!isOpenedFirstTime && query.length > 1 && results.length === 0 && !isError &&
                   <Empty />
-                }
+                  }
 
                   {isError &&
                   <div className="search-error">
                     {/* eslint-disable-next-line max-len */}
-                  The error has occurred. Please try to reload the page or contact site administrator.
+                    The error has occurred. Please try to reload the page or contact site administrator.
                   </div>
-                }
+                  }
                 </div>
               </div>
 
@@ -168,6 +184,7 @@ const mapStateToProps = ({ search }) => ({
   isFetching: search.isFetching,
   isFetched: search.isFetched,
   isError: search.isError,
+  isLoadMoreFetching: search.isLoadMoreFetching,
 });
 
 export default connect(mapStateToProps)(SearchResults);
