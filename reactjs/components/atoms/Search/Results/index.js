@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchTabs from '../Tabs';
 import Empty from '../Empty';
 import LessonItem from '../LessonItem';
@@ -93,12 +94,18 @@ class SearchResults extends React.Component {
 
         <div className="search-results">
           <Scrollbars style={{ height: '100%' }} onScroll={this.toggleTabsBorder}>
-            <div id="search-results-list" className="inner-wrapper">
-              <div className="inner">
+            <InfiniteScroll
+              dataLength={results.length}
+              next={() => { console.log('aaaaa'); }}
+              hasMore
+              // height={461}
+            >
+              <div id="search-results-list" className="inner-wrapper">
+                <div className="inner">
 
-                {!isError && results.length > 0 &&
-                <div className="list">
-                  {results.map(resultItem => {
+                  {!isError && results.length > 0 &&
+                  <div className="list">
+                    {results.map(resultItem => {
                     const SearchItemComponent = this.getSearchComponent(resultItem.type, category);
                     if (SearchItemComponent) {
                       // eslint-disable-next-line max-len
@@ -107,21 +114,23 @@ class SearchResults extends React.Component {
 
                     return null;
                   })}
-                </div>
+                  </div>
                 }
 
-                {!isOpenedFirstTime && query.length > 1 && results.length === 0 && !isError &&
-                <Empty />
+                  {!isOpenedFirstTime && query.length > 1 && results.length === 0 && !isError &&
+                  <Empty />
                 }
 
-                {isError &&
-                <div className="search-error">
-                  {/* eslint-disable-next-line max-len */}
+                  {isError &&
+                  <div className="search-error">
+                    {/* eslint-disable-next-line max-len */}
                   The error has occurred. Please try to reload the page or contact site administrator.
-                </div>
+                  </div>
                 }
+                </div>
               </div>
-            </div>
+
+            </InfiniteScroll>
           </Scrollbars>
         </div>
       </div>
