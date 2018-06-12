@@ -3,10 +3,12 @@
   position: relative;
 
   @include media-breakpoint-up(lg) {
-    max-width: 840px;
+    &:not(.media) {
+      max-width: 840px;
+    }
   }
 
-  > a {
+  .item-wrapper {
     color: $white-grey;
     display: block;
     padding-top: 0.75em;
@@ -19,10 +21,10 @@
     @include media-breakpoint-up(lg) {
        padding-left: 38px;
     }
+  }
 
-    &:hover {
-      text-decoration: none;
-    }
+  a.item-wrapper:hover {
+    text-decoration: none;
   }
 
   .type-icon {
@@ -42,7 +44,7 @@
       left: 0;
     }
   }
-  > a:hover .type-icon svg path {
+  a.item-wrapper:hover .type-icon svg path {
     fill: $anu-blue;
   }
 
@@ -60,11 +62,11 @@
       font-style: italic;
     }
   }
-  > a:hover .title {
+  a.item-wrapper:hover .title {
     color: $anu-blue;
   }
 
-  .body {
+  .excerpt {
     padding-left: 30px;
     @include media-breakpoint-up(md) {
       padding-left: 0;

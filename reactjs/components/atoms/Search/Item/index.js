@@ -7,40 +7,62 @@ import LinkWrap from '../../Link/LinkWrap';
 import * as searchActions from '../../../../actions/search';
 import * as overlayActions from '../../../../actions/overlay';
 
-const SearchItem = ({ icon, title, body, className, itemLink, dispatch }) => (
-  <div
-    className={classNames('search-item', className)}
-    onClick={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
-    onKeyPress={() => { dispatch(overlayActions.close()); dispatch(searchActions.clear()); }}
-  >
-    <LinkWrap url={itemLink}>
-      {icon &&
-      <div className="type-icon">{icon}</div>
-      }
+class SearchItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onItemClick = this.onItemClick.bind(this);
+  }
 
-      {/* eslint-disable-next-line react/no-danger */}
-      <div className="title" dangerouslySetInnerHTML={{ __html: xss(title, { whiteList: { span: 'class' } }) }} />
+  // Close overlay on item click if item has wrapped by link.
+  onItemClick() {
+    const { itemLink, dispatch } = this.props;
+    if (itemLink) {
+      dispatch(overlayActions.close());
+      dispatch(searchActions.clear());
+    }
+  }
 
-      {/* eslint-disable-next-line react/no-danger */}
-      <div className="body" dangerouslySetInnerHTML={{ __html: xss(body) }} />
-    </LinkWrap>
-  </div>
-);
+  render() {
+    const { icon, title, excerpt, className, itemLink, children } = this.props;
+    return (
+      <div
+        className={classNames('search-item', className)}
+        onClick={this.onItemClick}
+        onKeyPress={this.onItemClick}
+      >
+        <LinkWrap url={itemLink} className="item-wrapper">
+          {icon &&
+          <div className="type-icon">{icon}</div>
+          }
+
+          {/* eslint-disable-next-line react/no-danger */}
+          <div className="title" dangerouslySetInnerHTML={{ __html: xss(title, { whiteList: { span: 'class' } }) }} />
+
+          {/* eslint-disable-next-line react/no-danger */}
+          <div className="excerpt" dangerouslySetInnerHTML={{ __html: xss(excerpt) }} />
+          {children}
+        </LinkWrap>
+      </div>
+    );
+  }
+}
 
 SearchItem.propTypes = {
   icon: PropTypes.node,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string,
+  excerpt: PropTypes.string,
   className: PropTypes.string,
   itemLink: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 SearchItem.defaultProps = {
   icon: null,
-  body: '',
+  excerpt: '',
   className: '',
   itemLink: null,
+  children: null,
 };
 
 export default connect()(SearchItem);
