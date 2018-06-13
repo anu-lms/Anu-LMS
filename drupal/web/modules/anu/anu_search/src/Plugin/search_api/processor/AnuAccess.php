@@ -14,6 +14,7 @@ use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Item\ItemInterface;
 use Drupal\search_api\Plugin\search_api\processor\ContentAccess;
 use Drupal\search_api\Processor\ProcessorProperty;
+use Drupal\search_api\Query\ConditionGroupInterface;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\SearchApiException;
 use Drupal\user\Entity\User;
@@ -568,8 +569,10 @@ class AnuAccess extends ContentAccess {
     $conditions = $query->getConditionGroup();
     if (!empty($conditions->getConditions())) {
       foreach ($conditions->getConditions() as $condition) {
-        if (in_array('anu_access', $condition->getTags())) {
-          $outer_condition_group = $condition;
+        if ($condition instanceof ConditionGroupInterface) {
+          if (in_array('anu_access', $condition->getTags())) {
+            $outer_condition_group = $condition;
+          }
         }
       }
     }
