@@ -3125,9 +3125,6 @@
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
                     }
-                },
-                "patches_applied": {
-                    "Disable access to group nodes outside of groups": "patches/group-node_permission.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
