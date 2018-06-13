@@ -1,4 +1,4 @@
-import { all, put, takeLatest, apply, call } from 'redux-saga/effects';
+import { all, put, takeLatest, apply, select, call } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
@@ -45,10 +45,38 @@ function* fetchSearch({ text, category }) {
 }
 
 /**
+ * Fetch more search results from the backend.
+ */
+function* loadMore() {
+  try {
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    // Get params from the applications store.
+    const text = yield select(reduxStore => reduxStore.search.query);
+    const category = yield select(reduxStore => reduxStore.search.category);
+    const page = yield select(reduxStore => reduxStore.search.page);
+
+    // Makes request to the backend to fetch search results.
+    const searchResults = yield call(api.fetch, request, text, category, page);
+
+    // Let store know that search results were received.
+    yield put(searchActions.receivedMore(searchResults));
+  }
+  catch (error) {
+    yield put(searchActions.loadMoreFailed(error));
+    console.error('Could not load more search results.', error);
+  }
+}
+
+/**
  * Main entry point for all search sagas.
  */
 export default function* searchSagas() {
   yield all([
     yield takeLatest('SEARCH_REQUESTED', fetchSearch),
+    yield takeLatest('SEARCH_LOAD_MORE', loadMore),
   ]);
 }

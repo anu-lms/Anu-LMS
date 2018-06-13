@@ -32,8 +32,9 @@ class Overlay extends React.Component {
   }
 
   closeOverlay() {
-    this.props.dispatch(overlayActions.close());
+    // Invokes given function and then close the overlay.
     this.props.onClose();
+    this.props.dispatch(overlayActions.close());
   }
 
   render() {

@@ -1,6 +1,6 @@
 uuid: 5c9ecbe3-16ab-4a46-acbd-39b3925bc648
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - search_api.index.content

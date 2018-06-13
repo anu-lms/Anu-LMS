@@ -1,5 +1,5 @@
 export default (state = {
-  isNoteListVisible: false,
+  isNoteListVisible: true,
   noteId: 0, // @todo: consider to use active note id from notebook storage instead?
 }, action) => {
   switch (action.type) {

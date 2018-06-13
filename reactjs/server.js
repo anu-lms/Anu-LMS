@@ -95,6 +95,13 @@ app.prepare()
       res.status(200).sendFile('robots.txt', options)
     ));
 
+    // Blocks an access to the styleguide on live environment.
+    if (!dev) {
+      expressServer.use('/styleguide', (req, res) => {
+        res.status(403).send('Access denied');
+      });
+    }
+
     // Set browser caching for all static files.
     expressServer.use('/static', express.static(`${__dirname}/static`, {
       maxAge: '7d',

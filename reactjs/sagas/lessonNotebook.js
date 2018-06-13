@@ -66,8 +66,7 @@ function* unlockMobileScroll() { // eslint-disable-line require-yield
  * depending on the current notebook pane state.
  */
 function* lockOrUnlockMobileScroll() {
-  // TODO: BUG!
-  const isNotebookCollapsed = yield select(store => store.lessonSidebar.notes.isCollapsed);
+  const isNotebookCollapsed = yield select(store => store.lessonSidebar.sidebar.isCollapsed);
   // eslint-disable-next-line no-unused-expressions
   isNotebookCollapsed ? yield unlockMobileScroll() : yield lockMobileScroll();
 }
