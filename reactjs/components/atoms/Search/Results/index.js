@@ -29,6 +29,7 @@ class SearchResults extends React.Component {
     this.toggleTabsBorder = this.toggleTabsBorder.bind(this);
     this.tabClick = this.tabClick.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.onTouch = this.onTouch.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -65,6 +66,16 @@ class SearchResults extends React.Component {
       if (scrollAreaHeight > listHeight) {
         dispatch(searchActions.loadMore());
       }
+    }
+  }
+
+  /**
+   * Remove focus from search input when user scroll on mobile (to hide keyboard).
+   */
+  onTouch() {
+    const searchInput = document.getElementById('search-bar-input');
+    if (document.activeElement === searchInput) {
+      searchInput.blur();
     }
   }
 
@@ -120,7 +131,7 @@ class SearchResults extends React.Component {
     const { isOpenedFirstTime } = this.state;
 
     return (
-      <div className="search-container">
+      <div className="search-container" onTouchStart={this.onTouch}>
         {!isOpenedFirstTime &&
         <SearchTabs
           activeTab={category}
