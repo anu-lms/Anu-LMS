@@ -2,6 +2,7 @@ import React from 'react';
 import App from '../application/App';
 import Button from '../components/atoms/Button';
 import Form from '../components/atoms/Form';
+import withRedux from '../store/withRedux';
 
 const schema = {
   'type': 'object',
@@ -60,4 +61,4 @@ const FrontPage = () => (
   </App>
 );
 
-export default FrontPage;
+export default withRedux(FrontPage);
