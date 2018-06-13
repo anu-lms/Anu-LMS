@@ -22,6 +22,10 @@ class SearchResults extends React.Component {
       isOpenedFirstTime: true,
     };
 
+    // Use an additional variable because we can't get value from prevState in DidUpdate,
+    // because we update the component only when fetching has finished.
+    this.currentTab = 'all';
+
     this.toggleTabsBorder = this.toggleTabsBorder.bind(this);
     this.tabClick = this.tabClick.bind(this);
     this.loadMore = this.loadMore.bind(this);
@@ -44,12 +48,18 @@ class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-    const { dispatch } = this.props;
+    const { dispatch, isLoadMoreFetching, results, category } = this.props;
     const itemsPerPage = 7;
+
+    // Scroll user to the top of the results when he switched the category tab.
+    if (this.currentTab !== category) {
+      this.currentTab = category;
+      document.getElementById('search-results-scroll').scrollTo(0, 0);
+    }
 
     // If browser window height is bigger than list height of first loaded items,
     // we make a request to get a second portion.
-    if (!this.props.isLoadMoreFetching && this.props.results.length === itemsPerPage) {
+    if (!isLoadMoreFetching && results.length === itemsPerPage) {
       const scrollAreaHeight = document.getElementById('search-results-scroll').offsetHeight;
       const listHeight = document.getElementById('search-results-list').offsetHeight;
       if (scrollAreaHeight > listHeight) {
