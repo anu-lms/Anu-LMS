@@ -32,7 +32,7 @@
   .image-wrapper {
     display: inline-block;
     position: relative;
-    background-color: $white;
+    background-color: $white-grey;
     width: 100%;
 
     // Main item image.
@@ -81,6 +81,18 @@
       height: 40px;
       border-width: 3px;
       z-index: $zindex-fixed;
+      border-right-color: $white-grey;
+      border-bottom-color: $white-grey;
+    }
+
+    .image-loading-error {
+      width: 100%;
+      position: absolute;
+      top: calc(50% - 12px);
+      text-align: center;
+      color: $slate-grey;
+      font-size: 0.9em;
+      font-style: italic;
     }
 
     // Play button is shown on video items.

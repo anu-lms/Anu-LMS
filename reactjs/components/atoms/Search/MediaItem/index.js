@@ -85,6 +85,11 @@ class MediaItem extends React.Component {
             title: thumbnail.title,
           };
         }
+        else {
+          item = {
+            error: true,
+          };
+        }
       }
       thumbnails.push({
         id: block.id,
@@ -116,7 +121,12 @@ class MediaItem extends React.Component {
             onKeyPress={this.onItemClick}
           >
             <div style={imageStyles} className="thumbnail-image" title={item.title} />
-            <SearchLoader />
+
+            {!item.error ? (
+              <SearchLoader />
+            ) : (
+              <div className="image-loading-error">Preview image can't be loaded</div>
+            )}
 
             {item.type === 'media_video' &&
               <div className="play-icon"><VideoPlay /></div>
