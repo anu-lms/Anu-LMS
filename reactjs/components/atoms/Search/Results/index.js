@@ -55,7 +55,7 @@ class SearchResults extends React.Component {
     // Scroll user to the top of the results when he switched the category tab.
     if (this.currentTab !== category) {
       this.currentTab = category;
-      document.getElementById('search-results-scroll').scrollTo(0, 0);
+      document.getElementById('search-results-scroll').scrollTop = 0;
     }
 
     // If browser window height is bigger than list height of first loaded items,
