@@ -80,7 +80,7 @@ class SearchResults extends React.Component {
   }
 
   /**
-   * Request another piece of notifications.
+   * Request another piece of search results.
    */
   loadMore() {
     const { dispatch, isFetching, isLoadMoreFetching } = this.props;

@@ -54,7 +54,7 @@ function* loadMore() {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Get session token which is necessary for all post requests.
+    // Get params from the applications store.
     const text = yield select(reduxStore => reduxStore.search.query);
     const category = yield select(reduxStore => reduxStore.search.category);
     const page = yield select(reduxStore => reduxStore.search.page);
