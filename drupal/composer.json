@@ -141,6 +141,9 @@
       },
       "drupal/message": {
         "Added a return for the Message save function": "https://patch-diff.githubusercontent.com/raw/Gizra/message/pull/220.patch"
+      },
+      "drupal/search_api_attachments": {
+        "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
       }
     }
   }
