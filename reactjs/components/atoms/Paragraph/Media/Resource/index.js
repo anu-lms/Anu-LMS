@@ -73,7 +73,7 @@ class Resource extends React.Component {
     );
 
     // Open overlay with empty content and set its state to loading.
-    dispatch(overlayActions.open(content));
+    dispatch(overlayActions.open('resource', content));
     dispatch(overlayActions.loading());
   }
 
@@ -130,7 +130,7 @@ class Resource extends React.Component {
     );
 
     // Open overlay with empty content and set its state to loading.
-    dispatch(overlayActions.open(content, header));
+    dispatch(overlayActions.open('resource', content, header));
   }
 
   /**

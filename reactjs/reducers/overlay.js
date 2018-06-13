@@ -10,9 +10,10 @@ export default (state = {
     case 'OVERLAY_OPEN':
       return {
         ...state,
+        id: action.id,
         content: action.content,
         header: action.header,
-        onClose: action.onClose,
+        onClose: action.onClose, // @todo: this function doesn't stored properly in store.
         isLoading: action.isLoading,
         isError: false,
         isOpened: true,
@@ -21,6 +22,7 @@ export default (state = {
     case 'OVERLAY_CLOSE':
       return {
         ...state,
+        id: '',
         content: null,
         header: null,
         onClose: () => {},

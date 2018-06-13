@@ -10,9 +10,6 @@ import * as overlayActions from '../../../../actions/overlay';
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOverlayOpened: false,
-    };
 
     this.onHeaderSearchClick = this.onHeaderSearchClick.bind(this);
     this.onOverlayClose = this.onOverlayClose.bind(this);
@@ -26,23 +23,18 @@ class Search extends React.Component {
     const content = <SearchResults />;
 
     // Open an overlay with search components inside of it.
-    dispatch(overlayActions.open(content, header, this.onOverlayClose));
-
-    // Hide search input in header when overlay opened.
-    this.setState({ isOverlayOpened: true });
+    dispatch(overlayActions.open('search', content, header, this.onOverlayClose));
   }
 
   onOverlayClose() {
     this.props.dispatch(searchActions.clear());
-
-    // Show back search input in header when overlay closed.
-    this.setState({ isOverlayOpened: false });
   }
 
   render() {
+    const isSearchOverlayOpened = this.props.overlayId === 'search' && this.props.isOverlayOpened;
     return (
       <Fragment>
-        {!this.state.isOverlayOpened &&
+        {!isSearchOverlayOpened &&
         <div className="search" onClick={this.onHeaderSearchClick} onKeyPress={() => {}}>
           <input type="text" placeholder="Search" value="" onChange={() => {}} />
 
@@ -60,10 +52,19 @@ class Search extends React.Component {
 
 Search.propTypes = {
   dispatch: PropTypes.func,
+  overlayId: PropTypes.string,
+  isOverlayOpened: PropTypes.bool,
 };
 
 Search.defaultProps = {
   dispatch: () => {},
+  overlayId: '',
+  isOverlayOpened: false,
 };
 
-export default connect()(Search);
+const mapStateToProps = ({ overlay }) => ({
+  overlayId: overlay.id,
+  isOverlayOpened: overlay.isOpened,
+});
+
+export default connect(mapStateToProps)(Search);
