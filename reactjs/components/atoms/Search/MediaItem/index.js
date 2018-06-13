@@ -125,7 +125,7 @@ class MediaItem extends React.Component {
             {!item.error ? (
               <SearchLoader />
             ) : (
-              <div className="image-loading-error">Preview image can't be loaded</div>
+              <div className="image-loading-error">{'Preview image can\'t be loaded'}</div>
             )}
 
             {item.type === 'media_video' &&
