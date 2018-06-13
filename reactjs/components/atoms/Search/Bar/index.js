@@ -48,6 +48,7 @@ class SearchBar extends Component {
             ref={this.setSearchInput}
             value={this.state.value}
             onChange={this.onValueChange}
+            id="search-bar-input"
           />
           <div className="search-bar">
             {this.props.isFetching ?
