@@ -177,7 +177,10 @@ class SearchResults extends ResourceBase {
       $entity_type = $entity->getEntityTypeId();
       $entity_bundle = $entity->bundle();
 
-      // Never show entities a user can't access.
+      // Never show entities a user can't access. Normally all access should
+      // be handled on Search API level (see AnuAccess.php in anu_search).
+      // Although in case some edge case was missed, we want to make sure
+      // end user never sees content he has no access to.
       if (!$entity->access('view')) {
         continue;
       }
