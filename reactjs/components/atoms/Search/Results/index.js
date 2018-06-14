@@ -48,7 +48,7 @@ class SearchResults extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { dispatch, isLoadMoreFetching, results, category } = this.props;
     const itemsPerPage = 7;
 
@@ -60,7 +60,7 @@ class SearchResults extends React.Component {
 
     // If browser window height is bigger than list height of first loaded items,
     // we make a request to get a second portion.
-    if (!isLoadMoreFetching && results.length === itemsPerPage) {
+    if (!prevProps.isLoadMoreFetching && !isLoadMoreFetching && results.length === itemsPerPage) {
       const scrollAreaHeight = document.getElementById('search-results-scroll').offsetHeight;
       const listHeight = document.getElementById('search-results-list').offsetHeight;
       if (scrollAreaHeight > listHeight) {
