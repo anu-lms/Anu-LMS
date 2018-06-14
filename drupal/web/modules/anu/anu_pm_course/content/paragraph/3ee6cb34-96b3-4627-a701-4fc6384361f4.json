@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1052
+        }
+    ],
+    "uuid": [
+        {
+            "value": "3ee6cb34-96b3-4627-a701-4fc6384361f4"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4624
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T01:50:31+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "176"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>The financial plan is the final section of your business plan that tells others what you need financially in order to accomplish everything else in your plan.<\/p>\r\n\r\n<p>First, you will create an expenses and income budget. A budget will help you plan for short-term expenses, like your monthly bills, and mid-term expenses, like yearly fees you must pay or one time costs, as well as long-term expenses, like buying land. When you have a spreadsheet or notebook in front of you showing how much money you expect to make over the next few months (or years), how much of that money goes out every month and how much you have left to save each month, you will always know when you need to cut back on spending, when you can afford to loosen the reins and how long it will take to save for major goals. And if you are not happy with the numbers, knowing what they are will help you take steps to improve your situation, whether that means focusing on lowering excessive costs to increase your monthly cash flow, or trying a new way of fundraising so you can make enough money to afford everything you need and want for your project.<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>The financial plan is the final section of your business plan that tells others what you need financially in order to accomplish everything else in your plan.<\/p>\n<p>First, you will create an expenses and income budget. A budget will help you plan for short-term expenses, like your monthly bills, and mid-term expenses, like yearly fees you must pay or one time costs, as well as long-term expenses, like buying land. When you have a spreadsheet or notebook in front of you showing how much money you expect to make over the next few months (or years), how much of that money goes out every month and how much you have left to save each month, you will always know when you need to cut back on spending, when you can afford to loosen the reins and how long it will take to save for major goals. And if you are not happy with the numbers, knowing what they are will help you take steps to improve your situation, whether that means focusing on lowering excessive costs to increase your monthly cash flow, or trying a new way of fundraising so you can make enough money to afford everything you need and want for your project.<\/p>\n"
+        }
+    ]
+}
