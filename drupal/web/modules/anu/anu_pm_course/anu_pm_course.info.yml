@@ -1,6 +1,6 @@
-name: Anu Project Management Course
+name: Anu Project Management Course import
 type: module
-description: Contains content of Project Management course import
+description: Contains content of Project Management course
 core: 8.x
 package: Anu
 dependencies:
