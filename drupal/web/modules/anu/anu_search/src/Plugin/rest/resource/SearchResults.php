@@ -176,9 +176,18 @@ class SearchResults extends ResourceBase {
     $entities = [];
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($result_set->getResultItems() as $item) {
+      /** @var $entity \Drupal\entity\Entity\RevisionableEntityBundleInterface  */
       $entity = $item->getOriginalObject()->getValue();
       $entity_type = $entity->getEntityTypeId();
       $entity_bundle = $entity->bundle();
+
+      // Never show entities a user can't access. Normally all access should
+      // be handled on Search API level (see AnuAccess.php in anu_search).
+      // Although in case some edge case was missed, we want to make sure
+      // end user never sees content he has no access to.
+      if (!$entity->access('view')) {
+        continue;
+      }
 
       $include_fields = [];
       // Prepares additional fields for normalizer function.

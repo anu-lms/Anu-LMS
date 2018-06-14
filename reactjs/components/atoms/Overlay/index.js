@@ -32,7 +32,8 @@ class Overlay extends React.Component {
   }
 
   closeOverlay() {
-    // Invokes given function and then close the overlay.
+    // Please note that the order of these commands is important. If you change
+    // it, then ESC key press will not call this.props.onClose() as expected.
     this.props.onClose();
     this.props.dispatch(overlayActions.close());
   }
