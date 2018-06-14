@@ -23,7 +23,7 @@ class NoteMenu extends Component {
         // Get superagent request with authentication.
         const { request } = await this.context.auth.getRequest();
 
-        request.set('X-CSRF-Token', sessionToken);
+        // request.set('X-CSRF-Token', sessionToken);
 
         // Sending backend request to remove the note.
         await notebookApi.deleteNote(request, note.uuid);

@@ -66,7 +66,7 @@ export default class extends Auth {
           request
             .post('/user/token/revoke?_format=json')
             .set('Content-Type', 'application/json')
-            .set('X-CSRF-Token', sessionToken)
+            // .set('X-CSRF-Token', sessionToken)
             .set('Authorization', `Bearer ${this.accessToken}`)
             .end((error, response) => {
               if (error) {
