@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1026
+        }
+    ],
+    "uuid": [
+        {
+            "value": "a22e08f8-4ef0-4acd-9644-ab90130ec8ae"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4654
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T00:57:03+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "173"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>A SWOT Analysis is an analysis where you identify internal and external factors that could affect the success of your project. &nbsp;This type of analysis helps you understand:<\/p>\r\n\r\n<ul>\r\n\t<li><strong><u>S<\/u>trengths<\/strong>: What your project or team can do well<strong>.<\/strong><\/li>\r\n\t<li><strong><u>W<\/u>eaknesses: <\/strong>What your project or team need help with.<\/li>\r\n\t<li><strong><u>O<\/u>pportunities: <\/strong>What is happening in your community or networks that could help your project.<\/li>\r\n\t<li><strong><u>T<\/u>hreats: <\/strong>What is happening in your community or country that could make it harder to do your project.<\/li>\r\n<\/ul>\r\n\r\n<p>Doing a SWOT analysis will help you know what steps you will need to take to make your project a success, what challenges you may have trying to do your project, ideas for how to overcome challenges, and resources that might help you do your project. It is a good idea to discuss these questions with the people involved in the project.<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>A SWOT Analysis is an analysis where you identify internal and external factors that could affect the success of your project. \u00a0This type of analysis helps you understand:<\/p>\n<ul>\n<li><strong><u>S<\/u>trengths<\/strong>: What your project or team can do well<strong>.<\/strong><\/li>\n<li><strong><u>W<\/u>eaknesses: <\/strong>What your project or team need help with.<\/li>\n<li><strong><u>O<\/u>pportunities: <\/strong>What is happening in your community or networks that could help your project.<\/li>\n<li><strong><u>T<\/u>hreats: <\/strong>What is happening in your community or country that could make it harder to do your project.<\/li>\n<\/ul>\n<p>Doing a SWOT analysis will help you know what steps you will need to take to make your project a success, what challenges you may have trying to do your project, ideas for how to overcome challenges, and resources that might help you do your project. It is a good idea to discuss these questions with the people involved in the project.<\/p>\n"
+        }
+    ]
+}

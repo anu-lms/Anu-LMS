@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1003
+        }
+    ],
+    "uuid": [
+        {
+            "value": "764eb644-3f22-4734-b454-267433df9ac8"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4675
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T00:25:26+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "170"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>The program objectives section is where you have the opportunity to explain in more detail what your vision is. This is where you explain to others the specific goals that you wish to accomplish through your work. In this section, you are able to write a longer description of your vision, of what changes you wish to carry out for your community.<\/p>\r\n\r\n<p>Your objectives are the positive effects that you identified in your solutions tree (in the Community Development lesson) \u2013 these are the changes you want to see take place in your community as a direct result of your project. As you begin to apply for grants, you will find that program objectives can also be called <em>key indicators, intended outcomes<\/em>, or <em>measures of success<\/em>.<\/p>\r\n\r\n<p>Think about each goal and what sub-goals you need to accomplish in order to reach that goal. Identify specific achievements or objectives in the process of carrying out this project. Objectives should be written in such a way that you and others can easily tell if the goal has been reached or not. They should specify who is going to do what to whom and when and how much.&nbsp; Your program objectives are not set for the entire life of your project, but are meant to be changed as time passes. It may be helpful to create objectives for the first month, six months, or year of your project.<\/p>\r\n\r\n<p><strong>Your program objectives are the signs along the road that you must reach before you can arrive at your final destination.<\/strong><\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>The program objectives section is where you have the opportunity to explain in more detail what your vision is. This is where you explain to others the specific goals that you wish to accomplish through your work. In this section, you are able to write a longer description of your vision, of what changes you wish to carry out for your community.<\/p>\n<p>Your objectives are the positive effects that you identified in your solutions tree (in the Community Development lesson) \u2013 these are the changes you want to see take place in your community as a direct result of your project. As you begin to apply for grants, you will find that program objectives can also be called <em>key indicators, intended outcomes<\/em>, or <em>measures of success<\/em>.<\/p>\n<p>Think about each goal and what sub-goals you need to accomplish in order to reach that goal. Identify specific achievements or objectives in the process of carrying out this project. Objectives should be written in such a way that you and others can easily tell if the goal has been reached or not. They should specify who is going to do what to whom and when and how much.\u00a0 Your program objectives are not set for the entire life of your project, but are meant to be changed as time passes. It may be helpful to create objectives for the first month, six months, or year of your project.<\/p>\n<p><strong>Your program objectives are the signs along the road that you must reach before you can arrive at your final destination.<\/strong><\/p>\n"
+        }
+    ]
+}
