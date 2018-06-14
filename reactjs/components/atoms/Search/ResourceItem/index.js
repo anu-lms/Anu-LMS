@@ -11,9 +11,10 @@ const ResourceSearchItem = ({ searchItem }) => {
     <SearchItem
       icon={Icon}
       title={itemTitle}
-      body={excerpt}
+      excerpt={excerpt}
       className={type}
       itemLink={`${lesson.url}?section=${id}`}
+      linkProps={{ scroll: false }} // Disables default link scroll to the top.
     />
   );
 };

@@ -1,0 +1,109 @@
+.search-item.media .thumbnails  {
+  text-align: center;
+  margin-top: 18px;
+  overflow: hidden;
+
+  @media screen and (min-width: 415px) {
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    text-align: left;
+  }
+
+  > a {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 100%;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media screen and (min-width: 415px) {
+      padding: 0 0.5em;
+      width: 50%;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 33.33%;
+    }
+    @include media-breakpoint-up(xl) {
+      width: 25%;
+    }
+  }
+
+  .image-wrapper {
+    display: inline-block;
+    position: relative;
+    background-color: $white-grey;
+    width: 100%;
+
+    // Main item image.
+    .thumbnail-image {
+      z-index: $zindex-fixed + 2;
+      position: relative;
+      width: 100%;
+      height: 210px;
+      background-size: cover;
+      background-position: center center;
+
+      @media (min-width: 415px) {
+        height: 135px;
+      }
+
+      @media (min-width: 540px) {
+        height: 210px;
+      }
+    }
+
+    // Hidden element to show inner border on hover.
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border: transparent solid 3px;
+      z-index: $zindex-fixed + 4;
+      transition: border .2s, background-color .1s;
+    }
+    &:hover:after {
+      border-color: $anu-blue;
+    }
+    &:active:after {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    // Circle loading animation.
+    .search-loader {
+      position: absolute;
+      top: calc(50% - 20px);
+      left: calc(50% - 20px);
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
+      z-index: $zindex-fixed;
+      border-right-color: $white-grey;
+      border-bottom-color: $white-grey;
+    }
+
+    .image-loading-error {
+      width: 100%;
+      position: absolute;
+      top: calc(50% - 12px);
+      text-align: center;
+      color: $slate-grey;
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    // Play button is shown on video items.
+    .play-icon {
+      left: 10px;
+      position: absolute;
+      bottom: 6px;
+      z-index: $zindex-fixed + 3;
+      text-align: center;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

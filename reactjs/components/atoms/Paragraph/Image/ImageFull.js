@@ -24,7 +24,7 @@ class ImageFull extends React.Component {
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
-      <div id={`paragraph-${id}`} className="image-full" style={style}>
+      <div id={`paragraph-${id}`} className="paragraph image-full" style={style}>
         <div className="overlay" />
         <div className="container">
           <div className="row">

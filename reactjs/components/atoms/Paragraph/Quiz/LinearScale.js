@@ -40,7 +40,7 @@ class LinearScale extends React.Component {
     const value = data ? parseInt(data) : Math.round(to.first / 2); // eslint-disable-line radix
 
     return (
-      <div id={`paragraph-${id}`} className="container quiz linear-scale">
+      <div id={`paragraph-${id}`} className="container paragraph quiz linear-scale">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>

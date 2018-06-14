@@ -1,6 +1,7 @@
 import * as courseHelper from '../helpers/course';
 import * as lessonHelper from '../helpers/lesson';
-import * as urlUtils from '../utils/url';
+import * as urlUtils from './url';
+import { humanizeFileName } from './string';
 
 /**
  * Processes data of a course from custom REST endpoint.
@@ -100,15 +101,19 @@ const processParagraphs = paragraphs => {
     // Couldn't get paragraph type out of the jsonapi request, therefore
     // have to use this workaround to get the paragraph type from the
     // link to fetch the current paragraph.
-    const type = regExp.exec(block.links.self);
+    let type = block.type ? block.type : null;
+    if (!type) {
+      const regType = regExp.exec(block.links.self);
+      type = regType[1]; // eslint-disable-line prefer-destructuring
+    }
 
     blocks[order] = {
-      type: type[1],
+      type,
       id: block.id,
     };
 
     // For numbered divider we add automated counter.
-    if (type[1] === 'divider_numbered') {
+    if (type === 'divider_numbered') {
       blocks[order].counter = counter++; // eslint-disable-line no-plusplus
     }
 
@@ -187,8 +192,14 @@ export const notebookData = note => ({
 export const resourceData = rawResource => {
   const resource = {
     id: rawResource.id,
-    title: rawResource.fieldParagraphTitle ? rawResource.fieldParagraphTitle : '',
+    uuid: rawResource.uuid,
+    title: rawResource.fieldParagraphTitle,
   };
+
+  // Use Normalized file name if title field is empty.
+  if (!rawResource.fieldParagraphTitle) {
+    resource.title = humanizeFileName(rawResource.file.filename);
+  }
 
   if (rawResource.lesson) {
     resource.lesson = lessonData(rawResource.lesson);

@@ -44,3 +44,7 @@ $config['smtp.settings']['smtp_on'] = FALSE;
 
 // Enable private file system locally.
 $settings['file_private_path'] = DRUPAL_ROOT . '/sites/default/files/private';
+
+// Overrides solr settings on local.
+$config['search_api.server.solr_server']['backend_config']['connector_config']['host'] = 'solr';
+$config['search_api.server.solr_server']['backend_config']['connector_config']['port'] = '8983';

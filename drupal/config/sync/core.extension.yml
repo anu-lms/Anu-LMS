@@ -13,6 +13,7 @@ module:
   anu_lessons: 0
   anu_normalizer: 0
   anu_notebook: 0
+  anu_paragraph: 0
   anu_private_files: 0
   anu_quizzes: 0
   anu_search: 0

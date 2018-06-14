@@ -4,12 +4,14 @@ import * as helpers from '../helpers/search';
 /**
  * Make a request to the backend to perform a search.
  */
-export const fetch = (request, text) => {
+export const fetch = (request, text, category = 'all', page = 0) => {
   let req = request
     .get('/site/search')
     .query({
       _format: 'json',
       'filter[fulltext][condition][fulltext]': text,
+      'filter[category][condition][category]': category,
+      'page': page,
     });
 
   let promise = req.then(response => (
