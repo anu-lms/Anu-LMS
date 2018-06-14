@@ -1,5 +1,5 @@
 We import/export dummy content with Default content module, 
-see more information: http://cgit.drupalcode.org/default_content/tree/README.md
+see more information: https://www.drupal.org/docs/8/modules/default-content
 
 ## Export
 Update content on the site and run by drush:
