@@ -76,7 +76,7 @@ function* addComment({ text, parentId }) {
   const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
   try {
     const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    request.set('X-CSRF-Token', sessionToken);
+    // request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -110,7 +110,7 @@ function* updateComment({ commentId, text }) {
     const comment = lessonCommentsHelpers.getCommentById(comments, commentId);
 
     const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    request.set('X-CSRF-Token', sessionToken);
+    // request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -140,7 +140,7 @@ function* markCommentAsDeleted({ commentId }) {
 
     // Attaches session token to the request.
     const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    request.set('X-CSRF-Token', sessionToken);
+    // request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -172,7 +172,7 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
 
     // Attaches session token to the request.
     const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    request.set('X-CSRF-Token', sessionToken);
+    // request.set('X-CSRF-Token', sessionToken);
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();

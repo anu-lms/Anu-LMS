@@ -112,7 +112,7 @@ class UserEditForm extends React.Component {
 
       await request
         .patch(`/jsonapi/user/user/${user.uuid}`)
-        .set('X-CSRF-Token', sessionToken)
+        // .set('X-CSRF-Token', sessionToken)
         .send({
           data: {
             type: 'user--user',
