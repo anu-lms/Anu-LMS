@@ -98,7 +98,7 @@ class PasswordForm extends React.Component {
 
       await request
         .patch(`/jsonapi/user/user/${currentUser.uuid}`)
-        .set('X-CSRF-Token', sessionToken)
+        // .set('X-CSRF-Token', sessionToken)
         .send({
           data: {
             type: 'user--user',

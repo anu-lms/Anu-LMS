@@ -165,8 +165,8 @@ function* sendLessonProgress(lesson, progress, token) {
     // Sending request to the custom REST endpoint.
     yield request
       .post(`/learner/progress/${lesson.id}/${progress}?_format=json`)
-      .set('Content-Type', 'application/json')
-      .set('X-CSRF-Token', token);
+      .set('Content-Type', 'application/json');
+    // .set('X-CSRF-Token', token);
   } catch (e) {
     console.log('Could not send lesson\'s progress to the backend. Error:');
     console.log(e);

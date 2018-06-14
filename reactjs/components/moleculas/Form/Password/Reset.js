@@ -78,7 +78,7 @@ class PasswordForm extends React.Component {
       await request
         .post('/user/password/reset?_format=json')
         .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', sessionToken)
+        // .set('X-CSRF-Token', sessionToken)
         .send({
           password_new: formData.password_new,
           ...this.props.tokenParams,
