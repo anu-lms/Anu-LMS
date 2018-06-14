@@ -1,8 +1,9 @@
 /**
  * Opens the overlay.
  */
-export const open = (content = null, header = null, onClose = () => {}, isLoading = false) => ({
+export const open = (id = '', content = null, header = null, onClose = () => {}, isLoading = false) => ({
   type: 'OVERLAY_OPEN',
+  id,
   content,
   header,
   onClose,

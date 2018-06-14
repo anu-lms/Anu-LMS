@@ -6,6 +6,7 @@ dependencies:
     - search_api_solr
     - paragraphs
     - search_api
+    - anu_search
     - search_api_attachments
     - eck
     - node
@@ -30,13 +31,6 @@ name: Content
 description: ''
 read_only: false
 field_settings:
-  node_grants:
-    label: 'Node access information'
-    property_path: search_api_node_grants
-    type: string
-    indexed_locked: true
-    type_locked: true
-    hidden: true
   field_paragraph_private_file:
     label: 'Search api attachments: File'
     property_path: saa_field_paragraph_private_file
@@ -50,6 +44,27 @@ field_settings:
     dependencies:
       config:
         - field.storage.paragraph_comment.field_comment_text
+  anu_search_node_grants:
+    label: 'Node access information'
+    datasource_id: 'entity:paragraph_comment'
+    property_path: anu_search_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+  anu_search_comment_access:
+    label: 'Comment access information'
+    datasource_id: 'entity:paragraph_comment'
+    property_path: anu_search_comment_access
+    type: string
+    indexed_locked: true
+    type_locked: true
+  anu_search_comment_deleted:
+    label: 'Comment deletion status'
+    datasource_id: 'entity:paragraph_comment'
+    property_path: anu_search_comment_deleted
+    type: boolean
+    indexed_locked: true
+    type_locked: true
   title:
     label: Title
     datasource_id: 'entity:node'
@@ -60,8 +75,6 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: status
     type: boolean
-    indexed_locked: true
-    type_locked: true
   uid:
     label: uid
     datasource_id: 'entity:node'
@@ -145,6 +158,28 @@ field_settings:
       module:
         - paragraphs
         - paragraphs
+  content_type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+  content_paragraph_type:
+    label: 'Blocks » Paragraph » Type'
+    datasource_id: 'entity:node'
+    property_path: 'field_lesson_blocks:entity:type'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_lesson_blocks
+      module:
+        - paragraphs
+  anu_search_node_grants_1:
+    label: 'Node access information'
+    datasource_id: 'entity:node'
+    property_path: anu_search_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
   field_notebook_body:
     label: Body
     datasource_id: 'entity:notebook'
@@ -162,6 +197,13 @@ field_settings:
     dependencies:
       config:
         - field.storage.notebook.field_notebook_title
+  anu_search_notebook_access:
+    label: 'Notebook access information'
+    datasource_id: 'entity:notebook'
+    property_path: anu_search_notebook_access
+    type: string
+    indexed_locked: true
+    type_locked: true
   field_resource_title:
     label: Name
     datasource_id: 'entity:paragraph'
@@ -170,6 +212,18 @@ field_settings:
     dependencies:
       config:
         - field.storage.paragraph.field_paragraph_title
+  paragraph_type:
+    label: Type
+    datasource_id: 'entity:paragraph'
+    property_path: type
+    type: string
+  anu_search_node_grants_2:
+    label: 'Node access information'
+    datasource_id: 'entity:paragraph'
+    property_path: anu_search_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
 datasource_settings:
   'entity:paragraph_comment':
     bundles:
@@ -204,6 +258,9 @@ datasource_settings:
       default: true
       selected: {  }
 processor_settings:
+  anu_content_access:
+    weights:
+      preprocess_query: -30
   rendered_item: {  }
   add_url: {  }
   aggregated_field: {  }
@@ -211,7 +268,7 @@ processor_settings:
     highlight: always
     highlight_partial: true
     excerpt: true
-    excerpt_length: 256
+    excerpt_length: 150
     exclude_fields: {  }
     prefix: '<strong>'
     suffix: '</strong>'
@@ -223,6 +280,8 @@ processor_settings:
     fields:
       - field_paragraph_private_file
       - field_comment_text
+      - anu_search_node_grants
+      - anu_search_comment_access
       - title
       - field_paragraph_text
       - field_paragraph_title
@@ -230,15 +289,18 @@ processor_settings:
       - field_quiz_options
       - field_paragraph_text_1
       - field_paragraph_title_1
+      - content_type
+      - content_paragraph_type
+      - anu_search_node_grants_1
       - field_notebook_body
       - field_notebook_title
+      - anu_search_notebook_access
       - field_resource_title
+      - paragraph_type
+      - anu_search_node_grants_2
     weights:
       preprocess_index: -20
       preprocess_query: -20
-  content_access:
-    weights:
-      preprocess_query: -30
   html_filter:
     all_fields: false
     fields:
@@ -263,9 +325,7 @@ processor_settings:
     max_filesize: '0'
     excluded_private: 0
     excluded_mimes: 'audio/x-aiff image/x-jg video/x-msvideo image/x-ms-bmp image/gif image/vnd.microsoft.icon video/quicktime audio/ogg video/ogg image/png image/x-photoshop audio/x-realaudio audio/x-pn-realaudio image/x-rgb video/x-flv'
-  solr_date_range:
-    weights:
-      preprocess_index: 0
+  solr_date_range: {  }
 tracker_settings:
   default:
     indexing_order: fifo

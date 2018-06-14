@@ -9,6 +9,9 @@ class ImageCentered extends React.Component {
     this.contentLoaded = this.contentLoaded.bind(this);
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps() {
     if (this.element.complete) {
       // Report to the parent component that the loading is done.
@@ -28,14 +31,14 @@ class ImageCentered extends React.Component {
   render() {
     const { image, title, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div id={`paragraph-${id}`} className="container image-centered">
+      <div id={`paragraph-${id}`} className="container paragraph image-centered">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <img
               src={fileUrl(image.meta.derivatives.w730)}
               onLoad={this.contentLoaded}
               onError={this.contentLoaded}
-              ref={element => this.element = element}
+              ref={element => this.element = element} // @todo: update ref to the new format
               alt=""
             />
             {title &&

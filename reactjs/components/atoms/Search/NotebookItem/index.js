@@ -8,7 +8,7 @@ const NotebookSearchItem = ({ searchItem }) => (
   <SearchItem
     icon={Icon}
     title={searchItem.entity.title || notebookHelpers.getTeaser(searchItem.entity.body, 1)}
-    body={searchItem.excerpt}
+    excerpt={searchItem.excerpt}
     className={searchItem.type}
     itemLink={`/notebook?note=${searchItem.entity.id}`}
   />

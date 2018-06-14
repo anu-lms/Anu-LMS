@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SearchIcon from '../../../atoms/Search/Icon';
@@ -23,7 +23,7 @@ class Search extends React.Component {
     const content = <SearchResults />;
 
     // Open an overlay with search components inside of it.
-    dispatch(overlayActions.open(content, header, this.onOverlayClose));
+    dispatch(overlayActions.open('search', content, header, this.onOverlayClose));
   }
 
   onOverlayClose() {
@@ -31,27 +31,40 @@ class Search extends React.Component {
   }
 
   render() {
+    const isSearchOverlayOpened = this.props.overlayId === 'search' && this.props.isOverlayOpened;
     return (
-      <div className="search" onClick={this.onHeaderSearchClick} onKeyPress={() => {}}>
+      <Fragment>
+        {!isSearchOverlayOpened &&
+        <div className="search" onClick={this.onHeaderSearchClick} onKeyPress={() => {}}>
+          <input type="text" placeholder="Search" value="" onChange={() => {}} />
 
-        <input type="text" placeholder="Search" value="" onChange={() => {}} />
+          <div className="header-icon search-bar">
+            <div className="icon"><SearchIcon /></div>
+            <div className="label">Search</div>
+          </div>
 
-        <div className="header-icon search-bar">
-          <div className="icon"><SearchIcon /></div>
-          <div className="label">Search</div>
         </div>
-
-      </div>
+      }
+      </Fragment>
     );
   }
 }
 
 Search.propTypes = {
   dispatch: PropTypes.func,
+  overlayId: PropTypes.string,
+  isOverlayOpened: PropTypes.bool,
 };
 
 Search.defaultProps = {
   dispatch: () => {},
+  overlayId: '',
+  isOverlayOpened: false,
 };
 
-export default connect()(Search);
+const mapStateToProps = ({ overlay }) => ({
+  overlayId: overlay.id,
+  isOverlayOpened: overlay.isOpened,
+});
+
+export default connect(mapStateToProps)(Search);

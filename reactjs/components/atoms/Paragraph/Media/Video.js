@@ -21,7 +21,7 @@ class Video extends React.Component {
   render() {
     const { url, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div id={`paragraph-${id}`} className="container video">
+      <div id={`paragraph-${id}`} className="container paragraph video">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <Player

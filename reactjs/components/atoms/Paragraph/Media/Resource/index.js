@@ -73,7 +73,7 @@ class Resource extends React.Component {
     );
 
     // Open overlay with empty content and set its state to loading.
-    dispatch(overlayActions.open(content));
+    dispatch(overlayActions.open('resource', content));
     dispatch(overlayActions.loading());
   }
 
@@ -130,7 +130,7 @@ class Resource extends React.Component {
     );
 
     // Open overlay with empty content and set its state to loading.
-    dispatch(overlayActions.open(content, header));
+    dispatch(overlayActions.open('resource', content, header));
   }
 
   /**
@@ -145,7 +145,7 @@ class Resource extends React.Component {
   render() {
     const { privatefile, title, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div id={`paragraph-${id}`} className="container resource">
+      <div id={`paragraph-${id}`} className="container paragraph resource">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="inner">

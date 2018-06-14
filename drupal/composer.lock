@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa92315f4041e7857d580583925d3ff8",
+    "content-hash": "4a9a8e929835da568caecd993660f3e7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3340,7 +3340,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.17",
-                    "datestamp": "1525889880",
+                    "datestamp": "1526665085",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4569,6 +4569,9 @@
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
                     }
+                },
+                "patches_applied": {
+                    "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -4593,17 +4596,17 @@
         },
         {
             "name": "drupal/search_api_solr",
-            "version": "2.0.0-rc1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/search_api_solr",
-                "reference": "8.x-2.0-rc1"
+                "reference": "8.x-2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/search_api_solr-8.x-2.0-rc1.zip",
-                "reference": "8.x-2.0-rc1",
-                "shasum": "c2b58b5f293b5b3156cd93e40097d281b583349d"
+                "url": "https://ftp.drupal.org/files/projects/search_api_solr-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "75bcaf281ced575adb3cba2764ea77759b7f6ea0"
             },
             "require": {
                 "drupal/core": "^8.5",
@@ -4635,11 +4638,11 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-rc1",
-                    "datestamp": "1527080584",
+                    "version": "8.x-2.0",
+                    "datestamp": "1527877684",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -9172,6 +9175,61 @@
             }
         },
         {
+            "name": "drupal/devel_codemirror",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/devel_codemirror",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/devel_codemirror-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "628d9e250836d1af70d4bb8eea9cc7a72d3cc730"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/devel": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1515941885",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": {
+                "0": {
+                    "name": "el7cosmos",
+                    "homepage": "https://www.drupal.org/user/251087"
+                },
+                "name": "Luhur Abdi Rizal (el7cosmos)",
+                "homepage": "https://www.drupal.org/u/el7cosmos",
+                "role": "Maintainer"
+            },
+            "description": "Enable Codemirror text editor for devel/php",
+            "homepage": "https://www.drupal.org/project/devel_codemirror",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/devel_codemirror",
+                "issues": "https://www.drupal.org/project/issues/devel_codemirror"
+            }
+        },
+        {
             "name": "drupal/reroute_email",
             "version": "1.0.0",
             "source": {
@@ -10886,7 +10944,6 @@
         "drupal/page_manager": 20,
         "drupal/role_delegation": 15,
         "drupal/search_api_attachments": 10,
-        "drupal/search_api_solr": 5,
         "drupal/simple_oauth": 20,
         "drupal/smtp": 10,
         "drupal/subrequests": 10,

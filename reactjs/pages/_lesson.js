@@ -211,8 +211,8 @@ class LessonPage extends React.Component {
 
       const index = lesson.blocks.findIndex(block => block.id === paragraphId);
       if (index === -1) {
-        Alert.error("Referenced in url comment doesn't exists");
-        console.error("Referenced paragraph doesn't exists", `Lesson: ${lesson.id}`, `Paragraph: ${paragraphId}`);
+        Alert.error("Referenced in url comment doesn't exist");
+        console.error("Referenced paragraph doesn't exist", `Lesson: ${lesson.id}`, `Paragraph: ${paragraphId}`);
         return;
       }
 

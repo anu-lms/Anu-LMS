@@ -29,7 +29,7 @@ class SearchBar extends Component {
 
   onValueChange(event) {
     this.setState({ value: event.target.value });
-    this.props.dispatch(searchActions.fetch(event.target.value));
+    this.props.dispatch(searchActions.fetch(event.target.value, this.props.category));
   }
 
   onClearInputClick() {
@@ -48,6 +48,7 @@ class SearchBar extends Component {
             ref={this.setSearchInput}
             value={this.state.value}
             onChange={this.onValueChange}
+            id="search-bar-input"
           />
           <div className="search-bar">
             {this.props.isFetching ?
@@ -73,6 +74,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   dispatch: PropTypes.func,
   isFetching: PropTypes.bool,
+  category: PropTypes.oneOf(['all', 'media', 'resources']).isRequired,
 };
 
 SearchBar.defaultProps = {
@@ -82,6 +84,7 @@ SearchBar.defaultProps = {
 
 const mapStateToProps = ({ search }) => ({
   isFetching: search.isFetching,
+  category: search.category,
 });
 
 export default connect(mapStateToProps)(SearchBar);
