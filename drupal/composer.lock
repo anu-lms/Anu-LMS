@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76543297aa9ccf5d2a82a901477f8667",
+    "content-hash": "4a9a8e929835da568caecd993660f3e7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3340,7 +3340,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.17",
-                    "datestamp": "1525889880",
+                    "datestamp": "1526665085",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4569,6 +4569,9 @@
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
                     }
+                },
+                "patches_applied": {
+                    "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
