@@ -40,7 +40,7 @@ class AddNoteButton extends React.Component {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
 
-      request.set('X-CSRF-Token', sessionToken);
+      // request.set('X-CSRF-Token', sessionToken);
 
       // Saving a note and adding to the notebook.
       const note = await notebookApi.createNote(request);
