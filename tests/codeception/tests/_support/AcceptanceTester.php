@@ -371,6 +371,54 @@ class AcceptanceTester extends \Codeception\Actor {
     }
   }
 
+  /**
+   * Opens search overlay by clicking search bar.
+   */
+  public function openSearchOverlay() {
+    $I = $this;
+
+    $I->click('.header-icon.search-bar');
+    $I->waitForElementVisible('.lightbox .search-bar-container input[placeholder="Search"]');
+  }
+
+  /**
+   * Performs website search.
+   *
+   * @param $text
+   *   search string.
+   */
+  public function searchFor($text) {
+    $I = $this;
+
+    try {
+      // Check if search overlay is already active.
+      $I->seeElement('.lightbox .search-bar-container input[type="text"]');
+    }
+    catch (Exception $e) {
+      // Open search overlay.
+      $I->openSearchOverlay();
+    }
+
+    $I->fillField('.lightbox .search-bar-container input[type="text"]', $text);
+    $I->amGoingTo('Wait for search results.');
+    $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) {
+      $by = \Facebook\WebDriver\WebDriverBy::cssSelector('#search-results-list .list .search-item');
+      $webdriver->wait(2)->until(
+        \Facebook\WebDriver\WebDriverExpectedCondition::visibilityOfElementLocated($by)
+      );
+    });
+  }
+
+  /**
+   * Performs click on the first item from the search output.
+   */
+  public function clickFirstSearchSuggestion() {
+    $I = $this;
+
+    $I->amGoingTo('Click first search suggestion');
+    $I->click('#search-results-list .search-item:first-child');
+  }
+
 
   /**
    * Scrolls to element and clicks it.
