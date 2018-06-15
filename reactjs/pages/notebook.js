@@ -41,9 +41,6 @@ class NotebookPage extends Component {
         const title = 'Taking Notes';
         const body = '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers!</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>';
 
-        const sessionToken = await request.get('/session/token');
-        // request.set('X-CSRF-Token', sessionToken.text);
-
         const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
