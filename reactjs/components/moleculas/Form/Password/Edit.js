@@ -75,7 +75,6 @@ class PasswordForm extends React.Component {
   }
 
   async submitForm({ formData }) {
-    const { sessionToken, dispatch } = this.props;
     if (formData.password_new !== formData.password_new_confirm) {
       Alert.error("New password and Confirm New Password fields don't match");
       return;
@@ -98,7 +97,6 @@ class PasswordForm extends React.Component {
 
       await request
         .patch(`/jsonapi/user/user/${currentUser.uuid}`)
-        // .set('X-CSRF-Token', sessionToken)
         .send({
           data: {
             type: 'user--user',
@@ -118,12 +116,6 @@ class PasswordForm extends React.Component {
       // Re-login required if user data has changed.
       // Use login instead of refresh token here, because refreshtoken is buggy sometimes.
       await this.context.auth.login(currentUser.name, formData.password_new);
-
-      // Makes request to get session token that will be used for post requests.
-      const updatedSessionToken = await request.get('/session/token');
-
-      // Update sessionToken in application store.
-      dispatch(userActionHelpers.updateSessionToken(updatedSessionToken.text));
     } catch (error) {
       Alert.error('We could not update your password. Please, make sure current password is correct.');
       console.error(error);
@@ -163,8 +155,4 @@ PasswordForm.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ user }) => ({
-  sessionToken: user.sessionToken,
-});
-
-export default connect(mapStateToProps)(PasswordForm);
+export default connect()(PasswordForm);
