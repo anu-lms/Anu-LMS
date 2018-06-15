@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1030
+        }
+    ],
+    "uuid": [
+        {
+            "value": "29617cb8-b2e5-43b8-88ec-67f0b210fe8d"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4658
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T01:03:22+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "173"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>Use your Notebook to respond to the following questions for your SWOT Analysis:<\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>To find your <strong>strengths<\/strong>, think about:<\/p>\r\n\r\n<ul>\r\n\t<li>Why is your project better than other projects?<\/li>\r\n\t<li>What can your team do well?<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>To find your <strong>weaknesses<\/strong>, think about:<\/p>\r\n\r\n<ul>\r\n\t<li>What are some things you could improve in your project or in your team?<\/li>\r\n\t<li>What are some things your team has a hard time doing?<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>To find your <strong>opportunities<\/strong>, think about:<\/p>\r\n\r\n<ul>\r\n\t<li>What is happening in your community or country that could help this project?<\/li>\r\n\t<li>Are there other people or organizations that could help with some part of this project or may be interested in your work?<\/li>\r\n\t<li>What is the niche, the particular thing that this project will do so well that others can\u2019t do?<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>To find your <strong>threats<\/strong>, think about:<\/p>\r\n\r\n<ul>\r\n\t<li>What are some things happening in your community or country that could harm your project that you do not have control over?<\/li>\r\n<\/ul>\r\n\r\n<ul>\r\n\t<li>What is the competition for this project? Are there others doing this same or similar work? If there is no competition, explain it.<\/li>\r\n<\/ul>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>Use your Notebook to respond to the following questions for your SWOT Analysis:<\/p>\n<p>\u00a0<\/p>\n<p>To find your <strong>strengths<\/strong>, think about:<\/p>\n<ul>\n<li>Why is your project better than other projects?<\/li>\n<li>What can your team do well?<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<p>To find your <strong>weaknesses<\/strong>, think about:<\/p>\n<ul>\n<li>What are some things you could improve in your project or in your team?<\/li>\n<li>What are some things your team has a hard time doing?<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<p>To find your <strong>opportunities<\/strong>, think about:<\/p>\n<ul>\n<li>What is happening in your community or country that could help this project?<\/li>\n<li>Are there other people or organizations that could help with some part of this project or may be interested in your work?<\/li>\n<li>What is the niche, the particular thing that this project will do so well that others can\u2019t do?<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<p>To find your <strong>threats<\/strong>, think about:<\/p>\n<ul>\n<li>What are some things happening in your community or country that could harm your project that you do not have control over?<\/li>\n<\/ul>\n<ul>\n<li>What is the competition for this project? Are there others doing this same or similar work? If there is no competition, explain it.<\/li>\n<\/ul>\n"
+        }
+    ]
+}

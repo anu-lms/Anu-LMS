@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1005
+        }
+    ],
+    "uuid": [
+        {
+            "value": "995081e7-b9c6-4e48-bec8-00f21006874d"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4677
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T00:30:00+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "170"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>Program objectives should be written clearly, realistic to achieve, and should potentially include dates and numbers. Your program objectives help others see what you are trying to accomplish. You may reach all of your objectives within the specific details that you identify, or you may not. Regardless, your objectives help you continue walking down the correct road. In the first year that Cultivate was established, we only reached 3 of our 5 objectives. At the end of the year, we created a new business plan, moved some of the objectives to the second year, and added new ones as well.<\/p>\r\n\r\n<p><strong>Not reaching your objectives does not mean that your program is failing. Objectives simply serve as a guide to help you see if you are progressing along the road that you wish to travel on! <\/strong><\/p>\r\n\r\n<p>In the future, Cultivate\u2019s objectives will change and may include goals in regard to how many partners successfully graduate our program, how many projects are implemented in communities, and how many projects are successfully sustained in the future. However, since Cultivate is still in its early stages, such goals are too difficult to reach and assess. You want to write goals for yourself that you know you can realistically reach, rather than setting ones which are so large and difficult that you will never attain them!<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>Program objectives should be written clearly, realistic to achieve, and should potentially include dates and numbers. Your program objectives help others see what you are trying to accomplish. You may reach all of your objectives within the specific details that you identify, or you may not. Regardless, your objectives help you continue walking down the correct road. In the first year that Cultivate was established, we only reached 3 of our 5 objectives. At the end of the year, we created a new business plan, moved some of the objectives to the second year, and added new ones as well.<\/p>\n<p><strong>Not reaching your objectives does not mean that your program is failing. Objectives simply serve as a guide to help you see if you are progressing along the road that you wish to travel on! <\/strong><\/p>\n<p>In the future, Cultivate\u2019s objectives will change and may include goals in regard to how many partners successfully graduate our program, how many projects are implemented in communities, and how many projects are successfully sustained in the future. However, since Cultivate is still in its early stages, such goals are too difficult to reach and assess. You want to write goals for yourself that you know you can realistically reach, rather than setting ones which are so large and difficult that you will never attain them!<\/p>\n"
+        }
+    ]
+}
