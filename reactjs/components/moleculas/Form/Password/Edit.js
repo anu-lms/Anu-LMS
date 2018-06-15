@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as lock from '../../../../utils/lock';
+import * as userApi from '../../../../api/user';
 
 const schema = {
   'type': 'object',
@@ -89,9 +89,7 @@ class PasswordForm extends React.Component {
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
-      // @todo: replace with userApi.fetchCurrent().
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
+      const currentUser = await userApi.fetchCurrent(request);
 
       await request
         .patch(`/jsonapi/user/user/${currentUser.uuid}`)
