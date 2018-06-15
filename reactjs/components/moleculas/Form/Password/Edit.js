@@ -1,13 +1,11 @@
 import React from 'react';
 import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as lock from '../../../../utils/lock';
-import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
@@ -155,4 +153,4 @@ PasswordForm.contextTypes = {
   }),
 };
 
-export default connect()(PasswordForm);
+export default PasswordForm;
