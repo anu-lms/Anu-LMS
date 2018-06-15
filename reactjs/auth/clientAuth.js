@@ -62,9 +62,10 @@ export default class extends Auth {
   logout = () => (
     new Promise(resolve => {
       request
-        .post('/user/token/revoke?_format=json')
+        .post('/user/token/revoke')
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${this.accessToken}`)
+        .query({ '_format': 'json' })
         .end((error, response) => {
           if (error) {
             console.log('Logout error:');
