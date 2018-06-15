@@ -17,7 +17,8 @@ class DashboardPage extends React.Component {
     try {
       // Make backend request to fetch list of classes and related courses.
       const response = await request
-        .get('/classes/courses?_format=json')
+        .get('/classes/courses')
+        .query({ '_format': 'json' })
         .catch(error => {
           initialProps.statusCode = error.response.status;
           throw Error(error.response.body.message);

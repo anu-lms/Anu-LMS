@@ -5,7 +5,7 @@ import * as dataProcessors from '../utils/dataProcessors';
  */
 // eslint-disable-next-line max-len
 export const fetchNotifications = (request, isRead, lastFetchedTimestamp) => new Promise((resolve, reject) => {
-  const query = {};
+  const query = { '_format': 'json' };
 
   if (isRead !== undefined) {
     query.isRead = isRead ? 1 : 0;
@@ -16,7 +16,7 @@ export const fetchNotifications = (request, isRead, lastFetchedTimestamp) => new
   }
 
   request
-    .get('/notifications?_format=json')
+    .get('/notifications')
     .query(query)
     .then(response => {
       resolve(dataProcessors.processNotifications(response.body));
