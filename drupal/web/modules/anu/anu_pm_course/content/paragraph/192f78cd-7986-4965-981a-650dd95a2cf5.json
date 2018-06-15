@@ -1,0 +1,149 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/list_bullet"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/list_bullet\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/list_bullet\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1048
+        }
+    ],
+    "uuid": [
+        {
+            "value": "192f78cd-7986-4965-981a-650dd95a2cf5"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4642
+        }
+    ],
+    "type": [
+        {
+            "target_id": "list_bullet"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/list_bullet\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/list_bullet\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T01:27:03+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "175"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_list": [
+        {
+            "value": "What people are necessary to lead and run your project? Will these people be paid staff or volunteers?",
+            "lang": "en"
+        },
+        {
+            "value": "How much will you pay your staff and why is this salary necessary or reasonable?  How will each staff\u2019s salary be determined and how often will be they paid?",
+            "lang": "en"
+        },
+        {
+            "value": "How will you find the necessary staff (or volunteers) for your project? How will you select from applicants and what criteria will you use?",
+            "lang": "en"
+        },
+        {
+            "value": "List each position that needs to be filled for the project\u2019s success. Describe in detail what this person will be responsible for, who they will supervise, and what necessary experience they need.",
+            "lang": "en"
+        },
+        {
+            "value": "Will your staff or volunteers need to receive any training before or while they work for the program? Who will offer this training?",
+            "lang": "en"
+        },
+        {
+            "value": "What is the leadership structure of your program? Who has ultimate decision-making power, and who reports to whom? In this section, it is helpful to create a leadership hierarchy that visually shows your structure.",
+            "lang": "en"
+        }
+    ]
+}

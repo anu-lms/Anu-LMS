@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1055
+        }
+    ],
+    "uuid": [
+        {
+            "value": "11682d15-dcfc-4e5b-930f-f63a7f08be43"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4627
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T01:52:28+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "176"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>An important part of developing your project is having <strong>a budget that is reflective of the amount of money you really need<\/strong>. <strong>Before you can begin fundraising, you need to have a very good understanding of how much money you need so that you know what your goals for fundraising are<\/strong>. A budget is simply a plan that helps to guide you. You might create a budget and start fundraising and then a few months later realize that you need to reassess your budget because money is not being donated in the way that you thought, so you need to see what you can do with the money that you have received. Or you may receive more money than you planned for!<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>An important part of developing your project is having <strong>a budget that is reflective of the amount of money you really need<\/strong>. <strong>Before you can begin fundraising, you need to have a very good understanding of how much money you need so that you know what your goals for fundraising are<\/strong>. A budget is simply a plan that helps to guide you. You might create a budget and start fundraising and then a few months later realize that you need to reassess your budget because money is not being donated in the way that you thought, so you need to see what you can do with the money that you have received. Or you may receive more money than you planned for!<\/p>\n"
+        }
+    ]
+}

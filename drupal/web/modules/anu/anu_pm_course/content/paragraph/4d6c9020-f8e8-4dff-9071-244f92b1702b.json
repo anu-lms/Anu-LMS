@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 983
+        }
+    ],
+    "uuid": [
+        {
+            "value": "4d6c9020-f8e8-4dff-9071-244f92b1702b"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4575
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-15T22:28:11+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "169"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>If Cultivate\u2019s vision statement is <em>to <\/em><em>see small-scale, immigrant, minority or indigenous-led, community-specific development projects in the USA and across the world, reach their potential and affect positive change through their own efforts and abilities,<\/em> then our mission statement is the road that leads to this end goal - <em>to empower local leaders to build a foundation for sustainable community development<\/em> <em>through partnership and capacity-building.<\/em>&nbsp;<\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p><strong>Our mission statement is how we reach the goal of our vision statement<\/strong>.<\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>If Cultivate\u2019s mission was to provide the financial resources for projects to be launched and sustained, then we would not be working within the parameters of our vision, which specifically states that our goal is for projects to attain community change through their own efforts and abilities. Your mission statement must be within the parameters of your vision statement. It is the roadmap that you must follow, or the target that your arrow must hit.&nbsp; If you walk off the road, you are no longer on the right path; you must follow the road in order to reach your destination (the vision).<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>If Cultivate\u2019s vision statement is <em>to <\/em><em>see small-scale, immigrant, minority or indigenous-led, community-specific development projects in the USA and across the world, reach their potential and affect positive change through their own efforts and abilities,<\/em> then our mission statement is the road that leads to this end goal - <em>to empower local leaders to build a foundation for sustainable community development<\/em> <em>through partnership and capacity-building.<\/em>\u00a0<\/p>\n<p>\u00a0<\/p>\n<p><strong>Our mission statement is how we reach the goal of our vision statement<\/strong>.<\/p>\n<p>\u00a0<\/p>\n<p>If Cultivate\u2019s mission was to provide the financial resources for projects to be launched and sustained, then we would not be working within the parameters of our vision, which specifically states that our goal is for projects to attain community change through their own efforts and abilities. Your mission statement must be within the parameters of your vision statement. It is the roadmap that you must follow, or the target that your arrow must hit.\u00a0 If you walk off the road, you are no longer on the right path; you must follow the road in order to reach your destination (the vision).<\/p>\n"
+        }
+    ]
+}

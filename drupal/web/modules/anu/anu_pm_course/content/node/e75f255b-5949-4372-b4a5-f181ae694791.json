@@ -1,0 +1,406 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/project-management?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/node\/course"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_image": [
+            {
+                "href": "http:\/\/default\/file\/278?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_lessons": [
+            {
+                "href": "http:\/\/default\/project-management-overview?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/vision?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/mission?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/project-objectives?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/project-description?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/target-market-analysis?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/swot-analysis?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/marketing-communications-plan?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/management-governance-plan?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/financial-plan?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/time-management-action-plans?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/project-management-assessment?_format=hal_json"
+            }
+        ]
+    },
+    "nid": [
+        {
+            "value": 166
+        }
+    ],
+    "uuid": [
+        {
+            "value": "e75f255b-5949-4372-b4a5-f181ae694791"
+        }
+    ],
+    "vid": [
+        {
+            "value": 999642
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "course"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2018-06-14T12:41:42+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "e51bdacc-6329-461c-b53b-c1ce6c51fbed"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_image": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/file\/278?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "60e8ecbc-41b3-49f3-a488-563387fcce8f"
+                    }
+                ],
+                "alt": "",
+                "title": "",
+                "width": "1502",
+                "height": "1002"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_lessons": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/project-management-overview?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "c4af5e49-4d04-4ebe-9fee-b82b90502f00"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/vision?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "8c025101-c26d-453c-b15f-5fa8d74d009c"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/mission?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "4650545f-8f1d-46cb-8271-323027c9f2cf"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/project-objectives?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "60721cbf-b995-4625-9898-699f2e49c0b5"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/project-description?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "986821cf-af98-44f8-92f5-37031b2c8762"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/target-market-analysis?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "ba289258-9cee-4ebc-b023-9ea73912db20"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/swot-analysis?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "de47b403-2bfe-4047-b669-1ada659a3fef"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/marketing-communications-plan?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "715004e7-f373-487c-86bb-fd8c236c51d5"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/management-governance-plan?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "3bbac9a9-455f-44d1-a312-598462e8ba42"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/financial-plan?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "4e09c1cc-ca2c-4e0a-85b4-ffee5e04304f"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/time-management-action-plans?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "e14dc9f1-623e-4bf3-9dae-8284ad4d7044"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/project-management-assessment?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/node\/lesson"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "36349de8-b839-40ba-aa9e-a61213715dd7"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "title": [
+        {
+            "value": "Project Management",
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-14T23:25:13+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-06-14T12:41:42+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "sticky": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/project-management",
+            "pid": 1558,
+            "langcode": "en",
+            "lang": "en"
+        }
+    ],
+    "field_course_description": [
+        {
+            "value": "<p>In this module, we will be looking at how you can manage the projects that you currently have, or wish to create. We will talk about the planning and daily management of your project. This is also the section where we will be developing several necessary documents that are needed for future fundraising. Potential donors, such as foundations and churches, are looking for good information on your project before they consider giving you financial support. This is what we will be developing in this module. At the end of this module, you will have what is called a <em>business plan<\/em>. A business plan is the information that you need to share with others so that they can understand what your project is doing, how you manage it, how you evaluate it, and what your future plans are for it.<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>In this module, we will be looking at how you can manage the projects that you currently have, or wish to create. We will talk about the planning and daily management of your project. This is also the section where we will be developing several necessary documents that are needed for future fundraising. Potential donors, such as foundations and churches, are looking for good information on your project before they consider giving you financial support. This is what we will be developing in this module. At the end of this module, you will have what is called a <em>business plan<\/em>. A business plan is the information that you need to share with others so that they can understand what your project is doing, how you manage it, how you evaluate it, and what your future plans are for it.<\/p>\n"
+        }
+    ],
+    "field_time_to_complete_minutes": [
+        {
+            "value": 120
+        }
+    ]
+}
