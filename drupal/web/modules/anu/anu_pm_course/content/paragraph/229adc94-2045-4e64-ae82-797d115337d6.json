@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 981
+        }
+    ],
+    "uuid": [
+        {
+            "value": "229adc94-2045-4e64-ae82-797d115337d6"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4573
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-15T22:18:05+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "169"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>Whereas your vision statement tells others why you exist, <strong>your mission statement tells people how you will achieve this vision<\/strong>. It is the parameters of your work. The mission statement communicates the project\u2019s purpose, what groups it serves, and how it plans to accomplish the vision. Developing the mission statement is a critical first step in defining what the project plans to do and what makes it different from other organizations in the same field.<\/p>\r\n\r\n<p>You begin with the project that you want to do, based on the assessments that you have done and the identified need that you want to address, and then you build a mission statement from that analysis. <strong>Your mission statement tells others what you do<\/strong>. It is not a long description of all your activities within your project; it is a brief statement that answers the questions:<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>Whereas your vision statement tells others why you exist, <strong>your mission statement tells people how you will achieve this vision<\/strong>. It is the parameters of your work. The mission statement communicates the project\u2019s purpose, what groups it serves, and how it plans to accomplish the vision. Developing the mission statement is a critical first step in defining what the project plans to do and what makes it different from other organizations in the same field.<\/p>\n<p>You begin with the project that you want to do, based on the assessments that you have done and the identified need that you want to address, and then you build a mission statement from that analysis. <strong>Your mission statement tells others what you do<\/strong>. It is not a long description of all your activities within your project; it is a brief statement that answers the questions:<\/p>\n"
+        }
+    ]
+}
