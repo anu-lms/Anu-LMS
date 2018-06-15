@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _cloneDeep from 'lodash/cloneDeep';
 import Alert from 'react-s-alert';
-import { connect } from 'react-redux';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import * as lock from '../../../../utils/lock';
@@ -108,11 +107,9 @@ class UserEditForm extends React.Component {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
       const { user } = this.state;
-      const { sessionToken } = this.props;
 
       await request
         .patch(`/jsonapi/user/user/${user.uuid}`)
-        // .set('X-CSRF-Token', sessionToken)
         .send({
           data: {
             type: 'user--user',
@@ -202,8 +199,4 @@ UserEditForm.defaultProps = {
   user: {},
 };
 
-const mapStateToProps = ({ user }) => ({
-  sessionToken: user.sessionToken,
-});
-
-export default connect(mapStateToProps)(UserEditForm);
+export default UserEditForm;
