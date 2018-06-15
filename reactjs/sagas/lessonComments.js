@@ -2,7 +2,8 @@ import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
-import * as api from '../api/comments';
+import * as userApi from '../api/user';
+import * as commentsApi from '../api/comments';
 import * as dataProcessors from '../utils/dataProcessors';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
@@ -18,10 +19,8 @@ function* fetchComments() {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Get user data to filter by user's organization.
-    // @todo: replace with userApi.fetchCurrent().
-    const userResponse = yield request.get('/user/me?_format=json');
-    const currentUser = dataProcessors.userData(userResponse.body);
+    // Get current user data to filter by user's organization.
+    const currentUser = yield call(userApi.fetchCurrent, request);
 
     // @todo: move to the api folder.
     const commentsQuery = {
@@ -80,14 +79,12 @@ function* addComment({ text, parentId }) {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Get user data to filter by user's organization.
-    // @todo: replace with userApi.fetchCurrent().
-    const userResponse = yield request.get('/user/me?_format=json');
-    const currentUser = dataProcessors.userData(userResponse.body);
+    // Get current user data to filter by user's organization.
+    const currentUser = yield call(userApi.fetchCurrent, request);
 
     // Makes request to the backend to add a new comment.
     const comment = yield call(
-      api.insertComment,
+      commentsApi.insertComment,
       request, currentUser.uid, paragraphId, currentUser.organization, text, parentId,
     );
 
@@ -113,7 +110,7 @@ function* updateComment({ commentId, text }) {
 
     // Makes request to the backend to update comment.
     const responseComment = yield call(
-      api.updateComment,
+      commentsApi.updateComment,
       request, comment.uuid, { text },
     );
 
@@ -139,7 +136,7 @@ function* markCommentAsDeleted({ commentId }) {
 
     // Makes request to the backend to update comment.
     const responseComment = yield call(
-      api.updateComment,
+      commentsApi.updateComment,
       request, comment.uuid, { deleted: true, text: '' },
     );
 
@@ -167,7 +164,7 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
 
     // Makes request to the backend to update comment.
     yield call(
-      api.deleteComment,
+      commentsApi.deleteComment,
       request, comment.uuid,
     );
 
