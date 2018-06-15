@@ -61,42 +61,29 @@ export default class extends Auth {
 
   logout = () => (
     new Promise(resolve => {
-      this.getSessionToken()
-        .then(sessionToken => {
-          request
-            .post('/user/token/revoke?_format=json')
-            .set('Content-Type', 'application/json')
-            // .set('X-CSRF-Token', sessionToken)
-            .set('Authorization', `Bearer ${this.accessToken}`)
-            .end((error, response) => {
-              if (error) {
-                console.log('Logout error:');
-                console.log(error);
+      request
+        .post('/user/token/revoke?_format=json')
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${this.accessToken}`)
+        .end((error, response) => {
+          if (error) {
+            console.log('Logout error:');
+            console.log(error);
 
-                if (response && response.body && response.body.message) {
-                  console.log('Response:');
-                  console.log(response);
-                }
-              }
+            if (response && response.body && response.body.message) {
+              console.log('Response:');
+              console.log(response);
+            }
+          }
 
-              this.accessToken = '';
-              this.refreshToken = '';
-              jsCookie.remove('accessToken');
-              jsCookie.remove('refreshToken');
-              resolve();
-            });
+          this.accessToken = '';
+          this.refreshToken = '';
+          jsCookie.remove('accessToken');
+          jsCookie.remove('refreshToken');
+          resolve();
         });
     })
   );
-
-  getSessionToken() {
-    return new Promise(resolve => {
-      request.get('/session/token')
-        .end((error, response) => {
-          resolve(response.text);
-        });
-    });
-  }
 
   refreshAuthenticationToken() {
     return new Promise((resolve, reject) => {
