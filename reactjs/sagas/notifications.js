@@ -38,8 +38,7 @@ function* fetchNotifications({ isRead, lastFetchedTimestamp }) {
 
     // Let store know that notifications were received.
     yield put(notificationsActions.receiveNotifications(notifications));
-  }
-  catch (error) {
+  } catch (error) {
     yield put(notificationsActions.syncNotificationsFailed(error));
     console.error('Could not update list of notifications.', error);
   }
@@ -53,10 +52,6 @@ function* markAsRead({ notificationId }) {
     const notifications = yield select(reduxStore => reduxStore.notifications.notifications);
     const notificationItem = arrayHelper.getObjectById(notifications, notificationId);
 
-    // Attaches session token to the request.
-    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    // request.set('X-CSRF-Token', sessionToken);
-
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -69,8 +64,7 @@ function* markAsRead({ notificationId }) {
       notificationItem.bundle,
       notificationItem.uuid,
     );
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Could not mark notifications as read.', error);
   }
 }
@@ -80,10 +74,6 @@ function* markAsRead({ notificationId }) {
  */
 function* markAllAsRead() {
   try {
-    // Attaches session token to the request.
-    const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-    // request.set('X-CSRF-Token', sessionToken);
-
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
@@ -94,8 +84,7 @@ function* markAllAsRead() {
       api.markAllAsRead,
       request,
     );
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Could not mark all notifications as read.', error);
   }
 }
