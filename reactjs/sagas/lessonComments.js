@@ -4,7 +4,6 @@ import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as userApi from '../api/user';
 import * as commentsApi from '../api/comments';
-import * as dataProcessors from '../utils/dataProcessors';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
 
@@ -22,33 +21,9 @@ function* fetchComments() {
     // Get current user data to filter by user's organization.
     const currentUser = yield call(userApi.fetchCurrent, request);
 
-    // @todo: move to the api folder.
-    const commentsQuery = {
-      'include': 'uid, field_comment_parent',
-      // Filter by paragraph id.
-      'filter[field_comment_paragraph][value]': paragraphId,
-      // Filter comments by organization.
-      'filter[field_comment_organization][condition][path]': 'field_comment_organization',
-    };
-
-    if (currentUser.organization) {
-      // User should see comments only from users within same organization.
-      commentsQuery['filter[field_comment_organization][condition][value]'] = currentUser.organization;
-    }
-    else {
-      // If user isn't assigned to any organization,
-      // he should see comments from users without organization as well.
-      commentsQuery['filter[field_comment_organization][condition][operator]'] = 'IS NULL';
-    }
-
     // Make a request to get list of comments.
-    const responseComments = yield request
-      .get('/jsonapi/paragraph_comment/paragraph_comment')
-      .query(commentsQuery);
-
-    // Normalize Comments.
-    const comments = responseComments.body.data
-      .map(rawComment => dataProcessors.processComment(rawComment));
+    const organizationId = currentUser.organization ? currentUser.organization : null;
+    const comments = yield call(commentsApi.fetchComments, request, paragraphId, organizationId);
 
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));

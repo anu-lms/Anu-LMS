@@ -1,6 +1,42 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
+ * Make a request to the backend to fetch paragraph entities.
+ */
+export const fetchComments = (request, paragraphId, organizationId = null) => new Promise((resolve, reject) => { // eslint-disable-line max-len
+  const query = {
+    'include': 'uid, field_comment_parent',
+    // Filter by paragraph id.
+    'filter[field_comment_paragraph][value]': paragraphId,
+    // Filter comments by organization.
+    'filter[field_comment_organization][condition][path]': 'field_comment_organization',
+  };
+
+  if (organizationId) {
+    // User should see comments only from users within same organization.
+    query['filter[field_comment_organization][condition][value]'] = organizationId;
+  }
+  else {
+    // If user isn't assigned to any organization,
+    // he should see comments from users without organization as well.
+    query['filter[field_comment_organization][condition][operator]'] = 'IS NULL';
+  }
+
+  request
+    .get('/jsonapi/paragraph_comment/paragraph_comment')
+    .query(query)
+    .then(response => {
+      // Normalize Comment objects.
+      const comments = response.body.data.map(comment => dataProcessors.processComment(comment));
+      resolve(comments);
+    })
+    .catch(error => {
+      console.log('Could not fetch list of comments.', error);
+      reject(error);
+    });
+});
+
+/**
  * Make a request to the backend to add new paragraph_comment entity.
  */
 export const insertComment = (request, userId, paragraphId, organizationId, text = '', parentId) => new Promise((resolve, reject) => {
