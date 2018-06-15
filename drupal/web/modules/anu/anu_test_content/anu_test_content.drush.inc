@@ -28,7 +28,7 @@ function drush_anu_test_content_tests_cleanup() {
   module_load_include('install', 'anu_test_content');
 
   $test_users = getTestUsers();
-  $entities_to_delete = ['paragraph_comment', 'message'];
+  $entities_to_delete = ['paragraph_comment', 'message', 'notebook'];
 
 
   /* @var $user \Drupal\user\Entity\User */
