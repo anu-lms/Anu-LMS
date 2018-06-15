@@ -14,4 +14,3 @@ At the end of configuration journey you'll get the following hosts available:
 - [Development workflow](/docs/0.DevelopmentWorkflow.md) 
 - [Installation](/docs/1.Installation.md) 
 - [Getting Started](/docs/2.GettingStarted.md) 
-
