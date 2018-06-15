@@ -13,8 +13,10 @@ if (PHP_SAPI == 'cli') {
 
 // Some browsers like EDGE or Safari replace used Bearer authentication with Basic
 // In this case we grab accessToken from cookies and set correct Authentication header with Bearer.
-if (strpos($GLOBALS['request']->headers->get('authorization'), 'Basic') !== false &&
-  !empty($GLOBALS['request']->headers->get('cookie'))) {
+$is_frontend_request = substr($GLOBALS['request']->server->get('REQUEST_URI'),0, 7) !== '/admin/';
+if ($is_frontend_request &&
+    strpos($GLOBALS['request']->headers->get('authorization'), 'Basic') !== false &&
+    !empty($GLOBALS['request']->headers->get('cookie'))) {
 
   // Check if cookie header contains accessToken to use for authentication.
   // An example of Cookie header data: `accessToken=aaaaaaa;refreshToken=bbbbbb'.
