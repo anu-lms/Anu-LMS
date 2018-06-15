@@ -6,7 +6,7 @@ import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
-import * as dataProcessors from '../../../../utils/dataProcessors';
+import * as userApi from '../../../../api/user';
 import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
@@ -57,15 +57,14 @@ class LoginForm extends React.Component {
 
       // Make request to the backend to get current user info.
       const { request } = await this.context.auth.getRequest();
-      const userResponse = await request
-        .get('/user/me?_format=json') // @todo: replace with userApi.fetchCurrent().
+      const currentUser = await userApi
+        .fetchCurrent(request)
         .catch(error => {
           throw Error(error.response.body.message);
         });
-      const currentUser = dataProcessors.userData(userResponse.body);
 
       // Store logged in user UID in application store.
-      this.props.dispatch(userActionHelpers.login(currentUser.uid));
+      this.props.dispatch(userActionHelpers.login(currentUser.uid, currentUser.uuid));
 
       Router.push('/dashboard');
     } catch (error) {
