@@ -6,6 +6,7 @@
 
   .card-image {
     display: block;
+    height: 100%;
 
     img {
       display: block;
@@ -14,7 +15,7 @@
   }
 
   .progress-bar {
-    height: .5em;
+    height: auto;
     background: $gray91;
 
     .current-progress {
