@@ -8,6 +8,9 @@
   @include media-breakpoint-up(lg) {
     background-image: url('/static/img/background/page-login@desktop.jpg');
   }
+  @include media-breakpoint-up(md) {
+    height: 100vh; // IE 10-11 fix (children of flex container do nto inherit min-height)
+  }
 
   & > .overlay {
     position: absolute;

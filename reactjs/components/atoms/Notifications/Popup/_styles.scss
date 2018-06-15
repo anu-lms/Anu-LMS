@@ -12,7 +12,7 @@
     width: 400px;
     height: 500px;
     border-radius: 2px;
-    left: initial;
+    left: auto;
     top: 80px;
     position: absolute;
   }
@@ -42,7 +42,7 @@
       text-align: center;
       background-color: $light-blue-grey;
       color: $navy;
-      flex: 1 1 0;
+      flex: 1 1 auto;
       cursor: pointer;
       transition: background-color .2s;
       font-size: 1em;
