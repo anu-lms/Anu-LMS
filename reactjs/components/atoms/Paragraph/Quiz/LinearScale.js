@@ -31,14 +31,16 @@ class LinearScale extends React.Component {
   }
 
   render() {
-    const { title, from, to, blocks, data, columnClasses } = this.props;
+    const {
+      title, from, to, blocks, data, columnClasses, id,
+    } = this.props;
 
     // The value to use should be either the value from the redux store
     // or the middle of the scale.
     const value = data ? parseInt(data) : Math.round(to.first / 2); // eslint-disable-line radix
 
     return (
-      <div className="container quiz linear-scale">
+      <div id={`paragraph-${id}`} className="container paragraph quiz linear-scale">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>

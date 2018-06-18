@@ -17,9 +17,9 @@ class Heading extends React.Component {
   }
 
   render() {
-    const { title, type, columnClasses } = this.props;
+    const { title, type, columnClasses, id } = this.props;
     return (
-      <div className="container heading">
+      <div id={`paragraph-${id}`} className="container paragraph heading">
         <div className="row">
           <div className={columnClasses.join(' ')}>
 

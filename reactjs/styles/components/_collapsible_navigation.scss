@@ -52,7 +52,7 @@
     padding-bottom: 3em;
     height: 100vh;
     background: $gray91;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: left .2s;
     z-index: $zindex-fixed;
     @include media-breakpoint-up(md) {

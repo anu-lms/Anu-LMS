@@ -38,7 +38,7 @@ class Comment extends React.Component {
     dispatch(lessonCommentsActions.showReplyForm(comment.id));
 
     // Scroll user to the reply form and set focus.
-    scrollToElement('lesson-comments-scrollable', 'reply-comment-form', () => {
+    scrollToElement('reply-comment-form', 'lesson-comments-scrollable', 400, () => {
       document.getElementById('reply-comment-form')
         .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
     });

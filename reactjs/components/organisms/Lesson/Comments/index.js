@@ -28,6 +28,9 @@ class lessonComments extends React.Component {
     }
   }
 
+  /**
+   * @todo: deprecated method.
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.isLoading && !nextProps.isLoading) {
       // Restore Scroll position after sidebar reload.
@@ -49,7 +52,7 @@ class lessonComments extends React.Component {
         console.error("Referenced comment doesn't exists", `Comment: ${highlightedComment}`);
       }
       else {
-        scrollToElement('lesson-comments-scrollable', `comment-${highlightedComment}`);
+        scrollToElement(`comment-${highlightedComment}`, 'lesson-comments-scrollable', 400);
       }
 
       // Unhighlight a Comment in 3 sec.
@@ -67,7 +70,7 @@ class lessonComments extends React.Component {
 
   scrollToForm() {
     // Scroll user and set focus to the New comment form.
-    scrollToElement('lesson-comments-scrollable', 'new-comment-form', () => {
+    scrollToElement('new-comment-form', 'lesson-comments-scrollable', 400, () => {
       document.getElementById('new-comment-form')
         .getElementsByTagName('textarea')[0].focus({ preventScroll: true });
     });

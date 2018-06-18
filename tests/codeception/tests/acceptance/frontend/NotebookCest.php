@@ -21,11 +21,11 @@ class NotebookCest {
     // Add note
     $I->click('.add-note');
     $I->waitForElement('.note-content h5.title .placeholder');
+    $I->wait(1); // Sometimes text is splitted between several notes without this timeout.
     $I->see('New Note', '.notes-list');
     $I->click('.note-content h5.title .placeholder');
     $I->pressKey('.note-content h5.title span', 'Note title');
-    $I->wait(1);
-    $I->see('Note title','.notes-list');
+    $I->waitForText('Note title', null,'.notes-list');
 
     // Edit note
     $I->click('//div[@class="notes-list"]//div[text()="Note title"]/ancestor::div[contains(concat(" ", normalize-space(@class), " "), " notes-list-item ")]');
@@ -33,8 +33,8 @@ class NotebookCest {
     $I->wait(1); // sometimes waitForElement returns true too early, which result in "Other element would receive the click" error
     $I->click('.note-content h5.title');
     $I->pressKey('.note-content h5.title span', ' edited');
-    $I->wait(1);
-    $I->see('Note title edited','.notes-list');
+    //$I->wait(1);
+    $I->waitForText('Note title edited', null,'.notes-list');
 
     // Delete note
     $I->click('.context-menu button');

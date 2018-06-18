@@ -6,7 +6,7 @@ import xss from 'xss';
 import { truncate } from '../../../../utils/string';
 
 const NotificationItem = ({
-  Icon, date, title, text, isRead, className, onTitleClick, onItemClick,
+  icon, date, title, text, isRead, className, onTitleClick, onItemClick,
 }) => (
   <div
     className={`notifications-item ${className} ${!isRead ? 'not-read' : ''}`}
@@ -14,8 +14,8 @@ const NotificationItem = ({
     onKeyPress={onItemClick}
   >
     <div className="header">
-      {Icon &&
-        <div className="type-icon"><Icon /></div>
+      {icon &&
+        <div className="type-icon">{icon}</div>
       }
 
       <div className="date" title={moment(date, 'X').format('h:mma')}>
@@ -24,6 +24,7 @@ const NotificationItem = ({
     </div>
 
     <div className="title">
+      {/* @todo: We should cosider to use link if it leads to other page */}
       <span
         onClick={onTitleClick}
         onKeyPress={onTitleClick}
@@ -38,7 +39,7 @@ const NotificationItem = ({
 );
 
 NotificationItem.propTypes = {
-  Icon: PropTypes.func,
+  icon: PropTypes.node,
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string,
@@ -49,7 +50,7 @@ NotificationItem.propTypes = {
 };
 
 NotificationItem.defaultProps = {
-  Icon: null,
+  icon: null,
   text: '',
   isRead: false,
   className: '',

@@ -1,0 +1,17 @@
+.search-empty-text {
+  font-size: 1.125em;
+  font-style: italic;
+  color: $london-sky;
+  padding-top: 0.75em;
+  line-height: 20px;
+
+  @include media-breakpoint-up(md) {
+    padding-top: 1.3em;
+    line-height: 19px;
+  }
+  .search-query {
+    font-style: normal;
+    font-weight: bold;
+    color: $white;
+  }
+}

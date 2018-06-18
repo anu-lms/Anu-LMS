@@ -4,6 +4,8 @@ import notebookSagas from './notebook';
 import lessonNotebookSagas from './lessonNotebook';
 import lessonCommentsSagas from './lessonComments';
 import notificationsSagas from './notifications';
+import searchSagas from './search';
+import overlaySagas from './overlay';
 
 // @todo: consider to use saga plugin for eslint.
 export default function* rootSaga() {
@@ -13,5 +15,7 @@ export default function* rootSaga() {
     ...lessonNotebookSagas(),
     ...lessonCommentsSagas(),
     ...notificationsSagas(),
+    ...searchSagas(),
+    ...overlaySagas(),
   ]);
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import urlParse from 'url-parse';
+import Alert from 'react-s-alert';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
@@ -63,6 +65,22 @@ class NotebookPage extends Component {
   initializeNotebook() {
     const { isStoreRehydrated, notes, dispatch } = this.props;
     if (isStoreRehydrated) {
+      let noteIdFromUrl = null;
+      const parsedUrl = urlParse(window.location.href, true);
+
+      // Page can receive active note id as `note` param in URL.
+      if (parsedUrl.query && parsedUrl.query.note) {
+        const index = notes.findIndex(note => note.id === parseInt(parsedUrl.query.note, 10));
+
+        if (index === -1) {
+          Alert.error("Referenced in url note doesn't exists");
+          console.error("Referenced note doesn't exists", `Note: ${parsedUrl.query.note}`);
+        }
+        else {
+          noteIdFromUrl = parseInt(parsedUrl.query.note, 10);
+        }
+      }
+
       // Reset all existing notes in the notebook.
       dispatch(notebookActions.clear());
 
@@ -74,7 +92,15 @@ class NotebookPage extends Component {
       // Automatically set the last note (first in the displayed list) as
       // active for editing.
       if (notes.length > 0) {
-        dispatch(notebookActions.setActiveNote(notes[notes.length - 1].id));
+        // Set first note as active if there is no `note` param in url.
+        const activeNoteId = noteIdFromUrl || notes[notes.length - 1].id;
+
+        dispatch(notebookActions.setActiveNote(activeNoteId));
+
+        // Open note by default on mobile only if there is param in url (show list by default).
+        if (noteIdFromUrl) {
+          dispatch(notebookActions.toggleMobileVisibility());
+        }
       }
     }
   }

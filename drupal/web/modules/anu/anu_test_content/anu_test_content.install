@@ -4,6 +4,7 @@ use Drupal\user\Entity\User;
 
 /**
  * Implements hook_module_preinstall().
+ *
  * Delete existing test users if any.
  */
 function anu_test_content_module_preinstall($module) {
@@ -86,6 +87,7 @@ function deactivateTestUsers() {
 
 /**
  * Load array of test users.
+ *
  * @return \Drupal\Core\Entity\EntityInterface[]|static[]
  */
 function getTestUsers() {

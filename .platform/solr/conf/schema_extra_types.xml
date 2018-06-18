@@ -1,0 +1,26 @@
+<!--
+  Language Undefined Text Field
+  6.0.0
+-->
+<fieldType name="text_und" class="solr.TextField" positionIncrementGap="100">
+  <analyzer type="index">
+    <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+    <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    <filter class="solr.StopFilterFactory" ignoreCase="1" words="stopwords.txt"/>
+    <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" protected="protwords.txt" splitOnCaseChange="0" generateWordParts="1" preserveOriginal="1" catenateAll="0" catenateWords="1"/>
+    <filter class="solr.LengthFilterFactory" min="2" max="100"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="25"/>
+    <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+  </analyzer>
+  <analyzer type="query">
+    <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+    <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" expand="1" ignoreCase="1"/>
+    <filter class="solr.StopFilterFactory" ignoreCase="1" words="stopwords.txt"/>
+    <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" protected="protwords.txt" splitOnCaseChange="0" generateWordParts="1" preserveOriginal="1" catenateAll="0" catenateWords="0"/>
+    <filter class="solr.LengthFilterFactory" min="2" max="100"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+  </analyzer>
+</fieldType>

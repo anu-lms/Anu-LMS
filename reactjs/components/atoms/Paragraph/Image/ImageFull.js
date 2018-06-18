@@ -19,12 +19,12 @@ class ImageFull extends React.Component {
 
   render() {
     let style = {};
-    const { text, image, columnClasses } = this.props;
+    const { text, image, columnClasses, id } = this.props;
     const imageUrl = fileUrl(image.meta.derivatives.w1400);
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
-      <div className="image-full" style={style}>
+      <div id={`paragraph-${id}`} className="paragraph image-full" style={style}>
         <div className="overlay" />
         <div className="container">
           <div className="row">

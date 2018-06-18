@@ -3,9 +3,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
+import urlParse from 'url-parse';
 import Paragraphs from '../../atoms/Paragraph';
 import Button from '../../atoms/Button';
 import OpenNotesCTA from '../../moleculas/Lesson/OpenNotesCTA';
+import { scrollToElement } from '../../../utils/scrollTo';
 import { Link, Router } from '../../../routes';
 import * as lessonActions from '../../../actions/lesson';
 import * as lessonHelpers from '../../../helpers/lesson';
@@ -27,8 +29,14 @@ class LessonContent extends React.Component {
     // component that they have been loaded.
     this.paragraphsToLoad = [];
 
+    // Recently highlighted paragraph. Save this value to avoid rehighlighting.
+    this.highlightedParagraphId = 0;
+
     // Method is responsible for handling lesson read progress.
     this.updateReadProgress = this.updateReadProgress.bind(this);
+
+    // Highlight paragraph by given in url paragraph id.
+    this.highlightParagraph = this.highlightParagraph.bind(this);
 
     // These methods handle loading of paragraphs on the page.
     this.updateParagraphsList = this.updateParagraphsList.bind(this);
@@ -55,6 +63,9 @@ class LessonContent extends React.Component {
     this.props.dispatch(lessonActions.opened(this.props.lesson));
   }
 
+  /**
+   * @todo: Deprecated method.
+   */
   componentWillUpdate(nextProps) {
     // Gather list of paragraphs once per lesson page load.
     if (nextProps.lesson.id !== this.props.lesson.id) {
@@ -64,6 +75,12 @@ class LessonContent extends React.Component {
       // is opened.
       this.props.dispatch(lessonActions.closed(this.props.lesson));
       this.props.dispatch(lessonActions.opened(nextProps.lesson));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.paragraphsToLoad.length === 0) {
+      this.highlightParagraph();
     }
   }
 
@@ -144,8 +161,55 @@ class LessonContent extends React.Component {
       this.paragraphsToLoad.splice(index, 1);
       if (!this.paragraphsToLoad.length) {
         this.updateReadProgress();
+        this.highlightParagraph();
       }
     }
+  }
+
+  /**
+   * Highlight paragraph by given in url paragraph id.
+   */
+  highlightParagraph() {
+    const { lesson } = this.props;
+    // If user was redirected to 403 page.
+    if (!lesson || !lesson.blocks) {
+      return;
+    }
+
+    const parsedUrl = urlParse(window.location.href, true);
+    if (parsedUrl.query.length === 0 || !parsedUrl.query.section) {
+      return;
+    }
+
+    // Get paragraph id from the url query.
+    const paragraphId = parseInt(parsedUrl.query.section, 10);
+
+    // Don't highlight paragraph twice.
+    if (this.highlightedParagraphId > 0 && this.highlightedParagraphId === paragraphId) {
+      return;
+    }
+    this.highlightedParagraphId = paragraphId;
+
+    // Show an error if given paragraph id doesn't exist.
+    const index = lesson.blocks.findIndex(block => block.id === paragraphId);
+    if (index === -1) {
+      Alert.error("Referenced in url section doesn't exist");
+      console.error("Referenced paragraph doesn't exist", `Lesson: ${lesson.id}`, `Paragraph: ${paragraphId}`);
+      return;
+    }
+
+    // Scroll to the paragraph.
+    scrollToElement(`paragraph-${paragraphId}`, null, 90, element => {
+      element.classList.add('highlighted');
+
+      // In some cases browser try to restore previous position, it conflicts with custom scrolling.
+      history.scrollRestoration = 'manual'; // eslint-disable-line no-undef, no-restricted-globals
+
+      // Unhighlight paragraph in 3 sec.
+      setTimeout(() => {
+        element.classList.remove('highlighted');
+      }, 3000);
+    });
   }
 
   /**
@@ -299,7 +363,7 @@ class LessonContent extends React.Component {
             </div>
           </div>
         </div>
-
+        {/* @todo: update ref to the new format */}
         <div className="lesson-content" ref={element => this.container = element}>
           <Paragraphs
             lessonId={lesson.id}

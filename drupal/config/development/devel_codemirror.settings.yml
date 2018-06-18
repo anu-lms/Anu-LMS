@@ -1,0 +1,6 @@
+theme: neo
+lineWrapping: true
+lineNumbers: true
+matchBrackets: true
+autoCloseBrackets: true
+styleActiveLine: true

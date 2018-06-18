@@ -1,0 +1,31 @@
+.search-results {
+  color: $white;
+  height: calc(100% - 40px);
+
+  @include media-breakpoint-up(md) {
+    height: calc(100% - 44px);
+  }
+
+  .search-container & .inner {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+
+    @include media-breakpoint-up(md) {
+      padding-top: 1.3em;
+      padding-bottom: 1.3em;
+    }
+  }
+
+  .load-more-loader {
+    text-align: center;
+    .search-loader {
+      display: inline-block;
+    }
+
+    @include media-breakpoint-up(lg) {
+      &:not(.media) {
+        max-width: 840px;
+      }
+    }
+  }
+}

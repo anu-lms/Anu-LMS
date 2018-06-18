@@ -35,7 +35,7 @@ class List extends React.Component {
     const getKey = index => `${id}_${index}`;
 
     return (
-      <div className="container list">
+      <div id={`paragraph-${id}`} className="container paragraph list">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <Wrapper>

@@ -17,9 +17,9 @@ class Divider extends React.Component {
   }
 
   render() {
-    const { type, counter, columnClasses } = this.props;
+    const { type, counter, columnClasses, id } = this.props;
     return (
-      <div className="container divider">
+      <div id={`paragraph-${id}`} className="container paragraph divider">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="baseline" />
