@@ -46,6 +46,10 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {
       const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
+      const gtm = process.env.GTM_ID;
+
+      console.log(gtm, vimeoAccessToken);
+
       if (!vimeoAccessToken) {
         console.error('Vimeo access token isn\'t defined in environment variables');
         reject();
