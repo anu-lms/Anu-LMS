@@ -45,8 +45,9 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
   else if (['www.vimeo.com', 'vimeo.com', 'player.vimeo.com'].indexOf(urlobj.host) !== -1) {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {
-      const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
+      // const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
       const gtm = process.env.GTM_ID;
+      const vimeoAccessToken = '2d4ff1a9d3b8ca858f4fa3c45a20082e';
 
       const videoId = match[1];
       superagent
