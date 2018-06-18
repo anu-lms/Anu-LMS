@@ -62,7 +62,7 @@ class NotebookPage extends Component {
   initializeNotebook() {
     const { isStoreRehydrated, notes, dispatch } = this.props;
     if (isStoreRehydrated) {
-      let activeNoteId = null;
+      let noteIdFromUrl = null;
       const parsedUrl = urlParse(window.location.href, true);
 
       // Page can receive active note id as `note` param in URL.
@@ -74,7 +74,7 @@ class NotebookPage extends Component {
           console.error("Referenced note doesn't exists", `Note: ${parsedUrl.query.note}`);
         }
         else {
-          activeNoteId = parseInt(parsedUrl.query.note, 10);
+          noteIdFromUrl = parseInt(parsedUrl.query.note, 10);
         }
       }
 
@@ -86,16 +86,18 @@ class NotebookPage extends Component {
         dispatch(notebookActions.addNoteToStore(note));
       });
 
-      // Set first note as active if there is no `note` param in url.
-      if (!activeNoteId) {
-        activeNoteId = notes[notes.length - 1].id;
-      }
-
       // Automatically set the last note (first in the displayed list) as
       // active for editing.
       if (notes.length > 0) {
+        // Set first note as active if there is no `note` param in url.
+        const activeNoteId = noteIdFromUrl || notes[notes.length - 1].id;
+
         dispatch(notebookActions.setActiveNote(activeNoteId));
-        dispatch(notebookActions.toggleMobileVisibility());
+
+        // Open note by default on mobile only if there is param in url (show list by default).
+        if (noteIdFromUrl) {
+          dispatch(notebookActions.toggleMobileVisibility());
+        }
       }
     }
   }
