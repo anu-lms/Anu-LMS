@@ -19,20 +19,29 @@ class NotebookPage extends Component {
     };
 
     const isServer = !!req;
+    console.log(store);
 
+    // if (store.getState) {
     const state = store.getState();
+    // }
 
-    console.log('aaaa', isServer, state.user.uid);
     try {
-      // Get currently logged in user.
-      const currentUser = await userApi
-        .fetchCurrent(request)
-        .catch(error => {
-          initialProps.statusCode = error.response.status;
-          throw Error(error.response.body.message);
-        });
+      let currentUserId = null;
+      if (state && state.user && state.user.uid > 0) {
+        currentUserId = state.user.uid;
+      }
+      else {
+        // Get currently logged in user.
+        const currentUser = await userApi
+          .fetchCurrent(request)
+          .catch(error => {
+            initialProps.statusCode = error.response.status;
+            throw Error(error.response.body.message);
+          });
+        currentUserId = currentUser.uid;
+      }
 
-      initialProps.notes = await notebookApi.fetchNotes(request, currentUser.uid);
+      initialProps.notes = await notebookApi.fetchNotes(request, currentUserId);
     } catch (error) {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
