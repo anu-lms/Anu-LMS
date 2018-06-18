@@ -12,12 +12,17 @@ import * as userApi from '../api/user';
 import * as notebookApi from '../api/notebook';
 
 class NotebookPage extends Component {
-  static async getInitialProps({ request, res }) {
+  static async getInitialProps({ store, request, res, req }) {
     let initialProps = {
       notes: [],
       statusCode: 200,
     };
 
+    const isServer = !!req;
+
+    const state = store.getState();
+
+    console.log('aaaa', isServer, state.user.uid);
     try {
       // Get currently logged in user.
       const currentUser = await userApi
