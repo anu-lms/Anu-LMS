@@ -48,14 +48,6 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
       const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
       const gtm = process.env.GTM_ID;
 
-      console.log('getThumbnail', gtm, vimeoAccessToken);
-
-      if (!vimeoAccessToken) {
-        console.error('Vimeo access token isn\'t defined in environment variables');
-        reject();
-        return;
-      }
-
       const videoId = match[1];
       superagent
         .get(`https://api.vimeo.com/videos/${videoId}`)
@@ -73,6 +65,13 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
           console.error('Could not fetch Vimeo thumbnail image.', error);
           reject(error);
         });
+
+      console.log('getThumbnail', gtm, vimeoAccessToken);
+
+      if (!vimeoAccessToken) {
+        console.error('Vimeo access token isn\'t defined in environment variables');
+        reject();
+      }
     }
     else {
       reject(new Error("Can't parse url to get Vimeo thumbnail image."));
