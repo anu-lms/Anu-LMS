@@ -120,7 +120,8 @@ class FileDownloadController extends ControllerBase {
 
     // If user exists - authenticate it to make all further actions be taken
     // on behalf of this user.
-    user_login_finalize($account);
+    // @todo: temporary disable login function to fix issue with auth.
+    // user_login_finalize($account);
 
     // Let the request pass to the route callback.
     return AccessResult::allowed();
