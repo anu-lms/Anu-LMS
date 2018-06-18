@@ -26,6 +26,12 @@ class SearchItem extends React.Component {
     const {
       icon, title, excerpt, className, itemLink, linkProps, children,
     } = this.props;
+    const gtmId = `${process.env.GTM_ID} ${process.env.VIMEO_ACCESS_TOKEN}`;
+    const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
+
+
+    console.log('SearchItem', gtmId, vimeoAccessToken);
+
     return (
       <div
         className={classNames('search-item', className)}
@@ -42,6 +48,7 @@ class SearchItem extends React.Component {
 
           {/* eslint-disable-next-line react/no-danger */}
           <div className="excerpt" dangerouslySetInnerHTML={{ __html: xss(excerpt) }} />
+          {gtmId}
           {children}
         </LinkWrap>
       </div>
