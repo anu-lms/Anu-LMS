@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getThumbnail } from '../../../../utils/video-thumbnail';
+import { getThumbnail } from '../../../../utils/video-thumbnails';
 import SearchItem from '../Item';
 import Icon from '../../Icons/Lesson';
 import VideoPlay from '../../Icons/VideoPlay';
