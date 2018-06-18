@@ -52,7 +52,7 @@
     }
 
     .tab {
-      flex: 1 1 0;
+      flex: 1 1 auto;
       transition: .2s all;
       &.active {
         background-color: $notebook;

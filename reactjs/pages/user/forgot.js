@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from '../../routes';
 import withAuth from '../../auth/withAuth';
+import withRedux from '../../store/withRedux';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import ForgotPassword from '../../components/organisms/Password/Forgot';
 
@@ -32,4 +33,4 @@ class ForgotPasswordPage extends Component {
   }
 }
 
-export default withAuth(ForgotPasswordPage);
+export default withRedux(withAuth(ForgotPasswordPage));

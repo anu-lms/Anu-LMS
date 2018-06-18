@@ -1,0 +1,23 @@
+@mixin fadeIn($duration: .2s) {
+  -webkit-animation: fade-in $duration linear;
+  -moz-animation:    fade-in $duration linear;
+  -o-animation:      fade-in $duration linear;
+  animation:         fade-in $duration linear;
+}
+
+@-webkit-keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}

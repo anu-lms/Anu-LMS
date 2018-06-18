@@ -33,7 +33,7 @@ class NotificationsCest {
       $I->loginAsTeacher();
       $I->openVideoComments();
       // Reply to the comment.
-      $this->comments = array_merge($this->comments, $I->createComments(9, $this->comments[0]['text']));
+      $this->comments = array_merge($this->comments, $I->createComments(9, $this->comments[0]));
     });
 
     // Check notifications counter.
@@ -61,7 +61,7 @@ class NotificationsCest {
     // Click notification link.
     $I->click('.notifications-popup .notifications-item:first-child .title span');
     // Make sure that clicking notification link redirects to the comment.
-    $I->waitForElementLoaded(end($this->comments)['xpath']);
+    $I->waitForElementLoaded('#' . end($this->comments));
     // Make sure comment is highlighted.
     $I->waitForElement('.comments-list .comment.highlighted');
   }
@@ -81,6 +81,7 @@ class NotificationsCest {
     $I->seeNumberOfElements('.notifications-item', [8, max($this->notifications_counter, 8)]);
     $scroll_height = max($this->notifications_counter, 8) * 95.5;
     $I->executeJS('document.querySelector(".notifications-popup .infinite-scroll-component").scrollTop += ' . $scroll_height . ';');
+    $I->amGoingTo("Wait until more notifications loaded.");
     $I->wait(2);
     $I->seeNumberOfElements('.notifications-item', [9, max($this->notifications_counter + 8, 16)]);
   }

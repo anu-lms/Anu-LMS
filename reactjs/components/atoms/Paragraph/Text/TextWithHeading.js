@@ -20,7 +20,7 @@ class TextWithHeading extends React.Component {
   render() {
     const { text, title, columnClasses, id, commentsAllowed } = this.props;
     return (
-      <div className="text-with-heading">
+      <div id={`paragraph-${id}`} className="paragraph text-with-heading">
         <div className="container">
           <div className="row">
             <div className={columnClasses.join(' ')}>

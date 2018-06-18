@@ -45,7 +45,7 @@ class ComboBoxes extends React.Component {
 
     /* eslint-disable max-len, jsx-a11y/no-noninteractive-element-interactions */
     return (
-      <div className="container quiz comboboxes">
+      <div id={`paragraph-${id}`} className="container paragraph quiz comboboxes">
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <div className="title">{title}</div>

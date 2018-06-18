@@ -16,4 +16,5 @@ content:
 hidden:
   field_message_comment: true
   field_message_is_read: true
+  field_message_recipient: true
   partial_0: true

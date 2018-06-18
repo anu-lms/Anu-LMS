@@ -111,7 +111,7 @@ class Audio extends React.Component {
     }
 
     return (
-      <div className="container audio">
+      <div id={`paragraph-${id}`} className="container paragraph audio">
         <div className="row">
           <div className={columnClasses.join(' ')}>
 
@@ -138,7 +138,7 @@ class Audio extends React.Component {
 
               <ReactHowler
                 src={fileUrl(file.url)}
-                ref={player => this.player = player}
+                ref={player => this.player = player} // @todo: update ref to the new format
                 onLoad={this.playerLoaded}
                 playing={this.state.isPlaying}
                 loop={false}
