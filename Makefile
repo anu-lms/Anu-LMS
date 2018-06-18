@@ -10,7 +10,7 @@ $(shell ! test -e \.env && cat \.env.default > \.env)
 
 # Create a reactjs/.env.local file if not exists and include default env variables.
 # @todo: Move this part to the site installation step and grab variables from main env file.
-$(shell ! test -e \.\/reactjs\/\.env\.local && cat \.\/reactjs\/\.env\.local\.defaults > \.\/reactjs\/\.env\.local)
+$(shell ! test -e \.\/reactjs\/\.env\.local && cat \.\/reactjs\/\.env\.local\.default > \.\/reactjs\/\.env\.local)
 
 # Make all variables from the file available here.
 include .env
