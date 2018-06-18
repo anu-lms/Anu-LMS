@@ -12,7 +12,7 @@ const HtmlHead = ({ title, favicon }) => {
   const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
 
 
-  console.log('HtmlHead', gtm, vimeoAccessToken);
+  console.log('HtmlHead', gtmId, vimeoAccessToken);
 
   // GTM_QUERY is taken from .env.local file or platform.sh environment variables,
   // it is needed to non-live environments only.
