@@ -8,7 +8,7 @@ import GoogleTagManager from '../components/atoms/GTM/gtm';
 const HtmlHead = ({ title, favicon }) => {
   let stylesheets;
   // GTM_ID is taken from .env.local file or platform.sh environment variables.
-  const gtmId = process.env.GTM_ID + process.env.VIMEO_ACCESS_TOKEN;
+  const gtmId = `${process.env.GTM_ID} ${process.env.VIMEO_ACCESS_TOKEN}`;
   const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
 
 
@@ -34,6 +34,7 @@ const HtmlHead = ({ title, favicon }) => {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <div>{gtmId}</div>
       {gtmId &&
       <GoogleTagManager gtmId={gtmId} previewVariables={query} />
       }
