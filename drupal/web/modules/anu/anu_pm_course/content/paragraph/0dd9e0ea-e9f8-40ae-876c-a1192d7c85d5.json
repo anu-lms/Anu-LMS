@@ -1,0 +1,137 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_heading_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_heading_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_heading_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1007
+        }
+    ],
+    "uuid": [
+        {
+            "value": "0dd9e0ea-e9f8-40ae-876c-a1192d7c85d5"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4679
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_heading_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_heading_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_heading_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T00:31:53+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "170"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>To write your program objectives, look at your solutions tree and identify some of the goals that you wish to focus on. Remember that you will not be able to reach them all!&nbsp; We suggest that you start with 3-8 goals for your project. Write down any ideas you have now&nbsp;in your Notebook.<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>To write your program objectives, look at your solutions tree and identify some of the goals that you wish to focus on. Remember that you will not be able to reach them all!\u00a0 We suggest that you start with 3-8 goals for your project. Write down any ideas you have now\u00a0in your Notebook.<\/p>\n",
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_title": [
+        {
+            "value": "Assignment",
+            "lang": "en"
+        }
+    ]
+}

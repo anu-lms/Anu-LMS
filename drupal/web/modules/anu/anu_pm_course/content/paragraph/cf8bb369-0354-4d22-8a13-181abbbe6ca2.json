@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 970
+        }
+    ],
+    "uuid": [
+        {
+            "value": "cf8bb369-0354-4d22-8a13-181abbbe6ca2"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4594
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-15T01:16:10+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "168"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>A vision statement is the reason that your project exists. This is a short statement that tells others the goal of everything you do \u2013 the impact and objectives that you are trying to make a reality.<\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p><strong>A vision statement tells someone what you are working towards. <\/strong><\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<p>A vision statement is the target that you are aiming for, though you may never fully reach it. Your vision statement is also a guide for all of your decisions \u2013 is this potential change going to help us reach our vision? And, it is also the measurement for your impact \u2013 is our work making any positive changes towards our vision?&nbsp; Imagine your vision statement as the center of a target (the bullseye) or the house at the end of a long road. This is your ultimate goal that you will work towards.<\/p>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>A vision statement is the reason that your project exists. This is a short statement that tells others the goal of everything you do \u2013 the impact and objectives that you are trying to make a reality.<\/p>\n<p>\u00a0<\/p>\n<p><strong>A vision statement tells someone what you are working towards. <\/strong><\/p>\n<p>\u00a0<\/p>\n<p>A vision statement is the target that you are aiming for, though you may never fully reach it. Your vision statement is also a guide for all of your decisions \u2013 is this potential change going to help us reach our vision? And, it is also the measurement for your impact \u2013 is our work making any positive changes towards our vision?\u00a0 Imagine your vision statement as the center of a target (the bullseye) or the house at the end of a long road. This is your ultimate goal that you will work towards.<\/p>\n"
+        }
+    ]
+}

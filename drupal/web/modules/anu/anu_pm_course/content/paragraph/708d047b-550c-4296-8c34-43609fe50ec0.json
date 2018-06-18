@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 1018
+        }
+    ],
+    "uuid": [
+        {
+            "value": "708d047b-550c-4296-8c34-43609fe50ec0"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4668
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-16T00:44:18+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "172"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<ul>\r\n\t<li>Introduction that states who you are serving (your clients) and where they come from.<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Background information on your community \u2013 its history, some statistics, the needs that your community identified.<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Geographic characteristics of your clients \u2013 will you serve people from an entire city or village? Only a certain neighborhood or area within the city or village? Here you should state the geographic parameters (limitations) of who you will serve. This is a statement that shows others that you will not attempt to serve an area so large that it is unrealistic for your project.<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Demographic characteristics of your clients \u2013 who will you serve based on what qualities or needs? How will you determine who can be your client and who cannot? Demographics are things such as gender, age, income level, religion, or other characteristics that are more easily determined and can be compared to others in a numerical way.<\/li>\r\n<\/ul>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Psychographic and behavioral characteristics of your clients \u2013 these are the personality, values, opinions, attitudes, interests, culture, emotional and lifestyles of your clients. Behavioral characteristics are things that affect someone\u2019s life but cannot be so easily determined or compared. A behavioral characteristic of your client might be that they have demonstrated a desire to overcome their poverty through their own efforts rather than receiving aid from others. You cannot analyze this characteristic easily, but you know it when you see it. If a potential client behaves in a way that shows you they are not ready to devote the time and energy that it will take to participate in your program, you will know that they are not yet ready to be your client. In this section, think of some of the things that your ideal client will say, do, or believe that will lead to their success.<\/li>\r\n<\/ul>\r\n",
+            "format": "filtered_html",
+            "processed": "<ul>\n<li>Introduction that states who you are serving (your clients) and where they come from.<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<ul>\n<li>Background information on your community \u2013 its history, some statistics, the needs that your community identified.<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<ul>\n<li>Geographic characteristics of your clients \u2013 will you serve people from an entire city or village? Only a certain neighborhood or area within the city or village? Here you should state the geographic parameters (limitations) of who you will serve. This is a statement that shows others that you will not attempt to serve an area so large that it is unrealistic for your project.<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<ul>\n<li>Demographic characteristics of your clients \u2013 who will you serve based on what qualities or needs? How will you determine who can be your client and who cannot? Demographics are things such as gender, age, income level, religion, or other characteristics that are more easily determined and can be compared to others in a numerical way.<\/li>\n<\/ul>\n<p>\u00a0<\/p>\n<ul>\n<li>Psychographic and behavioral characteristics of your clients \u2013 these are the personality, values, opinions, attitudes, interests, culture, emotional and lifestyles of your clients. Behavioral characteristics are things that affect someone\u2019s life but cannot be so easily determined or compared. A behavioral characteristic of your client might be that they have demonstrated a desire to overcome their poverty through their own efforts rather than receiving aid from others. You cannot analyze this characteristic easily, but you know it when you see it. If a potential client behaves in a way that shows you they are not ready to devote the time and energy that it will take to participate in your program, you will know that they are not yet ready to be your client. In this section, think of some of the things that your ideal client will say, do, or believe that will lead to their success.<\/li>\n<\/ul>\n"
+        }
+    ]
+}

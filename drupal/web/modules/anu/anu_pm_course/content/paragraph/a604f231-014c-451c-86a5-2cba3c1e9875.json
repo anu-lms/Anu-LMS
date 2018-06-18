@@ -1,0 +1,130 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text_text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/19?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 967
+        }
+    ],
+    "uuid": [
+        {
+            "value": "a604f231-014c-451c-86a5-2cba3c1e9875"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 4241
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text_text"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text_text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/19?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6e4a0a72-33d7-481d-9973-1ddadeca46c1"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-03-15T01:11:44+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "167"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_lesson_blocks"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_paragraph_text": [
+        {
+            "value": "<p>A business plan is a document used by charitable organizations and businesses of all kinds. It is a document that thoroughly explains your work so that the person reading it may be persuaded to give you a donation, become your advocate, or give you support in other ways. A business plan will be required as part of the process of receiving approval from Cultivate for your project. It is required for two reasons:<\/p>\r\n\r\n<ol>\r\n\t<li><strong>It is a necessary document that Cultivate requires for project approval based on American laws<\/strong>. If the American government ever requests that Cultivate show documentation and prove why we are sending you financial support (as a foreign project that is not registered in the USA), the business plan is one of the documents that satisfies the American law stating that all funds must be used for charitable purposes.<\/li>\r\n\t<li>A business plan is often required by businesses, churches, foundations, and other formal groups that give money to charitable programs. Sometimes you may be required to send the full business proposal to the potential donor, at other times you will use the information in your business plan to complete the necessary information on an application form.<\/li>\r\n<\/ol>\r\n\r\n<p>The business plan shows people what you do (or intend to do) and that this is something worthwhile that they can give their money towards. <strong>A business plan shows that you have thoroughly planned, organized, and determined what your project will be so that it has the best chance of success<\/strong>. A business plan will typically answer questions such as:<\/p>\r\n\r\n<ul>\r\n\t<li>Who are the program\u2019s customers\/clients?<\/li>\r\n\t<li>What is the geographic area for the services?<\/li>\r\n\t<li>What other programs are providing similar services?<\/li>\r\n\t<li>What services does this program deliver that are unique?<\/li>\r\n<\/ul>\r\n",
+            "format": "filtered_html",
+            "processed": "<p>A business plan is a document used by charitable organizations and businesses of all kinds. It is a document that thoroughly explains your work so that the person reading it may be persuaded to give you a donation, become your advocate, or give you support in other ways. A business plan will be required as part of the process of receiving approval from Cultivate for your project. It is required for two reasons:<\/p>\n<ol>\n<li><strong>It is a necessary document that Cultivate requires for project approval based on American laws<\/strong>. If the American government ever requests that Cultivate show documentation and prove why we are sending you financial support (as a foreign project that is not registered in the USA), the business plan is one of the documents that satisfies the American law stating that all funds must be used for charitable purposes.<\/li>\n<li>A business plan is often required by businesses, churches, foundations, and other formal groups that give money to charitable programs. Sometimes you may be required to send the full business proposal to the potential donor, at other times you will use the information in your business plan to complete the necessary information on an application form.<\/li>\n<\/ol>\n<p>The business plan shows people what you do (or intend to do) and that this is something worthwhile that they can give their money towards. <strong>A business plan shows that you have thoroughly planned, organized, and determined what your project will be so that it has the best chance of success<\/strong>. A business plan will typically answer questions such as:<\/p>\n<ul>\n<li>Who are the program\u2019s customers\/clients?<\/li>\n<li>What is the geographic area for the services?<\/li>\n<li>What other programs are providing similar services?<\/li>\n<li>What services does this program deliver that are unique?<\/li>\n<\/ul>\n"
+        }
+    ]
+}
