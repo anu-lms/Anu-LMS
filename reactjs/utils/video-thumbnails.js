@@ -45,16 +45,24 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
   else if (['www.vimeo.com', 'vimeo.com', 'player.vimeo.com'].indexOf(urlobj.host) !== -1) {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {
+      const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
+      if (!vimeoAccessToken) {
+        console.error('Vimeo access token isn\'t defined in environment variables');
+        reject();
+        return;
+      }
+
       const videoId = match[1];
       superagent
-        .get(`https://vimeo.com/api/v2/video/${videoId}.json`)
+        .get(`https://api.vimeo.com/videos/${videoId}`)
+        .set('Authorization', `Bearer ${vimeoAccessToken}`)
         .query({ '_format': 'json' })
         .then(({ body }) => {
           resolve({
-            url: body[0].thumbnail_large,
+            url: body.pictures.sizes[3].link,
             width: 640, // 4:3
-            height: 476,
-            title: body[0].title,
+            height: 360,
+            title: body.name,
           });
         })
         .catch(error => {

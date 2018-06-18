@@ -29,9 +29,13 @@ module.exports = {
         ],
       },
     );
-    // Make GTM_QUERY and GTM_ID environment variables available to the client,
-    // and set default values (empty sting).
-    config.plugins.push(new webpack.EnvironmentPlugin({ 'GTM_QUERY': '', 'GTM_ID': '' }));
+    // Make environment variables (.env.local or on platform.sh) available to the client,
+    // and set default values (empty string).
+    config.plugins.push(new webpack.EnvironmentPlugin({
+      GTM_QUERY: '',
+      GTM_ID: '',
+      VIMEO_ACCESS_TOKEN: '',
+    }));
 
     return config;
   },
