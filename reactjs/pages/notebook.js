@@ -95,6 +95,7 @@ class NotebookPage extends Component {
       // active for editing.
       if (notes.length > 0) {
         dispatch(notebookActions.setActiveNote(activeNoteId));
+        dispatch(notebookActions.toggleMobileVisibility());
       }
     }
   }
