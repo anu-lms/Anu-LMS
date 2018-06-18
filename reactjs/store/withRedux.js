@@ -9,6 +9,7 @@ export default function (PageComponent) {
     static async getInitialProps(ctx) {
       let initialProps = {
         dispatch: store.dispatch,
+        store,
       };
 
       if (PageComponent.getInitialProps) {
