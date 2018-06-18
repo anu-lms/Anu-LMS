@@ -220,7 +220,8 @@ class AnuAccess extends ContentAccess {
       else {
         // Add the generic pseudo view grant if we are not using node access
         // or the node is viewable by anonymous users.
-        $field->addValue('node_access__all');
+        // @todo: workaround to fix permissions to the nodes that isn't assigned to any group.
+        // $field->addValue('node_access__all');
       }
     }
   }
