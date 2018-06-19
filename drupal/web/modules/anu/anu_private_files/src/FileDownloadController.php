@@ -93,6 +93,11 @@ class FileDownloadController extends ControllerBase {
   /**
    * Access callback for the route.
    *
+   * Request to get file can't have access headers, so it executes from anonymous user
+   * we catch given in link access token and load user account by it.
+   * We set loaded by access token account as currently active (but not actually login that user into the backend)
+   * so that user can make further actions with correct permissions.
+   *
    * @param $accessToken
    *   String representing Simple OAuth token.
    *
@@ -118,10 +123,9 @@ class FileDownloadController extends ControllerBase {
       return AccessResult::forbidden();
     }
 
-    // If user exists - authenticate it to make all further actions be taken
-    // on behalf of this user.
-    // @todo: temporary disable login function to fix issue with auth.
-    // user_login_finalize($account);
+    // If user exists we set found account as currently active to make all further actions (like file download) be taken
+    // on behalf of this user with proper permissions.
+    \Drupal::currentUser()->setAccount($account);
 
     // Let the request pass to the route callback.
     return AccessResult::allowed();
