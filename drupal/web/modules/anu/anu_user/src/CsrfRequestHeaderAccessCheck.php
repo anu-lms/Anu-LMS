@@ -24,7 +24,16 @@ class CsrfRequestHeaderAccessCheck extends CsrfRequestHeaderAccessCheckBase {
    */
   public function access(Request $request, AccountInterface $account) {
     $method = $request->getMethod();
-    $is_backend_request = substr($GLOBALS['request']->server->get('REQUEST_URI'),0, 7) === '/admin/';
+    $is_backend_request = FALSE;
+
+    $referer = $request->headers->get('referer');
+    if (!empty($referer)) {
+
+      $referer_url = parse_url($referer);
+      if (!empty($referer_url['path'])) {
+        $is_backend_request = substr($referer_url,0, 7) === '/admin/';
+      }
+    }
 
     // Based on original CsrfRequestHeaderAccessCheck->access() method,
     // but validation should work only for requests from backend.
