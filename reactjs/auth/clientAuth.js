@@ -68,12 +68,9 @@ export default class extends Auth {
         .query({ '_format': 'json' })
         .end((error, response) => {
           if (error) {
-            console.log('Logout error:');
-            console.log(error);
-
+            console.error('Logout error:', error);
             if (response && response.body && response.body.message) {
-              console.log('Response:');
-              console.log(response);
+              console.error('Response:', response);
             }
           }
 

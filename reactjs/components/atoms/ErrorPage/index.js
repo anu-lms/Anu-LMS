@@ -27,7 +27,7 @@ class ErrorPage extends React.Component {
         .fetchCurrent(request)
         .catch(() => {
           this.context.auth.logout();
-          throw Error('Log out user because he has no access to /user/me');
+          console.error('Log out user because he has no access to /user/me');
         });
     }
   }
