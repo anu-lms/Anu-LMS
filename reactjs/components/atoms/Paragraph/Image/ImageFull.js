@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fileUrl } from '../../../../utils/url';
 import xss from 'xss';
+import { fileUrl } from '../../../../utils/url';
 
 class ImageFull extends React.Component {
   componentDidMount() {
