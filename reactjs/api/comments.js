@@ -1,7 +1,7 @@
 import * as dataProcessors from '../utils/dataProcessors';
 
 /**
- * Make a request to the backend to fetch paragraph entities.
+ * Make a request to the backend to fetch comment entities.
  */
 export const fetchComments = (request, paragraphId, organizationId = null) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   const query = {
