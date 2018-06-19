@@ -54,6 +54,9 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
       // @see: server.js file for proxy request implementation.
       superagent
         .get(`/api/vimeo/${videoId}`)
+        // Vimeo API has rate limit, it returns rate limit issue 429 if there are too many requests.
+        // Add additional filter by fields is one of the optimization option.
+        // https://developer.vimeo.com/guidelines/rate-limiting
         .query({
           fields: 'pictures.sizes.link',
         })
