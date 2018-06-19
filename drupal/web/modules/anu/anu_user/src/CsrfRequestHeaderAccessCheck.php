@@ -31,7 +31,7 @@ class CsrfRequestHeaderAccessCheck extends CsrfRequestHeaderAccessCheckBase {
 
       $referer_url = parse_url($referer);
       if (!empty($referer_url['path'])) {
-        $is_backend_request = substr($referer_url,0, 7) === '/admin/';
+        $is_backend_request = substr($referer_url['path'],0, 7) === '/admin/';
       }
     }
 
