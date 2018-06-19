@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const globImporter = require('node-sass-glob-importer');
 const httpServer = require('http');
 const socketio = require('socket.io');
+const requestProxy = require('express-request-proxy');
 const routes = require('./routes');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -83,6 +84,17 @@ app.prepare()
       res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
       res.send(sassResult.css);
     });
+
+    // Vimeo requires secure access token using to get private video metadata.
+    // We can't keep secure tokens on the frontend, so we make request from the frontend to
+    // request proxy, request proxy gets key from the server environment variables,
+    // attaches to the original request and make request to the url.
+    expressServer.get('/api/vimeo/:id', requestProxy({
+      url: 'https://api.vimeo.com/videos/:id',
+      headers: {
+        'Authorization': `Bearer ${process.env.VIMEO_ACCESS_TOKEN}`,
+      },
+    }));
 
     // Send robots.txt file from /static folder.
     const options = {
