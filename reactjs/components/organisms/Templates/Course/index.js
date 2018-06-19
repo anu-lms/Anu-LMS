@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import xss from 'xss';
 import { Link } from '../../../../routes';
 import ResumeButton from '../../../moleculas/Course/ResumeButton';
 import Instructors from '../../../moleculas/Course/Instructors';
@@ -8,7 +9,6 @@ import TimeToComplete from '../../../moleculas/Course/TimeToComplete';
 import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
 import * as lessonHelper from '../../../../helpers/lesson';
 import * as courseHelper from '../../../../helpers/course';
-import xss from 'xss';
 
 const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
   <div className="container container-course pt-3 pt-md-5">
