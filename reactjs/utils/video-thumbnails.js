@@ -45,21 +45,20 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
   else if (['www.vimeo.com', 'vimeo.com', 'player.vimeo.com'].indexOf(urlobj.host) !== -1) {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {
-      const videoId = match[1];
+      // @todo: variable doesn't available from Platform.sh hardcode value as workaround.
+      // const vimeoAccessToken = process.env.VIMEO_ACCESS_TOKEN;
+      const vimeoAccessToken = '2d4ff1a9d3b8ca858f4fa3c45a20082e';
+      if (!vimeoAccessToken) {
+        console.error('Vimeo access token isn\'t defined in environment variables');
+        reject();
+        return;
+      }
 
-      // Vimeo requires secure access token using to get private video metadata.
-      // We can't keep secure tokens on the frontend, so we make request from the frontend to
-      // request proxy, request proxy gets key from the server environment variables,
-      // attaches to the original request and make request to the url.
-      // @see: server.js file for proxy request implementation.
+      const videoId = match[1];
       superagent
-        .get(`/api/vimeo/${videoId}`)
-        // Vimeo API has rate limit, it returns rate limit issue 429 if there are too many requests.
-        // Add additional filter by fields is one of the optimization option.
-        // https://developer.vimeo.com/guidelines/rate-limiting
-        .query({
-          fields: 'pictures.sizes.link',
-        })
+        .get(`https://api.vimeo.com/videos/${videoId}`)
+        .set('Authorization', `Bearer ${vimeoAccessToken}`)
+        .query({ '_format': 'json' })
         .then(({ body }) => {
           resolve({
             url: body.pictures.sizes[3].link,
