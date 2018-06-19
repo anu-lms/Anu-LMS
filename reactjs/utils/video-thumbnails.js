@@ -54,6 +54,9 @@ export const getThumbnail = url => new Promise((resolve, reject) => {
       // @see: server.js file for proxy request implementation.
       superagent
         .get(`/api/vimeo/${videoId}`)
+        .query({
+          fields: 'pictures.sizes.link',
+        })
         .then(({ body }) => {
           resolve({
             url: body.pictures.sizes[3].link,
