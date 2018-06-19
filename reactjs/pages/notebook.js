@@ -12,26 +12,24 @@ import * as userApi from '../api/user';
 import * as notebookApi from '../api/notebook';
 
 class NotebookPage extends Component {
-  static async getInitialProps({ store, request, res, req }) {
+  static async getInitialProps({ store, request, res, isServer }) {
     let initialProps = {
       notes: [],
       statusCode: 200,
     };
 
-    const isServer = !!req;
-    console.log(store);
-
-    // if (store.getState) {
-    const state = store.getState();
-    // }
-
     try {
       let currentUserId = null;
-      if (state && state.user && state.user.uid > 0) {
-        currentUserId = state.user.uid;
+      if (!isServer) {
+        const state = store.getState();
+
+        if (state && state.user && state.user.uid > 0) {
+          currentUserId = state.user.uid;
+        }
       }
-      else {
-        // Get currently logged in user.
+
+      if (!currentUserId) {
+        // Get currently logged in user if value in store isn't available.
         const currentUser = await userApi
           .fetchCurrent(request)
           .catch(error => {

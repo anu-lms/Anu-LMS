@@ -7,10 +7,17 @@ import PageLoader from '../components/atoms/PageLoader';
 export default function (PageComponent) {
   return class ReduxPage extends React.Component {
     static async getInitialProps(ctx) {
+      const isServer = !!ctx.req;
+
       let initialProps = {
         dispatch: store.dispatch,
-        store,
+        isServer,
       };
+
+      // Passes store parameter to the initialProps function if it's not rendered by server.
+      if (!isServer) {
+        initialProps.store = store;
+      }
 
       if (PageComponent.getInitialProps) {
         const childInitialProps = await PageComponent.getInitialProps({ ...initialProps, ...ctx });
