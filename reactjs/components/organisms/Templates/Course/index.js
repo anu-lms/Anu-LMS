@@ -8,6 +8,7 @@ import TimeToComplete from '../../../moleculas/Course/TimeToComplete';
 import LinkWithProgress from '../../../atoms/Link/LinkWithProgress';
 import * as lessonHelper from '../../../../helpers/lesson';
 import * as courseHelper from '../../../../helpers/course';
+import xss from 'xss';
 
 const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
   <div className="container container-course pt-3 pt-md-5">
@@ -78,7 +79,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
           <h5>Overview</h5>
           {
             // eslint-disable-next-line react/no-danger
-          }<div dangerouslySetInnerHTML={{ __html: course.description }} />
+          }<div dangerouslySetInnerHTML={{ __html: xss(course.description) }} />
         </Fragment>
         }
         {course.hasResources &&
