@@ -38,6 +38,12 @@ class Lesson {
    *   An array of Paragraph objects.
    */
   public function loadParagraphsByType($lesson, $types = []) {
+    $lesson_paragraph_ids = array_column($lesson->field_lesson_blocks->getValue(), 'target_id');
+    // Returns an empty array if lesson doesn't contain paragraphs (buy might have some ghost, not assigned to lesson).
+    if (empty($lesson_paragraph_ids)) {
+      return [];
+    }
+
     $query = \Drupal::entityQuery('paragraph')
       ->condition('parent_id', $lesson->id());
     if (!empty($types)) {
@@ -45,7 +51,6 @@ class Lesson {
     }
 
     // Added an additional condition by id to skip ghost paragraphs.
-    $lesson_paragraph_ids = array_column($lesson->field_lesson_blocks->getValue(), 'target_id');
     $query->condition('id', $lesson_paragraph_ids, 'IN');
 
     $ids = $query->execute();
