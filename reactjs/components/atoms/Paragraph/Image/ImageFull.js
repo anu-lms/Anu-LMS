@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import xss from 'xss';
 import { fileUrl } from '../../../../utils/url';
 
 class ImageFull extends React.Component {
@@ -33,7 +34,7 @@ class ImageFull extends React.Component {
               <div
                 className="text"
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: text.value }}
+                dangerouslySetInnerHTML={{ __html: xss(text.value) }}
               />
               }
             </div>
