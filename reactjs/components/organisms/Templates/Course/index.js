@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import xss from 'xss';
 import { Link } from '../../../../routes';
 import ResumeButton from '../../../moleculas/Course/ResumeButton';
 import Instructors from '../../../moleculas/Course/Instructors';
@@ -78,7 +79,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
           <h5>Overview</h5>
           {
             // eslint-disable-next-line react/no-danger
-          }<div dangerouslySetInnerHTML={{ __html: course.description }} />
+          }<div dangerouslySetInnerHTML={{ __html: xss(course.description) }} />
         </Fragment>
         }
         {course.hasResources &&

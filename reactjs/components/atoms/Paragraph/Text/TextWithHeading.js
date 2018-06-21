@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import xss from 'xss';
 import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class TextWithHeading extends React.Component {
@@ -31,7 +32,7 @@ class TextWithHeading extends React.Component {
 
               {text &&
               // eslint-disable-next-line react/no-danger
-              <div dangerouslySetInnerHTML={{ __html: text.value }} />
+              <div dangerouslySetInnerHTML={{ __html: xss(text.value) }} />
               }
 
               {commentsAllowed &&
