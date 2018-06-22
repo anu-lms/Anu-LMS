@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import xss from 'xss';
 import ShowCommentsCTA from '../../../moleculas/Lesson/ShowCommentsCTA';
 
 class Text extends React.Component {
