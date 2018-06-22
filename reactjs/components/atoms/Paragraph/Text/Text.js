@@ -26,7 +26,7 @@ class Text extends React.Component {
           <div className={columnClasses.join(' ')}>
             {
             // eslint-disable-next-line react/no-danger
-            }<div dangerouslySetInnerHTML={{ __html: xss(text.value) }} />
+            }<div dangerouslySetInnerHTML={{ __html: text.value }} />
 
             {commentsAllowed &&
               <ShowCommentsCTA paragraphId={id} />
