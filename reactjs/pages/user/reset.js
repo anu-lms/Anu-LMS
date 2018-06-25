@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Router } from '../../routes';
 import withAuth from '../../auth/withAuth';
+import withRedux from '../../store/withRedux';
+import withSentry from '../../application/withSentry';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../../utils/dataProcessors';
 import ResetForm from '../../components/moleculas/Form/Password/Reset';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
-import withRedux from '../../store/withRedux';
 
 class ResetPasswordPage extends Component {
   // Skip initial redirection in withAuth module
@@ -68,4 +69,4 @@ ResetPasswordPage.defaultProps = {
   user: {},
 };
 
-export default withRedux(withAuth(ResetPasswordPage));
+export default withSentry(withRedux(withAuth(ResetPasswordPage)));

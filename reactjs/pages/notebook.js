@@ -5,6 +5,7 @@ import urlParse from 'url-parse';
 import Alert from 'react-s-alert';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
+import withSentry from '../application/withSentry';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import * as notebookActions from '../actions/notebook';
@@ -147,4 +148,4 @@ const mapStateToProps = store => {
   return state;
 };
 
-export default withRedux(connect(mapStateToProps)(withAuth(NotebookPage)));
+export default withSentry(withRedux(connect(mapStateToProps)(withAuth(NotebookPage))));

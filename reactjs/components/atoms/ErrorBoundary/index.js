@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Raven from 'raven-js';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -7,8 +8,9 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  componentDidCatch() {
+  componentDidCatch(error, errorInfo) {
     this.setState({ hasError: true });
+    Raven.captureException(error, { extra: errorInfo });
   }
 
   // @todo: Improve behaviour, make message configurable.
