@@ -52,11 +52,10 @@ class PasswordForm extends React.Component {
     });
 
     try {
-      const tokenResponse = await request.get('/session/token');
       await request
-        .post('/user/password/request?_format=json')
+        .post('/user/password/request')
         .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', tokenResponse.text)
+        .query({ '_format': 'json' })
         .send({
           username: formData.username,
         });

@@ -4,8 +4,8 @@
  * Rewrites URL for subdirectory usage.
  */
 if (!empty($GLOBALS['request'])) {
-  $requestUri = $GLOBALS['request']->server->get('REQUEST_URI');
-  if (strpos($requestUri, '/admin') === 0) {
+  $is_backend_request = substr($GLOBALS['request']->server->get('REQUEST_URI'),0, 7) === '/admin/';
+  if ($is_backend_request) {
     $scriptName = $GLOBALS['request']->server->get('SCRIPT_NAME');
     $GLOBALS['request']->server->set('SCRIPT_NAME', '/admin' . $scriptName);
   }

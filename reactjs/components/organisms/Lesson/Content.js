@@ -257,7 +257,7 @@ class LessonContent extends React.Component {
    * Submit all quizzes within lesson to the backend.
    */
   async submitQuizzes() {
-    const { lesson, quizzesData, dispatch, sessionToken } = this.props;
+    const { lesson, quizzesData, dispatch } = this.props;
 
     this.setState({ isSending: true });
 
@@ -272,9 +272,9 @@ class LessonContent extends React.Component {
 
     try {
       await request
-        .post('/quizzes/results?_format=json')
+        .post('/quizzes/results')
         .set('Content-Type', 'application/json')
-        .set('X-CSRF-Token', sessionToken)
+        .query({ '_format': 'json' })
         .send({
           lessonId: lesson.id,
           quizzes: quizzesData,
@@ -397,7 +397,6 @@ const mapStateToProps = (store, ownProps) => ({
   navigation: store.navigation,
   storeLessons: store.lesson,
   lessonSidebar: store.lessonSidebar.sidebar,
-  sessionToken: store.user.sessionToken,
 });
 
 LessonContent.contextTypes = {

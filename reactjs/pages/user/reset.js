@@ -27,7 +27,9 @@ class ResetPasswordPage extends Component {
     }
 
     try {
-      const response = await request.get(`/user/password/reset/${query.uid}/${query.timestamp}/${query.hash}?_format=json`);
+      const response = await request
+        .get(`/user/password/reset/${query.uid}/${query.timestamp}/${query.hash}`)
+        .query({ '_format': 'json' });
       initialProps = {
         user: dataProcessors.userData(response.body),
       };

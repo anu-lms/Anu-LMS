@@ -12,22 +12,34 @@ import * as userApi from '../api/user';
 import * as notebookApi from '../api/notebook';
 
 class NotebookPage extends Component {
-  static async getInitialProps({ request, res }) {
+  static async getInitialProps({ store, request, res, isServer }) {
     let initialProps = {
       notes: [],
       statusCode: 200,
     };
 
     try {
-      // Get currently logged in user.
-      const currentUser = await userApi
-        .fetchCurrent(request)
-        .catch(error => {
-          initialProps.statusCode = error.response.status;
-          throw Error(error.response.body.message);
-        });
+      let currentUserId = null;
+      if (!isServer) {
+        const state = store.getState();
 
-      initialProps.notes = await notebookApi.fetchNotes(request, currentUser.uid);
+        if (state && state.user && state.user.uid > 0) {
+          currentUserId = state.user.uid;
+        }
+      }
+
+      if (!currentUserId) {
+        // Get currently logged in user if value in store isn't available.
+        const currentUser = await userApi
+          .fetchCurrent(request)
+          .catch(error => {
+            initialProps.statusCode = error.response.status;
+            throw Error(error.response.body.message);
+          });
+        currentUserId = currentUser.uid;
+      }
+
+      initialProps.notes = await notebookApi.fetchNotes(request, currentUserId);
     } catch (error) {
       console.error('Could not fetch notebook notes.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
@@ -40,9 +52,6 @@ class NotebookPage extends Component {
       try {
         const title = 'Taking Notes';
         const body = '<p><strong>Welcome to your personal notebook!</strong> This is your space to record and reflect.</p><p></p><p>Format text using the options above for <strong>bold</strong>, <em>italics</em>, and <u>underline.</u></p><ul><li>Create lists with bullet points or numbers!</li></ul><p><u>Notes are saved automatically</u>, so don’t worry about losing anything by accident.</p><p></p><p>If you decide to delete a note, simply select “Delete Note” from the menu options at the top right corner of this page (the 3 dots icon).</p><p></p><p><strong>Take a new note with the “Add New” icon at the top of your notebook!</strong></p>';
-
-        const sessionToken = await request.get('/session/token');
-        request.set('X-CSRF-Token', sessionToken.text);
 
         const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];

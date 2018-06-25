@@ -31,22 +31,13 @@ export default function* lessonSagas() {
 function* lessonProgressSyncWatcher(action) {
   const { lesson } = action;
 
-  // Get session token which is necessary for all post requests.
-  let sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-
-  if (!sessionToken) {
-    // Store is empty yet when function executes first time (after page reload).
-    const sessionResponse = yield request.get('/session/token');
-    sessionToken = sessionResponse.text;
-  }
-
   // As soon as lesson is opened, we send request to the backend to log
   // a page hit.
-  yield fork(sendLessonProgress, lesson, 0, sessionToken);
+  yield fork(sendLessonProgress, lesson, 0);
 
   // Run sync operation in the background. This operation will send lesson
   // progress to the backend every ${backendSyncDelay} milliseconds.
-  const task = yield fork(syncLessonProgressInBackground, lesson, sessionToken);
+  const task = yield fork(syncLessonProgressInBackground, lesson);
 
   // As soon as lesson is opened, the saga is already awaiting for the dispatch
   // action which closes the lesson.
@@ -77,7 +68,8 @@ function* lessonQuizzesDataFetcher(action) {
     try {
       // Load previously submitted quizzes for the current user from the backend.
       const quizzesResonse = yield request
-        .get(`/quizzes/results/${quizIds.join(',')}?_format=json`);
+        .get(`/quizzes/results/${quizIds.join(',')}`)
+        .query({ '_format': 'json' });
 
       const quizzesResults = quizzesResonse.body;
 
@@ -94,9 +86,8 @@ function* lessonQuizzesDataFetcher(action) {
       if (quizzesResults.length > 0) {
         yield put(lessonActions.setQuizzesSaved(lesson.id));
       }
-    } catch (e) {
-      console.log('Could not load quiz results from the backend. Error:');
-      console.log(e);
+    } catch (error) {
+      console.log('Could not load quiz results from the backend.', error);
     }
   }
 }
@@ -104,7 +95,7 @@ function* lessonQuizzesDataFetcher(action) {
 /**
  * Saga action to send lesson progress to the backend.
  */
-function* syncLessonProgressInBackground(lesson, token) {
+function* syncLessonProgressInBackground(lesson) {
   // The delay before we start sync process with the backend.
   yield delay(backendSyncDelay);
 
@@ -127,16 +118,14 @@ function* syncLessonProgressInBackground(lesson, token) {
       // updated progress to the backend.
       if (latestProgress > progress) {
         progress = latestProgress;
-        yield call(sendLessonProgress, lesson, latestProgress, token);
+        yield call(sendLessonProgress, lesson, latestProgress);
       }
 
       // Wait before checking the lesson's progress again.
       yield delay(backendSyncDelay);
     }
-  }
-  catch (e) {
-    console.log('Error during sync of lesson progress:');
-    console.log(e);
+  } catch (error) {
+    console.log('Error during sync of lesson progress:', error);
   }
   // Executes on task cancellation.
   finally {
@@ -147,7 +136,7 @@ function* syncLessonProgressInBackground(lesson, token) {
     // If there is some progress, send it to the backend before the background
     // sync task is cancelled for this lesson.
     if (latestProgress > progress) {
-      yield call(sendLessonProgress, lesson, latestProgress, token);
+      yield call(sendLessonProgress, lesson, latestProgress);
     }
   }
 }
@@ -155,7 +144,7 @@ function* syncLessonProgressInBackground(lesson, token) {
 /**
  * Helper function which sends lesson's progress to the backend.
  */
-function* sendLessonProgress(lesson, progress, token) {
+function* sendLessonProgress(lesson, progress) {
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -164,11 +153,10 @@ function* sendLessonProgress(lesson, progress, token) {
 
     // Sending request to the custom REST endpoint.
     yield request
-      .post(`/learner/progress/${lesson.id}/${progress}?_format=json`)
+      .post(`/learner/progress/${lesson.id}/${progress}`)
       .set('Content-Type', 'application/json')
-      .set('X-CSRF-Token', token);
-  } catch (e) {
-    console.log('Could not send lesson\'s progress to the backend. Error:');
-    console.log(e);
+      .query({ '_format': 'json' });
+  } catch (error) {
+    console.log('Could not send lesson\'s progress to the backend.', error);
   }
 }
