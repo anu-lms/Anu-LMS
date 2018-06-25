@@ -176,7 +176,7 @@ class SearchResults extends ResourceBase {
     $entities = [];
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($result_set->getResultItems() as $item) {
-      /** @var $entity \Drupal\entity\Entity\RevisionableEntityBundleInterface  */
+      /** @var \Drupal\entity\Entity\RevisionableEntityBundleInterface $entity */
       $entity = $item->getOriginalObject()->getValue();
       $entity_type = $entity->getEntityTypeId();
       $entity_bundle = $entity->bundle();

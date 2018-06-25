@@ -27,10 +27,6 @@ function* removeEmptyNote() {
 
     // Make DELETE request.
     try {
-      // Attaches session token to the request.
-      const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-      request.set('X-CSRF-Token', sessionToken);
-
       // Making sure the request object includes the valid access token.
       const auth = new ClientAuth();
       const accessToken = yield apply(auth, auth.getAccessToken);
@@ -86,10 +82,6 @@ function* sidebarIsOpened({ activeTab, context }) {
 
       // Lock logout until note add operation is safely completed.
       const lockId = lock.add('notebook-add-note');
-
-      // Attaches session token to the request.
-      const sessionToken = yield select(reduxStore => reduxStore.user.sessionToken);
-      request.set('X-CSRF-Token', sessionToken);
 
       // Making sure the request object includes the valid access token.
       const auth = new ClientAuth();

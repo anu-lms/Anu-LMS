@@ -1,13 +1,11 @@
 import React from 'react';
 import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as lock from '../../../../utils/lock';
-import * as userActionHelpers from '../../../../actions/user';
+import * as userApi from '../../../../api/user';
 
 const schema = {
   'type': 'object',
@@ -75,7 +73,6 @@ class PasswordForm extends React.Component {
   }
 
   async submitForm({ formData }) {
-    const { sessionToken, dispatch } = this.props;
     if (formData.password_new !== formData.password_new_confirm) {
       Alert.error("New password and Confirm New Password fields don't match");
       return;
@@ -92,13 +89,10 @@ class PasswordForm extends React.Component {
     try {
       // Get superagent request with authentication.
       const { request } = await this.context.auth.getRequest();
-      // @todo: replace with userApi.fetchCurrent().
-      const userResponse = await request.get('/user/me?_format=json');
-      const currentUser = dataProcessors.userData(userResponse.body);
+      const currentUser = await userApi.fetchCurrent(request);
 
       await request
         .patch(`/jsonapi/user/user/${currentUser.uuid}`)
-        .set('X-CSRF-Token', sessionToken)
         .send({
           data: {
             type: 'user--user',
@@ -118,12 +112,6 @@ class PasswordForm extends React.Component {
       // Re-login required if user data has changed.
       // Use login instead of refresh token here, because refreshtoken is buggy sometimes.
       await this.context.auth.login(currentUser.name, formData.password_new);
-
-      // Makes request to get session token that will be used for post requests.
-      const updatedSessionToken = await request.get('/session/token');
-
-      // Update sessionToken in application store.
-      dispatch(userActionHelpers.updateSessionToken(updatedSessionToken.text));
     } catch (error) {
       Alert.error('We could not update your password. Please, make sure current password is correct.');
       console.error(error);
@@ -163,8 +151,4 @@ PasswordForm.contextTypes = {
   }),
 };
 
-const mapStateToProps = ({ user }) => ({
-  sessionToken: user.sessionToken,
-});
-
-export default connect(mapStateToProps)(PasswordForm);
+export default PasswordForm;
