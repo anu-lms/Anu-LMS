@@ -51,8 +51,10 @@ class CoursePage extends React.Component {
           // User fields.
           'fields[user--user]': 'uuid,field_first_name,field_last_name',
           // Filter by nid.
-          'filter[field_path][value]': '/module-3-macronutrients-supplements',
+          'filter[field_path][value]': query.course,
         });
+
+      // TODO: 403 and 404.
 
       // 403 Errors from this response can't be catches with simple catch,
       // so we check response body for errors and throw an error.
