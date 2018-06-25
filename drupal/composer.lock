@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a9a8e929835da568caecd993660f3e7",
+    "content-hash": "df80827d10bfbf0d1d11b2c7ed0705fe",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4305,6 +4305,56 @@
             }
         },
         {
+            "name": "drupal/raven",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/raven",
+                "reference": "8.x-2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/raven-8.x-2.5.zip",
+                "reference": "8.x-2.5",
+                "shasum": "1a62195da25f126d3feb1d94ae782050ebb02a85"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "sentry/sentry": "^1.7.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.5",
+                    "datestamp": "1528994021",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Burdett (mfb)",
+                    "homepage": "https://www.drupal.org/u/mfb",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Raven is an exception logging client for Sentry (sentry.io).",
+            "homepage": "https://www.drupal.org/project/raven",
+            "support": {
+                "source": "http://cgit.drupalcode.org/raven",
+                "issues": "https://www.drupal.org/project/issues/raven"
+            }
+        },
+        {
             "name": "drupal/require_login",
             "version": "1.10.0",
             "source": {
@@ -6438,6 +6488,70 @@
                 "shell"
             ],
             "time": "2017-12-28T16:14:16+00:00"
+        },
+        {
+            "name": "sentry/sentry",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsentry/sentry-php.git",
+                "reference": "7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf",
+                "reference": "7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": "^5.3|^7.0"
+            },
+            "conflict": {
+                "raven/raven": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.8.0",
+                "monolog/monolog": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "suggest": {
+                "ext-hash": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "monolog/monolog": "Automatically capture Monolog events as breadcrumbs"
+            },
+            "bin": [
+                "bin/sentry"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.10.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Raven_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
+                }
+            ],
+            "description": "A PHP client for Sentry (http://getsentry.com)",
+            "homepage": "http://getsentry.com",
+            "keywords": [
+                "log",
+                "logging"
+            ],
+            "time": "2018-06-19T15:02:57+00:00"
         },
         {
             "name": "skyscanner/jsonpath",
