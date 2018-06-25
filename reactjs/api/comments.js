@@ -31,7 +31,7 @@ export const fetchComments = (request, paragraphId, organizationId = null) => ne
       resolve(comments);
     })
     .catch(error => {
-      console.log('Could not fetch list of comments.', error);
+      console.error('Could not fetch list of comments.', error);
       reject(error);
     });
 });
@@ -65,7 +65,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
       resolve(comment);
     })
     .catch(error => {
-      console.log('Could not save the comment.', error);
+      console.error('Could not save the comment.', error);
       reject(error);
     });
 });
@@ -102,7 +102,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
       resolve(comment);
     })
     .catch(error => {
-      console.log('Could not update a comment.', error);
+      console.error('Could not update a comment.', error);
       reject(error);
     });
 });
@@ -118,7 +118,7 @@ export const deleteComment = (request, uuid) => new Promise((resolve, reject) =>
       resolve();
     })
     .catch(error => {
-      console.log('Could not delete a comment.', error);
+      console.error('Could not delete a comment.', error);
       reject(error);
     });
 });

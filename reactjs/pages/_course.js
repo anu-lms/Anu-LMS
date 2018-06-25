@@ -29,7 +29,7 @@ class CoursePage extends React.Component {
 
       // Make sure the node is of the right type.
       if (entity.type !== 'node' || entity.bundle !== 'course') {
-        console.log('Could not find the course under with the given URL.');
+        console.error('Could not find the course under with the given URL.');
         if (res) res.statusCode = 404;
         initialProps.statusCode = 404;
         return initialProps;
@@ -68,7 +68,7 @@ class CoursePage extends React.Component {
 
       initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
     } catch (error) {
-      console.log('Could not load course.', error);
+      console.error('Could not load course.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
 
       if (res) res.statusCode = initialProps.statusCode;
@@ -104,7 +104,7 @@ class CoursePage extends React.Component {
     } catch (error) {
       // Log error but still render the page, because this issue is not a
       // deal breaker to display course content.
-      console.log('Could not fetch course progress.', error);
+      console.error('Could not fetch course progress.', error);
     }
 
     return initialProps;

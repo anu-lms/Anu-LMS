@@ -35,7 +35,7 @@ class ResetPasswordPage extends Component {
         user: dataProcessors.userData(response.body),
       };
     } catch (error) {
-      console.log(error.response);
+      console.error('Could not fetch current user on reset password page.', error.response);
     }
 
     return initialProps;
