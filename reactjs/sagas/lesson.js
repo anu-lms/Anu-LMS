@@ -87,7 +87,7 @@ function* lessonQuizzesDataFetcher(action) {
         yield put(lessonActions.setQuizzesSaved(lesson.id));
       }
     } catch (error) {
-      console.log('Could not load quiz results from the backend.', error);
+      console.error('Could not load quiz results from the backend.', error);
     }
   }
 }
@@ -125,7 +125,7 @@ function* syncLessonProgressInBackground(lesson) {
       yield delay(backendSyncDelay);
     }
   } catch (error) {
-    console.log('Error during sync of lesson progress:', error);
+    console.error('Error during sync of lesson progress:', error);
   }
   // Executes on task cancellation.
   finally {
@@ -157,6 +157,6 @@ function* sendLessonProgress(lesson, progress) {
       .set('Content-Type', 'application/json')
       .query({ '_format': 'json' });
   } catch (error) {
-    console.log('Could not send lesson\'s progress to the backend.', error);
+    console.error('Could not send lesson\'s progress to the backend.', error);
   }
 }

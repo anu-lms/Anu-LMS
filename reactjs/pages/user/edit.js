@@ -13,7 +13,7 @@ class UserEditPage extends Component {
     const currentUser = await userApi
       .fetchCurrent(request)
       .catch(error => {
-        console.log(error);
+        console.error('Could not fetch current user on user edit page.', error);
         return { user: {} };
       });
 

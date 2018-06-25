@@ -57,7 +57,7 @@ class NotebookPage extends Component {
         const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
-        console.log('Could not create a welcome note.', error);
+        console.error('Could not create a welcome note.', error);
       }
     }
 
