@@ -29,7 +29,6 @@ function withSentry(Child) {
         })
         .addPlugin(require('raven-js/plugins/console')) // eslint-disable-line global-require
         .install();
-      console.log(process.env);
     }
 
     componentDidCatch(error, errorInfo) {
