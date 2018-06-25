@@ -19,7 +19,8 @@ export const courseDataFromREST = course => ({
 });
 
 export const courseData = courseDataObject => {
-  const course = courseDataObject.entityId;
+  const course = courseDataObject.entityId ? courseDataObject.entityId : courseDataObject;
+  console.log(course);
   const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['576x450'] : 'http://via.placeholder.com/576x450';
 
   let lessons = [];
@@ -68,8 +69,8 @@ export const courseData = courseDataObject => {
 
   return {
     id: course.nid,
-    groupId: courseDataObject.gid.id ? courseDataObject.gid.id : null,
-    groupLabel: courseDataObject.gid.label ? courseDataObject.gid.label : null,
+    groupId: courseDataObject.gid && courseDataObject.gid.id ? courseDataObject.gid.id : null,
+    groupLabel: courseDataObject.gid && courseDataObject.gid.label ? courseDataObject.gid.label : null,
     created: course.created,
     title: course.title,
     url: courseHelper.getUrl(course.path.alias),

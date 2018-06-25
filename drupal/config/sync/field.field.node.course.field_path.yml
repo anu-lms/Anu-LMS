@@ -1,0 +1,23 @@
+uuid: 8b9bd29c-e90e-40e0-b446-c48ce2386e86
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_path
+    - node.type.course
+  module:
+    - fieldable_path
+id: node.course.field_path
+field_name: field_path
+entity_type: node
+bundle: course
+label: Path
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: fieldable_path
