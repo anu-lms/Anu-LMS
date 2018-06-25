@@ -9,10 +9,12 @@ dependencies:
     - field.field.node.course.field_course_instructors
     - field.field.node.course.field_course_lessons
     - field.field.node.course.field_course_organisation
+    - field.field.node.course.field_path
     - field.field.node.course.field_time_to_complete_minutes
     - image.style.thumbnail
     - node.type.course
   module:
+    - fieldable_path
     - image
     - text
 id: node.course.default
@@ -69,6 +71,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
+  field_path:
+    type: fieldable_path_widget
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_time_to_complete_minutes:
     weight: 5
     settings:

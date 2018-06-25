@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from '../routes';
 import withAuth from '../auth/withAuth';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import withRedux from '../store/withRedux';
@@ -17,7 +18,7 @@ class CoursePage extends React.Component {
 
     try {
       // Get a course by path.
-      response = await request
+      /*response = await request
         .get('/router/translate-path')
         .query({
           '_format': 'json',
@@ -32,29 +33,25 @@ class CoursePage extends React.Component {
         if (res) res.statusCode = 404;
         initialProps.statusCode = 404;
         return initialProps;
-      }
+      }*/
 
-      // TODO: Handle case when path alias was changed.
-      // TODO: POTENTIAL TO REMOVE GROUP.
       const responseCourse = await request
-        .get('/jsonapi/group_content/class-group_node-course')
+        .get('/jsonapi/node/course')
         .query({
           // Include class group, course entity, course image.
-          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons,entity_id.field_course_organisation,entity_id.field_course_instructors,entity_id.field_time_to_complete_minutes,entity_id.field_course_description',
+          'include': 'field_course_image,field_course_lessons,field_course_organisation,field_course_instructors,field_time_to_complete_minutes,field_course_description',
           // Course entity fields.
           'fields[node--course]': 'title,nid,uuid,path,field_course_image,field_course_lessons,created,field_course_organisation,field_course_instructors,field_time_to_complete_minutes,field_course_description,field_course_has_resources',
           // Lesson entity fields.
           'fields[node--lesson]': 'title,path,nid',
           // Course image fields.
           'fields[file--image]': 'url',
-          // Class group fields.
-          'fields[group--class]': 'uuid,label',
           // Organisation fields.
           'fields[taxonomy_term--organisations]': 'uuid,name',
           // User fields.
           'fields[user--user]': 'uuid,field_first_name,field_last_name',
           // Filter by nid.
-          'filter[entity_id][value]': entity.id,
+          'filter[field_path][value]': '/module-3-macronutrients-supplements',
         });
 
       // 403 Errors from this response can't be catches with simple catch,
@@ -74,7 +71,7 @@ class CoursePage extends React.Component {
       return initialProps;
     }
 
-    try {
+    /*try {
       // Fetch data regarding the course progress from the backend.
       response = await request
         .get(`/learner/progress/${initialProps.course.id}`)
@@ -104,7 +101,7 @@ class CoursePage extends React.Component {
       // Log error but still render the page, because this issue is not a
       // deal breaker to display course content.
       console.log('Could not fetch course progress.', error);
-    }
+    }*/
 
     return initialProps;
   }
@@ -113,6 +110,7 @@ class CoursePage extends React.Component {
     const { course, statusCode } = this.props;
     return (
       <SiteTemplate statusCode={statusCode}>
+        <Link to={'/course/module-3-macronutrients-supplements'}><a>reload</a></Link>
         <CoursePageTemplate course={course} />
       </SiteTemplate>
     );
