@@ -7,11 +7,11 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Assigns a chosen organization to a user.
+ * Assigns a chosen organizations to a user.
  *
  * @Action(
  *   id = "anu_assign_organization",
- *   label = @Translation("Assign Organization to the selected users"),
+ *   label = @Translation("Assign Organizations to the selected users"),
  *   type = "user",
  *   requirements = {
  *     "_permission" = "administer users",
@@ -26,8 +26,20 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-    $entity->field_organization->target_id = $this->configuration['organization'];
-    $entity->save();
+    $need_save = FALSE;
+    $organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+
+    foreach ($this->configuration['organization'] as $new_id) {
+      if ($new_id > 0 && !in_array($new_id, $organization_ids)) {
+        $organization_ids[] = $new_id;
+        $need_save = TRUE;
+      }
+    }
+
+    if ($need_save) {
+      $entity->field_organization = $organization_ids;
+      $entity->save();
+    }
   }
 
   /**
@@ -61,9 +73,8 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
 
     $form['organization'] = [
       '#title' => t('Choose the organization'),
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#options' => $organization_list,
-      '#default_value' => $form_state->getValue('organization'),
     ];
 
     return $form;
