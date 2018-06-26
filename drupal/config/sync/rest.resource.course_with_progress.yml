@@ -1,0 +1,18 @@
+uuid: c86631fa-f412-49b3-adc5-c0c013e7f4ce
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_courses
+    - serialization
+    - simple_oauth
+id: course_with_progress
+plugin_id: course_with_progress
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2
