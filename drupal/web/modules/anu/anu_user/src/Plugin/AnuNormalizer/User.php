@@ -42,7 +42,7 @@ class User extends AnuNormalizerBase {
         'status' => (bool) $entity->status->getString(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
-        'roles' => $entity->changed->getValue(),
+        'roles' => $entity->roles->getString(),
         'fieldFirstName' => $entity->field_first_name->getString(),
         'fieldLastName' => $entity->field_last_name->getString(),
         'fieldOrganization' => [],
@@ -54,9 +54,9 @@ class User extends AnuNormalizerBase {
         foreach ($organizations as $organization_wrapper) {
           $organization = $organization_wrapper->get('entity')->getValue();
 
-          $output['organization'][] = [
+          $output['fieldOrganization'][] = [
             'id' => $organization->id(),
-            'name' => $organization->name->getValue(),
+            'name' => $organization->name->getString(),
           ];
         }
       }
