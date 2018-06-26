@@ -18,7 +18,16 @@ export const courseDataFromREST = course => ({
   recentAccess: course.recentLesson ? course.recentLesson.timestamp : 0,
 });
 
-export const courseData = courseDataObject => {
+export const courseData = course => ({
+  ...course,
+  url: courseHelper.getUrl(course.url),
+  urlResources: courseHelper.getResourcesUrl(course.url),
+  imageUrl: course.coverImage ? urlUtils.fileUrl(course.coverImage) : '',
+  imageAlt: course.title, // TODO: enable image alt.
+});
+
+// TODO: REMOVE
+export const courseData2 = courseDataObject => {
   const course = courseDataObject.entityId ? courseDataObject.entityId : courseDataObject;
   console.log(course);
   const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['576x450'] : 'http://via.placeholder.com/576x450';
@@ -69,20 +78,17 @@ export const courseData = courseDataObject => {
 
   return {
     id: course.nid,
-    groupId: courseDataObject.gid && courseDataObject.gid.id ? courseDataObject.gid.id : null,
-    groupLabel: courseDataObject.gid && courseDataObject.gid.label ? courseDataObject.gid.label : null,
     created: course.created,
     title: course.title,
     url: courseHelper.getUrl(course.path.alias),
     urlResources: courseHelper.getResourcesUrl(course.path.alias),
-    imageUrl: urlUtils.fileUrl(imageUrl),
-    // TODO: enable image alt.
-    imageAlt: course.title,
-    lessons,
     organisation: organizationName,
-    instructors,
-    totalMinutes: estimation,
     description: course.fieldCourseDescription ? course.fieldCourseDescription.value : '',
+    totalMinutes: estimation,
+    imageUrl: urlUtils.fileUrl(imageUrl),
+    imageAlt: course.title, // TODO: enable image alt.
+    lessons,
+    instructors,
     hasResources,
     progress: 0, // Default value.
   };
