@@ -14,63 +14,38 @@ class CourseResoucePage extends React.Component {
       statusCode: 200,
     };
 
-    // Get a course by path.
-    let response;
     try {
-      response = await request
-        .get('/router/translate-path')
-        .query({
-          '_format': 'json',
-          'path': query.course,
-        });
+      let courseResponse = await request
+      .get('/course/progress')
+      .query({
+        '_format': 'json',
+        'path': `/${query.course}`,
+      })
+      // Tell superagent to consider all requests with Drupal responses as
+      // successful. Later we capture error codes if any.
+      .ok(response => response.body && response.status);
 
-      const { entity } = response.body;
-
-      // Make sure course was found.
-      if (entity.type !== 'node' || entity.bundle !== 'course') {
-        console.log('Could not find the course under with the given URL.');
-        if (res) res.statusCode = 404;
-        initialProps.statusCode = 404;
+      // Handle any non-OK response from the backend.
+      if (courseResponse.status !== 200) {
+        console.log(courseResponse.body);
+        initialProps.statusCode = courseResponse.status;
+        if (res) res.statusCode = courseResponse.status;
         return initialProps;
       }
 
-      const responseCourse = await request
-        .get('/jsonapi/group_content/class-group_node-course')
-        .query({
-          // Include class group, course entity, course image.
-          'include': 'gid,entity_id,entity_id.field_course_image,entity_id.field_course_lessons',
-          // Course entity fields.
-          'fields[node--course]': 'title,path,nid,uuid,field_course_image,field_course_lessons,field_course_has_resources,created',
-          // Lesson entity fields.
-          'fields[node--lesson]': 'title,path,nid',
-          // Course image fields.
-          'fields[file--image]': 'url',
-          // Class group fields.
-          'fields[group--class]': 'uuid,label',
-          // Filter by nid.
-          'filter[entity_id][value]': entity.id,
-        });
-
-      // 403 Errors from this response can't be catches with simple catch,
-      // so we check response body for errors and throw an error.
-      if (responseCourse.body.data.length === 0 && responseCourse.body.meta &&
-        responseCourse.body.meta.errors && responseCourse.body.meta.errors[0].status) {
-        initialProps.statusCode = responseCourse.body.meta.errors[0].status;
-        throw Error(responseCourse.meta.errors[0].detail);
-      }
-
-      initialProps.course = dataProcessors.courseData(responseCourse.body.data[0]);
+      // Keep course data.
+      initialProps.course = dataProcessors.courseData(courseResponse.body);
     } catch (error) {
-      console.log('Could not load course.', error);
+      console.log('Could not load course.');
+      console.log(error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
-
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
     }
 
     try {
-      // Fetch data regarding the course progress from the backend.
-      response = await request
+      // Fetch course resouce data from the backend.
+      const response = await request
         .get(`/course/resources/${initialProps.course.id}`)
         .query({ '_format': 'json' });
 
@@ -82,31 +57,6 @@ class CourseResoucePage extends React.Component {
       if (res) res.statusCode = 500;
       initialProps.statusCode = 500;
       return initialProps;
-    }
-
-    try {
-      // Fetch data regarding the course progress from the backend.
-      response = await request
-        .get(`/learner/progress/${initialProps.course.id}`)
-        .query({ '_format': 'json' });
-
-      const progress = response.body;
-
-      // Add information about the course progress to the course object.
-      initialProps.course.progress = Math.round(progress.course);
-
-      // Add information about the lessons progress to the appropriate objects.
-      Object.entries(progress.lessons).forEach(([id, lessonProgress]) => {
-        const lessonId = parseInt(id); // eslint-disable-line radix
-        const index = initialProps.course.lessons.findIndex(lesson => lesson.id === lessonId);
-        if (index !== -1) {
-          initialProps.course.lessons[index].progress = Math.round(lessonProgress);
-        }
-      });
-    } catch (error) {
-      // Log error but still render the page, because this issue is not a
-      // deal breaker to display course content.
-      console.log('Could not fetch course progress.', error);
     }
 
     return initialProps;
