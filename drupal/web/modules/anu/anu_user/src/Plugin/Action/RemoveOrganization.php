@@ -45,10 +45,7 @@ class RemoveOrganization extends ViewsBulkOperationsActionBase {
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *
-   * @return array
+   * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $organizations = \Drupal::entityTypeManager()

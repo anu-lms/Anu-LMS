@@ -26,16 +26,7 @@ class UserGroupsFilter extends InOperator {
   }
 
   /**
-   *
-   */
-  public function validate() {
-    if (!empty($this->value)) {
-      parent::validate();
-    }
-  }
-
-  /**
-   *
+   * {@inheritdoc}
    */
   public function query() {
 
