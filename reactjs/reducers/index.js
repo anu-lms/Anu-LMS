@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import userOrganizations from './userOrganizations';
 import course from './course';
 import lesson from './lesson';
 import lessonSidebar from './lessonSidebar';
@@ -12,6 +13,7 @@ import overlay from './overlay';
 
 const appReducer = combineReducers({
   user,
+  userOrganizations,
   course,
   lesson,
   lessonSidebar,
