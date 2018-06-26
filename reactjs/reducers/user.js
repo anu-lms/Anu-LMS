@@ -1,11 +1,16 @@
-export default (state = { uid: 0, uuid: '' }, action) => {
+export default (state = { data: {}, activeOrganization: null }, action) => {
   switch (action.type) {
-    case 'USER_LOGIN':
+    case 'USER_LOGIN': {
+      if (action.user.organization) {
+
+      }
+
       return {
         ...state,
-        uid: action.uid,
-        uuid: action.uuid,
+        data: action.user,
+        // activeOrganization: action.activeOrganization,
       };
+    }
 
     default:
       return state;

@@ -5,6 +5,7 @@ import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import * as lock from '../../../../utils/lock';
+import * as userApi from '../../../../api/user';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 
 const schema = {
@@ -108,24 +109,10 @@ class UserEditForm extends React.Component {
       const { request } = await this.context.auth.getRequest();
       const { user } = this.state;
 
-      await request
-        .patch(`/jsonapi/user/user/${user.uuid}`)
-        .send({
-          data: {
-            type: 'user--user',
-            id: user.uuid,
-            attributes: {
-              name: formData.username,
-              mail: formData.email,
-              pass: {
-                // TODO: bug or feature?
-                // To update user name ANY non-empty password can be sent.
-                // To update email only valid current password should be sent.
-                existing: formData.password ? formData.password : 'anypass',
-              },
-            },
-          },
-        });
+      await userApi.update(
+        request,
+        user.uuid, formData.username, formData.email, formData.password,
+      );
 
       // Re-login required if user data has changed.
       await this.context.auth.refreshAuthenticationToken();

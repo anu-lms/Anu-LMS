@@ -32,8 +32,8 @@ SiteLogo.defaultProps = {
   // activeOrganizationLabel: 'Cultivate',
 };
 
-const mapStateToProps = ({ userOrganizations }) => ({
-  activeOrganizationLabel: userOrganizations.activeOrganization,
+const mapStateToProps = ({ user }) => ({
+  activeOrganizationLabel: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(SiteLogo);
