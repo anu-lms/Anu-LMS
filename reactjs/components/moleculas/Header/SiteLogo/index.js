@@ -3,37 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from '../../../../routes';
 import SiteLogoIcon from '../../../atoms/Icons/SiteLogo';
+import { getObjectById } from '../../../../utils/array';
 
-
-class SiteLogo extends React.Component {
-  componentDidMount() {
-
-  }
-
-  render() {
-    const { activeOrganizationLabel } = this.props;
-    return (
-      <Link to="/">
-        <a rel="home" >
-          <SiteLogoIcon />
-          <span className="organization-name">{activeOrganizationLabel}</span>
-        </a>
-      </Link>
-    );
-  }
-}
+const SiteLogo = ({ activeOrganizationLabel }) => (
+  <Link to="/">
+    <a rel="home" >
+      <SiteLogoIcon />
+      <span className="organization-name">{activeOrganizationLabel}</span>
+    </a>
+  </Link>
+);
 
 SiteLogo.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  activeOrganizationLabel: PropTypes.string.isRequred,
+  activeOrganizationLabel: PropTypes.string.isRequired,
 };
 
-SiteLogo.defaultProps = {
-  // activeOrganizationLabel: 'Cultivate',
-};
+const mapStateToProps = ({ user }) => {
+  let activeOrganizationLabel = '';
+  if (user.activeOrganization) {
+    const organization = getObjectById(user.data.organization, user.activeOrganization);
+    activeOrganizationLabel = organization ? organization.name : '';
+  }
 
-const mapStateToProps = ({ user }) => ({
-  activeOrganizationLabel: user.activeOrganization,
-});
+  return {
+    activeOrganizationLabel,
+  };
+};
 
 export default connect(mapStateToProps)(SiteLogo);

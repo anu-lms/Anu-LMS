@@ -55,7 +55,7 @@ class User extends AnuNormalizerBase {
           $organization = $organization_wrapper->get('entity')->getValue();
 
           $output['fieldOrganization'][] = [
-            'id' => $organization->id(),
+            'id' => (int) $organization->id(),
             'name' => $organization->name->getString(),
           ];
         }
