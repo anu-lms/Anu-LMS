@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Psr\Log\LoggerInterface;
@@ -81,7 +82,7 @@ class UserResetPasswordResource extends ResourceBase {
     }
     else {
       return new ResourceResponse([
-        'message' => $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.')
+        'message' => $this->t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.'),
       ], 406);
     }
   }
@@ -104,9 +105,10 @@ class UserResetPasswordResource extends ResourceBase {
       try {
 
         $user->setPassword($data['password_new']);
-        $user->_skipProtectedUserFieldConstraint = true;
+        $user->_skipProtectedUserFieldConstraint = TRUE;
         $user->save();
-      } catch(\Exception $e) {
+      }
+      catch (\Exception $e) {
 
         // Log an error.
         $message = $e->getMessage();
@@ -122,11 +124,14 @@ class UserResetPasswordResource extends ResourceBase {
     }
     else {
       return new ResourceResponse([
-        'message' => $this->t('Unable to reset password. Contact the site administrator if the problem persists.')
+        'message' => $this->t('Unable to reset password. Contact the site administrator if the problem persists.'),
       ], 406);
     }
   }
 
+  /**
+   *
+   */
   private function isTokenValid($uid, $timestamp, $hash) {
     $user_storage = \Drupal::entityManager()->getStorage('user');
     // The current user is not logged in, so check the parameters.
@@ -153,4 +158,5 @@ class UserResetPasswordResource extends ResourceBase {
 
     return FALSE;
   }
+
 }

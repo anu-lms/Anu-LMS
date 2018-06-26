@@ -5,6 +5,9 @@ namespace Drupal\anu_user;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
+/**
+ *
+ */
 class AnuUserServiceProvider extends ServiceProviderBase {
 
   /**
@@ -19,4 +22,5 @@ class AnuUserServiceProvider extends ServiceProviderBase {
     $definition = $container->getDefinition('access_check.header.csrf');
     $definition->setClass('Drupal\anu_user\CsrfRequestHeaderAccessCheck');
   }
+
 }
