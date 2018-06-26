@@ -7,6 +7,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -80,7 +81,8 @@ class CurrentUserResource extends ResourceBase {
   public function get() {
     $account = User::load($this->currentUser->id());
 
-    $response = new ResourceResponse($account, 200);
+    // Returns normalized user entity.
+    $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($account), 200);
     return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
   }
 
