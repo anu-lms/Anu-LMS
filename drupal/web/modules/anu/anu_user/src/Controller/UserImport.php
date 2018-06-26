@@ -249,9 +249,7 @@ class UserImport extends FormBase {
    *   Internal batch's variable.
    */
   public static function saveUser($first_name, $last_name, $account_name, $email, array $classes = [], $organization = 0, $notify = FALSE, array &$context = []) {
-
     try {
-
       $user = User::create([
         'name' => $account_name,
         'mail' => $email,
