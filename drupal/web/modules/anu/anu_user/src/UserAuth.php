@@ -5,7 +5,7 @@ namespace Drupal\anu_user;
 use Drupal\user\UserAuth as UserAuthCore;
 
 /**
- *
+ * Validates user authentication credentials.
  */
 class UserAuth extends UserAuthCore {
 

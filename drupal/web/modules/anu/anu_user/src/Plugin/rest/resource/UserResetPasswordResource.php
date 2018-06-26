@@ -130,7 +130,7 @@ class UserResetPasswordResource extends ResourceBase {
   }
 
   /**
-   *
+   * Validate token for password reset.
    */
   private function isTokenValid($uid, $timestamp, $hash) {
     $user_storage = \Drupal::entityManager()->getStorage('user');

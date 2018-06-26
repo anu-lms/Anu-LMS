@@ -2,16 +2,14 @@
 
 /**
  * @file
+ * Helper module for User functionality.
  */
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Url;
-
-/**
- * @file
- */
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_token_info().
@@ -74,7 +72,7 @@ function anu_user_tokens($type, $tokens, array $data, array $options, Bubbleable
  *   A unique URL that provides a one-time log in for the user, from which
  *   they can change their password.
  */
-function anu_user_pass_reset_url($account, $options = []) {
+function anu_user_pass_reset_url(UserInterface $account, array $options = []) {
   $timestamp = \Drupal::time()->getRequestTime();
   $uid = $account->id();
   $hash = user_pass_rehash($account, $timestamp);
@@ -98,10 +96,8 @@ function anu_user_form_user_login_form_alter(&$form, FormStateInterface $form_st
 
 /**
  * Validates user account during backend authentication.
- * Only managers and administrators may access backend.
  *
- * @param $form
- * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * Only managers and administrators may access backend.
  */
 function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
   if ($form_state->hasValue('name')) {

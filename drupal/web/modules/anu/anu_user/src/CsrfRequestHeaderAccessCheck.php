@@ -14,6 +14,7 @@ class CsrfRequestHeaderAccessCheck extends CsrfRequestHeaderAccessCheckBase {
 
   /**
    * Original class adds Csrf validation for any POST, PATCH etc. requests.
+   *
    * That validation is based on session.
    * On frontend we don't use sessions authorisation, so it should be skipped by default.
    *
