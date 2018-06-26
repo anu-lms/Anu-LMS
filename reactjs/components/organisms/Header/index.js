@@ -5,7 +5,7 @@ import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 import Notifications from '../../moleculas/Header/Notifications';
 import Search from '../../moleculas/Header/Search';
 import HeaderIcon from '../../atoms/HeaderIcon';
-import SiteLogo from '../../atoms/Icons/SiteLogo';
+import SiteLogo from '../../moleculas/Header/SiteLogo';
 
 /* eslint-disable max-len */
 const Header = ({ isEmpty }) => (
@@ -34,12 +34,7 @@ const Header = ({ isEmpty }) => (
       </div>
 
       <div className="left">
-        <Link to="/">
-          <a rel="home" >
-            <SiteLogo />
-            <span className="organization-name">Cultivate</span>
-          </a>
-        </Link>
+        <SiteLogo />
 
         <Link to="/dashboard">
           <a rel="home">
