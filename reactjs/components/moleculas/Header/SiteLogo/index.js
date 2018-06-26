@@ -6,8 +6,8 @@ import SiteLogoIcon from '../../../atoms/Icons/SiteLogo';
 import { getObjectById } from '../../../../utils/array';
 
 const SiteLogo = ({ activeOrganizationLabel }) => (
-  <Link to="/">
-    <a rel="home" >
+  <Link to="/" >
+    <a rel="home" className="site-logo">
       <SiteLogoIcon />
       <span className="organization-name">{activeOrganizationLabel}</span>
     </a>
