@@ -43,9 +43,9 @@ class User extends AnuNormalizerBase {
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
         'roles' => $entity->changed->getValue(),
-        'firstName' => $entity->field_first_name->getString(),
-        'lastName' => $entity->field_last_name->getString(),
-        'organization' => [],
+        'fieldFirstName' => $entity->field_first_name->getString(),
+        'fieldLastName' => $entity->field_last_name->getString(),
+        'fieldOrganization' => [],
       ];
 
       // Get user's organizations.

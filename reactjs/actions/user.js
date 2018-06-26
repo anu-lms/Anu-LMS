@@ -1,7 +1,6 @@
-export function login(uid, uuid) {
+export function login(user) {
   return {
     type: 'USER_LOGIN',
-    uid,
-    uuid,
+    user,
   };
 }
