@@ -48,8 +48,10 @@
   }
 }
 
-#profile-menu {
-  .profile-menu {
+.profile-menu {
+  display: inline-block;
+
+  .profile-menu-panel {
     & > .footer {
       position: absolute;
       width: 100%;
@@ -65,6 +67,25 @@
 
     button.close {
       width: 100%;
+    }
+  }
+
+  .icon-close {
+    display: none;
+  }
+
+  &.menu-opened .header-icon {
+    background-color: $slate-grey;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &.menu-opened {
+      .icon-close {
+        display: inline-flex;
+      }
+      .icon-profile {
+        display: none;
+      }
     }
   }
 }

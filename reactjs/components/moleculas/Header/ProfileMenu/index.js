@@ -20,10 +20,10 @@ class ProfileMenu extends React.Component {
     };
 
     this.onLogoutClick = this.onLogoutClick.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.togglePopup = this.togglePopup.bind(this);
   }
 
-  onClick() {
+  togglePopup() {
     this.setState({
       isOpened: !this.state.isOpened,
     });
@@ -40,16 +40,32 @@ class ProfileMenu extends React.Component {
     const { organizations, username, activeOrganization } = this.props;
     const { isOpened } = this.state;
     return (
-      <div id="profile-menu" style={{ display: 'inline-block' }}>
-        <HeaderIcon className={classNames('profile', { 'overlay-active': isOpened })} label="Profile" activePaths={['/user/edit', '/user/password']} onClick={this.onClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
-            <g fill="none" fillRule="evenodd">
-              <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z" />
-            </g>
-          </svg>
-        </HeaderIcon>
+      <div id="profile-menu" className={classNames('profile-menu', { 'menu-opened': isOpened })}>
 
-        <SlidingPanel className="profile-menu" isOpened={isOpened} onClose={this.onClick}>
+        <div className="notifications-icons">
+          <HeaderIcon
+            className={classNames('icon-profile', { 'overlay-active': isOpened })}
+            label="Profile"
+            activePaths={['/user/edit', '/user/password']}
+            onClick={this.togglePopup}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+              <g fill="none" fillRule="evenodd">
+                <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z" />
+              </g>
+            </svg>
+          </HeaderIcon>
+
+          <HeaderIcon className="icon-close" onClick={this.togglePopup} onKeyPress={this.togglePopup}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+              <g fill="none" fillRule="evenodd">
+                <path fill="#FFF" fillRule="nonzero" d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7z" />
+              </g>
+            </svg>
+          </HeaderIcon>
+        </div>
+
+        <SlidingPanel className="profile-menu-panel" isOpened={isOpened} onClose={this.togglePopup}>
           <ProfileMenuList
             organizations={organizations}
             username={username}
@@ -57,7 +73,7 @@ class ProfileMenu extends React.Component {
             onLogoutClick={this.onLogoutClick}
           />
           <div className="footer">
-            <button onClick={this.onClick} className="close btn-grey">Close Profile Menu</button>
+            <button onClick={this.togglePopup} className="close btn-grey">Close Profile Menu</button>
           </div>
         </SlidingPanel>
 
