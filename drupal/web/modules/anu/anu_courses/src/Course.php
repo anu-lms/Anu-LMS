@@ -46,6 +46,11 @@ class Course {
       // Current learner's progress for the whole course.
       $data['progress'] = !empty($progress['course']) ? round($progress['course']) : 0;
 
+      // Recently accessed lesson by the current user.
+      if (!empty($progress['recentLesson'])) {
+        $data['recentLesson'] = $progress['recentLesson'];
+      }
+
       $data['description'] = '';
       if ($course->hasField('field_course_description')) {
         $value = $course->get('field_course_description')->value;
@@ -92,7 +97,7 @@ class Course {
 
           // Fallback to the user account name.
           $name = !empty($name) ? $name : $instructor->getAccountName();
-          $data['instructors'][] = Html::escape($name);
+          $data['instructors'][] = Xss::filter($name);
         }
       }
 
@@ -104,7 +109,7 @@ class Course {
           if ($lesson->access('view')) {
             $data['lessons'][] = [
               'id' => (int) $lesson->id(),
-              'title' => Html::escape($lesson->getTitle()),
+              'title' => Xss::filter($lesson->getTitle()),
               'url' => $path_manager->getAliasByPath('/node/' . $lesson->id()),
               'progress' => !empty($progress['lessons'][$lesson->id()]) ? round($progress['lessons'][$lesson->id()]) : 0,
             ];
