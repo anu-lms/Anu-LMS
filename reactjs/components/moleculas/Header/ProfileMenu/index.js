@@ -37,7 +37,7 @@ class ProfileMenu extends React.Component {
   }
 
   render() {
-    const { organizations, username } = this.props;
+    const { organizations, username, activeOrganization } = this.props;
     const { isOpened } = this.state;
     return (
       <div id="profile-menu" style={{ display: 'inline-block' }}>
@@ -49,8 +49,8 @@ class ProfileMenu extends React.Component {
           </svg>
         </HeaderIcon>
 
-        <SlidingPanel className="profile-menu" isOpened onClose={this.onClick}>
-          <ProfileMenuList organizations={organizations} username={username} />
+        <SlidingPanel className="profile-menu" isOpened={isOpened} onClose={this.onClick}>
+          <ProfileMenuList organizations={organizations} username={username} activeOrganization={activeOrganization} />
           <button onClick={this.onClick}>Close Profile Menu</button>
         </SlidingPanel>
       </div>
@@ -113,6 +113,7 @@ ProfileMenu.contextTypes = {
 const mapStateToProps = ({ user }) => ({
   username: user.data.name ? userHelper.getUsername(user.data) : '',
   organizations: user.data.organization ? user.data.organization : [],
+  activeOrganization: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(ProfileMenu);
