@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from '../../../../routes';
 import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
+import * as userHelper from '../../../../helpers/user';
 
 class ProfileMenu extends React.Component {
   constructor(props) {
@@ -40,6 +42,13 @@ class ProfileMenu extends React.Component {
           <Dropdown.MenuWrapper pullRight>
             <Dropdown.Menu pullRight>
               <MenuItem>
+                <strong>{this.props.username}</strong>
+              </MenuItem>
+              <div>Switch Organization</div>
+              {this.props.organizations.map(item => (
+                <div>{item.name}</div>
+                ))}
+              <MenuItem>
                 <Link to="/user/edit">
                   <a>Edit Profile</a>
                 </Link>
@@ -69,4 +78,9 @@ ProfileMenu.contextTypes = {
   }),
 };
 
-export default ProfileMenu;
+const mapStateToProps = ({ user }) => ({
+  username: userHelper.getUsername(user.data),
+  organizations: user.data.organization,
+});
+
+export default connect(mapStateToProps)(ProfileMenu);
