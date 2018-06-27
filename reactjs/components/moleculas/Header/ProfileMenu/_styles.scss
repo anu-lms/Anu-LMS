@@ -1,74 +1,6 @@
-// Using id here to override default dropdown styles.
-#profile-menu {
-  height: 100%;
-  & > button {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    border: none;
-  }
-  div[class^=dropdown---dropdown-menu-wrapper] {
-    right: 0;
-  }
-  div[class^=dropdown---dropdown-menu---] {
-    padding: 12px 0 14px;
-    width: 160px;
-    &::after {
-      @include media-breakpoint-up(md) {
-        right: 11px;
-      }
-      @include media-breakpoint-up(lg) {
-        right: 15px;
-      }
-    }
-  }
-  // TODO: move to generic dropdown styles to keep all dropdowns consistent.
-  div[class^=dropdown---menu-item---] {
-    padding: 0;
-    font-size: 16px;
-    line-height: 2;
-    min-width: 0;
-    color: $anu-black;
-    &:hover {
-      background-color: $anu-blue-30;
-    }
-
-    & > span,
-    & > a {
-      display: block;
-      padding: 2px 16px;
-    }
-  }
-
-  a {
-    color: inherit;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
 .profile-menu {
   display: inline-block;
-
-  .profile-menu-panel {
-    & > .footer {
-      position: absolute;
-      width: 100%;
-      bottom: 0;
-      display: flex;
-      align-items: stretch;
-      box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
-
-      @include media-breakpoint-up(md) {
-        display: none;
-      }
-    }
-
-    button.close {
-      width: 100%;
-    }
-  }
+  position: relative;
 
   .icon-close {
     display: none;
@@ -88,4 +20,40 @@
       }
     }
   }
+  @include media-breakpoint-up(md) {
+    .scrim {
+      background-color: transparent;
+    }
+  }
+  .profile-menu-panel {
+    & > .footer {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      display: flex;
+      align-items: stretch;
+      box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
+    }
+    button.close {
+      width: 100%;
+    }
+
+    @include media-breakpoint-up(md) {
+      position: absolute;
+      top: 80px;
+      width: 300px;
+      right: 0;
+      bottom: auto;
+      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+      display: none;
+      &.opened {
+        display: block;
+      }
+
+      & > .footer {
+        display: none;
+      }
+    }
+  }
+
 }

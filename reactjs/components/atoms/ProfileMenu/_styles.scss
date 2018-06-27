@@ -9,6 +9,13 @@
   li {
     padding: 6px 1.25em;
   }
+  a {
+    color: inherit;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   .username {
     font-weight: bold;
   }
