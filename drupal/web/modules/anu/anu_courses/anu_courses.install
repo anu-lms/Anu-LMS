@@ -1,8 +1,0 @@
-<?php
-
-/**
- * Implements hook_update_N().
- */
-function anu_courses_update_8001() {
-
-}
