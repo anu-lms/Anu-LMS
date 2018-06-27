@@ -7,8 +7,31 @@
     margin: 0;
   }
   li {
-    padding: 6px 1.25em;
+    & > span,
+    & > a {
+      padding: 6px 1.25em;
+      width: 100%;
+      display: block;
+      cursor: pointer;
+      transition: background-color .2s;
+
+      &:hover {
+        background-color: $anu-blue-30;
+      }
+      &:focus {
+        outline: none;
+      }
+      &:active {
+        background-color: darken($anu-blue-30, 2);
+      }
+    }
   }
+  .username {
+    padding: 6px 1.25em;
+    width: 100%;
+    display: block;
+  }
+
   a {
     color: inherit;
     &:hover {
@@ -40,11 +63,11 @@
       max-height: 120px; // @todo: fix it.
       transition: max-height .2s;
       overflow: hidden;
-      li {
-        padding: 6px 1em;
+      li span {
         font-weight: 300;
+        padding-left: 2.5em;
       }
-      .active {
+      .active span {
         font-weight: bold;
         position: relative;
         &:before {
@@ -56,7 +79,7 @@
           background-color: $anu-blue;
           content: '';
           top: 15px;
-          left: 0;
+          left: 1.25em;
         }
       }
     }

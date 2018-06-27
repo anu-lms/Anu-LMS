@@ -41,7 +41,9 @@ class ProfileMenu extends React.Component {
               </span>
               <ul className="organizations">
                 {organizations.map(item => (
-                  <li className={classNames({ 'active': activeOrganization === item.id })}>{item.name}</li>
+                  <li className={classNames({ 'active': activeOrganization === item.id })} key={item.id}>
+                    <span>{item.name}</span>
+                  </li>
                 ))}
               </ul>
             </li>
