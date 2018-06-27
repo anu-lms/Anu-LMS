@@ -42,7 +42,7 @@ class ProfileMenu extends React.Component {
     return (
       <div id="profile-menu" className={classNames('profile-menu', { 'menu-opened': isOpened })}>
 
-        <div className="notifications-icons">
+        <div className="profile-icons">
           <HeaderIcon
             className={classNames('icon-profile', { 'overlay-active': isOpened })}
             label="Profile"
