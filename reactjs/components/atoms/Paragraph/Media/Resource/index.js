@@ -39,21 +39,21 @@ class Resource extends React.Component {
    * Handle file download click.
    */
   async onFileDownloadClick() {
-    const { privatefile } = this.props;
+    const { private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = await auth.getAccessToken();
 
     // Redirect a browser to the new page.
-    window.location.href = privateFileHelper.downloadUrl(privatefile.fid, accessToken);
+    window.location.href = privateFileHelper.downloadUrl(private_file.fid, accessToken);
   }
 
   /**
    * Handle file download click.
    */
   async onFileViewOpen() {
-    const { dispatch, privatefile } = this.props;
+    const { dispatch, private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -65,7 +65,7 @@ class Resource extends React.Component {
     // to trigger onLoadSuccess() or onLoadError() events.
     const content = (
       <Document
-        file={privateFileHelper.viewUrl(privatefile.fid, accessToken)}
+        file={privateFileHelper.viewUrl(private_file.fid, accessToken)}
         onLoadSuccess={this.onFileLoadSuccess}
         onLoadError={this.onFileLoadError}
         loading=""
@@ -84,7 +84,7 @@ class Resource extends React.Component {
    *   Amount of pages in PDF.
    */
   async onFileLoadSuccess({ numPages }) {
-    const { dispatch, privatefile } = this.props;
+    const { dispatch, private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -112,7 +112,7 @@ class Resource extends React.Component {
 
     const content = (
       <Document
-        file={privateFileHelper.viewUrl(privatefile.fid, accessToken)}
+        file={privateFileHelper.viewUrl(private_file.fid, accessToken)}
         onLoadSuccess={this.onFileLoadSuccess}
         onLoadError={this.onFileLoadError}
         loading=""
@@ -143,7 +143,7 @@ class Resource extends React.Component {
   }
 
   render() {
-    const { privatefile, title, columnClasses, id, commentsAllowed } = this.props;
+    const { private_file, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div id={`paragraph-${id}`} className="container paragraph resource">
         <div className="row">
@@ -160,7 +160,7 @@ class Resource extends React.Component {
 
               <div className="title" onClick={this.onFileViewOpen} onKeyPress={this.onFileViewOpen}>
                 {!_isEmpty(title) && title}
-                {_isEmpty(title) && humanizeFileName(privatefile.filename)}
+                {_isEmpty(title) && humanizeFileName(private_file.filename)}
               </div>
 
             </div>
@@ -185,8 +185,9 @@ Resource.propTypes = {
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   title: PropTypes.string,
   handleParagraphLoaded: PropTypes.func,
-  privatefile: PropTypes.shape({
-    fid: PropTypes.number, filename: PropTypes.string,
+  private_file: PropTypes.shape({
+    fid: PropTypes.number,
+    filename: PropTypes.string,
   }).isRequired,
   commentsAllowed: PropTypes.bool,
   dispatch: PropTypes.func,

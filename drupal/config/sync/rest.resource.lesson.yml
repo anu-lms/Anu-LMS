@@ -1,17 +1,17 @@
-uuid: dd870261-6527-44f1-b8af-c6eb0fcf9eef
+uuid: 9459cb86-0345-4604-93fa-4d70a0955797
 langcode: en
 status: true
 dependencies:
   module:
-    - anu_learner_progress
+    - anu_lessons
     - serialization
     - simple_oauth
-id: learner_progress_detailed
-plugin_id: learner_progress_detailed
+id: lesson
+plugin_id: lesson
 granularity: resource
 configuration:
   methods:
-    - POST
+    - GET
   formats:
     - json
   authentication:

@@ -22,85 +22,42 @@ class LessonPage extends React.Component {
     };
 
     try {
-      let courseResponse = await request
-      .get('/course/progress')
-      .query({
-        '_format': 'json',
-        'path': `/${query.course}`,
-      })
+      let response = await request
+        .get('/lesson')
+        .query({
+          '_format': 'json',
+          'path': `/${query.lesson}`,
+        })
       // Tell superagent to consider all requests with Drupal responses as
       // successful. Later we capture error codes if any.
-      .ok(response => response.body && response.status);
+        .ok(resp => resp.body && resp.status);
 
       // Handle any non-OK response from the backend.
-      if (courseResponse.status !== 200) {
-        console.log(courseResponse.body);
-        initialProps.statusCode = courseResponse.status;
-        if (res) res.statusCode = courseResponse.status;
+      if (response.status !== 200) {
+        console.log(response.body);
+        initialProps.statusCode = response.status;
+        if (res) res.statusCode = response.status;
         return initialProps;
       }
 
-      // Keep course data.
-      initialProps.course = dataProcessors.courseData(courseResponse.body);
+      // Make sure the current course's url matches the slug from the url.
+      if (response.body.course.url !== `/${query.course}`) {
+        console.log('Course URL from the browser and from the lesson do not match.');
+        initialProps.statusCode = 404;
+        if (res) res.statusCode = 404;
+        return initialProps;
+      }
+
+      // Process lesson's and lesson's course's data.
+      initialProps.lesson = dataProcessors.lessonData(response.body);
+      initialProps.course = dataProcessors.courseData(response.body.course);
     } catch (error) {
-      console.log('Could not load course.');
+      console.log('Could not load lesson.');
       console.log(error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
     }
-
-    // TODO: check if course is parent of lesson.
-    try {
-      const responseLesson = await request
-        .get('/jsonapi/node/lesson')
-        .query({
-          // Include referenced fields.
-          'include': '' +
-          'field_lesson_course,' +
-          'field_lesson_blocks,' +
-          'field_lesson_blocks.field_paragraph_image,' +
-          'field_lesson_blocks.field_paragraph_file,' +
-          'field_lesson_blocks.field_paragraph_private_file,' +
-          'field_lesson_blocks.field_quiz_blocks,' +
-          'field_lesson_blocks.field_quiz_blocks.field_paragraph_image,' +
-          'field_lesson_blocks.field_quiz_blocks.field_paragraph_file',
-          // Lesson entity fields.
-          'fields[node--lesson]': 'title,path,nid,uuid,field_lesson_course,field_lesson_blocks,field_is_assessment',
-          // Course entity fields.
-          'fields[node--course]': 'path,nid',
-          // Filter by path.
-          'filter[field_path][value]': '/' + query.lesson,
-        });
-
-      // 403 Errors from this response can't be catches with simple catch,
-      // so we check response body for errors and throw an error.
-      if (responseLesson.body.data.length === 0 && responseLesson.body.meta &&
-        responseLesson.body.meta.errors && responseLesson.body.meta.errors[0].status) {
-        initialProps.statusCode = responseLesson.body.meta.errors[0].status;
-        throw Error(responseLesson.meta.errors[0].detail);
-      }
-      else if (responseLesson.body.data.length === 0) {
-        initialProps.statusCode = 404;
-        throw Error(`Lesson not found`);
-      }
-
-      initialProps.lesson = dataProcessors.lessonData(responseLesson.body.data[0]);
-    } catch (error) {
-      console.log('Could not load lesson.', error);
-      if (error.status) {
-        initialProps.statusCode = error.status;
-      }
-      else {
-        initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
-      }
-
-      if (res) res.statusCode = initialProps.statusCode;
-      return initialProps;
-    }
-
-    // TODO.
-    //initialProps.lesson.progress = Math.round(lessonProgress);
 
     return initialProps;
   }
