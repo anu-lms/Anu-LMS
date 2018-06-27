@@ -49,7 +49,7 @@ class LessonPage extends React.Component {
       }
 
       // Process lesson's and lesson's course's data.
-      initialProps.lesson = dataProcessors.lessonData(response.body);
+      initialProps.lesson = response.body;
       initialProps.course = dataProcessors.courseData(response.body.course);
     } catch (error) {
       console.log('Could not load lesson.');
