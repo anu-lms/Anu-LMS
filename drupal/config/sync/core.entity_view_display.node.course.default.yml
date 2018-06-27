@@ -9,11 +9,9 @@ dependencies:
     - field.field.node.course.field_course_instructors
     - field.field.node.course.field_course_lessons
     - field.field.node.course.field_course_organisation
-    - field.field.node.course.field_path
     - field.field.node.course.field_time_to_complete_minutes
     - node.type.course
   module:
-    - fieldable_path
     - image
     - text
     - user
@@ -71,13 +69,6 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-    region: content
-  field_path:
-    weight: 8
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: fieldable_path_formatter
     region: content
   field_time_to_complete_minutes:
     weight: 6

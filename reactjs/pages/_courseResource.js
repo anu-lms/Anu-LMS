@@ -16,14 +16,14 @@ class CourseResoucePage extends React.Component {
 
     try {
       let courseResponse = await request
-      .get('/course/progress')
-      .query({
-        '_format': 'json',
-        'path': `/${query.course}`,
-      })
-      // Tell superagent to consider all requests with Drupal responses as
-      // successful. Later we capture error codes if any.
-      .ok(response => response.body && response.status);
+        .get('/course/progress')
+        .query({
+          '_format': 'json',
+          'path': `/${query.course}`,
+        })
+        // Tell superagent to consider all requests with Drupal responses as
+        // successful. Later we capture error codes if any.
+        .ok(response => response.body && response.status);
 
       // Handle any non-OK response from the backend.
       if (courseResponse.status !== 200) {

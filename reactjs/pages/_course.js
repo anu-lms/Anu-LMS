@@ -20,8 +20,8 @@ class CoursePage extends React.Component {
           '_format': 'json',
           'path': `/${query.course}`,
         })
-      // Tell superagent to consider all requests with Drupal responses as
-      // successful. Later we capture error codes if any.
+        // Tell superagent to consider all requests with Drupal responses as
+        // successful. Later we capture error codes if any.
         .ok(response => response.body && response.status);
 
       // Handle any non-OK response from the backend.
