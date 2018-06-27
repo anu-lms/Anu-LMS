@@ -30,12 +30,12 @@ class ProfileMenu extends React.Component {
             {username}
           </li>
           {organizations && organizations.length > 1 &&
-            <li
-              className={classNames('switch-organization', { 'collapsed': isOrgsListCollapsed })}
-              onClick={this.toggleOrganizationsList}
-              onKeyPress={this.toggleOrganizationsList}
-            >
-              <span className="label" >
+            <li className={classNames('switch-organization', { 'collapsed': isOrgsListCollapsed })}>
+              <span
+                className="label"
+                onClick={this.toggleOrganizationsList}
+                onKeyPress={this.toggleOrganizationsList}
+              >
                 Switch Organization
                 <span className="arrow"><VerticalArrow /></span>
               </span>
