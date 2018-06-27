@@ -135,7 +135,7 @@ class LearnerProgress {
     $progress = [
       'course' => 0,
       'lessons' => [],
-      'recentLesson' => [],
+      'recentLesson' => 0,
     ];
 
     // Trying to load the requested course.
@@ -194,15 +194,7 @@ class LearnerProgress {
     if (!empty($course_progress->id())) {
       $recent_lesson = $course_progress->get('field_lesson')->entity;
       if (!empty($recent_lesson)) {
-
-        // Fetch lesson's path alias.
-        $path = \Drupal::service('path.alias_manager')
-          ->getAliasByPath('/node/' . $recent_lesson->id());
-
-        $progress['recentLesson'] = [
-          'lessonId' => $recent_lesson->id(),
-          'url' => $path,
-        ];
+        $progress['recentLesson'] = (int) $recent_lesson->id();
       }
     }
 
