@@ -1,11 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Link } from '../../../routes';
 import VerticalArrow from '../Icons/VerticalArrow';
 
 class ProfileMenu extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      isOrgsListCollapsed: true,
+    };
+    this.toggleOrganizationsList = this.toggleOrganizationsList.bind(this);
+  }
+
+  toggleOrganizationsList() {
+    this.setState({
+      isOrgsListCollapsed: !this.state.isOrgsListCollapsed,
+    });
+  }
+
   render() {
-    const { username, organizations, onLogoutClick } = this.props;
+    const { username, organizations, activeOrganization, onLogoutClick } = this.props;
+    const { isOrgsListCollapsed } = this.state;
     return (
       <div className="profile-menu-list">
         <ul className="">
@@ -13,14 +30,18 @@ class ProfileMenu extends React.Component {
             {username}
           </li>
           {organizations && organizations.length > 1 &&
-            <li className="switch-organization">
-              <span className="label">
+            <li
+              className={classNames('switch-organization', { 'collapsed': isOrgsListCollapsed })}
+              onClick={this.toggleOrganizationsList}
+              onKeyPress={this.toggleOrganizationsList}
+            >
+              <span className="label" >
                 Switch Organization
                 <span className="arrow"><VerticalArrow /></span>
               </span>
-              <ul>
+              <ul className="organizations">
                 {organizations.map(item => (
-                  <li>{item.name}</li>
+                  <li className={classNames({ 'active': activeOrganization === item.id })}>{item.name}</li>
                 ))}
               </ul>
             </li>

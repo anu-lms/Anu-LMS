@@ -12,13 +12,44 @@
   .username {
     font-weight: bold;
   }
-  .label .arrow {
-    margin-left: 14px;
-    svg {
-      transition: transform .2s;
-      transform: rotate(180deg);
+  .switch-organization {
+
+    .label .arrow {
+      margin-left: 14px;
+      svg {
+        transition: transform .2s;
+        transform: rotate(0deg);
+      }
+    }
+    &.collapsed .label .arrow svg {
+      transform: rotate(-90deg);
+    }
+
+    .organizations {
+      max-height: 120px; // @todo: fix it.
+      transition: max-height .2s ease-in;
+      overflow: hidden;
+      .active {
+        font-weight: bold;
+        position: relative;
+        &:before {
+          position: absolute;
+          display: block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background-color: $anu-blue;
+          content: '';
+          top: 14px;
+          left: 0;
+        }
+      }
+    }
+    &.collapsed .organizations {
+      max-height: 0;
     }
   }
+
   .list-separator {
     height: 1px;
     background-color: $london-sky;
