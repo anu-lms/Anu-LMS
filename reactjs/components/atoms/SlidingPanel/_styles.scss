@@ -1,0 +1,16 @@
+.sliding-panel-container {
+  overflow: hidden;
+  position: fixed;
+  top: 3em;
+  bottom: 0;
+  z-index: $zindex-fixed - 2;
+  width: 100%;
+  background: $white;
+  transition: right .2s;
+
+  right: -104%;
+
+  &.opened {
+    right: 0;
+  }
+}
