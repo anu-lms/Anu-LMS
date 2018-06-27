@@ -235,7 +235,9 @@ class Lesson extends ResourceBase {
             $data[$field_name_trimmed]['fid'] = (int) $file->id();
             $data[$field_name_trimmed]['filename'] = $file->getFilename();
 
-            // TODO: Comment.
+            // Depending on schema we should create the URL a bit different.
+            // It's due to the bug in https://www.drupal.org/node/2867355.
+            // We had to apply a patch to the core to get it working as expected.
             $scheme = \Drupal::service('file_system')->uriScheme($file->getFileUri());
             if ($scheme == 'private') {
               /** @var GeneratedUrl $url */

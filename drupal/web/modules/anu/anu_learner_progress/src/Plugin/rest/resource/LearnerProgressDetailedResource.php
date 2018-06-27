@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  *   id = "learner_progress_detailed",
  *   label = @Translation("Detailed learner progress"),
  *   uri_paths = {
-` *     "https://www.drupal.org/link-relations/create" = "/learner/progress/{lesson}/{progress}",
+ *     "https://www.drupal.org/link-relations/create" = "/learner/progress/{lesson}/{progress}",
  *   }
  * )
  */
