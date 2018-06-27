@@ -51,7 +51,9 @@ class ProfileMenu extends React.Component {
 
         <SlidingPanel className="profile-menu" isOpened={isOpened} onClose={this.onClick}>
           <ProfileMenuList organizations={organizations} username={username} activeOrganization={activeOrganization} />
-          <button onClick={this.onClick}>Close Profile Menu</button>
+          <div className="footer">
+            <button onClick={this.onClick} className="close btn-grey">Close Profile Menu</button>
+          </div>
         </SlidingPanel>
       </div>
     );

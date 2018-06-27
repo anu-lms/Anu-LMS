@@ -27,8 +27,12 @@
 
     .organizations {
       max-height: 120px; // @todo: fix it.
-      transition: max-height .2s ease-in;
+      transition: max-height .2s;
       overflow: hidden;
+      li {
+        padding: 6px 1em;
+        font-weight: 300;
+      }
       .active {
         font-weight: bold;
         position: relative;
@@ -40,7 +44,7 @@
           border-radius: 50%;
           background-color: $anu-blue;
           content: '';
-          top: 14px;
+          top: 15px;
           left: 0;
         }
       }

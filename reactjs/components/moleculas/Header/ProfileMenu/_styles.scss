@@ -47,3 +47,24 @@
     }
   }
 }
+
+#profile-menu {
+  .profile-menu {
+    & > .footer {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      display: flex;
+      align-items: stretch;
+      box-shadow: 0 -1px 5px 0 rgba(42, 77, 102, 0.3);
+
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
+
+    button.close {
+      width: 100%;
+    }
+  }
+}
