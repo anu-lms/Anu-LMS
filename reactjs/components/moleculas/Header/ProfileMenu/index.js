@@ -7,6 +7,7 @@ import Dropdown, { MenuItem } from '../../../atoms/DropdownMenu';
 import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
+import ProfileMenuList from '../../../atoms/ProfileMenu';
 import * as userHelper from '../../../../helpers/user';
 
 class ProfileMenu extends React.Component {
@@ -36,9 +37,11 @@ class ProfileMenu extends React.Component {
   }
 
   render() {
+    const { organizations, username } = this.props;
+    const { isOpened } = this.state;
     return (
       <div id="profile-menu" style={{ display: 'inline-block' }}>
-        <HeaderIcon className={classNames('profile', { 'overlay-active': this.state.isOpened })} label="Profile" activePaths={['/user/edit', '/user/password']} onClick={this.onClick}>
+        <HeaderIcon className={classNames('profile', { 'overlay-active': isOpened })} label="Profile" activePaths={['/user/edit', '/user/password']} onClick={this.onClick}>
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
             <g fill="none" fillRule="evenodd">
               <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z" />
@@ -46,8 +49,9 @@ class ProfileMenu extends React.Component {
           </svg>
         </HeaderIcon>
 
-        <SlidingPanel className="profile-menu" isOpened={this.state.isOpened} onClose={this.onClick}>
-          Profile menu content.
+        <SlidingPanel className="profile-menu" isOpened onClose={this.onClick}>
+          <ProfileMenuList organizations={organizations} username={username} />
+          <button onClick={this.onClick}>Close Profile Menu</button>
         </SlidingPanel>
       </div>
     );
@@ -107,8 +111,8 @@ ProfileMenu.contextTypes = {
 };
 
 const mapStateToProps = ({ user }) => ({
-  // username: userHelper.getUsername(user.data),
-  organizations: user.data.organization,
+  username: user.data.name ? userHelper.getUsername(user.data) : '',
+  organizations: user.data.organization ? user.data.organization : [],
 });
 
 export default connect(mapStateToProps)(ProfileMenu);
