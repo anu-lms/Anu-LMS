@@ -97,7 +97,7 @@ class Course {
 
           // Fallback to the user account name.
           $name = !empty($name) ? $name : $instructor->getAccountName();
-          $data['instructors'][] = Xss::filter($name);
+          $data['instructors'][] = $name;
         }
       }
 
@@ -109,7 +109,7 @@ class Course {
           if ($lesson->access('view')) {
             $data['lessons'][] = [
               'id' => (int) $lesson->id(),
-              'title' => Xss::filter($lesson->getTitle()),
+              'title' => $lesson->getTitle(),
               'url' => $path_manager->getAliasByPath('/node/' . $lesson->id()),
               'progress' => !empty($progress['lessons'][$lesson->id()]) ? round($progress['lessons'][$lesson->id()]) : 0,
             ];
