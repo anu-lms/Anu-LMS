@@ -19,7 +19,7 @@ class ProfileMenu extends React.Component {
       isOpened: false,
     };
 
-    this.onSelect = this.onSelect.bind(this);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
     this.onClick = this.onClick.bind(this);
   }
 
@@ -29,7 +29,7 @@ class ProfileMenu extends React.Component {
     });
   }
 
-  async onSelect() {
+  async onLogoutClick() {
     // Inform UI that we started logout process.
     this.setState({ isLoggingOut: true });
     // Simply wait.
@@ -50,11 +50,18 @@ class ProfileMenu extends React.Component {
         </HeaderIcon>
 
         <SlidingPanel className="profile-menu" isOpened={isOpened} onClose={this.onClick}>
-          <ProfileMenuList organizations={organizations} username={username} activeOrganization={activeOrganization} />
+          <ProfileMenuList
+            organizations={organizations}
+            username={username}
+            activeOrganization={activeOrganization}
+            onLogoutClick={this.onLogoutClick}
+          />
           <div className="footer">
             <button onClick={this.onClick} className="close btn-grey">Close Profile Menu</button>
           </div>
         </SlidingPanel>
+
+        {this.state.isLoggingOut && <PageLoader type="fixed" />}
       </div>
     );
   }
