@@ -41,10 +41,17 @@ export const courseData = course => {
 /**
  * Internal helper to process lesson data from the backend.
  */
-export const lessonData = lesson => ({
-  ...lesson,
-  url: lessonHelper.getUrl(lesson.course.url, lesson.url),
-});
+export const lessonData = lesson => {
+  return {
+    id: lesson.nid,
+    uuid: lesson.uuid,
+    // eslint-lesson-next-line max-len
+    url: lessonHelper.getUrl(lesson.fieldLessonCourse.path.alias, lesson.path.alias),
+    title: lesson.title,
+    isAssessment: lesson.fieldIsAssessment ? lesson.fieldIsAssessment : false,
+    progress: 0,
+  };
+};
 
 /**
  * Internal helper to normalize notebook note data from the backend.
