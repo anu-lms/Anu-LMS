@@ -27,7 +27,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class CourseWithProgress extends ResourceBase {
 
   /**
-   *
    * A current request object.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -62,9 +61,9 @@ class CourseWithProgress extends ResourceBase {
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
    * @param \Symfony\Component\HttpFoundation\Request $current_request
-   *   The current request
+   *   The current request.
    * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
-   *    Path alias manager object.
+   *   Path alias manager object.
    * @param \Drupal\anu_courses\Course $course_manager
    *   Object with helper functions for course.
    */
@@ -131,4 +130,5 @@ class CourseWithProgress extends ResourceBase {
 
     return new ResourceResponse($data);
   }
+
 }
