@@ -1,7 +1,25 @@
 .site-header .site-logo {
   display: none;
 
+  .logo-icon {
+    svg {
+      display: block;
+    }
+  }
+
+  .organization-name {
+    color: $white;
+    font-size: 0.75em;
+  }
+
   @include media-breakpoint-up(md) {
-    display: inline-block;
+    display: inline-flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 6px;
+    padding-right: 1.5em;
+    border-right: 1px solid $anu-black;
+    transition: all .2s;
   }
 }
