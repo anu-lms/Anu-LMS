@@ -39,6 +39,13 @@
           .header-icon {
             padding-right: 1.5em;
           }
+          .label {
+            font-size: 0.625em;
+            font-style: italic;
+            font-weight: bold;
+            // Set minimum width for label to avoid jumping on long organization switching.
+            min-width: 140px;
+          }
         }
       }
     }
