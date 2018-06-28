@@ -1,6 +1,6 @@
 .profile-menu {
-  display: inline-block;
   position: relative;
+  float: left;
 
   .icon-close {
     display: none;
@@ -13,7 +13,7 @@
   @include media-breakpoint-down(sm) {
     &.menu-opened {
       .icon-close {
-        display: inline-flex;
+        display: inline-block;
       }
       .icon-profile {
         display: none;
