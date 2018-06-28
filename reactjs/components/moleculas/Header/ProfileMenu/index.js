@@ -8,6 +8,7 @@ import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
 import ProfileMenuList from '../../../atoms/ProfileMenu';
 import * as userHelper from '../../../../helpers/user';
+import * as userActions from '../../../../actions/user';
 
 class ProfileMenu extends React.Component {
   constructor(props) {
@@ -20,12 +21,17 @@ class ProfileMenu extends React.Component {
 
     this.onLogoutClick = this.onLogoutClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
+    this.setOrganization = this.setOrganization.bind(this);
   }
 
   togglePopup() {
     this.setState({
       isOpened: !this.state.isOpened,
     });
+  }
+
+  setOrganization(organizationId) {
+    this.props.dispatch(userActions.setOrganization(organizationId));
   }
 
   async onLogoutClick() {
@@ -70,6 +76,7 @@ class ProfileMenu extends React.Component {
             username={username}
             activeOrganization={activeOrganization}
             onLogoutClick={this.onLogoutClick}
+            setOrganization={this.setOrganization}
           />
           <div className="footer">
             <button onClick={this.togglePopup} className="close btn-grey">Close Profile Menu</button>
