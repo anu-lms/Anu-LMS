@@ -37,10 +37,14 @@
           display: inline-block;
           border-right: 1px solid $anu-black;
           margin-left: -1.5em;
-          .header-icon {
+          .header-icon .icon {
+            height: 36px;
+            top: 12px;
+          }
+          .without-label {
+            min-width: 120px;
             .icon {
-              height: 36px;
-              top: 12px;
+              top: 22px;
             }
           }
           .label {
@@ -49,7 +53,7 @@
             font-weight: bold;
             // Set minimum width for label to avoid
             // jumping on long organization switching.
-            min-width: 140px;
+            min-width: 120px;
             top: 49px;
           }
         }
