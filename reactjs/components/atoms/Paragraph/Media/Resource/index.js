@@ -39,6 +39,7 @@ class Resource extends React.Component {
    * Handle file download click.
    */
   async onFileDownloadClick() {
+    // eslint-disable-next-line camelcase
     const { private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
@@ -53,6 +54,7 @@ class Resource extends React.Component {
    * Handle file download click.
    */
   async onFileViewOpen() {
+    // eslint-disable-next-line camelcase
     const { dispatch, private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
@@ -84,6 +86,7 @@ class Resource extends React.Component {
    *   Amount of pages in PDF.
    */
   async onFileLoadSuccess({ numPages }) {
+    // eslint-disable-next-line camelcase
     const { dispatch, private_file } = this.props;
 
     // Making sure the request object includes the valid access token.
@@ -143,6 +146,7 @@ class Resource extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line camelcase
     const { private_file, title, columnClasses, id, commentsAllowed } = this.props;
     return (
       <div id={`paragraph-${id}`} className="container paragraph resource">

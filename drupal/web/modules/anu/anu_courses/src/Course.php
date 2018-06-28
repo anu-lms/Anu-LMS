@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_courses;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Xss;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\node\Entity\Node;
@@ -14,6 +13,9 @@ use Drupal\node\Entity\Node;
  */
 class Course {
 
+  /**
+   * Loads the course data with current user progress info.
+   */
   public function loadWithProgress($id) {
     $progress = [];
 
@@ -29,7 +31,8 @@ class Course {
       $learnerProgress = \Drupal::service('anu_learner_progress.learner_progress');
       $progress = $learnerProgress->loadDetailed($id);
 
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = sprintf('Could not fetch learner progress for course %d. Error: %s', $course->id(), $exception->getMessage());
       \Drupal::logger('anu_courses')->critical($message);
     }
@@ -127,7 +130,8 @@ class Course {
         }
       }
 
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = sprintf('Could not load course %d. Error: %s', $course->id(), $exception->getMessage());
       \Drupal::logger('anu_courses')->critical($message);
     }
