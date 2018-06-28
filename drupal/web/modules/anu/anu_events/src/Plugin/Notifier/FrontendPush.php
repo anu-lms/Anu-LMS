@@ -51,17 +51,18 @@ class FrontendPush extends MessageNotifierBase {
       $client->emit('notification', \Drupal::service('serializer')
         ->normalize($message, 'json'));
       $client->close();
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
 
       \Drupal::logger('anu_events')
         ->critical('Could not write notification to socket. Error: @error', [
-            '@error' => $exception->getMessage(),
-          ]
-        );
+          '@error' => $exception->getMessage(),
+        ]
+            );
     }
 
     // TODO: Fix exposure of user id, email, etc.
-    // TODO: Filter notifications on socket level
+    // TODO: Filter notifications on socket level.
     return TRUE;
   }
 

@@ -24,12 +24,18 @@ class CourseLessonsFilter extends StringFilter {
     $this->valueTitle = t('Course Lessons filter');
   }
 
+  /**
+   *
+   */
   public function validate() {
     if (!empty($this->value)) {
       parent::validate();
     }
   }
 
+  /**
+   *
+   */
   public function query() {
     // Use custom expression here to avoid data duplication in case
     // of default relationships using.

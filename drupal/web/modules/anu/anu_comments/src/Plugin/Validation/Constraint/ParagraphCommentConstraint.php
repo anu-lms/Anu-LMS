@@ -21,4 +21,5 @@ class ParagraphCommentConstraint extends CompositeConstraintBase {
   public function coversFields() {
     return ['field_comment_parent', 'field_comment_paragraph'];
   }
+
 }

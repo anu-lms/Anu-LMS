@@ -123,9 +123,10 @@ class LearnerProgressDetailedResource extends ResourceBase {
         // Update existing or create a new entity.
         $course_progress->save();
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not update learner progress. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -222,7 +223,8 @@ class LearnerProgressDetailedResource extends ResourceBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = 'Could not fetch course progress for ID @id. Error: @error.';
       $params = ['@id' => $courseId, '@error' => $e->getMessage()];
       $this->logger->critical($message, $params);
@@ -263,7 +265,8 @@ class LearnerProgressDetailedResource extends ResourceBase {
       // Update existing or create a new entity.
       $lesson_progress->save();
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = $this->t('Could not update lesson progress entity of type lesson (id @id). Error: @error', [
         '@id' => $id,
         '@error' => $e->getMessage(),
@@ -310,7 +313,8 @@ class LearnerProgressDetailedResource extends ResourceBase {
           ]);
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = $this->t('Could get lesson progress entity of type @type (id @id). Error: @error', [
         '@type' => $bundle,
         '@id' => $id,

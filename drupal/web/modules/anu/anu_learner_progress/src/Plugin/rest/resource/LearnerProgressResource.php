@@ -70,4 +70,5 @@ class LearnerProgressResource extends ResourceBase {
 
     return !empty($progress) ? new ResourceResponse($progress) : new ResourceResponse();
   }
+
 }

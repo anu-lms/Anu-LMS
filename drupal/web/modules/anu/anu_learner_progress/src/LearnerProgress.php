@@ -4,8 +4,14 @@ namespace Drupal\anu_learner_progress;
 
 use Drupal\Component\Render\FormattableMarkup;
 
+/**
+ *
+ */
 class LearnerProgress {
 
+  /**
+   *
+   */
   public function load() {
     $progress = [];
 
@@ -38,7 +44,7 @@ class LearnerProgress {
           ->getStorage('node')
           ->loadByProperties([
             'type' => 'course',
-            'field_course_lessons' => array_keys($lesson_progresses)
+            'field_course_lessons' => array_keys($lesson_progresses),
           ]);
 
         // Build an array of courses where array key is node ID. It's needed for
@@ -73,7 +79,7 @@ class LearnerProgress {
             $recent_lesson = [
               'lessonId' => $recent_lesson_entity->id(),
               'url' => $path,
-              'timestamp' => $course_progress->changed->first()->getValue()['value']
+              'timestamp' => $course_progress->changed->first()->getValue()['value'],
             ];
           }
 
@@ -112,9 +118,10 @@ class LearnerProgress {
           ];
         }
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not obtain learner progress. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       \Drupal::logger('anu_learner_progress')->critical($message);
     }

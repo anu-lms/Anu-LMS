@@ -6,7 +6,10 @@ use Drupal\Component\Plugin\DerivativeInspectionInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
-interface AnuEventInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, DerivativeInspectionInterface  {
+/**
+ * Interface for every Event pn the platform.
+ */
+interface AnuEventInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, DerivativeInspectionInterface {
 
   /**
    * Returns true if Event should be triggered.
@@ -17,4 +20,5 @@ interface AnuEventInterface extends ContainerFactoryPluginInterface, PluginInspe
    * Check if event should be triggered, creates Message entity and notify channels.
    */
   public function trigger();
+
 }

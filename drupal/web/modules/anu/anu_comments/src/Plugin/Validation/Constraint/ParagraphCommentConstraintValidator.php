@@ -2,7 +2,7 @@
 
 namespace Drupal\anu_comments\Plugin\Validation\Constraint;
 
-use \Drupal\Component\Render\FormattableMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -52,7 +52,7 @@ class ParagraphCommentConstraintValidator extends ConstraintValidator {
       }
 
       // Check if current paragraph id and parent paragraph id match.
-      elseif(!empty($entity->field_comment_parent->getValue())) {
+      elseif (!empty($entity->field_comment_parent->getValue())) {
         $parent = $entity->field_comment_parent
           ->first()
           ->get('entity')
@@ -77,4 +77,5 @@ class ParagraphCommentConstraintValidator extends ConstraintValidator {
       }
     }
   }
+
 }

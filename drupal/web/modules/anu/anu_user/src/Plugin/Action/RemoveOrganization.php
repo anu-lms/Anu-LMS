@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_user\Plugin\Action;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -26,7 +27,7 @@ class RemoveOrganization extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-    $entity->field_organization->target_id = null;
+    $entity->field_organization->target_id = NULL;
     $entity->save();
   }
 
@@ -37,14 +38,13 @@ class RemoveOrganization extends ViewsBulkOperationsActionBase {
     return TRUE;
   }
 
-
   /**
    * @param array $form
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
-  public function buildConfigurationForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return $form;
   }
 

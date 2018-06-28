@@ -1,8 +1,13 @@
 <?php
 
+use Drupal\user\UserAuth;
+
 namespace Drupal\anu_user;
 
-class UserAuth extends \Drupal\user\UserAuth {
+/**
+ *
+ */
+class UserAuth extends UserAuth {
 
   /**
    * {@inheritdoc}
@@ -43,4 +48,5 @@ class UserAuth extends \Drupal\user\UserAuth {
 
     return $uid;
   }
+
 }

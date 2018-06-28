@@ -40,10 +40,11 @@ class FileDownloadController extends ControllerBase {
       // Get the file's URI.
       $uri = $file->getFileUri();
 
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
 
       $message = new FormattableMarkup('Could not load the file. Error: @error', [
-        '@error' => $exception->getMessage()
+        '@error' => $exception->getMessage(),
       ]);
       \Drupal::logger('anu_private_files')->error($message);
       return new UnprocessableEntityHttpException(['message' => $message], 406);
@@ -65,15 +66,15 @@ class FileDownloadController extends ControllerBase {
       // If the download flag is enabled, set headers for downloading.
       if ($download) {
         $headers = [
-            'Content-Type' => 'force-download',
-            'Content-Disposition' => 'attachment; filename="' . $file->getFilename() . '"',
-            'Content-Length' => $file->getSize(),
-            'Content-Transfer-Encoding' => 'binary',
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'private',
-            'Expires' => '0',
-            'Accept-Ranges' => 'bytes'
-          ] + $headers;
+          'Content-Type' => 'force-download',
+          'Content-Disposition' => 'attachment; filename="' . $file->getFilename() . '"',
+          'Content-Length' => $file->getSize(),
+          'Content-Transfer-Encoding' => 'binary',
+          'Pragma' => 'no-cache',
+          'Cache-Control' => 'private',
+          'Expires' => '0',
+          'Accept-Ranges' => 'bytes',
+        ] + $headers;
       }
 
       if (count($headers)) {

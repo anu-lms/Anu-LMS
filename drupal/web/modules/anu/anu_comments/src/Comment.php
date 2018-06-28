@@ -2,6 +2,9 @@
 
 namespace Drupal\anu_comments;
 
+/**
+ *
+ */
 class Comment {
 
   /**
@@ -19,4 +22,5 @@ class Comment {
 
     return $comment;
   }
+
 }

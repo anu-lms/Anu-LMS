@@ -6,18 +6,21 @@ use Psr\Log\LoggerInterface;
 use Drupal\Component\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ *
+ */
 abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInterface {
 
   /**
    * Returns true if Normalizer can be applied to the given entity.
    */
-  public abstract function shouldApply($entity);
+  abstract public function shouldApply($entity);
 
   /**
    * Applies normalizer for given entity.
    * Returns normalized object with fields given in $include_fields parameter.
    */
-  public abstract function normalize($entity, $include_fields);
+  abstract public function normalize($entity, $include_fields);
 
   /**
    * Normalize entity by appropriate AnuNormalizer plugin.

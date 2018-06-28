@@ -4,12 +4,15 @@ namespace Drupal\anu_lessons;
 
 use Drupal\paragraphs\Entity\Paragraph;
 
+/**
+ *
+ */
 class Lesson {
 
   /**
    * Load Lesson by paragraph id.
    *
-   * @param integer $paragraph_id
+   * @param int $paragraph_id
    *   Id of Paragraph.
    *
    * @return
@@ -20,7 +23,7 @@ class Lesson {
       ->getStorage('node')
       ->loadByProperties([
         'type' => 'lesson',
-        'field_lesson_blocks' => $paragraph_id
+        'field_lesson_blocks' => $paragraph_id,
       ]);
 
     return !empty($lessons) ? reset($lessons) : NULL;
@@ -29,10 +32,10 @@ class Lesson {
   /**
    * Load Lesson's paragraphs filtered by given type.
    *
-   * @param integer $lesson_id
+   * @param int $lesson_id
    *   Id of Lesson.
    * @param array $types
-   *   Paragraph types. Eg: ['media_video', 'image_centered_caption']
+   *   Paragraph types. Eg: ['media_video', 'image_centered_caption'].
    *
    * @return
    *   An array of Paragraph objects.
