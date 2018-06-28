@@ -8,6 +8,8 @@
 
   &.menu-opened .header-icon {
     background-color: $slate-grey;
+    position: relative;
+    z-index: 1036;
   }
 
   @include media-breakpoint-down(sm) {
@@ -20,11 +22,17 @@
       }
     }
   }
-  @include media-breakpoint-up(md) {
-    .scrim {
+
+  .scrim {
+    z-index: $zindex-fixed + 3;
+    @include media-breakpoint-up(md) {
       background-color: transparent;
+      &:after {
+        background-color: transparent;
+      }
     }
   }
+
   .profile-menu-panel {
     & > .footer {
       position: absolute;
