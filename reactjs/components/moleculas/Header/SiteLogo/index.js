@@ -8,7 +8,9 @@ import { getObjectById } from '../../../../utils/array';
 const SiteLogo = ({ activeOrganizationLabel }) => (
   <Link to="/" >
     <a rel="home" className="site-logo">
-      <SiteLogoIcon />
+      <div className="logo-icon">
+        <SiteLogoIcon />
+      </div>
       <span className="organization-name">{activeOrganizationLabel}</span>
     </a>
   </Link>
