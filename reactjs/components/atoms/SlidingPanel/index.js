@@ -14,7 +14,7 @@ class SlidingPanel extends React.Component {
         </div>
 
         {isOpened &&
-        <div className="scrim" onClick={onClose} onKeyPress={onClose} />
+        <div className="scrim dark dark-body" onClick={onClose} onKeyPress={onClose} />
         }
       </Fragment>
     );

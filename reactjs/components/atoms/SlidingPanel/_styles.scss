@@ -17,16 +17,3 @@
   }
 
 }
-
-.overlay-active {
-  position: relative;
-  z-index: $zindex-fixed + 6;
-}
-
-.profile-menu {
-
-  .scrim {
-    z-index: $zindex-fixed + 3;
-    background: rgba(0, 0, 0, 0.3);
-  }
-}

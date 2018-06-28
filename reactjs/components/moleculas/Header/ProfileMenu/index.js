@@ -62,7 +62,7 @@ class ProfileMenu extends React.Component {
             </svg>
           </HeaderIcon>
 
-          <HeaderIcon className={classNames('icon-close', { 'overlay-active': isOpened })} onClick={this.togglePopup} onKeyPress={this.togglePopup}>
+          <HeaderIcon className="icon-close" onClick={this.togglePopup} onKeyPress={this.togglePopup}>
             <CloseCrossIcon />
           </HeaderIcon>
         </div>
