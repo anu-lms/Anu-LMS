@@ -1,12 +1,8 @@
 .notifications-wrapper {
   position: relative;
-  height: 100%;
   text-align: left;
   float: left;
 
-  .notifications-icons {
-    height: 100%;
-  }
   .header-icon {
     z-index: $zindex-fixed + 2;
   }
@@ -37,10 +33,6 @@
 
   .icon-close {
     display: none;
-  }
-
-  &.popup-opened .header-icon {
-    background-color: $slate-grey;
   }
 
   @include media-breakpoint-down(sm) {
