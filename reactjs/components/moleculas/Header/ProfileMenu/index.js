@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { Link } from '../../../../routes';
 import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
@@ -25,21 +24,21 @@ class ProfileMenu extends React.Component {
     this.setOrganization = this.setOrganization.bind(this);
   }
 
-  togglePopup() {
-    this.setState({
-      isOpened: !this.state.isOpened,
-    });
+  async onLogoutClick() {
+    // Inform UI that we started logout process.
+    this.setState({ isLoggingOut: true });
+    // Simply wait.
+    await this.context.auth.logout();
   }
 
   setOrganization(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
   }
 
-  async onLogoutClick() {
-    // Inform UI that we started logout process.
-    this.setState({ isLoggingOut: true });
-    // Simply wait.
-    await this.context.auth.logout();
+  togglePopup() {
+    this.setState({
+      isOpened: !this.state.isOpened,
+    });
   }
 
   render() {
@@ -90,6 +89,13 @@ ProfileMenu.contextTypes = {
   auth: PropTypes.shape({
     logout: PropTypes.func,
   }),
+};
+
+ProfileMenu.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  organizations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeOrganization: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ user }) => ({
