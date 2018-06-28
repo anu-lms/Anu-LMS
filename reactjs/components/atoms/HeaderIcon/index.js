@@ -16,7 +16,7 @@ const HeaderIcon = ({
       <div className="icon">{children}</div>
       {label &&
       <div className="label">{label}</div>
-      }
+       }
     </div>
   );
 };

@@ -26,7 +26,21 @@
   .left,
   .right {
     > a {
-      display: inline-block;
+      display: block;
+      float: left;
+
+      &.site-logo-link {
+        display: none;
+      }
+      @include media-breakpoint-up(md) {
+        &.site-logo-link {
+          display: inline-block;
+          border-right: 1px solid $anu-black;
+          .header-icon {
+            padding-right: 1.5em;
+          }
+        }
+      }
     }
   }
 

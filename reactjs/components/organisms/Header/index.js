@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 import Notifications from '../../moleculas/Header/Notifications';
 import Search from '../../moleculas/Header/Search';
 import HeaderIcon from '../../atoms/HeaderIcon';
 import SiteLogoIcon from '../../atoms/Icons/SiteLogo';
+import { getObjectById } from '../../../utils/array';
 
 /* eslint-disable max-len */
-const Header = ({ isEmpty }) => (
+const Header = ({ isEmpty, activeOrganizationLabel }) => (
   <header className="site-header">
     {!isEmpty &&
     <Fragment>
@@ -35,8 +37,8 @@ const Header = ({ isEmpty }) => (
 
       <div className="left">
         <Link to="/" >
-          <a rel="home" className="site-logo">
-            <HeaderIcon className="home" label="Organization name">
+          <a rel="home" className="site-logo-link">
+            <HeaderIcon className="site-logo" label={activeOrganizationLabel}>
               <SiteLogoIcon />
             </HeaderIcon>
           </a>
@@ -82,10 +84,23 @@ const Header = ({ isEmpty }) => (
 
 Header.propTypes = {
   isEmpty: PropTypes.bool,
+  activeOrganizationLabel: PropTypes.string.isRequired,
 };
 
 Header.defaultProps = {
   isEmpty: false,
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => {
+  let activeOrganizationLabel = '';
+  if (user.activeOrganization) {
+    const organization = getObjectById(user.data.organization, user.activeOrganization);
+    activeOrganizationLabel = organization ? organization.name : '';
+  }
+
+  return {
+    activeOrganizationLabel,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
