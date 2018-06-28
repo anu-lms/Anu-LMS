@@ -21,7 +21,7 @@ class ProfileMenu extends React.Component {
   }
 
   render() {
-    const { username, organizations, activeOrganization, onLogoutClick } = this.props;
+    const { username, organizations, activeOrganization, onLogoutClick, setOrganization } = this.props;
     const { isOrgsListCollapsed } = this.state;
     return (
       <div className="profile-menu-list">
@@ -41,7 +41,12 @@ class ProfileMenu extends React.Component {
               </span>
               <ul className="organizations">
                 {organizations.map(item => (
-                  <li className={classNames({ 'active': activeOrganization === item.id })} key={item.id}>
+                  <li
+                    className={classNames({ 'active': activeOrganization === item.id })}
+                    key={item.id}
+                    onClick={() => { setOrganization(item.id); }}
+                    onKeyPress={() => { setOrganization(item.id); }}
+                  >
                     <span>{item.name}</span>
                   </li>
                 ))}

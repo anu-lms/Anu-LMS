@@ -1,3 +1,7 @@
 .site-header .site-logo {
   display: none;
+
+  @include media-breakpoint-up(md) {
+    display: inline-block;
+  }
 }

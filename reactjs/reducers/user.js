@@ -7,6 +7,12 @@ export default (state = { data: {}, activeOrganization: null }, action) => {
         activeOrganization: action.user.organization[0] ? action.user.organization[0].id : null,
       };
     }
+    case 'USER_SET_ORGANIZATION': {
+      return {
+        ...state,
+        activeOrganization: action.organizationId,
+      };
+    }
 
     default:
       return state;
