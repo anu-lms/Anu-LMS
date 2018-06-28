@@ -90,6 +90,7 @@ const Header = ({ isEmpty, activeOrganizationLabel, router }) => (
 
 Header.propTypes = {
   isEmpty: PropTypes.bool,
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   activeOrganizationLabel: PropTypes.string.isRequired,
 };
 

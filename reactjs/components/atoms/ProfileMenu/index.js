@@ -21,7 +21,10 @@ class ProfileMenu extends React.Component {
   }
 
   render() {
-    const { username, organizations, activeOrganization, onLogoutClick, setOrganization } = this.props;
+    const {
+      username, organizations, activeOrganization,
+      onLogoutClick, setOrganization,
+    } = this.props;
     const { isOrgsListCollapsed } = this.state;
     return (
       <div className="profile-menu-list">
@@ -41,7 +44,7 @@ class ProfileMenu extends React.Component {
               </span>
               <ul className="organizations">
                 {organizations.map(item => (
-                  <li
+                  <li // eslint-disable-line jsx-a11y/no-noninteractive-element-interactions
                     className={classNames({ 'active': activeOrganization === item.id })}
                     key={item.id}
                     onClick={() => { setOrganization(item.id); }}
@@ -62,7 +65,7 @@ class ProfileMenu extends React.Component {
           </li>
           <li className="list-separator" />
           <li className="logout">
-            <span onClick={onLogoutClick}>Logout</span>
+            <span onClick={onLogoutClick} onKeyPress={onLogoutClick}>Logout</span>
           </li>
         </ul>
       </div>
@@ -71,7 +74,19 @@ class ProfileMenu extends React.Component {
 }
 
 ProfileMenu.propTypes = {
+  username: PropTypes.string,
+  organizations: PropTypes.arrayOf(PropTypes.object),
+  activeOrganization: PropTypes.number,
+  onLogoutClick: PropTypes.func,
+  setOrganization: PropTypes.func,
+};
 
+ProfileMenu.defaultProps = {
+  username: '',
+  organizations: [],
+  activeOrganization: null,
+  onLogoutClick: () => {},
+  setOrganization: () => {},
 };
 
 export default ProfileMenu;
