@@ -20,11 +20,11 @@
     padding: 0;
     position: fixed;
     top: 0;
-    left: 88px;
+    left: 86px;
     z-index: $zindex-fixed;
     transition: all .3s;
     @include media-breakpoint-up(md) {
-      left: 190px;
+      left: 390px;
       width: 88px;
       height: 80px;
       padding-top: 6px;

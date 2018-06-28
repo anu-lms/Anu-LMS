@@ -1,5 +1,5 @@
 .site-header .site-logo {
-  display: none;
+  display: none !important;
 
   .logo-icon {
     svg {
@@ -20,6 +20,5 @@
     padding-top: 6px;
     padding-right: 1.5em;
     border-right: 1px solid $anu-black;
-    transition: all .2s;
   }
 }

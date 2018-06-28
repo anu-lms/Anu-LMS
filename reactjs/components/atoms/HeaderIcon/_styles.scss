@@ -1,27 +1,25 @@
 .header-icon {
-  height: 48px;
-  display: inline-flex;
-  align-items: center;
+  height: $header-height-sm;
   padding: 0 0.6em;
   text-align: center;
-  flex-flow: column;
-  justify-content: center;
   cursor: pointer;
   transition: background-color .2s;
 
   @include media-breakpoint-up(md) {
-    height: 80px;
+    height: $header-height-md;
     margin: 0;
-    padding: 5px 1em 0;
+    padding: 0 1em;
   }
 
   .icon {
-    width: 1.3em;
-    height: 1.3em;
+    width: 1.25em;
+    height: 1.25em;
+    display: inline-block;
+    position: relative;
+    top: 14px;
     @include media-breakpoint-up(md) {
-      width: 2.5em;
-      height: 2.5em;
-      position: relative;
+      width: 1.625em;
+      height: 1.625em;
     }
 
     svg {
@@ -39,7 +37,7 @@
   .label {
     display: none;
     color: $white;
-    font-size: 0.875em;
+    font-size: 0.75em;
 
     @include media-breakpoint-up(md) {
       display: block;
@@ -47,25 +45,21 @@
   }
 }
 
-
-.header-icon.home .icon {
-  top: 7px;
-}
-.header-icon.notebook .icon {
-  top: 7px;
-}
-.header-icon.profile .icon {
-  top: 3px;
-}
-.header-icon.icon-bell .icon {
-  top: 0;
-  @include media-breakpoint-up(md) {
-    top: 5px;
+.header-icon {
+  &.toggle .icon,
+  &.home .icon {
+    top: 15px;
   }
-}
+  &.notebook .icon {
 
-div[class*=dropdown---open] {
-  .header-icon {
-    background-color: $slate-grey;
+  }
+  &.search-bar .icon {
+
+  }
+  &.icon-bell .icon {
+
+  }
+  &.profile .icon {
+
   }
 }
