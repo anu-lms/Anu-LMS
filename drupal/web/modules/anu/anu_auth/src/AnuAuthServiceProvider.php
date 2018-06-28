@@ -22,4 +22,5 @@ class AnuAuthServiceProvider extends ServiceProviderBase {
     $definition = $container->getDefinition('simple_oauth.http_middleware.basic_auth_swap');
     $definition->setClass('Drupal\anu_auth\HttpMiddleware\BasicAuthSwap');
   }
+
 }

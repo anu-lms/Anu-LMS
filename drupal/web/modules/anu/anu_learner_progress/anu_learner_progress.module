@@ -2,15 +2,16 @@
 
 /**
  * @file
- * Contains main entry point for
+ * Contains main entry point for.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 /**
  * Implements hook_ENTITY_TYPE_delete().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_learner_progress_node_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_learner_progress_node_delete(EntityInterface $entity) {
 
   if (!in_array($entity->bundle(), ['course', 'lesson'])) {
     return;
@@ -27,12 +28,13 @@ function anu_learner_progress_node_delete(Drupal\Core\Entity\EntityInterface $en
     ]);
     $controller->delete($entities);
 
-  } catch(\Exception $e) {
+  }
+  catch (\Exception $e) {
     $message = 'Could not remove learner progress entity when @bundle @id was deleting. Error: @error.';
     $params = [
       '@bundle' => $entity->bundle(),
       '@id' => $entity->id(),
-      '@error' => $e->getMessage()
+      '@error' => $e->getMessage(),
     ];
     \Drupal::logger('anu_learner_progress')->critical($message, $params);
   }
@@ -43,7 +45,7 @@ function anu_learner_progress_node_delete(Drupal\Core\Entity\EntityInterface $en
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_learner_progress_user_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_learner_progress_user_delete(EntityInterface $entity) {
 
   try {
 
@@ -54,12 +56,13 @@ function anu_learner_progress_user_delete(Drupal\Core\Entity\EntityInterface $en
     ]);
     $controller->delete($entities);
 
-  } catch(\Exception $e) {
+  }
+  catch (\Exception $e) {
     $message = 'Could not remove learner progress entity when @bundle @id was deleting. Error: @error.';
     $params = [
       '@bundle' => $entity->bundle(),
       '@id' => $entity->id(),
-      '@error' => $e->getMessage()
+      '@error' => $e->getMessage(),
     ];
     \Drupal::logger('anu_learner_progress')->critical($message, $params);
   }

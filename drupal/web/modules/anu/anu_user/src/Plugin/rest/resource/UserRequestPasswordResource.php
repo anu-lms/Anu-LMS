@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
@@ -71,7 +72,7 @@ class UserRequestPasswordResource extends ResourceBase {
 
     if (empty($data['username'])) {
       return new ResourceResponse([
-        'message' => $this->t('Username is not recognized as a username or an email address.')
+        'message' => $this->t('Username is not recognized as a username or an email address.'),
       ], 406);
     }
 
@@ -86,7 +87,7 @@ class UserRequestPasswordResource extends ResourceBase {
     if ($account && $account->id()) {
       if (user_is_blocked($account->getAccountName())) {
         return new ResourceResponse([
-          'message' => $this->t('The user has not been activated or is blocked.')
+          'message' => $this->t('The user has not been activated or is blocked.'),
         ], 406);
       }
 
@@ -104,8 +105,9 @@ class UserRequestPasswordResource extends ResourceBase {
     }
     else {
       return new ResourceResponse([
-        'message' => $this->t('@username is not recognized as a username or an email address.', ['@username' => $data['username']])
+        'message' => $this->t('@username is not recognized as a username or an email address.', ['@username' => $data['username']]),
       ], 406);
     }
   }
+
 }

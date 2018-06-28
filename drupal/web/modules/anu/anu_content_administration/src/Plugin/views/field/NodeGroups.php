@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- *
- */
-
 namespace Drupal\anu_content_administration\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
@@ -64,4 +59,5 @@ class NodeGroups extends FieldPluginBase {
 
     return $groups;
   }
+
 }

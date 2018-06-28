@@ -6,6 +6,9 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
 
+/**
+ *
+ */
 class UserImport extends FormBase {
 
   /**
@@ -47,7 +50,8 @@ class UserImport extends FormBase {
           $group_list[$group->id()] = $group->label();
         }
       }
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = t('Could not load groups on the Users Import page.');
       \Drupal::logger('anu_user')->error($message);
       drupal_set_message($message, 'error');
@@ -77,7 +81,8 @@ class UserImport extends FormBase {
           $organization_list[$organization->id()] = $organization->label();
         }
       }
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = t('Could not load organizations on the Users Import page.');
       \Drupal::logger('anu_user')->error($message);
       drupal_set_message($message, 'error');
@@ -158,7 +163,8 @@ class UserImport extends FormBase {
             '%name' => $line[2],
           ]));
         }
-      } catch (\Exception $exception) {
+      }
+      catch (\Exception $exception) {
         // Do nothing here.
       }
 
@@ -173,7 +179,8 @@ class UserImport extends FormBase {
             '@email' => $line[3],
           ]));
         }
-      } catch (\Exception $exception) {
+      }
+      catch (\Exception $exception) {
         // Do nothing here.
       }
     }
@@ -185,7 +192,7 @@ class UserImport extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    // Get the file with
+    // Get the file with.
     $file = $this->getRequest()->files->get('files')['file'];
     $data = array_map('str_getcsv', file($file->getRealPath(), FILE_IGNORE_NEW_LINES));
 
@@ -203,7 +210,7 @@ class UserImport extends FormBase {
         '\Drupal\anu_user\Controller\UserImport::saveUser',
         // First name, Last name, Username, Email, Classes array,
         // Organization term ID, Boolean welcome email.
-        [$values[0], $values[1], $values[2], $values[3], $classes, $organization, $notify]
+        [$values[0], $values[1], $values[2], $values[3], $classes, $organization, $notify],
       ];
     }
 
@@ -279,7 +286,8 @@ class UserImport extends FormBase {
       foreach ($groups as $group) {
         $group->addMember($user);
       }
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = t('Could not create a user during bulk import.');
       \Drupal::logger('anu_user')->critical($message);
       drupal_set_message($message, 'error');

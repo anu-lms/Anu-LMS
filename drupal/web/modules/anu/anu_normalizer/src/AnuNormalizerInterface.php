@@ -6,7 +6,10 @@ use Drupal\Component\Plugin\DerivativeInspectionInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
-interface AnuNormalizerInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, DerivativeInspectionInterface  {
+/**
+ *
+ */
+interface AnuNormalizerInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, DerivativeInspectionInterface {
 
   /**
    * Returns true if Event should be triggered.
@@ -17,4 +20,5 @@ interface AnuNormalizerInterface extends ContainerFactoryPluginInterface, Plugin
    * Check if event should be triggered, creates Message entity and notify channels.
    */
   public function normalize($entity, $include_fields);
+
 }

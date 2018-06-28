@@ -174,7 +174,8 @@ class AnuAccess extends ContentAccess {
       elseif ($entity_type_id == 'notebook') {
         $this->addNotebookFieldValues($item);
       }
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $this->logException($exception);
     }
   }
@@ -221,7 +222,7 @@ class AnuAccess extends ContentAccess {
         // Add the generic pseudo view grant if we are not using node access
         // or the node is viewable by anonymous users.
         // @todo: workaround to fix permissions to the nodes that isn't assigned to any group.
-        // $field->addValue('node_access__all');
+        // $field->addValue('node_access__all');.
       }
     }
   }
@@ -309,8 +310,9 @@ class AnuAccess extends ContentAccess {
           $this->addNotebookAccess($query, $account);
 
           // VERY good way to debug search query that is being finally built out.
-          // $query_stringified = (string) $query;
-        } catch (SearchApiException $e) {
+          // $query_stringified = (string) $query;.
+        }
+        catch (SearchApiException $e) {
           $this->logException($e);
         }
       }
@@ -359,7 +361,6 @@ class AnuAccess extends ContentAccess {
   }
 
   /**
-   *
    * Adds access checks to the query for node paragraphs.
    *
    * TODO: Implement access checks for (un)published associated node.
@@ -386,7 +387,6 @@ class AnuAccess extends ContentAccess {
   }
 
   /**
-   *
    * Adds access checks to the query for node paragraph comments.
    *
    * TODO: Implement access checks for (un)published associated node.
@@ -432,7 +432,7 @@ class AnuAccess extends ContentAccess {
     $comment_condition_group->addConditionGroup($grants_condition_group);
 
     // Add check that the comment is not deleted.
-    $comment_condition_group->addCondition('anu_search_comment_deleted', false);
+    $comment_condition_group->addCondition('anu_search_comment_deleted', FALSE);
 
     // Add condition built for comments to the general query. Just like this:
     // [comment conditions set] OR [other conditions].
@@ -586,4 +586,5 @@ class AnuAccess extends ContentAccess {
 
     return $outer_condition_group;
   }
+
 }

@@ -45,6 +45,7 @@ class QuizzesResultsResource extends ResourceBase {
     LoggerInterface $logger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
   }
+
   /**
    * {@inheritdoc}
    */
@@ -90,7 +91,8 @@ class QuizzesResultsResource extends ResourceBase {
       $quizzes = \Drupal::entityTypeManager()->getStorage('paragraph')->loadMultiple($quiz_ids);
       foreach ($quizzes as $quiz) {
         $quiz_id = $quiz->id();
-        $raw_type = substr($quiz->bundle(), 5); // One of checkboxes, comboboxes, free_answer or linear_scale.
+        // One of checkboxes, comboboxes, free_answer or linear_scale.
+        $raw_type = substr($quiz->bundle(), 5);
         $quiz_result_type = 'quiz_result_' . $raw_type;
 
         // Search for existing quiz result entity.
@@ -98,7 +100,7 @@ class QuizzesResultsResource extends ResourceBase {
           'uid' => \Drupal::currentUser()->id(),
           'type' => $quiz_result_type,
           'field_lesson' => $data['lessonId'],
-          'field_question' => $quiz_id
+          'field_question' => $quiz_id,
         ]);
 
         // Create a revision for existing entity or create a new one.
@@ -107,9 +109,9 @@ class QuizzesResultsResource extends ResourceBase {
         }
         else {
           $entity = \Drupal::entityTypeManager()->getStorage('quiz_result')->create([
-              'type' => $quiz_result_type,
-              'field_lesson' => $data['lessonId'],
-            ]
+            'type' => $quiz_result_type,
+            'field_lesson' => $data['lessonId'],
+          ]
           );
         }
 
@@ -142,7 +144,8 @@ class QuizzesResultsResource extends ResourceBase {
         $entity->setNewRevision(TRUE);
         $entity->save();
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       // Log an error.
       $message = $e->getMessage();
       if (empty($message)) {
@@ -152,7 +155,7 @@ class QuizzesResultsResource extends ResourceBase {
       throw new HttpException(406, $message);
     }
 
-    $response = new ResourceResponse(true);
+    $response = new ResourceResponse(TRUE);
     return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
   }
 
@@ -231,7 +234,8 @@ class QuizzesResultsResource extends ResourceBase {
           }
         }
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       // Log an error.
       $message = $e->getMessage();
       if (empty($message)) {

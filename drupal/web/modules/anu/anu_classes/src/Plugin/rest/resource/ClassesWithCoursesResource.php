@@ -133,18 +133,19 @@ class ClassesWithCoursesResource extends ResourceBase {
           }
 
           $response[$group->id()]['courses'][] = [
-              'id' => $course->id(),
-              'label' => $course->label(),
-              'image' => $image_url,
-              'path' => $path_alias,
-            ] + $course_progress;
+            'id' => $course->id(),
+            'label' => $course->label(),
+            'image' => $image_url,
+            'path' => $path_alias,
+          ] + $course_progress;
         }
 
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not load classes with courses. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -152,4 +153,5 @@ class ClassesWithCoursesResource extends ResourceBase {
 
     return !empty($response) ? new ResourceResponse(array_values($response)) : new ResourceResponse();
   }
+
 }

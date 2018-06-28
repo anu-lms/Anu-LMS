@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\anu_events\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
@@ -48,7 +49,7 @@ class NotificationsMarkAllAsRead extends ResourceBase {
         ->getStorage('message')
         ->loadByProperties([
           'field_message_recipient' => $current_user->id(),
-          'field_message_is_read' => FALSE
+          'field_message_is_read' => FALSE,
         ]);
 
       foreach ($notifications as $notification) {
@@ -56,11 +57,12 @@ class NotificationsMarkAllAsRead extends ResourceBase {
         $notification->save();
       }
     }
-    catch(\Exception $e) {
+    catch (\Exception $e) {
       $message = $this->t('There is a problem to mark all notifications as read for user @uid.', ['@uid' => $current_user->id()]);
       $this->logger->warning($message);
       return new ResourceResponse(['message' => $message], 406);
     }
-    return new ResourceResponse(true);
+    return new ResourceResponse(TRUE);
   }
+
 }

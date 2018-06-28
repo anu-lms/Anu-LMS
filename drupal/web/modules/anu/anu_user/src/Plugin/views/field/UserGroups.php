@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- *
- */
-
 namespace Drupal\anu_user\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
@@ -49,4 +44,5 @@ class UserGroups extends FieldPluginBase {
 
     return ['#markup' => implode(', ', $groups)];
   }
+
 }

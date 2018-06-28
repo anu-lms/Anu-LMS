@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * @file
+ */
+
+/**
  * Implements hook_views_data_alter().
  */
 function anu_user_views_data_alter(array &$data) {

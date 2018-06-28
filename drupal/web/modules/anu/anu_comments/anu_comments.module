@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file
+ */
+
+use Drupal\user\Entity\User;
+use Drupal\eck\Entity\EckEntity;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
@@ -12,8 +18,8 @@ use Drupal\Core\Access\AccessResult;
 /**
  * Enables revisions for comment entity by default.
  */
-function anu_comments_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
-  if ($entity instanceof Drupal\eck\Entity\EckEntity && $entity->getEntityTypeId() == 'paragraph_comment') {
+function anu_comments_entity_presave(EntityInterface $entity) {
+  if ($entity instanceof EckEntity && $entity->getEntityTypeId() == 'paragraph_comment') {
     $entity->setNewRevision(TRUE);
   }
 }
@@ -21,24 +27,24 @@ function anu_comments_entity_presave(Drupal\Core\Entity\EntityInterface $entity)
 /**
  * Implements hook_ENTITY_TYPE_access().
  */
-function anu_comments_paragraph_comment_access(EntityInterface $comment, $operation,  AccountInterface $account) {
+function anu_comments_paragraph_comment_access(EntityInterface $comment, $operation, AccountInterface $account) {
 
   // Load the user object with all fields.
-  $user = \Drupal\user\Entity\User::load($account->id());
+  $user = User::load($account->id());
 
   // Get value of the current user organization.
-  $user_organization = null;
+  $user_organization = NULL;
   if ($user->hasField('field_organization')) {
     $value = $user->get('field_organization')->getValue();
-    $user_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : null;
+    $user_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : NULL;
   }
 
   // Get value of the comment's organization in which the comment had been
   // left off.
-  $comment_organization = null;
+  $comment_organization = NULL;
   if ($comment->hasField('field_comment_organization')) {
     $value = $comment->get('field_comment_organization')->getValue();
-    $comment_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : null;
+    $comment_organization = !empty($value[0]['target_id']) ? $value[0]['target_id'] : NULL;
   }
 
   // We do not allow users from different organization has any access to the
