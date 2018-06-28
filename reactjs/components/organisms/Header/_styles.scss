@@ -36,15 +36,21 @@
         &.site-logo-link {
           display: inline-block;
           border-right: 1px solid $anu-black;
+          margin-left: -1.5em;
           .header-icon {
-            padding-right: 1.5em;
+            .icon {
+              height: 36px;
+              top: 12px;
+            }
           }
           .label {
             font-size: 0.625em;
             font-style: italic;
             font-weight: bold;
-            // Set minimum width for label to avoid jumping on long organization switching.
+            // Set minimum width for label to avoid
+            // jumping on long organization switching.
             min-width: 140px;
+            top: 49px;
           }
         }
       }
