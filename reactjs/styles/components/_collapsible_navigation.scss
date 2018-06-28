@@ -24,18 +24,20 @@
     z-index: $zindex-fixed;
     transition: all .3s;
     @include media-breakpoint-up(md) {
-      left: 390px;
+      left: 321px;
       width: 88px;
       height: 80px;
-      padding-top: 6px;
+    }
+    &.header-icon .icon {
+      @include media-breakpoint-up(md) {
+        top: 23px;
+      }
     }
 
     svg {
       width: 18px;
       @include media-breakpoint-up(md) {
-        width: 34px;
-        position: relative;
-        top: 14px;
+        width: 24px;
       }
       path {
         fill: white;

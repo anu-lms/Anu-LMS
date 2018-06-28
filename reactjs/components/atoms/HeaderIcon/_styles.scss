@@ -19,9 +19,8 @@
     position: relative;
     top: 14px;
     @include media-breakpoint-up(md) {
-      //width: 1.625em;
       height: 1.625em;
-      top: 20px;
+      top: 19px;
 
       position: absolute;
       width: 100%;
@@ -49,7 +48,7 @@
     @include media-breakpoint-up(md) {
       display: block;
       position: relative;
-      top: 50px;
+      top: 49px;
     }
   }
 }
@@ -58,23 +57,8 @@
   &.toggle .icon,
   &.home .icon {
     top: 15px;
-  }
-  &.notebook .icon {
-
-  }
-  &.search-bar .icon {
-
-  }
-  &.icon-bell .icon {
-
-  }
-  &.profile .icon {
-
-  }
-  @include media-breakpoint-up(md) {
-    &.site-logo .icon {
-      //width: 82px;
-      height: 36px;
+    @include media-breakpoint-up(md) {
+      top: 20px;
     }
   }
 }
