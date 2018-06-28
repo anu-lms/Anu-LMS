@@ -7,6 +7,7 @@ import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
 import ProfileMenuList from '../../../atoms/ProfileMenu';
+import CloseCrossIcon from '../../../atoms/Icons/CloseCross';
 import * as userHelper from '../../../../helpers/user';
 import * as userActions from '../../../../actions/user';
 
@@ -62,11 +63,7 @@ class ProfileMenu extends React.Component {
           </HeaderIcon>
 
           <HeaderIcon className={classNames('icon-close', { 'overlay-active': isOpened })} onClick={this.togglePopup} onKeyPress={this.togglePopup}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="22" viewBox="0 0 14 14">
-              <g fill="none" fillRule="evenodd">
-                <path fill="#FFF" fillRule="nonzero" d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7z" />
-              </g>
-            </svg>
+            <CloseCrossIcon />
           </HeaderIcon>
         </div>
 
