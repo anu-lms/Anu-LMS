@@ -8,13 +8,7 @@
     height: 100%;
   }
   .header-icon {
-    //float: left;
-    //cursor: pointer;
-    //position: relative;
     z-index: $zindex-fixed + 2;
-    .icon {
-      //position: relative;
-    }
   }
   .icon-bell .amount {
     background: $clay-orange;

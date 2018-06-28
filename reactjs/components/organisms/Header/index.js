@@ -1,16 +1,18 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'next/router';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 import Notifications from '../../moleculas/Header/Notifications';
+import LessonNavigationButton from '../../moleculas/Header/LessonNavigationButton';
 import Search from '../../moleculas/Header/Search';
 import HeaderIcon from '../../atoms/HeaderIcon';
 import SiteLogoIcon from '../../atoms/Icons/SiteLogo';
 import { getObjectById } from '../../../utils/array';
 
 /* eslint-disable max-len */
-const Header = ({ isEmpty, activeOrganizationLabel }) => (
+const Header = ({ isEmpty, activeOrganizationLabel, router }) => (
   <header className="site-header">
     {!isEmpty &&
     <Fragment>
@@ -69,6 +71,10 @@ const Header = ({ isEmpty, activeOrganizationLabel }) => (
             </HeaderIcon>
           </a>
         </Link>
+
+        {(router.route === '/_lesson' || router.route === '/_courseResource') &&
+        <LessonNavigationButton />
+        }
       </div>
 
       <div className="right">
@@ -103,4 +109,4 @@ const mapStateToProps = ({ user }) => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(withRouter(Header));

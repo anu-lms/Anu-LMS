@@ -4,44 +4,13 @@
     display: block;
     background: rgba(0, 0, 0, 0.3);
     position: fixed;
-    z-index: $zindex-fixed - 1;
+    z-index: $zindex-fixed - 2;
     left: 0;
     bottom: 0;
     right: 0;
     top: 3em;
     @include media-breakpoint-up(md) {
       display: none;
-    }
-  }
-
-  .toggle {
-    width: 40px;
-    height: 48px;
-    padding: 0;
-    position: fixed;
-    top: 0;
-    left: 86px;
-    z-index: $zindex-fixed;
-    transition: all .3s;
-    @include media-breakpoint-up(md) {
-      left: 321px;
-      width: 88px;
-      height: 80px;
-    }
-    &.header-icon .icon {
-      @include media-breakpoint-up(md) {
-        top: 23px;
-      }
-    }
-
-    svg {
-      width: 18px;
-      @include media-breakpoint-up(md) {
-        width: 24px;
-      }
-      path {
-        fill: white;
-      }
     }
   }
 
@@ -56,7 +25,7 @@
     background: $gray91;
     overflow-y: auto;
     transition: left .2s;
-    z-index: $zindex-fixed;
+    z-index: $zindex-fixed - 1;
     @include media-breakpoint-up(md) {
       top: 80px;
       padding-bottom: 80px;
@@ -70,7 +39,6 @@
   }
 
   &.closed {
-
     .overlay {
       display: none;
     }
