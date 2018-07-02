@@ -39,7 +39,7 @@ function* fetchComments() {
 /**
  * Update comments in store when comments sidebar is opened.
  */
-function* sidebarIsOpened() {
+function* syncCommentsIfTabActive() {
   const activeTab = yield select(store => store.lessonSidebar.sidebar.activeTab);
 
   if (activeTab === 'comments') {
@@ -183,6 +183,7 @@ export default function* lessonCommentsSagas() {
     yield takeLatest('LESSON_COMMENTS_DELETE_COMMENT', deleteComment),
     yield takeLatest('LESSON_COMMENTS_MARK_AS_DELETED', markCommentAsDeleted),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
-    yield takeLatest('LESSON_SIDEBAR_OPEN', sidebarIsOpened),
+    yield takeLatest('LESSON_SIDEBAR_OPEN', syncCommentsIfTabActive),
+    yield takeLatest('USER_SET_ORGANIZATION', syncCommentsIfTabActive),
   ]);
 }
