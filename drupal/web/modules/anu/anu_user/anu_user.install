@@ -8,8 +8,8 @@
 /**
  * Implements hook_update_N().
  */
-function anu_user_update_8002() {
-  // We have added 'uuid' variable to the application store
+function anu_user_update_8003() {
+  // We have added whole 'user' data object to the application store
   // and should logout users to make them fill these variables on log in.
   // Truncates Oauth tables to log out users.
   $storage = \Drupal::entityTypeManager()->getStorage('oauth2_token');
