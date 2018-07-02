@@ -94,7 +94,7 @@ function* noteSave(note) {
  * Fetch notes from the backend.
  */
 function* fetchNotes() {
-  const uid = yield select(reduxStore => reduxStore.user.uid);
+  const uid = yield select(reduxStore => reduxStore.user.data.uid);
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
