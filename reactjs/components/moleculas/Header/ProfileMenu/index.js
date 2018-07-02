@@ -95,7 +95,11 @@ ProfileMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   organizations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeOrganization: PropTypes.number.isRequired,
+  activeOrganization: PropTypes.number,
+};
+
+ProfileMenu.defaultProps = {
+  activeOrganization: null,
 };
 
 const mapStateToProps = ({ user }) => ({
