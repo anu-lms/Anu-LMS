@@ -40,6 +40,11 @@ function* fetchComments() {
  * Update comments in store when comments sidebar is opened.
  */
 function* syncCommentsIfTabActive() {
+  const isCollapsed = yield select(store => store.lessonSidebar.sidebar.isCollapsed);
+  if (isCollapsed) {
+    return;
+  }
+
   const activeTab = yield select(store => store.lessonSidebar.sidebar.activeTab);
 
   if (activeTab === 'comments') {
