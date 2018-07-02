@@ -21,6 +21,7 @@ class ProfileMenu extends React.Component {
 
     this.onLogoutClick = this.onLogoutClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
+    this.closePopup = this.closePopup.bind(this);
     this.setOrganization = this.setOrganization.bind(this);
   }
 
@@ -33,11 +34,18 @@ class ProfileMenu extends React.Component {
 
   setOrganization(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
+    this.closePopup();
   }
 
   togglePopup() {
     this.setState({
       isOpened: !this.state.isOpened,
+    });
+  }
+
+  closePopup() {
+    this.setState({
+      isOpened: false,
     });
   }
 
@@ -66,16 +74,17 @@ class ProfileMenu extends React.Component {
           </HeaderIcon>
         </div>
 
-        <SlidingPanel className="profile-menu-panel" isOpened={isOpened} onClose={this.togglePopup}>
+        <SlidingPanel className="profile-menu-panel" isOpened={isOpened} onClose={this.closePopup}>
           <ProfileMenuList
             organizations={organizations}
             username={username}
             activeOrganization={activeOrganization}
+            onItemClick={this.closePopup}
+            onOrganizationClick={this.setOrganization}
             onLogoutClick={this.onLogoutClick}
-            setOrganization={this.setOrganization}
           />
           <div className="footer">
-            <button onClick={this.togglePopup} className="close btn-grey">Close Profile Menu</button>
+            <button onClick={this.closePopup} className="close btn-grey">Close Profile Menu</button>
           </div>
         </SlidingPanel>
 
