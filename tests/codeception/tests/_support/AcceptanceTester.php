@@ -20,7 +20,7 @@ class AcceptanceTester extends \Codeception\Actor {
 
   use _generated\AcceptanceTesterActions;
 
-  const TIMEOUT = 5;
+  const TIMEOUT = 10; //@todo: update timeout limit.
 
   /**
    * Authenticates user into the frontend.
