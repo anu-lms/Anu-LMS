@@ -35,6 +35,7 @@ export const courseData = courseDataObject => {
   let instructors = [];
   if (course.fieldCourseInstructors) {
     instructors = course.fieldCourseInstructors.map(user => {
+      // @todo: replace with helper function.
       let realname = '';
       if (user.fieldFirstName) {
         realname = user.fieldFirstName;

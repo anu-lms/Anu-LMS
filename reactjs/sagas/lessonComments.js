@@ -2,7 +2,6 @@ import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
-import * as userApi from '../api/user';
 import * as commentsApi from '../api/comments';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
@@ -18,12 +17,14 @@ function* fetchComments() {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    // Get current user data to filter by user's organization.
-    const currentUser = yield call(userApi.fetchCurrent, request);
+    // Get active organization of current user.
+    const activeOrganization = yield select(store => store.user.activeOrganization);
 
     // Make a request to get list of comments.
-    const organizationId = currentUser.organization ? currentUser.organization : null;
-    const comments = yield call(commentsApi.fetchComments, request, paragraphId, organizationId);
+    const comments = yield call(
+      commentsApi.fetchComments,
+      request, paragraphId, activeOrganization,
+    );
 
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));
@@ -55,12 +56,15 @@ function* addComment({ text, parentId }) {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     // Get current user data to filter by user's organization.
-    const currentUser = yield call(userApi.fetchCurrent, request);
+    const currentUser = yield select(store => store.user.data);
+
+    // Get active organization of current user.
+    const activeOrganization = yield select(store => store.user.activeOrganization);
 
     // Makes request to the backend to add a new comment.
     const comment = yield call(
       commentsApi.insertComment,
-      request, currentUser.uid, paragraphId, currentUser.organization, text, parentId,
+      request, currentUser.uid, paragraphId, activeOrganization, text, parentId,
     );
 
     // Adds created comment to the application store.
