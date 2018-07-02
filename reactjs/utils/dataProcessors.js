@@ -220,7 +220,7 @@ export const notebookListData = notebookDataObject =>
  * Internal helper to normalize User data from the backend.
  */
 export const userData = userDataObject => ({
-  id: userDataObject.id,
+  uid: userDataObject.uid,
   uuid: userDataObject.uuid,
   name: userDataObject.name,
   mail: userDataObject.mail,
