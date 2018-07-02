@@ -21,7 +21,7 @@ class ImageFull extends React.Component {
   render() {
     let style = {};
     const { text, image, columnClasses, id } = this.props;
-    const imageUrl = fileUrl(image.meta.derivatives.w1400);
+    const imageUrl = fileUrl(image);
 
     style.backgroundImage = `url("${imageUrl}")`;
     return (
@@ -51,14 +51,7 @@ ImageFull.propTypes = {
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  image: PropTypes.shape({
-    url: PropTypes.string,
-    meta: PropTypes.shape({
-      derivatives: PropTypes.shape({
-        w1400: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  image: PropTypes.string.isRequired,
   text: PropTypes.shape({
     value: PropTypes.string,
     format: PropTypes.string,

@@ -35,6 +35,10 @@ class LinearScale extends React.Component {
       title, from, to, blocks, data, columnClasses, id,
     } = this.props;
 
+    // Make sure the values are always present as integer.
+    from.first = parseInt(from.first, 10);
+    to.first = parseInt(to.first, 10);
+
     // The value to use should be either the value from the redux store
     // or the middle of the scale.
     const value = data ? parseInt(data) : Math.round(to.first / 2); // eslint-disable-line radix
@@ -84,11 +88,17 @@ LinearScale.propTypes = {
     PropTypes.number, // if there's a value from the redux store.
   ]),
   from: PropTypes.shape({
-    first: PropTypes.number,
+    first: PropTypes.oneOfType([
+      PropTypes.string, // if there's a value from the backend.
+      PropTypes.number, // if there's a value from the redux store.
+    ]),
     second: PropTypes.string,
   }).isRequired,
   to: PropTypes.shape({
-    first: PropTypes.number,
+    first: PropTypes.oneOfType([
+      PropTypes.string, // if there's a value from the backend.
+      PropTypes.number, // if there's a value from the redux store.
+    ]),
     second: PropTypes.string,
   }).isRequired,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
