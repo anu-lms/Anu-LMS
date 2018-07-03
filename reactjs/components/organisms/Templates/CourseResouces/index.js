@@ -38,7 +38,7 @@ const CourseResourcesTemplate = ({ course, resources, navigation }) => {
                   <ResourceParagraph
                     key={resource.id}
                     title={resource.title}
-                    privatefile={{
+                    private_file={{
                       fid: parseInt(resource.id), // eslint-disable-line radix
                       filename: resource.filename,
                     }}

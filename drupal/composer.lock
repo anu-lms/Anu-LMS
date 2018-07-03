@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a9a8e929835da568caecd993660f3e7",
+    "content-hash": "6e768d8e0429098ec92157e4403092da",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1998,16 +1998,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.5.3",
+            "version": "8.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "b012f0ae51504880e920f2c6efdbdf03b6fe2129"
+                "reference": "6b4dc1cf3347761f63152a31786b4680b8ac7781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/b012f0ae51504880e920f2c6efdbdf03b6fe2129",
-                "reference": "b012f0ae51504880e920f2c6efdbdf03b6fe2129",
+                "url": "https://api.github.com/repos/drupal/core/zipball/6b4dc1cf3347761f63152a31786b4680b8ac7781",
+                "reference": "6b4dc1cf3347761f63152a31786b4680b8ac7781",
                 "shasum": ""
             },
             "require": {
@@ -2232,7 +2232,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2018-04-25T15:39:01+00:00"
+            "time": "2018-06-06T21:02:51+00:00"
         },
         {
             "name": "drupal/ctools",
@@ -2321,58 +2321,6 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/ctools",
                 "issues": "https://www.drupal.org/project/issues/ctools"
-            }
-        },
-        {
-            "name": "drupal/decoupled_router",
-            "version": "1.0.0-beta1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/decoupled_router",
-                "reference": "8.x-1.0-beta1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/decoupled_router-8.x-1.0-beta1.zip",
-                "reference": "8.x-1.0-beta1",
-                "shasum": "4be84c7cdb76829a3ff2bd2585a3c6547b4f9c5f"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "require-dev": {
-                "drupal/jsonapi": "^1.3",
-                "drupal/redirect": "^1.0@beta"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-beta1",
-                    "datestamp": "1524931384",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Mateu Aguiló Bosch",
-                    "homepage": "https://www.drupal.org/user/550110",
-                    "email": "mateu.aguilo.bosch@gmail.com"
-                }
-            ],
-            "description": "Provides an endpoint that will help you resolve path aliases and redirects for entity related routes.",
-            "homepage": "https://www.drupal.org/project/decoupled_router",
-            "support": {
-                "source": "http://cgit.drupalcode.org/decoupled_router"
             }
         },
         {
@@ -3340,7 +3288,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.17",
-                    "datestamp": "1526665085",
+                    "datestamp": "1525889880",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4802,58 +4750,6 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/smtp",
                 "issues": "https://www.drupal.org/project/issues/smtp"
-            }
-        },
-        {
-            "name": "drupal/subrequests",
-            "version": "2.0.0-rc1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/subrequests",
-                "reference": "8.x-2.0-rc1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/subrequests-8.x-2.0-rc1.zip",
-                "reference": "8.x-2.0-rc1",
-                "shasum": "e33382040888402b4fcf91c52dfd62ca8a4e99da"
-            },
-            "require": {
-                "drupal/core": "*",
-                "skyscanner/jsonpath": "dev-master"
-            },
-            "require-dev": {
-                "justinrainbow/json-schema": "^4.1"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-2.0-rc1",
-                    "datestamp": "1519813684",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Mateu Aguiló Bosch",
-                    "homepage": "https://www.drupal.org/user/550110",
-                    "email": "mateu.aguilo.bosch@gmail.com"
-                }
-            ],
-            "description": "Add a front controller that you can use to make subrequests.",
-            "homepage": "https://www.drupal.org/project/subrequests",
-            "support": {
-                "source": "http://cgit.drupalcode.org/subrequests"
             }
         },
         {
@@ -6438,54 +6334,6 @@
                 "shell"
             ],
             "time": "2017-12-28T16:14:16+00:00"
-        },
-        {
-            "name": "skyscanner/jsonpath",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Skyscanner/JsonPath-PHP.git",
-                "reference": "d08d1efeadad3345257249e35e8cfd65f21256ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Skyscanner/JsonPath-PHP/zipball/d08d1efeadad3345257249e35e8cfd65f21256ae",
-                "reference": "d08d1efeadad3345257249e35e8cfd65f21256ae",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "sami/sami": ">=3.3.0",
-                "satooshi/php-coveralls": ">=1.0.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JsonPath\\": "src/Skyscanner/",
-                    "Utilities\\": "src/Skyscanner/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Alessio Linares",
-                    "email": "alessio.linares@skyscanner.net",
-                    "role": "Software Engineer"
-                }
-            ],
-            "description": "JSONPath implementation for querying and updating JSON objects",
-            "keywords": [
-                "json",
-                "jsonpath",
-                "path"
-            ],
-            "time": "2017-09-13T09:14:46+00:00"
         },
         {
             "name": "solarium/solarium",
@@ -10929,7 +10777,6 @@
         "drupal/cer": 15,
         "drupal/consumer_image_styles": 5,
         "drupal/consumers": 10,
-        "drupal/decoupled_router": 10,
         "drupal/default_content": 15,
         "drupal/dropzonejs": 15,
         "drupal/eck": 15,
@@ -10946,7 +10793,6 @@
         "drupal/search_api_attachments": 10,
         "drupal/simple_oauth": 20,
         "drupal/smtp": 10,
-        "drupal/subrequests": 10,
         "drupal/toolbar_themes": 15,
         "drupal/reroute_email": 10,
         "drupal/stage_file_proxy": 15
