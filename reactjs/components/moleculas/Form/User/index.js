@@ -188,6 +188,7 @@ UserEditForm.contextTypes = {
 
 UserEditForm.propTypes = {
   user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
 };
 
 UserEditForm.defaultProps = {
