@@ -1,12 +1,14 @@
 import React from 'react';
 import Alert from 'react-s-alert';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import { Router } from '../../../../routes';
 import request from '../../../../utils/request';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import * as dataProcessors from '../../../../utils/dataProcessors';
+import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
@@ -85,6 +87,9 @@ class PasswordForm extends React.Component {
           this.setState({ isSending: false });
           const user = dataProcessors.userData(response.body);
 
+          // Store logged in user in application store.
+          this.props.dispatch(userActionHelpers.login(user));
+
           // Re-login with new credentials.
           return this.context.auth.login(user.name, formData.password_new);
         });
@@ -138,4 +143,4 @@ PasswordForm.propTypes = {
   tokenParams: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default PasswordForm;
+export default connect()(PasswordForm);
