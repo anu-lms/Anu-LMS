@@ -18,73 +18,23 @@ export const courseDataFromREST = course => ({
   recentAccess: course.recentLesson ? course.recentLesson.timestamp : 0,
 });
 
-export const courseData = courseDataObject => {
-  const course = courseDataObject.entityId;
-  const imageUrl = course.fieldCourseImage ? course.fieldCourseImage.meta.derivatives['576x450'] : 'http://via.placeholder.com/576x450';
-
-  let lessons = [];
-  if (course.fieldCourseLessons) {
-    lessons = course.fieldCourseLessons.map(lesson => ({
-      id: lesson.nid,
-      title: lesson.title,
-      url: lessonHelper.getUrl(course.path.alias, lesson.path.alias),
-      progress: 0,
-    }));
-  }
-
-  let instructors = [];
-  if (course.fieldCourseInstructors) {
-    instructors = course.fieldCourseInstructors.map(user => {
-      // @todo: replace with helper function.
-      let realname = '';
-      if (user.fieldFirstName) {
-        realname = user.fieldFirstName;
-      }
-
-      if (user.fieldLastName) {
-        realname += ` ${user.fieldLastName}`;
-      }
-
-      return {
-        uuid: user.uuid,
-        realname: realname.trim(),
-      };
-    });
-  }
-
-  let organizationName = '';
-  if (course.fieldCourseOrganisation) {
-    organizationName = course.fieldCourseOrganisation.name;
-  }
-
-  let estimation = 0;
-  if (course.fieldTimeToCompleteMinutes) {
-    estimation = course.fieldTimeToCompleteMinutes;
-  }
-
-  let hasResources = false;
-  if (course.fieldCourseHasResources) {
-    hasResources = course.fieldCourseHasResources;
-  }
+/**
+ * Internal helper to process course data from the backend.
+ */
+export const courseData = course => {
+  // Build out the right lessons urls.
+  const lessons = course.lessons.map(lesson => ({
+    ...lesson,
+    url: lessonHelper.getUrl(course.url, lesson.url),
+  }));
 
   return {
-    id: course.nid,
-    groupId: courseDataObject.gid.id ? courseDataObject.gid.id : null,
-    groupLabel: courseDataObject.gid.label ? courseDataObject.gid.label : null,
-    created: course.created,
-    title: course.title,
-    url: courseHelper.getUrl(course.path.alias),
-    urlResources: courseHelper.getResourcesUrl(course.path.alias),
-    imageUrl: urlUtils.fileUrl(imageUrl),
-    // TODO: enable image alt.
-    imageAlt: course.title,
+    ...course,
     lessons,
-    organisation: organizationName,
-    instructors,
-    totalMinutes: estimation,
-    description: course.fieldCourseDescription ? course.fieldCourseDescription.value : '',
-    hasResources,
-    progress: 0, // Default value.
+    url: courseHelper.getUrl(course.url),
+    urlResources: courseHelper.getResourcesUrl(course.url),
+    imageUrl: course.coverImage ? urlUtils.fileUrl(course.coverImage) : '',
+    imageAlt: course.title, // TODO: enable image alt.
   };
 };
 
@@ -157,6 +107,9 @@ const processParagraphs = paragraphs => {
   return blocks;
 };
 
+/**
+ * Internal helper to process lesson data from the backend.
+ */
 export const lessonData = lessonDataObject => {
   let blocks = [];
   if (lessonDataObject.fieldLessonBlocks) {
