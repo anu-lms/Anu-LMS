@@ -2,36 +2,41 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '../../../../routes';
 
-const ResumeButton = ({ recentLessonUrl, lessons }) => (
-  <Fragment>
+const ResumeButton = ({ recentLesson, lessons }) => {
+  let recentLessonUrl = '';
 
-    {recentLessonUrl &&
-    <Link to={recentLessonUrl}>
-      <a className="btn btn-primary btn-lg btn-block">
-        Resume
-      </a>
-    </Link>
-    }
+  // Find url of recently accessed lesson.
+  const key = lessons.findIndex(lesson => lesson.id === recentLesson);
+  if (key !== -1) {
+    recentLessonUrl = lessons[key].url;
+  }
 
-    { !recentLessonUrl && lessons.length &&
-    <Link to={lessons[0].url}>
-      <a className="btn btn-primary btn-lg btn-block">
-        Start
-      </a>
-    </Link>
-    }
+  return (
+    <Fragment>
 
-  </Fragment>
-);
+      {recentLesson > 0 &&
+      <Link to={recentLessonUrl}>
+        <a className="btn btn-primary btn-lg btn-block">
+          Resume
+        </a>
+      </Link>
+      }
 
-ResumeButton.propTypes = {
-  recentLessonUrl: PropTypes.string,
-  lessons: PropTypes.arrayOf(PropTypes.object),
+      {!recentLesson && lessons.length &&
+      <Link to={lessons[0].url}>
+        <a className="btn btn-primary btn-lg btn-block">
+          Start
+        </a>
+      </Link>
+      }
+
+    </Fragment>
+  );
 };
 
-ResumeButton.defaultProps = {
-  recentLessonUrl: '',
-  lessons: [],
+ResumeButton.propTypes = {
+  recentLesson: PropTypes.number.isRequired,
+  lessons: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ResumeButton;
