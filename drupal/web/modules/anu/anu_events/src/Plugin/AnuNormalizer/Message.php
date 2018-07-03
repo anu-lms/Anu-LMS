@@ -40,7 +40,7 @@ class Message extends AnuNormalizerBase {
         'uuid' => $entity->uuid(),
         'bundle' => $entity->bundle(),
         'created' => (int) $entity->created->getString(),
-        'triggerer' => $entity->uid->first()->get('entity')->getValue(),
+        'triggerer' => AnuNormalizerBase::normalizeEntity($entity->uid->first()->get('entity')->getValue()),
         'isRead' => (bool) $entity->field_message_is_read->getString(),
       ];
 
