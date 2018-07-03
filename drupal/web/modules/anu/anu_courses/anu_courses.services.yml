@@ -1,0 +1,3 @@
+services:
+  anu_courses.course:
+      class: Drupal\anu_courses\Course
