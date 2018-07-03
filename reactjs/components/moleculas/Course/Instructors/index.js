@@ -10,17 +10,13 @@ const Instructors = ({ instructors }) => {
   return (
     <p className="instructors">
       {plural(instructors.length, 'Instructor', 'Instructors')}:{' '}
-      <span>{
-        instructors
-          .map(instructor => instructor.realname).join(', ')
-      }
-      </span>
+      <span>{instructors.map(instructor => instructor).join(', ')}</span>
     </p>
   );
 };
 
 Instructors.propTypes = {
-  instructors: PropTypes.arrayOf(PropTypes.object),
+  instructors: PropTypes.arrayOf(PropTypes.string),
 };
 
 Instructors.defaultProps = {

@@ -88,7 +88,7 @@ Checkboxes.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string,
     value: PropTypes.string,
-    is_answer: PropTypes.number,
+    is_answer: PropTypes.string,
   })).isRequired,
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   blocks: PropTypes.arrayOf(PropTypes.shape), // Other paragraphs.
