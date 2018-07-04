@@ -1,6 +1,6 @@
 .search {
-  display: inline-block;
   position: relative;
+  float: left;
   height: 100%;
   text-align: left;
   vertical-align: top;
@@ -47,10 +47,6 @@
     }
 
     .icon {
-      @include media-breakpoint-up(md) {
-        position: relative;
-        top: 5px;
-      }
       @include media-breakpoint-up(lg) {
         width: auto;
         height: 24px;

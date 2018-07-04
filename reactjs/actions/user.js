@@ -1,7 +1,20 @@
-export function login(uid, uuid) {
+export function login(user) {
   return {
     type: 'USER_LOGIN',
-    uid,
-    uuid,
+    user,
+  };
+}
+
+export function update(userData) {
+  return {
+    type: 'USER_UPDATE_DATA_IN_STORE',
+    userData,
+  };
+}
+
+export function setOrganization(organizationId) {
+  return {
+    type: 'USER_SET_ORGANIZATION',
+    organizationId,
   };
 }
