@@ -8,6 +8,17 @@
     transition: .2s fill;
     fill: $london-sky;
   }
+
+  @include media-breakpoint-up(md) {
+    &.empty {
+      opacity: 0;
+      transition: .2s opacity;
+      .paragraph:hover & {
+        opacity: 1;
+      }
+    }
+  }
+
   &:hover {
     svg path {
       fill: $purply;
@@ -18,5 +29,16 @@
     svg path {
       fill: $comments;
     }
+  }
+  .amount {
+    position: absolute;
+    font-size: 0.625em;
+    color: $white;
+    font-weight: bold;
+    left: 0;
+    top: 3px;
+    line-height: 1em;
+    text-align: center;
+    width: 100%;
   }
 }
