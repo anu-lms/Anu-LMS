@@ -10,7 +10,7 @@
   }
 
   @include media-breakpoint-up(md) {
-    &.empty {
+    &.empty:not(.active) {
       opacity: 0;
       transition: .2s opacity;
       .paragraph:hover & {
