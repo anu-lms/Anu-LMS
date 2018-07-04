@@ -65,7 +65,7 @@ TextWithHeading.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
-  commentsAllowed: true,
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
 };
 
