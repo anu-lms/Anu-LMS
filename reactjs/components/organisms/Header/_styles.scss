@@ -4,22 +4,61 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 48px;
+  height: $header-height-sm;
   z-index: $zindex-fixed;
   box-shadow: $shadow1;
   display: flex;
   padding: 0 0.5em;
   justify-content: space-between;
   @include media-breakpoint-up(md) {
-    height: 80px;
+    height: $header-height-md;
     padding: 0 1.5em;
   }
+
   a:hover {
     text-decoration: none;
   }
 
   .left {
     flex: 1 1 auto;
+  }
+
+  .left,
+  .right {
+    > a {
+      display: block;
+      float: left;
+
+      &.site-logo-link {
+        display: none;
+      }
+      @include media-breakpoint-up(md) {
+        &.site-logo-link {
+          display: inline-block;
+          border-right: 1px solid $anu-black;
+          margin-left: -1.5em;
+          .header-icon .icon {
+            height: 36px;
+            top: 12px;
+          }
+          .without-label {
+            min-width: 120px;
+            .icon {
+              top: 22px;
+            }
+          }
+          .label {
+            font-size: 0.625em;
+            font-style: italic;
+            font-weight: bold;
+            // Set minimum width for label to avoid
+            // jumping on long organization switching.
+            min-width: 120px;
+            top: 49px;
+          }
+        }
+      }
+    }
   }
 
   .beta-label {
@@ -36,24 +75,6 @@
     @include media-breakpoint-up(lg) {
       width: 56px;
       height: 50px;
-    }
-  }
-
-  button[class^=dropdown---dropdown-toggle---] {
-    font-size: 1em;
-    margin: 0;
-    padding-top: 0;
-  }
-
-  div[class^=dropdown---dropdown-menu---] {
-    &::after {
-      right: 3px;
-      @include media-breakpoint-up(md) {
-        right: 10px;
-      }
-      @include media-breakpoint-up(lg) {
-        right: 40px;
-      }
     }
   }
 }

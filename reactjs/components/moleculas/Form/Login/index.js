@@ -63,8 +63,8 @@ class LoginForm extends React.Component {
           throw Error(error.response.body.message);
         });
 
-      // Store logged in user UID in application store.
-      this.props.dispatch(userActionHelpers.login(currentUser.uid, currentUser.uuid));
+      // Store logged in user in application store.
+      this.props.dispatch(userActionHelpers.login(currentUser));
 
       Router.push('/dashboard');
     } catch (error) {

@@ -12,11 +12,11 @@ const HeaderIcon = ({
   }
 
   return (
-    <div className={classNames(['header-icon', className, { active }])} {...props}>
+    <div className={classNames(['header-icon', className, { active, 'without-label': !label }])} {...props}>
       <div className="icon">{children}</div>
       {label &&
       <div className="label">{label}</div>
-      }
+       }
     </div>
   );
 };

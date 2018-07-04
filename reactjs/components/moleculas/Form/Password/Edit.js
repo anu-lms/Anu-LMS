@@ -91,20 +91,11 @@ class PasswordForm extends React.Component {
       const { request } = await this.context.auth.getRequest();
       const currentUser = await userApi.fetchCurrent(request);
 
-      await request
-        .patch(`/jsonapi/user/user/${currentUser.uuid}`)
-        .send({
-          data: {
-            type: 'user--user',
-            id: currentUser.uuid,
-            attributes: {
-              pass: {
-                existing: formData.password,
-                value: formData.password_new,
-              },
-            },
-          },
-        });
+      await userApi.updatePassword(
+        request,
+        currentUser.uuid, formData.password, formData.password_new,
+      );
+
 
       Alert.success('Your password has been successfully updated.');
       this.setState({ isSending: false });
