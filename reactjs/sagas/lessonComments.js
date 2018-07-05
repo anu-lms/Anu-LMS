@@ -28,7 +28,9 @@ function* fetchComments() {
 
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, comments.length));
+
+    const commentsAmount = comments.filter(comment => !comment.deleted).length;
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
   }
   catch (error) {
     yield put(lessonCommentsActions.syncCommentsFailed(error));
@@ -76,7 +78,9 @@ function* addComment({ text, parentId }) {
 
     // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, comments.length + 1));
+
+    const commentsAmount = comments.filter(comment => !comment.deleted).length + 1;
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
   }
   catch (error) {
     yield put(lessonCommentsActions.addCommentError(error));
@@ -133,8 +137,9 @@ function* markCommentAsDeleted({ commentId }) {
     // Get active organization of current user.
     const activeOrganization = yield select(store => store.user.activeOrganization);
     const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
+    const commentsAmount = comments.filter(comment => !comment.deleted).length - 1;
 
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, comments.length - 1));
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
 
     Alert.success('Comment has been successfully deleted.');
   }
@@ -164,12 +169,6 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
     // Updates comment in the application store.
     yield put(lessonCommentsActions.deleteCommentFromStore(commentId));
 
-    // Get active organization of current user.
-    const activeOrganization = yield select(store => store.user.activeOrganization);
-    const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, comments.length - 1));
-
     // Delete parent comment if it marked as deleted and has no children comments anymore.
     if (comment.parentId) {
       const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
@@ -184,6 +183,13 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
     if (showSuccessMessage) {
       Alert.closeAll();
       Alert.success('Comment has been successfully deleted.');
+
+      // Get active organization of current user.
+      const activeOrganization = yield select(store => store.user.activeOrganization);
+      const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
+      const commentsAmount = comments.filter(comment => !comment.deleted).length - 1;
+
+      yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
     }
   }
   catch (error) {
