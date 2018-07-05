@@ -36,11 +36,13 @@ class ShowCommentsCTA extends React.Component {
   }
 
   render() {
-    const { paragraphId, activeParagraphId } = this.props;
+    const { paragraphId, activeParagraphId, commentsAmount } = this.props;
+    const amount = paragraphId === activeParagraphId ? commentsAmount : 0;
     return (
       <CommentsCTA
         onClick={this.toggleCommentsPanel}
         active={paragraphId === activeParagraphId}
+        amount={amount}
       />
     );
   }
@@ -50,10 +52,15 @@ ShowCommentsCTA.propTypes = {
   dispatch: PropTypes.func.isRequired,
   paragraphId: PropTypes.number.isRequired,
   activeParagraphId: PropTypes.number.isRequired,
+  commentsAmount: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = ({ lessonSidebar }) => ({
-  activeParagraphId: lessonSidebar.comments.paragraphId,
-});
+const mapStateToProps = ({ lessonSidebar, user, lesson }) =>
 
+  // const commentsAmount =
+
+  ({
+    activeParagraphId: lessonSidebar.comments.paragraphId,
+    commentsAmount: 3,
+  });
 export default connect(mapStateToProps)(ShowCommentsCTA);

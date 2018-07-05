@@ -69,7 +69,7 @@ Paragraphs.defaultProps = {
 };
 
 const mapStateToProps = ({ lesson }, { lessonId }) => ({
-  quizzesData: lessonsHelper.getQuizzesData(lesson, lessonId),
+  quizzesData: lessonsHelper.getQuizzesData(lesson.lessons, lessonId),
 });
 
 export default connect(mapStateToProps)(Paragraphs);
