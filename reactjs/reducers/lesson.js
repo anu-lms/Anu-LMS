@@ -1,3 +1,5 @@
+import _cloneDeep from 'lodash/cloneDeep';
+
 export default (state = { activeLesson: null, lessons: [] }, action) => {
   let index;
   let lesson;
@@ -116,8 +118,6 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
       return state;
 
     case 'LESSON_OPENED': {
-      console.log(action);
-
       index = state.lessons.findIndex(element => element.id === action.lesson.id);
 
       const blocks = action.lesson.blocks.map(block => ({
@@ -153,6 +153,32 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
           },
         ],
       };
+    }
+
+    case 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET': {
+      const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson);
+      if (activeLessonIndex !== -1) {
+        let activeLesson = _cloneDeep(state.lessons[activeLessonIndex]);
+        const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId);
+
+        if (activeBlockIndex !== -1) {
+          activeLesson.blocks[activeBlockIndex].commentsAmount = {
+            ...activeLesson.blocks[activeBlockIndex].commentsAmount,
+            [action.organizationId]: action.amount,
+          };
+
+          return {
+            ...state,
+            lessons: [
+              ...state.lessons.slice(0, activeLessonIndex),
+              activeLesson,
+              ...state.lessons.slice(activeLessonIndex + 1),
+            ],
+          };
+        }
+      }
+
+      return state;
     }
 
     default:
