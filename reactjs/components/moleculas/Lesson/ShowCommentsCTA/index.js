@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getObjectById } from '../../../../utils/array';
 import CommentsCTA from '../../../atoms/CTA/Comments';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -37,12 +38,11 @@ class ShowCommentsCTA extends React.Component {
 
   render() {
     const { paragraphId, activeParagraphId, commentsAmount } = this.props;
-    const amount = paragraphId === activeParagraphId ? commentsAmount : 0;
     return (
       <CommentsCTA
         onClick={this.toggleCommentsPanel}
         active={paragraphId === activeParagraphId}
-        amount={amount}
+        amount={commentsAmount}
       />
     );
   }
@@ -55,12 +55,22 @@ ShowCommentsCTA.propTypes = {
   commentsAmount: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = ({ lessonSidebar, user, lesson }) =>
+const mapStateToProps = ({ lessonSidebar, user, lesson }, { paragraphId }) => {
+  let commentsAmount = 0;
+  const activeLesson = getObjectById(lesson.lessons, lesson.activeLesson);
 
-  // const commentsAmount =
+  if (activeLesson) {
+    const currentBlock = getObjectById(activeLesson.blocks, paragraphId);
 
-  ({
+    if (currentBlock && currentBlock.commentsAmount && currentBlock.commentsAmount[user.activeOrganization]) {
+      commentsAmount = currentBlock.commentsAmount[user.activeOrganization];
+    }
+  }
+
+  return {
     activeParagraphId: lessonSidebar.comments.paragraphId,
-    commentsAmount: 3,
-  });
+    commentsAmount,
+  };
+};
+
 export default connect(mapStateToProps)(ShowCommentsCTA);

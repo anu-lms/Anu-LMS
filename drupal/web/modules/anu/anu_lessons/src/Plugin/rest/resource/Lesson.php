@@ -293,7 +293,7 @@ class Lesson extends ResourceBase {
   protected function getCommentsAmount($paragraph_id) {
 
     return [
-      9997 => 23,
+      9997 => random_int(0, 99),
     ];
   }
 }
