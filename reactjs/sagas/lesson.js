@@ -110,7 +110,7 @@ function* syncLessonProgressInBackground(lesson) {
     // "finally" section in try / catch handles cancellation of this task.
     while (true) {
       // Get the lastest progress of lesson from the redux store.
-      lessons = yield select(state => state.lesson);
+      lessons = yield select(state => state.lesson.lessons);
       latestProgress = lessonHelper.getProgress(lessons, lesson);
 
       // If latest progress is bigger than the previous value (no matter
@@ -130,7 +130,7 @@ function* syncLessonProgressInBackground(lesson) {
   // Executes on task cancellation.
   finally {
     // Check the latest lesson's progress the last time.
-    lessons = yield select(state => state.lesson);
+    lessons = yield select(state => state.lesson.lessons);
     latestProgress = lessonHelper.getProgress(lessons, lesson);
 
     // If there is some progress, send it to the backend before the background
