@@ -29,6 +29,7 @@ function* fetchComments() {
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));
 
+    // Updates comments amount for active paragraph in store.
     const commentsAmount = comments.filter(comment => !comment.deleted).length;
     yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
   }
@@ -79,6 +80,7 @@ function* addComment({ text, parentId }) {
     // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
 
+    // Updates comments amount for active paragraph in store.
     const commentsAmount = comments.filter(item => !item.deleted).length + 1;
     yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
   }
@@ -139,6 +141,7 @@ function* markCommentAsDeleted({ commentId }) {
     const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
     const commentsAmount = comments.filter(item => !item.deleted).length - 1;
 
+    // Updates comments amount for active paragraph in store.
     yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
 
     Alert.success('Comment has been successfully deleted.');
@@ -188,6 +191,7 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
       const commentsAmount = comments.filter(item => !item.deleted).length - 1;
 
+      // Updates comments amount for active paragraph in store.
       yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
     }
   }
