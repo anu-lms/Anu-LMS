@@ -156,10 +156,10 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
     }
 
     case 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET': {
-      const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson);
+      const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson); // eslint-disable-line max-len
       if (activeLessonIndex !== -1) {
         let activeLesson = _cloneDeep(state.lessons[activeLessonIndex]);
-        const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId);
+        const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId); // eslint-disable-line max-len
 
         if (activeBlockIndex !== -1) {
           const activeOrganizationId = action.organizationId ? action.organizationId : 0;
