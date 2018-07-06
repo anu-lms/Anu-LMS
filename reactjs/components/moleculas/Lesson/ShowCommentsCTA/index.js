@@ -61,9 +61,10 @@ const mapStateToProps = ({ lessonSidebar, user, lesson }, { paragraphId }) => {
 
   if (activeLesson) {
     const currentBlock = getObjectById(activeLesson.blocks, paragraphId);
+    const activeOrganizationId = user.activeOrganization ? user.activeOrganization : 0;
 
-    if (currentBlock && currentBlock.commentsAmount && currentBlock.commentsAmount[user.activeOrganization]) {
-      commentsAmount = currentBlock.commentsAmount[user.activeOrganization];
+    if (currentBlock && currentBlock.commentsAmount && currentBlock.commentsAmount[activeOrganizationId]) {
+      commentsAmount = currentBlock.commentsAmount[activeOrganizationId];
     }
   }
 
