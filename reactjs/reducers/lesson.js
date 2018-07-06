@@ -162,9 +162,10 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
         const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId);
 
         if (activeBlockIndex !== -1) {
+          const activeOrganizationId = action.organizationId ? action.organizationId : 0;
           activeLesson.blocks[activeBlockIndex].commentsAmount = {
             ...activeLesson.blocks[activeBlockIndex].commentsAmount,
-            [action.organizationId]: action.amount,
+            [activeOrganizationId]: action.amount,
           };
 
           return {
