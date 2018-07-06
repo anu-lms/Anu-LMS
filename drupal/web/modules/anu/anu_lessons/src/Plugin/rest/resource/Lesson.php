@@ -195,7 +195,7 @@ class Lesson extends ResourceBase {
     $data = [];
     $data['id'] = (int) $paragraph->id();
     $data['type'] = $paragraph->bundle();
-    $data['commentsAmount'] = $this->getCommentsAmount((int) $paragraph->id());
+    $data['commentsAmount'] = \Drupal::service('anu_paragraph.paragraph')->getCommentsAmount((int) $paragraph->id());
 
     if ($paragraph->bundle() == 'divider_numbered') {
       $data['counter'] = self::$dividedCounter++;
@@ -288,12 +288,5 @@ class Lesson extends ResourceBase {
     }
 
     return $data;
-  }
-
-  protected function getCommentsAmount($paragraph_id) {
-
-    return [
-      9997 => random_int(0, 99),
-    ];
   }
 }
