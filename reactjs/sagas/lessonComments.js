@@ -30,7 +30,7 @@ function* fetchComments() {
     yield put(lessonCommentsActions.receiveComments(comments));
 
     const commentsAmount = comments.filter(comment => !comment.deleted).length;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
   }
   catch (error) {
     yield put(lessonCommentsActions.syncCommentsFailed(error));
@@ -79,8 +79,8 @@ function* addComment({ text, parentId }) {
     // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
 
-    const commentsAmount = comments.filter(comment => !comment.deleted).length + 1;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
+    const commentsAmount = comments.filter(item => !item.deleted).length + 1;
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
   }
   catch (error) {
     yield put(lessonCommentsActions.addCommentError(error));
@@ -137,9 +137,9 @@ function* markCommentAsDeleted({ commentId }) {
     // Get active organization of current user.
     const activeOrganization = yield select(store => store.user.activeOrganization);
     const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-    const commentsAmount = comments.filter(comment => !comment.deleted).length - 1;
+    const commentsAmount = comments.filter(item => !item.deleted).length - 1;
 
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
+    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
 
     Alert.success('Comment has been successfully deleted.');
   }
@@ -174,8 +174,7 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       const updatedComments = yield select(store => store.lessonSidebar.comments.comments);
       const parentComment = lessonCommentsHelpers.getCommentById(updatedComments, comment.parentId);
 
-      // eslint-disable-next-line max-len
-      if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) {
+      if (parentComment.deleted && !lessonCommentsHelpers.hasChildrenComments(updatedComments, parentComment.id)) { // eslint-disable-line max-len
         yield call(deleteComment, { commentId: parentComment.id, showSuccessMessage: false });
       }
     }
@@ -187,9 +186,9 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       // Get active organization of current user.
       const activeOrganization = yield select(store => store.user.activeOrganization);
       const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-      const commentsAmount = comments.filter(comment => !comment.deleted).length - 1;
+      const commentsAmount = comments.filter(item => !item.deleted).length - 1;
 
-      yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount));
+      yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
     }
   }
   catch (error) {
