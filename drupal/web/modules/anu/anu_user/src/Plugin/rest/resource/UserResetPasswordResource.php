@@ -3,7 +3,7 @@
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Psr\Log\LoggerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 use Drupal\rest\ResourceResponse;
 use Drupal\Component\Utility\Crypt;
 use Drupal\rest\Plugin\ResourceBase;
@@ -38,9 +38,12 @@ class UserResetPasswordResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param \Drupal\user\UserInterface $user_storage
+   *   User storage.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserInterface $user_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->userStorage = $user_storage;
   }
 
   /**
@@ -52,7 +55,8 @@ class UserResetPasswordResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('anu_user')
+      $container->get('logger.factory')->get('anu_user'),
+      $container->get('entity.manager')->getStorage('user')
     );
   }
 
@@ -66,7 +70,7 @@ class UserResetPasswordResource extends ResourceBase {
    */
   public function get($uid, $timestamp, $hash) {
     if ($this->isTokenValid($uid, $timestamp, $hash)) {
-      $user = User::load($uid);
+      $user = $this->userStorage->load($uid);
 
       $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($user), 200);
       return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
@@ -87,7 +91,7 @@ class UserResetPasswordResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    $user = User::load($data['uid']);
+    $user = $this->userStorage->load($data['uid']);
 
     if ($this->isTokenValid($data['uid'], $data['timestamp'], $data['hash'])) {
       $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $data['timestamp']]);
@@ -123,7 +127,7 @@ class UserResetPasswordResource extends ResourceBase {
    */
   private function isTokenValid($uid, $timestamp, $hash) {
     // The current user is not logged in, so check the parameters.
-    $user = User::load($uid);
+    $user = $this->userStorage->load($uid);
     $request_time = \Drupal::time()->getRequestTime();
 
     // Verify that the user exists and is active.
