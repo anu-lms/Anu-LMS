@@ -3,7 +3,7 @@
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
-use Drupal\user\UserInterface;
+use Drupal\user\UserStorageInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,10 +34,10 @@ class UserRequestPasswordResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
-   * @param \Drupal\user\UserInterface $user_storage
+   * @param \Drupal\user\UserStorageInterface $user_storage
    *   User storage.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserInterface $user_storage) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserStorageInterface $user_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->userStorage = $user_storage;
   }
