@@ -37,9 +37,9 @@ class ProfileMenu extends React.Component {
   }
 
   togglePopup() {
-    this.setState((previousState, currentProps) => ({
+    this.setState(previousState => ({
       ...previousState,
-      isOpened: !currentProps.isOpened,
+      isOpened: !previousState.isOpened,
     }));
   }
 
