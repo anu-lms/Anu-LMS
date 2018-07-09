@@ -21,7 +21,7 @@ class ProfileMenu extends React.Component {
 
     this.onLogoutClick = this.onLogoutClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
-    this.setOrganization = this.setOrganization.bind(this);
+    this.onOrganizationChange = this.onOrganizationChange.bind(this);
   }
 
   async onLogoutClick() {
@@ -31,7 +31,7 @@ class ProfileMenu extends React.Component {
     await this.context.auth.logout();
   }
 
-  setOrganization(organizationId) {
+  onOrganizationChange(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
   }
 
@@ -73,7 +73,7 @@ class ProfileMenu extends React.Component {
             username={username}
             activeOrganization={activeOrganization}
             onLogoutClick={this.onLogoutClick}
-            setOrganization={this.setOrganization}
+            onOrganizationChange={this.onOrganizationChange}
           />
           <div className="footer">
             <button onClick={this.togglePopup} className="close btn-grey">Close Profile Menu</button>
