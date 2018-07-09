@@ -37,7 +37,7 @@ class Paragraph {
 
     if (empty($organization_ids)) {
       // If user doesn't contain any organizations.
-      $query->condition('organization.field_comment_organization_target_id', NULL, 'IS NULL');
+      $query->isNull('organization.field_comment_organization_target_id');
 
       // Fetch items count.
       $comments_amount = $query->countQuery()->execute()->fetchField();

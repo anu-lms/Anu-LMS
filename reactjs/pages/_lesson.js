@@ -12,10 +12,9 @@ import * as lessonSidebarActions from '../actions/lessonSidebar';
 import * as mediaBreakpoint from '../utils/breakpoints';
 import * as navigationActions from '../actions/navigation';
 import * as lessonCommentsActions from '../actions/lessonComments';
-import * as lessonActions from '../actions/lesson';
 
 class LessonPage extends React.Component {
-  static async getInitialProps({ request, query, res, dispatch }) {
+  static async getInitialProps({ request, query, res }) {
     const initialProps = {
       course: {},
       lesson: {},
@@ -52,8 +51,6 @@ class LessonPage extends React.Component {
       // Process lesson's and lesson's course's data.
       initialProps.lesson = response.body;
       initialProps.course = dataProcessors.courseData(response.body.course);
-
-      dispatch(lessonActions.opened(initialProps.lesson));
     } catch (error) {
       console.log('Could not load lesson.');
       console.log(error);
