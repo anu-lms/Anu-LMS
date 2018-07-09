@@ -5,8 +5,8 @@ import { Link } from '../../../routes';
 import VerticalArrow from '../Icons/VerticalArrow';
 
 class ProfileMenu extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       isOrgsListCollapsed: true,
