@@ -1,5 +1,8 @@
 import _cloneDeep from 'lodash/cloneDeep';
 
+// @todo: Consider to store one active lesson instead of array.
+// One potential problem with it: progress should be updated correctly when we make a request to
+// update the progress and jump to another page.
 export default (state = { activeLesson: null, lessons: [] }, action) => {
   let index;
   let lesson;
