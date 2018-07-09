@@ -42,7 +42,10 @@ class Notifications extends React.Component {
 
   togglePopup() {
     const { dispatch, notifications } = this.props;
-    this.setState({ isOpened: !this.state.isOpened });
+    this.setState((previousState, currentProps) => ({
+      ...previousState,
+      isOpened: !currentProps.isOpened,
+    }));
 
     if (!this.state.isOpened && notifications.length < 10) {
       dispatch(notificationsActions.fetchRead());
