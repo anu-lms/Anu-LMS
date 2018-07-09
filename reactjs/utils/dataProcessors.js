@@ -180,7 +180,6 @@ export const userData = userDataObject => ({
   status: userDataObject.status,
   created: userDataObject.created,
   changed: userDataObject.changed,
-  roles: userDataObject.roles,
   firstName: userDataObject.fieldFirstName ? userDataObject.fieldFirstName : '',
   lastName: userDataObject.fieldLastName ? userDataObject.fieldLastName : '',
   organization: userDataObject.fieldOrganization ? userDataObject.fieldOrganization : [],
