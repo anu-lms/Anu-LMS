@@ -52,7 +52,7 @@
       width: 300px;
       right: 0;
       bottom: auto;
-      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+      box-shadow: $shadow2;
       display: none;
       &.opened {
         display: block;
