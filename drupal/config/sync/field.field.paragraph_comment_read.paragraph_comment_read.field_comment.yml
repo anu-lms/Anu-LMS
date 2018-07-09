@@ -1,0 +1,28 @@
+uuid: 5af44a23-24e0-4bde-b406-4f4b24610f0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - eck.eck_type.paragraph_comment_read.paragraph_comment_read
+    - field.storage.paragraph_comment_read.field_comment
+id: paragraph_comment_read.paragraph_comment_read.field_comment
+field_name: field_comment
+entity_type: paragraph_comment_read
+bundle: paragraph_comment_read
+label: Comment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph_comment'
+  handler_settings:
+    target_bundles:
+      paragraph_comment: paragraph_comment
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
