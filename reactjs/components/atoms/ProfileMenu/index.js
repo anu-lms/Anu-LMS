@@ -15,9 +15,10 @@ class ProfileMenu extends React.Component {
   }
 
   toggleOrganizationsList() {
-    this.setState({
-      isOrgsListCollapsed: !this.state.isOrgsListCollapsed,
-    });
+    this.setState((previousState, currentProps) => ({
+      ...previousState,
+      isOrgsListCollapsed: !currentProps.isOrgsListCollapsed,
+    }));
   }
 
   render() {
