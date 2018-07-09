@@ -2,12 +2,14 @@
 
 namespace Drupal\anu_user\Plugin\rest\resource;
 
+use Psr\Log\LoggerInterface;
 use Drupal\user\Entity\User;
 use Drupal\rest\ResourceResponse;
 use Drupal\Component\Utility\Crypt;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a resource to validate reset password link and reset password.
@@ -24,6 +26,37 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UserResetPasswordResource extends ResourceBase {
 
   /**
+   * Constructs a new UserResetPasswordResource instance.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param array $serializer_formats
+   *   The available serialization formats.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('anu_user')
+    );
+  }
+
+  /**
    * Responds to GET requests.
    *
    * Validates reset password link and return user object.
@@ -35,7 +68,7 @@ class UserResetPasswordResource extends ResourceBase {
     if ($this->isTokenValid($uid, $timestamp, $hash)) {
       $user = User::load($uid);
 
-      $response = new ResourceResponse($user, 200);
+      $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($user), 200);
       return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
     }
     else {
