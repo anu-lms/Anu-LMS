@@ -138,9 +138,11 @@ function anu_user_user_update(EntityInterface $entity) {
     /** @var \Drupal\simple_oauth\ExpiredCollector $collector */
     $collector = \Drupal::service('simple_oauth.expired_collector');
 
+    $origin_organization_ids = array_column($entity->original->field_organization->getValue(), 'target_id');
+    $updated_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+
     // When the organization has changed, we should revoke user's access to the site.
-    $organization_changed = $entity->original->field_organization->getValue() !== $entity->field_organization->getValue();
-    if ($organization_changed) {
+    if (!array_diff($origin_organization_ids, $updated_organization_ids)) {
       $collector->deleteMultipleTokens($collector->collectForAccount($entity));
     }
   }
