@@ -2,12 +2,14 @@
 
 namespace Drupal\anu_user\Plugin\rest\resource;
 
-use Drupal\user\Entity\User;
+use Psr\Log\LoggerInterface;
+use Drupal\user\UserInterface;
 use Drupal\rest\ResourceResponse;
 use Drupal\Component\Utility\Crypt;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a resource to validate reset password link and reset password.
@@ -24,6 +26,41 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UserResetPasswordResource extends ResourceBase {
 
   /**
+   * Constructs a new UserResetPasswordResource instance.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param array $serializer_formats
+   *   The available serialization formats.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
+   * @param \Drupal\user\UserInterface $user_storage
+   *   User storage.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserInterface $user_storage) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->userStorage = $user_storage;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('anu_user'),
+      $container->get('entity.manager')->getStorage('user')
+    );
+  }
+
+  /**
    * Responds to GET requests.
    *
    * Validates reset password link and return user object.
@@ -33,9 +70,9 @@ class UserResetPasswordResource extends ResourceBase {
    */
   public function get($uid, $timestamp, $hash) {
     if ($this->isTokenValid($uid, $timestamp, $hash)) {
-      $user = User::load($uid);
+      $user = $this->userStorage->load($uid);
 
-      $response = new ResourceResponse($user, 200);
+      $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($user), 200);
       return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
     }
     else {
@@ -54,7 +91,7 @@ class UserResetPasswordResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    $user = User::load($data['uid']);
+    $user = $this->userStorage->load($data['uid']);
 
     if ($this->isTokenValid($data['uid'], $data['timestamp'], $data['hash'])) {
       $this->logger->notice('User %name used one-time login link at time %timestamp.', ['%name' => $user->getDisplayName(), '%timestamp' => $data['timestamp']]);
@@ -90,7 +127,7 @@ class UserResetPasswordResource extends ResourceBase {
    */
   private function isTokenValid($uid, $timestamp, $hash) {
     // The current user is not logged in, so check the parameters.
-    $user = User::load($uid);
+    $user = $this->userStorage->load($uid);
     $request_time = \Drupal::time()->getRequestTime();
 
     // Verify that the user exists and is active.

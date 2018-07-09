@@ -8,7 +8,7 @@
   z-index: $zindex-fixed + 2;
 
   @include media-breakpoint-up(md) {
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: $shadow2;
     width: 400px;
     height: 500px;
     border-radius: 2px;
