@@ -42,21 +42,19 @@ class User extends AnuNormalizerBase {
         'status' => (bool) $entity->status->getString(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
-        'roles' => $entity->roles->getString(),
         'fieldFirstName' => $entity->field_first_name->getString(),
         'fieldLastName' => $entity->field_last_name->getString(),
         'fieldOrganization' => [],
       ];
 
       // Get user's organizations.
-      if (!empty($entity->field_organization->getValue())) {
-        $organizations = $entity->field_organization;
-        foreach ($organizations as $organization_wrapper) {
-          $organization = $organization_wrapper->get('entity')->getValue();
-
+      if ($entity->hasField('field_organization')) {
+        $organizations = $entity->field_organization->referencedEntities();
+        foreach ($organizations as $organization) {
+          /** @var \Drupal\taxonomy\TermInterface $organization */
           $output['fieldOrganization'][] = [
             'id' => (int) $organization->id(),
-            'name' => $organization->name->getString(),
+            'name' => $organization->getName(),
           ];
         }
       }
