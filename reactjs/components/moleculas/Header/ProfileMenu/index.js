@@ -6,6 +6,7 @@ import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
 import ProfileMenuList from '../../../atoms/ProfileMenu';
+import ProfileIcon from '../../../atoms/Icons/Profile';
 import CloseCrossIcon from '../../../atoms/Icons/CloseCross';
 import * as userHelper from '../../../../helpers/user';
 import * as userActions from '../../../../actions/user';
@@ -22,7 +23,7 @@ class ProfileMenu extends React.Component {
     this.onLogoutClick = this.onLogoutClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.closePopup = this.closePopup.bind(this);
-    this.setOrganization = this.setOrganization.bind(this);
+    this.onOrganizationChange = this.onOrganizationChange.bind(this);
   }
 
   async onLogoutClick() {
@@ -32,15 +33,16 @@ class ProfileMenu extends React.Component {
     await this.context.auth.logout();
   }
 
-  setOrganization(organizationId) {
+  onOrganizationChange(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
     this.closePopup();
   }
 
   togglePopup() {
-    this.setState({
-      isOpened: !this.state.isOpened,
-    });
+    this.setState(previousState => ({
+      ...previousState,
+      isOpened: !previousState.isOpened,
+    }));
   }
 
   closePopup() {
@@ -62,11 +64,7 @@ class ProfileMenu extends React.Component {
             activePaths={['/user/edit', '/user/password']}
             onClick={this.togglePopup}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
-              <g fill="none" fillRule="evenodd">
-                <path fill="#FFF" fillRule="nonzero" d="M16.5 0C7.392 0 0 7.392 0 16.5S7.392 33 16.5 33 33 25.608 33 16.5 25.608 0 16.5 0zm0 4.95a4.943 4.943 0 0 1 4.95 4.95 4.943 4.943 0 0 1-4.95 4.95 4.943 4.943 0 0 1-4.95-4.95 4.943 4.943 0 0 1 4.95-4.95zm0 23.43a11.88 11.88 0 0 1-9.9-5.313c.05-3.284 6.6-5.082 9.9-5.082 3.284 0 9.85 1.799 9.9 5.082a11.88 11.88 0 0 1-9.9 5.313z" />
-              </g>
-            </svg>
+            <ProfileIcon />
           </HeaderIcon>
 
           <HeaderIcon className="icon-close" onClick={this.togglePopup} onKeyPress={this.togglePopup}>
@@ -82,13 +80,16 @@ class ProfileMenu extends React.Component {
             onItemClick={this.closePopup}
             onOrganizationClick={this.setOrganization}
             onLogoutClick={this.onLogoutClick}
+            onOrganizationChange={this.onOrganizationChange}
           />
           <div className="footer">
             <button onClick={this.closePopup} className="close btn-grey">Close Profile Menu</button>
           </div>
         </SlidingPanel>
 
-        {this.state.isLoggingOut && <PageLoader type="fixed" />}
+        {this.state.isLoggingOut &&
+        <PageLoader type="fixed" />
+        }
       </div>
     );
   }

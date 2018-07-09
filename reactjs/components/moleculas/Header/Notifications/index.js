@@ -42,7 +42,10 @@ class Notifications extends React.Component {
 
   togglePopup() {
     const { dispatch, notifications } = this.props;
-    this.setState({ isOpened: !this.state.isOpened });
+    this.setState(previousState => ({
+      ...previousState,
+      isOpened: !previousState.isOpened,
+    }));
 
     if (!this.state.isOpened && notifications.length < 10) {
       dispatch(notificationsActions.fetchRead());
@@ -89,7 +92,12 @@ class Notifications extends React.Component {
               <div className="amount">{unreadAmount > 99 ? 99 : unreadAmount}</div>
             }
           </HeaderIcon>
-          <HeaderIcon className="icon-close" onClick={this.togglePopup} onKeyPress={this.togglePopup}>
+          <HeaderIcon
+            className="icon-close"
+            onClick={this.togglePopup}
+            onKeyPress={this.togglePopup}
+            isActive={isOpened}
+          >
             <CloseCrossIcon />
           </HeaderIcon>
         </div>

@@ -41,17 +41,20 @@ function* fetchComments() {
 }
 
 /**
- * Update comments in store when comments sidebar is opened.
+ * Update comments in store if comments sidebar is opened.
  */
 function* syncCommentsIfTabActive() {
+  // Don't execute the function if sidebar is collapsed.
   const isCollapsed = yield select(store => store.lessonSidebar.sidebar.isCollapsed);
   if (isCollapsed) {
     return;
   }
 
+  // Get active lesson sidebar tab.
   const activeTab = yield select(store => store.lessonSidebar.sidebar.activeTab);
 
   if (activeTab === 'comments') {
+    // Fetch comments from the backend and update in store.
     yield put(lessonCommentsActions.syncComments());
   }
 }
