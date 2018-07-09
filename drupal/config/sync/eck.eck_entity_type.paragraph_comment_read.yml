@@ -1,0 +1,11 @@
+uuid: e71aa61e-9e09-49a0-98ca-5e20fb508320
+langcode: en
+status: true
+dependencies: {  }
+id: paragraph_comment_read
+label: 'Paragraph comment read status'
+created: true
+changed: false
+uid: true
+title: false
+revisionable: true

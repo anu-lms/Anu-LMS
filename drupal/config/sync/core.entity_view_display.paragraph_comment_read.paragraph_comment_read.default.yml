@@ -1,0 +1,41 @@
+uuid: 764fe2e1-1bbc-46bb-9f02-5379e812dc4f
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment_read.paragraph_comment_read
+    - field.field.paragraph_comment_read.paragraph_comment_read.field_comment
+  module:
+    - user
+id: paragraph_comment_read.paragraph_comment_read.default
+targetEntityType: paragraph_comment_read
+bundle: paragraph_comment_read
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_comment:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
