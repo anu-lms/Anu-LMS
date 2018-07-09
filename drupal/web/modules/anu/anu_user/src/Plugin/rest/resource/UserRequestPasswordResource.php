@@ -3,7 +3,10 @@
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
+use Drupal\user\UserInterface;
 use Drupal\rest\Plugin\ResourceBase;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a resource to send Password reset email to the user.
@@ -19,6 +22,41 @@ use Drupal\rest\Plugin\ResourceBase;
 class UserRequestPasswordResource extends ResourceBase {
 
   /**
+   * Constructs a new UserRegistrationResource instance.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param array $serializer_formats
+   *   The available serialization formats.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
+   * @param \Drupal\user\UserInterface $user_storage
+   *   User storage.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserInterface $user_storage) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->userStorage = $user_storage;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('anu_user'),
+      $container->get('entity.manager')->getStorage('user')
+    );
+  }
+
+  /**
    * Responds to POST requests.
    *
    * Send Password reset email to the user.
@@ -27,8 +65,6 @@ class UserRequestPasswordResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    $user_storage = \Drupal::entityManager()->getStorage('user');
-
     if (empty($data['username'])) {
       return new ResourceResponse([
         'message' => $this->t('Username is not recognized as a username or an email address.'),
@@ -36,9 +72,9 @@ class UserRequestPasswordResource extends ResourceBase {
     }
 
     // Load by name if provided.
-    $users = $user_storage->loadByProperties(['name' => trim($data['username'])]);
+    $users = $this->userStorage->loadByProperties(['name' => trim($data['username'])]);
     if (empty($users)) {
-      $users = $user_storage->loadByProperties(['mail' => trim($data['username'])]);
+      $users = $this->userStorage->loadByProperties(['mail' => trim($data['username'])]);
     }
 
     /** @var \Drupal\Core\Session\AccountInterface $account */

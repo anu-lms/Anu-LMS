@@ -5,8 +5,8 @@ import { Link } from '../../../routes';
 import VerticalArrow from '../Icons/VerticalArrow';
 
 class ProfileMenu extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       isOrgsListCollapsed: true,
@@ -17,9 +17,10 @@ class ProfileMenu extends React.Component {
   }
 
   toggleOrganizationsList() {
-    this.setState({
-      isOrgsListCollapsed: !this.state.isOrgsListCollapsed,
-    });
+    this.setState(previousState => ({
+      ...previousState,
+      isOrgsListCollapsed: !previousState.isOrgsListCollapsed,
+    }));
   }
 
   collapseOrganizationsList() {
@@ -29,10 +30,10 @@ class ProfileMenu extends React.Component {
   }
 
   handleOrganizationClick(organizationId) {
-    const { onItemClick, onOrganizationClick } = this.props;
+    const { onItemClick, onOrganizationChange } = this.props;
     this.collapseOrganizationsList();
     onItemClick();
-    onOrganizationClick(organizationId);
+    onOrganizationChange(organizationId);
   }
 
   render() {
@@ -90,7 +91,7 @@ ProfileMenu.propTypes = {
   organizations: PropTypes.arrayOf(PropTypes.object),
   activeOrganization: PropTypes.number,
   onItemClick: PropTypes.func,
-  onOrganizationClick: PropTypes.func,
+  onOrganizationChange: PropTypes.func,
   onLogoutClick: PropTypes.func,
 };
 
@@ -99,7 +100,7 @@ ProfileMenu.defaultProps = {
   organizations: [],
   activeOrganization: null,
   onItemClick: () => {},
-  onOrganizationClick: () => {},
+  onOrganizationChange: () => {},
   onLogoutClick: () => {},
 };
 
