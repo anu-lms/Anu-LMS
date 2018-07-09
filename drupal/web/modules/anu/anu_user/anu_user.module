@@ -132,10 +132,11 @@ function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
  */
 function anu_user_user_update(EntityInterface $entity) {
 
-  /** @var \Drupal\simple_oauth\ExpiredCollector $collector */
-  $collector = \Drupal::service('simple_oauth.expired_collector');
   // Collect the affected tokens and expire them.
   if ($entity instanceof AccountInterface) {
+
+    /** @var \Drupal\simple_oauth\ExpiredCollector $collector */
+    $collector = \Drupal::service('simple_oauth.expired_collector');
 
     // When the organization has changed, we should revoke user's access to the site.
     $organization_changed = $entity->original->field_organization->getValue() !== $entity->field_organization->getValue();
