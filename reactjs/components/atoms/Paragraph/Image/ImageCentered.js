@@ -71,7 +71,7 @@ ImageCentered.defaultProps = {
   columnClasses: [],
   title: '',
   settings: {},
-  commentsAllowed: true,
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
 };
 
