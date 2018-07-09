@@ -92,7 +92,12 @@ class Notifications extends React.Component {
               <div className="amount">{unreadAmount > 99 ? 99 : unreadAmount}</div>
             }
           </HeaderIcon>
-          <HeaderIcon className="icon-close" onClick={this.togglePopup} onKeyPress={this.togglePopup}>
+          <HeaderIcon
+            className="icon-close"
+            onClick={this.togglePopup}
+            onKeyPress={this.togglePopup}
+            isActive={isOpened}
+          >
             <CloseCrossIcon />
           </HeaderIcon>
         </div>
