@@ -143,6 +143,9 @@
       },
       "drupal/search_api_attachments": {
         "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
+      },
+      "drupal/jsonapi": {
+        "Increase maximum size of page parameters from 50 to 100": "patches/jsonapi-increase_offsetpage_size_max.patch"
       }
     }
   }
