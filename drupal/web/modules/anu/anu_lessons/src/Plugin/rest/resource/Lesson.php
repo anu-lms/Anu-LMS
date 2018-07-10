@@ -3,6 +3,7 @@
 namespace Drupal\anu_lessons\Plugin\rest\resource;
 
 use Drupal\anu_courses\Course;
+use Drupal\anu_paragraph\Paragraph;
 use Drupal\Core\Path\AliasManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\image\Entity\ImageStyle;
@@ -81,13 +82,18 @@ class Lesson extends ResourceBase {
    *   The current user instance.
    * @param \Symfony\Component\HttpFoundation\Request $current_request
    *   The current request
+   * @param \Drupal\anu_courses\Course $course_manager
+   *   Course manager service container.
+   * @param \Drupal\anu_paragraph\Paragraph $paragraph_manager
+   *   Paragraph manager service container.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, AccountProxyInterface $current_user, Request $current_request, AliasManagerInterface $alias_manager, Course $course_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, AccountProxyInterface $current_user, Request $current_request, AliasManagerInterface $alias_manager, Course $course_manager, Paragraph $paragraph_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->currentUser = $current_user;
     $this->currentRequest = $current_request;
     $this->aliasManager = $alias_manager;
     $this->courseManager = $course_manager;
+    $this->paragraphManager = $paragraph_manager;
   }
 
   /**
@@ -103,7 +109,8 @@ class Lesson extends ResourceBase {
       $container->get('current_user'),
       $container->get('request_stack')->getCurrentRequest(),
       $container->get('path.alias_manager'),
-      $container->get('anu_courses.course')
+      $container->get('anu_courses.course'),
+      $container->get('anu_paragraph.paragraph')
     );
   }
 
@@ -195,6 +202,7 @@ class Lesson extends ResourceBase {
     $data = [];
     $data['id'] = (int) $paragraph->id();
     $data['type'] = $paragraph->bundle();
+    $data['commentsAmount'] = $this->paragraphManager->getCommentsAmount((int) $paragraph->id());
 
     if ($paragraph->bundle() == 'divider_numbered') {
       $data['counter'] = self::$dividedCounter++;

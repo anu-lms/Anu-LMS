@@ -1,13 +1,18 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'next/router';
 import { Link } from '../../../routes';
 import ProfileMenu from '../../moleculas/Header/ProfileMenu';
 import Notifications from '../../moleculas/Header/Notifications';
+import LessonNavigationButton from '../../moleculas/Header/LessonNavigationButton';
 import Search from '../../moleculas/Header/Search';
 import HeaderIcon from '../../atoms/HeaderIcon';
+import SiteLogoIcon from '../../atoms/Icons/SiteLogo';
+import { getObjectById } from '../../../utils/array';
 
 /* eslint-disable max-len */
-const Header = ({ isEmpty }) => (
+const Header = ({ isEmpty, activeOrganizationLabel, router }) => (
   <header className="site-header">
     {!isEmpty &&
     <Fragment>
@@ -33,6 +38,14 @@ const Header = ({ isEmpty }) => (
       </div>
 
       <div className="left">
+        <Link to="/" >
+          <a rel="home" className="site-logo-link">
+            <HeaderIcon className="site-logo" label={activeOrganizationLabel}>
+              <SiteLogoIcon />
+            </HeaderIcon>
+          </a>
+        </Link>
+
         <Link to="/dashboard">
           <a rel="home">
             <HeaderIcon className="home" label="Home" activePaths={['/dashboard']}>
@@ -58,6 +71,10 @@ const Header = ({ isEmpty }) => (
             </HeaderIcon>
           </a>
         </Link>
+
+        {(router.route === '/_lesson' || router.route === '/_courseResource') &&
+        <LessonNavigationButton />
+        }
       </div>
 
       <div className="right">
@@ -73,10 +90,24 @@ const Header = ({ isEmpty }) => (
 
 Header.propTypes = {
   isEmpty: PropTypes.bool,
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  activeOrganizationLabel: PropTypes.string.isRequired,
 };
 
 Header.defaultProps = {
   isEmpty: false,
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => {
+  let activeOrganizationLabel = '';
+  if (user.activeOrganization) {
+    const organization = getObjectById(user.data.organization, user.activeOrganization);
+    activeOrganizationLabel = organization ? organization.name : '';
+  }
+
+  return {
+    activeOrganizationLabel,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(Header));

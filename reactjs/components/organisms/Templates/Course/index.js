@@ -108,7 +108,7 @@ CoursePageTemplate.propTypes = {
 };
 
 const mapStateToProps = (store, { course }) => ({
-  storeLessons: store.lesson,
+  storeLessons: store.lesson.lessons,
   courseProgress: courseHelper.getProgress(store.course, course),
 });
 

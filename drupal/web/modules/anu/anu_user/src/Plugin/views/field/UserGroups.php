@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- *
- */
-
 namespace Drupal\anu_user\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
@@ -21,14 +16,14 @@ use Drupal\views\ResultRow;
 class UserGroups extends FieldPluginBase {
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function query() {
     // Leave empty to avoid a query on this field.
   }
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function render(ResultRow $values) {
     $account = $values->_entity;
@@ -49,4 +44,5 @@ class UserGroups extends FieldPluginBase {
 
     return ['#markup' => implode(', ', $groups)];
   }
+
 }
