@@ -1,0 +1,3 @@
+services:
+  anu_paragraph.paragraph:
+      class: Drupal\anu_paragraph\Paragraph

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getObjectById } from '../../../../utils/array';
 import CommentsCTA from '../../../atoms/CTA/Comments';
 import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -36,11 +37,12 @@ class ShowCommentsCTA extends React.Component {
   }
 
   render() {
-    const { paragraphId, activeParagraphId } = this.props;
+    const { paragraphId, activeParagraphId, commentsAmount } = this.props;
     return (
       <CommentsCTA
         onClick={this.toggleCommentsPanel}
         active={paragraphId === activeParagraphId}
+        amount={commentsAmount}
       />
     );
   }
@@ -50,10 +52,28 @@ ShowCommentsCTA.propTypes = {
   dispatch: PropTypes.func.isRequired,
   paragraphId: PropTypes.number.isRequired,
   activeParagraphId: PropTypes.number.isRequired,
+  commentsAmount: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = ({ lessonSidebar }) => ({
-  activeParagraphId: lessonSidebar.comments.paragraphId,
-});
+const mapStateToProps = ({ lessonSidebar, user, lesson }, { paragraphId }) => {
+  let commentsAmount = 0;
+  const activeLesson = getObjectById(lesson.lessons, lesson.activeLesson);
+
+  if (activeLesson) {
+    const currentBlock = getObjectById(activeLesson.blocks, paragraphId);
+    const activeOrganizationId = user.activeOrganization ? user.activeOrganization : 0;
+
+    if (currentBlock
+        && currentBlock.commentsAmount
+        && currentBlock.commentsAmount[activeOrganizationId]) {
+      commentsAmount = currentBlock.commentsAmount[activeOrganizationId];
+    }
+  }
+
+  return {
+    activeParagraphId: lessonSidebar.comments.paragraphId,
+    commentsAmount,
+  };
+};
 
 export default connect(mapStateToProps)(ShowCommentsCTA);

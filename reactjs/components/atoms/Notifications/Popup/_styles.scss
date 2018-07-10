@@ -8,7 +8,7 @@
   z-index: $zindex-fixed + 2;
 
   @include media-breakpoint-up(md) {
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: $shadow2;
     width: 400px;
     height: 500px;
     border-radius: 2px;
@@ -127,4 +127,21 @@
   right: 0;
   z-index: $zindex-fixed + 1;
   background-color: transparent;
+
+  &.dark:after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  &.dark-body:after {
+    top: $header-height-sm;
+    @include media-breakpoint-up(md) {
+      top: $header-height-md;
+    }
+  }
 }
