@@ -46,7 +46,7 @@ class Comment extends React.Component {
 
   render() {
     const { comment, editedComment, highlightedComment } = this.props;
-    const wrapperClasses = ['comment', 'fade-in-hidden'];
+    const wrapperClasses = ['comment', 'fade-in-hidden']; // @todo: replace with classnames util.
     if (comment.parent) {
       wrapperClasses.push('nested');
     }
@@ -55,6 +55,10 @@ class Comment extends React.Component {
     }
     if (this.state.displayBlock) {
       wrapperClasses.push('fade-in-shown');
+    }
+    // @todo: remove test class.
+    if (!comment.isRead) {
+      wrapperClasses.push('new');
     }
 
     if (comment.deleted) {
@@ -148,6 +152,7 @@ Comment.propTypes = {
     }),
     changed: PropTypes.number.isRequired,
     created: PropTypes.number.isRequired,
+    isRead: PropTypes.bool.isRequired,
     text: PropTypes.string,
     uuid: PropTypes.string.isRequired,
     author: PropTypes.shape({
