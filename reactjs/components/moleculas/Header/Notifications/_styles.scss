@@ -1,19 +1,10 @@
 .notifications-wrapper {
-  display: inline-block;
   position: relative;
-  height: 100%;
   text-align: left;
+  float: left;
 
-  .notifications-icons {
-    height: 100%;
-  }
   .header-icon {
-    cursor: pointer;
-    position: relative;
     z-index: $zindex-fixed + 2;
-    .icon {
-      position: relative;
-    }
   }
   .icon-bell .amount {
     background: $clay-orange;
@@ -42,10 +33,6 @@
 
   .icon-close {
     display: none;
-  }
-
-  &.popup-opened .header-icon {
-    background-color: $slate-grey;
   }
 
   @include media-breakpoint-down(sm) {

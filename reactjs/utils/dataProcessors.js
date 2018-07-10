@@ -172,32 +172,18 @@ export const notebookListData = notebookDataObject =>
 /**
  * Internal helper to normalize User data from the backend.
  */
-export const userData = userDataObject => {
-  let data = {
-    uid: userDataObject.uid[0].value,
-    uuid: userDataObject.uuid[0].value,
-    name: userDataObject.name[0].value,
-  };
-
-  // Anonymous don't get user object with mail property.
-  if (userDataObject.mail !== undefined) {
-    data.mail = userDataObject.mail[0].value;
-  }
-
-  // Organization isn't required field.
-  if (userDataObject.field_organization[0] !== undefined) {
-    data.organization = userDataObject.field_organization[0].target_id;
-  }
-
-  if (userDataObject.field_first_name[0] !== undefined) {
-    data.firstName = userDataObject.field_first_name[0].value;
-  }
-
-  if (userDataObject.field_last_name[0] !== undefined) {
-    data.lastName = userDataObject.field_last_name[0].value;
-  }
-  return data;
-};
+export const userData = userDataObject => ({
+  id: userDataObject.id,
+  uuid: userDataObject.uuid,
+  name: userDataObject.name,
+  mail: userDataObject.mail,
+  status: userDataObject.status,
+  created: userDataObject.created,
+  changed: userDataObject.changed,
+  firstName: userDataObject.fieldFirstName ? userDataObject.fieldFirstName : '',
+  lastName: userDataObject.fieldLastName ? userDataObject.fieldLastName : '',
+  organization: userDataObject.fieldOrganization ? userDataObject.fieldOrganization : [],
+});
 
 /**
  * Internal helper to normalize Comment data from the backend.

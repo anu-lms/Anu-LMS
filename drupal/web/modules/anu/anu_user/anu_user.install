@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install, update and uninstall functions for the module.
+ */
+
+/**
  * Implements hook_update_N().
  */
 function anu_user_update_8002() {
