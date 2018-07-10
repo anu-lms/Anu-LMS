@@ -19,7 +19,7 @@ class CommentReadStatus extends TypedData {
   /**
    * Is read state.
    *
-   * @var int
+   * @var bool
    */
   protected $value;
 
