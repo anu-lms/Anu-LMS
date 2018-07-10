@@ -19,6 +19,7 @@ class Comment extends React.Component {
     };
 
     this.showReplyForm = this.showReplyForm.bind(this);
+    this.onCommentClick = this.onCommentClick.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +30,25 @@ class Comment extends React.Component {
       date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
       displayBlock: true,
     });
+  }
+
+  // @todo: remove test code.
+  async onCommentClick() {
+    const { comment } = this.props;
+
+    // Get superagent request with authentication.
+    const { request } = await this.context.auth.getRequest();
+
+    request
+      .post('/comments/mark-as-read')
+      .query({ '_format': 'json' })
+      .set('Content-Type', 'application/json')
+      .send({
+        comment_ids: [comment.id],
+      })
+      .then(response => {
+        console.log(response.body);
+      });
   }
 
   showReplyForm() {
@@ -71,7 +91,12 @@ class Comment extends React.Component {
     }
 
     return (
-      <div className={wrapperClasses.join(' ')} id={`comment-${comment.id}`}>
+      <div
+        className={wrapperClasses.join(' ')}
+        id={`comment-${comment.id}`}
+        onClick={this.onCommentClick}
+        onKeyPress={this.onCommentClick}
+      >
 
         <div className="comment-header">
           <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
@@ -176,5 +201,11 @@ const mapStateToProps = ({ lessonSidebar }) => ({
   editedComment: lessonSidebar.comments.form.editedComment,
   highlightedComment: lessonSidebar.comments.highlightedComment,
 });
+
+Comment.contextTypes = {
+  auth: PropTypes.shape({
+    getRequest: PropTypes.func,
+  }),
+};
 
 export default connect(mapStateToProps)(Comment);
