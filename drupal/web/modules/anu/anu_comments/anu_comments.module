@@ -69,7 +69,7 @@ function anu_comments_entity_base_field_info(EntityTypeInterface $entity_type) {
     $fields = [];
 
     // Add a field that shows a link to the user's current company.
-    $fields['is_read'] = BaseFieldDefinition::create('integer')
+    $fields['is_read'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Is read'))
       ->setDescription(t('Whether comment is read by current user or not.'))
       ->setComputed(TRUE)
