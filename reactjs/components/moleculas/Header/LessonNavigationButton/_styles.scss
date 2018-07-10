@@ -1,0 +1,17 @@
+.lesson-navigation-button {
+  float: left;
+
+  .header-icon.toggle {
+    .icon {
+      @include media-breakpoint-up(md) {
+        top: 23px;
+      }
+    }
+    svg {
+      width: 18px;
+      @include media-breakpoint-up(md) {
+        width: 24px;
+      }
+    }
+  }
+}

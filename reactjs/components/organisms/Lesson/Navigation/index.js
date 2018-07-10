@@ -101,7 +101,7 @@ LessonNavigation.propTypes = {
 };
 
 const mapStateToProps = ({ lesson, course }) => ({
-  lessons: lesson,
+  lessons: lesson.lessons,
   courses: course,
 });
 

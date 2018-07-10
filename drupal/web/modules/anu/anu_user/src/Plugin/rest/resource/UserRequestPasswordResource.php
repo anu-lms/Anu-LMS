@@ -1,9 +1,9 @@
 <?php
+
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
-use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Session\AccountInterface;
+use Drupal\user\UserStorageInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,13 +34,12 @@ class UserRequestPasswordResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
-   * @param \Drupal\Core\Config\ImmutableConfig $user_settings
-   *   A user settings config instance.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
+   * @param \Drupal\user\UserStorageInterface $user_storage
+   *   User storage.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, ImmutableConfig $user_settings, AccountInterface $current_user) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, UserStorageInterface $user_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->userStorage = $user_storage;
   }
 
   /**
@@ -53,8 +52,7 @@ class UserRequestPasswordResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('anu_user'),
-      $container->get('config.factory')->get('user.settings'),
-      $container->get('current_user')
+      $container->get('entity.manager')->getStorage('user')
     );
   }
 
@@ -67,18 +65,16 @@ class UserRequestPasswordResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    $user_storage = \Drupal::entityManager()->getStorage('user');
-
     if (empty($data['username'])) {
       return new ResourceResponse([
-        'message' => $this->t('Username is not recognized as a username or an email address.')
+        'message' => $this->t('Username is not recognized as a username or an email address.'),
       ], 406);
     }
 
     // Load by name if provided.
-    $users = $user_storage->loadByProperties(['name' => trim($data['username'])]);
+    $users = $this->userStorage->loadByProperties(['name' => trim($data['username'])]);
     if (empty($users)) {
-      $users = $user_storage->loadByProperties(['mail' => trim($data['username'])]);
+      $users = $this->userStorage->loadByProperties(['mail' => trim($data['username'])]);
     }
 
     /** @var \Drupal\Core\Session\AccountInterface $account */
@@ -86,7 +82,7 @@ class UserRequestPasswordResource extends ResourceBase {
     if ($account && $account->id()) {
       if (user_is_blocked($account->getAccountName())) {
         return new ResourceResponse([
-          'message' => $this->t('The user has not been activated or is blocked.')
+          'message' => $this->t('The user has not been activated or is blocked.'),
         ], 406);
       }
 
@@ -104,8 +100,9 @@ class UserRequestPasswordResource extends ResourceBase {
     }
     else {
       return new ResourceResponse([
-        'message' => $this->t('@username is not recognized as a username or an email address.', ['@username' => $data['username']])
+        'message' => $this->t('@username is not recognized as a username or an email address.', ['@username' => $data['username']]),
       ], 406);
     }
   }
+
 }

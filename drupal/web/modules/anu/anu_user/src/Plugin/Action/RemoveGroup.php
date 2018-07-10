@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_user\Plugin\Action;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -55,13 +56,9 @@ class RemoveGroup extends ViewsBulkOperationsActionBase {
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *
-   * @return array
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
 
     $groups = \Drupal::entityTypeManager()
       ->getStorage('group')

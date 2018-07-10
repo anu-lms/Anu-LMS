@@ -1,10 +1,13 @@
 <?php
+
 namespace Drupal\anu_user\Plugin\rest\resource;
 
+use Drupal\user\Entity\User;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,6 +28,7 @@ class CurrentUserResource extends ResourceBase {
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
   /**
    * Constructs a Drupal\rest\Plugin\ResourceBase object.
    *
@@ -51,6 +55,7 @@ class CurrentUserResource extends ResourceBase {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->currentUser = $current_user;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -74,9 +79,11 @@ class CurrentUserResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function get() {
-    $account = \Drupal\user\Entity\User::load($this->currentUser->id());
+    $account = User::load($this->currentUser->id());
 
-    $response = new ResourceResponse($account, 200);
+    // Returns normalized user entity.
+    $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($account), 200);
     return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
   }
+
 }

@@ -125,3 +125,34 @@
     transform-origin: center center;
   }
 }
+
+.btn-grey {
+  padding: 14px 12px 15px;
+  font-weight: bold;
+  text-align: center;
+  color: $white;
+  background-color: $slate-grey;
+  flex: 1 1 auto;
+  cursor: pointer;
+  transition: background-color .2s;
+  font-size: 1em;
+  border: none;
+  box-shadow: none;
+  font-family: $font-family-base;
+  margin: 0;
+
+  @include media-breakpoint-up(md) {
+    padding: 10px 12px 11px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    transition: background-color .2s;
+    background-color: darken($slate-grey, 5);
+  }
+  &:active {
+    background-color: darken($slate-grey, 8);
+  }
+}
