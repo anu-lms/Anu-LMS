@@ -35,7 +35,7 @@ class User extends AnuNormalizerBase {
 
     try {
       $output = [
-        'id' => (int) $entity->id(),
+        'uid' => (int) $entity->id(),
         'uuid' => $entity->uuid(),
         'name' => $entity->name->getString(),
         'mail' => $entity->mail->getString(),

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _cloneDeep from 'lodash/cloneDeep';
 import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
@@ -7,6 +8,7 @@ import Button from '../../../atoms/Button';
 import * as lock from '../../../../utils/lock';
 import * as userApi from '../../../../api/user';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
+import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
@@ -136,6 +138,12 @@ class UserEditForm extends React.Component {
         formKey: this.state.formKey + 1,
       });
 
+      // Update user data in application store.
+      this.props.dispatch(userActionHelpers.update({
+        name: formData.username,
+        mail: formData.email,
+      }));
+
       Alert.success('Your profile has been successfully updated.');
     } catch (error) {
       this.setState({ isSending: false });
@@ -180,10 +188,11 @@ UserEditForm.contextTypes = {
 
 UserEditForm.propTypes = {
   user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
 };
 
 UserEditForm.defaultProps = {
   user: {},
 };
 
-export default UserEditForm;
+export default connect()(UserEditForm);

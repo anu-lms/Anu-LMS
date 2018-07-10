@@ -23,9 +23,9 @@ class CourseCest {
     $I->resumeCourseFromLanding();
 
     $I->seeElement('.navigation');
-    $I->click('.collapsible-navigation .toggle');
+    $I->click('.lesson-navigation-button .toggle');
     $I->waitForElementNotVisible('.collapsible-navigation.opened');
-    $I->click('.collapsible-navigation .toggle');
+    $I->click('.lesson-navigation-button .toggle');
     $I->waitForElement('.navigation');
   }
 

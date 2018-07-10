@@ -23,8 +23,8 @@ class NotebookPage extends Component {
       if (!isServer) {
         const state = store.getState();
 
-        if (state && state.user && state.user.uid > 0) {
-          currentUserId = state.user.uid;
+        if (state && state.user && state.user.data && state.user.data.uid > 0) {
+          currentUserId = state.user.data.uid;
         }
       }
 

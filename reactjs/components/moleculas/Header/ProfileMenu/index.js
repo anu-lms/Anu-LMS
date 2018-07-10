@@ -22,6 +22,7 @@ class ProfileMenu extends React.Component {
 
     this.onLogoutClick = this.onLogoutClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
+    this.closePopup = this.closePopup.bind(this);
     this.onOrganizationChange = this.onOrganizationChange.bind(this);
   }
 
@@ -34,6 +35,7 @@ class ProfileMenu extends React.Component {
 
   onOrganizationChange(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
+    this.closePopup();
   }
 
   togglePopup() {
@@ -41,6 +43,12 @@ class ProfileMenu extends React.Component {
       ...previousState,
       isOpened: !previousState.isOpened,
     }));
+  }
+
+  closePopup() {
+    this.setState({
+      isOpened: false,
+    });
   }
 
   render() {
@@ -64,16 +72,18 @@ class ProfileMenu extends React.Component {
           </HeaderIcon>
         </div>
 
-        <SlidingPanel className="profile-menu-panel" isOpened={isOpened} onClose={this.togglePopup}>
+        <SlidingPanel className="profile-menu-panel" isOpened={isOpened} onClose={this.closePopup}>
           <ProfileMenuList
             organizations={organizations}
             username={username}
             activeOrganization={activeOrganization}
+            onItemClick={this.closePopup}
+            onOrganizationClick={this.setOrganization}
             onLogoutClick={this.onLogoutClick}
             onOrganizationChange={this.onOrganizationChange}
           />
           <div className="footer">
-            <button onClick={this.togglePopup} className="close btn-grey">Close Profile Menu</button>
+            <button onClick={this.closePopup} className="close btn-grey">Close Profile Menu</button>
           </div>
         </SlidingPanel>
 
@@ -95,7 +105,11 @@ ProfileMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   organizations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeOrganization: PropTypes.number.isRequired,
+  activeOrganization: PropTypes.number,
+};
+
+ProfileMenu.defaultProps = {
+  activeOrganization: null,
 };
 
 const mapStateToProps = ({ user }) => ({
