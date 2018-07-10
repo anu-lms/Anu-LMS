@@ -19,6 +19,10 @@
       padding-left: 3em;
     }
   }
+  // @todo: remove test class.
+  &.new {
+    background-color: $white-grey;
+  }
 
   .comment-header {
     position: relative;
