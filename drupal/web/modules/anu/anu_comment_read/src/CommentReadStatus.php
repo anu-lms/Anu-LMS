@@ -1,5 +1,5 @@
 <?php
-namespace Drupal\anu_comments;
+namespace Drupal\anu_comment_read;
 
 use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\TypedData\ComputedItemListTrait;

@@ -3,8 +3,6 @@
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
  * @file
@@ -58,23 +56,5 @@ function anu_comments_entity_type_alter(array &$entity_types) {
   if (!empty($entity_types['paragraph_comment'])) {
     $entity = $entity_types['paragraph_comment'];
     $entity->addConstraint('ParagraphComment', []);
-  }
-}
-
-/**
- * Implements hook_entity_base_field_info().
- */
-function anu_comments_entity_base_field_info(EntityTypeInterface $entity_type) {
-  if ($entity_type->id() === 'paragraph_comment') {
-    $fields = [];
-
-    // Add a field that shows a link to the user's current company.
-    $fields['is_read'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Is read'))
-      ->setDescription(t('Whether comment is read by current user or not.'))
-      ->setComputed(TRUE)
-      ->setClass('\Drupal\anu_comments\CommentReadStatus');
-
-    return $fields;
   }
 }
