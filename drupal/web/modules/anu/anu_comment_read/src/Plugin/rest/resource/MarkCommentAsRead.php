@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a resource to validate reset password link and reset password.
+ * Provides a resource to mark comment as read.
  *
  * @RestResource(
  *   id = "mark_comment_as_read",
@@ -75,12 +75,14 @@ class MarkCommentAsRead extends ResourceBase {
     try {
       $current_user_id = \Drupal::currentUser()->id();
       foreach ($comment_ids as $comment_id) {
+        // Check if comment read entity exists.
         $existing_entities_amount = \Drupal::entityQuery('paragraph_comment_read')
           ->condition('uid', $current_user_id)
           ->condition('field_comment', $comment_id)
           ->count()
           ->execute();
 
+        // Create a new entity only if not exists.
         if ($existing_entities_amount == 0) {
 
           $entity = $this->commentReadStorage->create([

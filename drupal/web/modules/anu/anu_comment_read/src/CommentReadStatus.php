@@ -12,9 +12,10 @@ class CommentReadStatus extends FieldItemList {
   use ComputedItemListTrait;
 
   /**
-   * Compute the values.
+   * Return TRUE if comment marked as read by current user.
    */
   protected function computeValue() {
+    // Make request to comment_read entity, return TRUE if there is an existing record.
     $existing_entities_amount = \Drupal::entityQuery('paragraph_comment_read')
       ->condition('uid', \Drupal::currentUser()->id())
       ->condition('field_comment', $this->getParent()->getValue()->id())
