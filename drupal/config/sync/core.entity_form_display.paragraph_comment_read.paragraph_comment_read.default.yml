@@ -1,4 +1,4 @@
-uuid: ee519790-fe94-41bf-bc14-1755d4b5fb97
+uuid: 08b67739-77a7-485e-81e6-61ecd303a1ae
 langcode: en
 status: true
 dependencies:
@@ -17,7 +17,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_comment:
-    weight: 26
+    weight: 11
     settings:
       match_operator: CONTAINS
       size: 60

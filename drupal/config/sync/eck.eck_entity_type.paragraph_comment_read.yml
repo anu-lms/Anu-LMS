@@ -1,4 +1,4 @@
-uuid: e71aa61e-9e09-49a0-98ca-5e20fb508320
+uuid: 9ab38794-d8e8-41b3-aeef-c0660a3cd78f
 langcode: en
 status: true
 dependencies: {  }
@@ -8,4 +8,4 @@ created: true
 changed: false
 uid: true
 title: false
-revisionable: true
+revisionable: false
