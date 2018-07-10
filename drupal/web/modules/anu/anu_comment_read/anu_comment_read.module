@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Entity\EntityTypeInterface;
+
 /**
  * @file
  * Contains functionality related to comments read status feature.
@@ -50,5 +53,23 @@ function anu_comment_read_paragraph_comment_delete(Drupal\Core\Entity\EntityInte
       '@error' => $e->getMessage()
     ];
     \Drupal::logger('anu_comment_read')->critical($message, $params);
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function anu_comment_read_entity_base_field_info(EntityTypeInterface $entity_type) {
+  if ($entity_type->id() === 'paragraph_comment') {
+    $fields = [];
+
+    // Add a field that shows a link to the user's current company.
+    $fields['is_read'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Is read'))
+      ->setDescription(t('Whether comment is read by current user or not.'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\anu_comment_read\CommentReadStatus');
+
+    return $fields;
   }
 }
