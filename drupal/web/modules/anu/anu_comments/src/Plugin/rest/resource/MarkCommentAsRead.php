@@ -74,13 +74,15 @@ class MarkCommentAsRead extends ResourceBase {
     try {
       $comment_ids = $data['comment_ids'];
 
-      $entities = \Drupal::entityQuery('paragraph_comment_read')
+      $existing_entity_ids = \Drupal::entityQuery('paragraph_comment_read')
         ->condition('uid', \Drupal::currentUser()->id())
-        ->condition('field_comment', $comment_ids, 'IN');
+        ->condition('field_comment', $comment_ids, 'IN')
+        ->execute();
+//      $existing_entities =
 
       foreach ($comment_ids as $comment_id) {
 
-        if (!empty($entities[$comment_id])) {
+        if (!empty($existing_entity_ids[$comment_id])) {
 
           $entity = $this->commentReadStorage->create([
               'type' => 'paragraph_comment_read',
