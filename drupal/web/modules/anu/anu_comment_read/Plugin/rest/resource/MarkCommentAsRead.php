@@ -70,25 +70,24 @@ class MarkCommentAsRead extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
+    $comment_ids = $data['comment_ids'];
 
     try {
-      $comment_ids = $data['comment_ids'];
-
-      $existing_entity_ids = \Drupal::entityQuery('paragraph_comment_read')
-        ->condition('uid', \Drupal::currentUser()->id())
-        ->condition('field_comment', $comment_ids, 'IN')
-        ->execute();
-//      $existing_entities =
-
+      $current_user_id = \Drupal::currentUser()->id();
       foreach ($comment_ids as $comment_id) {
+        $existing_entities_amount = \Drupal::entityQuery('paragraph_comment_read')
+          ->condition('uid', $current_user_id)
+          ->condition('field_comment', $comment_id)
+          ->count()
+          ->execute();
 
-        if (!empty($existing_entity_ids[$comment_id])) {
+        if ($existing_entities_amount == 0) {
 
           $entity = $this->commentReadStorage->create([
-              'type' => 'paragraph_comment_read',
-              'field_comment' => $comment_id,
-            ]
-          );
+            'type' => 'paragraph_comment_read',
+            'uid' => $current_user_id,
+            'field_comment' => $comment_id,
+          ]);
           $entity->save();
         }
       }
@@ -101,8 +100,7 @@ class MarkCommentAsRead extends ResourceBase {
       throw new HttpException(406, $message);
     }
 
-    $response = new ResourceResponse($comment_ids, 200);
-    return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    return new ResourceResponse($comment_ids, 200);
   }
 
 }
