@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\anu_comments\Plugin\rest\resource;
+namespace Drupal\anu_comment_read\Plugin\rest\resource;
 
 use Psr\Log\LoggerInterface;
 use Drupal\rest\ResourceResponse;
