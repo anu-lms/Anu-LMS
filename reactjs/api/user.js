@@ -16,3 +16,61 @@ export const fetchCurrent = request => new Promise((resolve, reject) => {
       reject(error);
     });
 });
+
+/**
+ * Update user data.
+ */
+export const update = (request, uuid, username, email, password) => new Promise((resolve, reject) => { // eslint-disable-line max-len
+  request
+    .patch(`/jsonapi/user/user/${uuid}`)
+    .send({
+      data: {
+        type: 'user--user',
+        id: uuid,
+        attributes: {
+          name: username,
+          mail: email,
+          pass: {
+            // TODO: bug or feature?
+            // To update user name ANY non-empty password can be sent.
+            // To update email only valid current password should be sent.
+            existing: password || 'anypass',
+          },
+        },
+      },
+    })
+    .then(() => {
+      resolve();
+    })
+    .catch(error => {
+      console.error('Could not update user data.', error);
+      reject(error);
+    });
+});
+
+/**
+ * Update password of user.
+ */
+export const updatePassword = (request, uuid, password, passwordNew) => new Promise((resolve, reject) => { // eslint-disable-line max-len
+  request
+    .patch(`/jsonapi/user/user/${uuid}`)
+    .send({
+      data: {
+        type: 'user--user',
+        id: uuid,
+        attributes: {
+          pass: {
+            existing: password,
+            value: passwordNew,
+          },
+        },
+      },
+    })
+    .then(() => {
+      resolve();
+    })
+    .catch(error => {
+      console.error('Could not update user password.', error);
+      reject(error);
+    });
+});
