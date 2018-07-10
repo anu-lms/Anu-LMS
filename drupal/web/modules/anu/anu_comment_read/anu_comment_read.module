@@ -4,3 +4,51 @@
  * @file
  * Contains functionality related to comments read status feature.
  */
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_comment_read_user_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  try {
+    // Delete all existing entities which refer this user.
+    $controller = \Drupal::entityTypeManager()->getStorage('paragraph_comment_read');
+    $entities = $controller->loadByProperties([
+      'uid' => $entity->id(),
+    ]);
+    $controller->delete($entities);
+  }
+  catch(\Exception $e) {
+    $message = 'Could not remove comments read entity when user with id @id was deleted. Error: @error.';
+    $params = [
+      '@id' => $entity->id(),
+      '@error' => $e->getMessage()
+    ];
+    \Drupal::logger('anu_comment_read')->critical($message, $params);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_comment_read_paragraph_comment_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  try {
+    // Delete all existing entities which refer this user.
+    $controller = \Drupal::entityTypeManager()->getStorage('paragraph_comment_read');
+    $entities = $controller->loadByProperties([
+      'field_comment' => $entity->id(),
+    ]);
+    $controller->delete($entities);
+  }
+  catch(\Exception $e) {
+    $message = 'Could not remove comments read entity when comment with id @id was deleted. Error: @error.';
+    $params = [
+      '@id' => $entity->id(),
+      '@error' => $e->getMessage()
+    ];
+    \Drupal::logger('anu_comment_read')->critical($message, $params);
+  }
+}
