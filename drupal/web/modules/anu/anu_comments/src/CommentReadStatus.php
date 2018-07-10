@@ -5,7 +5,7 @@ use Drupal\Core\TypedData\TypedData;
 use Drupal\Core\Language\LanguageInterface;
 
 /**
- * A property that returns TRUE if current user has read the comment.
+ * A property returns TRUE if current user has read the comment.
  */
 class CommentReadStatus extends TypedData {
 
