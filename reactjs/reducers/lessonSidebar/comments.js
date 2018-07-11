@@ -148,6 +148,9 @@ export default (state = initialState, action) => {
       return state;
     }
 
+    /**
+     * Add an additional flag to the comment if request to mark it as read was initiated.
+     */
     case 'LESSON_COMMENTS_MARK_AS_READ': {
       // Search for the comment.
       const index = state.comments.findIndex(element => element.id === action.commentId);
@@ -171,6 +174,9 @@ export default (state = initialState, action) => {
       };
     }
 
+    /**
+     * Comment was successfully marked as read on backend.
+     */
     case 'LESSON_COMMENTS_MARK_AS_READ_SUCCESSFULL': {
       if (action.commentIds.length === 0) {
         return state;
@@ -202,6 +208,9 @@ export default (state = initialState, action) => {
       };
     }
 
+    /**
+     * Updates isRead comment flag in store to visually show that comment is read.
+     */
     case 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE': {
       // Search for the comment.
       const index = state.comments.findIndex(element => element.id === action.commentId);
