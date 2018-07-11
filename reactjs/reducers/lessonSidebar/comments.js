@@ -188,6 +188,7 @@ export default (state = initialState, action) => {
             {
               ...comments[index],
               isReadUpdating: false,
+              isReadUpdated: true,
             },
             ...comments.slice(index + 1),
           ];
