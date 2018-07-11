@@ -1,3 +1,5 @@
+import _cloneDeep from 'lodash/cloneDeep';
+
 const initialState = {
   paragraphId: 0,
   highlightedComment: null,
@@ -31,12 +33,7 @@ export default (state = initialState, action) => {
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
-      return {
-        ...state,
-        paragraphId: 0,
-        form: initialState.form,
-        highlightedComment: null,
-      };
+      return initialState;
 
     case 'LESSON_OPENED':
       return {
@@ -149,6 +146,92 @@ export default (state = initialState, action) => {
 
       // Otherwise return unchanged state.
       return state;
+    }
+
+    /**
+     * Add an additional flag to the comment if request to mark it as read was initiated.
+     */
+    case 'LESSON_COMMENTS_MARK_AS_READ': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // Returns default state if comment wasn't found.
+      if (index === -1 || state.comments[index].isReadUpdating) {
+        return state;
+      }
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments: [
+          ...state.comments.slice(0, index),
+          {
+            ...state.comments[index],
+            isReadUpdating: true,
+          },
+          ...state.comments.slice(index + 1),
+        ],
+      };
+    }
+
+    /**
+     * Comment was successfully marked as read on backend.
+     */
+    case 'LESSON_COMMENTS_MARK_AS_READ_SUCCESSFULL': {
+      if (action.commentIds.length === 0) {
+        return state;
+      }
+
+      let comments = _cloneDeep(state.comments);
+      action.commentIds.forEach(commentId => {
+        // Search for the comment.
+        const index = comments.findIndex(element => element.id === commentId);
+
+        // Returns default state if comment wasn't found.
+        if (index !== -1 && comments[index].isReadUpdating) {
+          comments = [
+            ...comments.slice(0, index),
+            {
+              ...comments[index],
+              isReadUpdating: false,
+              isReadUpdated: true,
+            },
+            ...comments.slice(index + 1),
+          ];
+        }
+      });
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments,
+      };
+    }
+
+    /**
+     * Updates isRead comment flag in store to visually show that comment is read.
+     */
+    case 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // Returns default state if comment wasn't found or already marked as Read.
+      if (index === -1 || state.comments[index].isRead) {
+        return state;
+      }
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments: [
+          ...state.comments.slice(0, index),
+          {
+            ...state.comments[index],
+            isRead: true,
+          },
+          ...state.comments.slice(index + 1),
+        ],
+      };
     }
 
     default:

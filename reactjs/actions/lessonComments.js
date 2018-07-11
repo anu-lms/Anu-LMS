@@ -155,3 +155,27 @@ export const lessonCommentsAmountSet = (paragraphId, organizationId, amount) => 
   organizationId,
   amount,
 });
+
+/**
+ * Send request to the backend to mark comments as read.
+ */
+export const markCommentAsRead = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ',
+  commentId,
+});
+
+/**
+ * Update flag in store if comments marked as read successfully.
+ */
+export const markCommentAsReadSuccessfull = commentIds => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ_SUCCESSFULL',
+  commentIds,
+});
+
+/**
+ * Mark comment as read in store.
+ */
+export const markCommentAsReadInStore = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE',
+  commentId,
+});
