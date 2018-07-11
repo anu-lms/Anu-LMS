@@ -56,7 +56,7 @@ class MarkCommentAsRead extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('anu_comments'),
+      $container->get('logger.factory')->get('anu_comment_read'),
       $container->get('entity.manager')->getStorage('paragraph_comment_read')
     );
   }
@@ -70,20 +70,23 @@ class MarkCommentAsRead extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    $comment_ids = $data['comment_ids'];
+    if (empty($data['comment_ids'])) {
+      return new ResourceResponse([], 200);
+    }
 
     try {
+      $comment_ids = $data['comment_ids'];
       $current_user_id = \Drupal::currentUser()->id();
       foreach ($comment_ids as $comment_id) {
         // Check if comment read entity exists.
-        $existing_entities_amount = \Drupal::entityQuery('paragraph_comment_read')
+        $existing_entity = \Drupal::entityQuery('paragraph_comment_read')
           ->condition('uid', $current_user_id)
           ->condition('field_comment', $comment_id)
-          ->count()
+          ->range(0, 1)
           ->execute();
 
         // Create a new entity only if not exists.
-        if ($existing_entities_amount == 0) {
+        if (empty($existing_entity)) {
 
           $entity = $this->commentReadStorage->create([
             'type' => 'paragraph_comment_read',
