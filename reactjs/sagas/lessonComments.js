@@ -208,7 +208,7 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
 
 function* markCommentsAsRead() {
   // Amount of milliseconds before frontend will attempt to make a query to the backend.
-  const backendRequestDelay = 350;
+  const backendRequestDelay = 1000;
 
   // Set a delay to update comments in package, not one by one.
   yield delay(backendRequestDelay);
