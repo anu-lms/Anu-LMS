@@ -233,7 +233,7 @@ function* markCommentsAsRead() {
         request, commentIds,
       );
 
-      // Updates comment in the application store.
+      // Updates comments in the application store.
       yield put(lessonCommentsActions.markCommentAsReadSuccessfull(responseCommentIds));
     }
   }
