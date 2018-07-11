@@ -135,7 +135,6 @@ export const markCommentsAsRead = (request, commentIds) => new Promise((resolve,
       comment_ids: commentIds,
     })
     .then(response => {
-      console.log(response.body);
       resolve(response.body);
     })
     .catch(error => {

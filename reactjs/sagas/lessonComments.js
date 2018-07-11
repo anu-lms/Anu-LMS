@@ -207,17 +207,16 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
 }
 
 function* markCommentsAsRead() {
-  /**
-   * Amount of milliseconds before frontend will attempt
-   * to query search to the backend.
-   */
-  const backendSearchDelay = 350;
+  // Amount of milliseconds before frontend will attempt to make a query to the backend.
+  const backendRequestDelay = 350;
 
-  yield delay(backendSearchDelay);
+  // Set a delay to update comments in package, not one by one.
+  yield delay(backendRequestDelay);
 
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
 
+    // Get list of comments that should be marked as read on backend.
     const commentIds = comments
       .filter(comment => comment.isReadUpdating)
       .map(comment => comment.id);
@@ -228,12 +227,11 @@ function* markCommentsAsRead() {
     request.set('Authorization', `Bearer ${accessToken}`);
 
     if (commentIds.length > 0) {
-      // Makes request to the backend to update comment.
+      // Makes request to the backend to mark list of comments as read.
       const responseCommentIds = yield call(
         commentsApi.markCommentsAsRead,
         request, commentIds,
       );
-      console.log(commentIds);
 
       // Updates comment in the application store.
       yield put(lessonCommentsActions.markCommentAsReadSuccessfull(responseCommentIds));

@@ -38,16 +38,26 @@ class Comment extends React.Component {
     });
   }
 
+  /**
+   * An event trigered when element changes visibility on the screen.
+   *
+   * @param isVisible
+   *   Boolean, returns true if element visible on the screen.
+   * @param commentId
+   *   An id of comment.
+   */
   onCommentVisibilityChange(isVisible, commentId) {
     const { dispatch } = this.props;
+    // If comment visible by user mark it as read.
     if (isVisible) {
+      // Send a request to the backend to mark comment as read.
       dispatch(markCommentAsRead(commentId));
 
+      // In 1 second mark comment as read in store (doesn't depend on backend response).
       setTimeout(() => {
         dispatch(markCommentAsReadInStore(commentId));
       }, 1000);
     }
-    console.log(isVisible, commentId);
   }
 
   showReplyForm() {
@@ -87,7 +97,7 @@ class Comment extends React.Component {
       <VisibilitySensor
         onChange={isVisible => { this.onCommentVisibilityChange(isVisible, comment.id); }}
         delayedCall
-        active={!comment.isRead && !comment.isReadUpdating}
+        active={!comment.isRead && !comment.isReadUpdating && !comment.isReadUpdated}
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
