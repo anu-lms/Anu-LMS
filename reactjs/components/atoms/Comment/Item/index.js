@@ -76,7 +76,7 @@ class Comment extends React.Component {
 
     // Defines comment classes.
     const defaultClasses = ['comment', 'fade-in-hidden'];
-    const wrapperClasses = {
+    const extraClasses = {
       'nested': comment.parent,
       'highlighted': highlightedComment && highlightedComment === comment.id,
       'fade-in-shown': this.state.displayBlock,
@@ -85,7 +85,7 @@ class Comment extends React.Component {
 
     if (comment.deleted) {
       return (
-        <div className={classNames(defaultClasses, wrapperClasses, 'deleted')}>
+        <div className={classNames(defaultClasses, extraClasses, 'deleted')}>
           Comment Deleted
         </div>
       );
@@ -97,7 +97,7 @@ class Comment extends React.Component {
         // active={!comment.isRead}
       >
         <div
-          className={classNames(defaultClasses, wrapperClasses)}
+          className={classNames(defaultClasses, extraClasses)}
           id={`comment-${comment.id}`}
           onClick={this.onCommentClick}
           onKeyPress={this.onCommentClick}
