@@ -1,3 +1,5 @@
+import _cloneDeep from 'lodash/cloneDeep';
+
 const initialState = {
   paragraphId: 0,
   highlightedComment: null,
@@ -151,7 +153,60 @@ export default (state = initialState, action) => {
       const index = state.comments.findIndex(element => element.id === action.commentId);
 
       // Returns default state if comment wasn't found.
-      if (index === -1) {
+      if (index === -1 || state.comments[index].isReadUpdating) {
+        return state;
+      }
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments: [
+          ...state.comments.slice(0, index),
+          {
+            ...state.comments[index],
+            isReadUpdating: true,
+          },
+          ...state.comments.slice(index + 1),
+        ],
+      };
+    }
+
+    case 'LESSON_COMMENTS_MARK_AS_READ_SUCCESSFULL': {
+      if (action.commentIds.length === 0) {
+        return state;
+      }
+
+      let comments = _cloneDeep(state.comments);
+      action.commentIds.forEach(commentId => {
+        // Search for the comment.
+        const index = comments.findIndex(element => element.id === commentId);
+
+        // Returns default state if comment wasn't found.
+        if (index !== -1 && comments[index].isReadUpdating) {
+          comments = [
+            ...comments.slice(0, index),
+            {
+              ...comments[index],
+              isReadUpdating: false,
+            },
+            ...comments.slice(index + 1),
+          ];
+        }
+      });
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments,
+      };
+    }
+
+    case 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // Returns default state if comment wasn't found or already marked as Read.
+      if (index === -1 || state.comments[index].isRead) {
         return state;
       }
 
@@ -163,7 +218,6 @@ export default (state = initialState, action) => {
           {
             ...state.comments[index],
             isRead: true,
-            isReadUpdating: true,
           },
           ...state.comments.slice(index + 1),
         ],

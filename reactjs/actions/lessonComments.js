@@ -157,9 +157,25 @@ export const lessonCommentsAmountSet = (paragraphId, organizationId, amount) => 
 });
 
 /**
- * Mark comment as read in store and send request to update it on backend.
+ * Send request to mark comments as read.
  */
 export const markCommentAsRead = commentId => ({
   type: 'LESSON_COMMENTS_MARK_AS_READ',
+  commentId,
+});
+
+/**
+ * Update value in store that comments updated successfully.
+ */
+export const markCommentAsReadSuccessfull = commentIds => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ_SUCCESSFULL',
+  commentIds,
+});
+
+/**
+ * Mark comment as read in store and send request to update it on backend.
+ */
+export const markCommentAsReadInStore = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE',
   commentId,
 });
