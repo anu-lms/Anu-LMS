@@ -9,7 +9,11 @@ import CommentEditForm from '../Form';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
 import * as userHelper from '../../../../helpers/user';
-import { showReplyForm, markCommentAsRead } from '../../../../actions/lessonComments';
+import {
+  showReplyForm,
+  markCommentAsRead,
+  markCommentAsReadInStore,
+} from '../../../../actions/lessonComments';
 
 class Comment extends React.Component {
   constructor(props, context) {
@@ -38,6 +42,10 @@ class Comment extends React.Component {
     const { dispatch } = this.props;
     if (isVisible) {
       dispatch(markCommentAsRead(commentId));
+
+      setTimeout(() => {
+        dispatch(markCommentAsReadInStore(commentId));
+      }, 1000);
     }
     console.log(isVisible, commentId);
   }
@@ -79,7 +87,7 @@ class Comment extends React.Component {
       <VisibilitySensor
         onChange={isVisible => { this.onCommentVisibilityChange(isVisible, comment.id); }}
         delayedCall
-        active={!comment.isRead}
+        active={!comment.isRead && !comment.isReadUpdating}
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">

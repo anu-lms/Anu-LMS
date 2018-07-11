@@ -218,20 +218,25 @@ function* markCommentsAsRead() {
   try {
     const comments = yield select(store => store.lessonSidebar.comments.comments);
 
-    const commentIds = comments.filter(comment => comment.isReadUpdating).map(comment => comment.id);
-    console.log(commentIds);
+    const commentIds = comments
+      .filter(comment => comment.isReadUpdating)
+      .map(comment => comment.id);
+
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
     if (commentIds.length > 0) {
-      console.log('Make request to the backend', commentIds);
       // Makes request to the backend to update comment.
-      // yield call(
-      //   commentsApi.markCommentsAsRead,
-      //   request, commentIds,
-      // );
+      const responseCommentIds = yield call(
+        commentsApi.markCommentsAsRead,
+        request, commentIds,
+      );
+      console.log(commentIds);
+
+      // Updates comment in the application store.
+      yield put(lessonCommentsActions.markCommentAsReadSuccessfull(responseCommentIds));
     }
   }
   catch (error) {
