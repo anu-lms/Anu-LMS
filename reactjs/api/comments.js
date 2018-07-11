@@ -122,3 +122,24 @@ export const deleteComment = (request, uuid) => new Promise((resolve, reject) =>
       reject(error);
     });
 });
+
+/**
+ * Make a request to the backend to mark list of comments as read.
+ */
+export const markCommentsAsRead = (request, commentIds) => new Promise((resolve, reject) => {
+  request
+    .post('/comments/mark-as-read')
+    .query({ '_format': 'json' })
+    .set('Content-Type', 'application/json')
+    .send({
+      comment_ids: commentIds,
+    })
+    .then(response => {
+      console.log(response.body);
+      resolve(response.body);
+    })
+    .catch(error => {
+      console.log('Could not mark comments as read.', error);
+      reject(error);
+    });
+});

@@ -155,3 +155,11 @@ export const lessonCommentsAmountSet = (paragraphId, organizationId, amount) => 
   organizationId,
   amount,
 });
+
+/**
+ * Mark comment as read in store and send request to update it on backend.
+ */
+export const markCommentAsRead = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_READ',
+  commentId,
+});
