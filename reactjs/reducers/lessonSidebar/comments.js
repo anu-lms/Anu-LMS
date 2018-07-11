@@ -31,12 +31,7 @@ export default (state = initialState, action) => {
       };
 
     case 'LESSON_SIDEBAR_CLOSE':
-      return {
-        ...state,
-        paragraphId: 0,
-        form: initialState.form,
-        highlightedComment: null,
-      };
+      return initialState;
 
     case 'LESSON_OPENED':
       return {
@@ -149,6 +144,30 @@ export default (state = initialState, action) => {
 
       // Otherwise return unchanged state.
       return state;
+    }
+
+    case 'LESSON_COMMENTS_MARK_AS_READ': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // Returns default state if comment wasn't found.
+      if (index === -1) {
+        return state;
+      }
+
+      // If the comment was found, then we should update isRead status.
+      return {
+        ...state,
+        comments: [
+          ...state.comments.slice(0, index),
+          {
+            ...state.comments[index],
+            isRead: true,
+            isReadUpdating: true,
+          },
+          ...state.comments.slice(index + 1),
+        ],
+      };
     }
 
     default:

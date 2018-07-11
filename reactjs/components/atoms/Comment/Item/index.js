@@ -9,7 +9,7 @@ import CommentEditForm from '../Form';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
 import * as userHelper from '../../../../helpers/user';
-import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import { showReplyForm, markCommentAsRead } from '../../../../actions/lessonComments';
 
 class Comment extends React.Component {
   constructor(props, context) {
@@ -21,8 +21,7 @@ class Comment extends React.Component {
     };
 
     this.showReplyForm = this.showReplyForm.bind(this);
-    this.onCommentClick = this.onCommentClick.bind(this);
-    this.onVisibilityChange = this.onVisibilityChange.bind(this);
+    this.onCommentVisibilityChange = this.onCommentVisibilityChange.bind(this);
   }
 
   componentDidMount() {
@@ -35,26 +34,11 @@ class Comment extends React.Component {
     });
   }
 
-  // @todo: remove test code.
-  async onCommentClick() {
-    const { comment } = this.props;
-
-    // Get superagent request with authentication.
-    const { request } = await this.context.auth.getRequest();
-
-    request
-      .post('/comments/mark-as-read')
-      .query({ '_format': 'json' })
-      .set('Content-Type', 'application/json')
-      .send({
-        comment_ids: [comment.id],
-      })
-      .then(response => {
-        console.log(response.body);
-      });
-  }
-
-  onVisibilityChange(isVisible, commentId) {
+  onCommentVisibilityChange(isVisible, commentId) {
+    const { dispatch } = this.props;
+    if (isVisible) {
+      dispatch(markCommentAsRead(commentId));
+    }
     console.log(isVisible, commentId);
   }
 
@@ -62,7 +46,7 @@ class Comment extends React.Component {
     const { comment, dispatch } = this.props;
 
     // Let the store know that Reply form should be shown.
-    dispatch(lessonCommentsActions.showReplyForm(comment.id));
+    dispatch(showReplyForm(comment.id));
 
     // Scroll user to the reply form and set focus.
     scrollToElement('reply-comment-form', 'lesson-comments-scrollable', 400, () => {
@@ -93,16 +77,11 @@ class Comment extends React.Component {
 
     return (
       <VisibilitySensor
-        onChange={isVisible => { this.onVisibilityChange(isVisible, comment.id); }}
-        // active={!comment.isRead}
+        onChange={isVisible => { this.onCommentVisibilityChange(isVisible, comment.id); }}
+        delayedCall
+        active={!comment.isRead}
       >
-        <div
-          className={classNames(defaultClasses, extraClasses)}
-          id={`comment-${comment.id}`}
-          onClick={this.onCommentClick}
-          onKeyPress={this.onCommentClick}
-        >
-
+        <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
             <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
               {userHelper.getInitials(comment.author)}
@@ -207,11 +186,5 @@ const mapStateToProps = ({ lessonSidebar }) => ({
   editedComment: lessonSidebar.comments.form.editedComment,
   highlightedComment: lessonSidebar.comments.highlightedComment,
 });
-
-Comment.contextTypes = {
-  auth: PropTypes.shape({
-    getRequest: PropTypes.func,
-  }),
-};
 
 export default connect(mapStateToProps)(Comment);

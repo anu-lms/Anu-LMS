@@ -1,4 +1,5 @@
 import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
@@ -205,6 +206,39 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
   }
 }
 
+function* markCommentsAsRead() {
+  /**
+   * Amount of milliseconds before frontend will attempt
+   * to query search to the backend.
+   */
+  const backendSearchDelay = 350;
+
+  yield delay(backendSearchDelay);
+
+  try {
+    const comments = yield select(store => store.lessonSidebar.comments.comments);
+
+    const commentIds = comments.filter(comment => comment.isReadUpdating).map(comment => comment.id);
+    console.log(commentIds);
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    if (commentIds.length > 0) {
+      console.log('Make request to the backend', commentIds);
+      // Makes request to the backend to update comment.
+      // yield call(
+      //   commentsApi.markCommentsAsRead,
+      //   request, commentIds,
+      // );
+    }
+  }
+  catch (error) {
+    console.error('Could not mark comments as read.', error);
+  }
+}
+
 /**
  * Main entry point for all comments sagas.
  */
@@ -214,6 +248,7 @@ export default function* lessonCommentsSagas() {
     yield takeLatest('LESSON_COMMENTS_UPDATE_COMMENT', updateComment),
     yield takeLatest('LESSON_COMMENTS_DELETE_COMMENT', deleteComment),
     yield takeLatest('LESSON_COMMENTS_MARK_AS_DELETED', markCommentAsDeleted),
+    yield takeLatest('LESSON_COMMENTS_MARK_AS_READ', markCommentsAsRead),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', syncCommentsIfTabActive),
     yield takeLatest('USER_SET_ORGANIZATION', syncCommentsIfTabActive),
