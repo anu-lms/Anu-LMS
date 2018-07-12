@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  *   id = "learner_progress_detailed",
  *   label = @Translation("Detailed learner progress"),
  *   uri_paths = {
- *     "canonical" = "/learner/progress/{course}",
  *     "https://www.drupal.org/link-relations/create" = "/learner/progress/{lesson}/{progress}",
  *   }
  * )
@@ -133,105 +132,6 @@ class LearnerProgressDetailedResource extends ResourceBase {
     }
 
     return new ResourceResponse();
-  }
-
-  /**
-   * Responds to GET request.
-   *
-   * Return detailed progress for the currently logged in user
-   * for the requested course ID.
-   *
-   * @param $courseId
-   *   Node ID of the course type.
-   *
-   * @return $this|\Drupal\rest\ResourceResponse
-   */
-  public function get($courseId) {
-    $progress = [
-      'course' => 0,
-      'lessons' => [],
-      'recentLesson' => [],
-    ];
-
-    try {
-
-      // Trying to load the requested course.
-      $course = \Drupal::entityTypeManager()
-        ->getStorage('node')
-        ->load($courseId);
-
-      // Validate the loaded course.
-      if (empty($course) || $course->bundle() != 'course') {
-        $message = 'The requested course with ID @id could not be found.';
-        $params = ['@id' => $courseId];
-        $this->logger->critical($message, $params);
-        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
-      }
-
-      // Make sure the current user is able to view the course entity.
-      if (!$course->access('view')) {
-        $message = 'Your are not allowed to access the course @id.';
-        $params = ['@id' => $courseId];
-        $this->logger->critical($message, $params);
-        return new ResourceResponse(['message' => $this->t($message, $params)], 406);
-      }
-
-      // Build an array of lesson IDs from the requested course.
-      $course_lessons = $course->get('field_course_lessons')->getValue();
-      $course_lessons_ids = [];
-      foreach ($course_lessons as $course_lesson) {
-        $course_lessons_ids[] = $course_lesson['target_id'];
-      }
-
-      // Load existing records regarding progress for course's lessons.
-      $lesson_progresses = \Drupal::entityTypeManager()
-        ->getStorage('learner_progress')
-        ->loadByProperties([
-          'uid' => \Drupal::currentUser()->id(),
-          'type' => 'lesson',
-          'field_lesson' => $course_lessons_ids,
-        ]);
-
-      // Figure out how much each lesson can add to the overall course
-      // progress in case if lesson's progress is 100%.
-      $lessons_amount = count($course_lessons_ids);
-      $max_progress = 100 / $lessons_amount;
-
-      // Calculate course's and lessons progress.
-      foreach ($lesson_progresses as $lesson_progress) {
-        $field_progress = $lesson_progress->get('field_progress')->getValue();
-        $field_lesson = $lesson_progress->get('field_lesson')->getValue();
-        $lesson_id = $field_lesson[0]['target_id'];
-        $progress['course'] += $max_progress / 100 * $field_progress[0]['value'];
-        $progress['lessons'][$lesson_id] = $field_progress[0]['value'];
-      }
-
-      // Add recently accessed lesson id and url to the output.
-      $course_progress = $this->getLessonProgressEntity('course', $course->id());
-      if (!empty($course_progress->id())) {
-        $recent_lesson = $course_progress->get('field_lesson')->entity;
-        if (!empty($recent_lesson)) {
-
-          // Fetch lesson's path alias.
-          $path = \Drupal::service('path.alias_manager')
-            ->getAliasByPath('/node/' . $recent_lesson->id());
-
-          $progress['recentLesson'] = [
-            'lessonId' => $recent_lesson->id(),
-            'url' => $path,
-          ];
-        }
-      }
-
-    }
-    catch (\Exception $e) {
-      $message = 'Could not fetch course progress for ID @id. Error: @error.';
-      $params = ['@id' => $courseId, '@error' => $e->getMessage()];
-      $this->logger->critical($message, $params);
-      return new ResourceResponse(['message' => $this->t($message, $params)], 406);
-    }
-
-    return new ResourceResponse($progress);
   }
 
   /**

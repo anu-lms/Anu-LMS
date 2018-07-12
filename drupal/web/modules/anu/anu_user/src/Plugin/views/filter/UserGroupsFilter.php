@@ -26,7 +26,7 @@ class UserGroupsFilter extends InOperator {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function validate() {
     if (!empty($this->value)) {
@@ -35,7 +35,7 @@ class UserGroupsFilter extends InOperator {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function query() {
 

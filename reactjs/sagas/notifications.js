@@ -93,7 +93,7 @@ function* markAllAsRead() {
  * Handles an event when a new notification arrives from the websocket.
  */
 function* handleIncomingLiveNotification({ notification }) {
-  const currentUserUid = yield select(reduxStore => reduxStore.user.uid);
+  const currentUserUid = yield select(reduxStore => reduxStore.user.data.uid);
 
   // Make sure the event recipient matches the current user id.
   if (notification.recipient === currentUserUid) {

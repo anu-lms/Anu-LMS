@@ -25,7 +25,7 @@
     z-index: $zindex-fixed - 2;
     width: 100%;
     background: $white;
-    box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: $shadow3;
     transition: right .2s;
     @include media-breakpoint-up(md) {
       width: 350px;
@@ -100,7 +100,7 @@
   > .header {
     background-color: $carbon;
     height: 48px;
-    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: $shadow1;
     padding: .75em 1em;
     color: $white;
     font-size: 0.875em;

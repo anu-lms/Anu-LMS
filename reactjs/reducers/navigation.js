@@ -5,7 +5,7 @@ export default (state = { isCollapsed: false, isCollapsedMobile: true }, action)
     case 'NAVIGATION_TOGGLE':
       return {
         isCollapsed: !state.isCollapsed,
-        isCollapsedMobile: !state.isCollapsed,
+        isCollapsedMobile: !state.isCollapsedMobile,
       };
 
     case 'NAVIGATION_OPEN':

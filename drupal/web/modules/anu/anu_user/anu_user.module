@@ -2,16 +2,17 @@
 
 /**
  * @file
+ * Helper module for User functionality.
  */
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Url;
-
-/**
- * @file
- */
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\consumers\Entity\Consumer;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_token_info().
@@ -74,7 +75,7 @@ function anu_user_tokens($type, $tokens, array $data, array $options, Bubbleable
  *   A unique URL that provides a one-time log in for the user, from which
  *   they can change their password.
  */
-function anu_user_pass_reset_url($account, $options = []) {
+function anu_user_pass_reset_url(UserInterface $account, array $options = []) {
   $timestamp = \Drupal::time()->getRequestTime();
   $uid = $account->id();
   $hash = user_pass_rehash($account, $timestamp);
@@ -98,10 +99,8 @@ function anu_user_form_user_login_form_alter(&$form, FormStateInterface $form_st
 
 /**
  * Validates user account during backend authentication.
- * Only managers and administrators may access backend.
  *
- * @param $form
- * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * Only managers and administrators may access backend.
  */
 function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
   if ($form_state->hasValue('name')) {
@@ -121,4 +120,31 @@ function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ *
+ * Revoke user's access if organization has changed (because we store user and organization data
+ * in frontend store on login step).
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function anu_user_user_update(EntityInterface $entity) {
+
+  // Collect the affected tokens and expire them.
+  if ($entity instanceof AccountInterface) {
+
+    /** @var \Drupal\simple_oauth\ExpiredCollector $collector */
+    $collector = \Drupal::service('simple_oauth.expired_collector');
+
+    $origin_organization_ids = array_column($entity->original->field_organization->getValue(), 'target_id');
+    $updated_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+
+    // When the organization has changed, we should revoke user's access to the site.
+    if (!array_diff($origin_organization_ids, $updated_organization_ids)) {
+      $collector->deleteMultipleTokens($collector->collectForAccount($entity));
+    }
+  }
+
 }

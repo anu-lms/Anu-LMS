@@ -6,7 +6,7 @@ use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
- *
+ * Defines a service profiler for the anu_user module.
  */
 class AnuUserServiceProvider extends ServiceProviderBase {
 

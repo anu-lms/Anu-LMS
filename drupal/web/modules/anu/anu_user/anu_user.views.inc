@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Provide views data for anu_user.module.
  */
 
 /**

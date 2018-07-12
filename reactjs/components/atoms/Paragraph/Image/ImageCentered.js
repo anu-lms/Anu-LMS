@@ -35,7 +35,7 @@ class ImageCentered extends React.Component {
         <div className="row">
           <div className={columnClasses.join(' ')}>
             <img
-              src={fileUrl(image.meta.derivatives.w730)}
+              src={fileUrl(image)}
               onLoad={this.contentLoaded}
               onError={this.contentLoaded}
               ref={element => this.element = element} // @todo: update ref to the new format
@@ -62,14 +62,7 @@ ImageCentered.propTypes = {
   title: PropTypes.string,
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  image: PropTypes.shape({
-    url: PropTypes.string,
-    meta: PropTypes.shape({
-      derivatives: PropTypes.shape({
-        w730: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  image: PropTypes.string.isRequired,
   commentsAllowed: PropTypes.bool,
 };
 
@@ -78,7 +71,7 @@ ImageCentered.defaultProps = {
   columnClasses: [],
   title: '',
   settings: {},
-  commentsAllowed: true,
+  commentsAllowed: false,
   handleParagraphLoaded: () => {},
 };
 
