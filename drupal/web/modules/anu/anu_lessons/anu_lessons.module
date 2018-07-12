@@ -2,13 +2,10 @@
 
 /**
  * @file
+ * Module implementation file.
  */
 
 use Drupal\Core\Access\AccessResult;
-
-/**
- * @file
- */
 
 /**
  * Implements hook_file_access().
@@ -72,6 +69,7 @@ function anu_lessons_file_access($entity, $operation) {
   return AccessResult::neutral();
 }
 
+// @codingStandardsIgnoreFile
 // @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
 //
 // **

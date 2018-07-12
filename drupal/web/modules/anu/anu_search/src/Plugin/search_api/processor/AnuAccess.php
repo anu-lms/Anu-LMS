@@ -65,7 +65,8 @@ class AnuAccess extends ContentAccess {
     // Add a field to store node grants against all entity types which are
     // shown within a node: node content (paragraphs) and node comments
     // (paragraph comments).
-    if (in_array($datasource->getEntityTypeId(), ['node', 'paragraph', 'paragraph_comment'])) {
+    $entity_types = ['node', 'paragraph', 'paragraph_comment'];
+    if (in_array($datasource->getEntityTypeId(), $entity_types)) {
       $definition = [
         'label' => $this->t('Node access information'),
         'description' => $this->t('Data needed to apply node access.'),
@@ -182,10 +183,11 @@ class AnuAccess extends ContentAccess {
 
   /**
    * Adds access field values to the node.
-   * Was partially copied from
-   * Drupal\search_api\Plugin\search_api\processor\ContentAccess::addFieldValues()
+   *
+   * Was partially copied from Drupal\search_api\Plugin\search_api\processor\ContentAccess::addFieldValues()
    *
    * @param \Drupal\search_api\Item\ItemInterface $item
+   *   The item whose field values should be added.
    *
    * @throws \Drupal\search_api\SearchApiException
    */
@@ -229,10 +231,11 @@ class AnuAccess extends ContentAccess {
 
   /**
    * Adds access field values to the node.
-   * Basically access to node's paragraphs should have the same
-   * set of permissions as the node itself.
+   *
+   * Basically access to node's paragraphs should have the same set of permissions as the node itself.
    *
    * @param \Drupal\search_api\Item\ItemInterface $item
+   *   The item whose field values should be added.
    *
    * @throws \Drupal\search_api\SearchApiException
    */
@@ -244,6 +247,7 @@ class AnuAccess extends ContentAccess {
    * Adds access field values to the comment within lesson's paragraphs.
    *
    * @param \Drupal\search_api\Item\ItemInterface $item
+   *   The item whose field values should be added.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    * @throws \Drupal\search_api\SearchApiException
@@ -277,6 +281,7 @@ class AnuAccess extends ContentAccess {
    * Adds access field values to the notebook notes.
    *
    * @param \Drupal\search_api\Item\ItemInterface $item
+   *   The item whose field values should be added.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    * @throws \Drupal\search_api\SearchApiException
@@ -332,9 +337,6 @@ class AnuAccess extends ContentAccess {
 
   /**
    * Adds access checks to the query for node.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   * @param \Drupal\Core\Session\AccountInterface $account
    */
   protected function addNodeAccess(QueryInterface $query, AccountInterface $account) {
 
@@ -364,9 +366,6 @@ class AnuAccess extends ContentAccess {
    * Adds access checks to the query for node paragraphs.
    *
    * TODO: Implement access checks for (un)published associated node.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   * @param \Drupal\Core\Session\AccountInterface $account
    */
   protected function addParagraphAccess(QueryInterface $query, AccountInterface $account) {
 
@@ -390,9 +389,6 @@ class AnuAccess extends ContentAccess {
    * Adds access checks to the query for node paragraph comments.
    *
    * TODO: Implement access checks for (un)published associated node.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   * @param \Drupal\Core\Session\AccountInterface $account
    */
   protected function addParagraphCommentAccess(QueryInterface $query, AccountInterface $account) {
 
@@ -442,9 +438,6 @@ class AnuAccess extends ContentAccess {
 
   /**
    * Adds access checks to the query for notebook notes.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   * @param \Drupal\Core\Session\AccountInterface $account
    */
   protected function addNotebookAccess(QueryInterface $query, AccountInterface $account) {
 
@@ -466,14 +459,7 @@ class AnuAccess extends ContentAccess {
   }
 
   /**
-   * Helper function.
-   * Adds conditions for all node grants available for the current user.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   * @param \Drupal\Core\Session\AccountInterface $account
-   * @param $entity_type_id
-   *
-   * @return \Drupal\search_api\Query\ConditionGroupInterface
+   * Helper function. Adds conditions for all node grants available for the current user.
    */
   private function getNodeGrantsCondition(QueryInterface $query, AccountInterface $account, $entity_type_id) {
     $grants_conditions = $query->createConditionGroup('OR', ['content_access_grants']);
@@ -501,12 +487,7 @@ class AnuAccess extends ContentAccess {
   }
 
   /**
-   * Helper function.
-   * Obtains node object from either node, paragraph or paragraph comment.
-   *
-   * @param \Drupal\Core\TypedData\ComplexDataInterface $item
-   *
-   * @return \Drupal\Core\Entity\ContentEntityInterface|\Drupal\Core\TypedData\ComplexDataInterface|\Drupal\node\NodeInterface|mixed|null
+   * Helper function. Obtains node object from either node, paragraph or paragraph comment.
    */
   protected function getNode(ComplexDataInterface $item) {
     $item = $item->getValue();
@@ -536,13 +517,13 @@ class AnuAccess extends ContentAccess {
   }
 
   /**
-   * Helper function.
-   * Returns data source id in search api system out of entity
-   * type.
+   * Helper function. Returns data source id in search api system out of entity type.
    *
-   * @param $entity_type
+   * @param string $entity_type
+   *   Entity type.
    *
    * @return int|string
+   *   Source id.
    */
   private function getDataSourceIdByEntityType($entity_type) {
     foreach ($this->index->getDatasources() as $datasource_id => $datasource) {
@@ -556,17 +537,12 @@ class AnuAccess extends ContentAccess {
 
   /**
    * Returns root condition group for all content.
-   * Each content query (node, paragraph, etc) should attach their
-   * access queries to this condition group.
    *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   *
-   * @return \Drupal\search_api\Query\ConditionGroupInterface|\Drupal\search_api\Query\ConditionInterface
+   * Each content query (node, paragraph, etc) should attach their access queries to this condition group.
    */
   private function getOuterConditionGroup(QueryInterface $query) {
 
-    // First try to find the condition group in the query if it is already
-    // exists.
+    // First try to find the condition group in the query if it is already exists.
     $conditions = $query->getConditionGroup();
     if (!empty($conditions->getConditions())) {
       foreach ($conditions->getConditions() as $condition) {
