@@ -17,16 +17,15 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 class FileDownloadController extends ControllerBase {
 
   /**
-   * Menu router callback.
-   * Displays or downloads private file.
+   * Menu router callback. Displays or downloads private file.
    *
-   * @param $id
+   * @param int $id
    *   File ID.
-   *
    * @param bool $download
    *   Whether to force download the file or let the browser decide.
    *
    * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException
+   *   Response with url to the file.
    */
   public function download($id, $download = FALSE) {
 
@@ -99,10 +98,11 @@ class FileDownloadController extends ControllerBase {
    * We set loaded by access token account as currently active (but not actually login that user into the backend)
    * so that user can make further actions with correct permissions.
    *
-   * @param $accessToken
+   * @param string $accessToken
    *   String representing Simple OAuth token.
    *
    * @return \Drupal\Core\Access\AccessResultAllowed|\Drupal\Core\Access\AccessResultForbidden
+   *   Returns TRUE if user has an access to the file.
    */
   public function access($accessToken) {
 
