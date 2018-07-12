@@ -2,10 +2,11 @@
 
 namespace Drupal\anu_lessons;
 
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 
 /**
- *
+ * Helper service for Lesson entity.
  */
 class Lesson {
 
@@ -15,7 +16,7 @@ class Lesson {
    * @param int $paragraph_id
    *   Id of Paragraph.
    *
-   * @return
+   * @return \Drupal\node\NodeInterface|null
    *   Lesson object or Null;
    */
   public function loadByParagraphId($paragraph_id) {
@@ -32,15 +33,15 @@ class Lesson {
   /**
    * Load Lesson's paragraphs filtered by given type.
    *
-   * @param int $lesson_id
-   *   Id of Lesson.
+   * @param \Drupal\node\NodeInterface $lesson
+   *   Lesson object.
    * @param array $types
    *   Paragraph types. Eg: ['media_video', 'image_centered_caption'].
    *
-   * @return
+   * @return array
    *   An array of Paragraph objects.
    */
-  public function loadParagraphsByType($lesson, $types = []) {
+  public function loadParagraphsByType(NodeInterface $lesson, array $types = []) {
     $lesson_paragraph_ids = array_column($lesson->field_lesson_blocks->getValue(), 'target_id');
     // Returns an empty array if lesson doesn't contain paragraphs (buy might have some ghost, not assigned to lesson).
     if (empty($lesson_paragraph_ids)) {

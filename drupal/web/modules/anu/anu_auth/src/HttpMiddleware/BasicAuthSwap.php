@@ -28,6 +28,7 @@ class BasicAuthSwap implements HttpKernelInterface {
   }
 
   /**
+   * Handles a Request to convert it to a Response.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The input request.
