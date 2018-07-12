@@ -12,8 +12,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a resource to load classes with assigned courses
- * available for the currently authenticated user.
+ * Provides a resource to load classes with assigned courses available for the currently authenticated user.
  *
  * @RestResource(
  *   id = "classes_courses_resources",
@@ -62,10 +61,7 @@ class ClassesWithCoursesResource extends ResourceBase {
   }
 
   /**
-   * Return list of classes and assigned to them resources
-   * available for the currently logged in user.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Return list of classes and assigned to them resources available for the currently logged in user.
    */
   public function get() {
     $response = [];
