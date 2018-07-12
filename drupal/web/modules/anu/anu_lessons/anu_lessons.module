@@ -1,13 +1,11 @@
 <?php
 
-use \Drupal\Core\Access\AccessResult;
-
 /**
  * @file
- *
+ * Module implementation file.
  */
 
-use \Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Access\AccessResult;
 
 /**
  * Implements hook_file_access().
@@ -46,7 +44,7 @@ function anu_lessons_file_access($entity, $operation) {
       // Load the lessons attached to the groups for proper permissions
       // handling.
       $group_content = $manager->getStorage('group_content')
-        ->loadByProperties(['entity_id' => $node->id() ]);
+        ->loadByProperties(['entity_id' => $node->id()]);
 
       // If the file is inside of paragraph which is inside of lesson, which
       // is not in the group - then this is not our case.
@@ -71,14 +69,15 @@ function anu_lessons_file_access($entity, $operation) {
   return AccessResult::neutral();
 }
 
+// @codingStandardsIgnoreFile
 // @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
 //
-///**
+// **
 // * Implements hook_ENTITY_TYPE_predelete().
 // *
 // * @param \Drupal\Core\Entity\EntityInterface $entity
 // */
-//function anu_lessons_node_predelete(Drupal\Core\Entity\EntityInterface $entity) {
+// function anu_lessons_node_predelete(Drupal\Core\Entity\EntityInterface $entity) {
 //  if ($entity->bundle() != 'course') {
 //    return;
 //  }
@@ -95,11 +94,11 @@ function anu_lessons_file_access($entity, $operation) {
 //    ]);
 //    \Drupal::logger('anu_lessons')->error($message);
 //  }
-//}
+// }
 //
-///**
+// **
 // * Implements hook_form_alter().
 // */
-//function anu_lessons_form_node_course_delete_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+// function anu_lessons_form_node_course_delete_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 //  drupal_set_message(t('Children Lessons will be removed as well if you remove this Course.'), 'warning');
-//}
+// }

@@ -2,18 +2,17 @@
 
 /**
  * @file
- *
+ * Module implementation file.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\group\Entity\GroupContent;
-use \Drupal\Component\Render\FormattableMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_group_group_content_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_group_group_content_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'class-group_node-course') {
     return;
   }
@@ -28,10 +27,11 @@ function anu_group_group_content_insert(Drupal\Core\Entity\EntityInterface $enti
         $group->addContent($course_lesson->entity, 'group_node:lesson');
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not add lessons to classes of course @id. Error: @error', [
       '@id' => $course->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_group')->error($message);
   }
@@ -39,10 +39,8 @@ function anu_group_group_content_insert(Drupal\Core\Entity\EntityInterface $enti
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_group_group_content_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_group_group_content_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'class-group_node-course') {
     return;
   }
@@ -69,10 +67,11 @@ function anu_group_group_content_delete(Drupal\Core\Entity\EntityInterface $enti
         $group_content->delete();
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not delete lessons from classes of course @id. Error: @error', [
       '@id' => $course->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_group')->error($message);
   }
@@ -80,10 +79,8 @@ function anu_group_group_content_delete(Drupal\Core\Entity\EntityInterface $enti
 
 /**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_group_node_update(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_group_node_update(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
     return;
   }
@@ -120,10 +117,11 @@ function anu_group_node_update(Drupal\Core\Entity\EntityInterface $entity) {
         }
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not update lessons in classes of course @id. Error: @error', [
       '@id' => $entity->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_group')->error($message);
   }
@@ -131,10 +129,8 @@ function anu_group_node_update(Drupal\Core\Entity\EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_group_node_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_group_node_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
     return;
   }
@@ -156,10 +152,11 @@ function anu_group_node_insert(Drupal\Core\Entity\EntityInterface $entity) {
         }
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not add lessons to classes of course @id. Error: @error', [
       '@id' => $entity->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_group')->error($message);
   }
