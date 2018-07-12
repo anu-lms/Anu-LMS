@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Module implementation file.
  */
 
 use Drupal\Core\Entity\EntityInterface;
@@ -10,8 +11,6 @@ use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_group_group_content_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'class-group_node-course') {
@@ -40,8 +39,6 @@ function anu_group_group_content_insert(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_group_group_content_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'class-group_node-course') {
@@ -82,8 +79,6 @@ function anu_group_group_content_delete(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_group_node_update(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
@@ -134,8 +129,6 @@ function anu_group_node_update(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_group_node_insert(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
