@@ -57,8 +57,7 @@ class FrontendPush extends MessageNotifierBase {
       \Drupal::logger('anu_events')
         ->critical('Could not write notification to socket. Error: @error', [
           '@error' => $exception->getMessage(),
-        ]
-            );
+        ]);
     }
 
     // TODO: Fix exposure of user id, email, etc.
