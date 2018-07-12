@@ -2,20 +2,14 @@
 
 /**
  * @file
+ * Module implementation file.
  */
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Render\FormattableMarkup;
 
 /**
- * @file
- * Contains main entry point for the module.
- */
-
-/**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_course_resources_paragraph_update(EntityInterface $entity) {
   if ($entity->bundle() != 'media_resource') {
@@ -59,8 +53,6 @@ function anu_course_resources_paragraph_update(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_course_resources_paragraph_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'media_resource') {
@@ -133,8 +125,6 @@ function anu_course_resources_paragraph_delete(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_course_resources_node_update(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
@@ -235,13 +225,13 @@ function anu_course_resources_node_update(EntityInterface $entity) {
 
 /**
  * Tracks removed paragraphs and force deletes them.
- * It was implemented due to
- * https://www.drupal.org/project/paragraphs/issues/2741937.
  *
- * @param $lesson
+ * It was implemented due to https://www.drupal.org/project/paragraphs/issues/2741937.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $lesson
  *   Lesson node object.
  */
-function _anu_course_resources_delete_removed_paragraphs($lesson) {
+function _anu_course_resources_delete_removed_paragraphs(EntityInterface $lesson) {
   try {
 
     $paragraphs = [];

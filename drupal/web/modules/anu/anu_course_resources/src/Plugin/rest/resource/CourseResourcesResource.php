@@ -58,10 +58,7 @@ class CourseResourcesResource extends ResourceBase {
   }
 
   /**
-   * Return list of course resources accessible for the
-   * logged in user.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Return list of course resources accessible for the logged in user.
    */
   public function get($courseId) {
     $resources = [];
