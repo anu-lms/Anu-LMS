@@ -1,7 +1,5 @@
 <?php
 
-use Drupal\user\UserAuth;
-
 namespace Drupal\anu_user;
 
 use Drupal\user\UserAuth as UserAuthCore;
@@ -14,8 +12,7 @@ class UserAuth extends UserAuthCore {
   /**
    * {@inheritdoc}
    *
-   * Mostly copied from the parent method, apart from
-   * email authentication.
+   * Mostly copied from the parent method, apart from email authentication.
    */
   public function authenticate($username, $password) {
     $uid = FALSE;
