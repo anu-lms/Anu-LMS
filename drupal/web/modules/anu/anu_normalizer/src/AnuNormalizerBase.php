@@ -7,7 +7,7 @@ use Drupal\Component\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- *
+ * Plugin to normalize entities.
  */
 abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInterface {
 
@@ -18,6 +18,7 @@ abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInte
 
   /**
    * Applies normalizer for given entity.
+   *
    * Returns normalized object with fields given in $include_fields parameter.
    */
   abstract public function normalize($entity, $include_fields);
@@ -50,7 +51,7 @@ abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInte
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
+   * @param \Psr\Log\LoggerInterface $logger
    *   The anu_normalizer logger channel.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger) {
