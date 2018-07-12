@@ -2,12 +2,12 @@
 
 namespace Drupal\anu_normalizer;
 
-use Drupal\Component\Plugin\DerivativeInspectionInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Component\Plugin\DerivativeInspectionInterface;
 
 /**
- *
+ * An interface for anu normalizer plugin.
  */
 interface AnuNormalizerInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, DerivativeInspectionInterface {
 
