@@ -11,7 +11,6 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\consumers\Entity\Consumer;
 use Drupal\user\UserInterface;
 
 /**

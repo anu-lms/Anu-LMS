@@ -118,7 +118,8 @@ class LearnerProgress {
           ];
         }
       }
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not obtain learner progress. Error: @error', [
         '@error' => $e->getMessage(),
       ]);
@@ -217,6 +218,7 @@ class LearnerProgress {
    *   Learner progress entity ID.
    *
    * @return \Drupal\Core\Entity\EntityInterface|mixed
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
   protected function getLessonProgressEntity($bundle, $id) {
