@@ -126,8 +126,6 @@ function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
  *
  * Revoke user's access if organization has changed (because we store user and organization data
  * in frontend store on login step).
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_user_user_update(EntityInterface $entity) {
 
