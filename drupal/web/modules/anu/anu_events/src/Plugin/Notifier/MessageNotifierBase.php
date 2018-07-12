@@ -1,13 +1,13 @@
 <?php
 
-use Drupal\message_notify\Plugin\Notifier\MessageNotifierBase;
-
 namespace Drupal\anu_events\Plugin\Notifier;
+
+use Drupal\message_notify\Plugin\Notifier\MessageNotifierBase as MessageNotifierBaseCore;
 
 /**
  * An abstract implementation of MessageNotifierObject.
  */
-abstract class MessageNotifierBase extends MessageNotifierBase {
+abstract class MessageNotifierBase extends MessageNotifierBaseCore {
 
   /**
    * Returns TRUE if channel should be triggered.
