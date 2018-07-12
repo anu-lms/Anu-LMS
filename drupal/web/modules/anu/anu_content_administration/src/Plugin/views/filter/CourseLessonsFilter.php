@@ -25,7 +25,7 @@ class CourseLessonsFilter extends StringFilter {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function validate() {
     if (!empty($this->value)) {
@@ -34,7 +34,7 @@ class CourseLessonsFilter extends StringFilter {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function query() {
     // Use custom expression here to avoid data duplication in case

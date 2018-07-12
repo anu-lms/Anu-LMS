@@ -58,11 +58,7 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *
-   * @return array
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $groups = \Drupal::entityTypeManager()->getStorage('group')->loadMultiple();
