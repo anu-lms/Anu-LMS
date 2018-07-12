@@ -18,7 +18,7 @@ class AddCommentToThread extends AnuEventCommentBase {
   /**
    * {@inheritdoc}
    */
-  function shouldTrigger() {
+  public function shouldTrigger() {
     if (!parent::shouldTrigger()) {
       return FALSE;
     }
@@ -62,4 +62,5 @@ class AddCommentToThread extends AnuEventCommentBase {
     }
     return NULL;
   }
+
 }

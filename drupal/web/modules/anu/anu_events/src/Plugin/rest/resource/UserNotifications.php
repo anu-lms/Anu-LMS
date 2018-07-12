@@ -24,6 +24,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class UserNotifications extends ResourceBase {
 
   /**
+   * Object of current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $currentRequest;
+
+  /**
    * Constructs a new UserNotifications object.
    *
    * @param array $configuration
@@ -36,6 +43,8 @@ class UserNotifications extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A current user instance.
+   * @param \Symfony\Component\HttpFoundation\Request $current_request
+   *   An object of current request.
    */
   public function __construct(
     array $configuration,
@@ -67,17 +76,18 @@ class UserNotifications extends ResourceBase {
    * Return list of notifications for the current user.
    *
    * @return \Drupal\rest\ResourceResponse
+   *   Page response.
    */
   public function get() {
     $response = [];
     try {
       $query = \Drupal::entityQuery('message')
         ->condition('field_message_recipient', \Drupal::currentUser()->id())
-        ->sort('created' , 'DESC');
+        ->sort('created', 'DESC');
 
       // Filter by isRead get param if exists.
       $is_read = $this->currentRequest->query->get('isRead');
-      if ($is_read != null) {
+      if ($is_read != NULL) {
         // We load all unread notifications.
         $query->condition('field_message_is_read', (bool) $is_read);
 
@@ -88,7 +98,7 @@ class UserNotifications extends ResourceBase {
           // Fetch only notifications older then requested early.
           // Use '<=' to fetch notifications with same timestamp also, duplicates will be ignored on frontend.
           $lastFetchedTimestamp = $this->currentRequest->query->get('lastFetchedTimestamp');
-          if ($lastFetchedTimestamp != null) {
+          if ($lastFetchedTimestamp != NULL) {
             $query->condition('created', (int) $lastFetchedTimestamp, '<=');
           }
         }
@@ -107,9 +117,10 @@ class UserNotifications extends ResourceBase {
           }
         }
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not load notifications for the user. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -117,4 +128,5 @@ class UserNotifications extends ResourceBase {
 
     return new ResourceResponse(array_values($response));
   }
+
 }
