@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
 
 /**
- *
+ * Form API form to edit a state for user import.
  */
 class UserImport extends FormBase {
 
@@ -210,7 +210,10 @@ class UserImport extends FormBase {
         '\Drupal\anu_user\Controller\UserImport::saveUser',
         // First name, Last name, Username, Email, Classes array,
         // Organization term ID, Boolean welcome email.
-        [$values[0], $values[1], $values[2], $values[3], $classes, $organization, $notify],
+        [
+          $values[0], $values[1], $values[2], $values[3],
+          $classes, $organization, $notify
+        ],
       ];
     }
 
@@ -221,41 +224,32 @@ class UserImport extends FormBase {
     ];
 
     batch_set($batch);
-
   }
 
   /**
    * Batch operation callback.
+   *
    * Creates a new user in the system.
    *
-   * @param $first_name
+   * @param string $first_name
    *   User's first name.
-   *
-   * @param $last_name
+   * @param string $last_name
    *   User's last name.
-   *
-   * @param $account_name
+   * @param string $account_name
    *   User's account name in the system.
-   *
-   * @param $email
+   * @param string $email
    *   User's email in the system.
-   *
    * @param array $classes
    *   Array of groups to automatically assign to the user.
-   *
    * @param int $organization
    *   ID of Organization term to assign to the user.
-   *
    * @param bool $notify
    *   Send welcome email to created user or not.
-   *
-   * @param $context
+   * @param array $context
    *   Internal batch's variable.
    */
-  public static function saveUser($first_name, $last_name, $account_name, $email, array $classes = [], $organization = 0, $notify = FALSE, &$context) {
-
+  public static function saveUser($first_name, $last_name, $account_name, $email, array $classes = [], $organization = 0, $notify = FALSE, array &$context = []) {
     try {
-
       $user = User::create([
         'name' => $account_name,
         'mail' => $email,

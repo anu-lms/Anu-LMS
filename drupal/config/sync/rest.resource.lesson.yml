@@ -1,0 +1,18 @@
+uuid: 9459cb86-0345-4604-93fa-4d70a0955797
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_lessons
+    - serialization
+    - simple_oauth
+id: lesson
+plugin_id: lesson
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2

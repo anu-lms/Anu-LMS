@@ -11,7 +11,6 @@ plugin_id: learner_progress_detailed
 granularity: resource
 configuration:
   methods:
-    - GET
     - POST
   formats:
     - json

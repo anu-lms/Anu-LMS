@@ -32,7 +32,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
         />
 
         <ResumeButton
-          recentLessonUrl={course.recentLessonUrl ? course.recentLessonUrl : ''}
+          recentLesson={course.recentLesson ? course.recentLesson : 0}
           lessons={course.lessons}
         />
       </div>
@@ -51,7 +51,7 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
         </div>
 
         <ResumeButton
-          recentLessonUrl={course.recentLessonUrl ? course.recentLessonUrl : ''}
+          recentLesson={course.recentLesson ? course.recentLesson : 0}
           lessons={course.lessons}
         />
 
@@ -108,7 +108,7 @@ CoursePageTemplate.propTypes = {
 };
 
 const mapStateToProps = (store, { course }) => ({
-  storeLessons: store.lesson,
+  storeLessons: store.lesson.lessons,
   courseProgress: courseHelper.getProgress(store.course, course),
 });
 

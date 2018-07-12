@@ -4,10 +4,12 @@ use Drupal\user\UserAuth;
 
 namespace Drupal\anu_user;
 
+use Drupal\user\UserAuth as UserAuthCore;
+
 /**
- *
+ * Validates user authentication credentials.
  */
-class UserAuth extends UserAuth {
+class UserAuth extends UserAuthCore {
 
   /**
    * {@inheritdoc}
