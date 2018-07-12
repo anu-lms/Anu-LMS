@@ -5,7 +5,7 @@ namespace Drupal\anu_events;
 use Drupal\message\Entity\Message;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\message_notify\Plugin\Notifier\MessageNotifierInterface;
+use Drupal\message_notify\Plugin\Notifier\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -40,14 +40,14 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    *   The plugin implementation definition.
    * @param \Psr\Log\LoggerInterface $logger
    *   The message_notify logger channel.
-   * @param \Drupal\message_notify\Plugin\Notifier\MessageNotifierInterface $notifier_manager
+   * @param \Drupal\message_notify\Plugin\Notifier\Manager $notifier_manager
    *   Notifier manager object.
    * @param string $hook
    *   Triggered entity CRUD hook name.
    * @param array $context
    *   Any context data added to the event.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, MessageNotifierInterface $notifier_manager, $hook = '', array $context = []) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, Manager $notifier_manager, $hook = '', array $context = []) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->logger = $logger;
