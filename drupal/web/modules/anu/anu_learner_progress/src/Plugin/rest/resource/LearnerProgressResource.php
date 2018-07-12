@@ -57,10 +57,7 @@ class LearnerProgressResource extends ResourceBase {
   }
 
   /**
-   * Return course progress for the currently
-   * logged in user.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Return course progress for the currently logged in user.
    */
   public function get() {
 

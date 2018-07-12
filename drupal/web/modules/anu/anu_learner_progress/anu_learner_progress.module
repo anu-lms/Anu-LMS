@@ -2,14 +2,13 @@
 
 /**
  * @file
- * Contains main entry point for.
+ * Module implementation file.
  */
 
 use Drupal\Core\Entity\EntityInterface;
+
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_learner_progress_node_delete(EntityInterface $entity) {
 
@@ -42,8 +41,6 @@ function anu_learner_progress_node_delete(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function anu_learner_progress_user_delete(EntityInterface $entity) {
 

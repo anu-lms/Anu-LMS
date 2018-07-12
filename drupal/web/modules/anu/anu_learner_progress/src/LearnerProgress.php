@@ -5,12 +5,12 @@ namespace Drupal\anu_learner_progress;
 use Drupal\Component\Render\FormattableMarkup;
 
 /**
- *
+ * Helper service for learner progress functionality.
  */
 class LearnerProgress {
 
   /**
-   *
+   * Calculates progress for the current user.
    */
   public function load() {
     $progress = [];
@@ -130,11 +130,7 @@ class LearnerProgress {
   }
 
   /**
-   * @param $course_id
-   *
-   * @return array
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Exception
+   * Load detailed course progress.
    */
   public function loadDetailed($course_id) {
     $logger = \Drupal::logger('anu_learner_progress');
@@ -211,13 +207,13 @@ class LearnerProgress {
   /**
    * Return lesson progress entity of a given bundle and ID.
    *
-   * @param $bundle
+   * @param string $bundle
    *   Learner progress entity bundle name.
-   *
-   * @param $id
+   * @param int $id
    *   Learner progress entity ID.
    *
-   * @return \Drupal\Core\Entity\EntityInterface|mixed
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   Lesson progress entity.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
