@@ -162,10 +162,10 @@ class QuizzesResultsResource extends ResourceBase {
   /**
    * Returns previously submitted quiz results for the currently logged in user.
    *
-   * @param array $ids
+   * @param string $ids
    *   Comma-separated list of Quizzes (paragraphs).
    */
-  public function get(array $ids) {
+  public function get($ids) {
     $results = [];
 
     // Convert comma-separated list of ids into an array.
