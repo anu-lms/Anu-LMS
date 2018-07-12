@@ -19,14 +19,14 @@ use Drupal\Core\Url;
 class CourseLessons extends FieldPluginBase {
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function query() {
     // Leave empty to avoid a query on this field.
   }
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function render(ResultRow $values) {
     $output = [];
