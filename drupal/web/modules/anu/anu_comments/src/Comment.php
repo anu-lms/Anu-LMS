@@ -3,7 +3,7 @@
 namespace Drupal\anu_comments;
 
 /**
- *
+ * Helper service for comment entity.
  */
 class Comment {
 
