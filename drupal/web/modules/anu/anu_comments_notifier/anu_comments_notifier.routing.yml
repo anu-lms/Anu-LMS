@@ -1,0 +1,7 @@
+anu_comments_notifier:
+  path: '/admin/anu_comments_notifier'
+  defaults:
+    _form: '\Drupal\anu_comments_notifier\Form\AnuCommentsNotifierForm'
+    _title: 'Anu Comments Notifier'
+  requirements:
+    _permission: 'edit content'
