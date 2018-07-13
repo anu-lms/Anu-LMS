@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Module implementation file.
+ */
+
+/**
  * Implements hook_cron().
  *
  * Send email notifications about comments amount per paragraph over the limit.
@@ -24,7 +29,7 @@ function anu_comments_notifier_cron() {
     // Get amount of comments per paragraph.
     $counts = anu_comments_notifier_calculate_comments();
     // Filter counts to report only the ones over the limit.
-    $counts = array_filter($counts, function($el) use ($limit) {
+    $counts = array_filter($counts, function ($el) use ($limit) {
       return $el['id_count'] > $limit;
     });
 
@@ -48,6 +53,7 @@ function anu_comments_notifier_cron() {
  * Calculates amount of comments per paragraph.
  *
  * @return array
+ *   List of paragraphs and counts.
  */
 function anu_comments_notifier_calculate_comments() {
   $counts = \Drupal::entityQueryAggregate('paragraph_comment')
@@ -57,13 +63,13 @@ function anu_comments_notifier_calculate_comments() {
   return $counts;
 }
 
-
 /**
  * Sends email notification about comments over the limit.
  *
- * @param $counts
+ * @param array $counts
+ *   List of paragraphs and counts.
  */
-function anu_comments_notifier_send_mail($counts) {
+function anu_comments_notifier_send_mail(array $counts) {
   $mailManager = \Drupal::service('plugin.manager.mail');
   $config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
 
@@ -74,23 +80,23 @@ function anu_comments_notifier_send_mail($counts) {
   $langcode = \Drupal::currentUser()->getPreferredLangcode();
 
   foreach ($counts as $count) {
-    $params['message'] .= t('Paragraph %id has %count comments.<br>', array(
+    $params['message'] .= t('Paragraph %id has %count comments.<br>', [
       '%id' => $count['field_comment_paragraph'],
       '%count' => $count['id_count']
-    ));
+    ]);
   }
 
-  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, true);
-  if ($result['result'] != true) {
-    $message = t('There was a problem sending email notification to %email.', array(
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+  if ($result['result'] != TRUE) {
+    $message = t('There was a problem sending email notification to %email.', [
       '%email' => $to
-    ));
+    ]);
     drupal_set_message($message, 'error');
     \Drupal::logger('mail-log')->error($message);
     return;
   }
 
-  $message = t('An email notification has been sent to @email ', array('@email' => $to));
+  $message = t('An email notification has been sent to @email ', ['@email' => $to]);
   drupal_set_message($message);
   \Drupal::logger('mail-log')->notice($message);
 }
@@ -104,11 +110,10 @@ function anu_comments_notifier_mail($key, &$message, $params) {
   switch ($key) {
     case 'comments_limit':
       $message['from'] = \Drupal::config('system.site')->get('mail');
-      $message['subject'] = t('Some paragraphs at @title have lots of comments', array(
+      $message['subject'] = t('Some paragraphs at @title have lots of comments', [
         '@title' => \Drupal::config('system.site')->get('name')
-      ));
+      ]);
       $message['body'][] = $params['message'];
       break;
   }
 }
-
