@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * Implements hook_cron().
+ *
+ * Send email notifications about comments amount per paragraph over the limit.
+ */
+function anu_comments_notifier_cron() {
+  // We access our configuration.
+  $cron_config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
+  // Default to an hourly interval.
+  $interval = $cron_config->get('interval');
+  $interval = !empty($interval) ? $interval : 3600;
+  // Default to 50 comments per paragraph limit.
+  $limit = $cron_config->get('limit');
+  $limit = !empty($limit) ? $limit : 50;
+
+  // We usually don't want to act every time cron runs
+  // so keep a time for the next run in the site state.
+  $next_execution = \Drupal::state()->get('anu_comments_notifier.next_execution');
+  $next_execution = !empty($next_execution) ? $next_execution : 0;
+  if (\Drupal::time()->getRequestTime() >= $next_execution) {
+
+    // Get amount of comments per paragraph.
+    $counts = anu_comments_notifier_calculate_comments();
+    // Filter counts to report only the ones over the limit.
+    $counts = array_filter($counts, function($el) use ($limit) {
+      return $el['id_count'] > $limit;
+    });
+
+    // Send email notification if there are some counts over the limit.
+    if ($counts) {
+      anu_comments_notifier_send_mail($counts);
+    }
+
+    \Drupal::logger('anu_comments_notifier')->notice('anu_comments_notifier ran');
+    if (\Drupal::state()->get('anu_comments_notifier_show_status_message')) {
+      \Drupal::messenger()
+        ->addMessage(t('anu_comments_notifier executed at %time', ['%time' => date_iso8601(\Drupal::time()->getRequestTime())]));
+      \Drupal::state()->set('anu_comments_notifier_show_status_message', FALSE);
+    }
+    \Drupal::state()
+      ->set('anu_comments_notifier.next_execution', \Drupal::time()->getRequestTime() + $interval);
+  }
+}
+
+/**
+ * Calculates amount of comments per paragraph.
+ *
+ * @return array
+ */
+function anu_comments_notifier_calculate_comments() {
+  $counts = \Drupal::entityQueryAggregate('paragraph_comment')
+    ->groupBy('field_comment_paragraph')
+    ->aggregate('id', 'COUNT')
+    ->execute();
+  return $counts;
+}
+
+
+/**
+ * Sends email notification about comments over the limit.
+ *
+ * @param $counts
+ */
+function anu_comments_notifier_send_mail($counts) {
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  $config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
+
+  $module = 'anu_comments_notifier';
+  $key = 'comments_limit';
+  $to = $config->get('email');
+  $params['message'] = '';
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+  foreach ($counts as $count) {
+    $params['message'] .= t('Paragraph <b>%id</b> has <b>%count</b> comments.<br>', array(
+      '%id' => $count['field_comment_paragraph'],
+      '%count' => $count['id_count']
+    ));
+  }
+
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, true);
+  if ($result['result'] != true) {
+    $message = t('There was a problem sending email notification to %email.', array(
+      '%email' => $to
+    ));
+    drupal_set_message($message, 'error');
+    \Drupal::logger('mail-log')->error($message);
+    return;
+  }
+
+  $message = t('An email notification has been sent to @email ', array('@email' => $to));
+  drupal_set_message($message);
+  \Drupal::logger('mail-log')->notice($message);
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Email notification about comments counts.
+ */
+function anu_comments_notifier_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'comments_limit':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Some paragraphs at @title have lots of comments', array(
+        '@title' => $params['title']
+      ));
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
