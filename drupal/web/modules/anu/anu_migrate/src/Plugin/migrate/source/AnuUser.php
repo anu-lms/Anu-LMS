@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\anu_migrate\Plugin\migrate\source\User.
- */
 
 namespace Drupal\anu_migrate\Plugin\migrate\source;
 
@@ -52,7 +48,7 @@ class AnuUser extends DrupalSqlBase {
    *   Associative array having field name as key and description as value.
    */
   protected function baseFields() {
-    $fields = array(
+    $fields = [
       'uid' => $this->t('User ID'),
       'name' => $this->t('Username'),
       'pass' => $this->t('Password'),
@@ -67,7 +63,7 @@ class AnuUser extends DrupalSqlBase {
       'language' => $this->t('Language'),
       'picture' => $this->t('Picture'),
       'init' => $this->t('Init'),
-    );
+    ];
     return $fields;
 
   }
@@ -85,4 +81,5 @@ class AnuUser extends DrupalSqlBase {
   public function entityTypeId() {
     return 'user';
   }
+
 }

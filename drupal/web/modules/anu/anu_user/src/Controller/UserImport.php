@@ -212,7 +212,7 @@ class UserImport extends FormBase {
         // Organization term ID, Boolean welcome email.
         [
           $values[0], $values[1], $values[2], $values[3],
-          $classes, $organization, $notify
+          $classes, $organization, $notify,
         ],
       ];
     }
