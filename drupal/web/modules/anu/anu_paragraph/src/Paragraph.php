@@ -4,13 +4,17 @@ namespace Drupal\anu_paragraph;
 
 use Drupal\user\Entity\User;
 
+/**
+ * Helper for paragraph entity.
+ */
 class Paragraph {
 
   /**
    * Returns an array with data about comments amount separated by organization.
    *
-   * @param integer $paragraph_id
+   * @param int $paragraph_id
    *   An id of paragraph entity.
+   *
    * @return array
    *   An array with data about comments amount separated by organization. [$org_id => $comments_amount].
    *   Use `0` as a key if comment not assigned to any organization.

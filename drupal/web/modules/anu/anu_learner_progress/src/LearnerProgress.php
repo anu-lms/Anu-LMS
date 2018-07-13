@@ -4,8 +4,14 @@ namespace Drupal\anu_learner_progress;
 
 use Drupal\Component\Render\FormattableMarkup;
 
+/**
+ * Helper service for learner progress functionality.
+ */
 class LearnerProgress {
 
+  /**
+   * Calculates progress for the current user.
+   */
   public function load() {
     $progress = [];
 
@@ -38,7 +44,7 @@ class LearnerProgress {
           ->getStorage('node')
           ->loadByProperties([
             'type' => 'course',
-            'field_course_lessons' => array_keys($lesson_progresses)
+            'field_course_lessons' => array_keys($lesson_progresses),
           ]);
 
         // Build an array of courses where array key is node ID. It's needed for
@@ -73,7 +79,7 @@ class LearnerProgress {
             $recent_lesson = [
               'lessonId' => $recent_lesson_entity->id(),
               'url' => $path,
-              'timestamp' => $course_progress->changed->first()->getValue()['value']
+              'timestamp' => $course_progress->changed->first()->getValue()['value'],
             ];
           }
 
@@ -112,9 +118,10 @@ class LearnerProgress {
           ];
         }
       }
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not obtain learner progress. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       \Drupal::logger('anu_learner_progress')->critical($message);
     }
@@ -123,11 +130,7 @@ class LearnerProgress {
   }
 
   /**
-   * @param $course_id
-   *
-   * @return array
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Exception
+   * Load detailed course progress.
    */
   public function loadDetailed($course_id) {
     $logger = \Drupal::logger('anu_learner_progress');
@@ -204,13 +207,14 @@ class LearnerProgress {
   /**
    * Return lesson progress entity of a given bundle and ID.
    *
-   * @param $bundle
+   * @param string $bundle
    *   Learner progress entity bundle name.
-   *
-   * @param $id
+   * @param int $id
    *   Learner progress entity ID.
    *
-   * @return \Drupal\Core\Entity\EntityInterface|mixed
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   Lesson progress entity.
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
   protected function getLessonProgressEntity($bundle, $id) {

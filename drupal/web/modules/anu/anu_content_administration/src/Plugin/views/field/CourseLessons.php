@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @file
- *
- */
-
 namespace Drupal\anu_content_administration\Plugin\views\field;
 
 use Drupal\views\Plugin\views\field\FieldPluginBase;
-use \Drupal\Component\Render\FormattableMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\views\ResultRow;
 use Drupal\Core\Link;
@@ -24,14 +19,14 @@ use Drupal\Core\Url;
 class CourseLessons extends FieldPluginBase {
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function query() {
     // Leave empty to avoid a query on this field.
   }
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function render(ResultRow $values) {
     $output = [];
@@ -54,10 +49,11 @@ class CourseLessons extends FieldPluginBase {
 
         $output[] = ['#markup' => Html::escape($lesson->label()) . $status_label . ' ' . $edit_link->toString()];
       }
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $message = new FormattableMarkup('Could not get list of lessons of course @id. Error: @error', [
         '@id' => $course->id(),
-        '@error' => $exception->getMessage()
+        '@error' => $exception->getMessage(),
       ]);
       \Drupal::logger('anu_group')->error($message);
     }
@@ -72,4 +68,5 @@ class CourseLessons extends FieldPluginBase {
 
     return $output;
   }
+
 }

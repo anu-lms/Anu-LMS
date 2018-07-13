@@ -58,10 +58,7 @@ class CourseResourcesResource extends ResourceBase {
   }
 
   /**
-   * Return list of course resources accessible for the
-   * logged in user.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Return list of course resources accessible for the logged in user.
    */
   public function get($courseId) {
     $resources = [];
@@ -101,7 +98,7 @@ class CourseResourcesResource extends ResourceBase {
         ->getStorage('paragraph')
         ->loadByProperties([
           'type' => 'media_resource',
-          'parent_id' => $course_lessons_ids
+          'parent_id' => $course_lessons_ids,
         ]);
 
       // Build an array of lesson entities who hold the resource paragraphs.
@@ -158,10 +155,11 @@ class CourseResourcesResource extends ResourceBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not load course resources for course @id. Error: @error', [
         '@id' => $courseId,
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -169,4 +167,5 @@ class CourseResourcesResource extends ResourceBase {
 
     return !empty($resources) ? new ResourceResponse($resources) : new ResourceResponse();
   }
+
 }
