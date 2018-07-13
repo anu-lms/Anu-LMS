@@ -74,7 +74,7 @@ function anu_comments_notifier_send_mail($counts) {
   $langcode = \Drupal::currentUser()->getPreferredLangcode();
 
   foreach ($counts as $count) {
-    $params['message'] .= t('Paragraph <b>%id</b> has <b>%count</b> comments.<br>', array(
+    $params['message'] .= t('Paragraph %id has %count comments.<br>', array(
       '%id' => $count['field_comment_paragraph'],
       '%count' => $count['id_count']
     ));
