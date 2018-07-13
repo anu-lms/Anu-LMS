@@ -105,7 +105,7 @@ function anu_comments_notifier_mail($key, &$message, $params) {
     case 'comments_limit':
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = t('Some paragraphs at @title have lots of comments', array(
-        '@title' => $params['title']
+        '@title' => \Drupal::config('system.site')->get('name')
       ));
       $message['body'][] = $params['message'];
       break;
