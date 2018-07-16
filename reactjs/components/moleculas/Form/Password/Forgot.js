@@ -53,7 +53,7 @@ class PasswordForm extends React.Component {
 
     try {
       await request
-        .post('/user/password/request_DEBUG_REMOVE')
+        .post('/user/password/request')
         .set('Content-Type', 'application/json')
         .query({ '_format': 'json' })
         .send({
