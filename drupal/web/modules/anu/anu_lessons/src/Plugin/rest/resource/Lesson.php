@@ -3,6 +3,7 @@
 namespace Drupal\anu_lessons\Plugin\rest\resource;
 
 use Drupal\anu_courses\Course;
+use Drupal\anu_paragraph\Paragraph;
 use Drupal\Core\Path\AliasManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\image\Entity\ImageStyle;
@@ -31,14 +32,13 @@ use Drupal\Core\GeneratedUrl;
 class Lesson extends ResourceBase {
 
   /**
-   *  A current user instance.
+   * A current user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
   /**
-   *
    * A current request object.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -61,6 +61,8 @@ class Lesson extends ResourceBase {
 
   /**
    * Internal counter for numbered divider paragraph.
+   *
+   * @var int
    */
   protected static $dividedCounter = 1;
 
@@ -80,14 +82,21 @@ class Lesson extends ResourceBase {
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   The current user instance.
    * @param \Symfony\Component\HttpFoundation\Request $current_request
-   *   The current request
+   *   The current request.
+   * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
+   *   Path alias manager service object.
+   * @param \Drupal\anu_courses\Course $course_manager
+   *   Course manager service container.
+   * @param \Drupal\anu_paragraph\Paragraph $paragraph_manager
+   *   Paragraph manager service container.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, AccountProxyInterface $current_user, Request $current_request, AliasManagerInterface $alias_manager, Course $course_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, AccountProxyInterface $current_user, Request $current_request, AliasManagerInterface $alias_manager, Course $course_manager, Paragraph $paragraph_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->currentUser = $current_user;
     $this->currentRequest = $current_request;
     $this->aliasManager = $alias_manager;
     $this->courseManager = $course_manager;
+    $this->paragraphManager = $paragraph_manager;
   }
 
   /**
@@ -103,14 +112,13 @@ class Lesson extends ResourceBase {
       $container->get('current_user'),
       $container->get('request_stack')->getCurrentRequest(),
       $container->get('path.alias_manager'),
-      $container->get('anu_courses.course')
+      $container->get('anu_courses.course'),
+      $container->get('anu_paragraph.paragraph')
     );
   }
 
   /**
    * Returns a lesson node filtered by path.
-   *
-   * @return \Drupal\rest\ResourceResponse
    */
   public function get() {
 
@@ -190,11 +198,13 @@ class Lesson extends ResourceBase {
    *   Paragraph object from lesson.
    *
    * @return array
+   *   An array with paragraph data.
    */
   protected function getParagraphData(ParagraphInterface $paragraph) {
     $data = [];
     $data['id'] = (int) $paragraph->id();
     $data['type'] = $paragraph->bundle();
+    $data['commentsAmount'] = $this->paragraphManager->getCommentsAmount((int) $paragraph->id());
 
     if ($paragraph->bundle() == 'divider_numbered') {
       $data['counter'] = self::$dividedCounter++;
@@ -240,7 +250,7 @@ class Lesson extends ResourceBase {
             // We had to apply a patch to the core to get it working as expected.
             $scheme = \Drupal::service('file_system')->uriScheme($file->getFileUri());
             if ($scheme == 'private') {
-              /** @var GeneratedUrl $url */
+              /** @var \Drupal\Core\GeneratedUrl $url */
               $url = file_create_url($file->getFileUri(), TRUE);
               $data[$field_name_trimmed]['url'] = $url->getGeneratedUrl();
             }
@@ -254,7 +264,7 @@ class Lesson extends ResourceBase {
           if ($field->getFieldDefinition()->getFieldStorageDefinition()->getCardinality() == 1) {
             $data[$field_name_trimmed] = $field->getString();
           }
-          else {;
+          else {
             foreach ($field->getValue() as $value) {
               $data[$field_name_trimmed][] = $value['value'];
             }
@@ -276,7 +286,7 @@ class Lesson extends ResourceBase {
               $data[$field_name_trimmed] = $value[0];
             }
           }
-          else {;
+          else {
             foreach ($field->getValue() as $value) {
               $data[$field_name_trimmed][] = $value;
             }
@@ -288,4 +298,5 @@ class Lesson extends ResourceBase {
 
     return $data;
   }
+
 }

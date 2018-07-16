@@ -12,8 +12,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a resource to load classes with assigned courses
- * available for the currently authenticated user.
+ * Provides a resource to load classes with assigned courses available for the currently authenticated user.
  *
  * @RestResource(
  *   id = "classes_courses_resources",
@@ -62,10 +61,7 @@ class ClassesWithCoursesResource extends ResourceBase {
   }
 
   /**
-   * Return list of classes and assigned to them resources
-   * available for the currently logged in user.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Return list of classes and assigned to them resources available for the currently logged in user.
    */
   public function get() {
     $response = [];
@@ -133,18 +129,19 @@ class ClassesWithCoursesResource extends ResourceBase {
           }
 
           $response[$group->id()]['courses'][] = [
-              'id' => $course->id(),
-              'label' => $course->label(),
-              'image' => $image_url,
-              'path' => $path_alias,
-            ] + $course_progress;
+            'id' => $course->id(),
+            'label' => $course->label(),
+            'image' => $image_url,
+            'path' => $path_alias,
+          ] + $course_progress;
         }
 
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not load classes with courses. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -152,4 +149,5 @@ class ClassesWithCoursesResource extends ResourceBase {
 
     return !empty($response) ? new ResourceResponse(array_values($response)) : new ResourceResponse();
   }
+
 }

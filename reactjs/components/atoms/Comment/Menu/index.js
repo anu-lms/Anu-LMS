@@ -100,7 +100,7 @@ CommentMenu.propTypes = {
 };
 
 const mapStateToProps = ({ user, lessonSidebar }) => ({
-  currentUserId: user.uid,
+  currentUserId: user.data.uid,
   comments: lessonSidebar.comments.comments,
   paragraphId: lessonSidebar.comments.paragraphId,
 });

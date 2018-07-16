@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Provide views data for anu_content_administration.module.
+ */
+
+/**
  * Implements hook_views_data_alter().
  */
 function anu_content_administration_views_data_alter(array &$data) {

@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Icon from '../../Icons/Comment';
 
 const Comments = ({ onClick, amount, active }) => (
-  <span className={`comments-cta ${active ? 'active' : ''}`} onClick={onClick} onKeyPress={onClick}>
-    {Icon}
-    {amount &&
-      <span>{amount}</span>
+  <div className="comments-cta-wrapper">
+    <div
+      className={classNames('comments-cta', { active, 'empty': amount === 0 })}
+      onClick={onClick}
+      onKeyPress={onClick}
+    >
+      {Icon}
+      {amount > 0 &&
+      <span className="amount">{amount}</span>
     }
-  </span>
+    </div>
+  </div>
 );
 
 Comments.propTypes = {
@@ -18,7 +25,7 @@ Comments.propTypes = {
 };
 
 Comments.defaultProps = {
-  amount: null,
+  amount: 0,
   active: false,
 };
 

@@ -19,7 +19,7 @@ class Comment extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'paragraph_comment' && $entity->bundle() == 'paragraph_comment';
   }
@@ -27,7 +27,7 @@ class Comment extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -58,13 +58,15 @@ class Comment extends AnuNormalizerBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

@@ -84,8 +84,10 @@ class AcceptanceTester extends \Codeception\Actor {
     $I = $this;
 
     $I->amOnPage('/course/test-course/lesson-1');
+    $I->moveMouseOver('#paragraph-9991191 .comments-cta');
+
     // Wait for the page to be fully loaded.
-    $I->waitForElementClickable('.comments-cta');
+    $I->waitForElementClickable('#paragraph-9991191 .comments-cta');
     try {
       // Check if comments tab is already active.
       $I->seeElement('.lesson-sidebar.active-tab-comments');
