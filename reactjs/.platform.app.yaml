@@ -29,8 +29,6 @@ hooks:
   build: |
     yarn install
     yarn run build
-    echo "Hi! this is Build step"
-    echo $SENTRY_DSN
 disk: 512
 
 mounts:

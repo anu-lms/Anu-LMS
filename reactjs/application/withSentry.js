@@ -22,7 +22,6 @@ function withSentry(Child) {
     }
 
     componentDidMount() {
-      console.log('SENTRY_DSN', process.env.SENTRY_DSN);
       // We integrate Raven in ComponentDidMount to use console plugin (doesn't work in other place)
       Raven
         .config(process.env.SENTRY_DSN, {
