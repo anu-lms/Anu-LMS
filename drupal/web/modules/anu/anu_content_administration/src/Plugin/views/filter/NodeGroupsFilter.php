@@ -22,15 +22,21 @@ class NodeGroupsFilter extends InOperator {
   public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
     parent::init($view, $display, $options);
     $this->valueTitle = t('Group filter');
-    $this->definition['options callback'] = array($this, 'generateOptions');
+    $this->definition['options callback'] = [$this, 'generateOptions'];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validate() {
     if (!empty($this->value)) {
       parent::validate();
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query() {
 
     // Join Group's table.
@@ -74,10 +80,12 @@ class NodeGroupsFilter extends InOperator {
       // Sort alphabetically by group label.
       asort($group_list);
 
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       \Drupal::logger('anu_content_administration')->critical('Could not load list of groups for filter.');
     }
 
     return $group_list;
   }
+
 }

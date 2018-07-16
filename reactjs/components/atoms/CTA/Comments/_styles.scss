@@ -1,22 +1,64 @@
+.comments-cta-wrapper {
+  height: 26px;
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  @include media-breakpoint-up(lg) {
+    height: 64px;
+    position: absolute;
+    left: -160px;
+    right: -160px;
+    .heading & {
+      height: 26px;
+    }
+  }
+}
+
 .comments-cta {
   cursor: pointer;
   position: absolute;
-  bottom: -36px;
-  right: 15px;
+  top: 10px;
+  right: 0;
+  .heading & {
+    top: 0;
+  }
+
+  @include media-breakpoint-up(lg) {
+    right: 175px;
+    &.empty:not(.active) {
+      opacity: 0;
+      transition: .2s opacity;
+      .paragraph:hover & {
+        opacity: 1;
+      }
+    }
+  }
 
   svg path {
     transition: .2s fill;
     fill: $london-sky;
   }
+
   &:hover {
     svg path {
-      fill: #bb8de4;
+      fill: $purply;
       transition: .2s fill;
     }
   }
   &.active {
     svg path {
-      fill: #431c65;
+      fill: $comments;
     }
+  }
+  .amount {
+    position: absolute;
+    font-size: 0.625em;
+    color: $white;
+    font-weight: bold;
+    left: 0;
+    top: 3px;
+    line-height: 1em;
+    text-align: center;
+    width: 100%;
   }
 }

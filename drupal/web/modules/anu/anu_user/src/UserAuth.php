@@ -2,13 +2,17 @@
 
 namespace Drupal\anu_user;
 
-class UserAuth extends \Drupal\user\UserAuth {
+use Drupal\user\UserAuth as UserAuthCore;
+
+/**
+ * Validates user authentication credentials.
+ */
+class UserAuth extends UserAuthCore {
 
   /**
    * {@inheritdoc}
    *
-   * Mostly copied from the parent method, apart from
-   * email authentication.
+   * Mostly copied from the parent method, apart from email authentication.
    */
   public function authenticate($username, $password) {
     $uid = FALSE;
@@ -43,4 +47,5 @@ class UserAuth extends \Drupal\user\UserAuth {
 
     return $uid;
   }
+
 }

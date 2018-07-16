@@ -19,7 +19,7 @@ class Message extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'message';
   }
@@ -27,7 +27,7 @@ class Message extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -40,7 +40,7 @@ class Message extends AnuNormalizerBase {
         'uuid' => $entity->uuid(),
         'bundle' => $entity->bundle(),
         'created' => (int) $entity->created->getString(),
-        'triggerer' => $entity->uid->first()->get('entity')->getValue(),
+        'triggerer' => AnuNormalizerBase::normalizeEntity($entity->uid->first()->get('entity')->getValue()),
         'isRead' => (bool) $entity->field_message_is_read->getString(),
       ];
 
@@ -63,13 +63,15 @@ class Message extends AnuNormalizerBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

@@ -389,10 +389,10 @@ class LessonContent extends React.Component {
 }
 
 const mapStateToProps = (store, ownProps) => ({
-  quizzesData: lessonHelpers.getQuizzesData(store.lesson, ownProps.lesson.id),
-  quizzesSaved: lessonHelpers.areQuizzesSaved(store.lesson, ownProps.lesson.id),
+  quizzesData: lessonHelpers.getQuizzesData(store.lesson.lessons, ownProps.lesson.id),
+  quizzesSaved: lessonHelpers.areQuizzesSaved(store.lesson.lessons, ownProps.lesson.id),
   navigation: store.navigation,
-  storeLessons: store.lesson,
+  storeLessons: store.lesson.lessons,
   lessonSidebar: store.lessonSidebar.sidebar,
 });
 

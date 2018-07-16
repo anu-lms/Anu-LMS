@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Drupal\rest\ResourceResponse;
@@ -74,11 +75,12 @@ class UserTokenRevoke extends ResourceBase {
       // Collect the affected tokens and expire them.
       $collector->deleteMultipleTokens($collector->collectForAccount($current_user));
     }
-    catch(\Exception $e) {
+    catch (\Exception $e) {
       $message = $this->t('There is a problem with token revoke.');
       $this->logger->warning($message);
       return new ResourceResponse(['message' => $message], 406);
     }
-    return new ResourceResponse(true);
+    return new ResourceResponse(TRUE);
   }
+
 }

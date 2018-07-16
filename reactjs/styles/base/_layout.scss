@@ -3,7 +3,9 @@ $header-gutter: $grid-gutter-width;
 $home-icon-width: 24px;
 // Use larger sizes on desktop.
 $header-gutter-desktop: $grid-gutter-width * 2;
-$home-icon-width-desktop: 40px;
+
+$header-height-sm: 48px;
+$header-height-md: 80px;
 
 @mixin no-gutters() {
   padding-right: 0;
