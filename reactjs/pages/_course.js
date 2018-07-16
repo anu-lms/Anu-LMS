@@ -36,8 +36,7 @@ class CoursePage extends React.Component {
       // Keep course data.
       initialProps.course = dataProcessors.courseData(courseResponse.body);
     } catch (error) {
-      console.log('Could not load course.');
-      console.log(error);
+      console.error('Could not load course.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
