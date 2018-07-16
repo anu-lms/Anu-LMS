@@ -4,17 +4,15 @@ import classNames from 'classnames';
 import Icon from '../../Icons/Comment';
 
 const Comments = ({ onClick, amount, active }) => (
-  <div className="comments-cta-wrapper">
-    <div
-      className={classNames('comments-cta', { active, 'empty': amount === 0 })}
-      onClick={onClick}
-      onKeyPress={onClick}
-    >
-      {Icon}
-      {amount > 0 &&
+  <div
+    className={classNames('comments-cta', { active, 'empty': amount === 0 })}
+    onClick={onClick}
+    onKeyPress={onClick}
+  >
+    {Icon}
+    {amount > 0 &&
       <span className="amount">{amount}</span>
     }
-    </div>
   </div>
 );
 
