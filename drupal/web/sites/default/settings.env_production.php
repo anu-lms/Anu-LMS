@@ -13,3 +13,7 @@ $config['system.logging']['error_level'] = 'hide';
 // Enable css / js aggregation.
 $config['system.performance']['css']['preprocess'] = TRUE;
 $config['system.performance']['js']['preprocess'] = TRUE;
+
+if (!empty($_ENV['SENTRY_DSN'])) {
+  $config['raven.settings']['client_key'] = $_ENV['SENTRY_DSN'];
+}
