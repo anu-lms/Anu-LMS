@@ -10,12 +10,12 @@ import * as dataProcessors from '../utils/dataProcessors';
 
 // TODO: Move to a better place when a user is authenticated.
 if (typeof window !== 'undefined') {
-  const socket = socketio();
+  // const socket = socketio();
 
   // Listen for a new notification to arrive from socket.
-  socket.on('notification', notification => {
-    store.dispatch(notificationsActions.liveNotificationAdd(notification));
-  });
+  // socket.on('notification', notification => {
+  //   store.dispatch(notificationsActions.liveNotificationAdd(notification));
+  // });
 }
 
 /**
