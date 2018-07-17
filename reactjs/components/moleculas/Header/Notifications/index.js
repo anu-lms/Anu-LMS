@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { socketConnect } from 'socket.io-react';
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import CloseCrossIcon from '../../../atoms/Icons/CloseCross';
@@ -19,8 +20,13 @@ class Notifications extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { socket, dispatch } = this.props;
     dispatch(notificationsActions.fetchUnread());
+
+    // Listen for a new notification to arrive from socket.
+    socket.on('notification', notification => {
+      dispatch(notificationsActions.liveNotificationAdd(notification));
+    });
   }
 
   closePopup() {
@@ -119,6 +125,7 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   lastFetchedTimestamp: PropTypes.number,
@@ -146,4 +153,4 @@ const mapStateToProps = ({ notifications }) => {
   };
 };
 
-export default connect(mapStateToProps)(Notifications);
+export default connect(mapStateToProps)(socketConnect(Notifications));
