@@ -2,6 +2,7 @@ import Debug from 'debug';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { socketConnect } from 'socket.io-react';
 import Alert from 'react-s-alert';
 import urlParse from 'url-parse';
 import Paragraphs from '../../atoms/Paragraph';
@@ -55,12 +56,21 @@ class LessonContent extends React.Component {
   }
 
   componentDidMount() {
+    const { socket, dispatch } = this.props;
+
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
 
     // When component is mounted, send action that the lesson is opened.
     // It should trigger background sync of lesson progress.
-    this.props.dispatch(lessonActions.opened(this.props.lesson));
+    dispatch(lessonActions.opened(this.props.lesson));
+
+    // Listen for a new notification to arrive from socket.
+    socket.on('comment', comment => {
+      console.log(comment);
+    });
+
+    console.log('componentDidMount', this.props);
   }
 
   /**
@@ -91,6 +101,8 @@ class LessonContent extends React.Component {
     // When component is being unmounted, send action that the lesson is closed.
     // It should stop background sync of lesson progress.
     this.props.dispatch(lessonActions.closed(this.props.lesson));
+
+    this.props.socket.off('comment');
   }
 
   updateReadProgress() {
@@ -414,6 +426,7 @@ LessonContent.propTypes = {
   quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   quizzesSaved: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
-export default connect(mapStateToProps)(LessonContent);
+export default connect(mapStateToProps)(socketConnect(LessonContent));

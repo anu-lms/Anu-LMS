@@ -29,6 +29,13 @@ class Notifications extends React.Component {
     });
   }
 
+  /**
+   * Close socket connection.
+   */
+  componentWillUnmount() {
+    this.props.socket.off('notification');
+  }
+
   closePopup() {
     this.setState({ isOpened: false });
     document.body.classList.remove('no-scroll-mobile');
