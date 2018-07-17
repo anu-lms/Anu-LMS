@@ -138,6 +138,9 @@ app.prepare()
       socket.on('notification', notification => {
         io.emit('notification', notification);
       });
+      socket.on('comment', notification => {
+        io.emit('comment', notification); // @todo: Should we emit to 'io' or to 'socket'?
+      });
     });
 
     server.listen(process.env.PORT);

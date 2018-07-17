@@ -65,7 +65,7 @@ class Comment {
         'action' => $action,
         'data' => $normalizedEntity,
       ];
-      $client->emit('notification', \Drupal::service('serializer')->normalize($data, 'json'));
+      $client->emit('comment', \Drupal::service('serializer')->normalize($data, 'json'));
       $client->close();
     }
     catch (\Exception $exception) {
