@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains hooks definition for Anu Comments module.
+ * Module implementation file.
  */
 
 use Drupal\user\Entity\User;
@@ -10,6 +10,9 @@ use Drupal\eck\Entity\EckEntity;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use ElephantIO\Client;
+use ElephantIO\Engine\SocketIO\Version2X;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**
  * Enables revisions for comment entity by default.
@@ -17,6 +20,47 @@ use Drupal\Core\Access\AccessResult;
 function anu_comments_entity_presave(EntityInterface $entity) {
   if ($entity instanceof EckEntity && $entity->getEntityTypeId() == 'paragraph_comment') {
     $entity->setNewRevision(TRUE);
+  }
+}
+
+function sendEvent($entity) {
+
+  try {
+
+    // Load notification message.
+    $message = AnuNormalizerBase::normalizeEntity($entity, ['lesson']);
+
+    if (!$message) {
+      throw new \Exception("Message entity can't be normalized.");
+    }
+
+    // Get websocket URL.
+    $websocket = \Drupal::request()->getSchemeAndHttpHost();
+
+    // Send notification message to websocket.
+    $httpContext = [
+      'header' => [
+        'Origin: ' . $websocket,
+      ],
+    ];
+
+    $client = new Client(new Version2X($websocket, [
+      'context' => [
+        'http' => $httpContext,
+      ],
+    ]));
+
+    $client->initialize();
+    $client->emit('comment', \Drupal::service('serializer')
+      ->normalize($message, 'json'));
+    $client->close();
+  }
+  catch (\Exception $exception) {
+
+    \Drupal::logger('anu_events')
+      ->critical('Could not write notification to socket. Error: @error', [
+        '@error' => $exception->getMessage(),
+      ]);
   }
 }
 
