@@ -1,5 +1,6 @@
 import React from 'react';
 import socketio from 'socket.io-client';
+import { SocketProvider } from 'socket.io-react';
 
 /**
  * Integration with Socket.io.
@@ -29,7 +30,11 @@ export default function withSocket(Child) {
     }
 
     render() {
-      return <Child {...this.props} socket={this.socket} />;
+      return (
+        <SocketProvider socket={this.socket}>
+          <Child {...this.props} />;
+        </SocketProvider>
+      );
     }
   };
 }

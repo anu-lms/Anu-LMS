@@ -3,7 +3,7 @@ import React from 'react';
 import withSocket from '../application/withSocket';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -15,10 +15,9 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log('_app render', this.props);
     return (
       <Container>
-        <Component {...pageProps} socket={this.props.socket} />
+        <Component {...pageProps} />
       </Container>
     );
   }

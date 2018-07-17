@@ -1,22 +1,10 @@
 import { all, put, select, takeEvery, takeLatest, apply, call } from 'redux-saga/effects';
-import socketio from 'socket.io-client';
-import { store } from '../store/store';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as api from '../api/notifications';
 import * as notificationsActions from '../actions/notifications';
 import * as arrayHelper from '../utils/array';
 import * as dataProcessors from '../utils/dataProcessors';
-
-// TODO: Move to a better place when a user is authenticated.
-if (typeof window !== 'undefined') {
-  // const socket = socketio();
-
-  // Listen for a new notification to arrive from socket.
-  // socket.on('notification', notification => {
-  //   store.dispatch(notificationsActions.liveNotificationAdd(notification));
-  // });
-}
 
 /**
  * Fetch notifications from the backend.
