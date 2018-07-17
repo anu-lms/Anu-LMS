@@ -63,14 +63,6 @@ class LessonPage extends React.Component {
   }
 
   componentDidMount() {
-    // const { socket } = this.props;
-    // // Listen for a new notification to arrive from socket.
-    // socket.on('comment', comment => {
-    //   console.log(comment);
-    // });
-
-    console.log('componentDidMount', this.props);
-
     this.hightlightComment();
   }
 

@@ -23,4 +23,5 @@ class MyApp extends App {
   }
 }
 
+// @todo: add withRedux and withAuth here, because it's used on all pages anyway.
 export default withSocket(MyApp);
