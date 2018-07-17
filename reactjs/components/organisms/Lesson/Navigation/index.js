@@ -9,7 +9,7 @@ import * as mediaBreakpoint from '../../../../utils/breakpoints';
 import * as lessonHelper from '../../../../helpers/lesson';
 import * as courseHelper from '../../../../helpers/course';
 import * as navigationActions from '../../../../actions/navigation';
-import * as lessonNotebookActions from '../../../../actions/lessonNotebook';
+import * as lessonSidebarActions from '../../../../actions/lessonSidebar';
 import LinkWithClick from '../../../atoms/Link/LinkWithClick';
 
 class LessonNavigation extends React.Component {
@@ -31,7 +31,7 @@ class LessonNavigation extends React.Component {
     // Hide Notebook panel as well on mobile.
     if (mediaBreakpoint.isDown('md')) {
       dispatch(navigationActions.close());
-      dispatch(lessonNotebookActions.close());
+      dispatch(lessonSidebarActions.close());
     }
   }
 
