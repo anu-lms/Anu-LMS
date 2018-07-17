@@ -15,10 +15,10 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log('_app render');
+    console.log('_app render', this.props);
     return (
       <Container>
-        <Component {...pageProps} />
+        <Component {...pageProps} socket={this.props.socket} />
       </Container>
     );
   }
