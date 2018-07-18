@@ -3,6 +3,7 @@ import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as commentsApi from '../api/comments';
+import * as lessonActions from '../actions/lesson';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
 
@@ -31,7 +32,7 @@ function* fetchComments() {
 
     // Updates comments amount for active paragraph in store.
     const commentsAmount = comments.filter(comment => !comment.deleted).length;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    yield put(lessonActions.commentsAmountSet(paragraphId, activeOrganization, commentsAmount));
   }
   catch (error) {
     yield put(lessonCommentsActions.syncCommentsFailed(error));
@@ -61,7 +62,6 @@ function* syncCommentsIfTabActive() {
 
 function* addComment({ text, parentId }) {
   const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-  const comments = yield select(store => store.lessonSidebar.comments.comments);
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -83,9 +83,8 @@ function* addComment({ text, parentId }) {
     // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
 
-    // Updates comments amount for active paragraph in store.
-    const commentsAmount = comments.filter(item => !item.deleted).length + 1;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    // Updates comments amount for paragraphs in store.
+    yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
   }
   catch (error) {
     yield put(lessonCommentsActions.addCommentError(error));
@@ -139,13 +138,8 @@ function* markCommentAsDeleted({ commentId }) {
     // Updates comment in the application store.
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
 
-    // Get active organization of current user.
-    const activeOrganization = yield select(store => store.user.activeOrganization);
-    const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-    const commentsAmount = comments.filter(item => !item.deleted).length - 1;
-
-    // Updates comments amount for active paragraph in store.
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    // Updates comments amount for paragraphs in store.
+    yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
 
     Alert.success('Comment has been successfully deleted.');
   }
@@ -185,17 +179,14 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       }
     }
 
+    if (!comment.deleted) {
+      // Updates comments amount for paragraphs in store.
+      yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+    }
+
     if (showSuccessMessage) {
       Alert.closeAll();
       Alert.success('Comment has been successfully deleted.');
-
-      // Get active organization of current user.
-      const activeOrganization = yield select(store => store.user.activeOrganization);
-      const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-      const commentsAmount = comments.filter(item => !item.deleted).length - 1;
-
-      // Updates comments amount for active paragraph in store.
-      yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
     }
   }
   catch (error) {

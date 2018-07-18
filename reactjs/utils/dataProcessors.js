@@ -197,9 +197,13 @@ export const processComment = rawComment => {
     text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
     paragraphId: rawComment.fieldCommentParagraph,
-    organizationId: rawComment.fieldCommentOrganization,
     deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
   };
+
+  comment.organizationId = 0;
+  if (rawComment.fieldCommentOrganization && rawComment.fieldCommentOrganization.tid) {
+    comment.organizationId = rawComment.fieldCommentOrganization.tid;
+  }
 
   if (rawComment.uid && rawComment.uid.uid) {
     comment.author = {
