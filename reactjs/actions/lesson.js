@@ -25,3 +25,12 @@ export const closed = lesson => ({
   type: 'LESSON_CLOSED',
   lesson,
 });
+
+/**
+ * Invokes event when a new live notification arrives through socket. @todo
+ */
+export const incomingLivePush = (action, comment) => ({
+  type: 'LESSON_COMMENTS_INCOMING_LIVE_PUSH',
+  action,
+  comment,
+});

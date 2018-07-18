@@ -15,6 +15,7 @@ import * as lessonHelpers from '../../../helpers/lesson';
 import * as courseActions from '../../../actions/course';
 import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
+import * as dataProcessors from '../../../utils/dataProcessors';
 
 const debug = Debug('anu:lesson');
 
@@ -68,6 +69,8 @@ class LessonContent extends React.Component {
     // Listen for a new notification to arrive from socket.
     socket.on('comment', comment => {
       console.log(comment);
+      const normalizedComment = dataProcessors.processComment(comment.data);
+      dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
     });
 
     console.log('componentDidMount', this.props);
