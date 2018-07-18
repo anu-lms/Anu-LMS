@@ -197,6 +197,7 @@ export const processComment = rawComment => {
     text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
     paragraphId: rawComment.fieldCommentParagraph,
+    organizationId: rawComment.fieldCommentOrganization,
     deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
   };
 

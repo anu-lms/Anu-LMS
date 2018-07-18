@@ -1,7 +1,9 @@
 import { all, fork, take, put, takeEvery, select, call, cancel, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import _includes from 'lodash/includes';
 import request from '../utils/request';
 import * as lessonActions from '../actions/lesson';
+import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonHelper from '../helpers/lesson';
 import ClientAuth from '../auth/clientAuth';
 /* eslint-disable no-use-before-define */
@@ -19,6 +21,7 @@ export default function* lessonSagas() {
   yield all([
     takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
     takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
+    takeEvery('LESSON_COMMENTS_INCOMING_LIVE_PUSH', handleIncomingLiveComment),
   ]);
 }
 
@@ -158,5 +161,43 @@ function* sendLessonProgress(lesson, progress) {
       .query({ '_format': 'json' });
   } catch (error) {
     console.log('Could not send lesson\'s progress to the backend.', error);
+  }
+}
+
+/**
+ * Handles an event when a new comment arrives from the websocket. @todo
+ */
+function* handleIncomingLiveComment({ action, comment }) {
+  const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
+  const userOrganizationIds = userOrganizations.map(organization => organization.id);
+  const activeLessonId = yield select(reduxStore => reduxStore.lesson.activeLesson);
+  const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId);
+
+  console.log('handleIncomingLiveComment', action, comment, userOrganizationIds, activeLessonId, activeParagraphId);
+
+
+  if (!_includes(userOrganizationIds, comment.organizationId)) {
+    return;
+  }
+
+  switch (action) {
+    case 'insert': {
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.addCommentToStore(comment));
+      }
+      console.log('insert');
+
+      break;
+    }
+
+    case 'update': {
+      console.log('update');
+      break;
+    }
+
+    case 'delete': {
+      console.log('delete');
+      break;
+    }
   }
 }

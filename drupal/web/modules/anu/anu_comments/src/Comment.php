@@ -35,7 +35,7 @@ class Comment {
     try {
 
       // Prepare comment entity to send to frontend.
-      $normalizedEntity = AnuNormalizerBase::normalizeEntity($entity, ['lesson']);
+      $normalizedEntity = AnuNormalizerBase::normalizeEntity($entity, ['lesson', 'uid']);
 
       if (!$normalizedEntity) {
         throw new \Exception("Entity can't be normalized.");
