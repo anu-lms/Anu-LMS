@@ -159,7 +159,10 @@ function* sendLessonProgress(lesson, progress) {
 function* handleIncomingLiveComment({ action, comment }) {
   const userId = yield select(reduxStore => reduxStore.user.data.uid);
   const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
-  const userOrganizationIds = userOrganizations.map(organization => organization.id);
+  const userOrganizationIds = userOrganizations.length > 0
+    ? userOrganizations.map(organization => organization.id)
+    : [0]; // Initialize organizations array with '0' (default id if no orgs) if user has no orgs.
+
   const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId); // eslint-disable-line max-len
 
   // Skip comments made by current user.
