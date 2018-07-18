@@ -96,7 +96,6 @@ class LessonContent extends React.Component {
       this.highlightParagraph();
     }
 
-    // Gather list of paragraphs once per lesson page load.
     if (prevProps.lesson.id !== lesson.id) {
       // Unsubscibe from socket listening previous lesson.
       socket.off(`comment.lesson.${prevProps.lesson.id}`);

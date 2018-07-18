@@ -27,8 +27,6 @@ export const fetchComments = (request, paragraphId, organizationId = null) => ne
     .query(query)
     .then(response => {
       // Normalize Comment objects.
-      console.log(response.body.data);
-      // console.log(response.body.data[0].fieldCommentOrganization());
       const comments = response.body.data.map(comment => dataProcessors.processComment(comment));
       resolve(comments);
     })

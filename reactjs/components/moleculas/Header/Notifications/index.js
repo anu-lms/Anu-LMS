@@ -39,9 +39,6 @@ class Notifications extends React.Component {
     }
   }
 
-  /**
-   * Close socket connection.
-   */
   componentWillUnmount() {
     const { socket, currentUserId } = this.props;
 
