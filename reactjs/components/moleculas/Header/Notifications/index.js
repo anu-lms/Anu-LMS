@@ -57,10 +57,12 @@ class Notifications extends React.Component {
   subscribeToSocket() {
     const { socket, dispatch, currentUserId } = this.props;
 
-    socket.on(`notification.user.${currentUserId}`, notification => {
-      dispatch(notificationsActions.liveNotificationAdd(notification));
-    });
-    this.subscribedToSocket = true;
+    if (socket && currentUserId) {
+      socket.on(`notification.user.${currentUserId}`, notification => {
+        dispatch(notificationsActions.liveNotificationAdd(notification));
+      });
+      this.subscribedToSocket = true;
+    }
   }
 
   /**
@@ -155,7 +157,7 @@ class Notifications extends React.Component {
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currentUserId: PropTypes.number,
-  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   lastFetchedTimestamp: PropTypes.number,
@@ -165,6 +167,7 @@ Notifications.propTypes = {
 Notifications.defaultProps = {
   lastFetchedTimestamp: undefined,
   currentUserId: null,
+  socket: null,
 };
 
 const mapStateToProps = ({ notifications, user }) => {
