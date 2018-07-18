@@ -175,7 +175,7 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
       // Get active organization id, use "0" key if there is no active organization.
       const activeOrganizationId = action.organizationId ? action.organizationId : 0;
 
-      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0;
+      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0; // eslint-disable-line max-len
 
       // Updates an amount of comments for active paragraph.
       activeLesson.blocks[activeBlockIndex].commentsAmount = {
@@ -211,7 +211,7 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
       // Get active organization id, use "0" key if there is no active organization.
       const activeOrganizationId = action.organizationId ? action.organizationId : 0;
 
-      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0;
+      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0; // eslint-disable-line max-len
 
       // Updates an amount of comments for active paragraph.
       activeLesson.blocks[activeBlockIndex].commentsAmount = {

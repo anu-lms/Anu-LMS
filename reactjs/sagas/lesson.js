@@ -160,7 +160,7 @@ function* handleIncomingLiveComment({ action, comment }) {
   const userId = yield select(reduxStore => reduxStore.user.data.uid);
   const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
   const userOrganizationIds = userOrganizations.map(organization => organization.id);
-  const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId);
+  const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId); // eslint-disable-line max-len
 
   console.log('handleIncomingLiveComment', action, comment, userOrganizationIds, activeParagraphId);
 
@@ -188,7 +188,7 @@ function* handleIncomingLiveComment({ action, comment }) {
         yield put(lessonCommentsActions.updateCommentInStore(comment));
       }
       if (comment.deleted) {
-        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
       }
       break;
     }
@@ -198,10 +198,13 @@ function* handleIncomingLiveComment({ action, comment }) {
         yield put(lessonCommentsActions.deleteCommentFromStore(comment.id));
       }
       if (!comment.deleted) {
-        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
       }
       break;
     }
+
+    default:
+      break;
   }
 }
 

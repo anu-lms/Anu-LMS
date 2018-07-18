@@ -133,6 +133,7 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  currentUserId: PropTypes.number.isRequired,
   socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
