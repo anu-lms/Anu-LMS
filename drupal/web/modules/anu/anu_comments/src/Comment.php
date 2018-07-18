@@ -5,6 +5,7 @@ namespace Drupal\anu_comments;
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version2X;
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Helper service for comment entity.
@@ -28,16 +29,14 @@ class Comment {
   }
 
   /**
-   * Push comment entity to the socket.
+   * Push comment entity to the socket. @todo: Move socket part to separate service.
    *
-   * @todo: Move socket part to separate service.
-   *
-   * @param $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    *   Comment entity.
-   * @param $action
+   * @param string $action
    *   Action, can be `insert`, `update` or `delete`.
    */
-  public function pushEntity($entity, $action) {
+  public function pushEntity(EntityInterface $entity, $action) {
 
     try {
 
