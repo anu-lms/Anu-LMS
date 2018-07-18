@@ -61,11 +61,11 @@ class Comment extends AnuNormalizerBase {
         }
       }
 
-      // Attaches lesson data if necessary.
+      // Attaches author data if necessary.
       if (in_array('uid', $include_fields)) {
         $user = User::load($entity->uid->getString());
 
-        // Normalize lesson entity with lesson data included.
+        // Normalize user entity.
         if ($user && $user_normalized = AnuNormalizerBase::normalizeEntity($user)) {
           $output['uid'] = $user_normalized;
         }
