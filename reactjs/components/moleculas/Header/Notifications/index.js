@@ -12,21 +12,29 @@ class Notifications extends React.Component {
     super(props);
 
     this.state = { isOpened: false };
+    this.subscribedToSocket = false;
 
     this.closePopup = this.closePopup.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.markAllAsRead = this.markAllAsRead.bind(this);
+    this.subscribeToSocket = this.subscribeToSocket.bind(this);
   }
 
   componentDidMount() {
-    const { socket, dispatch, currentUserId } = this.props;
+    const { dispatch, currentUserId } = this.props;
     dispatch(notificationsActions.fetchUnread());
 
     // Listen for a new notification to arrive from socket.
-    socket.on(`notification.user.${currentUserId}`, notification => {
-      dispatch(notificationsActions.liveNotificationAdd(notification));
-    });
+    if (!this.subscribedToSocket && currentUserId) {
+      this.subscribeToSocket();
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.subscribedToSocket && this.props.currentUserId) {
+      this.subscribeToSocket();
+    }
   }
 
   /**
@@ -35,11 +43,21 @@ class Notifications extends React.Component {
   componentWillUnmount() {
     const { socket, currentUserId } = this.props;
     socket.off(`notification.user.${currentUserId}`);
+    console.log('unsubscribed');
   }
 
   closePopup() {
     this.setState({ isOpened: false });
     document.body.classList.remove('no-scroll-mobile');
+  }
+
+  subscribeToSocket() {
+    const { socket, dispatch, currentUserId } = this.props;
+    socket.on(`notification.user.${currentUserId}`, notification => {
+      dispatch(notificationsActions.liveNotificationAdd(notification));
+    });
+    this.subscribedToSocket = true;
+    console.log('subscribed', `notification.user.${currentUserId}`);
   }
 
   /**
@@ -133,7 +151,7 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  currentUserId: PropTypes.number.isRequired,
+  currentUserId: PropTypes.number,
   socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -143,6 +161,7 @@ Notifications.propTypes = {
 
 Notifications.defaultProps = {
   lastFetchedTimestamp: undefined,
+  currentUserId: null,
 };
 
 const mapStateToProps = ({ notifications, user }) => {
@@ -153,7 +172,6 @@ const mapStateToProps = ({ notifications, user }) => {
   if (sortedReadNotifications.length > 0) {
     lastFetchedTimestamp = sortedReadNotifications[sortedReadNotifications.length - 1].created;
   }
-
   return {
     currentUserId: user.data.uid,
     notifications: sortedNotifications,
