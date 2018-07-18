@@ -28,8 +28,7 @@ class Comment {
   }
 
   /**
-   * @param $entity
-   * @param $action
+   * Short description. @todo: add description.
    */
   public function pushEntity($entity, $action) {
 
@@ -76,4 +75,5 @@ class Comment {
         ]);
     }
   }
+
 }
