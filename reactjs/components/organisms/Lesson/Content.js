@@ -57,17 +57,17 @@ class LessonContent extends React.Component {
   }
 
   componentDidMount() {
-    const { socket, dispatch } = this.props;
+    const { socket, dispatch, lesson } = this.props;
 
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
 
     // When component is mounted, send action that the lesson is opened.
     // It should trigger background sync of lesson progress.
-    dispatch(lessonActions.opened(this.props.lesson));
+    dispatch(lessonActions.opened(lesson));
 
     // Listen for a new notification to arrive from socket.
-    socket.on('comment', comment => {
+    socket.on(`commentInLesson${lesson.id}`, comment => {
       console.log(comment);
       const normalizedComment = dataProcessors.processComment(comment.data);
       dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
@@ -80,14 +80,25 @@ class LessonContent extends React.Component {
    * @todo: Deprecated method.
    */
   componentWillUpdate(nextProps) {
+    const { socket, dispatch, lesson } = this.props;
+
     // Gather list of paragraphs once per lesson page load.
-    if (nextProps.lesson.id !== this.props.lesson.id) {
+    if (nextProps.lesson.id !== lesson.id) {
       this.updateParagraphsList(nextProps);
 
       // Send action that the previous lesson is closed and the new one
       // is opened.
-      this.props.dispatch(lessonActions.closed(this.props.lesson));
+      this.props.dispatch(lessonActions.closed(lesson));
       this.props.dispatch(lessonActions.opened(nextProps.lesson));
+
+      socket.off(`commentInLesson${lesson.id}`);
+
+      // Listen for a new notification to arrive from socket.
+      socket.on(`commentInLesson${nextProps.lesson.id}`, comment => {
+        console.log(comment);
+        const normalizedComment = dataProcessors.processComment(comment.data);
+        dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
+      });
     }
   }
 
@@ -98,14 +109,16 @@ class LessonContent extends React.Component {
   }
 
   componentWillUnmount() {
+    const { socket, dispatch, lesson } = this.props;
+
     window.removeEventListener('resize', this.updateReadProgress);
     window.removeEventListener('scroll', this.updateReadProgress);
 
     // When component is being unmounted, send action that the lesson is closed.
     // It should stop background sync of lesson progress.
-    this.props.dispatch(lessonActions.closed(this.props.lesson));
+    dispatch(lessonActions.closed(lesson));
 
-    this.props.socket.off('comment');
+    socket.off(`commentInLesson${lesson.id}`);
   }
 
   updateReadProgress() {
