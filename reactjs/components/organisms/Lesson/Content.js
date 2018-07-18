@@ -128,10 +128,12 @@ class LessonContent extends React.Component {
   subscribeToSocket(lessonId) {
     const { socket, dispatch } = this.props;
 
-    socket.on(`comment.lesson.${lessonId}`, comment => {
-      const normalizedComment = dataProcessors.processComment(comment.data);
-      dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
-    });
+    if (socket) {
+      socket.on(`comment.lesson.${lessonId}`, comment => {
+        const normalizedComment = dataProcessors.processComment(comment.data);
+        dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
+      });
+    }
   }
 
   updateReadProgress() {
@@ -446,6 +448,10 @@ LessonContent.contextTypes = {
   }),
 };
 
+LessonContent.defaultProps = {
+  socket: null,
+};
+
 LessonContent.propTypes = {
   storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
   course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -455,7 +461,7 @@ LessonContent.propTypes = {
   quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   quizzesSaved: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
-  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 };
 
 export default connect(mapStateToProps)(socketConnect(LessonContent));
