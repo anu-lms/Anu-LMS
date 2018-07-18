@@ -12,6 +12,8 @@ class Notifications extends React.Component {
     super(props);
 
     this.state = { isOpened: false };
+
+    // True if user already subscribed to notifications socket.
     this.subscribedToSocket = false;
 
     this.closePopup = this.closePopup.bind(this);
@@ -42,8 +44,9 @@ class Notifications extends React.Component {
    */
   componentWillUnmount() {
     const { socket, currentUserId } = this.props;
+
+    // Unsubscribe from the socket if component unmounted.
     socket.off(`notification.user.${currentUserId}`);
-    console.log('unsubscribed');
   }
 
   closePopup() {
@@ -51,13 +54,16 @@ class Notifications extends React.Component {
     document.body.classList.remove('no-scroll-mobile');
   }
 
+  /**
+   * Listen for a notifications to arrive from socket.
+   */
   subscribeToSocket() {
     const { socket, dispatch, currentUserId } = this.props;
+
     socket.on(`notification.user.${currentUserId}`, notification => {
       dispatch(notificationsActions.liveNotificationAdd(notification));
     });
     this.subscribedToSocket = true;
-    console.log('subscribed', `notification.user.${currentUserId}`);
   }
 
   /**
