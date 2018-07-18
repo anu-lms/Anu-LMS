@@ -136,13 +136,12 @@ app.prepare()
       // Wait for new notification to come in and emit this event to
       // all connected browsers.
       socket.on('notification', notification => {
-        io.emit('notification', notification);
+        socket.broadcast.emit(`notification.user.${notification.recipient}`, notification);
       });
 
       socket.on('comment', comment => {
-        console.log(comment);
         const lessonId = comment.data.lesson.nid;
-        io.emit(`commentInLesson${lessonId}`, comment); // @todo: Should we emit to 'io' or to 'socket'?
+        socket.broadcast.emit(`comment.lesson.${lessonId}`, comment);
       });
     });
 
