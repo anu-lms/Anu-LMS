@@ -15,17 +15,6 @@ import ClientAuth from '../auth/clientAuth';
 const backendSyncDelay = 3500;
 
 /**
- * Main entry point for all lesson sagas.
- */
-export default function* lessonSagas() {
-  yield all([
-    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
-    takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
-    takeEvery('LESSON_COMMENTS_INCOMING_LIVE_PUSH', handleIncomingLiveComment),
-  ]);
-}
-
-/**
  * Saga watcher for lesson to open.
  * As soon as lesson is opened - the saga will start observing
  * the lesson progress to send it to the backend if the progress
@@ -168,14 +157,19 @@ function* sendLessonProgress(lesson, progress) {
  * Handles an event when a new comment arrives from the websocket. @todo
  */
 function* handleIncomingLiveComment({ action, comment }) {
+  const userId = yield select(reduxStore => reduxStore.user.data.uid);
   const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
   const userOrganizationIds = userOrganizations.map(organization => organization.id);
-  const activeLessonId = yield select(reduxStore => reduxStore.lesson.activeLesson);
   const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId);
 
-  console.log('handleIncomingLiveComment', action, comment, userOrganizationIds, activeLessonId, activeParagraphId);
+  console.log('handleIncomingLiveComment', action, comment, userOrganizationIds, activeParagraphId);
 
+  // Skip comments made by current user.
+  if (comment.author.uid === userId) {
+    return;
+  }
 
+  // Skip comments from not allowed organization.
   if (!_includes(userOrganizationIds, comment.organizationId)) {
     return;
   }
@@ -185,19 +179,39 @@ function* handleIncomingLiveComment({ action, comment }) {
       if (activeParagraphId > 0) {
         yield put(lessonCommentsActions.addCommentToStore(comment));
       }
-      console.log('insert');
-
+      yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
       break;
     }
 
     case 'update': {
-      console.log('update');
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.updateCommentInStore(comment));
+      }
+      if (comment.deleted) {
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+      }
       break;
     }
 
     case 'delete': {
-      console.log('delete');
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.deleteCommentFromStore(comment.id));
+      }
+      if (!comment.deleted) {
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+      }
       break;
     }
   }
+}
+
+/**
+ * Main entry point for all lesson sagas.
+ */
+export default function* lessonSagas() {
+  yield all([
+    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
+    takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
+    takeEvery('LESSON_COMMENTS_INCOMING_LIVE_PUSH', handleIncomingLiveComment),
+  ]);
 }

@@ -34,3 +34,31 @@ export const incomingLivePush = (action, comment) => ({
   action,
   comment,
 });
+
+/**
+ * Update comments amount for current lesson entity in app store. @todo
+ */
+export const commentsAmountIncrease = (paragraphId, organizationId) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_INCREASE',
+  paragraphId,
+  organizationId,
+});
+
+/**
+ * Update comments amount for current lesson entity in app store. @todo
+ */
+export const commentsAmountDecrease = (paragraphId, organizationId) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_DECREASE',
+  paragraphId,
+  organizationId,
+});
+
+/**
+ * Update comments amount for current lesson entity in app store.
+ */
+export const commentsAmountSet = (paragraphId, organizationId, amount) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET',
+  paragraphId,
+  organizationId,
+  amount,
+});

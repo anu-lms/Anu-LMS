@@ -158,6 +158,78 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
       };
     }
 
+    case 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_INCREASE': {
+      // Get index of currently active lesson.
+      const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson); // eslint-disable-line max-len
+      if (activeLessonIndex === -1) {
+        return state;
+      }
+
+      // Get index of active paragraph for which comments panel opened.
+      let activeLesson = _cloneDeep(state.lessons[activeLessonIndex]);
+      const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId); // eslint-disable-line max-len
+      if (activeBlockIndex === -1) {
+        return state;
+      }
+
+      // Get active organization id, use "0" key if there is no active organization.
+      const activeOrganizationId = action.organizationId ? action.organizationId : 0;
+
+      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0;
+
+      // Updates an amount of comments for active paragraph.
+      activeLesson.blocks[activeBlockIndex].commentsAmount = {
+        ...activeLesson.blocks[activeBlockIndex].commentsAmount,
+        [activeOrganizationId]: currentAmount + 1,
+      };
+
+      // Update lesson with paragraph in app store.
+      return {
+        ...state,
+        lessons: [
+          ...state.lessons.slice(0, activeLessonIndex),
+          activeLesson,
+          ...state.lessons.slice(activeLessonIndex + 1),
+        ],
+      };
+    }
+
+    case 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_DECREASE': {
+      // Get index of currently active lesson.
+      const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson); // eslint-disable-line max-len
+      if (activeLessonIndex === -1) {
+        return state;
+      }
+
+      // Get index of active paragraph for which comments panel opened.
+      let activeLesson = _cloneDeep(state.lessons[activeLessonIndex]);
+      const activeBlockIndex = activeLesson.blocks.findIndex(element => element.id === action.paragraphId); // eslint-disable-line max-len
+      if (activeBlockIndex === -1) {
+        return state;
+      }
+
+      // Get active organization id, use "0" key if there is no active organization.
+      const activeOrganizationId = action.organizationId ? action.organizationId : 0;
+
+      const currentAmount = activeLesson.blocks[activeBlockIndex].commentsAmount[activeOrganizationId] || 0;
+
+      // Updates an amount of comments for active paragraph.
+      activeLesson.blocks[activeBlockIndex].commentsAmount = {
+        ...activeLesson.blocks[activeBlockIndex].commentsAmount,
+        [activeOrganizationId]: currentAmount > 0 ? currentAmount - 1 : 0,
+      };
+
+      // Update lesson with paragraph in app store.
+      return {
+        ...state,
+        lessons: [
+          ...state.lessons.slice(0, activeLessonIndex),
+          activeLesson,
+          ...state.lessons.slice(activeLessonIndex + 1),
+        ],
+      };
+    }
+
     case 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET': {
       // Get index of currently active lesson.
       const activeLessonIndex = state.lessons.findIndex(element => element.id === state.activeLesson); // eslint-disable-line max-len
