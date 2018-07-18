@@ -28,7 +28,14 @@ class Comment {
   }
 
   /**
-   * Short description. @todo: add description.
+   * Push comment entity to the socket.
+   *
+   * @todo: Move socket part to separate service.
+   *
+   * @param $entity
+   *   Comment entity.
+   * @param $action
+   *   Action, can be `insert`, `update` or `delete`.
    */
   public function pushEntity($entity, $action) {
 
