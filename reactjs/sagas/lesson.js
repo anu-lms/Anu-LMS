@@ -154,15 +154,13 @@ function* sendLessonProgress(lesson, progress) {
 }
 
 /**
- * Handles an event when a new comment arrives from the websocket. @todo
+ * Handles an event when comment update arrives from the websocket.
  */
 function* handleIncomingLiveComment({ action, comment }) {
   const userId = yield select(reduxStore => reduxStore.user.data.uid);
   const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
   const userOrganizationIds = userOrganizations.map(organization => organization.id);
   const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId); // eslint-disable-line max-len
-
-  console.log('handleIncomingLiveComment', action, comment, userOrganizationIds, activeParagraphId);
 
   // Skip comments made by current user.
   if (comment.author.uid === userId) {
@@ -187,6 +185,7 @@ function* handleIncomingLiveComment({ action, comment }) {
       if (activeParagraphId > 0) {
         yield put(lessonCommentsActions.updateCommentInStore(comment));
       }
+      // Decrease an amount of comments if comment was marked as deleted.
       if (comment.deleted) {
         yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
       }
@@ -197,6 +196,7 @@ function* handleIncomingLiveComment({ action, comment }) {
       if (activeParagraphId > 0) {
         yield put(lessonCommentsActions.deleteCommentFromStore(comment.id));
       }
+      // Decrease comments amount, except comments marked as deleted (they already processed).
       if (!comment.deleted) {
         yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
       }
