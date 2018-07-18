@@ -37,7 +37,6 @@ class Comment extends AnuNormalizerBase {
     try {
       $text = $entity->field_comment_text->getValue();
       $paragraph_id = (int) $entity->field_comment_paragraph->getString();
-      $organization_id = (int) $entity->field_comment_organization->getString();
 
       $output = [
         'id' => (int) $entity->id(),
@@ -46,7 +45,8 @@ class Comment extends AnuNormalizerBase {
         'changed' => (int) $entity->changed->getString(),
         'fieldCommentText' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
         'fieldCommentParagraph' => $paragraph_id,
-        'fieldCommentOrganization' => ['tid' => $organization_id],
+        'fieldCommentOrganization' => ['tid' => (int) $entity->field_comment_organization->getString()],
+        'fieldCommentParent' => ['id' => (int) $entity->field_comment_parent->getString()],
         'fieldCommentDeleted' => (bool) $entity->field_comment_deleted->getString(),
       ];
 
