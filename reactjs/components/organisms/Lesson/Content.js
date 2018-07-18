@@ -50,6 +50,8 @@ class LessonContent extends React.Component {
     // Quizzes submit handling methods.
     this.submitAssessment = this.submitAssessment.bind(this);
     this.submitQuizzesAndRedirect = this.submitQuizzesAndRedirect.bind(this);
+
+    this.subscribeToSocket = this.subscribeToSocket.bind(this);
   }
 
   componentWillMount() {
@@ -57,7 +59,7 @@ class LessonContent extends React.Component {
   }
 
   componentDidMount() {
-    const { socket, dispatch, lesson } = this.props;
+    const { dispatch, lesson } = this.props;
 
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
@@ -66,19 +68,15 @@ class LessonContent extends React.Component {
     // It should trigger background sync of lesson progress.
     dispatch(lessonActions.opened(lesson));
 
-    // Listen for a new notification to arrive from socket.
-    socket.on(`comment.lesson.${lesson.id}`, comment => {
-      console.log(comment);
-      const normalizedComment = dataProcessors.processComment(comment.data);
-      dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
-    });
+    // Subscribe to the socket for lesson.
+    this.subscribeToSocket(lesson.id);
   }
 
   /**
    * @todo: Deprecated method.
    */
   componentWillUpdate(nextProps) {
-    const { socket, dispatch, lesson } = this.props;
+    const { dispatch, lesson } = this.props;
 
     // Gather list of paragraphs once per lesson page load.
     if (nextProps.lesson.id !== lesson.id) {
@@ -86,23 +84,25 @@ class LessonContent extends React.Component {
 
       // Send action that the previous lesson is closed and the new one
       // is opened.
-      this.props.dispatch(lessonActions.closed(lesson));
-      this.props.dispatch(lessonActions.opened(nextProps.lesson));
-
-      socket.off(`comment.lesson.${lesson.id}`);
-
-      // Listen for a new notification to arrive from socket.
-      socket.on(`comment.lesson.${nextProps.lesson.id}`, comment => {
-        console.log(comment);
-        const normalizedComment = dataProcessors.processComment(comment.data);
-        dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
-      });
+      dispatch(lessonActions.closed(lesson));
+      dispatch(lessonActions.opened(nextProps.lesson));
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { socket, lesson } = this.props;
+
     if (this.paragraphsToLoad.length === 0) {
       this.highlightParagraph();
+    }
+
+    // Gather list of paragraphs once per lesson page load.
+    if (prevProps.lesson.id !== lesson.id) {
+      // Unsubscibe from socket listening previous lesson.
+      socket.off(`comment.lesson.${prevProps.lesson.id}`);
+
+      // Subscribe to the socket for new lesson.
+      this.subscribeToSocket(lesson.id);
     }
   }
 
@@ -116,7 +116,23 @@ class LessonContent extends React.Component {
     // It should stop background sync of lesson progress.
     dispatch(lessonActions.closed(lesson));
 
+    // Unsubscribe from the socket if component unmounted.
     socket.off(`comment.lesson.${lesson.id}`);
+  }
+
+  /**
+   * Listen for a comment updates to arrive from socket.
+   *
+   * @param lessonId
+   *   Id of the lesson where user will be subscribed.
+   */
+  subscribeToSocket(lessonId) {
+    const { socket, dispatch } = this.props;
+
+    socket.on(`comment.lesson.${lessonId}`, comment => {
+      const normalizedComment = dataProcessors.processComment(comment.data);
+      dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
+    });
   }
 
   updateReadProgress() {
