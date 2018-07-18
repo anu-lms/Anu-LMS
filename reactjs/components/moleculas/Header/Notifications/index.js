@@ -20,11 +20,11 @@ class Notifications extends React.Component {
   }
 
   componentDidMount() {
-    const { socket, dispatch } = this.props;
+    const { socket, dispatch, currentUserId } = this.props;
     dispatch(notificationsActions.fetchUnread());
 
     // Listen for a new notification to arrive from socket.
-    socket.on('notification', notification => {
+    socket.on(`notification.user.${currentUserId}`, notification => {
       dispatch(notificationsActions.liveNotificationAdd(notification));
     });
   }
@@ -33,7 +33,8 @@ class Notifications extends React.Component {
    * Close socket connection.
    */
   componentWillUnmount() {
-    this.props.socket.off('notification');
+    const { socket, currentUserId } = this.props;
+    socket.off(`notification.user.${currentUserId}`);
   }
 
   closePopup() {
@@ -143,7 +144,7 @@ Notifications.defaultProps = {
   lastFetchedTimestamp: undefined,
 };
 
-const mapStateToProps = ({ notifications }) => {
+const mapStateToProps = ({ notifications, user }) => {
   const sortedNotifications = notifications.notifications.sort((a, b) => (b.created - a.created));
 
   const sortedReadNotifications = sortedNotifications.filter(item => item.isRead);
@@ -153,6 +154,7 @@ const mapStateToProps = ({ notifications }) => {
   }
 
   return {
+    currentUserId: user.data.uid,
     notifications: sortedNotifications,
     unreadAmount: sortedNotifications.filter(item => !item.isRead).length,
     isLoading: notifications.isLoading,

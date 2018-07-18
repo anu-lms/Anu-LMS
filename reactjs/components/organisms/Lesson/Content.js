@@ -67,13 +67,11 @@ class LessonContent extends React.Component {
     dispatch(lessonActions.opened(lesson));
 
     // Listen for a new notification to arrive from socket.
-    socket.on(`commentInLesson${lesson.id}`, comment => {
+    socket.on(`comment.lesson.${lesson.id}`, comment => {
       console.log(comment);
       const normalizedComment = dataProcessors.processComment(comment.data);
       dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
     });
-
-    console.log('componentDidMount', this.props);
   }
 
   /**
@@ -91,10 +89,10 @@ class LessonContent extends React.Component {
       this.props.dispatch(lessonActions.closed(lesson));
       this.props.dispatch(lessonActions.opened(nextProps.lesson));
 
-      socket.off(`commentInLesson${lesson.id}`);
+      socket.off(`comment.lesson.${lesson.id}`);
 
       // Listen for a new notification to arrive from socket.
-      socket.on(`commentInLesson${nextProps.lesson.id}`, comment => {
+      socket.on(`comment.lesson.${nextProps.lesson.id}`, comment => {
         console.log(comment);
         const normalizedComment = dataProcessors.processComment(comment.data);
         dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
@@ -118,7 +116,7 @@ class LessonContent extends React.Component {
     // It should stop background sync of lesson progress.
     dispatch(lessonActions.closed(lesson));
 
-    socket.off(`commentInLesson${lesson.id}`);
+    socket.off(`comment.lesson.${lesson.id}`);
   }
 
   updateReadProgress() {
