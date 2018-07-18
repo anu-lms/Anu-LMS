@@ -138,8 +138,11 @@ app.prepare()
       socket.on('notification', notification => {
         io.emit('notification', notification);
       });
-      socket.on('comment', notification => {
-        io.emit('comment', notification); // @todo: Should we emit to 'io' or to 'socket'?
+
+      socket.on('comment', comment => {
+        console.log(comment);
+        const lessonId = comment.data.lesson.nid;
+        io.emit(`commentInLesson${lessonId}`, comment); // @todo: Should we emit to 'io' or to 'socket'?
       });
     });
 
