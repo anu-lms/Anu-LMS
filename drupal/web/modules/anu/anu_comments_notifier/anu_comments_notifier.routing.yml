@@ -1,5 +1,13 @@
-anu_comments_notifier:
-  path: '/admin/anu_comments_notifier'
+anu_comments_notifier.anu:
+  path: '/admin/config/anu'
+  defaults:
+    _controller: '\Drupal\anu_comments_notifier\Controller\AnuSettingsController::description'
+    _title: 'Anu'
+  requirements:
+    _permission: 'edit content'
+
+anu_comments_notifier.anu.settings:
+  path: '/admin/config/anu/anu_comments_notifier'
   defaults:
     _form: '\Drupal\anu_comments_notifier\Form\AnuCommentsNotifierForm'
     _title: 'Anu Comments Notifier'
