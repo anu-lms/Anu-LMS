@@ -24,12 +24,12 @@ class CommentReadStatus extends FieldItemList {
     }
     else {
       // Make request to comment_read entity, mark comment as Read there is an existing record.
-      $existing_entities_amount = \Drupal::entityQuery('paragraph_comment_read')
+      $existing_entity = \Drupal::entityQuery('paragraph_comment_read')
         ->condition('uid', $current_user_uid)
         ->condition('field_comment', $this->getParent()->getValue()->id())
-        ->count()
+        ->range(0, 1)
         ->execute();
-      $value = $existing_entities_amount > 0;
+      $value = !empty($existing_entity);
     }
 
     $this->list[0] = $this->createItem(0, $value);
