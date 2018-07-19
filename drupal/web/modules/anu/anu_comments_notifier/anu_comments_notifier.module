@@ -41,7 +41,7 @@ function anu_comments_notifier_cron() {
       anu_comments_notifier_send_mail($counts);
     }
 
-    \Drupal::logger('anu_comments_notifier')->notice('anu_comments_notifier ran');
+    \Drupal::logger('anu_comments_notifier')->notice('Amount of comments per paragraph check ran');
     if (\Drupal::state()->get('anu_comments_notifier_show_status_message')) {
       \Drupal::messenger()
         ->addMessage(t('anu_comments_notifier executed at %time', ['%time' => date_iso8601($request_time)]));
@@ -94,14 +94,14 @@ function anu_comments_notifier_send_mail(array $counts) {
     $message = t('There was a problem sending email notification to %email.', [
       '%email' => $to
     ]);
-    drupal_set_message($message, 'error');
-    \Drupal::logger('mail-log')->error($message);
+    \Drupal::messenger()->addMessage($message, 'error');
+    \Drupal::logger('anu_comments_notifier')->error($message);
     return;
   }
 
   $message = t('An email notification has been sent to @email ', ['@email' => $to]);
-  drupal_set_message($message);
-  \Drupal::logger('mail-log')->notice($message);
+  \Drupal::messenger()->addMessage($message);
+  \Drupal::logger('anu_comments_notifier')->notice($message);
 }
 
 /**
