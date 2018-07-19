@@ -6,7 +6,7 @@ import AddCommentForm from '../Form';
 import NewCommentsBar from '../NewCommentsBar';
 import * as userHelper from '../../../../helpers/user';
 
-const CommentsList = ({ comments, replyTo }) => {
+const CommentsList = ({ comments, replyTo, unreadCommentsAmount }) => {
   const flatCommentsList = [];
 
   // Prepare list of comments.
@@ -38,7 +38,9 @@ const CommentsList = ({ comments, replyTo }) => {
 
   return (
     <div className="comments-list">
-      <NewCommentsBar newCommentsAmount={3} />
+      {unreadCommentsAmount > 0 &&
+        <NewCommentsBar newCommentsAmount={unreadCommentsAmount} />
+      }
       {flatCommentsList}
     </div>
   );
@@ -47,14 +49,17 @@ const CommentsList = ({ comments, replyTo }) => {
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
   replyTo: PropTypes.number,
+  unreadCommentsAmount: PropTypes.number,
 };
 
 CommentsList.defaultProps = {
   replyTo: null,
+  unreadCommentsAmount: 0,
 };
 
 const mapStateToProps = ({ lessonSidebar }) => ({
   replyTo: lessonSidebar.comments.form.replyTo,
+  unreadCommentsAmount: lessonSidebar.comments.comments.filter(comment => !comment.isRead).length,
 });
 
 export default connect(mapStateToProps)(CommentsList);
