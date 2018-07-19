@@ -26,13 +26,15 @@ class NewCommentsBar extends React.Component {
     };
   }
 
-  onCloseClick() {
+  onCloseClick(e) {
+    e.stopPropagation();
     this.setState({
       isShown: false,
     });
   }
 
   render() {
+    const { onClick } = this.props;
     const { currentAmount, isShown } = this.state;
 
     if (!isShown) {
@@ -41,7 +43,7 @@ class NewCommentsBar extends React.Component {
 
     return (
       <Sticky className="new-comments-sticky" enter="50" rootId="lesson-comments-scrollable">
-        <div className="new-comments-bar">
+        <div className="new-comments-bar" onClick={onClick}>
           <span className="arrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
               <g fill="none" fillRule="evenodd">
