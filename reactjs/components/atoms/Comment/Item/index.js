@@ -56,7 +56,7 @@ class Comment extends React.Component {
       // In 2 second mark comment as read in store (doesn't depend on backend response).
       setTimeout(() => {
         dispatch(markCommentAsReadInStore(commentId));
-      }, 3000);
+      }, 5000);
     }
   }
 
