@@ -121,6 +121,9 @@ class Comment extends React.Component {
 
             </div>
 
+            {!comment.isRead &&
+              <span className="new-label">new</span>
+            }
             <div className="context-menu">
               <CommentMenu comment={comment} />
             </div>

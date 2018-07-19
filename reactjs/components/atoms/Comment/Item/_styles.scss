@@ -19,9 +19,33 @@
       padding-left: 3em;
     }
   }
-  // @todo: remove test class.
+
+  // Default styles for orange left border for new comments. Set opacity 0 by default to show with animation.
+  &:before {
+    transition: opacity .2s;
+    content: '';
+    width: 4px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $clay-orange;
+    opacity: 0;
+  }
+
+  // Styles for new comment.
   &.new {
-    background-color: $white-grey;
+    .new-label {
+      color: $clay-orange;
+      font-size: 0.75em;
+      position: absolute;
+      font-style: italic;
+      top: -2px;
+      right: 28px;
+    }
+    &:before {
+      opacity: 1;
+    }
   }
 
   .comment-header {
