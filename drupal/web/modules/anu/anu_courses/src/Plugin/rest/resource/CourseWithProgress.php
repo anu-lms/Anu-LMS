@@ -91,10 +91,7 @@ class CourseWithProgress extends ResourceBase {
   }
 
   /**
-   * Returns a course node filtered by path with
-   * breakdown for learner's progress.
-   *
-   * @return \Drupal\rest\ResourceResponse
+   * Returns a course node filtered by path with breakdown for learner's progress.
    */
   public function get() {
 

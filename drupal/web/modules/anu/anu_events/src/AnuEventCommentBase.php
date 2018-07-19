@@ -4,6 +4,9 @@ namespace Drupal\anu_events;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for events handling of comments.
+ */
 abstract class AnuEventCommentBase extends AnuEventBase {
 
   /**
@@ -23,7 +26,7 @@ abstract class AnuEventCommentBase extends AnuEventBase {
   /**
    * {@inheritdoc}
    */
-  function shouldTrigger() {
+  public function shouldTrigger() {
     // We process only comment insert hook for now, feel free to move to another level in future.
     if ($this->hook !== 'entity_insert' || empty($this->entity)) {
       return FALSE;
@@ -61,4 +64,5 @@ abstract class AnuEventCommentBase extends AnuEventBase {
     $message->field_message_recipient = $this->getRecipient();
     $message->field_message_is_read = FALSE;
   }
+
 }

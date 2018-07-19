@@ -1,18 +1,17 @@
 <?php
 
-use \Drupal\Component\Render\FormattableMarkup;
-
 /**
  * @file
- * Contains main entry point for the module.
+ * Module implementation file.
  */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_course_resources_paragraph_update(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_course_resources_paragraph_update(EntityInterface $entity) {
   if ($entity->bundle() != 'media_resource') {
     return;
   }
@@ -43,9 +42,10 @@ function anu_course_resources_paragraph_update(Drupal\Core\Entity\EntityInterfac
         }
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not handle course resource flag update during paragraph insert/update. Error: @error', [
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_course_resources')->critical($message);
   }
@@ -53,10 +53,8 @@ function anu_course_resources_paragraph_update(Drupal\Core\Entity\EntityInterfac
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_course_resources_paragraph_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_course_resources_paragraph_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'media_resource') {
     return;
   }
@@ -92,7 +90,7 @@ function anu_course_resources_paragraph_delete(Drupal\Core\Entity\EntityInterfac
           ->getStorage('paragraph')
           ->loadByProperties([
             'type' => 'media_resource',
-            'parent_id' => $lessons
+            'parent_id' => $lessons,
           ]);
 
         // Make sure the current paragraph which is being deleted was not
@@ -116,21 +114,19 @@ function anu_course_resources_paragraph_delete(Drupal\Core\Entity\EntityInterfac
         }
       }
     }
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not handle course resource flag update during paragraph insert/update. Error: @error', [
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_course_resources')->critical($message);
   }
 }
 
-
 /**
  * Implements hook_ENTITY_TYPE_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function anu_course_resources_node_update(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_course_resources_node_update(EntityInterface $entity) {
   if ($entity->bundle() != 'lesson') {
     return;
   }
@@ -190,7 +186,7 @@ function anu_course_resources_node_update(Drupal\Core\Entity\EntityInterface $en
         ->getStorage('paragraph')
         ->loadByProperties([
           'type' => 'media_resource',
-          'parent_id' => $lessons
+          'parent_id' => $lessons,
         ]);
 
       // Gather a list of lessons which are published and contain resources.
@@ -217,10 +213,11 @@ function anu_course_resources_node_update(Drupal\Core\Entity\EntityInterface $en
       }
     }
 
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not update course resource flag from update of lesson @id. Error: @error', [
       '@id' => $entity->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_course_resources')->critical($message);
   }
@@ -228,13 +225,13 @@ function anu_course_resources_node_update(Drupal\Core\Entity\EntityInterface $en
 
 /**
  * Tracks removed paragraphs and force deletes them.
- * It was implemented due to
- * https://www.drupal.org/project/paragraphs/issues/2741937
  *
- * @param $lesson
+ * It was implemented due to https://www.drupal.org/project/paragraphs/issues/2741937.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $lesson
  *   Lesson node object.
  */
-function _anu_course_resources_delete_removed_paragraphs($lesson) {
+function _anu_course_resources_delete_removed_paragraphs(EntityInterface $lesson) {
   try {
 
     $paragraphs = [];
@@ -264,10 +261,11 @@ function _anu_course_resources_delete_removed_paragraphs($lesson) {
       $paragraph->delete();
     }
 
-  } catch (\Exception $exception) {
+  }
+  catch (\Exception $exception) {
     $message = new FormattableMarkup('Could not delete removed paragraphs for lesson @id. Error: @error', [
       '@id' => $lesson->id(),
-      '@error' => $exception->getMessage()
+      '@error' => $exception->getMessage(),
     ]);
     \Drupal::logger('anu_course_resources')->critical($message);
   }
