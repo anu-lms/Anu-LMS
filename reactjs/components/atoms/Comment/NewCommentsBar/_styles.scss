@@ -1,4 +1,5 @@
 .new-comments-bar {
+  @extend %reset-button;
   position: absolute;
   height: 32px;
   color: $white;
@@ -6,8 +7,20 @@
   top: 6px;
   left: 6px;
   right: 6px;
-  padding: 4px 10px;
   font-style: italic;
   text-align: center;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+  z-index: $zindex-fixed;
+  border-radius: 2px;
+  width: calc(100% - 12px);
+
+  .arrow {
+    position: absolute;
+    left: 10px;
+  }
+  .close-button {
+    @extend %reset-button;
+    position: absolute;
+    right: 10px;
+  }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NewCommentsBar = ({ newCommentsAmount }) => (
-  <div className="new-comments-bar">
+  <button className="new-comments-bar">
     <span className="arrow">
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
         <g fill="none" fillRule="evenodd">
@@ -19,7 +19,7 @@ const NewCommentsBar = ({ newCommentsAmount }) => (
         </g>
       </svg>
     </button>
-  </div>
+  </button>
 );
 
 export default NewCommentsBar;
