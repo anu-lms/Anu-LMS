@@ -132,7 +132,7 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => $this->t('Cron interval'),
       '#description' => $this->t('Time after which cron task will respond to a processing request.'),
-      '#default_value' => $config->get('interval'),
+      '#default_value' => $config->get('interval') ? $config->get('interval') : 86400 * 7,
       '#options' => [
         60 => $this->t('1 minute'),
         300 => $this->t('5 minutes'),
