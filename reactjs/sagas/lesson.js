@@ -5,6 +5,7 @@ import request from '../utils/request';
 import * as lessonActions from '../actions/lesson';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonHelper from '../helpers/lesson';
+import * as arrayHelper from '../utils/array';
 import ClientAuth from '../auth/clientAuth';
 /* eslint-disable no-use-before-define */
 
@@ -186,6 +187,15 @@ function* handleIncomingLiveComment({ action, comment }) {
 
     case 'update': {
       if (activeParagraphId > 0) {
+        // isRead value in pushed comment calculated regarding user who pushed it.
+        // We shouldn't override isRead flag and use value specific
+        // to current user from comment in store.
+        const comments = yield select(reduxStore => reduxStore.lessonSidebar.comments);
+        const commentInStore = arrayHelper.getObjectById(comments, comment.id);
+        if (commentInStore) {
+          comment.isRead = commentInStore.isRead;
+        }
+
         yield put(lessonCommentsActions.updateCommentInStore(comment));
       }
       // Decrease an amount of comments if comment was marked as deleted.

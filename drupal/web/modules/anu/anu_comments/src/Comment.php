@@ -43,6 +43,14 @@ class Comment {
       // Prepare comment entity to send to frontend.
       $normalizedEntity = AnuNormalizerBase::normalizeEntity($entity, ['lesson', 'uid']);
 
+      // isRead value in pushed comment calculated regarding user who pushed it.
+      // Current user pushes comment to other users, the value will be wrong
+      // for other users because it's calculated for the current user.
+      // We say New pushed comment is always unread for other users by default.
+      if ($action == 'insert') {
+        $normalizedEntity['isRead'] = FALSE;
+      }
+
       if (!$normalizedEntity) {
         throw new \Exception("Entity can't be normalized.");
       }
