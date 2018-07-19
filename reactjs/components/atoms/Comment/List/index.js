@@ -5,6 +5,8 @@ import Comment from '../Item';
 import AddCommentForm from '../Form';
 import NewCommentsBar from '../NewCommentsBar';
 import * as userHelper from '../../../../helpers/user';
+import { scrollToElement } from '../../../../utils/scrollTo';
+import { getFirstUnreadCommentId } from '../../../../helpers/comments';
 
 class CommentsList extends React.Component {
   constructor(props, context) {
@@ -13,8 +15,14 @@ class CommentsList extends React.Component {
   }
 
   handleNewCommentsBarClick() {
-    const { firstUnreadCommentId } = this.props;
-    console.log('handleNewCommentsBarClick', firstUnreadCommentId);
+    const { comments } = this.props;
+    const firstUnreadCommentId = getFirstUnreadCommentId(comments);
+    if (firstUnreadCommentId) {
+      scrollToElement(`comment-${firstUnreadCommentId}`, 'lesson-comments-scrollable', 200);
+    }
+    else {
+      console.error('There is a problem to scroll to the unread comment');
+    }
   }
 
   render() {
@@ -74,7 +82,6 @@ CommentsList.defaultProps = {
 const mapStateToProps = ({ lessonSidebar }) => ({
   replyTo: lessonSidebar.comments.form.replyTo,
   unreadCommentsAmount: lessonSidebar.comments.comments.filter(comment => !comment.isRead).length,
-  firstUnreadCommentId: 149,
 });
 
 export default connect(mapStateToProps)(CommentsList);
