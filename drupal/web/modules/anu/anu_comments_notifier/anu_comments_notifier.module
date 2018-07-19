@@ -13,18 +13,19 @@
 function anu_comments_notifier_cron() {
   // We access our configuration.
   $cron_config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
-  // Default to an hourly interval.
+  // Default to an weekly interval.
   $interval = $cron_config->get('interval');
-  $interval = !empty($interval) ? $interval : 3600;
+  $interval = !empty($interval) ? $interval : 86400 * 7;
   // Default to 50 comments per paragraph limit.
   $limit = $cron_config->get('limit');
   $limit = !empty($limit) ? $limit : 50;
+  $request_time = \Drupal::time()->getRequestTime();
 
   // We usually don't want to act every time cron runs
   // so keep a time for the next run in the site state.
   $next_execution = \Drupal::state()->get('anu_comments_notifier.next_execution');
   $next_execution = !empty($next_execution) ? $next_execution : 0;
-  if (\Drupal::time()->getRequestTime() >= $next_execution) {
+  if ($request_time >= $next_execution) {
 
     // Get amount of comments per paragraph.
     $counts = anu_comments_notifier_calculate_comments();
@@ -41,11 +42,11 @@ function anu_comments_notifier_cron() {
     \Drupal::logger('anu_comments_notifier')->notice('anu_comments_notifier ran');
     if (\Drupal::state()->get('anu_comments_notifier_show_status_message')) {
       \Drupal::messenger()
-        ->addMessage(t('anu_comments_notifier executed at %time', ['%time' => date_iso8601(\Drupal::time()->getRequestTime())]));
+        ->addMessage(t('anu_comments_notifier executed at %time', ['%time' => date_iso8601($request_time)]));
       \Drupal::state()->set('anu_comments_notifier_show_status_message', FALSE);
     }
     \Drupal::state()
-      ->set('anu_comments_notifier.next_execution', \Drupal::time()->getRequestTime() + $interval);
+      ->set('anu_comments_notifier.next_execution', $request_time + $interval);
   }
 }
 

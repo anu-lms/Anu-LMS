@@ -11,7 +11,7 @@ use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Form with examples on how to use cron.
+ * Comments notifier configuration form..
  */
 class AnuCommentsNotifierForm extends ConfigFormBase {
 
@@ -93,11 +93,12 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
     ];
 
     $next_execution = \Drupal::state()->get('anu_comments_notifier.next_execution');
-    $next_execution = !empty($next_execution) ? $next_execution : \Drupal::time()->getRequestTime();
+    $request_time = \Drupal::time()->getRequestTime();
+    $next_execution = !empty($next_execution) ? $next_execution : $request_time;
 
     $args = [
-      '%time' => date_iso8601(\Drupal::state()->get('anu_comments_notifier.next_execution')),
-      '%seconds' => max($next_execution - \Drupal::time()->getRequestTime(), 0),
+      '%time' => date_iso8601($next_execution),
+      '%seconds' => max($next_execution - $request_time, 0),
     ];
     $form['status']['last'] = [
       '#type' => 'item',
@@ -112,7 +113,7 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
       ];
       $form['cron_run']['cron_reset'] = [
         '#type' => 'checkbox',
-        '#title' => $this->t("Force running cron task regardless of whether interval has expired."),
+        '#title' => $this->t('Force running cron task regardless of whether interval has expired.'),
         '#default_value' => FALSE,
       ];
       $form['cron_run']['cron_trigger']['actions'] = ['#type' => 'actions'];
@@ -127,7 +128,7 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
       '#title' => $this->t('Configuration'),
       '#open' => TRUE,
     ];
-    $form['configuration']['anu_comments_notifier_interval'] = [
+    $form['configuration']['interval'] = [
       '#type' => 'select',
       '#title' => $this->t('Cron interval'),
       '#description' => $this->t('Time after which cron task will respond to a processing request.'),
@@ -140,13 +141,13 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
         86400 * 7 => $this->t('1 week'),
       ],
     ];
-    $form['configuration']['anu_comments_notifier_comments_limit'] = [
+    $form['configuration']['limit'] = [
       '#type' => 'number',
       '#title' => $this->t('Comments limit'),
       '#description' => $this->t('Maximum amount of comments per paragraph, which will trigger email notification.'),
       '#default_value' => $config->get('limit') ? $config->get('limit') : 50,
     ];
-    $form['configuration']['anu_comments_notifier_email'] = [
+    $form['configuration']['email'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email for notifications'),
       '#description' => $this->t('Comma delimited list of email addresses.'),
@@ -160,8 +161,6 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
    * Allow user to directly execute cron, optionally forcing it.
    */
   public function cronRun(array &$form, FormStateInterface &$form_state) {
-    $config = $this->configFactory->getEditable('anu_comments_notifier.settings');
-
     $cron_reset = $form_state->getValue('cron_reset');
     if (!empty($cron_reset)) {
       \Drupal::state()->set('anu_comments_notifier.next_execution', 0);
@@ -182,9 +181,9 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
     // this modules hook_cron function fires and will be used to ensure that
     // action is taken only after the appropiate time has elapsed.
     $this->configFactory->getEditable('anu_comments_notifier.settings')
-      ->set('interval', $form_state->getValue('anu_comments_notifier_interval'))
-      ->set('limit', $form_state->getValue('anu_comments_notifier_comments_limit'))
-      ->set('email', $form_state->getValue('anu_comments_notifier_email'))
+      ->set('interval', $form_state->getValue('interval'))
+      ->set('limit', $form_state->getValue('limit'))
+      ->set('email', $form_state->getValue('email'))
       ->save();
 
     parent::submitForm($form, $form_state);
