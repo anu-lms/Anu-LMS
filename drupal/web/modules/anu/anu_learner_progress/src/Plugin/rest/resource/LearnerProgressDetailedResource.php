@@ -63,13 +63,10 @@ class LearnerProgressDetailedResource extends ResourceBase {
    *
    * Saves lesson' progress of the current user.
    *
-   * @param $lessonId
+   * @param int $lessonId
    *   Node ID of the lesson.
-   *
-   * @param $progress
+   * @param int $progress
    *   Value from 0 to 100 representing the current progress.
-   *
-   * @return $this|\Drupal\rest\ResourceResponse
    */
   public function post($lessonId, $progress) {
 
@@ -122,9 +119,10 @@ class LearnerProgressDetailedResource extends ResourceBase {
         // Update existing or create a new entity.
         $course_progress->save();
       }
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not update learner progress. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
       return new ResourceResponse(['message' => $message], 406);
@@ -136,10 +134,9 @@ class LearnerProgressDetailedResource extends ResourceBase {
   /**
    * Save a new lesson progress.
    *
-   * @param $id
+   * @param int $id
    *   ID of learner progress entity of type "lesson".
-   *
-   * @param $progress
+   * @param int $progress
    *   Numeric value from 0 to 100 representing the current progress.
    */
   protected function updateLessonProgress($id, $progress) {
@@ -164,7 +161,8 @@ class LearnerProgressDetailedResource extends ResourceBase {
       // Update existing or create a new entity.
       $lesson_progress->save();
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = $this->t('Could not update lesson progress entity of type lesson (id @id). Error: @error', [
         '@id' => $id,
         '@error' => $e->getMessage(),
@@ -177,13 +175,13 @@ class LearnerProgressDetailedResource extends ResourceBase {
   /**
    * Return lesson progress entity of a given bundle and ID.
    *
-   * @param $bundle
+   * @param string $bundle
    *   Learner progress entity bundle name.
-   *
-   * @param $id
+   * @param int $id
    *   Learner progress entity ID.
    *
-   * @return \Drupal\Core\Entity\EntityInterface|mixed
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   Lesson progress entity.
    */
   protected function getLessonProgressEntity($bundle, $id) {
     try {
@@ -211,7 +209,8 @@ class LearnerProgressDetailedResource extends ResourceBase {
           ]);
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = $this->t('Could get lesson progress entity of type @type (id @id). Error: @error', [
         '@type' => $bundle,
         '@id' => $id,

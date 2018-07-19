@@ -19,7 +19,7 @@ class Lesson extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'node' && $entity->bundle() == 'lesson';
   }
@@ -27,7 +27,7 @@ class Lesson extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -43,12 +43,12 @@ class Lesson extends AnuNormalizerBase {
         'changed' => (int) $entity->changed->getString(),
         'title' => $entity->title->getString(),
         'path' => [
-          'alias' => $alias_service->getAliasByPath('/node/' . $entity->id())
+          'alias' => $alias_service->getAliasByPath('/node/' . $entity->id()),
         ],
         'fieldIsAssessment' => (bool) $entity->field_is_assessment->getString(),
         'fieldLessonCourse' => [
           'path' => [
-            'alias' => $alias_service->getAliasByPath('/node/' . $entity->field_lesson_course->getString())
+            'alias' => $alias_service->getAliasByPath('/node/' . $entity->field_lesson_course->getString()),
           ],
         ],
       ];
@@ -69,13 +69,15 @@ class Lesson extends AnuNormalizerBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

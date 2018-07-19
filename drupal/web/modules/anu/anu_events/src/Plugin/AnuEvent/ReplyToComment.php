@@ -18,7 +18,7 @@ class ReplyToComment extends AnuEventCommentBase {
   /**
    * {@inheritdoc}
    */
-  function shouldTrigger() {
+  public function shouldTrigger() {
     if (!parent::shouldTrigger()) {
       return FALSE;
     }
@@ -46,4 +46,5 @@ class ReplyToComment extends AnuEventCommentBase {
     }
     return NULL;
   }
+
 }
