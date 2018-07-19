@@ -1,37 +1,10 @@
-.comments-cta-wrapper {
-  height: 26px;
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  @include media-breakpoint-up(lg) {
-    height: 64px;
-    position: absolute;
-    left: -160px;
-    right: -160px;
-    .heading & {
-      height: 26px;
-    }
-  }
-}
-
 .comments-cta {
   cursor: pointer;
   position: absolute;
-  top: 10px;
-  right: 0;
+  bottom: -36px;
+  right: 15px;
   .heading & {
-    top: 0;
-  }
-
-  @include media-breakpoint-up(lg) {
-    right: 175px;
-    &.empty:not(.active) {
-      opacity: 0;
-      transition: .2s opacity;
-      .paragraph:hover & {
-        opacity: 1;
-      }
-    }
+    bottom: -28px;
   }
 
   svg path {
