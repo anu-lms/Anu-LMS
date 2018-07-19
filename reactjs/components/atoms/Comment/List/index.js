@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Comment from '../Item';
 import AddCommentForm from '../Form';
+import NewCommentsBar from '../NewCommentsBar';
 import * as userHelper from '../../../../helpers/user';
 
 const CommentsList = ({ comments, replyTo }) => {
@@ -37,6 +38,7 @@ const CommentsList = ({ comments, replyTo }) => {
 
   return (
     <div className="comments-list">
+      <NewCommentsBar newCommentsAmount={3} />
       {flatCommentsList}
     </div>
   );
