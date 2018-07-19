@@ -53,10 +53,10 @@ class Comment extends React.Component {
       // Send a request to the backend to mark comment as read.
       dispatch(markCommentAsRead(commentId));
 
-      // In 1 second mark comment as read in store (doesn't depend on backend response).
+      // In 2 second mark comment as read in store (doesn't depend on backend response).
       setTimeout(() => {
         dispatch(markCommentAsReadInStore(commentId));
-      }, 1000);
+      }, 3000);
     }
   }
 
