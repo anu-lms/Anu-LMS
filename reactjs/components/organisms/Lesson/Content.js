@@ -2,6 +2,7 @@ import Debug from 'debug';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { socketConnect } from 'socket.io-react';
 import Alert from 'react-s-alert';
 import urlParse from 'url-parse';
 import Paragraphs from '../../atoms/Paragraph';
@@ -14,6 +15,7 @@ import * as lessonHelpers from '../../../helpers/lesson';
 import * as courseActions from '../../../actions/course';
 import * as courseHelpers from '../../../helpers/course';
 import * as lock from '../../../utils/lock';
+import * as dataProcessors from '../../../utils/dataProcessors';
 
 const debug = Debug('anu:lesson');
 
@@ -48,6 +50,8 @@ class LessonContent extends React.Component {
     // Quizzes submit handling methods.
     this.submitAssessment = this.submitAssessment.bind(this);
     this.submitQuizzesAndRedirect = this.submitQuizzesAndRedirect.bind(this);
+
+    this.subscribeToSocket = this.subscribeToSocket.bind(this);
   }
 
   componentWillMount() {
@@ -55,42 +59,81 @@ class LessonContent extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch, lesson } = this.props;
+
     window.addEventListener('resize', this.updateReadProgress);
     window.addEventListener('scroll', this.updateReadProgress);
 
     // When component is mounted, send action that the lesson is opened.
     // It should trigger background sync of lesson progress.
-    this.props.dispatch(lessonActions.opened(this.props.lesson));
+    dispatch(lessonActions.opened(lesson));
+
+    // Subscribe to the socket for lesson.
+    this.subscribeToSocket(lesson.id);
   }
 
   /**
    * @todo: Deprecated method.
    */
   componentWillUpdate(nextProps) {
+    const { dispatch, lesson } = this.props;
+
     // Gather list of paragraphs once per lesson page load.
-    if (nextProps.lesson.id !== this.props.lesson.id) {
+    if (nextProps.lesson.id !== lesson.id) {
       this.updateParagraphsList(nextProps);
 
       // Send action that the previous lesson is closed and the new one
       // is opened.
-      this.props.dispatch(lessonActions.closed(this.props.lesson));
-      this.props.dispatch(lessonActions.opened(nextProps.lesson));
+      dispatch(lessonActions.closed(lesson));
+      dispatch(lessonActions.opened(nextProps.lesson));
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { socket, lesson } = this.props;
+
     if (this.paragraphsToLoad.length === 0) {
       this.highlightParagraph();
+    }
+
+    if (prevProps.lesson.id !== lesson.id) {
+      // Unsubscibe from socket listening previous lesson.
+      socket.off(`comment.lesson.${prevProps.lesson.id}`);
+
+      // Subscribe to the socket for new lesson.
+      this.subscribeToSocket(lesson.id);
     }
   }
 
   componentWillUnmount() {
+    const { socket, dispatch, lesson } = this.props;
+
     window.removeEventListener('resize', this.updateReadProgress);
     window.removeEventListener('scroll', this.updateReadProgress);
 
     // When component is being unmounted, send action that the lesson is closed.
     // It should stop background sync of lesson progress.
-    this.props.dispatch(lessonActions.closed(this.props.lesson));
+    dispatch(lessonActions.closed(lesson));
+
+    // Unsubscribe from the socket if component unmounted.
+    socket.off(`comment.lesson.${lesson.id}`);
+  }
+
+  /**
+   * Listen for a comment updates to arrive from socket.
+   *
+   * @param lessonId
+   *   Id of the lesson where user will be subscribed.
+   */
+  subscribeToSocket(lessonId) {
+    const { socket, dispatch } = this.props;
+
+    if (socket) {
+      socket.on(`comment.lesson.${lessonId}`, comment => {
+        const normalizedComment = dataProcessors.processComment(comment.data);
+        dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
+      });
+    }
   }
 
   updateReadProgress() {
@@ -405,6 +448,10 @@ LessonContent.contextTypes = {
   }),
 };
 
+LessonContent.defaultProps = {
+  socket: null,
+};
+
 LessonContent.propTypes = {
   storeLessons: PropTypes.arrayOf(PropTypes.object).isRequired,
   course: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -414,6 +461,7 @@ LessonContent.propTypes = {
   quizzesData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   quizzesSaved: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 };
 
-export default connect(mapStateToProps)(LessonContent);
+export default connect(mapStateToProps)(socketConnect(LessonContent));

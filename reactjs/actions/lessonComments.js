@@ -147,16 +147,6 @@ export const deleteCommentFromStore = commentId => ({
 });
 
 /**
- * Update comments amount for current lesson entity in app store.
- */
-export const lessonCommentsAmountSet = (paragraphId, organizationId, amount) => ({
-  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET',
-  paragraphId,
-  organizationId,
-  amount,
-});
-
-/**
  * Send request to the backend to mark comments as read.
  */
 export const markCommentAsRead = commentId => ({

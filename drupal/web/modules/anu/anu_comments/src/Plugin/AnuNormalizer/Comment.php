@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_comments\Plugin\AnuNormalizer;
 
+use Drupal\user\Entity\User;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Drupal\Component\Render\FormattableMarkup;
 
@@ -44,6 +45,8 @@ class Comment extends AnuNormalizerBase {
         'changed' => (int) $entity->changed->getString(),
         'fieldCommentText' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
         'fieldCommentParagraph' => $paragraph_id,
+        'fieldCommentOrganization' => ['tid' => (int) $entity->field_comment_organization->getString()],
+        'fieldCommentParent' => ['id' => (int) $entity->field_comment_parent->getString()],
         'fieldCommentDeleted' => (bool) $entity->field_comment_deleted->getString(),
       ];
 
@@ -55,6 +58,16 @@ class Comment extends AnuNormalizerBase {
         // Normalize lesson entity with lesson data included.
         if ($lesson && $lesson_normalized = AnuNormalizerBase::normalizeEntity($lesson)) {
           $output['lesson'] = $lesson_normalized;
+        }
+      }
+
+      // Attaches author data if necessary.
+      if (in_array('uid', $include_fields)) {
+        $user = User::load($entity->uid->getString());
+
+        // Normalize user entity.
+        if ($user && $user_normalized = AnuNormalizerBase::normalizeEntity($user)) {
+          $output['uid'] = $user_normalized;
         }
       }
 

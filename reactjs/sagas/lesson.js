@@ -1,7 +1,9 @@
 import { all, fork, take, put, takeEvery, select, call, cancel, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import _includes from 'lodash/includes';
 import request from '../utils/request';
 import * as lessonActions from '../actions/lesson';
+import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonHelper from '../helpers/lesson';
 import ClientAuth from '../auth/clientAuth';
 /* eslint-disable no-use-before-define */
@@ -11,16 +13,6 @@ import ClientAuth from '../auth/clientAuth';
  * to sync changed with backend (if there are some updates).
  */
 const backendSyncDelay = 3500;
-
-/**
- * Main entry point for all lesson sagas.
- */
-export default function* lessonSagas() {
-  yield all([
-    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
-    takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
-  ]);
-}
 
 /**
  * Saga watcher for lesson to open.
@@ -159,4 +151,73 @@ function* sendLessonProgress(lesson, progress) {
   } catch (error) {
     console.log('Could not send lesson\'s progress to the backend.', error);
   }
+}
+
+/**
+ * Handles an event when comment update arrives from the websocket.
+ */
+function* handleIncomingLiveComment({ action, comment }) {
+  const userId = yield select(reduxStore => reduxStore.user.data.uid);
+  const userOrganizations = yield select(reduxStore => reduxStore.user.data.organization);
+  const userOrganizationIds = userOrganizations.length > 0
+    ? userOrganizations.map(organization => organization.id)
+    : [0]; // Initialize organizations array with '0' (default id if no orgs) if user has no orgs.
+
+  const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId); // eslint-disable-line max-len
+
+  // Skip comments made by current user.
+  if (comment.author.uid === userId) {
+    return;
+  }
+
+  // Skip comments from not allowed organization.
+  if (!_includes(userOrganizationIds, comment.organizationId)) {
+    return;
+  }
+
+  switch (action) {
+    case 'insert': {
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.addCommentToStore(comment));
+      }
+      yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
+      break;
+    }
+
+    case 'update': {
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.updateCommentInStore(comment));
+      }
+      // Decrease an amount of comments if comment was marked as deleted.
+      if (comment.deleted) {
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
+      }
+      break;
+    }
+
+    case 'delete': {
+      if (activeParagraphId > 0) {
+        yield put(lessonCommentsActions.deleteCommentFromStore(comment.id));
+      }
+      // Decrease comments amount, except comments marked as deleted (they already processed).
+      if (!comment.deleted) {
+        yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId)); // eslint-disable-line max-len
+      }
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+/**
+ * Main entry point for all lesson sagas.
+ */
+export default function* lessonSagas() {
+  yield all([
+    takeEvery('LESSON_OPENED', lessonProgressSyncWatcher),
+    takeEvery('LESSON_OPENED', lessonQuizzesDataFetcher),
+    takeEvery('LESSON_COMMENTS_INCOMING_LIVE_PUSH', handleIncomingLiveComment),
+  ]);
 }
