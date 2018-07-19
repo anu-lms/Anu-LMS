@@ -190,7 +190,7 @@ function* handleIncomingLiveComment({ action, comment }) {
         // isRead value in pushed comment calculated regarding user who pushed it.
         // We shouldn't override isRead flag and use value specific
         // to current user from comment in store.
-        const comments = yield select(reduxStore => reduxStore.lessonSidebar.comments);
+        const comments = yield select(reduxStore => reduxStore.lessonSidebar.comments.comments);
         const commentInStore = arrayHelper.getObjectById(comments, comment.id);
         if (commentInStore) {
           comment.isRead = commentInStore.isRead;
