@@ -5,6 +5,8 @@
  * Module implementation file.
  */
 
+use Drupal\Core\Mail\MailFormatHelper;
+
 /**
  * Implements hook_cron().
  *
@@ -114,7 +116,7 @@ function anu_comments_notifier_mail($key, &$message, $params) {
       $message['subject'] = t('Some paragraphs at @title have lots of comments', [
         '@title' => \Drupal::config('system.site')->get('name')
       ]);
-      $message['body'][] = $params['message'];
+      $message['body'][] = MailFormatHelper::htmlToText($params['message']);
       break;
   }
 }
