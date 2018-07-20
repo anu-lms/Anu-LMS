@@ -6,6 +6,10 @@
  */
 
 use Drupal\Core\Mail\MailFormatHelper;
+use Drupal\user\Entity\User;
+
+const INTERVAL = 86400 * 7;
+const LIMIT = 50;
 
 /**
  * Implements hook_cron().
@@ -13,14 +17,6 @@ use Drupal\Core\Mail\MailFormatHelper;
  * Send email notifications about comments amount per paragraph over the limit.
  */
 function anu_comments_notifier_cron() {
-  // We access our configuration.
-  $cron_config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
-  // Default to an weekly interval.
-  $interval = $cron_config->get('interval');
-  $interval = !empty($interval) ? $interval : 86400 * 7;
-  // Default to 50 comments per paragraph limit.
-  $limit = $cron_config->get('limit');
-  $limit = !empty($limit) ? $limit : 50;
   $request_time = \Drupal::time()->getRequestTime();
 
   // We usually don't want to act every time cron runs
@@ -32,8 +28,8 @@ function anu_comments_notifier_cron() {
     // Get amount of comments per paragraph.
     $counts = anu_comments_notifier_calculate_comments();
     // Filter counts to report only the ones over the limit.
-    $counts = array_filter($counts, function ($el) use ($limit) {
-      return $el['id_count'] > $limit;
+    $counts = array_filter($counts, function ($el) {
+      return $el['id_count'] > LIMIT;
     });
 
     // Send email notification if there are some counts over the limit.
@@ -48,7 +44,7 @@ function anu_comments_notifier_cron() {
       \Drupal::state()->set('anu_comments_notifier_show_status_message', FALSE);
     }
     \Drupal::state()
-      ->set('anu_comments_notifier.next_execution', $request_time + $interval);
+      ->set('anu_comments_notifier.next_execution', $request_time + INTERVAL);
   }
 }
 
@@ -74,13 +70,19 @@ function anu_comments_notifier_calculate_comments() {
  */
 function anu_comments_notifier_send_mail(array $counts) {
   $mailManager = \Drupal::service('plugin.manager.mail');
-  $config = \Drupal::configFactory()->getEditable('anu_comments_notifier.settings');
 
   $module = 'anu_comments_notifier';
   $key = 'comments_limit';
-  $to = $config->get('email');
+  $to = [];
   $params['message'] = '';
   $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+  $admins = get_administrators();
+  foreach ($admins as $user) {
+    $to[] = $user->getEmail();
+  }
+
+  $to = implode(', ', $to);
 
   foreach ($counts as $count) {
     $params['message'] .= t('Paragraph %id has %count comments.<br>', [
@@ -119,4 +121,20 @@ function anu_comments_notifier_mail($key, &$message, $params) {
       $message['body'][] = MailFormatHelper::htmlToText($params['message']);
       break;
   }
+}
+
+/**
+ * Get list of active users with administrator role.
+ *
+ * @return \Drupal\user\Entity\User[]
+ *   List os user entities.
+ */
+function get_administrators() {
+  $ids = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('roles', 'administrator')
+    ->execute();
+  $users = User::loadMultiple($ids);
+
+  return $users;
 }
