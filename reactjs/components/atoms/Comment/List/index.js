@@ -67,7 +67,6 @@ class CommentsList extends React.Component {
   }
 }
 
-
 CommentsList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
   replyTo: PropTypes.number,
