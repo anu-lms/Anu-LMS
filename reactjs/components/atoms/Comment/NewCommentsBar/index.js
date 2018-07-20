@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Sticky from '../../Sticky';
-import { html } from '../../RichEditor/serializer';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 
 class NewCommentsBar extends React.Component {
@@ -46,6 +44,7 @@ class NewCommentsBar extends React.Component {
   render() {
     const { onClick } = this.props;
     const { currentAmount, isShown, stickyOptionsEnter } = this.state;
+    const commentsAmountLabel = currentAmount === 1 ? '1 new comment' : `${currentAmount} new comments`;
 
     if (!isShown) {
       return null;
@@ -62,7 +61,7 @@ class NewCommentsBar extends React.Component {
             </svg>
           </span>
 
-          {currentAmount} new comments
+          {commentsAmountLabel}
 
           <button className="close-button" onClick={this.onCloseClick} onKeyPress={this.onCloseClick}>
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
