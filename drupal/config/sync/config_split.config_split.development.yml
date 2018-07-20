@@ -8,15 +8,16 @@ folder: ../config/development
 module:
   anu_test_content: 0
   default_content: 0
-  hal: 0
   devel: 0
   devel_codemirror: 0
+  hal: 0
   kint: 0
   reroute_email: 0
   ssb_development: 0
   stage_file_proxy: 0
 theme: {  }
-blacklist: {  }
+blacklist:
+  - anu_comments_notifier.settings
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
