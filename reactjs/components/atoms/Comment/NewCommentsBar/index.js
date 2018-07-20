@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Sticky from '../../Sticky';
+import { html } from '../../RichEditor/serializer';
+import * as mediaBreakpoint from '../../../../utils/breakpoints';
 
 class NewCommentsBar extends React.Component {
   constructor(props, context) {
@@ -10,6 +12,7 @@ class NewCommentsBar extends React.Component {
     this.state = {
       isShown: true,
       currentAmount: 0,
+      stickyOptionsEnter: '43',
     };
   }
 
@@ -26,6 +29,13 @@ class NewCommentsBar extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // Use different entry point for sticky new comments tab on mobile and desktop.
+    this.setState({
+      stickyOptionsEnter: mediaBreakpoint.isDown('md') ? '43' : '58',
+    });
+  }
+
   onCloseClick(e) {
     e.stopPropagation();
     this.setState({
@@ -35,14 +45,14 @@ class NewCommentsBar extends React.Component {
 
   render() {
     const { onClick } = this.props;
-    const { currentAmount, isShown } = this.state;
+    const { currentAmount, isShown, stickyOptionsEnter } = this.state;
 
     if (!isShown) {
       return null;
     }
 
     return (
-      <Sticky className="new-comments-sticky" enter="50" rootId="lesson-comments-scrollable">
+      <Sticky className="new-comments-sticky" enter={stickyOptionsEnter} rootId="lesson-comments-scrollable">
         <div className="new-comments-bar" onClick={onClick}>
           <span className="arrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
