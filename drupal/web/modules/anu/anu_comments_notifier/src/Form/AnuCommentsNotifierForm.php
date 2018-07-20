@@ -11,7 +11,7 @@ use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Comments notifier configuration form..
+ * Comments notifier configuration form.
  */
 class AnuCommentsNotifierForm extends ConfigFormBase {
 
