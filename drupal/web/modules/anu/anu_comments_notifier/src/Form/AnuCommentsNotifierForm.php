@@ -72,8 +72,6 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->configFactory->get('anu_comments_notifier.settings');
-
     $form['comments'] = [
       '#type' => 'details',
       '#title' => $this->t('Comments state'),
