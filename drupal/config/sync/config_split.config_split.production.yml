@@ -7,8 +7,7 @@ label: 'Production changes'
 folder: ../config/production
 module: {  }
 theme: {  }
-blacklist:
-  - anu_comments_notifier.settings
+blacklist: {  }
 graylist:
   - system.site
   - contact.form.contact_form
