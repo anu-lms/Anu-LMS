@@ -169,3 +169,11 @@ export const markCommentAsReadInStore = commentId => ({
   type: 'LESSON_COMMENTS_MARK_AS_READ_IN_STORE',
   commentId,
 });
+
+/**
+ * Mark comment as not highlighted in store.
+ */
+export const markCommentAsUnhighlighted = commentId => ({
+  type: 'LESSON_COMMENTS_MARK_AS_UNHIGHLIGHTED',
+  commentId,
+});

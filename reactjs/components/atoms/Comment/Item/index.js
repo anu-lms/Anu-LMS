@@ -13,6 +13,7 @@ import {
   showReplyForm,
   markCommentAsRead,
   markCommentAsReadInStore,
+  markCommentAsUnhighlighted,
 } from '../../../../actions/lessonComments';
 
 class Comment extends React.Component {
@@ -29,13 +30,21 @@ class Comment extends React.Component {
   }
 
   componentDidMount() {
+    const { comment, dispatch } = this.props;
     // We update formatted date to make sure we set the date in the user's timezone and not in the
     // server's timezone.
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      date_formatted_hrs: moment(this.props.comment.created, 'X').format('h:mma'),
+      date_formatted_hrs: moment(comment.created, 'X').format('h:mma'),
       displayBlock: true,
     });
+
+    if (comment.isHighlighted) {
+      // In 1 second mark comment as not highlighted in store.
+      setTimeout(() => {
+        dispatch(markCommentAsUnhighlighted(comment.id));
+      }, 1000);
+    }
   }
 
   /**
@@ -80,7 +89,7 @@ class Comment extends React.Component {
     const defaultClasses = ['comment', 'fade-in-hidden'];
     const extraClasses = {
       'nested': comment.parent,
-      'highlighted': highlightedComment && highlightedComment === comment.id,
+      'highlighted': comment.isHighlighted || (highlightedComment && highlightedComment === comment.id),
       'fade-in-shown': this.state.displayBlock,
       'new': !comment.isRead,
     };
