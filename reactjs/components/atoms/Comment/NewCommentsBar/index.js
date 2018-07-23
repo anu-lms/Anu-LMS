@@ -1,19 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Sticky from '../../Sticky';
 import * as mediaBreakpoint from '../../../../utils/breakpoints';
 
 class NewCommentsBar extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.onCloseClick = this.onCloseClick.bind(this);
-    this.state = {
-      isShown: true,
-      currentAmount: 0,
-      stickyOptionsEnter: '43',
-    };
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!prevState.isShown) {
       return {
@@ -27,9 +17,20 @@ class NewCommentsBar extends React.Component {
     };
   }
 
+  constructor(props, context) {
+    super(props, context);
+
+    this.onCloseClick = this.onCloseClick.bind(this);
+    this.state = {
+      isShown: true,
+      currentAmount: 0,
+      stickyOptionsEnter: '43',
+    };
+  }
+
   componentDidMount() {
     // Use different entry point for sticky new comments tab on mobile and desktop.
-    this.setState({
+    this.setState({ // eslint-disable-line react/no-did-mount-set-state
       stickyOptionsEnter: mediaBreakpoint.isDown('md') ? '43' : '58',
     });
   }
@@ -52,7 +53,7 @@ class NewCommentsBar extends React.Component {
 
     return (
       <Sticky className="new-comments-sticky" enter={stickyOptionsEnter} rootId="lesson-comments-scrollable">
-        <div className="new-comments-bar" onClick={onClick}>
+        <div className="new-comments-bar" onClick={onClick} onKeyPress={onClick}>
           <span className="arrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
               <g fill="none" fillRule="evenodd">
@@ -76,6 +77,12 @@ class NewCommentsBar extends React.Component {
   }
 }
 
-NewCommentsBar.propTypes = {};
+NewCommentsBar.propTypes = {
+  onClick: PropTypes.func,
+};
+
+NewCommentsBar.defaultProps = {
+  onClick: () => {},
+};
 
 export default NewCommentsBar;
