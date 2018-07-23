@@ -2,9 +2,8 @@
 
 namespace Drupal\anu_comments_notifier\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\CronInterface;
-use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\State\StateInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Comments notifier configuration form.
  */
-class AnuCommentsNotifierForm extends ConfigFormBase {
+class AnuCommentsNotifierForm extends FormBase {
 
   /**
    * The current user.
@@ -39,12 +38,10 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $current_user, CronInterface $cron, StateInterface $state) {
-    parent::__construct($config_factory);
+  public function __construct(AccountInterface $current_user, CronInterface $cron, StateInterface $state) {
     $this->currentUser = $current_user;
     $this->cron = $cron;
     $this->state = $state;
-
   }
 
   /**
@@ -52,7 +49,6 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     $form = new static(
-      $container->get('config.factory'),
       $container->get('current_user'),
       $container->get('cron'),
       $container->get('state')
@@ -122,7 +118,7 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
       ];
     }
 
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**
@@ -144,8 +140,7 @@ class AnuCommentsNotifierForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
-    return ['anu_comments_notifier.settings'];
+  public function submitForm(array &$form, FormStateInterface $form_state) {
   }
 
 }
