@@ -5,6 +5,7 @@ namespace Drupal\anu_comment_read\Plugin\rest\resource;
 use Psr\Log\LoggerInterface;
 use Drupal\rest\ResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
+use Drupal\Core\Entity\EntityInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -34,6 +35,8 @@ class MarkCommentAsRead extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A current user instance.
+   * @param \Drupal\Core\Entity\EntityInterface $comment_read_storage
+   *   Comment read storage.
    */
   public function __construct(
     array $configuration,
@@ -41,7 +44,7 @@ class MarkCommentAsRead extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    $comment_read_storage) {
+    EntityInterface $comment_read_storage) {
 
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->commentReadStorage = $comment_read_storage;
