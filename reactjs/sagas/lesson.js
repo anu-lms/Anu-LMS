@@ -179,6 +179,8 @@ function* handleIncomingLiveComment({ action, comment }) {
   switch (action) {
     case 'insert': {
       if (activeParagraphId > 0) {
+        // Set isHighlighted flag by default for new live comments.
+        comment.isHighlighted = true;
         yield put(lessonCommentsActions.addCommentToStore(comment));
       }
       yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
