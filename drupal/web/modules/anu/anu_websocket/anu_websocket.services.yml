@@ -1,0 +1,3 @@
+services:
+  anu_websocket.websocket:
+      class: Drupal\anu_websocket.services\WebSocket

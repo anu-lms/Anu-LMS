@@ -30,27 +30,7 @@ class FrontendPush extends MessageNotifierBase {
       if (!$message) {
         throw new \Exception("Message entity can't be normalized.");
       }
-
-      // Get websocket URL.
-      $websocket = \Drupal::request()->getSchemeAndHttpHost();
-
-      // Send notification message to websocket.
-      $httpContext = [
-        'header' => [
-          'Origin: ' . $websocket,
-        ],
-      ];
-
-      $client = new Client(new Version2X($websocket, [
-        'context' => [
-          'http' => $httpContext,
-        ],
-      ]));
-
-      $client->initialize();
-      $client->emit('notification', \Drupal::service('serializer')
-        ->normalize($message, 'json'));
-      $client->close();
+      \Drupal::service('anu_websocket')->emit($message);
     }
     catch (\Exception $exception) {
 
