@@ -20,7 +20,7 @@ class AcceptanceTester extends \Codeception\Actor {
 
   use _generated\AcceptanceTesterActions;
 
-  const TIMEOUT = 5;
+  const TIMEOUT = null;
 
   /**
    * Authenticates user into the frontend.
@@ -48,7 +48,36 @@ class AcceptanceTester extends \Codeception\Actor {
     $I->click('Login');
 
     // Make sure authentication succeeded.
-    $I->waitForElement('.card');
+    $I->waitForElement('.site-header');
+  }
+
+  /**
+   * Authenticates user into the backend.
+   *
+   * @param $name
+   *   User name.
+   * @param $password
+   *   User password.
+   * @param bool $replace_pass
+   *   If different password is defined at CircleCI environment, use it instead of provided one.
+   * @throws Exception
+   */
+  public function backendLogin($name, $password, $replace_pass = FALSE) {
+    $I = $this;
+
+    if ($replace_pass) {
+      // Use different password at platform.sh.
+      $password = isset($_ENV["TEST_USERS_PASS"])? $_ENV["TEST_USERS_PASS"]: $password;
+    }
+
+    // Logging in.
+    $I->amOnPage('/admin/user/login');
+    $I->fillField('Username', $name);
+    $I->fillField('Password', $password);
+    $I->click('Log in');
+
+    // Make sure authentication succeeded.
+    $I->waitForText('To the site');
   }
 
 
@@ -162,7 +191,7 @@ class AcceptanceTester extends \Codeception\Actor {
       // Make sure Submit button is clickable.
       $I->waitForElementChange($comment_submit, function(\Facebook\WebDriver\WebDriverElement $el) {
         return $el->isEnabled();
-      }, 2);
+      });
 
       // Submit comment.
       $I->scrollAndClick($comment_submit);
@@ -186,7 +215,7 @@ class AcceptanceTester extends \Codeception\Actor {
       // Wait for fadein animation to finish.
       $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($xpath) {
         $by = $this->getLocator($xpath);
-        $webdriver->wait(1)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+        $webdriver->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
       });
 
       $I->comment("Added comment #$i with text: $comment_text.");
@@ -282,7 +311,7 @@ class AcceptanceTester extends \Codeception\Actor {
         // Locator for loading animation.
         $by = $this->getLocator('.loader');
         // Wait for .loader to appear.
-        $webdriver->wait(0.5)->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
+        $webdriver->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated($by));
         // Wait for .loader to disappear.
         $webdriver->wait($timeout)->until(WebDriverExpectedCondition::invisibilityOfElementLocated($by));
       }
@@ -405,7 +434,7 @@ class AcceptanceTester extends \Codeception\Actor {
     $I->amGoingTo('Wait for search results.');
     $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) {
       $by = \Facebook\WebDriver\WebDriverBy::cssSelector('#search-results-list .list .search-item');
-      $webdriver->wait(2)->until(
+      $webdriver->wait()->until(
         \Facebook\WebDriver\WebDriverExpectedCondition::visibilityOfElementLocated($by)
       );
     });

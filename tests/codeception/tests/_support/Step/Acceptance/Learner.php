@@ -14,4 +14,14 @@ class Learner extends \AcceptanceTester {
     $I->login('authenticated2.test', 'password', TRUE);
   }
 
+  public function loginAsLearner3() {
+    $I = $this;
+    $I->login('authenticated3.test', 'password', TRUE);
+  }
+
+  public function loginAsLearner4() {
+    $I = $this;
+    $I->login('authenticated4.test', 'password', TRUE);
+  }
+
 }
