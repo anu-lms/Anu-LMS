@@ -175,6 +175,8 @@ function* handleIncomingLiveComment({ action, comment }) {
   if (!_includes(userOrganizationIds, comment.organizationId)) {
     return;
   }
+  // Add an aditional flag to let app know that comment updated was processed by live updates.
+  comment.isProcessedByLive = true;
 
   switch (action) {
     case 'insert': {
