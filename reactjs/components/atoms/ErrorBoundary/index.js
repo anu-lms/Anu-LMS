@@ -10,9 +10,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ hasError: true });
-    if (Raven) {
-      Raven.captureException(error, { extra: errorInfo });
-    }
+    Raven.captureException(error, { extra: errorInfo });
   }
 
   // @todo: Improve behaviour, make message configurable.
