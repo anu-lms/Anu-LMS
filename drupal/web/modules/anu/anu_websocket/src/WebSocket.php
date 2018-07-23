@@ -13,10 +13,12 @@ class WebSocket {
   /**
    * Push data to the socket.
    *
+   * @param string $event_name
+   *   Name of the event to emit.
    * @param array $data
    *   An array with data to push.
    */
-  public function emit(array $data) {
+  public function emit($event_name, array $data) {
 
     try {
       // Get websocket URL.
@@ -38,7 +40,7 @@ class WebSocket {
 
       // Send entity to websocket.
       $client->initialize();
-      $client->emit('comment', \Drupal::service('serializer')->normalize($data, 'json'));
+      $client->emit($event_name, \Drupal::service('serializer')->normalize($data, 'json'));
       $client->close();
     }
     catch (\Exception $exception) {

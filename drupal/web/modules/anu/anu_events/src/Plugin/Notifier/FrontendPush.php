@@ -30,7 +30,7 @@ class FrontendPush extends MessageNotifierBase {
       if (!$message) {
         throw new \Exception("Message entity can't be normalized.");
       }
-      \Drupal::service('anu_websocket')->emit($message);
+      \Drupal::service('anu_websocket.websocket')->emit('notification', $message);
     }
     catch (\Exception $exception) {
 

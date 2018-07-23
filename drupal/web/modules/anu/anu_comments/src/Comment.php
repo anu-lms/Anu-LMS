@@ -58,7 +58,7 @@ class Comment {
         'action' => $action,
         'data' => $normalizedEntity,
       ];
-      \Drupal::service('anu_websocket')->emit($data);
+      \Drupal::service('anu_websocket.websocket')->emit('comment', $data);
     }
     catch (\Exception $exception) {
 
