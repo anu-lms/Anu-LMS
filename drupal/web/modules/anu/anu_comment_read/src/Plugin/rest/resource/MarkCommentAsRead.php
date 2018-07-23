@@ -35,7 +35,7 @@ class MarkCommentAsRead extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A current user instance.
-   * @param \Drupal\Core\Entity\EntityInterface $comment_read_storage
+   * @param \Drupal\Core\Entity\EntityStorageInterface $comment_read_storage
    *   Comment read storage.
    */
   public function __construct(
