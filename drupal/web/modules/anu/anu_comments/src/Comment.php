@@ -2,8 +2,6 @@
 
 namespace Drupal\anu_comments;
 
-use ElephantIO\Client;
-use ElephantIO\Engine\SocketIO\Version2X;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Drupal\Core\Entity\EntityInterface;
 
@@ -29,7 +27,7 @@ class Comment {
   }
 
   /**
-   * Push comment entity to the socket. @todo: Move socket part to separate service.
+   * Push comment entity to the socket.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   Comment entity.
@@ -55,31 +53,12 @@ class Comment {
         throw new \Exception("Entity can't be normalized.");
       }
 
-      // Get websocket URL.
-      $websocket = \Drupal::request()->getSchemeAndHttpHost();
-
-      // Prepares websocket config.
-      $httpContext = [
-        'header' => [
-          'Origin: ' . $websocket,
-        ],
-      ];
-
-      // Initialize client.
-      $client = new Client(new Version2X($websocket, [
-        'context' => [
-          'http' => $httpContext,
-        ],
-      ]));
-
-      // Send entity to websocket.
-      $client->initialize();
+      // Prepares data to push.
       $data = [
         'action' => $action,
         'data' => $normalizedEntity,
       ];
-      $client->emit('comment', \Drupal::service('serializer')->normalize($data, 'json'));
-      $client->close();
+      \Drupal::service('anu_websocket')->emit($data);
     }
     catch (\Exception $exception) {
 
