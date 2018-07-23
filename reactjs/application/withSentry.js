@@ -35,9 +35,7 @@ function withSentry(Child) {
 
     componentDidCatch(error, errorInfo) {
       this.setState({ error });
-      if (Raven) {
-        Raven.captureException(error, { extra: errorInfo });
-      }
+      Raven.captureException(error, { extra: errorInfo });
     }
 
     render() {
