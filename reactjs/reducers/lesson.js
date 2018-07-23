@@ -211,7 +211,7 @@ export default (state = { activeLesson: null, lessons: [] }, action) => {
       }
 
       // Get active organization id, use "0" key if there is no active organization.
-      const organizationId = action.organizationId ? action.organizationId : 0;
+      const organizationId = action.organizationId || 0;
 
       const currentAmount = activeLesson.blocks[blockIndex].commentsAmount[organizationId] || 0;
 
