@@ -8,7 +8,9 @@
 use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\user\Entity\User;
 
+// How often cron tab gets executed.
 const INTERVAL = 86400 * 7;
+// Amount of comments per paragraph, exceeding which will trigger the notification.
 const LIMIT = 50;
 
 /**
@@ -26,7 +28,7 @@ function anu_comments_notifier_cron() {
   if ($request_time >= $next_execution) {
 
     // Get amount of comments per paragraph.
-    $counts = anu_comments_notifier_calculate_comments();
+    $counts = _anu_comments_notifier_calculate_comments();
     // Filter counts to report only the ones over the limit.
     $counts = array_filter($counts, function ($el) {
       return $el['id_count'] > LIMIT;
@@ -34,7 +36,7 @@ function anu_comments_notifier_cron() {
 
     // Send email notification if there are some counts over the limit.
     if ($counts) {
-      anu_comments_notifier_send_mail($counts);
+      _anu_comments_notifier_send_mail($counts);
     }
 
     \Drupal::logger('anu_comments_notifier')->notice('Amount of comments per paragraph check ran');
@@ -54,7 +56,7 @@ function anu_comments_notifier_cron() {
  * @return array
  *   List of paragraphs and counts.
  */
-function anu_comments_notifier_calculate_comments() {
+function _anu_comments_notifier_calculate_comments() {
   $counts = \Drupal::entityQueryAggregate('paragraph_comment')
     ->groupBy('field_comment_paragraph')
     ->aggregate('id', 'COUNT')
@@ -68,7 +70,7 @@ function anu_comments_notifier_calculate_comments() {
  * @param array $counts
  *   List of paragraphs and counts.
  */
-function anu_comments_notifier_send_mail(array $counts) {
+function _anu_comments_notifier_send_mail(array $counts) {
   $mailManager = \Drupal::service('plugin.manager.mail');
 
   $module = 'anu_comments_notifier';
@@ -77,7 +79,7 @@ function anu_comments_notifier_send_mail(array $counts) {
   $params['message'] = '';
   $langcode = \Drupal::currentUser()->getPreferredLangcode();
 
-  $admins = get_administrators();
+  $admins = _anu_comments_notifier_get_administrators();
   foreach ($admins as $user) {
     $to[] = $user->getEmail();
   }
@@ -85,7 +87,7 @@ function anu_comments_notifier_send_mail(array $counts) {
   $to = implode(', ', $to);
 
   foreach ($counts as $count) {
-    $params['message'] .= t('Paragraph %id has %count comments.<br>', [
+    $params['message'] .= t('Paragraph %id has %count comments.<br />', [
       '%id' => $count['field_comment_paragraph'],
       '%count' => $count['id_count']
     ]);
@@ -129,7 +131,7 @@ function anu_comments_notifier_mail($key, &$message, $params) {
  * @return \Drupal\user\Entity\User[]
  *   List os user entities.
  */
-function get_administrators() {
+function _anu_comments_notifier_get_administrators() {
   $ids = \Drupal::entityQuery('user')
     ->condition('status', 1)
     ->condition('roles', 'administrator')
