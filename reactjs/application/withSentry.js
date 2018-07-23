@@ -23,17 +23,21 @@ function withSentry(Child) {
 
     componentDidMount() {
       // We integrate Raven in ComponentDidMount to use console plugin (doesn't work in other place)
-      Raven
-        .config(process.env.SENTRY_DSN, {
-          release: Package.version,
-        })
-        .addPlugin(require('raven-js/plugins/console')) // eslint-disable-line global-require
-        .install();
+      if (process.env.SENTRY_DSN) {
+        Raven
+          .config(process.env.SENTRY_DSN, {
+            release: Package.version,
+          })
+          .addPlugin(require('raven-js/plugins/console')) // eslint-disable-line global-require
+          .install();
+      }
     }
 
     componentDidCatch(error, errorInfo) {
       this.setState({ error });
-      Raven.captureException(error, { extra: errorInfo });
+      if (Raven) {
+        Raven.captureException(error, { extra: errorInfo });
+      }
     }
 
     render() {
