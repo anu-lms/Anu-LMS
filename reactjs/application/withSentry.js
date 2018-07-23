@@ -11,6 +11,7 @@ function withSentry(Child) {
       if (Child.getInitialProps) {
         return Child.getInitialProps(context);
       }
+
       return {};
     }
 
