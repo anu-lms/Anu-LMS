@@ -104,7 +104,7 @@ export default (state = initialState, action) => {
           ...state.comments,
           action.comment,
         ],
-        form: !action.comment.isProcessedByLive ? initialState.form : state.form,
+        form: action.resetForm ? initialState.form : state.form,
       };
 
     case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE': {
@@ -120,7 +120,7 @@ export default (state = initialState, action) => {
             action.comment,
             ...state.comments.slice(index + 1),
           ],
-          form: !action.comment.isProcessedByLive ? initialState.form : state.form,
+          form: action.resetForm ? initialState.form : state.form,
         };
       }
 
@@ -140,7 +140,7 @@ export default (state = initialState, action) => {
             ...state.comments.slice(0, index),
             ...state.comments.slice(index + 1),
           ],
-          form: !action.comment.isProcessedByLive ? initialState.form : state.form,
+          form: action.resetForm ? initialState.form : state.form,
         };
       }
 

@@ -86,9 +86,10 @@ export const addCommentError = () => ({
 /**
  * Add comment to the store.
  */
-export const addCommentToStore = comment => ({
+export const addCommentToStore = (comment, resetForm = true) => ({
   type: 'LESSON_COMMENTS_ADD_COMMENT_TO_STORE',
   comment,
+  resetForm,
 });
 
 /**
@@ -110,9 +111,10 @@ export const updateCommentError = () => ({
 /**
  * Update comment in the store.
  */
-export const updateCommentInStore = comment => ({
+export const updateCommentInStore = (comment, resetForm = true) => ({
   type: 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE',
   comment,
+  resetForm,
 });
 
 /**
@@ -141,9 +143,10 @@ export const deleteCommentError = () => ({
 /**
  * Delete comment from the application store.
  */
-export const deleteCommentFromStore = commentId => ({
+export const deleteCommentFromStore = (commentId, resetForm = true) => ({
   type: 'LESSON_COMMENTS_DELETE_COMMENT_FROM_STORE',
   commentId,
+  resetForm,
 });
 
 /**

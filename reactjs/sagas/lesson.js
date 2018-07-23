@@ -175,15 +175,13 @@ function* handleIncomingLiveComment({ action, comment }) {
   if (!_includes(userOrganizationIds, comment.organizationId)) {
     return;
   }
-  // Add an aditional flag to let app know that comment updated was processed by live updates.
-  comment.isProcessedByLive = true;
 
   switch (action) {
     case 'insert': {
       if (activeParagraphId > 0) {
         // Set isHighlighted flag by default for new live comments.
         comment.isHighlighted = true;
-        yield put(lessonCommentsActions.addCommentToStore(comment));
+        yield put(lessonCommentsActions.addCommentToStore(comment, false));
       }
       yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
       break;
@@ -200,7 +198,7 @@ function* handleIncomingLiveComment({ action, comment }) {
           comment.isRead = commentInStore.isRead;
         }
 
-        yield put(lessonCommentsActions.updateCommentInStore(comment));
+        yield put(lessonCommentsActions.updateCommentInStore(comment, false));
       }
       // Decrease an amount of comments if comment was marked as deleted.
       if (comment.deleted) {
@@ -211,7 +209,7 @@ function* handleIncomingLiveComment({ action, comment }) {
 
     case 'delete': {
       if (activeParagraphId > 0) {
-        yield put(lessonCommentsActions.deleteCommentFromStore(comment.id));
+        yield put(lessonCommentsActions.deleteCommentFromStore(comment.id, false));
       }
       // Decrease comments amount, except comments marked as deleted (they already processed).
       if (!comment.deleted) {
