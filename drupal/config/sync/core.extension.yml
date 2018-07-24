@@ -76,6 +76,7 @@ module:
   panels: 0
   path: 0
   pathauto: 0
+  raven: 0
   rest: 0
   restui: 0
   role_delegation: 0
