@@ -30,7 +30,7 @@ class NoteMenu extends Component {
         dispatch(notebookActions.toggleMobileVisibility());
       }
       catch (error) {
-        console.log(error);
+        console.error('Could not delete the note.', error);
         Alert.error('Could not delete the note. Please reload the page and try again.');
       }
 
