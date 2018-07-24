@@ -1,0 +1,18 @@
+uuid: 230abb1d-1061-4c9a-9c3c-547f5df1c4a3
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_comment_read
+    - serialization
+    - simple_oauth
+id: mark_comment_as_read
+plugin_id: mark_comment_as_read
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2

@@ -25,3 +25,40 @@ export const closed = lesson => ({
   type: 'LESSON_CLOSED',
   lesson,
 });
+
+/**
+ * Invokes event when a new live comment update arrives through socket.
+ */
+export const commentsIncomingLivePush = (action, comment) => ({
+  type: 'LESSON_COMMENTS_INCOMING_LIVE_PUSH',
+  action,
+  comment,
+});
+
+/**
+ * Increase comments amount for current lesson entity in app store.
+ */
+export const commentsAmountIncrease = (paragraphId, organizationId) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_INCREASE',
+  paragraphId,
+  organizationId,
+});
+
+/**
+ * Decrease comments amount for current lesson entity in app store.
+ */
+export const commentsAmountDecrease = (paragraphId, organizationId) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_DECREASE',
+  paragraphId,
+  organizationId,
+});
+
+/**
+ * Set comments amount for current lesson entity in app store.
+ */
+export const commentsAmountSet = (paragraphId, organizationId, amount) => ({
+  type: 'LESSON_PARAGRAPH_COMMENTS_AMOUNT_SET',
+  paragraphId,
+  organizationId,
+  amount,
+});

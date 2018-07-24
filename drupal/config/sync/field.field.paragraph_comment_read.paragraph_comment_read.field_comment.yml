@@ -1,0 +1,25 @@
+uuid: 7ec9650c-5a03-4520-8912-a2d85ad76a79
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment_read.paragraph_comment_read
+    - field.storage.paragraph_comment_read.field_comment
+id: paragraph_comment_read.paragraph_comment_read.field_comment
+field_name: field_comment
+entity_type: paragraph_comment_read
+bundle: paragraph_comment_read
+label: Comment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: parent_comment_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference
