@@ -165,6 +165,7 @@ function* handleIncomingLiveComment({ action, comment }) {
     : [0]; // Initialize organizations array with '0' (default id if no orgs) if user has no orgs.
 
   const activeParagraphId = yield select(reduxStore => reduxStore.lessonSidebar.comments.paragraphId); // eslint-disable-line max-len
+  const activeOrganizationId = yield select(reduxStore => reduxStore.user.activeOrganization);
 
   // Skip comments made by current user.
   if (comment.author.uid === userId) {
@@ -178,7 +179,7 @@ function* handleIncomingLiveComment({ action, comment }) {
 
   switch (action) {
     case 'insert': {
-      if (activeParagraphId > 0) {
+      if (activeParagraphId > 0 && comment.organizationId === activeOrganizationId) {
         // Set isHighlighted flag by default for new live comments.
         comment.isHighlighted = true;
         yield put(lessonCommentsActions.addCommentToStore(comment, false));
@@ -188,7 +189,7 @@ function* handleIncomingLiveComment({ action, comment }) {
     }
 
     case 'update': {
-      if (activeParagraphId > 0) {
+      if (activeParagraphId > 0 && comment.organizationId === activeOrganizationId) {
         // isRead value in pushed comment calculated regarding user who pushed it.
         // We shouldn't override isRead flag and use value specific
         // to current user from comment in store.
@@ -208,7 +209,7 @@ function* handleIncomingLiveComment({ action, comment }) {
     }
 
     case 'delete': {
-      if (activeParagraphId > 0) {
+      if (activeParagraphId > 0 && comment.organizationId === activeOrganizationId) {
         yield put(lessonCommentsActions.deleteCommentFromStore(comment.id, false));
       }
       // Decrease comments amount, except comments marked as deleted (they already processed).
