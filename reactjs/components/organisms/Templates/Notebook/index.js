@@ -43,7 +43,6 @@ class NotebookTemplate extends React.Component {
   checkUnsavedNotesOnPageClose(event) { // eslint-disable-line consistent-return
     const unsavedNotes = notebookHelpers.getUnsavedNotes(this.props.notes);
     if (unsavedNotes.length > 0) {
-      console.log(unsavedNotes);
       const confirmationMessage = 'Changes you made may not be saved.';
       (event || window.event).returnValue = confirmationMessage; // Gecko + IE
       return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.

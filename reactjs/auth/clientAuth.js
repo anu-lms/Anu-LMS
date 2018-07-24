@@ -44,12 +44,10 @@ export default class extends Auth {
             resolve();
           }
           else {
-            console.log('Auth error:');
-            console.log(error);
+            console.error('Auth error:', error);
 
             if (response && response.body && response.body.message) {
-              console.log('Response:');
-              console.log(response);
+              console.log('Response:', response.body.message);
               reject(response.body.message);
             }
 

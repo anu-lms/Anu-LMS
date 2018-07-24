@@ -304,9 +304,6 @@ class LessonContent extends React.Component {
 
     this.setState({ isSending: true });
 
-    console.log('Submitting data:');
-    console.log(quizzesData);
-
     // Lock logout until post operation is safely completed.
     const lockId = lock.add('quizzes-save');
 
