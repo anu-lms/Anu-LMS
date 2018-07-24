@@ -46,6 +46,7 @@
     "react-player-controls": "^0.5.18",
     "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
+    "react-visibility-sensor": "^3.11.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^5.4.0",

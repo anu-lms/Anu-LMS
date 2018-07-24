@@ -7,9 +7,9 @@
 
 use Drupal\user\Entity\User;
 use Drupal\eck\Entity\EckEntity;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Access\AccessResult;
 
 /**
  * Enables revisions for comment entity by default.
