@@ -28,6 +28,10 @@ $config['config_split.config_split.production']['status'] = FALSE;
 // Default hash salt.
 $settings['hash_salt'] = 'pmh6LA6706mDIFTHfM5Seiy6PFp-3qIK2DWwWy5MtsHulxYxyzjsXDvrvAgTFZCmncUB76lnEA';
 
+// Takes key for Sentry from Platform project variables.
+if (!empty($_ENV['SENTRY_DSN'])) {
+  $config['raven.settings']['client_key'] = $_ENV['SENTRY_DSN'];
+}
 
 // Do not send emails by default.
 // If you want to send emails from dev environment you should either:

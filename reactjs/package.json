@@ -29,6 +29,7 @@
     "nprogress": "^0.2.0",
     "platformsh": "^1.0.0",
     "prop-types": "^15.6.1",
+    "raven-js": "^3.26.3",
     "raw-loader": "^0.5.1",
     "rc-slider": "^8.6.0",
     "react": "^16.4.0",
