@@ -1,0 +1,59 @@
+.new-comments-bar {
+  top: 48px;
+  left: 6px;
+  right: 6px;
+  position: absolute;
+  height: 32px;
+  transition: background-color .3s;
+  color: $white;
+  background-color: $clay-orange;
+  font-style: italic;
+  text-align: center;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+  z-index: $zindex-fixed;
+  border-radius: 2px;
+  cursor: pointer;
+  padding-top: 4px;
+
+  @include media-breakpoint-up(md) {
+    top: 62px;
+  }
+  &:hover {
+    background-color: darken($clay-orange, 2);
+  }
+  &:active {
+    background-color: darken($clay-orange, 5);
+  }
+
+  .arrow {
+    position: absolute;
+    left: 10px;
+  }
+  .close-button {
+    @extend %reset-button;
+    transition: fill .3s;
+    position: absolute;
+    right: 8px;
+    padding: 1px 6px;
+    cursor: pointer;
+    &:hover {
+      path {
+        fill: darken($white, 5);
+      }
+    }
+    &:active {
+      path {
+        fill: darken($white, 10);
+      }
+    }
+  }
+}
+
+.new-comments-sticky.sticky-element.sticky {
+  top: 42px;
+  width: 100%;
+  @include media-breakpoint-up(md) {
+    top: 60px;
+    width: 480px;
+  }
+}
