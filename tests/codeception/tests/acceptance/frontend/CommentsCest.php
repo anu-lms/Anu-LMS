@@ -11,6 +11,10 @@ class CommentsCest {
 
   private $comments;
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentOperations(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -57,6 +61,10 @@ class CommentsCest {
     $I->dontSeeElement("#$id");
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentPermissions(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
 
@@ -88,6 +96,10 @@ class CommentsCest {
     });
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentsThread(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -119,6 +131,10 @@ class CommentsCest {
     });
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentlink(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -148,6 +164,10 @@ class CommentsCest {
 
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -167,8 +187,35 @@ class CommentsCest {
     //$I->deleteComment($this->comments[0]);
   }
 
-  public function _after(\AcceptanceTester $I) {
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function CommentsCounter(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner3();
+    $I->openVideoComments();
 
+    // Get current count of comments of the first video paragraph.
+    $count = $I->getCommentsCount('9991191');
+
+    // Add a comment.
+    $comment = $I->createComments(1)[0];
+    // Make sure amount of comments updated.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count + 1);
+
+    // Delete comment.
+    $I->deleteComment($comment);
+    // Close "Comment deleted" info dialog.
+    $I->click('.s-alert-close');
+    // Make sure amount of comments updated.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count);
+
+    // Switch to Test Organization 2.
+    $I->switchToOrganization('Test Organization 2');
+
+    // Make sure that amomunt of comments is different for org 2.
+    $org2_count = $I->getCommentsCount('9991191');
+    $I->assertNotEquals($count, $org2_count);
   }
 
 }
