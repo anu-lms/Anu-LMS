@@ -4,6 +4,7 @@ module:
   admin_toolbar_tools: 0
   anu_auth: 0
   anu_classes: 0
+  anu_comment_read: 0
   anu_comments: 0
   anu_content_administration: 0
   anu_course_resources: 0
@@ -19,6 +20,7 @@ module:
   anu_quizzes: 0
   anu_search: 0
   anu_user: 0
+  anu_websocket: 0
   block: 0
   breakpoint: 0
   cer: 0
@@ -75,6 +77,7 @@ module:
   panels: 0
   path: 0
   pathauto: 0
+  raven: 0
   rest: 0
   restui: 0
   role_delegation: 0

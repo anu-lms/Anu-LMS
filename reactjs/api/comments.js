@@ -5,7 +5,7 @@ import * as dataProcessors from '../utils/dataProcessors';
  */
 export const fetchComments = (request, paragraphId, organizationId = null) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   const query = {
-    'include': 'uid, field_comment_parent',
+    'include': 'uid, field_comment_parent, field_comment_organization',
     // Filter by paragraph id.
     'filter[field_comment_paragraph][value]': paragraphId,
     // Filter comments by organization.
@@ -31,7 +31,7 @@ export const fetchComments = (request, paragraphId, organizationId = null) => ne
       resolve(comments);
     })
     .catch(error => {
-      console.log('Could not fetch list of comments.', error);
+      console.error('Could not fetch list of comments.', error);
       reject(error);
     });
 });
@@ -43,7 +43,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
   request
     .post('/jsonapi/paragraph_comment/paragraph_comment')
     .query({
-      'include': 'uid, field_comment_parent',
+      'include': 'uid, field_comment_parent, field_comment_organization',
     })
     .send({
       data: {
@@ -65,7 +65,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
       resolve(comment);
     })
     .catch(error => {
-      console.log('Could not save the comment.', error);
+      console.error('Could not save the comment.', error);
       reject(error);
     });
 });
@@ -88,7 +88,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
   request
     .patch(`/jsonapi/paragraph_comment/paragraph_comment/${uuid}`)
     .query({
-      'include': 'uid, field_comment_parent',
+      'include': 'uid, field_comment_parent, field_comment_organization',
     })
     .send({
       data: {
@@ -102,7 +102,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
       resolve(comment);
     })
     .catch(error => {
-      console.log('Could not update a comment.', error);
+      console.error('Could not update a comment.', error);
       reject(error);
     });
 });
@@ -118,7 +118,27 @@ export const deleteComment = (request, uuid) => new Promise((resolve, reject) =>
       resolve();
     })
     .catch(error => {
-      console.log('Could not delete a comment.', error);
+      console.error('Could not delete a comment.', error);
+      reject(error);
+    });
+});
+
+/**
+ * Make a request to the backend to mark list of comments as read.
+ */
+export const markCommentsAsRead = (request, commentIds) => new Promise((resolve, reject) => {
+  request
+    .post('/comments/mark-as-read')
+    .query({ '_format': 'json' })
+    .set('Content-Type', 'application/json')
+    .send({
+      comment_ids: commentIds,
+    })
+    .then(response => {
+      resolve(response.body);
+    })
+    .catch(error => {
+      console.log('Could not mark comments as read.', error);
       reject(error);
     });
 });
