@@ -217,7 +217,7 @@ function* markCommentsAsRead() {
     const accessToken = yield apply(auth, auth.getAccessToken);
     request.set('Authorization', `Bearer ${accessToken}`);
 
-    if (commentIds.length > 0) {
+    if (commentIds && commentIds.length > 0) {
       // Makes request to the backend to mark list of comments as read.
       const responseCommentIds = yield call(
         commentsApi.markCommentsAsRead,
