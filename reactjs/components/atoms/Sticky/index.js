@@ -17,6 +17,9 @@ class Sticky extends React.Component {
     const rootElement = this.props.rootId ? document.getElementById(this.props.rootId) : document;
     this.onScrollHandlerId = () => { this.onScroll(stickies); };
     rootElement.addEventListener('scroll', this.onScrollHandlerId);
+
+    // Trigger sticky first time when component mounted.
+    this.onScroll(stickies);
   }
 
   componentWillUnmount() {

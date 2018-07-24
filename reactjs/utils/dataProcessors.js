@@ -194,6 +194,7 @@ export const processComment = rawComment => {
     uuid: rawComment.uuid,
     created: rawComment.created,
     changed: rawComment.changed,
+    isRead: rawComment.isRead,
     text: rawComment.fieldCommentText ? rawComment.fieldCommentText.value : '',
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
     paragraphId: rawComment.fieldCommentParagraph,
