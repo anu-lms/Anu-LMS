@@ -2,18 +2,13 @@
 
 /**
  * @file
- * Main starting point for anu_events module.
+ * Module implementation file.
  */
 
 use Drupal\anu_events\AnuEventBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
-
-/**
- * @file
- * Contains hooks definition for Anu Events module.
- */
 
 /**
  * Implements hook_entity_insert().
@@ -41,7 +36,7 @@ function anu_events_paragraph_comment_delete(EntityInterface $entity) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_delete().
+ * Implements hook_ENTITY_TYPE_update().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   Entity object.

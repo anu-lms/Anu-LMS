@@ -40,6 +40,7 @@ permissions:
   - 'restful post contact_message'
   - 'restful post learner_progress'
   - 'restful post learner_progress_detailed'
+  - 'restful post mark_comment_as_read'
   - 'restful post notifications_mark_all_as_read'
   - 'restful post quizzes_results'
   - 'restful post user_token_revoke'
