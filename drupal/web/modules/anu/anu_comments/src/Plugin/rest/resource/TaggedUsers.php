@@ -81,26 +81,32 @@ class TaggedUsers extends ResourceBase {
 
     // Filter by isRead get param if exists.
     $organization_id = $this->currentRequest->query->get('organization_id');
-    $organization = Term::load($organization_id);
 
-    if (!$organization || !$organization->access('view')) {
+    // Make sure current user has given organization.
+    $current_user = User::load($this->currentUser->id());
+    $current_user_orgs = array_column($current_user->field_organization->getValue(), 'target_id');
+    if (!in_array($organization_id, $current_user_orgs)) {
       return new ResourceResponse([], 406);
     }
 
+    // Makes request to the database to get list of users.
     $query = \Drupal::entityQuery('user')
       ->condition('status', 1)
       ->condition('field_organization', $organization_id);
 
+    // Find any users where name, first name or last name starts with given query text.
     $group = $query->orConditionGroup()
       ->condition('name', $search_query, 'STARTS_WITH')
       ->condition('field_first_name', $search_query, 'STARTS_WITH')
       ->condition('field_last_name', $search_query, 'STARTS_WITH');
 
+    // Executes a query.
     $ids = $query
       ->condition($group)
       ->range(0, 10)
       ->execute();
 
+    // Load list of users to pass to the frontend.
     $accounts = User::loadMultiple($ids);
 
     $output = [];
