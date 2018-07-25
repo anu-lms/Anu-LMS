@@ -3,7 +3,6 @@
 namespace Drupal\anu_comments\Plugin\rest\resource;
 
 use Drupal\user\Entity\User;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\Core\Session\AccountProxyInterface;
