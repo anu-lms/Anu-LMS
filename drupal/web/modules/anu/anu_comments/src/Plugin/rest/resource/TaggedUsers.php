@@ -3,8 +3,10 @@
 namespace Drupal\anu_comments\Plugin\rest\resource;
 
 use Drupal\user\Entity\User;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,9 +45,11 @@ class TaggedUsers extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    Request $current_request) {
+    Request $current_request,
+    AccountProxyInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->currentRequest = $current_request;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -58,7 +62,8 @@ class TaggedUsers extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('anu_comments'),
-      $container->get('request_stack')->getCurrentRequest()
+      $container->get('request_stack')->getCurrentRequest(),
+      $container->get('current_user')
     );
   }
 
@@ -71,15 +76,16 @@ class TaggedUsers extends ResourceBase {
    *   Throws exception expected.
    */
   public function get() {
-    $account = User::load(4);
-
     // Filter by isRead get param if exists.
-    $search_query = $this->currentRequest->query->get('query');
+    $search_query = trim($this->currentRequest->query->get('query'));
 
     // Filter by isRead get param if exists.
     $organization_id = $this->currentRequest->query->get('organization_id');
+    $organization = Term::load($organization_id);
 
-    // @todo: check that user has an access to this organization.
+    if (!$organization || !$organization->access('view')) {
+      return new ResourceResponse([], 406);
+    }
 
     $query = \Drupal::entityQuery('user')
       ->condition('status', 1)
@@ -97,9 +103,15 @@ class TaggedUsers extends ResourceBase {
 
     $accounts = User::loadMultiple($ids);
 
-    // Returns normalized user entity.
-    $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($account), 200);
-    return $response->addCacheableDependency(['#cache' => ['max-age' => 0]]);
+    $output = [];
+    foreach ($accounts as $account) {
+      if ($account->access('view')) {
+        $output[] = AnuNormalizerBase::normalizeEntity($account);
+      }
+    }
+
+    // Returns an array of normalized user entities.
+    return new ResourceResponse($output, 200);
   }
 
 }
