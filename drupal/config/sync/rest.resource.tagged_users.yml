@@ -1,0 +1,18 @@
+uuid: 43943c4e-03c4-4e37-b107-e782374fb0b5
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_comments
+    - serialization
+    - simple_oauth
+id: tagged_users
+plugin_id: tagged_users
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - oauth2
