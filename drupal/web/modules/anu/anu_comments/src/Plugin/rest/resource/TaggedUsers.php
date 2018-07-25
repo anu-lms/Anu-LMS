@@ -7,6 +7,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,8 +42,10 @@ class TaggedUsers extends ResourceBase {
     $plugin_id,
     $plugin_definition,
     array $serializer_formats,
-    LoggerInterface $logger) {
+    LoggerInterface $logger,
+    Request $current_request) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->currentRequest = $current_request;
   }
 
   /**
@@ -54,7 +57,8 @@ class TaggedUsers extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('anu_comments')
+      $container->get('logger.factory')->get('anu_comments'),
+      $container->get('request_stack')->getCurrentRequest()
     );
   }
 
@@ -68,6 +72,30 @@ class TaggedUsers extends ResourceBase {
    */
   public function get() {
     $account = User::load(4);
+
+    // Filter by isRead get param if exists.
+    $search_query = $this->currentRequest->query->get('query');
+
+    // Filter by isRead get param if exists.
+    $organization_id = $this->currentRequest->query->get('organization_id');
+
+    // @todo: check that user has an access to this organization.
+
+    $query = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('field_organization', $organization_id);
+
+    $group = $query->orConditionGroup()
+      ->condition('name', $search_query, 'STARTS_WITH')
+      ->condition('field_first_name', $search_query, 'STARTS_WITH')
+      ->condition('field_last_name', $search_query, 'STARTS_WITH');
+
+    $ids = $query
+      ->condition($group)
+      ->range(0, 10)
+      ->execute();
+
+    $accounts = User::loadMultiple($ids);
 
     // Returns normalized user entity.
     $response = new ResourceResponse(AnuNormalizerBase::normalizeEntity($account), 200);
