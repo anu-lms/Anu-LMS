@@ -218,4 +218,40 @@ class CommentsCest {
     $I->assertNotEquals($count, $org2_count);
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function LiveComments(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner();
+    $I->openVideoComments();
+
+    // Get current count of comments of the first video paragraph.
+    $count = $I->getCommentsCount('9991191');
+
+    // Teacher creates a comment.
+    $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->loginAsTeacher();
+      $I->openVideoComments();
+      // Create a comment.
+      $this->comments = $I->createComments(1);
+    });
+
+    // Learner should see the new comment right away.
+    $I->waitForElement('#' . $this->comments[0]);
+    // Comments counter should update automatically.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count + 1);
+
+    // Teacher deletes comment.
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->deleteComment($this->comments[0]);
+    });
+
+    // Comment should be removed from learner's screen right away.
+    $I->waitForElementNotVisible('#' . $this->comments[0]);
+    // Comments counter should update automatically.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count);
+  }
+
 }
