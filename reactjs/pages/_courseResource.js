@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import withSentry from '../application/withSentry';
+import withSocket from '../application/withSocket';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import CourseResouces from '../components/organisms/Templates/CourseResouces';
 import * as dataProcessors from '../utils/dataProcessors';
@@ -87,4 +88,4 @@ CourseResoucePage.defaultProps = {
   statusCode: 200,
 };
 
-export default withSentry(withRedux(withAuth(CourseResoucePage)));
+export default withSentry(withRedux(withAuth(withSocket(CourseResoucePage))));
