@@ -4,6 +4,7 @@ import * as dataProcessors from '../utils/dataProcessors';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
 import withSentry from '../application/withSentry';
+import withSocket from '../application/withSocket';
 import Dashboard from '../components/organisms/Templates/Dashboard';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 
@@ -101,4 +102,4 @@ DashboardPage.defaultProps = {
   statusCode: 200,
 };
 
-export default withSentry(withRedux(withAuth(DashboardPage)));
+export default withSentry(withRedux(withAuth(withSocket(DashboardPage))));

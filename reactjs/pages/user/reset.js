@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Router } from '../../routes';
 import withAuth from '../../auth/withAuth';
 import withRedux from '../../store/withRedux';
+import withSocket from '../../application/withSocket';
 import withSentry from '../../application/withSentry';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import * as dataProcessors from '../../utils/dataProcessors';
@@ -69,4 +70,4 @@ ResetPasswordPage.defaultProps = {
   user: {},
 };
 
-export default withSentry(withRedux(withAuth(ResetPasswordPage)));
+export default withSentry(withRedux(withAuth(withSocket(ResetPasswordPage))));

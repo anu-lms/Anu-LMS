@@ -34,6 +34,9 @@ class Notifications extends React.Component {
   }
 
   componentDidUpdate() {
+    // Subscrive to socket in DidUpdate event as well,
+    // because `currentUserId` property isn't available in didMount event,
+    // because persistent store wasn't initializated yet.
     if (!this.subscribedToSocket && this.props.currentUserId) {
       this.subscribeToSocket();
     }
