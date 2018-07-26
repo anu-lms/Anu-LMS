@@ -265,25 +265,50 @@ class CommentsCest {
 
     $I->seeElement('.new-comments-bar');
 
+    // Get amount of comments from notification message.
     $notification = $I->grabTextFrom('.new-comments-bar');
     preg_match('/\d+/', $notification, $matches);
     $count = $matches[0];
 
-    $new_comments = $I->grabMultiple('.comment.new', 'id');
+    // Get list of highlighted comments.
+    $this->comments = $I->grabMultiple('.comment.new', 'id');
 
+    codecept_debug($this->comments);
+
+    $I->assertEquals($count, count($this->comments));
+
+    // Close notifications.
+    $I->click('.new-comments-bar .close-button');
+    $I->dontSeeElement('.new-comments-bar');
+
+    // Teacher creates a comment.
+    $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->loginAsTeacher();
+      $I->openVideoComments();
+      // Create a comment.
+      $this->comments = array_merge($this->comments, $I->createComments(1));
+    });
+
+    // Wait for teacher's comment to appear.
+    $I->waitForElement('#' . end($this->comments));
+
+    // Make sure notification appears again.
+    $I->seeElement('.new-comments-bar');
+
+    $id = end($this->comments); // Teacher's comment id.
     //$I->click('.new-comments-bar');
-    //$I->scrollTo('#' . end($new_comments));
+    //$I->scrollTo("#$id");
     // None of the items above actually work, have to use JS workaround.
-    $id = end($new_comments);
     $I->executeJS('var s = document.getElementById("' . $id . '").offsetTop;
       document.getElementById("lesson-comments-scrollable").scrollTop += s;');
 
     // Wait until some comments marked as "read".
     $I->wait(6);
     // Calculate updated amount of unread comments.
-    $new_comments_updated = $I->grabMultiple('.comments-list .comment.new', 'id');
+    $new_comments_updated = $I->grabMultiple('.comment.new', 'id');
     // Make sure amount of unread comments decreased.
-    $I->assertLessThan(count($new_comments), count($new_comments_updated));
+    $I->assertLessThan(count($this->comments), count($new_comments_updated));
   }
 
 }
