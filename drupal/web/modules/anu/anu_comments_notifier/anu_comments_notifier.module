@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * @file
+ * Module implementation file.
+ */
+
+use Drupal\Core\Mail\MailFormatHelper;
+use Drupal\user\Entity\User;
+
+// How often cron tab gets executed.
+const INTERVAL = 86400 * 7;
+// Amount of comments per paragraph, exceeding which will trigger the notification.
+const LIMIT = 50;
+
+/**
+ * Implements hook_cron().
+ *
+ * Send email notifications about comments amount per paragraph over the limit.
+ */
+function anu_comments_notifier_cron() {
+  $request_time = \Drupal::time()->getRequestTime();
+
+  // We usually don't want to act every time cron runs
+  // so keep a time for the next run in the site state.
+  $next_execution = \Drupal::state()->get('anu_comments_notifier.next_execution');
+  $next_execution = !empty($next_execution) ? $next_execution : 0;
+  if ($request_time >= $next_execution) {
+
+    // Get amount of comments per paragraph.
+    $counts = _anu_comments_notifier_calculate_comments();
+    // Filter counts to report only the ones over the limit.
+    $counts = array_filter($counts, function ($el) {
+      return $el['id_count'] > LIMIT;
+    });
+
+    // Send email notification if there are some counts over the limit.
+    if ($counts) {
+      _anu_comments_notifier_send_mail($counts);
+    }
+
+    \Drupal::logger('anu_comments_notifier')->notice('Amount of comments per paragraph check ran');
+    if (\Drupal::state()->get('anu_comments_notifier_show_status_message')) {
+      \Drupal::messenger()
+        ->addMessage(t('anu_comments_notifier executed at %time', ['%time' => date_iso8601($request_time)]));
+      \Drupal::state()->set('anu_comments_notifier_show_status_message', FALSE);
+    }
+    \Drupal::state()
+      ->set('anu_comments_notifier.next_execution', $request_time + INTERVAL);
+  }
+}
+
+/**
+ * Calculates amount of comments per paragraph.
+ *
+ * @return array
+ *   List of paragraphs and counts.
+ */
+function _anu_comments_notifier_calculate_comments() {
+  $counts = \Drupal::entityQueryAggregate('paragraph_comment')
+    ->groupBy('field_comment_paragraph')
+    ->aggregate('id', 'COUNT')
+    ->execute();
+  return $counts;
+}
+
+/**
+ * Sends email notification about comments over the limit.
+ *
+ * @param array $counts
+ *   List of paragraphs and counts.
+ */
+function _anu_comments_notifier_send_mail(array $counts) {
+  $mailManager = \Drupal::service('plugin.manager.mail');
+
+  $module = 'anu_comments_notifier';
+  $key = 'comments_limit';
+  $to = [];
+  $params['message'] = '';
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+  $admins = _anu_comments_notifier_get_administrators();
+  foreach ($admins as $user) {
+    $to[] = $user->getEmail();
+  }
+
+  $to = implode(', ', $to);
+
+  foreach ($counts as $count) {
+    $params['message'] .= t('Paragraph %id has %count comments.<br />', [
+      '%id' => $count['field_comment_paragraph'],
+      '%count' => $count['id_count']
+    ]);
+  }
+
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+  if ($result['result'] != TRUE) {
+    $message = t('There was a problem sending email notification to %email.', [
+      '%email' => $to
+    ]);
+    \Drupal::messenger()->addMessage($message, 'error');
+    \Drupal::logger('anu_comments_notifier')->error($message);
+    return;
+  }
+
+  $message = t('An email notification has been sent to @email ', ['@email' => $to]);
+  \Drupal::messenger()->addMessage($message);
+  \Drupal::logger('anu_comments_notifier')->notice($message);
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Email notification about comments counts.
+ */
+function anu_comments_notifier_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'comments_limit':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Some paragraphs at @title have lots of comments', [
+        '@title' => \Drupal::config('system.site')->get('name')
+      ]);
+      $message['body'][] = MailFormatHelper::htmlToText($params['message']);
+      break;
+  }
+}
+
+/**
+ * Get list of active users with administrator role.
+ *
+ * @return \Drupal\user\Entity\User[]
+ *   List os user entities.
+ */
+function _anu_comments_notifier_get_administrators() {
+  $ids = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('roles', 'administrator')
+    ->execute();
+  $users = User::loadMultiple($ids);
+
+  return $users;
+}
