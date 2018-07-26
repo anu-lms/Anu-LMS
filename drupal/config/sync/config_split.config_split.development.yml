@@ -8,9 +8,9 @@ folder: ../config/development
 module:
   anu_test_content: 0
   default_content: 0
-  hal: 0
   devel: 0
   devel_codemirror: 0
+  hal: 0
   kint: 0
   reroute_email: 0
   ssb_development: 0

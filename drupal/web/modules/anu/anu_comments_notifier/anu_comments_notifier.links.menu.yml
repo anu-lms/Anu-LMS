@@ -1,0 +1,10 @@
+anu_comments_notifier.anu:
+  title: 'Anu'
+  parent: system.admin_config
+  route_name: anu_comments_notifier.anu
+  weight: 0
+
+anu_comments_notifier.anu.settings:
+  title: 'Anu Comments Notifier'
+  parent: anu_comments_notifier.anu
+  route_name: anu_comments_notifier.anu.settings
