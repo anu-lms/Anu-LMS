@@ -29,7 +29,7 @@ export const closed = lesson => ({
 /**
  * Invokes event when a new live comment update arrives through socket.
  */
-export const incomingLivePush = (action, comment) => ({
+export const commentsIncomingLivePush = (action, comment) => ({
   type: 'LESSON_COMMENTS_INCOMING_LIVE_PUSH',
   action,
   comment,

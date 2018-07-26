@@ -142,8 +142,13 @@ app.prepare()
       // Wait for comment updates to come in and emit this event to
       // all connected browsers except current.
       socket.on('comment', comment => {
-        const lessonId = comment.data.lesson.nid;
-        socket.broadcast.emit(`comment.lesson.${lessonId}`, comment);
+        if (comment.data && comment.data.lesson) {
+          const lessonId = comment.data.lesson.nid;
+          socket.broadcast.emit(`comment.lesson.${lessonId}`, comment);
+        }
+        else {
+          console.error('There is a problem with socket data for comment.');
+        }
       });
     });
 
