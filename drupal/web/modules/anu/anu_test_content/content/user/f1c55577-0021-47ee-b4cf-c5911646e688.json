@@ -1,0 +1,117 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/user\/999994?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+            }
+        ]
+    },
+    "uid": [
+        {
+            "value": 999994
+        }
+    ],
+    "uuid": [
+        {
+            "value": "f1c55577-0021-47ee-b4cf-c5911646e688"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "name": [
+        {
+            "value": "authenticated3.test"
+        }
+    ],
+    "mail": [
+        {
+            "value": "test+authenticated3@anulms.com"
+        }
+    ],
+    "status": [
+        {
+            "value": 1
+        }
+    ],
+    "pass": [
+        {
+            "value": "password"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-07-23T09:41:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-07-23T09:41:36+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "field_first_name": [
+        {
+            "value": "Test"
+        }
+    ],
+    "field_last_name": [
+        {
+            "value": "Learner 3"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/user\/user\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "dcba1a5a-895b-40b9-9bee-1091c666711d"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "026cac35-f55e-4b84-bb8a-7ebba5b898f0"
+                    }
+                ]
+            }
+        ]
+    }
+}
