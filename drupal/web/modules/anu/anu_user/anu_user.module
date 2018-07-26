@@ -152,7 +152,7 @@ function anu_user_user_update(EntityInterface $entity) {
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_user_user_access(EntityInterface $entity, $operation, AccountInterface $account) {
-  // User shouldn't see other users if he has no an access to the referenced user.
+  // User shouldn't see other users if he has no an access to the referenced entities.
   if ($operation == 'view') {
     $entity_organization_ids = $account_organization_ids = [];
 
