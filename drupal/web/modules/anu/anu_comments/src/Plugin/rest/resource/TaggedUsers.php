@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 
 /**
- * Provides a resource to get view modes by entity and bundle.
+ * Provides a resource to get tagged users.
  *
  * @RestResource(
  *   id = "tagged_users",
@@ -79,10 +79,10 @@ class TaggedUsers extends ResourceBase {
    *   Throws exception expected.
    */
   public function get() {
-    // Filter by isRead get param if exists.
+    // Get `query` param from url.
     $search_query = trim($this->currentRequest->query->get('query'));
 
-    // Filter by isRead get param if exists.
+    // Get `organization_id` param from url.
     $organization_id = $this->currentRequest->query->get('organization_id');
 
     // Make sure current user has given organization.
