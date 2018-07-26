@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { socketConnect } from 'socket.io-react';
 import NotificationsPopup from '../../../atoms/Notifications/Popup';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import CloseCrossIcon from '../../../atoms/Icons/CloseCross';
@@ -12,20 +13,59 @@ class Notifications extends React.Component {
 
     this.state = { isOpened: false };
 
+    // True if user already subscribed to notifications socket.
+    this.subscribedToSocket = false;
+
     this.closePopup = this.closePopup.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.markAllAsRead = this.markAllAsRead.bind(this);
+    this.subscribeToSocket = this.subscribeToSocket.bind(this);
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, currentUserId } = this.props;
     dispatch(notificationsActions.fetchUnread());
+
+    // Listen for a new notification to arrive from socket.
+    if (!this.subscribedToSocket && currentUserId) {
+      this.subscribeToSocket();
+    }
+  }
+
+  componentDidUpdate() {
+    // Subscrive to socket in DidUpdate event as well,
+    // because `currentUserId` property isn't available in didMount event,
+    // because persistent store wasn't initializated yet.
+    if (!this.subscribedToSocket && this.props.currentUserId) {
+      this.subscribeToSocket();
+    }
+  }
+
+  componentWillUnmount() {
+    const { socket, currentUserId } = this.props;
+
+    // Unsubscribe from the socket if component unmounted.
+    socket.off(`notification.user.${currentUserId}`);
   }
 
   closePopup() {
     this.setState({ isOpened: false });
     document.body.classList.remove('no-scroll-mobile');
+  }
+
+  /**
+   * Listen for a notifications to arrive from socket.
+   */
+  subscribeToSocket() {
+    const { socket, dispatch, currentUserId } = this.props;
+
+    if (socket && currentUserId) {
+      socket.on(`notification.user.${currentUserId}`, notification => {
+        dispatch(notificationsActions.liveNotificationAdd(notification));
+      });
+      this.subscribedToSocket = true;
+    }
   }
 
   /**
@@ -119,6 +159,8 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  currentUserId: PropTypes.number,
+  socket: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   unreadAmount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   lastFetchedTimestamp: PropTypes.number,
@@ -127,9 +169,11 @@ Notifications.propTypes = {
 
 Notifications.defaultProps = {
   lastFetchedTimestamp: undefined,
+  currentUserId: null,
+  socket: null,
 };
 
-const mapStateToProps = ({ notifications }) => {
+const mapStateToProps = ({ notifications, user }) => {
   const sortedNotifications = notifications.notifications.sort((a, b) => (b.created - a.created));
 
   const sortedReadNotifications = sortedNotifications.filter(item => item.isRead);
@@ -137,8 +181,8 @@ const mapStateToProps = ({ notifications }) => {
   if (sortedReadNotifications.length > 0) {
     lastFetchedTimestamp = sortedReadNotifications[sortedReadNotifications.length - 1].created;
   }
-
   return {
+    currentUserId: user.data.uid,
     notifications: sortedNotifications,
     unreadAmount: sortedNotifications.filter(item => !item.isRead).length,
     isLoading: notifications.isLoading,
@@ -146,4 +190,4 @@ const mapStateToProps = ({ notifications }) => {
   };
 };
 
-export default connect(mapStateToProps)(Notifications);
+export default connect(mapStateToProps)(socketConnect(Notifications));

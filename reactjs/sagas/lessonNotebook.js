@@ -36,7 +36,7 @@ function* removeEmptyNote() {
       yield notebookApi.deleteNote(request, note.uuid);
     }
     catch (error) {
-      console.log('Could not delete the note.', error);
+      console.error('Could not delete the note.', error);
     }
 
     lock.release(lockId);

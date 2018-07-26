@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import * as userApi from '../../api/user';
 import withAuth from '../../auth/withAuth';
 import withRedux from '../../store/withRedux';
+import withSentry from '../../application/withSentry';
+import withSocket from '../../application/withSocket';
 import UserEditForm from '../../components/moleculas/Form/User';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import OneColumnLayout from '../../components/organisms/Templates/OneColumnLayout';
@@ -12,7 +14,7 @@ class UserEditPage extends Component {
     const currentUser = await userApi
       .fetchCurrent(request)
       .catch(error => {
-        console.log(error);
+        console.error('Could not fetch current user on user edit page.', error);
         return { user: {} };
       });
 
@@ -36,4 +38,4 @@ UserEditPage.propTypes = {
   user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withRedux(withAuth(UserEditPage));
+export default withSentry(withRedux(withAuth(withSocket(UserEditPage))));

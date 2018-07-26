@@ -1,8 +1,10 @@
 import { all, put, takeLatest, select, apply, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as commentsApi from '../api/comments';
+import * as lessonActions from '../actions/lesson';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
 
@@ -31,7 +33,7 @@ function* fetchComments() {
 
     // Updates comments amount for active paragraph in store.
     const commentsAmount = comments.filter(comment => !comment.deleted).length;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    yield put(lessonActions.commentsAmountSet(paragraphId, activeOrganization, commentsAmount));
   }
   catch (error) {
     yield put(lessonCommentsActions.syncCommentsFailed(error));
@@ -61,7 +63,6 @@ function* syncCommentsIfTabActive() {
 
 function* addComment({ text, parentId }) {
   const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-  const comments = yield select(store => store.lessonSidebar.comments.comments);
   try {
     // Making sure the request object includes the valid access token.
     const auth = new ClientAuth();
@@ -83,9 +84,8 @@ function* addComment({ text, parentId }) {
     // Adds created comment to the application store.
     yield put(lessonCommentsActions.addCommentToStore(comment));
 
-    // Updates comments amount for active paragraph in store.
-    const commentsAmount = comments.filter(item => !item.deleted).length + 1;
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    // Updates comments amount for paragraphs in store.
+    yield put(lessonActions.commentsAmountIncrease(comment.paragraphId, comment.organizationId));
   }
   catch (error) {
     yield put(lessonCommentsActions.addCommentError(error));
@@ -139,13 +139,8 @@ function* markCommentAsDeleted({ commentId }) {
     // Updates comment in the application store.
     yield put(lessonCommentsActions.updateCommentInStore(responseComment));
 
-    // Get active organization of current user.
-    const activeOrganization = yield select(store => store.user.activeOrganization);
-    const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-    const commentsAmount = comments.filter(item => !item.deleted).length - 1;
-
-    // Updates comments amount for active paragraph in store.
-    yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
+    // Updates comments amount for paragraphs in store.
+    yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
 
     Alert.success('Comment has been successfully deleted.');
   }
@@ -185,23 +180,56 @@ function* deleteComment({ commentId, showSuccessMessage = true }) {
       }
     }
 
+    if (!comment.deleted) {
+      // Updates comments amount for paragraphs in store.
+      yield put(lessonActions.commentsAmountDecrease(comment.paragraphId, comment.organizationId));
+    }
+
     if (showSuccessMessage) {
       Alert.closeAll();
       Alert.success('Comment has been successfully deleted.');
-
-      // Get active organization of current user.
-      const activeOrganization = yield select(store => store.user.activeOrganization);
-      const paragraphId = yield select(store => store.lessonSidebar.comments.paragraphId);
-      const commentsAmount = comments.filter(item => !item.deleted).length - 1;
-
-      // Updates comments amount for active paragraph in store.
-      yield put(lessonCommentsActions.lessonCommentsAmountSet(paragraphId, activeOrganization, commentsAmount)); // eslint-disable-line max-len
     }
   }
   catch (error) {
     yield put(lessonCommentsActions.deleteCommentError(error));
     console.error('Could not delete a comment.', error);
     Alert.error('Could not delete a comment. Please, contact site administrator.');
+  }
+}
+
+function* markCommentsAsRead() {
+  // Amount of milliseconds before frontend will attempt to make a query to the backend.
+  const backendRequestDelay = 1000;
+
+  // Set a delay to update comments in package, not one by one.
+  yield delay(backendRequestDelay);
+
+  try {
+    const comments = yield select(store => store.lessonSidebar.comments.comments);
+
+    // Get list of comments that should be marked as read on backend.
+    const commentIds = comments
+      .filter(comment => comment.isReadUpdating)
+      .map(comment => comment.id);
+
+    // Making sure the request object includes the valid access token.
+    const auth = new ClientAuth();
+    const accessToken = yield apply(auth, auth.getAccessToken);
+    request.set('Authorization', `Bearer ${accessToken}`);
+
+    if (commentIds && commentIds.length > 0) {
+      // Makes request to the backend to mark list of comments as read.
+      const responseCommentIds = yield call(
+        commentsApi.markCommentsAsRead,
+        request, commentIds,
+      );
+
+      // Updates comments in the application store.
+      yield put(lessonCommentsActions.markCommentAsReadSuccessfull(responseCommentIds));
+    }
+  }
+  catch (error) {
+    console.error('Could not mark comments as read.', error);
   }
 }
 
@@ -214,6 +242,7 @@ export default function* lessonCommentsSagas() {
     yield takeLatest('LESSON_COMMENTS_UPDATE_COMMENT', updateComment),
     yield takeLatest('LESSON_COMMENTS_DELETE_COMMENT', deleteComment),
     yield takeLatest('LESSON_COMMENTS_MARK_AS_DELETED', markCommentAsDeleted),
+    yield takeLatest('LESSON_COMMENTS_MARK_AS_READ', markCommentsAsRead),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', syncCommentsIfTabActive),
     yield takeLatest('USER_SET_ORGANIZATION', syncCommentsIfTabActive),

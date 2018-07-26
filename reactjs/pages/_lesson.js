@@ -5,6 +5,8 @@ import urlParse from 'url-parse';
 import Alert from 'react-s-alert';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
+import withSentry from '../application/withSentry';
+import withSocket from '../application/withSocket';
 import * as dataProcessors from '../utils/dataProcessors';
 import LessonPageTemplate from '../components/organisms/Templates/Lesson';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
@@ -34,7 +36,7 @@ class LessonPage extends React.Component {
 
       // Handle any non-OK response from the backend.
       if (response.status !== 200) {
-        console.log(response.body);
+        console.error(response.body);
         initialProps.statusCode = response.status;
         if (res) res.statusCode = response.status;
         return initialProps;
@@ -42,7 +44,7 @@ class LessonPage extends React.Component {
 
       // Make sure the current course's url matches the slug from the url.
       if (response.body.course.url !== `/${query.course}`) {
-        console.log('Course URL from the browser and from the lesson do not match.');
+        console.error('Course URL from the browser and from the lesson do not match.');
         initialProps.statusCode = 404;
         if (res) res.statusCode = 404;
         return initialProps;
@@ -52,8 +54,7 @@ class LessonPage extends React.Component {
       initialProps.lesson = response.body;
       initialProps.course = dataProcessors.courseData(response.body.course);
     } catch (error) {
-      console.log('Could not load lesson.');
-      console.log(error);
+      console.error('Could not load lesson.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
@@ -156,4 +157,4 @@ const mapStateToProps = store => {
   return state;
 };
 
-export default withRedux(connect(mapStateToProps)(withAuth(LessonPage)));
+export default withSentry(withRedux(connect(mapStateToProps)(withAuth(withSocket(LessonPage)))));

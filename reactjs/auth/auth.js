@@ -39,7 +39,7 @@ export default class {
           });
         })
         .catch(error => {
-          console.log('Could not refresh auth token.');
+          console.error('Could not refresh auth token.');
           reject(error);
         });
     })

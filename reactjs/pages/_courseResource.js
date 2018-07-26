@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withAuth from '../auth/withAuth';
-import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import withRedux from '../store/withRedux';
+import withSentry from '../application/withSentry';
+import withSocket from '../application/withSocket';
+import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import CourseResouces from '../components/organisms/Templates/CourseResouces';
 import * as dataProcessors from '../utils/dataProcessors';
 
@@ -27,7 +29,7 @@ class CourseResoucePage extends React.Component {
 
       // Handle any non-OK response from the backend.
       if (courseResponse.status !== 200) {
-        console.log(courseResponse.body);
+        console.error(courseResponse.body);
         initialProps.statusCode = courseResponse.status;
         if (res) res.statusCode = courseResponse.status;
         return initialProps;
@@ -36,8 +38,7 @@ class CourseResoucePage extends React.Component {
       // Keep course data.
       initialProps.course = dataProcessors.courseData(courseResponse.body);
     } catch (error) {
-      console.log('Could not load course.');
-      console.log(error);
+      console.error('Could not load course.', error);
       initialProps.statusCode = initialProps.statusCode !== 200 ? initialProps.statusCode : 500;
       if (res) res.statusCode = initialProps.statusCode;
       return initialProps;
@@ -53,7 +54,7 @@ class CourseResoucePage extends React.Component {
         initialProps.resources = response.body;
       }
     } catch (error) {
-      console.log('Could not load course resources.', error);
+      console.error('Could not load course resources.', error);
       if (res) res.statusCode = 500;
       initialProps.statusCode = 500;
       return initialProps;
@@ -87,4 +88,4 @@ CourseResoucePage.defaultProps = {
   statusCode: 200,
 };
 
-export default withRedux(withAuth(CourseResoucePage));
+export default withSentry(withRedux(withAuth(withSocket(CourseResoucePage))));

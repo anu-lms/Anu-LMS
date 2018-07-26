@@ -5,6 +5,8 @@ import urlParse from 'url-parse';
 import Alert from 'react-s-alert';
 import withAuth from '../auth/withAuth';
 import withRedux from '../store/withRedux';
+import withSentry from '../application/withSentry';
+import withSocket from '../application/withSocket';
 import NotebookTemplate from '../components/organisms/Templates/Notebook';
 import SiteTemplate from '../components/organisms/Templates/SiteTemplate';
 import * as notebookActions from '../actions/notebook';
@@ -56,7 +58,7 @@ class NotebookPage extends Component {
         const note = await notebookApi.createNote(request, title, body);
         initialProps.notes = [note];
       } catch (error) {
-        console.log('Could not create a welcome note.', error);
+        console.error('Could not create a welcome note.', error);
       }
     }
 
@@ -147,4 +149,4 @@ const mapStateToProps = store => {
   return state;
 };
 
-export default withRedux(connect(mapStateToProps)(withAuth(NotebookPage)));
+export default withSentry(withRedux(connect(mapStateToProps)(withAuth(withSocket(NotebookPage)))));

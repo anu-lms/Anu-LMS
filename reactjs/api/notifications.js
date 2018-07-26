@@ -22,7 +22,7 @@ export const fetchNotifications = (request, isRead, lastFetchedTimestamp) => new
       resolve(dataProcessors.processNotifications(response.body));
     })
     .catch(error => {
-      console.log('Could not fetch notifications.', error);
+      console.error('Could not fetch notifications.', error);
       reject(error);
     });
 });
@@ -38,7 +38,7 @@ export const markAllAsRead = request => new Promise((resolve, reject) => {
       resolve();
     })
     .catch(error => {
-      console.log('Could not mark all notifications as read.', error);
+      console.error('Could not mark all notifications as read.', error);
       reject(error);
     });
 });
@@ -62,7 +62,7 @@ export const markAsRead = (request, bundle, uuid) => new Promise((resolve, rejec
       resolve();
     })
     .catch(error => {
-      console.log('Could not mark notification as read.', error);
+      console.error('Could not mark notification as read.', error);
       reject(error);
     });
 });
