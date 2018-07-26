@@ -38,4 +38,4 @@ UserEditPage.propTypes = {
   user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withSentry(withRedux(withAuth(withSocket(UserEditPage))));
+export default withSentry(withSocket(withRedux(withAuth(UserEditPage))));

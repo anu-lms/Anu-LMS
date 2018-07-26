@@ -66,4 +66,4 @@ CoursePage.defaultProps = {
   statusCode: 200,
 };
 
-export default withSentry(withRedux(withAuth(withSocket(CoursePage))));
+export default withSentry(withSocket(withRedux(withAuth(CoursePage))));
