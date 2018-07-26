@@ -9,8 +9,8 @@ module: {  }
 theme: {  }
 blacklist: {  }
 graylist:
-  - contact.form.contact_form
   - system.site
+  - contact.form.contact_form
 graylist_dependents: true
 graylist_skip_equal: true
 weight: 0

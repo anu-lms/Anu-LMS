@@ -35,4 +35,4 @@ class ForgotPasswordPage extends Component {
   }
 }
 
-export default withSentry(withRedux(withAuth(withSocket(ForgotPasswordPage))));
+export default withSentry(withSocket(withRedux(withAuth(ForgotPasswordPage))));
