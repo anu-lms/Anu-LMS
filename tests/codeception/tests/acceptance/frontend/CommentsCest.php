@@ -135,7 +135,7 @@ class CommentsCest {
    * @param \Step\Acceptance\Learner $I
    * @throws \Exception
    */
-  public function LessonCommentlink(\Step\Acceptance\Learner $I) {
+  public function LessonCommentLink(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
 
@@ -252,6 +252,38 @@ class CommentsCest {
     $I->waitForElementNotVisible('#' . $this->comments[0]);
     // Comments counter should update automatically.
     $I->assertEquals($I->getCommentsCount('9991191'), $count);
+  }
+
+  /**
+   * depends LessonCommentLink
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function UnreadComments(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner3();
+    $I->openVideoComments();
+
+    $I->seeElement('.new-comments-bar');
+
+    $notification = $I->grabTextFrom('.new-comments-bar');
+    preg_match('/\d+/', $notification, $matches);
+    $count = $matches[0];
+
+    $new_comments = $I->grabMultiple('.comment.new', 'id');
+
+    //$I->click('.new-comments-bar');
+    //$I->scrollTo('#' . end($new_comments));
+    // None of the items above actually work, have to use JS workaround.
+    $id = end($new_comments);
+    $I->executeJS('var s = document.getElementById("' . $id . '").offsetTop;
+      document.getElementById("lesson-comments-scrollable").scrollTop += s;');
+
+    // Wait until some comments marked as "read".
+    $I->wait(6);
+    // Calculate updated amount of unread comments.
+    $new_comments_updated = $I->grabMultiple('.comments-list .comment.new', 'id');
+    // Make sure amount of unread comments decreased.
+    $I->assertLessThan(count($new_comments), count($new_comments_updated));
   }
 
 }
