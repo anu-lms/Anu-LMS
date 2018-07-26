@@ -102,4 +102,4 @@ DashboardPage.defaultProps = {
   statusCode: 200,
 };
 
-export default withSentry(withRedux(withAuth(withSocket(DashboardPage))));
+export default withSentry(withSocket(withRedux(withAuth(DashboardPage))));

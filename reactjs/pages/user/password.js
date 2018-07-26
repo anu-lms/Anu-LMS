@@ -15,4 +15,4 @@ const UserPasswordPage = () => (
   </SiteTemplate>
 );
 
-export default withSentry(withRedux(withAuth(withSocket(UserPasswordPage))));
+export default withSentry(withSocket(withRedux(withAuth(UserPasswordPage))));

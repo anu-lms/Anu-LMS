@@ -70,4 +70,4 @@ ResetPasswordPage.defaultProps = {
   user: {},
 };
 
-export default withSentry(withRedux(withAuth(withSocket(ResetPasswordPage))));
+export default withSentry(withSocket(withRedux(withAuth(ResetPasswordPage))));
