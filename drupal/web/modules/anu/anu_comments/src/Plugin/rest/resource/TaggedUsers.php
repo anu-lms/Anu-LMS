@@ -37,6 +37,10 @@ class TaggedUsers extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param \Symfony\Component\HttpFoundation\Request $current_request
+   *   Current Request.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   Current user.
    */
   public function __construct(
     array $configuration,
