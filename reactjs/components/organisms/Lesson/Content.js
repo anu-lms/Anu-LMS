@@ -131,7 +131,7 @@ class LessonContent extends React.Component {
     if (socket) {
       socket.on(`comment.lesson.${lessonId}`, comment => {
         const normalizedComment = dataProcessors.processComment(comment.data);
-        dispatch(lessonActions.incomingLivePush(comment.action, normalizedComment));
+        dispatch(lessonActions.commentsIncomingLivePush(comment.action, normalizedComment));
       });
     }
   }

@@ -58,7 +58,7 @@ class CommentsList extends React.Component {
 
     return (
       <div className="comments-list">
-        {unreadCommentsAmount > 0 &&
+        {unreadCommentsAmount > 0 && comments.length > 1 &&
         <NewCommentsBar
           newCommentsAmount={unreadCommentsAmount}
           onClick={this.handleNewCommentsBarClick}
