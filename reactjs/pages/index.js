@@ -12,4 +12,4 @@ const FrontPage = () => (
   </App>
 );
 
-export default withSentry(withRedux(withAuth(withSocket(FrontPage))));
+export default withSentry(withSocket(withRedux(withAuth(FrontPage))));

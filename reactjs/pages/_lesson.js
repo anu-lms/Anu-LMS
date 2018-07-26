@@ -157,4 +157,4 @@ const mapStateToProps = store => {
   return state;
 };
 
-export default withSentry(withRedux(connect(mapStateToProps)(withAuth(withSocket(LessonPage)))));
+export default withSentry(withSocket(withRedux(connect(mapStateToProps)(withAuth(LessonPage)))));
