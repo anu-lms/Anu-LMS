@@ -5,7 +5,7 @@ import * as dataProcessors from '../utils/dataProcessors';
  */
 export const fetchComments = (request, paragraphId, organizationId = null) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   const query = {
-    'include': 'uid, field_comment_parent',
+    'include': 'uid, field_comment_parent, field_comment_organization',
     // Filter by paragraph id.
     'filter[field_comment_paragraph][value]': paragraphId,
     // Filter comments by organization.
@@ -43,7 +43,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
   request
     .post('/jsonapi/paragraph_comment/paragraph_comment')
     .query({
-      'include': 'uid, field_comment_parent',
+      'include': 'uid, field_comment_parent, field_comment_organization',
     })
     .send({
       data: {
@@ -88,7 +88,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
   request
     .patch(`/jsonapi/paragraph_comment/paragraph_comment/${uuid}`)
     .query({
-      'include': 'uid, field_comment_parent',
+      'include': 'uid, field_comment_parent, field_comment_organization',
     })
     .send({
       data: {

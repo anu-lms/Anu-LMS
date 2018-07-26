@@ -19,7 +19,7 @@ class User extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'user' && $entity->bundle() == 'user';
   }
@@ -27,7 +27,7 @@ class User extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -59,14 +59,16 @@ class User extends AnuNormalizerBase {
         }
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize @entity entity. Error: @error', [
         '@entity' => $entity->getEntityTypeId(),
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

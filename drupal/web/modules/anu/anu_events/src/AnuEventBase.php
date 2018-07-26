@@ -5,25 +5,29 @@ namespace Drupal\anu_events;
 use Drupal\message\Entity\Message;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\message_notify\Plugin\Notifier\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for all events on the platform.
+ */
 abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
 
   /**
    * Returns true if Event can be triggered.
    */
-  public abstract function shouldTrigger();
+  abstract public function shouldTrigger();
 
   /**
    * Returns true if Event can be triggered.
    */
-  protected abstract function getMessageBundle();
+  abstract protected function getMessageBundle();
 
   /**
    * Returns true if Event can be triggered.
    */
-  protected abstract function getTriggerer();
+  abstract protected function getTriggerer();
 
   /**
    * Constructs the plugin.
@@ -34,10 +38,16 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
+   * @param \Psr\Log\LoggerInterface $logger
    *   The message_notify logger channel.
+   * @param \Drupal\message_notify\Plugin\Notifier\Manager $notifier_manager
+   *   Notifier manager object.
+   * @param string $hook
+   *   Triggered entity CRUD hook name.
+   * @param array $context
+   *   Any context data added to the event.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, $notifier_manager, $hook = '', array $context = []) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, Manager $notifier_manager, $hook = '', array $context = []) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->logger = $logger;
@@ -135,7 +145,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
     }
     catch (\Exception $exception) {
       $message = new FormattableMarkup('Could not create a message. Error: @error', [
-        '@error' => $exception->getMessage()
+        '@error' => $exception->getMessage(),
       ]);
       $this->logger->error($message);
     }

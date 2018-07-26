@@ -134,9 +134,16 @@ app.prepare()
 
     io.on('connection', socket => {
       // Wait for new notification to come in and emit this event to
-      // all connected browsers.
+      // all connected browsers except current.
       socket.on('notification', notification => {
-        io.emit('notification', notification);
+        socket.broadcast.emit(`notification.user.${notification.recipient}`, notification);
+      });
+
+      // Wait for comment updates to come in and emit this event to
+      // all connected browsers except current.
+      socket.on('comment', comment => {
+        const lessonId = comment.data.lesson.nid;
+        socket.broadcast.emit(`comment.lesson.${lessonId}`, comment);
       });
     });
 

@@ -20,7 +20,7 @@ class ParagraphImageCentered extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'paragraph' && $entity->bundle() == 'image_centered_caption';
   }
@@ -28,7 +28,7 @@ class ParagraphImageCentered extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -57,13 +57,15 @@ class ParagraphImageCentered extends AnuNormalizerBase {
         ];
       }
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

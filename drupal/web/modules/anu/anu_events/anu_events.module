@@ -1,21 +1,22 @@
 <?php
 
+/**
+ * @file
+ * Module implementation file.
+ */
+
 use Drupal\anu_events\AnuEventBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * @file
- * Contains hooks definition for Anu Events module.
- */
-
-/**
  * Implements hook_entity_insert().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
  */
-function anu_events_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function anu_events_entity_insert(EntityInterface $entity) {
   AnuEventBase::triggerAnuEvents('entity_insert', ['entity' => $entity]);
 }
 
@@ -23,6 +24,7 @@ function anu_events_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
  * Implements hook_ENTITY_TYPE_delete().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
  */
 function anu_events_paragraph_comment_delete(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
@@ -34,9 +36,10 @@ function anu_events_paragraph_comment_delete(EntityInterface $entity) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_delete().
+ * Implements hook_ENTITY_TYPE_update().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
  */
 function anu_events_paragraph_comment_update(EntityInterface $entity) {
   if ($entity->bundle() != 'paragraph_comment') {
@@ -52,7 +55,7 @@ function anu_events_paragraph_comment_update(EntityInterface $entity) {
 /**
  * Implements hook_ENTITY_TYPE_access().
  */
-function anu_events_message_access(EntityInterface $message, $operation,  AccountInterface $account) {
+function anu_events_message_access(EntityInterface $message, $operation, AccountInterface $account) {
 
   // User shouldn't see notifications if he has no an access to the referenced comment (was moved to another org eg).
   if ($operation == 'view' &&

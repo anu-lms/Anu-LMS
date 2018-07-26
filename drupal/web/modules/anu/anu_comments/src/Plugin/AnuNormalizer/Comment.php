@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_comments\Plugin\AnuNormalizer;
 
+use Drupal\user\Entity\User;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Drupal\Component\Render\FormattableMarkup;
 
@@ -19,7 +20,7 @@ class Comment extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'paragraph_comment' && $entity->bundle() == 'paragraph_comment';
   }
@@ -27,7 +28,7 @@ class Comment extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -42,8 +43,11 @@ class Comment extends AnuNormalizerBase {
         'uuid' => $entity->uuid(),
         'created' => (int) $entity->created->getString(),
         'changed' => (int) $entity->changed->getString(),
+        'isRead' => (bool) $entity->is_read->getString(),
         'fieldCommentText' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
         'fieldCommentParagraph' => $paragraph_id,
+        'fieldCommentOrganization' => ['tid' => (int) $entity->field_comment_organization->getString()],
+        'fieldCommentParent' => ['id' => (int) $entity->field_comment_parent->getString()],
         'fieldCommentDeleted' => (bool) $entity->field_comment_deleted->getString(),
       ];
 
@@ -58,13 +62,25 @@ class Comment extends AnuNormalizerBase {
         }
       }
 
-    } catch(\Exception $e) {
+      // Attaches author data if necessary.
+      if (in_array('uid', $include_fields)) {
+        $user = User::load($entity->uid->getString());
+
+        // Normalize user entity.
+        if ($user && $user_normalized = AnuNormalizerBase::normalizeEntity($user)) {
+          $output['uid'] = $user_normalized;
+        }
+      }
+
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }

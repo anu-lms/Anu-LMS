@@ -104,7 +104,7 @@ export default (state = initialState, action) => {
           ...state.comments,
           action.comment,
         ],
-        form: initialState.form,
+        form: action.resetForm ? initialState.form : state.form,
       };
 
     case 'LESSON_COMMENTS_UPDATE_COMMENT_IN_STORE': {
@@ -120,7 +120,7 @@ export default (state = initialState, action) => {
             action.comment,
             ...state.comments.slice(index + 1),
           ],
-          form: initialState.form,
+          form: action.resetForm ? initialState.form : state.form,
         };
       }
 
@@ -140,7 +140,7 @@ export default (state = initialState, action) => {
             ...state.comments.slice(0, index),
             ...state.comments.slice(index + 1),
           ],
-          form: initialState.form,
+          form: action.resetForm ? initialState.form : state.form,
         };
       }
 
@@ -228,6 +228,32 @@ export default (state = initialState, action) => {
           {
             ...state.comments[index],
             isRead: true,
+          },
+          ...state.comments.slice(index + 1),
+        ],
+      };
+    }
+
+    /**
+     * Updates isHighlighted comment flag in store to unhighlight the comment.
+     */
+    case 'LESSON_COMMENTS_MARK_AS_UNHIGHLIGHTED': {
+      // Search for the comment.
+      const index = state.comments.findIndex(element => element.id === action.commentId);
+
+      // Returns default state if comment wasn't found or already marked as Read.
+      if (index === -1 || state.comments[index].isRead) {
+        return state;
+      }
+
+      // If the comment was found, then we should update isHighlighted status.
+      return {
+        ...state,
+        comments: [
+          ...state.comments.slice(0, index),
+          {
+            ...state.comments[index],
+            isHighlighted: false,
           },
           ...state.comments.slice(index + 1),
         ],

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file
+ * File with installation hooks for the module.
+ */
+
+use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 
 /**
@@ -8,7 +14,7 @@ use Drupal\user\Entity\User;
  * Delete existing test users if any.
  */
 function anu_test_content_module_preinstall($module) {
-  $users = getTestUsers();
+  $users = anu_test_get_test_users();
   foreach ($users as $user) {
     user_delete($user->id());
   }
@@ -18,29 +24,19 @@ function anu_test_content_module_preinstall($module) {
 }
 
 /**
- * Implements hook_install().
- */
-function anu_test_content_install() {
-  // Users are imported and activated as default content.
-  // @see Drupal\anu_test_content\EventSubscriber\ImportEventSubscriber.
-  //activateTestUsers();
-}
-
-/**
  * Implements hook_uninstall().
  */
 function anu_test_content_uninstall() {
-  deactivateTestUsers();
+  anu_test_deactivate_test_users();
 }
-
 
 /**
  * Active test users on all development environments.
  */
-function activateTestUsers() {
+function anu_test_activate_test_users() {
 
   /* @var $role \Drupal\user\Entity\Role */
-  foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
+  foreach (Role::loadMultiple() as $role) {
 
     if ($role->id() == 'anonymous') {
       continue;
@@ -74,9 +70,9 @@ function activateTestUsers() {
 /**
  * Deactivate test users on non-development environments.
  */
-function deactivateTestUsers() {
+function anu_test_deactivate_test_users() {
 
-  $users = getTestUsers();
+  $users = anu_test_get_test_users();
   /* @var $user \Drupal\user\Entity\User */
   foreach ($users as $user) {
     $user->block();
@@ -89,8 +85,9 @@ function deactivateTestUsers() {
  * Load array of test users.
  *
  * @return \Drupal\Core\Entity\EntityInterface[]|static[]
+ *   List of test users.
  */
-function getTestUsers() {
+function anu_test_get_test_users() {
 
   $ids = \Drupal::entityQuery('user')
     ->condition('name', '.test', 'ENDS_WITH')

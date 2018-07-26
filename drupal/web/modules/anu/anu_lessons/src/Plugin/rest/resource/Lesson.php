@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Drupal\Core\GeneratedUrl;
 
 /**
  * Provides a lesson with its data.
@@ -32,14 +31,13 @@ use Drupal\Core\GeneratedUrl;
 class Lesson extends ResourceBase {
 
   /**
-   *  A current user instance.
+   * A current user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
   /**
-   *
    * A current request object.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -62,6 +60,8 @@ class Lesson extends ResourceBase {
 
   /**
    * Internal counter for numbered divider paragraph.
+   *
+   * @var int
    */
   protected static $dividedCounter = 1;
 
@@ -81,7 +81,9 @@ class Lesson extends ResourceBase {
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   The current user instance.
    * @param \Symfony\Component\HttpFoundation\Request $current_request
-   *   The current request
+   *   The current request.
+   * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
+   *   Path alias manager service object.
    * @param \Drupal\anu_courses\Course $course_manager
    *   Course manager service container.
    * @param \Drupal\anu_paragraph\Paragraph $paragraph_manager
@@ -116,8 +118,6 @@ class Lesson extends ResourceBase {
 
   /**
    * Returns a lesson node filtered by path.
-   *
-   * @return \Drupal\rest\ResourceResponse
    */
   public function get() {
 
@@ -186,7 +186,6 @@ class Lesson extends ResourceBase {
 
     // TODO: Would be very cool to log user's lesson access right here,
     // instead of sending request after lesson is opened.
-
     return new ResourceResponse($data);
   }
 
@@ -197,6 +196,7 @@ class Lesson extends ResourceBase {
    *   Paragraph object from lesson.
    *
    * @return array
+   *   An array with paragraph data.
    */
   protected function getParagraphData(ParagraphInterface $paragraph) {
     $data = [];
@@ -248,7 +248,7 @@ class Lesson extends ResourceBase {
             // We had to apply a patch to the core to get it working as expected.
             $scheme = \Drupal::service('file_system')->uriScheme($file->getFileUri());
             if ($scheme == 'private') {
-              /** @var GeneratedUrl $url */
+              /** @var \Drupal\Core\GeneratedUrl $url */
               $url = file_create_url($file->getFileUri(), TRUE);
               $data[$field_name_trimmed]['url'] = $url->getGeneratedUrl();
             }
@@ -262,7 +262,7 @@ class Lesson extends ResourceBase {
           if ($field->getFieldDefinition()->getFieldStorageDefinition()->getCardinality() == 1) {
             $data[$field_name_trimmed] = $field->getString();
           }
-          else {;
+          else {
             foreach ($field->getValue() as $value) {
               $data[$field_name_trimmed][] = $value['value'];
             }
@@ -284,7 +284,7 @@ class Lesson extends ResourceBase {
               $data[$field_name_trimmed] = $value[0];
             }
           }
-          else {;
+          else {
             foreach ($field->getValue() as $value) {
               $data[$field_name_trimmed][] = $value;
             }
@@ -296,4 +296,5 @@ class Lesson extends ResourceBase {
 
     return $data;
   }
+
 }

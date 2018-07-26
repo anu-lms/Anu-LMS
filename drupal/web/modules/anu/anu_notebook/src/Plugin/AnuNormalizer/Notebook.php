@@ -19,7 +19,7 @@ class Notebook extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function shouldApply($entity) {
+  public function shouldApply($entity) {
 
     return $entity->getEntityTypeId() == 'notebook' && $entity->bundle() == 'notebook';
   }
@@ -27,7 +27,7 @@ class Notebook extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -44,13 +44,15 @@ class Notebook extends AnuNormalizerBase {
         'fieldNotebookBody' => ['value' => !empty($text[0]['value']) ? $text[0]['value'] : ''],
       ];
 
-    } catch(\Exception $e) {
+    }
+    catch (\Exception $e) {
       $message = new FormattableMarkup('Could not normalize entity. Error: @error', [
-        '@error' => $e->getMessage()
+        '@error' => $e->getMessage(),
       ]);
       $this->logger->critical($message);
     }
 
     return $output;
   }
+
 }
