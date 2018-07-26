@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Contains hooks definition for Anu Comments module.
+ * Module implementation file.
  */
 
 use Drupal\user\Entity\User;
 use Drupal\eck\Entity\EckEntity;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Access\AccessResult;
 
 /**
  * Enables revisions for comment entity by default.
@@ -59,4 +59,43 @@ function anu_comments_entity_type_alter(array &$entity_types) {
     $entity = $entity_types['paragraph_comment'];
     $entity->addConstraint('ParagraphComment', []);
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
+ */
+function anu_comments_paragraph_comment_insert(EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+  \Drupal::service('anu_comments.comment')->pushEntity($entity, 'insert');
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
+ */
+function anu_comments_paragraph_comment_update(EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+  \Drupal::service('anu_comments.comment')->pushEntity($entity, 'update');
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
+ */
+function anu_comments_paragraph_comment_delete(EntityInterface $entity) {
+  if ($entity->bundle() != 'paragraph_comment') {
+    return;
+  }
+  \Drupal::service('anu_comments.comment')->pushEntity($entity, 'delete');
 }

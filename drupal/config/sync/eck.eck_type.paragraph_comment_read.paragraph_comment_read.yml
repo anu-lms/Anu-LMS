@@ -1,0 +1,9 @@
+uuid: f100d29b-1b94-4180-91e4-b0f2366b4fd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.paragraph_comment_read
+name: 'Paragraph comment read status'
+type: paragraph_comment_read
+description: 'Contains information about read by users comments.'

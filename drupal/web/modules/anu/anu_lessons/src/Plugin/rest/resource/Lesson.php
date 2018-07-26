@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Drupal\Core\GeneratedUrl;
 
 /**
  * Provides a lesson with its data.
@@ -187,7 +186,6 @@ class Lesson extends ResourceBase {
 
     // TODO: Would be very cool to log user's lesson access right here,
     // instead of sending request after lesson is opened.
-
     return new ResourceResponse($data);
   }
 
