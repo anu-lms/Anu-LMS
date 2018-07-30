@@ -156,13 +156,17 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
   if ($operation == 'view') {
     $entity_organization_ids = $account_organization_ids = [];
 
+    $account_entity = User::load($account->id());
+    if ($account_entity->hasPermission('administer users')) {
+      return AccessResult::allowed();
+    }
+
     // Get organization ids from given user account.
     if (!empty($entity->field_organization->getValue())) {
       $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
     }
 
     // Get organization ids from current user.
-    $account_entity = User::load($account->id());
     if (!empty($account_entity->field_organization->getValue())) {
       $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
     }
@@ -177,6 +181,8 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
     if (!empty($intersect)) {
       return AccessResult::allowed();
     }
+
+    return AccessResult::forbidden();
   }
 
   return AccessResult::neutral();
