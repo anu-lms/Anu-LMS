@@ -17,7 +17,10 @@ class TaggingList extends React.Component {
     const { request } = await this.context.auth.getRequest();
     await userApi.fetchTaggedUsers(request, query)
       .then(res => res.map(user => ({
-        display: `${user.name} ${user.fieldFirstName} ${user.fieldLastName}`,
+        username: user.name,
+        firstName: user.fieldFirstName,
+        lastName: user.fieldLastName,
+        display: `<strong>${user.name}</strong> ${user.fieldFirstName} ${user.fieldLastName}`,
         id: user.name,
       })))
       .then(callback);
@@ -33,12 +36,27 @@ class TaggingList extends React.Component {
   render() {
     return (
       <MentionsInput
+        className="tagging-wrapper"
         value={this.state.value}
         onChange={this.onChange}
         placeholder="Mention any Github user by typing `@` followed by at least one char"
         displayTransform={login => `@${login}`}
+        style={{}}
       >
-        <Mention trigger="@" data={this.fetchUsers} />
+        <Mention
+          trigger="@"
+          data={this.fetchUsers}
+          className="bbbbb"
+          style={{}}
+          renderSuggestion={(suggestion, search, highlightedDisplay) => {
+            console.log('suggestion', suggestion);
+            // console.log(suggestion, search, highlightedDisplay);
+            return (
+              <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
+            );
+          }
+          }
+        />
       </MentionsInput>
     );
   }
