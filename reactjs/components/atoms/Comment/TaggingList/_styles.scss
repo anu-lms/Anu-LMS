@@ -1,0 +1,10 @@
+.lesson-comments-container {
+  .empty-text {
+    padding: 1em 1em 0;
+    @include media-breakpoint-up(lg) {
+      padding: 1.5em 2em 0;
+    }
+
+    color: $carbon;
+  }
+}
