@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import Button from '../../../atoms/Button';
+import TaggingList from '../TaggingList';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 
 class CommentForm extends React.Component {
@@ -77,6 +78,7 @@ class CommentForm extends React.Component {
 
     return (
       <div className={`comment-form ${className}`} id={id}>
+        <TaggingList />
         <TextareaAutosize
           rows={3}
           innerRef={ref => this.textarea = ref}
