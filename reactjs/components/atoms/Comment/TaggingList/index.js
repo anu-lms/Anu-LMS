@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { MentionsInput, Mention } from 'react-mentions';
-// import rangy from 'rangy';
-
-import Mention, { ContenteditableEditor } from 'uxcore-mention';
-
+import { MentionsInput, Mention } from 'react-mentions';
 import * as userApi from '../../../../api/user';
 
 class TaggingList extends React.Component {
@@ -15,23 +11,6 @@ class TaggingList extends React.Component {
     this.state = {
       value: '',
     };
-  }
-
-  personDataFormatter(data) {
-    return data.map(item => ({
-      ...item,
-      displayName: item.username,
-      text: item.username,
-    }));
-  }
-
-  personPanelFormatter(data) {
-    console.log(data);
-    return `${data.username}`;
-  }
-
-  personMentionFormatter(data) {
-    return '<div>{data.username}</div>';
   }
 
   async fetchUsers(query, callback) {
@@ -56,21 +35,29 @@ class TaggingList extends React.Component {
 
   render() {
     return (
-      <Mention
-        matchRange={[1, 6]}
-        source={this.fetchUsers}
-        panelFormatter={this.personPanelFormatter}
-        // source={['aaaaa', 'aabbb', 'aaccc', 'bbbcc', 'dddee', 'fffqq', 'pppaa', 'ppccc']}
-        // formatter={data => data.map(item => ({
-        //   text: item,
-        // }))}
-        formatter={this.personDataFormatter}
+      <MentionsInput
+        className="tagging-wrapper"
+        value={this.state.value}
+        onChange={this.onChange}
+        placeholder="Mention any Github user by typing `@` followed by at least one char"
+        displayTransform={login => `@${login}`}
+        style={{}}
       >
-        <ContenteditableEditor
-          placeholder="hello world"
-          mentionFormatter={this.personMentionFormatter}
+        <Mention
+          trigger="@"
+          data={this.fetchUsers}
+          className="bbbbb"
+          style={{}}
+          renderSuggestion={(suggestion, search, highlightedDisplay) => {
+            console.log('suggestion', suggestion);
+            // console.log(suggestion, search, highlightedDisplay);
+            return (
+              <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
+            );
+          }
+          }
         />
-      </Mention>
+      </MentionsInput>
     );
   }
 }
