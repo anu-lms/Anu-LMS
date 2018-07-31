@@ -79,15 +79,15 @@ class CommentForm extends React.Component {
     return (
       <div className={`comment-form ${className}`} id={id}>
         <TaggingList />
-        {/* <TextareaAutosize */}
-        {/* rows={3} */}
-        {/* innerRef={ref => this.textarea = ref} */}
-        {/* onChange={this.handleChange} */}
-        {/* placeholder={inputPlaceholder} */}
-        {/* onKeyDown={this.handleKeyDown} */}
-        {/* value={text} */}
-        {/* onFocus={this.handleTextareaFocus} */}
-        {/* /> */}
+        <TextareaAutosize
+          rows={3}
+          innerRef={ref => this.textarea = ref}
+          onChange={this.handleChange}
+          placeholder={inputPlaceholder}
+          onKeyDown={this.handleKeyDown}
+          value={text}
+          onFocus={this.handleTextareaFocus}
+        />
         <Button
           block
           loading={text.length !== 0 && isProcessing}

@@ -19,5 +19,8 @@
   .tagging-wrapper__suggestions__item--focused {
     background-color: $tag-blue;
     color: $white;
+    .username {
+      color: $white;
+    }
   }
 }

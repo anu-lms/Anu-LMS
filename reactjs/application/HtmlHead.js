@@ -33,6 +33,7 @@ const HtmlHead = ({ title, favicon }) => {
       <GoogleTagManager gtmId={gtmId} previewVariables={query} />
       }
       <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600" rel="stylesheet" />
+      <script src="//alinw.alicdn.com/uxcore/uxcore-lib/??rangy/1.3.0/rangy-core.min.js" />
       {!!favicon && <link rel="shortcut icon" href={favicon} type="image/vnd.microsoft.icon" />}
       {stylesheets}
     </Head>
