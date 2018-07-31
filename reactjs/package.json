@@ -69,7 +69,6 @@
     "superagent-prefix": "^0.0.2",
     "tiny-emitter": "^2.0.2",
     "url-parse": "^1.2.0",
-    "uxcore-mention": "^0.4.1",
     "xss": "^0.3.8",
     "zxcvbn": "^4.4.2"
   },
