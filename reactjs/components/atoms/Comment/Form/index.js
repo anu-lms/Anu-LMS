@@ -57,8 +57,9 @@ class CommentForm extends React.Component {
   }
 
   async fetchTaggedUsers(query, callback) {
+    const { activeOrganizationId } = this.props;
     const { request } = await this.context.auth.getRequest();
-    await userApi.fetchTaggedUsers(request, query)
+    await userApi.fetchTaggedUsers(request, query, activeOrganizationId)
       .then(res => res.map(user => ({
         display: user.name,
         id: user.uid,
@@ -154,11 +155,12 @@ CommentForm.defaultProps = {
   editedComment: null,
 };
 
-const mapStateToProps = ({ lessonSidebar }) => ({
+const mapStateToProps = ({ lessonSidebar, user }) => ({
   comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
   replyTo: lessonSidebar.comments.form.replyTo,
   editedComment: lessonSidebar.comments.form.editedComment,
+  activeOrganizationId: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(CommentForm);

@@ -29,13 +29,6 @@ function* fetchComments() {
       request, paragraphId, activeOrganization,
     );
 
-    // @todo: Remove test code.
-    const taggedUsers = yield call(
-      userApi.fetchTaggedUsers,
-      request,
-    );
-    console.log('List of tagged users for `auth` word', taggedUsers);
-
     // Let store know that comments were received.
     yield put(lessonCommentsActions.receiveComments(comments));
 
