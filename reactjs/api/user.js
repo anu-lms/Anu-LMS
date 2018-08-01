@@ -20,12 +20,12 @@ export const fetchCurrent = request => new Promise((resolve, reject) => {
 /**
  * Fetch tagged users.
  */
-export const fetchTaggedUsers = (request, query) => new Promise((resolve, reject) => {
+export const fetchTaggedUsers = (request, query, organizationId) => new Promise((resolve, reject) => {
   request
     .get('/user/tagged')
     .query({
       'query': query,
-      'organization_id': 9997,
+      'organization_id': organizationId,
       '_format': 'json',
     })
     .then(response => {
