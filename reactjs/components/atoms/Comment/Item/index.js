@@ -142,6 +142,7 @@ class Comment extends React.Component {
             {editedComment && editedComment === comment.id ? (
               <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
             ) : (
+              // eslint-disable-next-line react/no-danger
               <div dangerouslySetInnerHTML={{ __html: xss(comment.text.trim(), { whiteList: { span: ['class', 'data-id'] } }) }} />
             )}
           </div>

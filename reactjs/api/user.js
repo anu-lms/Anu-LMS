@@ -20,7 +20,7 @@ export const fetchCurrent = request => new Promise((resolve, reject) => {
 /**
  * Fetch tagged users.
  */
-export const fetchTaggedUsers = (request, query, organizationId) => new Promise((resolve, reject) => {
+export const fetchTaggedUsers = (request, query, organizationId) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   request
     .get('/user/tagged')
     .query({

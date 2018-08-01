@@ -9,7 +9,7 @@ const Avatar = ({ user }) => (
 );
 
 Avatar.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default Avatar;

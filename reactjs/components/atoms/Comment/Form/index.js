@@ -60,14 +60,15 @@ class CommentForm extends React.Component {
   }
 
   submitForm() {
-    const text = this.state.text;
-    if (this.props.editedComment) {
+    const { text } = this.state;
+    const { editedComment, dispatch, replyTo } = this.props;
+    if (editedComment) {
       // Invoke action to update a comment.
-      this.props.dispatch(lessonCommentsActions.updateComment(this.props.editedComment, text));
+      dispatch(lessonCommentsActions.updateComment(editedComment, text));
     }
     else {
       // Invoke action to add a new comment.
-      this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+      dispatch(lessonCommentsActions.addComment(text, replyTo));
     }
   }
 
@@ -113,7 +114,7 @@ class CommentForm extends React.Component {
           value={text}
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
-          displayTransform={(id, display) => `@${display}`}
+          displayTransform={(id, display) => `@${display}`} // eslint-disable-line no-shadow
           markup="<span class='tagged-user' data-id='__id__'>@__display__</span>"
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleTextareaFocus}
