@@ -45,9 +45,6 @@
     font-size: 16px;
     overflow-y: auto;
   }
-  &.items-amount-1 .tagging-wrapper__suggestions {
-    max-height: 54px;
-  }
   &.items-amount-2 .tagging-wrapper__suggestions {
     max-height: 94px;
   }
@@ -94,7 +91,7 @@
     .tagging-highlighter-item {
       color: $tag-blue;
       position: relative;
-      z-index: 9999;
+      z-index: 999;
     }
   }
 }
