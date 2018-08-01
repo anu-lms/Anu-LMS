@@ -19,5 +19,18 @@
   .tagging-wrapper__suggestions__item--focused {
     background-color: $tag-blue;
     color: $white;
+    .username {
+      color: $white;
+    }
+  }
+
+  .tagging-wrapper__highlighter {
+    padding: 1em .8em .6em;
+    padding-top: .6em;
+    border: 2px solid transparent;
+
+    .bbbbb {
+      color: $tag-blue;
+    }
   }
 }
