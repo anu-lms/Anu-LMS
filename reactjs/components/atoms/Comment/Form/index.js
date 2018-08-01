@@ -16,6 +16,7 @@ class CommentForm extends React.Component {
       text: this.props.initialText || '',
       showTaggedUsersAmount: 7,
     };
+    this.lastTaggedQueryId = null;
 
     this.fetchTaggedUsers = this.fetchTaggedUsers.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -81,13 +82,23 @@ class CommentForm extends React.Component {
   async fetchTaggedUsers(query, callback) {
     const { activeOrganizationId } = this.props;
     const { request } = await this.context.auth.getRequest();
-    await userApi.fetchTaggedUsers(request, query, activeOrganizationId)
-      .then(res => res.map(user => ({
-        display: user.name,
-        id: user.uid,
-        user,
-      })))
-      .then(callback);
+
+    if (this.lastTaggedQueryId) {
+      clearTimeout(this.lastTaggedQueryId);
+    }
+
+    this.lastTaggedQueryId = setTimeout(() => {
+      userApi.fetchTaggedUsers(request, query, activeOrganizationId)
+        .then(res => {
+          this.lastTaggedQueryId = null;
+          return res.map(user => ({
+            display: user.name,
+            id: user.uid,
+            user,
+          }));
+        })
+        .then(callback);
+    }, 350);
   }
 
   handleChange({ target }) {
