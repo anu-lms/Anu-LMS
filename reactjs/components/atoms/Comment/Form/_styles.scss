@@ -44,7 +44,15 @@
     font-size: 16px;
   }
   .tagging-wrapper__suggestions__item {
-    padding: 8px 10px;
+    padding: 8px;
+    .user-avatar {
+      display: inline-block;
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
   }
   .tagging-wrapper__suggestions__item--focused {
     background-color: $tag-blue;

@@ -5,6 +5,8 @@ import { MentionsInput, Mention } from 'react-mentions';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as userApi from '../../../../api/user';
+import * as userHelper from '../../../../helpers/user';
+import { userData } from '../../../../utils/dataProcessors';
 
 class CommentForm extends React.Component {
   constructor(props, context) {
@@ -58,11 +60,9 @@ class CommentForm extends React.Component {
     const { request } = await this.context.auth.getRequest();
     await userApi.fetchTaggedUsers(request, query)
       .then(res => res.map(user => ({
-        username: user.name,
-        firstName: user.fieldFirstName,
-        lastName: user.fieldLastName,
         display: user.name,
         id: user.uid,
+        user: userData(user),
       })))
       .then(callback);
   }
@@ -107,7 +107,12 @@ class CommentForm extends React.Component {
             data={this.fetchTaggedUsers}
             className="tagging-highlighter-item"
             renderSuggestion={suggestion => (
-              <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
+              <div>
+                <div className="user-avatar" style={{ background: userHelper.getUserColor(suggestion.user) }}>
+                  {userHelper.getInitials(suggestion.user)}
+                </div>
+                <span className="username">@{suggestion.user.name}</span> {suggestion.user.firstName} {suggestion.user.lastName}
+              </div>
             )}
           />
         </MentionsInput>
