@@ -106,7 +106,7 @@ class TaggedUsers extends ResourceBase {
     // Executes a query.
     $ids = $query
       ->condition($group)
-      ->range(0, 10)
+      ->range(0, 7)
       ->execute();
 
     // Load list of users to pass to the frontend.
