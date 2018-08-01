@@ -5,7 +5,7 @@ import { MentionsInput, Mention } from 'react-mentions';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as userApi from '../../../../api/user';
-import * as userHelper from '../../../../helpers/user';
+import Avatar from '../../User/Avatar';
 import { userData } from '../../../../utils/dataProcessors';
 
 class CommentForm extends React.Component {
@@ -108,9 +108,7 @@ class CommentForm extends React.Component {
             className="tagging-highlighter-item"
             renderSuggestion={suggestion => (
               <div>
-                <div className="user-avatar" style={{ background: userHelper.getUserColor(suggestion.user) }}>
-                  {userHelper.getInitials(suggestion.user)}
-                </div>
+                <Avatar user={suggestion.user} />
                 <span className="username">@{suggestion.user.name}</span> {suggestion.user.firstName} {suggestion.user.lastName}
               </div>
             )}
