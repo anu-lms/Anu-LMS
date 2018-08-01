@@ -20,8 +20,8 @@ class TaggingList extends React.Component {
         username: user.name,
         firstName: user.fieldFirstName,
         lastName: user.fieldLastName,
-        display: `<strong>${user.name}</strong> ${user.fieldFirstName} ${user.fieldLastName}`,
-        id: user.name,
+        display: user.name,
+        id: user.uid,
       })))
       .then(callback);
   }
@@ -40,22 +40,18 @@ class TaggingList extends React.Component {
         value={this.state.value}
         onChange={this.onChange}
         placeholder="Mention any Github user by typing `@` followed by at least one char"
-        displayTransform={login => `@${login}`}
+        displayTransform={(id, display) => `@${display}`}
         style={{}}
+        markup="<span data-id='__id__'>@__display__</span>"
       >
         <Mention
           trigger="@"
           data={this.fetchUsers}
           className="bbbbb"
           style={{}}
-          renderSuggestion={(suggestion, search, highlightedDisplay) => {
-            console.log('suggestion', suggestion);
-            // console.log(suggestion, search, highlightedDisplay);
-            return (
-              <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
-            );
-          }
-          }
+          renderSuggestion={suggestion => (
+            <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
+          )}
         />
       </MentionsInput>
     );
