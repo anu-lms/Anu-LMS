@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { MentionsInput, Mention } from 'react-mentions';
+import Avatar from '../../User/Avatar';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
 import * as userApi from '../../../../api/user';
-import Avatar from '../../User/Avatar';
-import { userData } from '../../../../utils/dataProcessors';
 
 class CommentForm extends React.Component {
   constructor(props, context) {
@@ -79,7 +78,7 @@ class CommentForm extends React.Component {
       .then(res => res.map(user => ({
         display: user.name,
         id: user.uid,
-        user: userData(user),
+        user,
       })))
       .then(callback);
   }
