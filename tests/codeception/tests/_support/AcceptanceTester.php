@@ -269,7 +269,7 @@ class AcceptanceTester extends \Codeception\Actor {
    * @return string
    */
   private function getCommentXpath($comment_text) {
-    return '//div[@class="comment-body" and text()="' . $comment_text . '"]
+    return '//div[@class="comment-body"]/div[text()="' . $comment_text . '"]
       //ancestor::div[contains(concat(" ", normalize-space(@class), " "), " comment ")]';
   }
 
