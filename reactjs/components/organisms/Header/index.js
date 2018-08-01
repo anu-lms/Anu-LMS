@@ -13,7 +13,7 @@ import { getObjectById } from '../../../utils/array';
 
 /* eslint-disable max-len */
 const Header = ({ isEmpty, activeOrganizationLabel, router }) => (
-  <header className="site-header">
+  <header className="site-header" id="site-header">
     {!isEmpty &&
     <Fragment>
 
