@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TextareaAutosize from 'react-autosize-textarea';
+import { MentionsInput, Mention } from 'react-mentions';
 import Button from '../../../atoms/Button';
-import TaggingList from '../TaggingList';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import * as userApi from '../../../../api/user';
 
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      text: this.props.initialText ? this.props.initialText : '',
+      text: this.props.initialText || '',
     };
 
+    this.fetchTaggedUsers = this.fetchTaggedUsers.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -42,7 +43,7 @@ class CommentForm extends React.Component {
   }
 
   submitForm() {
-    const text = this.textarea.value;
+    const text = this.state.text;
     if (this.props.editedComment) {
       // Invoke action to update a comment.
       this.props.dispatch(lessonCommentsActions.updateComment(this.props.editedComment, text));
@@ -53,9 +54,22 @@ class CommentForm extends React.Component {
     }
   }
 
-  handleChange() {
+  async fetchTaggedUsers(query, callback) {
+    const { request } = await this.context.auth.getRequest();
+    await userApi.fetchTaggedUsers(request, query)
+      .then(res => res.map(user => ({
+        username: user.name,
+        firstName: user.fieldFirstName,
+        lastName: user.fieldLastName,
+        display: user.name,
+        id: user.uid,
+      })))
+      .then(callback);
+  }
+
+  handleChange({ target }) {
     this.setState({
-      text: this.textarea.value,
+      text: target.value,
     });
   }
 
@@ -78,16 +92,25 @@ class CommentForm extends React.Component {
 
     return (
       <div className={`comment-form ${className}`} id={id}>
-        <TaggingList />
-        {/* <TextareaAutosize */}
-        {/* rows={3} */}
-        {/* innerRef={ref => this.textarea = ref} */}
-        {/* onChange={this.handleChange} */}
-        {/* placeholder={inputPlaceholder} */}
-        {/* onKeyDown={this.handleKeyDown} */}
-        {/* value={text} */}
-        {/* onFocus={this.handleTextareaFocus} */}
-        {/* /> */}
+        <MentionsInput
+          className="tagging-wrapper"
+          value={text}
+          onChange={this.handleChange}
+          placeholder={inputPlaceholder}
+          displayTransform={(id, display) => `@${display}`}
+          markup="<span data-id='__id__'>@__display__</span>"
+          onKeyDown={this.handleKeyDown}
+          onFocus={this.handleTextareaFocus}
+        >
+          <Mention
+            trigger="@"
+            data={this.fetchTaggedUsers}
+            className="tagging-highlighter-item"
+            renderSuggestion={suggestion => (
+              <div><span className="username">@{suggestion.username}</span> {suggestion.firstName} {suggestion.lastName}</div>
+            )}
+          />
+        </MentionsInput>
         <Button
           block
           loading={text.length !== 0 && isProcessing}
