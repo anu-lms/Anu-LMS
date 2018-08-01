@@ -110,7 +110,7 @@ class Comment extends React.Component {
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
-            <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
+            <div className="user-avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
               {userHelper.getInitials(comment.author)}
             </div>
             <div className="right">
