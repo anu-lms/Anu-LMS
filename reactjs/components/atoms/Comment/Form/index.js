@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -124,10 +124,10 @@ class CommentForm extends React.Component {
             className="tagging-highlighter-item"
             appendSpaceOnAdd
             renderSuggestion={suggestion => (
-              <div>
+              <Fragment>
                 <Avatar user={suggestion.user} />
                 <span className="username">@{suggestion.user.name}</span> {suggestion.user.firstName} {suggestion.user.lastName}
-              </div>
+              </Fragment>
             )}
           />
         </MentionsInput>

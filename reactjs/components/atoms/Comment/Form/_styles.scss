@@ -27,6 +27,7 @@
   }
 }
 
+// Popup shown when user try to tag other users with '@'.
 .tagging-wrapper {
   .username {
     font-weight: bold;
@@ -64,10 +65,8 @@
   }
 
   .tagging-wrapper__suggestions__item {
+    @include trancate-text();
     padding: 8px;
-    > div {
-      @include trancate-text();
-    }
     .user-avatar {
       display: inline-block;
       margin-right: 8px;
