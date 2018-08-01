@@ -9,7 +9,7 @@
     border: solid 1px $london-sky;
     border-radius: 8px;
     padding: 8px;
-    bottom: 23px;
+    bottom: calc(100% - 1px);
     color: $slate-grey;
     font-size: 16px;
   }
@@ -28,9 +28,13 @@
     padding: 1em .8em .6em;
     padding-top: .6em;
     border: 2px solid transparent;
+    min-height: 88px;
+    margin-bottom: 0.75em;
 
-    .bbbbb {
+    .tagging-highlighter-item {
       color: $tag-blue;
+      position: relative;
+      z-index: 9999;
     }
   }
 }
