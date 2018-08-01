@@ -87,6 +87,9 @@
     word-wrap: break-word;
     white-space: pre-wrap;
   }
+  .tagged-user {
+    color: $tag-blue;
+  }
 
   .comment-footer {
     position: absolute;
