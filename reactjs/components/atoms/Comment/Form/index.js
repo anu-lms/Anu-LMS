@@ -59,6 +59,9 @@ class CommentForm extends React.Component {
     }
   }
 
+  /**
+   * Comment form submit function.
+   */
   submitForm() {
     const { text } = this.state;
     const { editedComment, dispatch, replyTo } = this.props;
@@ -72,6 +75,9 @@ class CommentForm extends React.Component {
     }
   }
 
+  /**
+   * Function to fetch tagged users from the backend.
+   */
   async fetchTaggedUsers(query, callback) {
     const { activeOrganizationId } = this.props;
     const { request } = await this.context.auth.getRequest();
