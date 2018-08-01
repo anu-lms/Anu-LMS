@@ -4,7 +4,6 @@ import Alert from 'react-s-alert';
 import request from '../utils/request';
 import ClientAuth from '../auth/clientAuth';
 import * as commentsApi from '../api/comments';
-import * as userApi from '../api/user';
 import * as lessonActions from '../actions/lesson';
 import * as lessonCommentsActions from '../actions/lessonComments';
 import * as lessonCommentsHelpers from '../helpers/lessonComments';
