@@ -107,6 +107,7 @@ class CommentForm extends React.Component {
             trigger="@"
             data={this.fetchTaggedUsers}
             className="tagging-highlighter-item"
+            appendSpaceOnAdd
             renderSuggestion={suggestion => (
               <div>
                 <Avatar user={suggestion.user} />
