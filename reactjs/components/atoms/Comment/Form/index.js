@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { MentionsInput, Mention } from 'react-mentions';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
@@ -14,6 +15,7 @@ class CommentForm extends React.Component {
 
     this.state = {
       text: this.props.initialText || '',
+      showTaggedUsersAmount: 7,
     };
 
     this.fetchTaggedUsers = this.fetchTaggedUsers.bind(this);
@@ -35,8 +37,22 @@ class CommentForm extends React.Component {
     }
   }
 
-  handleTextareaFocus() {
+  handleTextareaFocus({ target }) {
     const { id, replyTo, editedComment, dispatch } = this.props;
+
+    // Calculates an amount of items to show in tagged users popup.
+    // To limit height and show scroll bar when it shown for first comment.
+    const taggedPopupItemHeight = 40;
+    const textareaTopPosition = target.getBoundingClientRect().top;
+    const siteHeaderHeight = document.getElementById('site-header').offsetHeight;
+    const tabsHeight = 32;
+    const paddings = 10;
+
+    const freeArea = textareaTopPosition - siteHeaderHeight - tabsHeight - paddings;
+    const popupItemsAmount = Math.floor(freeArea / taggedPopupItemHeight);
+    this.setState({
+      showTaggedUsersAmount: popupItemsAmount,
+    });
 
     // Hide Edit and Reply forms if user set focus on Add new comment form.
     if (id === 'new-comment-form' && (replyTo || editedComment)) {
@@ -83,7 +99,7 @@ class CommentForm extends React.Component {
 
   render() {
     const { comments, isProcessing, className, placeholder, id } = this.props;
-    const { text } = this.state;
+    const { text, showTaggedUsersAmount } = this.state;
 
     // Prepare placeholder for the textarea.
     let inputPlaceholder = placeholder;
@@ -92,9 +108,9 @@ class CommentForm extends React.Component {
     }
 
     return (
-      <div className={`comment-form ${className}`} id={id}>
+      <div className={classNames(['comment-form', className])} id={id}>
         <MentionsInput
-          className="tagging-wrapper"
+          className={classNames(['tagging-wrapper', `items-amount-${showTaggedUsersAmount}`])}
           value={text}
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
