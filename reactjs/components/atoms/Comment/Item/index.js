@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import xss from 'xss';
 import moment from 'moment';
 import Moment from 'react-moment';
 import VisibilitySensor from 'react-visibility-sensor';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import xss from 'xss';
 import CommentEditForm from '../Form';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
