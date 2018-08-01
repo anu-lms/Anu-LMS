@@ -29,8 +29,8 @@ export const fetchTaggedUsers = (request, query, organizationId) => new Promise(
       '_format': 'json',
     })
     .then(response => {
-      // const user = dataProcessors.userData(response.body);
-      resolve(response.body);
+      const comments = response.body.map(user => dataProcessors.userData(user));
+      resolve(comments);
     })
     .catch(error => {
       console.error('Could not fetch tagged users.', error);
