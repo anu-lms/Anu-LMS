@@ -98,7 +98,7 @@ class CommentForm extends React.Component {
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
           displayTransform={(id, display) => `@${display}`}
-          markup="<span data-id='__id__'>@__display__</span>"
+          markup="<span class='tagged-user' data-id='__id__'>@__display__</span>"
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleTextareaFocus}
         >
