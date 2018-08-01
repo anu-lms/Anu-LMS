@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import CommentEditForm from '../Form';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
+import Avatar from '../../User/Avatar';
 import * as userHelper from '../../../../helpers/user';
 import {
   showReplyForm,
@@ -110,9 +111,7 @@ class Comment extends React.Component {
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
-            <div className="user-avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
-              {userHelper.getInitials(comment.author)}
-            </div>
+            <Avatar user={comment.author} />
             <div className="right">
 
               <div className="username">
