@@ -26,3 +26,45 @@
     padding: 0;
   }
 }
+
+.tagging-wrapper {
+  .username {
+    font-weight: bold;
+    color: $carbon;
+    margin-right: 6px;
+  }
+  .tagging-wrapper__suggestions {
+    width: 100%;
+    top: initial !important;
+    border: solid 1px $london-sky;
+    border-radius: 8px;
+    padding: 6px 0 4px;
+    bottom: calc(100% - 1px);
+    color: $slate-grey;
+    font-size: 16px;
+  }
+  .tagging-wrapper__suggestions__item {
+    padding: 8px 10px;
+  }
+  .tagging-wrapper__suggestions__item--focused {
+    background-color: $tag-blue;
+    color: $white;
+    .username {
+      color: $white;
+    }
+  }
+
+  .tagging-wrapper__highlighter {
+    padding: 1em .8em .6em;
+    padding-top: .6em;
+    border: 2px solid transparent;
+    min-height: 88px;
+    margin-bottom: 0.75em;
+
+    .tagging-highlighter-item {
+      color: $tag-blue;
+      position: relative;
+      z-index: 9999;
+    }
+  }
+}
