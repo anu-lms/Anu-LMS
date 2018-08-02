@@ -43,7 +43,7 @@ export const insertComment = (request, userId, paragraphId, organizationId, text
   request
     .post('/jsonapi/paragraph_comment/paragraph_comment')
     .query({
-      'include': 'uid, field_comment_parent, field_comment_organization',
+      'include': 'uid, field_comment_parent, field_comment_organization, field_comment_mentions',
     })
     .send({
       data: {
@@ -88,7 +88,7 @@ export const updateComment = (request, uuid, params) => new Promise((resolve, re
   request
     .patch(`/jsonapi/paragraph_comment/paragraph_comment/${uuid}`)
     .query({
-      'include': 'uid, field_comment_parent, field_comment_organization',
+      'include': 'uid, field_comment_parent, field_comment_organization, field_comment_mentions',
     })
     .send({
       data: {
