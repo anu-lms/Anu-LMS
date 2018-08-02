@@ -116,7 +116,7 @@ class TaggedUsers extends ResourceBase {
 
     // Executes a query.
     $ids = $query
-      ->sort('name' , 'ASC')
+      ->sort('name', 'ASC')
       ->range(0, 7)
       ->execute();
 
