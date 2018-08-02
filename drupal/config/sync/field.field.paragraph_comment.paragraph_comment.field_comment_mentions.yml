@@ -1,0 +1,28 @@
+uuid: bd834507-09ab-406f-9e50-6e8f6a6bf4f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.paragraph_comment.paragraph_comment
+    - field.storage.paragraph_comment.field_comment_mentions
+id: paragraph_comment.paragraph_comment.field_comment_mentions
+field_name: field_comment_mentions
+entity_type: paragraph_comment
+bundle: paragraph_comment
+label: Mentions
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

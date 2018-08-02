@@ -142,7 +142,7 @@ class Comment extends React.Component {
             {editedComment && editedComment === comment.id ? (
               <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
             ) : (
-              <CommentBodyWithMentions text={comment.text} />
+              <CommentBodyWithMentions text={comment.text} mentions={comment.mentions} />
             )}
           </div>
 

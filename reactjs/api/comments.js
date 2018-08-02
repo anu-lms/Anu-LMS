@@ -5,7 +5,7 @@ import * as dataProcessors from '../utils/dataProcessors';
  */
 export const fetchComments = (request, paragraphId, organizationId = null) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   const query = {
-    'include': 'uid, field_comment_parent, field_comment_organization',
+    'include': 'uid, field_comment_parent, field_comment_organization, field_comment_mentions',
     // Filter by paragraph id.
     'filter[field_comment_paragraph][value]': paragraphId,
     // Filter comments by organization.
