@@ -88,24 +88,35 @@ class TaggedUsers extends ResourceBase {
     // Make sure current user has given organization.
     $current_user = User::load($this->currentUser->id());
     $current_user_orgs = array_column($current_user->field_organization->getValue(), 'target_id');
-    if (!in_array($organization_id, $current_user_orgs)) {
+
+    $no_orgs = empty($organization_id) && empty($current_user_orgs);
+    $org_in_current_orgs = !empty($organization_id) && in_array($organization_id, $current_user_orgs);
+    if (!$no_orgs && !$org_in_current_orgs) {
       return new ResourceResponse([], 406);
     }
 
     // Makes request to the database to get list of users.
     $query = \Drupal::entityQuery('user')
-      ->condition('status', 1)
-      ->condition('field_organization', $organization_id);
+      ->condition('status', 1);
+    if (!empty($organization_id)) {
+      $query->condition('field_organization', $organization_id);
+    }
+    else {
+      $query->notExists('field_organization');
+    }
 
     // Find any users where name, first name or last name starts with given query text.
-    $group = $query->orConditionGroup()
-      ->condition('name', $search_query, 'STARTS_WITH')
-      ->condition('field_first_name', $search_query, 'STARTS_WITH')
-      ->condition('field_last_name', $search_query, 'STARTS_WITH');
+    if (!empty($search_query)) {
+      $group = $query->orConditionGroup()
+        ->condition('name', $search_query, 'STARTS_WITH')
+        ->condition('field_first_name', $search_query, 'STARTS_WITH')
+        ->condition('field_last_name', $search_query, 'STARTS_WITH');
+      $query->condition($group);
+    }
 
     // Executes a query.
     $ids = $query
-      ->condition($group)
+      ->sort('name' , 'ASC')
       ->range(0, 7)
       ->execute();
 
