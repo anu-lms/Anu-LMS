@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import Comment from '../Item';
 import AddCommentForm from '../Form';
 import NewCommentsBar from '../NewCommentsBar';
@@ -65,6 +66,8 @@ class CommentsList extends React.Component {
         />
         }
         {flatCommentsList}
+
+        <ReactTooltip effect="solid" html />
       </div>
     );
   }

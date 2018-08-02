@@ -93,7 +93,7 @@ class CommentForm extends React.Component {
           this.lastTaggedQueryId = null;
           return res.map(user => ({
             display: user.name,
-            id: user.uid,
+            id: user.name,
             user,
           }));
         })
@@ -132,7 +132,7 @@ class CommentForm extends React.Component {
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
           displayTransform={(id, display) => `@${display}`} // eslint-disable-line no-shadow
-          markup='<span class="tagged-user" data-fullname="__id__" data-avatar="https://regex101.com">@__display__</span>'
+          markup="<span class='tagged-user'>@__id__</span>"
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleTextareaFocus}
         >
