@@ -5854,6 +5854,12 @@ react-s-alert@^1.4.0:
   dependencies:
     babel-runtime "^6.23.0"
 
+react-simple-tooltip@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-simple-tooltip/-/react-simple-tooltip-2.3.2.tgz#e24bcb6b0a314f5e3b59a5f0cf961f8925b46ef6"
+  dependencies:
+    styled-components "^2.1.2"
+
 react-tooltip@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.6.1.tgz#2ca993baa50d7e0271b8d13c6024445a883842eb"
@@ -6888,6 +6894,19 @@ strip-json-comments@~2.0.1:
 striptags@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/striptags/-/striptags-2.2.1.tgz#4c450b708d41b8bf39cf24c49ff234fc6aabfd32"
+
+styled-components@^2.1.2:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.1.tgz#663bd0485d4b6ab46f946210dc03d2398d1ade74"
+  dependencies:
+    buffer "^5.0.3"
+    css-to-react-native "^2.0.3"
+    fbjs "^0.8.9"
+    hoist-non-react-statics "^1.2.0"
+    is-plain-object "^2.0.1"
+    prop-types "^15.5.4"
+    stylis "^3.4.0"
+    supports-color "^3.2.3"
 
 styled-components@^3.1.6:
   version "3.1.6"
