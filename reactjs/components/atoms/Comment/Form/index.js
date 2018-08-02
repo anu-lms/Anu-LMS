@@ -132,7 +132,7 @@ class CommentForm extends React.Component {
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
           displayTransform={(id, display) => `@${display}`} // eslint-disable-line no-shadow
-          markup="<span class='tagged-user' data-id='__id__'>@__display__</span>"
+          markup='<span class="tagged-user" data-fullname="__id__" data-avatar="https://regex101.com">@__display__</span>'
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleTextareaFocus}
         >
