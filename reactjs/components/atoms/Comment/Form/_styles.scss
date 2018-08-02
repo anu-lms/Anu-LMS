@@ -89,9 +89,11 @@
     margin-bottom: 0.75em;
 
     .tagging-highlighter-item {
-      color: $tag-blue;
-      position: relative;
-      z-index: 999;
+      // Commented out marking mentions inside textrea, because it's buggy on ios.
+      // (because textarea on ios has margin-left: -3 by default).
+      //color: $tag-blue;
+      //position: relative;
+      //z-index: 999;
     }
   }
 }
