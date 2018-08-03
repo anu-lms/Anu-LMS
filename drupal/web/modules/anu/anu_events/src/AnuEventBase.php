@@ -131,7 +131,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
    * @return object
    *   Returns True if Message was successfully created, or False otherwise.
    */
-  protected function createMessage($values = []) {
+  protected function createMessage(array $values = []) {
     try {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
