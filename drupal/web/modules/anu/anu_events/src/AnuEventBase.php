@@ -124,16 +124,20 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   /**
    * Creates and attaches Message entity to the event.
    *
+   * @param array $values
+   *   (optional) An array of values to set, keyed by property name. If the
+   *   entity type has bundles, the bundle key has to be specified.
+   *
    * @return object
    *   Returns True if Message was successfully created, or False otherwise.
    */
-  protected function createMessage() {
+  protected function createMessage($values = []) {
     try {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
         'template' => $this->getMessageBundle(),
         'uid' => $this->getTriggerer(),
-      ]);
+      ] + $values);
 
       // Attaches an additional fields to the entity.
       $this->attachMessageFields($message);

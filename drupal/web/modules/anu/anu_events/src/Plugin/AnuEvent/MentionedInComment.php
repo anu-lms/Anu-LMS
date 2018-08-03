@@ -53,8 +53,7 @@ class MentionedInComment extends AnuEventCommentBase {
         continue;
       }
 
-      if ($message = $this->createMessage()) {
-        $message->field_message_recipient = $recipientId;
+      if ($message = $this->createMessage(['field_message_recipient' => (int) $recipientId])) {
         $this->notifyChannels($message);
       }
     }

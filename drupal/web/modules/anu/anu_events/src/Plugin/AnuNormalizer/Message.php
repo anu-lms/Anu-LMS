@@ -41,7 +41,7 @@ class Message extends AnuNormalizerBase {
         'bundle' => $entity->bundle(),
         'created' => (int) $entity->created->getString(),
         'triggerer' => AnuNormalizerBase::normalizeEntity($entity->uid->first()->get('entity')->getValue()),
-        'isRead' => (bool) $entity->field_message_is_read->getString(),
+        'isRead' => is_bool($entity->field_message_is_read) ? $entity->field_message_is_read : (bool) $entity->field_message_is_read->getString(),
       ];
 
       // Always add a recipient user ID to the message item.
