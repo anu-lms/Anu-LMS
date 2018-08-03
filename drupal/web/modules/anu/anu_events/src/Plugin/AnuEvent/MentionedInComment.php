@@ -32,6 +32,18 @@ class MentionedInComment extends AnuEventCommentBase {
       return FALSE;
     }
 
+    if ($this->hook == 'entity_update') {
+      $original_mentions = [];
+      if (!empty($this->entity->original->field_comment_mentions->getValue())) {
+        $original_mentions = array_column($this->entity->original->field_comment_mentions->getValue(), 'target_id');
+      }
+      $this->recipients = array_diff($recipients, $original_mentions);
+
+      if (empty($this->recipients)) {
+        return FALSE;
+      }
+    }
+
     // Returns TRUE if all conditions above have passed.
     return TRUE;
   }
@@ -60,7 +72,7 @@ class MentionedInComment extends AnuEventCommentBase {
   }
 
   /**
-   *
+   * Get users who should get notifications.
    */
   protected function getRecipients() {
     if (!empty($this->recipients)) {
@@ -68,7 +80,8 @@ class MentionedInComment extends AnuEventCommentBase {
     }
 
     if (!empty($this->entity->field_comment_mentions->getValue())) {
-      return array_column($this->entity->field_comment_mentions->getValue(), 'target_id');
+      $this->recipients = array_column($this->entity->field_comment_mentions->getValue(), 'target_id');
+      return $this->recipients;
     }
 
     return [];
