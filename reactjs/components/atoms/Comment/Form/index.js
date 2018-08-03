@@ -87,13 +87,15 @@ class CommentForm extends React.Component {
       clearTimeout(this.lastTaggedQueryId);
     }
 
+    // Use setTimeout function here to run query with delays
+    // (do to run query when user type each char).
     this.lastTaggedQueryId = setTimeout(() => {
       userApi.fetchTaggedUsers(request, query, activeOrganizationId)
         .then(res => {
           this.lastTaggedQueryId = null;
           return res.map(user => ({
             display: user.name,
-            id: user.uid,
+            id: user.name,
             user,
           }));
         })
@@ -132,7 +134,7 @@ class CommentForm extends React.Component {
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
           displayTransform={(id, display) => `@${display}`} // eslint-disable-line no-shadow
-          markup="<span class='tagged-user' data-id='__id__'>@__display__</span>"
+          markup="<span class='tagged-user'>@__id__</span>"
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleTextareaFocus}
         >

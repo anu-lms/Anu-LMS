@@ -1,6 +1,6 @@
 {
   "name": "AnuLMS",
-  "version": "1.22",
+  "version": "1.23",
   "private": true,
   "dependencies": {
     "@trendmicro/react-dropdown": "^1.2.0",
@@ -32,6 +32,7 @@
     "raven-js": "^3.26.3",
     "raw-loader": "^0.5.1",
     "rc-slider": "^8.6.0",
+    "rc-tooltip": "^3.7.2",
     "react": "^16.4.0",
     "react-autosize-textarea": "^3.0.2",
     "react-circular-progressbar": "^0.6.0",
@@ -46,6 +47,7 @@
     "react-pdf": "^3.0.2",
     "react-player": "^1.1.1",
     "react-player-controls": "^0.5.18",
+    "react-process-string": "^1.2.0",
     "react-redux": "^5.0.6",
     "react-s-alert": "^1.4.0",
     "react-visibility-sensor": "^3.11.0",

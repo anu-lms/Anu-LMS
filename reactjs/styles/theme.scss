@@ -1,5 +1,6 @@
 // Import Bootstrap 4 grid.
 @import "../node_modules/bootstrap-4-grid/scss/grid";
+@import '../node_modules/rc-tooltip/assets/bootstrap';
 
 // Import all mixins.
 @import "mixins/*.scss";

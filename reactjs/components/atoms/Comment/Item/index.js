@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import xss from 'xss';
 import moment from 'moment';
 import Moment from 'react-moment';
 import VisibilitySensor from 'react-visibility-sensor';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import CommentEditForm from '../Form';
+import CommentBodyWithMentions from '../CommentBodyWithMentions';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
 import Avatar from '../../User/Avatar';
@@ -142,8 +142,7 @@ class Comment extends React.Component {
             {editedComment && editedComment === comment.id ? (
               <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
             ) : (
-              // eslint-disable-next-line react/no-danger
-              <div dangerouslySetInnerHTML={{ __html: xss(comment.text.trim(), { whiteList: { span: ['class', 'data-id'] } }) }} />
+              <CommentBodyWithMentions text={comment.text} mentions={comment.mentions} />
             )}
           </div>
 
