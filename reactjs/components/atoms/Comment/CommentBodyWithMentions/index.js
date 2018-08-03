@@ -20,7 +20,11 @@ class CommentBodyWithMentions extends React.Component {
         }
 
         // Show tooltip with data about user.
-        const overlay = <Fragment><Avatar user={mentionedUser} /> <span>{getUsername(mentionedUser)}</span></Fragment>; // eslint-disable-line max-len
+        const overlay = (
+          <Fragment>
+            <Avatar user={mentionedUser} /> <span>{getUsername(mentionedUser)}</span>
+          </Fragment>
+        );
         return (
           <Tooltip
             key={key}
