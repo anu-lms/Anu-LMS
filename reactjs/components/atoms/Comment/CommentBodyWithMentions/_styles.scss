@@ -1,5 +1,8 @@
 .comment-body .tagged-user {
   color: $tag-blue;
+  &.current-user {
+    background-color: $tag-hightlight-yellow;
+  }
 }
 .tagged-user-tooltip {
   opacity: 1;
