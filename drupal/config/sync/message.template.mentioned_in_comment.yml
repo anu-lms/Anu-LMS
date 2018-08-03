@@ -1,0 +1,17 @@
+uuid: 31ed95f6-9442-4234-b708-d07df5c0e0ff
+langcode: en
+status: true
+dependencies: {  }
+template: mentioned_in_comment
+label: 'Mentioned in comment'
+description: 'When user was mentioned in comment'
+text:
+  -
+    value: "<p>[message:author:display-name] mentioned you in a comment.</p>\r\n"
+    format: filtered_html
+settings:
+  'token options':
+    clear: false
+    'token replace': true
+  purge_override: false
+  purge_methods: {  }
