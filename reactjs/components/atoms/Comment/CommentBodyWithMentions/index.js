@@ -27,6 +27,7 @@ class CommentBodyWithMentions extends React.Component {
             overlayClassName="tagged-user-tooltip"
             destroyTooltipOnHide
             mouseLeaveDelay={0.1}
+            trigger={['hover', 'click']}
             mouseEnterDelay={0.15}
             getTooltipContainer={() => document.querySelector('.comments-content')}
             align={{ offset: [0, 4] }}
