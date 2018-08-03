@@ -87,6 +87,8 @@ class CommentForm extends React.Component {
       clearTimeout(this.lastTaggedQueryId);
     }
 
+    // Use setTimeout function here to run query with delays
+    // (do to run query when user type each char).
     this.lastTaggedQueryId = setTimeout(() => {
       userApi.fetchTaggedUsers(request, query, activeOrganizationId)
         .then(res => {
