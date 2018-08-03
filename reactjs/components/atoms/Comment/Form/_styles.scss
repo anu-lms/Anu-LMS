@@ -26,3 +26,74 @@
     padding: 0;
   }
 }
+
+// Popup shown when user try to tag other users with '@'.
+.tagging-wrapper {
+  .username {
+    font-weight: bold;
+    color: $carbon;
+    margin-right: 6px;
+  }
+  .tagging-wrapper__suggestions {
+    width: 100%;
+    top: auto !important;
+    border: solid 1px $london-sky;
+    border-radius: 8px;
+    padding: 6px 0 4px;
+    bottom: calc(100% - 2px);
+    color: $slate-grey;
+    font-size: 16px;
+    overflow-y: auto;
+  }
+  &.items-amount-2 .tagging-wrapper__suggestions {
+    max-height: 94px;
+  }
+  &.items-amount-3 .tagging-wrapper__suggestions {
+    max-height: 134px;
+  }
+  &.items-amount-4 .tagging-wrapper__suggestions {
+    max-height: 174px;
+  }
+  &.items-amount-5 .tagging-wrapper__suggestions {
+    max-height: 214px;
+  }
+  &.items-amount-6 .tagging-wrapper__suggestions {
+    max-height: 254px;
+  }
+
+  .tagging-wrapper__suggestions__item {
+    @include trancate-text();
+    padding: 8px;
+    .user-avatar {
+      display: inline-block;
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+  }
+  .tagging-wrapper__suggestions__item--focused {
+    background-color: $tag-blue;
+    color: $white;
+    .username {
+      color: $white;
+    }
+  }
+
+  .tagging-wrapper__highlighter {
+    padding: 1em .8em .6em;
+    padding-top: .6em;
+    border: 2px solid transparent;
+    min-height: 88px;
+    margin-bottom: 0.75em;
+
+    .tagging-highlighter-item {
+      // Commented out marking mentions inside textrea, because it's buggy on ios.
+      // (because textarea on ios has margin-left: -3 by default).
+      //color: $tag-blue;
+      //position: relative;
+      //z-index: 999;
+    }
+  }
+}

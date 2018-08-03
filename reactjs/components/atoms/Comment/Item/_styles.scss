@@ -53,19 +53,10 @@
     margin-bottom: 1em;
     height: 2em;
 
-    .avatar {
+    .user-avatar {
       position: absolute;
       left: 0;
       top: 0;
-      background: $anu-black;
-      width: 2em;
-      height: 2em;
-      color: $white;
-      border-radius: 50%;
-      font-size: 1em;
-      line-height: 2em;
-      text-transform: uppercase;
-      text-align: center;
     }
 
     .right {
@@ -95,6 +86,9 @@
     color: $carbon;
     word-wrap: break-word;
     white-space: pre-wrap;
+  }
+  .tagged-user {
+    color: $tag-blue;
   }
 
   .comment-footer {

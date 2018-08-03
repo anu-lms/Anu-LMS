@@ -20,17 +20,17 @@ export const fetchCurrent = request => new Promise((resolve, reject) => {
 /**
  * Fetch tagged users.
  */
-export const fetchTaggedUsers = request => new Promise((resolve, reject) => {
+export const fetchTaggedUsers = (request, query, organizationId) => new Promise((resolve, reject) => { // eslint-disable-line max-len
   request
     .get('/user/tagged')
     .query({
-      'query': 'auth',
-      'organization_id': 9997,
+      'query': query,
+      'organization_id': organizationId,
       '_format': 'json',
     })
     .then(response => {
-      // const user = dataProcessors.userData(response.body);
-      resolve(response.body);
+      const comments = response.body.map(user => dataProcessors.userData(user));
+      resolve(comments);
     })
     .catch(error => {
       console.error('Could not fetch tagged users.', error);

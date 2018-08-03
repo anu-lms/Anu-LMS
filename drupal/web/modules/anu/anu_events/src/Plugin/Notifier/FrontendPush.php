@@ -2,8 +2,6 @@
 
 namespace Drupal\anu_events\Plugin\Notifier;
 
-use ElephantIO\Client;
-use ElephantIO\Engine\SocketIO\Version2X;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**

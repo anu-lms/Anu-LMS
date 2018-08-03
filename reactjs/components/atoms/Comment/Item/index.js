@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import xss from 'xss';
 import moment from 'moment';
 import Moment from 'react-moment';
 import VisibilitySensor from 'react-visibility-sensor';
@@ -8,6 +9,7 @@ import classNames from 'classnames';
 import CommentEditForm from '../Form';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
+import Avatar from '../../User/Avatar';
 import * as userHelper from '../../../../helpers/user';
 import {
   showReplyForm,
@@ -110,9 +112,7 @@ class Comment extends React.Component {
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
-            <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
-              {userHelper.getInitials(comment.author)}
-            </div>
+            <Avatar user={comment.author} />
             <div className="right">
 
               <div className="username">
@@ -142,7 +142,8 @@ class Comment extends React.Component {
             {editedComment && editedComment === comment.id ? (
               <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
             ) : (
-              comment.text.trim()
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: xss(comment.text.trim(), { whiteList: { span: ['class', 'data-id'] } }) }} />
             )}
           </div>
 
