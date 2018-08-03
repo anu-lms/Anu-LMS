@@ -21,6 +21,16 @@ function anu_events_entity_insert(EntityInterface $entity) {
 }
 
 /**
+ * Implements hook_entity_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity object.
+ */
+function anu_events_entity_update(EntityInterface $entity) {
+  AnuEventBase::triggerAnuEvents('entity_update', ['entity' => $entity]);
+}
+
+/**
  * Implements hook_ENTITY_TYPE_delete().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
