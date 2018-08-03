@@ -21,7 +21,7 @@ function anu_comments_entity_presave(EntityInterface $entity) {
       // Enables revisions for comment entity by default.
       $entity->setNewRevision(TRUE);
 
-      // @todo: add description.
+      // Set empty value for comment_mentions field if comment text is empty.
       $ids = [];
       $text = $entity->field_comment_text->getValue();
       if (empty($text[0]['value'])) {
@@ -29,6 +29,7 @@ function anu_comments_entity_presave(EntityInterface $entity) {
         return;
       }
 
+      // We parse comment body for @username and save found users to the comment_mentions field.
       $pattern = "/<span class=\'tagged-user\'>@([^<>]*)<\/span>/";
       if (preg_match_all($pattern, $text[0]['value'], $matches)) {
         if (empty($matches)) {
@@ -44,7 +45,7 @@ function anu_comments_entity_presave(EntityInterface $entity) {
       $entity->field_comment_mentions = $ids;
     }
     catch (\Exception $exception) {
-      $message = new FormattableMarkup('Could not save comment entity. Error: @error', [
+      $message = new FormattableMarkup('Could not parse comment body for mentions. Error: @error', [
         '@error' => $exception->getMessage(),
       ]);
       \Drupal::logger('anu_comments')->critical($message);
