@@ -2,13 +2,15 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import _find from 'lodash/find';
 import Tooltip from 'rc-tooltip';
+import classNames from 'classnames';
+import { connect } from 'react-redux';
 import processString from 'react-process-string';
 import Avatar from '../../User/Avatar';
 import { getUsername } from '../../../../helpers/user';
 
 class CommentBodyWithMentions extends React.Component {
   render() {
-    const { text, mentions } = this.props;
+    const { text, mentions, currentUserId } = this.props;
     const match = /<span class='tagged-user'>@([^<>]*)<\/span>/g;
     let config = [{
       regex: match,
@@ -18,6 +20,8 @@ class CommentBodyWithMentions extends React.Component {
         if (!mentionedUser) {
           return <span key={key} className="tagged-user">@{result[1]}</span>;
         }
+        const isCurrent = mentionedUser.uid === currentUserId;
+        const usernameClasses = classNames(['tagged-user'], { 'current-user': isCurrent });
 
         // Show tooltip with data about user.
         const overlay = (
@@ -38,7 +42,7 @@ class CommentBodyWithMentions extends React.Component {
             getTooltipContainer={() => document.querySelector('.comments-content')}
             align={{ offset: [0, 4] }}
           >
-            <span className="tagged-user">@{result[1]}</span>
+            <span className={usernameClasses}>@{result[1]}</span>
           </Tooltip>
         );
       },
@@ -54,11 +58,17 @@ class CommentBodyWithMentions extends React.Component {
 CommentBodyWithMentions.propTypes = {
   text: PropTypes.string,
   mentions: PropTypes.arrayOf(PropTypes.object),
+  currentUserId: PropTypes.number,
 };
 
 CommentBodyWithMentions.defaultProps = {
   text: '',
   mentions: [],
+  currentUserId: null,
 };
 
-export default CommentBodyWithMentions;
+const mapStateToProps = ({ user }) => ({
+  currentUserId: user.data.uid,
+});
+
+export default connect(mapStateToProps)(CommentBodyWithMentions);
