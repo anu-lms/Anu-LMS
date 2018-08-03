@@ -19,12 +19,16 @@ class MentionedInComment extends AnuEventCommentBase {
    * {@inheritdoc}
    */
   public function shouldTrigger() {
-    if (!parent::shouldTrigger()) {
+    if (($this->hook !== 'entity_insert' && $this->hook !== 'entity_update') || empty($this->entity)) {
       return FALSE;
     }
 
-    // Catch only replies.
-    if (empty($this->entity->field_comment_parent->getValue())) {
+    if ($this->entity->getEntityTypeId() !== 'paragraph_comment' || $this->entity->bundle() !== 'paragraph_comment') {
+      return FALSE;
+    }
+
+    $recipients = $this->getRecipients();
+    if (empty($recipients)) {
       return FALSE;
     }
 
@@ -33,18 +37,57 @@ class MentionedInComment extends AnuEventCommentBase {
   }
 
   /**
+   * Check if event can be triggered, creates Message entity and dispatch itself.
+   */
+  public function trigger() {
+    // Check if event can be triggered.
+    if (!$this->shouldTrigger()) {
+      return;
+    }
+
+    // Creates Message entity for the event.
+    $recipients = $this->getRecipients();
+    foreach ($recipients as $recipientId) {
+      // We shouldn't trigger event if Recipient and Triggerer the same.
+      if ($this->getTriggerer() == $recipientId) {
+        continue;
+      }
+
+      if ($message = $this->createMessage()) {
+        $message->field_message_recipient = $recipientId;
+        $this->notifyChannels($message);
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  protected function getRecipients() {
+    if (!empty($this->recipients)) {
+      return $this->recipients;
+    }
+
+    if (!empty($this->entity->field_comment_mentions->getValue())) {
+      return array_column($this->entity->field_comment_mentions->getValue(), 'target_id');
+    }
+
+    return [];
+  }
+
+  /**
    * {@inheritdoc}
    */
   protected function getRecipient() {
-    if (!empty($this->entity->field_comment_parent->getValue())) {
-      return (int) $this->entity->field_comment_parent
-        ->first()
-        ->get('entity')
-        ->getValue()
-        ->uid
-        ->target_id;
-    }
     return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function attachMessageFields($message) {
+    $message->field_message_comment = $this->entity->id();
+    $message->field_message_is_read = FALSE;
   }
 
 }
