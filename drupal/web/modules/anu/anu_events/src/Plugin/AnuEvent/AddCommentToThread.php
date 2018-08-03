@@ -5,15 +5,15 @@ namespace Drupal\anu_events\Plugin\AnuEvent;
 use Drupal\anu_events\AnuEventCommentBase;
 
 /**
- * Add comment to thread event.
+ * User was mentioned in comment.
  *
  * @AnuEvent(
- *   id = "add_comment_to_thread",
+ *   id = "mentioned_in_comment",
  *   title = @Translation("Add comment to thread"),
  *   description = @Translation("Triggered when user added comment to the thread of another user"),
  * )
  */
-class AddCommentToThread extends AnuEventCommentBase {
+class MentionedInComment extends AnuEventCommentBase {
 
   /**
    * {@inheritdoc}
