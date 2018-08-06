@@ -87,13 +87,13 @@
     border: 2px solid transparent;
     min-height: 88px;
     margin-bottom: 0.75em;
+    margin-left: 0 !important;
 
     .tagging-highlighter-item {
-      // Commented out marking mentions inside textrea, because it's buggy on ios.
-      // (because textarea on ios has margin-left: -3 by default).
-      //color: $tag-blue;
-      //position: relative;
-      //z-index: 999;
+      color: $tag-blue;
+      position: relative;
+      z-index: 999;
+      //background-color: $white; // We don't use bgc white here, because it overrides cursor.
     }
   }
 }
