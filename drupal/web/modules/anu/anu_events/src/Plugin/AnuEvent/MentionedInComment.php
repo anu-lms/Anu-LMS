@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_events\Plugin\AnuEvent;
 
+use Drupal\user\Entity\User;
 use Drupal\anu_events\AnuEventCommentBase;
 
 /**
@@ -43,6 +44,26 @@ class MentionedInComment extends AnuEventCommentBase {
     }
 
     // Returns TRUE if all conditions above have passed.
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function shouldNotify($recipientId) {
+    if (!parent::shouldNotify($recipientId)) {
+      return FALSE;
+    }
+
+    // Don't send notifications if user has no access to the lesson where he was mentioned.
+    $paragraph_id = $this->entity->field_comment_paragraph->getString();
+    $lesson = \Drupal::service('anu_lessons.lesson')->loadByParagraphId($paragraph_id);
+
+    $recipient_account = User::load($recipientId);
+    if (!$lesson->access('view', $recipient_account)) {
+      return FALSE;
+    }
+
     return TRUE;
   }
 
