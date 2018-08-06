@@ -41,6 +41,7 @@ class ReplyToComment extends AnuEventCommentBase {
    * {@inheritdoc}
    */
   protected function getRecipients() {
+    // Use 'recipients' property as cache, it will use saved in 'recipients' value instead of recalculate it again.
     if (!empty($this->recipients)) {
       return $this->recipients;
     }
