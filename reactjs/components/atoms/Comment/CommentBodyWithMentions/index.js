@@ -47,7 +47,7 @@ class CommentBodyWithMentions extends React.Component {
         );
       },
     }];
-    let processed = processString(config)(text);
+    let processed = processString(config)(text.trim());
 
     return (
       processed
