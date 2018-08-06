@@ -50,6 +50,7 @@ class MentionedInComment extends AnuEventCommentBase {
    * Get users who should get notifications.
    */
   protected function getRecipients() {
+    // Use 'recipients' property as cache, it will use saved in 'recipients' value instead of recalculate it again.
     if (!empty($this->recipients)) {
       return $this->recipients;
     }
