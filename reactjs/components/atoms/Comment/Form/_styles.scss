@@ -46,19 +46,19 @@
     overflow-y: auto;
   }
   &.items-amount-2 .tagging-wrapper__suggestions {
-    max-height: 94px;
+    max-height: 74px;
   }
   &.items-amount-3 .tagging-wrapper__suggestions {
-    max-height: 134px;
+    max-height: 114px;
   }
   &.items-amount-4 .tagging-wrapper__suggestions {
-    max-height: 174px;
+    max-height: 154px;
   }
   &.items-amount-5 .tagging-wrapper__suggestions {
-    max-height: 214px;
+    max-height: 194px;
   }
   &.items-amount-6 .tagging-wrapper__suggestions {
-    max-height: 254px;
+    max-height: 234px;
   }
 
   .tagging-wrapper__suggestions__item {
@@ -87,13 +87,13 @@
     border: 2px solid transparent;
     min-height: 88px;
     margin-bottom: 0.75em;
+    margin-left: 0 !important;
 
     .tagging-highlighter-item {
-      // Commented out marking mentions inside textrea, because it's buggy on ios.
-      // (because textarea on ios has margin-left: -3 by default).
-      //color: $tag-blue;
-      //position: relative;
-      //z-index: 999;
+      color: $tag-blue;
+      position: relative;
+      z-index: 999;
+      //background-color: $white; // We don't use bgc white here, because it overrides cursor.
     }
   }
 }

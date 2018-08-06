@@ -126,7 +126,7 @@ class TaggedUsers extends ResourceBase {
     $output = [];
     foreach ($accounts as $account) {
       if ($account->access('view')) {
-        $output[] = AnuNormalizerBase::normalizeEntity($account);
+        $output[] = AnuNormalizerBase::normalizeEntity($account, []);
       }
     }
 

@@ -100,7 +100,7 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   /**
    * Notifies channels about happend event.
    */
-  private function notifyChannels($message) {
+  protected function notifyChannels($message) {
     $notifier_plugins = $this->notifierManager->getDefinitions();
 
     foreach ($notifier_plugins as $notifier_plugin) {
@@ -124,16 +124,20 @@ abstract class AnuEventBase extends PluginBase implements AnuEventInterface {
   /**
    * Creates and attaches Message entity to the event.
    *
+   * @param array $values
+   *   (optional) An array of values to set, keyed by property name. If the
+   *   entity type has bundles, the bundle key has to be specified.
+   *
    * @return object
    *   Returns True if Message was successfully created, or False otherwise.
    */
-  private function createMessage() {
+  protected function createMessage(array $values = []) {
     try {
       /** @var \Drupal\message\Entity\Message $message */
       $message = Message::create([
         'template' => $this->getMessageBundle(),
         'uid' => $this->getTriggerer(),
-      ]);
+      ] + $values);
 
       // Attaches an additional fields to the entity.
       $this->attachMessageFields($message);

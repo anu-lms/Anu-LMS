@@ -1,0 +1,17 @@
+uuid: 8b6a0ceb-8d03-4302-9e78-6f64ea4fc03c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.message.mail_subject
+    - message.template.mentioned_in_comment
+id: message.mentioned_in_comment.mail_subject
+targetEntityType: message
+bundle: mentioned_in_comment
+mode: mail_subject
+content:
+  partial_0:
+    weight: 0
+    region: content
+hidden:
+  partial_1: true

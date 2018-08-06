@@ -1,0 +1,4 @@
+text:
+  -
+    value: "<p>[message:author:display-name] mentioned you in a comment.</p>\r\n"
+    format: filtered_html

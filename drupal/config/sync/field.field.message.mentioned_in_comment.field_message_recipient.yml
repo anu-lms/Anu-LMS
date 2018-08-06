@@ -1,0 +1,28 @@
+uuid: 099e3b8d-58e8-4495-98cf-f2f71c9c8201
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_recipient
+    - message.template.mentioned_in_comment
+id: message.mentioned_in_comment.field_message_recipient
+field_name: field_message_recipient
+entity_type: message
+bundle: mentioned_in_comment
+label: Recipient
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference
