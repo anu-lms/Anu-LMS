@@ -152,7 +152,11 @@ function anu_user_user_update(EntityInterface $entity) {
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_user_user_access(EntityInterface $entity, $operation, AccountInterface $account) {
-  // User shouldn't see other users if he has no an access to the referenced entities.
+  // Forbid an access to view user profiles for users who shouldn't have an access to it.
+  // User should have an access to other profiles in following cases:
+  // - User is admin and has 'administer users' permissions.
+  // - User can see accounts of other users from the same organizations.
+  // - If user wasn't assigned to any organization, he can see profiles of users without organizations as well.
   if ($operation == 'view') {
     $entity_organization_ids = $account_organization_ids = [];
 
