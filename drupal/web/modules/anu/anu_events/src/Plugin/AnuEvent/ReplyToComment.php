@@ -23,6 +23,11 @@ class ReplyToComment extends AnuEventCommentBase {
       return FALSE;
     }
 
+    // Should be triggered only on comment insert hook.
+    if ($this->hook !== 'entity_insert') {
+      return FALSE;
+    }
+
     // Catch only replies.
     if (empty($this->entity->field_comment_parent->getValue())) {
       return FALSE;
@@ -35,16 +40,24 @@ class ReplyToComment extends AnuEventCommentBase {
   /**
    * {@inheritdoc}
    */
-  protected function getRecipient() {
-    if (!empty($this->entity->field_comment_parent->getValue())) {
-      return (int) $this->entity->field_comment_parent
-        ->first()
-        ->get('entity')
-        ->getValue()
-        ->uid
-        ->target_id;
+  protected function getRecipients() {
+    if (!empty($this->recipients)) {
+      return $this->recipients;
     }
-    return NULL;
+
+    if (!empty($this->entity->field_comment_parent->getValue())) {
+      $this->recipients = [
+        (int) $this->entity->field_comment_parent
+          ->first()
+          ->get('entity')
+          ->getValue()
+          ->uid
+          ->target_id
+      ];
+
+      return $this->recipients;
+    }
+    return [];
   }
 
 }

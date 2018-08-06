@@ -19,24 +19,22 @@ class MentionedInComment extends AnuEventCommentBase {
    * {@inheritdoc}
    */
   public function shouldTrigger() {
-    if (($this->hook !== 'entity_insert' && $this->hook !== 'entity_update') || empty($this->entity)) {
+    if (!parent::shouldTrigger()) {
       return FALSE;
     }
 
-    if ($this->entity->getEntityTypeId() !== 'paragraph_comment' || $this->entity->bundle() !== 'paragraph_comment') {
-      return FALSE;
-    }
-
-    $recipients = $this->getRecipients();
-    if (empty($recipients)) {
-      return FALSE;
-    }
-
+    // Compare existing mentions and updated, trigger event only for new mentioned users.
     if ($this->hook == 'entity_update') {
+      // Get mentioned previously users.
+      $recipients = $this->getRecipients();
+
+      // Get updated mentions.
       $original_mentions = [];
       if (!empty($this->entity->original->field_comment_mentions->getValue())) {
         $original_mentions = array_column($this->entity->original->field_comment_mentions->getValue(), 'target_id');
       }
+
+      // Find new mentioned users.
       $this->recipients = array_diff($recipients, $original_mentions);
 
       if (empty($this->recipients)) {
@@ -46,29 +44,6 @@ class MentionedInComment extends AnuEventCommentBase {
 
     // Returns TRUE if all conditions above have passed.
     return TRUE;
-  }
-
-  /**
-   * Check if event can be triggered, creates Message entity and dispatch itself.
-   */
-  public function trigger() {
-    // Check if event can be triggered.
-    if (!$this->shouldTrigger()) {
-      return;
-    }
-
-    // Creates Message entity for the event.
-    $recipients = $this->getRecipients();
-    foreach ($recipients as $recipientId) {
-      // We shouldn't trigger event if Recipient and Triggerer the same.
-      if ($this->getTriggerer() == $recipientId) {
-        continue;
-      }
-
-      if ($message = $this->createMessage(['field_message_recipient' => (int) $recipientId])) {
-        $this->notifyChannels($message);
-      }
-    }
   }
 
   /**
@@ -85,21 +60,6 @@ class MentionedInComment extends AnuEventCommentBase {
     }
 
     return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getRecipient() {
-    return NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function attachMessageFields($message) {
-    $message->field_message_comment = $this->entity->id();
-    $message->field_message_is_read = FALSE;
   }
 
 }
