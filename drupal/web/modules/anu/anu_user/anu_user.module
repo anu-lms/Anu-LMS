@@ -158,7 +158,7 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
 
     $account_entity = User::load($account->id());
     if ($account_entity->hasPermission('administer users')) {
-      return AccessResult::allowed();
+      return AccessResult::neutral();
     }
 
     // Get organization ids from given user account.
@@ -173,13 +173,13 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
 
     // Users without organization can see other users without organizations.
     if (empty($entity_organization_ids) && empty($account_organization_ids)) {
-      return AccessResult::allowed();
+      return AccessResult::neutral();
     }
 
     // Users with organization can see other users with same organizations.
     $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
     if (!empty($intersect)) {
-      return AccessResult::allowed();
+      return AccessResult::neutral();
     }
 
     return AccessResult::forbidden();
