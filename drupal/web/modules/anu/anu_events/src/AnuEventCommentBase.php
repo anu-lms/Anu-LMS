@@ -41,6 +41,21 @@ abstract class AnuEventCommentBase extends AnuEventBase {
   }
 
   /**
+   * Check if recipient should be notified.
+   */
+  protected function shouldNotify($recipientId) {
+    if (empty($recipientId)) {
+      return FALSE;
+    }
+
+    // We shouldn't trigger event if Recipient and Triggerer the same.
+    if ($this->getTriggerer() == $recipientId) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+
+  /**
    * Check if event can be triggered, creates Message entity and dispatch itself.
    */
   public function trigger() {
@@ -52,8 +67,7 @@ abstract class AnuEventCommentBase extends AnuEventBase {
     // Creates Message entity for the event.
     $recipients = $this->getRecipients();
     foreach ($recipients as $recipientId) {
-      // We shouldn't trigger event if Recipient and Triggerer the same.
-      if ($this->getTriggerer() == $recipientId) {
+      if (!$this->shouldNotify($recipientId)) {
         continue;
       }
 

@@ -33,13 +33,24 @@ class AddCommentToThread extends AnuEventCommentBase {
       return FALSE;
     }
 
-    // When someone replies to user's comment in his thread, we should send notification only about reply,
-    // so skip sending notification about comment added in thread in that case.
-    if ($this->getParentCommentUid() === $this->getRecipient()) {
+    // Returns TRUE if all conditions above have passed.
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function shouldNotify($recipientId) {
+    if (!parent::shouldNotify($recipientId)) {
       return FALSE;
     }
 
-    // Returns TRUE if all conditions above have passed.
+    // When someone replies to user's comment in his thread, we should send notification only about reply,
+    // so skip sending notification about comment added in thread in that case.
+    if ($this->getParentCommentUid() === $recipientId) {
+      return FALSE;
+    }
+
     return TRUE;
   }
 
