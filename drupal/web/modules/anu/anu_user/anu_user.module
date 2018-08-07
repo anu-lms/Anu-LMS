@@ -5,6 +5,7 @@
  * Module implementation file.
  */
 
+use Drupal\user\Entity\User;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -12,6 +13,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\UserInterface;
+use Drupal\Core\Access\AccessResult;
 
 /**
  * Implements hook_token_info().
@@ -144,4 +146,48 @@ function anu_user_user_update(EntityInterface $entity) {
     }
   }
 
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_user_user_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  // Forbid an access to view user profiles for users who shouldn't have an access to it.
+  // User should have an access to other profiles in following cases:
+  // - User is admin and has 'administer users' permissions.
+  // - User can see accounts of other users from the same organizations.
+  // - If user wasn't assigned to any organization, he can see profiles of users without organizations as well.
+  if ($operation == 'view') {
+    $entity_organization_ids = $account_organization_ids = [];
+
+    $account_entity = User::load($account->id());
+    if ($account_entity->hasPermission('administer users')) {
+      return AccessResult::neutral();
+    }
+
+    // Get organization ids from given user account.
+    if (!empty($entity->field_organization->getValue())) {
+      $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+    }
+
+    // Get organization ids from current user.
+    if (!empty($account_entity->field_organization->getValue())) {
+      $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
+    }
+
+    // Users without organization can see other users without organizations.
+    if (empty($entity_organization_ids) && empty($account_organization_ids)) {
+      return AccessResult::neutral();
+    }
+
+    // Users with organization can see other users with same organizations.
+    $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
+    if (!empty($intersect)) {
+      return AccessResult::neutral();
+    }
+
+    return AccessResult::forbidden();
+  }
+
+  return AccessResult::neutral();
 }

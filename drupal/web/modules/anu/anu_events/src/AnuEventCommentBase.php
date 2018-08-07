@@ -10,16 +10,12 @@ use Psr\Log\LoggerInterface;
 abstract class AnuEventCommentBase extends AnuEventBase {
 
   /**
-   * Returns ID of user who should receive notification.
-   */
-  abstract protected function getRecipient();
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, $notifier_manager, $hook = '', array $context = []) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $notifier_manager, $hook, $context);
 
+    $this->recipients = [];
     $this->entity = !empty($context['entity']) ? $context['entity'] : NULL;
   }
 
@@ -28,7 +24,7 @@ abstract class AnuEventCommentBase extends AnuEventBase {
    */
   public function shouldTrigger() {
     // We process only comment insert hook for now, feel free to move to another level in future.
-    if ($this->hook !== 'entity_insert' || empty($this->entity)) {
+    if (($this->hook !== 'entity_insert' && $this->hook !== 'entity_update') || empty($this->entity)) {
       return FALSE;
     }
 
@@ -36,9 +32,54 @@ abstract class AnuEventCommentBase extends AnuEventBase {
       return FALSE;
     }
 
+    $recipients = $this->getRecipients();
+    if (empty($recipients)) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Check if recipient should be notified.
+   */
+  protected function shouldNotify($recipientId) {
+    if (empty($recipientId)) {
+      return FALSE;
+    }
+
     // We shouldn't trigger event if Recipient and Triggerer the same.
-    // For example when user replies to his own comment.
-    return $this->getTriggerer() !== $this->getRecipient();
+    if ($this->getTriggerer() == $recipientId) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+
+  /**
+   * Check if event can be triggered, creates Message entity and dispatch itself.
+   */
+  public function trigger() {
+    // Check if event can be triggered.
+    if (!$this->shouldTrigger()) {
+      return;
+    }
+
+    // Creates Message entity for the event.
+    $recipients = $this->getRecipients();
+    foreach ($recipients as $recipientId) {
+      if (!$this->shouldNotify($recipientId)) {
+        continue;
+      }
+
+      $message_values = [
+        'field_message_recipient' => (int) $recipientId,
+        'field_message_comment' => $this->entity->id(),
+        'field_message_is_read' => FALSE,
+      ];
+      if ($message = $this->createMessage($message_values)) {
+        $this->notifyChannels($message);
+      }
+    }
   }
 
   /**
@@ -57,12 +98,10 @@ abstract class AnuEventCommentBase extends AnuEventBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Returns IDs of users who should receive notification.
    */
-  protected function attachMessageFields($message) {
-    $message->field_message_comment = $this->entity->id();
-    $message->field_message_recipient = $this->getRecipient();
-    $message->field_message_is_read = FALSE;
+  protected function getRecipients() {
+    return $this->recipients;
   }
 
 }

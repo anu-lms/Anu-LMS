@@ -27,7 +27,9 @@ class User extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  public function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields = [
+    'uuid', 'mail', 'status', 'created', 'changed'
+  ]) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
@@ -36,16 +38,27 @@ class User extends AnuNormalizerBase {
     try {
       $output = [
         'uid' => (int) $entity->id(),
-        'uuid' => $entity->uuid(),
         'name' => $entity->name->getString(),
-        'mail' => $entity->mail->getString(),
-        'status' => (bool) $entity->status->getString(),
-        'created' => (int) $entity->created->getString(),
-        'changed' => (int) $entity->changed->getString(),
         'fieldFirstName' => $entity->field_first_name->getString(),
         'fieldLastName' => $entity->field_last_name->getString(),
         'fieldOrganization' => [],
       ];
+
+      if (in_array('uuid', $include_fields)) {
+        $output['uuid'] = $entity->uuid();
+      }
+      if (in_array('mail', $include_fields)) {
+        $output['mail'] = $entity->mail->getString();
+      }
+      if (in_array('status', $include_fields)) {
+        $output['status'] = (bool) $entity->status->getString();
+      }
+      if (in_array('created', $include_fields)) {
+        $output['created'] = (int) $entity->created->getString();
+      }
+      if (in_array('changed', $include_fields)) {
+        $output['changed'] = (int) $entity->changed->getString();
+      }
 
       // Get user's organizations.
       if ($entity->hasField('field_organization')) {

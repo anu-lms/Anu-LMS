@@ -5,6 +5,7 @@ dependencies:
   config:
     - eck.eck_type.paragraph_comment.paragraph_comment
     - field.field.paragraph_comment.paragraph_comment.field_comment_deleted
+    - field.field.paragraph_comment.paragraph_comment.field_comment_mentions
     - field.field.paragraph_comment.paragraph_comment.field_comment_organization
     - field.field.paragraph_comment.paragraph_comment.field_comment_paragraph
     - field.field.paragraph_comment.paragraph_comment.field_comment_parent
@@ -28,6 +29,15 @@ content:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
+    region: content
+  field_comment_mentions:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_comment_organization:
     weight: 5

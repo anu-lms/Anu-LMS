@@ -1,0 +1,23 @@
+uuid: 33339f98-6a25-4980-8d73-64539b4a673b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_is_read
+    - message.template.mentioned_in_comment
+id: message.mentioned_in_comment.field_message_is_read
+field_name: field_message_is_read
+entity_type: message
+bundle: mentioned_in_comment
+label: 'Is Read'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

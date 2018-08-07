@@ -18,6 +18,27 @@ export const fetchCurrent = request => new Promise((resolve, reject) => {
 });
 
 /**
+ * Fetch tagged users.
+ */
+export const fetchTaggedUsers = (request, query, organizationId) => new Promise((resolve, reject) => { // eslint-disable-line max-len
+  request
+    .get('/user/tagged')
+    .query({
+      'query': query,
+      'organization_id': organizationId,
+      '_format': 'json',
+    })
+    .then(response => {
+      const comments = response.body.map(user => dataProcessors.userData(user));
+      resolve(comments);
+    })
+    .catch(error => {
+      console.error('Could not fetch tagged users.', error);
+      reject(error);
+    });
+});
+
+/**
  * Update user data.
  */
 export const update = (request, uuid, username, email, password) => new Promise((resolve, reject) => { // eslint-disable-line max-len

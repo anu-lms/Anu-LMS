@@ -10,6 +10,7 @@ import * as notificationActions from '../../../../actions/notifications';
 export const supportedBundles = [
   'add_comment_to_thread',
   'reply_to_comment',
+  'mentioned_in_comment',
 ];
 
 class NotificationCommentItem extends React.Component {
@@ -43,6 +44,9 @@ class NotificationCommentItem extends React.Component {
     let titleCopy = 'replied to your comment in';
     if (bundle === 'add_comment_to_thread') {
       titleCopy = 'commented in your thread in';
+    }
+    else if (bundle === 'mentioned_in_comment') {
+      titleCopy = 'mentioned you in a comment on';
     }
 
     return (

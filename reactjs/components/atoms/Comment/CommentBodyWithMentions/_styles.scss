@@ -1,0 +1,21 @@
+.comment-body .tagged-user {
+  color: $tag-blue;
+  &.current-user {
+    background-color: $tag-hightlight-yellow;
+  }
+}
+.tagged-user-tooltip {
+  opacity: 1;
+  .user-avatar {
+    display: inline-block;
+    margin-right: 6px;
+    top: -1px;
+    position: relative;
+  }
+  span {
+    font-size: 16px;
+  }
+  .rc-tooltip-inner {
+    padding: 7px 9px;
+  }
+}
