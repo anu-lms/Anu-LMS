@@ -27,7 +27,9 @@ class User extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  public function normalize($entity, $include_fields = ['uuid', 'mail', 'status', 'created', 'changed']) {
+  public function normalize($entity, $include_fields = [
+    'uuid', 'mail', 'status', 'created', 'changed'
+  ]) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
