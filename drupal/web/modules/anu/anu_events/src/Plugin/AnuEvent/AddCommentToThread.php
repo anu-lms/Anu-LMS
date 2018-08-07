@@ -23,14 +23,13 @@ class AddCommentToThread extends AnuEventCommentBase {
       return FALSE;
     }
 
-    // Catch only replies.
-    if (empty($this->entity->field_comment_parent->getValue())) {
+    // Should be triggered only on comment insert hook.
+    if ($this->hook !== 'entity_insert') {
       return FALSE;
     }
 
-    // When someone replies to user's comment in his thread, we should send notification only about reply,
-    // so skip sending notification about comment added in thread in that case.
-    if ($this->getParentCommentUid() === $this->getRecipient()) {
+    // Catch only replies.
+    if (empty($this->entity->field_comment_parent->getValue())) {
       return FALSE;
     }
 
@@ -41,11 +40,37 @@ class AddCommentToThread extends AnuEventCommentBase {
   /**
    * {@inheritdoc}
    */
-  protected function getRecipient() {
+  public function shouldNotify($recipientId) {
+    if (!parent::shouldNotify($recipientId)) {
+      return FALSE;
+    }
+
+    // When someone replies to user's comment in his thread, we should send notification only about reply,
+    // so skip sending notification about comment added in thread in that case.
+    if ($this->getParentCommentUid() === $recipientId) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getRecipients() {
+    // Use 'recipients' property as cache, it will use saved in 'recipients' value instead of recalculate it again.
+    if (!empty($this->recipients)) {
+      return $this->recipients;
+    }
 
     // Search for the root parent comment.
     $rootComment = \Drupal::service('anu_comments.comment')->getRootComment($this->entity);
-    return (int) $rootComment->uid->target_id;
+    if (!empty($rootComment->uid->target_id)) {
+      $this->recipients = [(int) $rootComment->uid->target_id];
+      return $this->recipients;
+    }
+
+    return [];
   }
 
   /**

@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TextareaAutosize from 'react-autosize-textarea';
+import classNames from 'classnames';
+import { MentionsInput, Mention } from 'react-mentions';
+import Avatar from '../../User/Avatar';
 import Button from '../../../atoms/Button';
 import * as lessonCommentsActions from '../../../../actions/lessonComments';
+import * as userApi from '../../../../api/user';
 
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      text: this.props.initialText ? this.props.initialText : '',
+      text: this.props.initialText || '',
+      showTaggedUsersAmount: 7,
     };
+    this.lastTaggedQueryId = null;
 
+    this.fetchTaggedUsers = this.fetchTaggedUsers.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -31,8 +37,22 @@ class CommentForm extends React.Component {
     }
   }
 
-  handleTextareaFocus() {
+  handleTextareaFocus({ target }) {
     const { id, replyTo, editedComment, dispatch } = this.props;
+
+    // Calculates an amount of items to show in tagged users popup.
+    // To limit height and show scroll bar when it shown for first comment.
+    const taggedPopupItemHeight = 40;
+    const textareaTopPosition = target.getBoundingClientRect().top;
+    const siteHeaderHeight = document.getElementById('site-header').offsetHeight;
+    const tabsHeight = 32;
+    const paddings = 10;
+
+    const freeArea = textareaTopPosition - siteHeaderHeight - tabsHeight - paddings;
+    const popupItemsAmount = Math.floor(freeArea / taggedPopupItemHeight);
+    this.setState({
+      showTaggedUsersAmount: popupItemsAmount,
+    });
 
     // Hide Edit and Reply forms if user set focus on Add new comment form.
     if (id === 'new-comment-form' && (replyTo || editedComment)) {
@@ -40,21 +60,52 @@ class CommentForm extends React.Component {
     }
   }
 
+  /**
+   * Comment form submit function.
+   */
   submitForm() {
-    const text = this.textarea.value;
-    if (this.props.editedComment) {
+    const { text } = this.state;
+    const { editedComment, dispatch, replyTo } = this.props;
+    if (editedComment) {
       // Invoke action to update a comment.
-      this.props.dispatch(lessonCommentsActions.updateComment(this.props.editedComment, text));
+      dispatch(lessonCommentsActions.updateComment(editedComment, text));
     }
     else {
       // Invoke action to add a new comment.
-      this.props.dispatch(lessonCommentsActions.addComment(text, this.props.replyTo));
+      dispatch(lessonCommentsActions.addComment(text, replyTo));
     }
   }
 
-  handleChange() {
+  /**
+   * Function to fetch tagged users from the backend.
+   */
+  async fetchTaggedUsers(query, callback) {
+    const { activeOrganizationId } = this.props;
+    const { request } = await this.context.auth.getRequest();
+
+    if (this.lastTaggedQueryId) {
+      clearTimeout(this.lastTaggedQueryId);
+    }
+
+    // Use setTimeout function here to run query with delays
+    // (do not run query each time when user type each char).
+    this.lastTaggedQueryId = setTimeout(() => {
+      userApi.fetchTaggedUsers(request, query, activeOrganizationId)
+        .then(res => {
+          this.lastTaggedQueryId = null;
+          return res.map(user => ({
+            display: user.name,
+            id: user.name,
+            user,
+          }));
+        })
+        .then(callback);
+    }, 350);
+  }
+
+  handleChange({ target }) {
     this.setState({
-      text: this.textarea.value,
+      text: target.value,
     });
   }
 
@@ -67,7 +118,7 @@ class CommentForm extends React.Component {
 
   render() {
     const { comments, isProcessing, className, placeholder, id } = this.props;
-    const { text } = this.state;
+    const { text, showTaggedUsersAmount } = this.state;
 
     // Prepare placeholder for the textarea.
     let inputPlaceholder = placeholder;
@@ -76,16 +127,30 @@ class CommentForm extends React.Component {
     }
 
     return (
-      <div className={`comment-form ${className}`} id={id}>
-        <TextareaAutosize
-          rows={3}
-          innerRef={ref => this.textarea = ref}
+      <div className={classNames(['comment-form', className])} id={id}>
+        <MentionsInput
+          className={classNames(['tagging-wrapper', `items-amount-${showTaggedUsersAmount}`])}
+          value={text}
           onChange={this.handleChange}
           placeholder={inputPlaceholder}
+          displayTransform={(id, display) => `@${display}`} // eslint-disable-line no-shadow
+          markup="<span class='tagged-user'>@__id__</span>"
           onKeyDown={this.handleKeyDown}
-          value={text}
           onFocus={this.handleTextareaFocus}
-        />
+        >
+          <Mention
+            trigger="@"
+            data={this.fetchTaggedUsers}
+            className="tagging-highlighter-item"
+            appendSpaceOnAdd
+            renderSuggestion={suggestion => (
+              <Fragment>
+                <Avatar user={suggestion.user} />
+                <span className="username">@{suggestion.user.name}</span> {suggestion.user.firstName} {suggestion.user.lastName}
+              </Fragment>
+            )}
+          />
+        </MentionsInput>
         <Button
           block
           loading={text.length !== 0 && isProcessing}
@@ -126,11 +191,12 @@ CommentForm.defaultProps = {
   editedComment: null,
 };
 
-const mapStateToProps = ({ lessonSidebar }) => ({
+const mapStateToProps = ({ lessonSidebar, user }) => ({
   comments: lessonSidebar.comments.comments,
   isProcessing: lessonSidebar.comments.form.isProcessing,
   replyTo: lessonSidebar.comments.form.replyTo,
   editedComment: lessonSidebar.comments.form.editedComment,
+  activeOrganizationId: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(CommentForm);

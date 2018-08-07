@@ -6,8 +6,10 @@ import VisibilitySensor from 'react-visibility-sensor';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import CommentEditForm from '../Form';
+import CommentBodyWithMentions from '../CommentBodyWithMentions';
 import { scrollToElement } from '../../../../utils/scrollTo';
 import CommentMenu from '../Menu';
+import Avatar from '../../User/Avatar';
 import * as userHelper from '../../../../helpers/user';
 import {
   showReplyForm,
@@ -110,9 +112,7 @@ class Comment extends React.Component {
       >
         <div className={classNames(defaultClasses, extraClasses)} id={`comment-${comment.id}`}>
           <div className="comment-header">
-            <div className="avatar" style={{ background: userHelper.getUserColor(comment.author) }}>
-              {userHelper.getInitials(comment.author)}
-            </div>
+            <Avatar user={comment.author} />
             <div className="right">
 
               <div className="username">
@@ -142,7 +142,7 @@ class Comment extends React.Component {
             {editedComment && editedComment === comment.id ? (
               <CommentEditForm id="edit-comment-form" placeholder="Update your comment" initialText={comment.text} />
             ) : (
-              comment.text.trim()
+              <CommentBodyWithMentions text={comment.text} mentions={comment.mentions} />
             )}
           </div>
 

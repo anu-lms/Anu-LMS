@@ -3,6 +3,7 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import xss from 'xss';
+import striptags from 'striptags';
 import { truncate } from '../../../../utils/string';
 
 const NotificationItem = ({
@@ -33,7 +34,7 @@ const NotificationItem = ({
     </div>
 
     {text &&
-      <div className="text">"{truncate(text, 200)}"</div> // eslint-disable-line react/no-unescaped-entities
+      <div className="text">"{truncate(striptags(text), 200)}"</div> // eslint-disable-line react/no-unescaped-entities
     }
   </div>
 );

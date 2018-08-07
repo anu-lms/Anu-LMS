@@ -89,14 +89,14 @@ function _anu_comments_notifier_send_mail(array $counts) {
   foreach ($counts as $count) {
     $params['message'] .= t('Paragraph %id has %count comments.<br />', [
       '%id' => $count['field_comment_paragraph'],
-      '%count' => $count['id_count']
+      '%count' => $count['id_count'],
     ]);
   }
 
   $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
   if ($result['result'] != TRUE) {
     $message = t('There was a problem sending email notification to %email.', [
-      '%email' => $to
+      '%email' => $to,
     ]);
     \Drupal::messenger()->addMessage($message, 'error');
     \Drupal::logger('anu_comments_notifier')->error($message);
@@ -118,7 +118,7 @@ function anu_comments_notifier_mail($key, &$message, $params) {
     case 'comments_limit':
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = t('Some paragraphs at @title have lots of comments', [
-        '@title' => \Drupal::config('system.site')->get('name')
+        '@title' => \Drupal::config('system.site')->get('name'),
       ]);
       $message['body'][] = MailFormatHelper::htmlToText($params['message']);
       break;

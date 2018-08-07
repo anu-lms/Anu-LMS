@@ -71,13 +71,13 @@ class AnuCommentsNotifierForm extends FormBase {
     $form['comments'] = [
       '#type' => 'details',
       '#title' => $this->t('Comments state'),
-      '#open' => TRUE
+      '#open' => TRUE,
     ];
 
     $form['comments']['counts'] = [
       '#type' => 'view',
       '#name' => 'comments',
-      '#display_id' => 'block_1'
+      '#display_id' => 'block_1',
     ];
 
     $form['status'] = [

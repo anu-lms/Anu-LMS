@@ -199,6 +199,7 @@ export const processComment = rawComment => {
     parentId: rawComment.fieldCommentParent ? rawComment.fieldCommentParent.id : null,
     paragraphId: rawComment.fieldCommentParagraph,
     deleted: rawComment.fieldCommentDeleted ? rawComment.fieldCommentDeleted : false,
+    mentions: [],
   };
 
   comment.organizationId = 0;
@@ -213,6 +214,9 @@ export const processComment = rawComment => {
       firstName: rawComment.uid.fieldFirstName || '',
       lastName: rawComment.uid.fieldLastName || '',
     };
+  }
+  if (rawComment.fieldCommentMentions) {
+    comment.mentions = rawComment.fieldCommentMentions.map(user => userData(user));
   }
 
   if (rawComment.lesson) {
