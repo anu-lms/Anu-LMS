@@ -494,4 +494,13 @@ class AcceptanceTester extends \Codeception\Actor {
     return $notifications_count;
   }
 
+  public function closeNewCommentsNotice() {
+    $I = $this;
+
+    if ($I->seePageHasElement('.new-comments-bar')) {
+      $I->click('.new-comments-bar .close-button');
+      $I->waitForElementNotVisible('.new-comments-bar');
+    }
+  }
+
 }

@@ -32,6 +32,9 @@ class NotificationsCest {
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->loginAsTeacher();
       $I->openVideoComments();
+      // Make sure notice doesn't overlap comments.
+      $I->closeNewCommentsNotice();
+      $I->makeScreenshot();
       // Reply to the comment.
       $this->comments = array_merge($this->comments, $I->createComments(9, $this->comments[0]));
     });
