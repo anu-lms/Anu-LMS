@@ -26,7 +26,7 @@ abstract class AnuNormalizerBase extends PluginBase implements AnuNormalizerInte
   /**
    * Normalize entity by appropriate AnuNormalizer plugin.
    */
-  public static function normalizeEntity($entity, $include_fields = null) {
+  public static function normalizeEntity($entity, $include_fields = NULL) {
     // Load list of existing plugins.
     $anu_normalizer_plugins = \Drupal::service('plugin.manager.anu_normalizer')->getDefinitions();
     foreach ($anu_normalizer_plugins as $anu_normalizer_plugin) {
