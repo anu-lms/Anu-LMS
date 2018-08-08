@@ -53,7 +53,7 @@ class ReplyToComment extends AnuEventCommentBase {
           ->get('entity')
           ->getValue()
           ->uid
-          ->target_id
+          ->target_id,
       ];
 
       return $this->recipients;
