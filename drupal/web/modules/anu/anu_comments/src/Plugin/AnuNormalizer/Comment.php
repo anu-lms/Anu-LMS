@@ -28,7 +28,7 @@ class Comment extends AnuNormalizerBase {
   /**
    * {@inheritdoc}
    */
-  public function normalize($entity, $include_fields) {
+  public function normalize($entity, $include_fields = []) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
       return $output;
