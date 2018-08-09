@@ -543,4 +543,13 @@ class AcceptanceTester extends \Codeception\Actor {
     $I->waitForText($org_name, null, '.site-header');
   }
 
+  public function closeNewCommentsNotice() {
+    $I = $this;
+
+    if ($I->seePageHasElement('.new-comments-bar')) {
+      $I->click('.new-comments-bar .close-button');
+      $I->waitForElementNotVisible('.new-comments-bar');
+    }
+  }
+
 }
