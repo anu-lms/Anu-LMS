@@ -16,6 +16,7 @@
     }
   ],
   "require": {
+    "codeception/codeception": "^2.4",
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "^1.6",
     "drupal-composer/drupal-scaffold": "^2.2",
@@ -73,7 +74,6 @@
     "wisembly/elephant.io": "^3.3"
   },
   "require-dev": {
-    "codeception/codeception": "^2.4",
     "drupal/coder": "^8.2",
     "drupal/devel": "^1.2",
     "drupal/devel_codemirror": "^1.0",
@@ -119,8 +119,8 @@
     },
     "patches": {
       "drupal/require_login": {
-        "Make redirect happen to the right place": "patches/require_login-destination-fix.patch",
-        "Avoid redirect loop": "patches/require_login-infinite_loop_fix.patch"
+        "Avoid redirect loop": "patches/require_login-infinite_loop_fix.patch",
+        "Make redirect happen to the right place": "patches/require_login-destination-fix.patch"
       },
       "drupal/eck": {
         "Add revision support": "https://www.drupal.org/files/issues/eck_revisions-2788507-52.patch"
@@ -128,22 +128,15 @@
       "drupal/entity_reference_revisions": {
         "Views relationship": "patches/entity_reference_revisions-dont_resave_field_item.patch"
       },
-      "drupal/consumer_image_styles": {
-        "Fixed compatability with jsonapi": "https://www.drupal.org/files/issues/2018-03-30/consumer_image_styles-jsonapi_1_14-2955296-6.patch",
-        "Fixed normalizer": "https://www.drupal.org/files/issues/consumer_image_styles_update-normalizer_2948293-3.patch"
-      },
       "drupal/simple_oauth": {
         "Refine cases when access token is revoked": "https://www.drupal.org/files/issues/simple_oauth-auth-revoke-2946882-11.patch"
       },
       "drupal/core": {
         "Entity reference views": "https://www.drupal.org/files/issues/2018-03-09/drupal-use_view_output_for_entityreference_options-2174633-206.patch",
-        "Avoid bubbleable metadata issue with file_create_url()": "https://www.drupal.org/files/issues/2018-05-09/2867355-collect_bubbleable_metadata_in_stream_wrappers-20.patch"
+        "Avoid bubbleable metadata issue with file_create_url()": "patches/core_2867355-collect_bubbleable_metadata_in_stream_wrappers-21.patch"
       },
       "drupal/message": {
         "Added a return for the Message save function": "https://patch-diff.githubusercontent.com/raw/Gizra/message/pull/220.patch"
-      },
-      "drupal/search_api_attachments": {
-        "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
       },
       "drupal/jsonapi": {
         "Increase maximum size of page parameters from 50 to 100": "patches/jsonapi-increase_offsetpage_size_max.patch"

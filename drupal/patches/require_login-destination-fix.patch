@@ -1,30 +1,16 @@
 diff --git a/src/EventSubscriber/RequireLoginSubscriber.php b/src/EventSubscriber/RequireLoginSubscriber.php
-index a505b56..bc094f0 100644
+index 5fa8f82..26f31db 100644
 --- a/src/EventSubscriber/RequireLoginSubscriber.php
 +++ b/src/EventSubscriber/RequireLoginSubscriber.php
-@@ -2,6 +2,7 @@
- 
- namespace Drupal\require_login\EventSubscriber;
- 
-+use Drupal\Core\Url;
- use Symfony\Component\HttpKernel\KernelEvents;
- use Symfony\Component\EventDispatcher\EventSubscriberInterface;
- use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-@@ -105,12 +106,13 @@ class RequireLoginSubscriber implements EventSubscriberInterface {
+@@ -193,6 +193,11 @@ class RequireLoginSubscriber implements EventSubscriberInterface {
+         $redirectPath = 'internal:/user/login';
        }
  
-       // Prepare authentication redirect path.
--      $redirect = '/user/login?destination=' . $path;
-       if ($auth_path = Xss::filterAdmin($config->get('auth_path'))) {
--        $redirect = $auth_path;
-+        $event->setResponse(new RedirectResponse($auth_path));
++      // Make sure base path is added to destination.
++      if ($base_path = $request->getBasePath()) {
++        $path = $base_path . $path;
 +      }
-+      else {
-+        $url = Url::fromRoute('user.login');
-+        $event->setResponse(new RedirectResponse($url->toString()));
-       }
--
--      $event->setResponse(new RedirectResponse($redirect));
++
+       $redirect = Url::fromUri($redirectPath, ['query' => ['destination' => $path]])->toString();
+       $event->setResponse(new ImmutableTargetRedirectResponse($redirect));
      }
-     return '';
-   }

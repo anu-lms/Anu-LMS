@@ -64,12 +64,7 @@ class OrganizationsCest {
     $I->dontSeeElement('#' . $this->comments[0]);
 
     // Switch back to Org 1.
-    $I->click('.icon-profile');
-    $I->waitForText('Test Learner 3');
-    $I->click('.switch-organization');
-    $I->waitForText('Test Organization', null, '.organizations');
-    $I->click('//ul[@class="organizations"]//span[text()="Test Organization"]');
-    $I->waitForText('Test Organization', null, '.site-header');
+    $I->switchToOrganization('Test Organization');
 
     // Check comments visibility as user of Org 1.
     $I->waitForElementLoaded('.add-new-comment');

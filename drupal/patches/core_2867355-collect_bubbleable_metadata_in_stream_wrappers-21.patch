@@ -1,0 +1,234 @@
+diff --git a/core/includes/file.inc b/core/includes/file.inc
+index 5d78372081..26b73a0878 100644
+--- a/core/includes/file.inc
++++ b/core/includes/file.inc
+@@ -13,6 +13,7 @@
+ use Drupal\Core\Site\Settings;
+ use Drupal\Core\StreamWrapper\PublicStream;
+ use Drupal\Core\StreamWrapper\PrivateStream;
++use Drupal\Core\GeneratedUrl;
+
+ /**
+  * Default mode for new directories. See drupal_chmod().
+@@ -186,7 +187,7 @@ function file_stream_wrapper_uri_normalize($uri) {
+  * @see https://www.drupal.org/node/515192
+  * @see file_url_transform_relative()
+  */
+-function file_create_url($uri) {
++function file_create_url($uri, $collect_bubbleable_metadata = FALSE) {
+   // Allow the URI to be altered, e.g. to serve a file from a CDN or static
+   // file server.
+   \Drupal::moduleHandler()->alter('file_url', $uri);
+@@ -202,7 +203,7 @@ function file_create_url($uri) {
+     // Both types of relative URIs are characterized by a leading slash, hence
+     // we can use a single check.
+     if (Unicode::substr($uri, 0, 1) == '/') {
+-      return $uri;
++      return $collect_bubbleable_metadata ? new GeneratedUrl($uri) : $uri;
+     }
+     else {
+       // If this is not a properly formatted stream, then it is a shipped file.
+@@ -219,18 +220,18 @@ function file_create_url($uri) {
+         $path .= '#' . $options['fragment'];
+       }
+
+-      return $path;
++      return $collect_bubbleable_metadata ? new GeneratedUrl($path) : $path;
+     }
+   }
+   elseif ($scheme == 'http' || $scheme == 'https' || $scheme == 'data') {
+     // Check for HTTP and data URI-encoded URLs so that we don't have to
+     // implement getExternalUrl() for the HTTP and data schemes.
+-    return $uri;
++    return $collect_bubbleable_metadata ? new GeneratedUrl($uri) : $uri;
+   }
+   else {
+     // Attempt to return an external URL using the appropriate wrapper.
+     if ($wrapper = \Drupal::service('stream_wrapper_manager')->getViaUri($uri)) {
+-      return $wrapper->getExternalUrl();
++      return $wrapper->getExternalUrl($collect_bubbleable_metadata);
+     }
+     else {
+       return FALSE;
+diff --git a/core/lib/Drupal/Core/StreamWrapper/PrivateStream.php b/core/lib/Drupal/Core/StreamWrapper/PrivateStream.php
+index 22fb90f0c1..4953be72f3 100644
+--- a/core/lib/Drupal/Core/StreamWrapper/PrivateStream.php
++++ b/core/lib/Drupal/Core/StreamWrapper/PrivateStream.php
+@@ -2,8 +2,8 @@
+
+ namespace Drupal\Core\StreamWrapper;
+
+-use Drupal\Core\Routing\UrlGeneratorTrait;
+ use Drupal\Core\Site\Settings;
++use Drupal\Core\Url;
+
+ /**
+  * Drupal private (private://) stream wrapper class.
+@@ -13,8 +13,6 @@
+  */
+ class PrivateStream extends LocalStream {
+
+-  use UrlGeneratorTrait;
+-
+   /**
+    * {@inheritdoc}
+    */
+@@ -46,9 +44,9 @@ public function getDirectoryPath() {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
+     $path = str_replace('\\', '/', $this->getTarget());
+-    return $this->url('system.private_file_download', ['filepath' => $path], ['absolute' => TRUE, 'path_processing' => FALSE]);
++    return Url::fromRoute('system.private_file_download', ['filepath' => $path], ['absolute' => TRUE, 'path_processing' => FALSE])->toString($collect_bubbleable_metadata);
+   }
+
+   /**
+diff --git a/core/lib/Drupal/Core/StreamWrapper/PublicStream.php b/core/lib/Drupal/Core/StreamWrapper/PublicStream.php
+index f278353095..cefefc3590 100644
+--- a/core/lib/Drupal/Core/StreamWrapper/PublicStream.php
++++ b/core/lib/Drupal/Core/StreamWrapper/PublicStream.php
+@@ -4,6 +4,7 @@
+
+ use Drupal\Component\Utility\UrlHelper;
+ use Drupal\Core\DrupalKernel;
++use Drupal\Core\GeneratedUrl;
+ use Drupal\Core\Site\Settings;
+ use Symfony\Component\HttpFoundation\Request;
+
+@@ -46,9 +47,10 @@ public function getDirectoryPath() {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
+     $path = str_replace('\\', '/', $this->getTarget());
+-    return static::baseUrl() . '/' . UrlHelper::encodePath($path);
++    $url = static::baseUrl() . '/' . UrlHelper::encodePath($path);
++    return $collect_bubbleable_metadata ? new GeneratedUrl($url) : $url;
+   }
+
+   /**
+diff --git a/core/lib/Drupal/Core/StreamWrapper/StreamWrapperInterface.php b/core/lib/Drupal/Core/StreamWrapper/StreamWrapperInterface.php
+index 0d382404b2..fb86dfff03 100644
+--- a/core/lib/Drupal/Core/StreamWrapper/StreamWrapperInterface.php
++++ b/core/lib/Drupal/Core/StreamWrapper/StreamWrapperInterface.php
+@@ -148,7 +148,7 @@ public function getUri();
+    * @return string
+    *   Returns a string containing a web accessible URL for the resource.
+    */
+-  public function getExternalUrl();
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE);
+
+   /**
+    * Returns canonical, absolute path of the resource.
+diff --git a/core/lib/Drupal/Core/StreamWrapper/TemporaryStream.php b/core/lib/Drupal/Core/StreamWrapper/TemporaryStream.php
+index 5e1e56b9f5..fcb67ada90 100644
+--- a/core/lib/Drupal/Core/StreamWrapper/TemporaryStream.php
++++ b/core/lib/Drupal/Core/StreamWrapper/TemporaryStream.php
+@@ -43,9 +43,9 @@ public function getDirectoryPath() {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
+     $path = str_replace('\\', '/', $this->getTarget());
+-    return Url::fromRoute('system.temporary', [], ['absolute' => TRUE, 'query' => ['file' => $path]])->toString();
++    return Url::fromRoute('system.temporary', [], ['absolute' => TRUE, 'query' => ['file' => $path]])->toString($collect_bubbleable_metadata);
+   }
+
+ }
+diff --git a/core/modules/file/src/Tests/FileFieldRSSContentTest.php b/core/modules/file/src/Tests/FileFieldRSSContentTest.php
+index af2b5f2b3e..00ef895160 100644
+--- a/core/modules/file/src/Tests/FileFieldRSSContentTest.php
++++ b/core/modules/file/src/Tests/FileFieldRSSContentTest.php
+@@ -61,7 +61,7 @@ public function testFileFieldRSSContent() {
+     $uploaded_filename = str_replace('public://', '', $node_file->getFileUri());
+     $selector = sprintf(
+       'enclosure[url="%s"][length="%s"][type="%s"]',
+-      file_create_url("public://$uploaded_filename", ['absolute' => TRUE]),
++      file_create_url("public://$uploaded_filename"),
+       $node_file->getSize(),
+       $node_file->getMimeType()
+     );
+diff --git a/core/modules/file/tests/file_test/src/StreamWrapper/DummyReadOnlyStreamWrapper.php b/core/modules/file/tests/file_test/src/StreamWrapper/DummyReadOnlyStreamWrapper.php
+index c1c36af413..7bfcc2fb88 100644
+--- a/core/modules/file/tests/file_test/src/StreamWrapper/DummyReadOnlyStreamWrapper.php
++++ b/core/modules/file/tests/file_test/src/StreamWrapper/DummyReadOnlyStreamWrapper.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\file_test\StreamWrapper;
+
+ use Drupal\Core\StreamWrapper\LocalReadOnlyStream;
++use Drupal\Core\GeneratedUrl;
+
+ /**
+  * Helper class for testing the stream wrapper registry.
+@@ -43,7 +44,10 @@ public function getInternalUri() {
+    *
+    * Return the HTML URI of a public file.
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
++    if ($collect_bubbleable_metadata) {
++      return new GeneratedUrl('/dummy/example.txt');
++    }
+     return '/dummy/example.txt';
+   }
+
+diff --git a/core/modules/file/tests/file_test/src/StreamWrapper/DummyStreamWrapper.php b/core/modules/file/tests/file_test/src/StreamWrapper/DummyStreamWrapper.php
+index 6ce842470f..6a9eb076b4 100644
+--- a/core/modules/file/tests/file_test/src/StreamWrapper/DummyStreamWrapper.php
++++ b/core/modules/file/tests/file_test/src/StreamWrapper/DummyStreamWrapper.php
+@@ -43,7 +43,10 @@ public function getInternalUri() {
+    *
+    * Return the HTML URI of a public file.
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
++    if ($collect_bubbleable_metadata) {
++      return new GeneratedUrl('/dummy/example.txt');
++    }
+     return '/dummy/example.txt';
+   }
+
+diff --git a/core/modules/locale/src/StreamWrapper/TranslationsStream.php b/core/modules/locale/src/StreamWrapper/TranslationsStream.php
+index e7cb2788e7..3af3786b7a 100644
+--- a/core/modules/locale/src/StreamWrapper/TranslationsStream.php
++++ b/core/modules/locale/src/StreamWrapper/TranslationsStream.php
+@@ -45,7 +45,7 @@ public function getDirectoryPath() {
+    * @throws \LogicException
+    *   PO files URL should not be public.
+    */
+-  public function getExternalUrl() {
++  public function getExternalUrl($collect_bubbleable_metadata = FALSE) {
+     throw new \LogicException('PO files URL should not be public.');
+   }
+
+diff --git a/core/tests/Drupal/KernelTests/Core/File/StreamWrapperTest.php b/core/tests/Drupal/KernelTests/Core/File/StreamWrapperTest.php
+index 6c18b6654c..cbfaf92efe 100644
+--- a/core/tests/Drupal/KernelTests/Core/File/StreamWrapperTest.php
++++ b/core/tests/Drupal/KernelTests/Core/File/StreamWrapperTest.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\KernelTests\Core\File;
+
+ use Drupal\Core\DrupalKernel;
++use Drupal\Core\GeneratedUrl;
+ use Drupal\Core\Site\Settings;
+ use Drupal\Core\StreamWrapper\PublicStream;
+ use Symfony\Component\HttpFoundation\Request;
+@@ -99,6 +100,14 @@ public function testUriFunctions() {
+     $this->assertTrue(strpos(file_create_url('temporary://test.txt'), 'system/temporary?file=test.txt'), 'Temporary external URL correctly built.');
+     $this->assertTrue(strpos(file_create_url('public://test.txt'), Settings::get('file_public_path') . '/test.txt'), 'Public external URL correctly built.');
+     $this->assertTrue(strpos(file_create_url('private://test.txt'), 'system/files/test.txt'), 'Private external URL correctly built.');
++
++    // Test that file_create_url() allows collection of bubbleable metadata.
++    $generatedTemp = file_create_url('temporary://test.txt', TRUE);
++    $generatedPublic = file_create_url('public://test.txt', TRUE);
++    $generatedPrivate = file_create_url('private://test.txt', TRUE);
++    $this->assertInstanceOf(GeneratedUrl::class, $generatedTemp);
++    $this->assertInstanceOf(GeneratedUrl::class, $generatedPublic);
++    $this->assertInstanceOf(GeneratedUrl::class, $generatedPrivate);
+   }
+
+   /**
