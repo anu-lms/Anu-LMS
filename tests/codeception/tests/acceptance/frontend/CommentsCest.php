@@ -11,6 +11,10 @@ class CommentsCest {
 
   private $comments;
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentOperations(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -57,6 +61,10 @@ class CommentsCest {
     $I->dontSeeElement("#$id");
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentPermissions(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
 
@@ -88,6 +96,10 @@ class CommentsCest {
     });
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function LessonCommentsThread(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -119,7 +131,11 @@ class CommentsCest {
     });
   }
 
-  public function LessonCommentlink(\Step\Acceptance\Learner $I) {
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function LessonCommentLink(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
 
@@ -148,6 +164,10 @@ class CommentsCest {
 
   }
 
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
   public function CrossOrgComments(\Step\Acceptance\Learner $I) {
     $I->loginAsLearner();
     $I->openVideoComments();
@@ -167,8 +187,128 @@ class CommentsCest {
     //$I->deleteComment($this->comments[0]);
   }
 
-  public function _after(\AcceptanceTester $I) {
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function CommentsCounter(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner3();
+    $I->openVideoComments();
 
+    // Get current count of comments of the first video paragraph.
+    $count = $I->getCommentsCount('9991191');
+
+    // Add a comment.
+    $comment = $I->createComments(1)[0];
+    // Make sure amount of comments updated.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count + 1);
+
+    // Delete comment.
+    $I->deleteComment($comment);
+    // Close "Comment deleted" info dialog.
+    $I->click('.s-alert-close');
+    // Make sure amount of comments updated.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count);
+
+    // Switch to Test Organization 2.
+    $I->switchToOrganization('Test Organization 2');
+
+    // Make sure that amomunt of comments is different for org 2.
+    $org2_count = $I->getCommentsCount('9991191');
+    $I->assertNotEquals($count, $org2_count);
+  }
+
+  /**
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function LiveComments(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner();
+    $I->openVideoComments();
+
+    // Get current count of comments of the first video paragraph.
+    $count = $I->getCommentsCount('9991191');
+
+    // Teacher creates a comment.
+    $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->loginAsTeacher();
+      $I->openVideoComments();
+      // Create a comment.
+      $this->comments = $I->createComments(1);
+    });
+
+    // Learner should see the new comment right away.
+    $I->waitForElement('#' . $this->comments[0]);
+    // Comments counter should update automatically.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count + 1);
+
+    // Teacher deletes comment.
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->deleteComment($this->comments[0]);
+    });
+
+    // Comment should be removed from learner's screen right away.
+    $I->waitForElementNotVisible('#' . $this->comments[0]);
+    // Comments counter should update automatically.
+    $I->assertEquals($I->getCommentsCount('9991191'), $count);
+  }
+
+  /**
+   * depends LessonCommentLink
+   * @param \Step\Acceptance\Learner $I
+   * @throws \Exception
+   */
+  public function UnreadComments(\Step\Acceptance\Learner $I) {
+    $I->loginAsLearner3();
+    $I->openVideoComments();
+
+    $I->seeElement('.new-comments-bar');
+
+    // Get amount of comments from notification message.
+    $notification = $I->grabTextFrom('.new-comments-bar');
+    preg_match('/\d+/', $notification, $matches);
+    $count = $matches[0];
+
+    // Get list of highlighted comments.
+    $this->comments = $I->grabMultiple('.comment.new', 'id');
+
+    codecept_debug($this->comments);
+
+    $I->assertEquals($count, count($this->comments));
+
+    // Close notifications.
+    $I->click('.new-comments-bar .close-button');
+    $I->dontSeeElement('.new-comments-bar');
+
+    // Teacher creates a comment.
+    $teacher = $I->haveFriend('teacher', 'Step\Acceptance\Teacher');
+    $teacher->does(function(\Step\Acceptance\Teacher $I) {
+      $I->loginAsTeacher();
+      $I->openVideoComments();
+      // Create a comment.
+      $this->comments = array_merge($this->comments, $I->createComments(1));
+    });
+
+    // Wait for teacher's comment to appear.
+    $I->waitForElement('#' . end($this->comments));
+
+    // Make sure notification appears again.
+    $I->seeElement('.new-comments-bar');
+
+    $id = end($this->comments); // Teacher's comment id.
+    //$I->click('.new-comments-bar');
+    //$I->scrollTo("#$id");
+    // None of the items above actually work, have to use JS workaround.
+    $I->executeJS('var s = document.getElementById("' . $id . '").offsetTop;
+      document.getElementById("lesson-comments-scrollable").scrollTop += s;');
+
+    // Wait until some comments marked as "read".
+    $I->wait(6);
+    // Calculate updated amount of unread comments.
+    $new_comments_updated = $I->grabMultiple('.comment.new', 'id');
+    // Make sure amount of unread comments decreased.
+    $I->assertLessThan(count($this->comments), count($new_comments_updated));
   }
 
 }
