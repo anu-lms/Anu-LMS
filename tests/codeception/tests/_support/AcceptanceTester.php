@@ -476,13 +476,12 @@ class AcceptanceTester extends \Codeception\Actor {
    * Gets amount of unread notifications from the header.
    *
    * @return int
+   *   Amount of notifications.
    */
   public function getNotificationsCount() {
     $I = $this;
 
-    $notifications_count = 0;
-
-    // Check notifications counter
+    // Check notifications count.
     try {
       $I->seeElement('.notifications-wrapper .amount');
       $notifications_count = $I->grabTextFrom('.notifications-wrapper .amount');
@@ -492,6 +491,65 @@ class AcceptanceTester extends \Codeception\Actor {
     }
 
     return $notifications_count;
+  }
+
+  /**
+   * Gets amount of comments of a paragraph.
+   *
+   * @param $id
+   *   Paragraph id.
+   * @return int
+   *   Amount of comments.
+   */
+  public function getCommentsCount($id) {
+    $I = $this;
+
+    $id = is_numeric($id) ? "paragraph-$id" : $id;
+
+    // Check comments count.
+    try {
+      $count = $I->grabTextFrom("#$id .amount");
+    }
+    catch(Exception $e) {
+      $count = 0;
+    }
+
+    return $count;
+  }
+
+  /**
+   * Switching user to different organization by name.
+   *
+   * @param $org_name string
+   *   Organization name.
+   * @throws Exception
+   */
+  public function switchToOrganization($org_name) {
+    $I = $this;
+
+    try {
+      // Check if profile dropdown is active.
+      $I->seeElement('.profile-menu-list');
+    }
+    catch (Exception $e) {
+      // Open profile dropdown.
+      $I->click('.icon-profile');
+    }
+
+    $I->waitForText('Logout');
+    $I->click('.switch-organization');
+    $I->waitForText($org_name, null, '.organizations');
+    $I->click('//ul[@class="organizations"]//span[text()="' . $org_name . '"]');
+    $I->waitForText($org_name, null, '.site-header');
+  }
+
+  public function closeNewCommentsNotice() {
+    $I = $this;
+
+    if ($I->seePageHasElement('.new-comments-bar')) {
+      $I->click('.new-comments-bar .close-button');
+      $I->waitForElementNotVisible('.new-comments-bar');
+    }
   }
 
 }
