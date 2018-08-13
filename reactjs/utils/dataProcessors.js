@@ -16,6 +16,7 @@ export const courseDataFromREST = course => ({
   progress: course.progress || 0,
   recentLessonUrl: course.recentLesson ? courseHelper.getUrl(course.path) + course.recentLesson.url : '',
   recentAccess: course.recentLesson ? course.recentLesson.timestamp : 0,
+  weight: course.weight || 0,
 });
 
 /**
