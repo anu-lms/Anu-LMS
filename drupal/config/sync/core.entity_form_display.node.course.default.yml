@@ -10,11 +10,13 @@ dependencies:
     - field.field.node.course.field_course_lessons
     - field.field.node.course.field_course_organisation
     - field.field.node.course.field_time_to_complete_minutes
+    - field.field.node.course.field_weight
     - image.style.thumbnail
     - node.type.course
   module:
     - image
     - text
+    - weight
 id: node.course.default
 targetEntityType: node
 bundle: course
@@ -75,6 +77,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_weight:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: weight_selector
     region: content
   status:
     type: boolean_checkbox
