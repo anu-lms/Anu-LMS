@@ -72,6 +72,9 @@ class Comment {
     }
   }
 
+  /**
+   *
+   */
   public function sendEmailNotification($message) {
     $message = AnuNormalizerBase::normalizeEntity($message, ['lesson']);
 
@@ -79,7 +82,7 @@ class Comment {
     if ($message['bundle'] === 'add_comment_to_thread') {
       $titleCopy = 'commented in your thread in';
     }
-    else if ($message['bundle'] === 'mentioned_in_comment') {
+    elseif ($message['bundle'] === 'mentioned_in_comment') {
       $titleCopy = 'mentioned you in a comment on';
     }
 
@@ -97,8 +100,8 @@ class Comment {
     $commentLink = Url::fromUri($frontend_domain . $lessonUrl, [
       'absolute' => TRUE,
       'query' => [
-        'comment' => $comment['fieldCommentParagraph'] . '-' . $comment['id']
-      ]
+        'comment' => $comment['fieldCommentParagraph'] . '-' . $comment['id'],
+      ],
     ]);
 
     $params['subject'] = "$triggererName $titleCopy $lessonTitle";
@@ -119,4 +122,5 @@ class Comment {
     }
     return TRUE;
   }
+
 }
