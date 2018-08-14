@@ -73,7 +73,7 @@ class Comment {
   }
 
   /**
-   *
+   * Sends an email notification to the recipient.
    */
   public function sendEmailNotification($message) {
     $message = AnuNormalizerBase::normalizeEntity($message, ['lesson']);
