@@ -46,6 +46,14 @@ class SsbDashboardEdit extends BlockBase {
       ];
     }
 
+    if ($user->hasPermission('administer taxonomy')) {
+      $items[] = [
+        'url' => \Drupal\Core\Url::fromUri('internal:/admin/structure/taxonomy/manage/organisations/overview'),
+        'name' => t('Manage Organizations'),
+        'description' => t('Create, edit or delete organizations.'),
+      ];
+    }
+
     $group_entities = \Drupal::entityTypeManager()->getStorage('group')->loadMultiple();
     foreach ($group_entities as $group) {
       if ($group->access('update')) {
