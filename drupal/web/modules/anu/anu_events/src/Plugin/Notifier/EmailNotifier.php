@@ -19,6 +19,7 @@ class EmailNotifier extends MessageNotifierBase {
   public function deliver(array $output = []) {
 
     try {
+      // Use comment service to send email notification.
       return \Drupal::service('anu_comments.comment')->sendEmailNotification($output['message']);
     }
     catch (\Exception $exception) {
