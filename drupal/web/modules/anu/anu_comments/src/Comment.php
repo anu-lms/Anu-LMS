@@ -111,7 +111,7 @@ class Comment {
     // Prepares email subject.
     $params['subject'] = t("@triggerer_name $titleCopy @lesson_title", [
       '@triggerer_name' => $triggererName,
-      '@lesson_title' => $lessonTitle
+      '@lesson_title' => $lessonTitle,
     ]);
 
     // Prepares email body.
