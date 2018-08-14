@@ -1,0 +1,23 @@
+uuid: 24fd6a97-9dab-4941-9096-a0c69c142360
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.organisations
+id: taxonomy_term.organisations.default
+targetEntityType: taxonomy_term
+bundle: organisations
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
