@@ -116,7 +116,7 @@ class Comment {
 
     // Prepares email body.
     $params['body'] = $params['subject'] . ':';
-    $params['body'] .= '<br />"' . strip_tags($commentBody) . '"';
+    $params['body'] .= '<br />"' . trim(strip_tags($commentBody)) . '"';
     $params['body'] .= '<br />' . $commentLink->toString();
 
     // Send an email to recipient.
