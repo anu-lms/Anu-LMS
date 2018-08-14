@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_events\Plugin\Notifier;
 
-use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**
  * Email notifier.
@@ -21,15 +20,7 @@ class EmailNotifier extends MessageNotifierBase {
   public function deliver(array $output = []) {
 
     try {
-
-      // Load notification message.
-      $message = AnuNormalizerBase::normalizeEntity($output['message'], ['lesson']);
-
-      if (!$message) {
-        throw new \Exception("Message entity can't be normalized.");
-      }
-
-      \Drupal::logger('anu_event222')->notice('aaaa');
+      return \Drupal::service('anu_comments.comment')->sendEmailNotification($output['message']);
     }
     catch (\Exception $exception) {
 
@@ -41,5 +32,4 @@ class EmailNotifier extends MessageNotifierBase {
 
     return TRUE;
   }
-
 }

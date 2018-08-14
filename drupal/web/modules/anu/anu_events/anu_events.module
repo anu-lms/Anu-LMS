@@ -8,6 +8,7 @@
 use Drupal\anu_events\AnuEventBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -86,4 +87,17 @@ function anu_events_message_access(EntityInterface $message, $operation, Account
   }
 
   return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Email notification about comments counts.
+ */
+function anu_events_mail($key, &$message, $params) {
+  if ($key == 'comment_email_notification') {
+    $message['from'] = \Drupal::config('system.site')->get('mail');
+    $message['subject'] = \Drupal\Component\Utility\Html::escape($params['subject']);
+    $message['body'][] = MailFormatHelper::htmlToText($params['body']);
+  }
 }
