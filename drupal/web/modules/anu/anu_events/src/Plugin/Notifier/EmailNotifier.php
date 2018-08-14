@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_events\Plugin\Notifier;
 
-
 /**
  * Email notifier.
  *
@@ -32,4 +31,5 @@ class EmailNotifier extends MessageNotifierBase {
 
     return TRUE;
   }
+
 }

@@ -5,6 +5,7 @@
  * Module implementation file.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\anu_events\AnuEventBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
@@ -97,7 +98,7 @@ function anu_events_message_access(EntityInterface $message, $operation, Account
 function anu_events_mail($key, &$message, $params) {
   if ($key == 'comment_email_notification') {
     $message['from'] = \Drupal::config('system.site')->get('mail');
-    $message['subject'] = \Drupal\Component\Utility\Html::escape($params['subject']);
+    $message['subject'] = Html::escape($params['subject']);
     $message['body'][] = MailFormatHelper::htmlToText($params['body']);
   }
 }
