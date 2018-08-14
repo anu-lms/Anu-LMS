@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_notify_if_replied
+    - field.field.user.user.field_notify_if_tagged
     - field.field.user.user.field_organization
   module:
     - user
@@ -28,6 +30,26 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_notify_if_replied:
+    weight: 55
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_notify_if_tagged:
+    weight: 54
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_organization:
     weight: 53
