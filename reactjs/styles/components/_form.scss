@@ -82,7 +82,7 @@ textarea {
       background: white left top no-repeat;
       border: 2px solid $anu-blue;
       cursor: pointer;
-      transition: all .2s;
+      transition: background-color .2s;
     }
 
     &:checked + span:before {
