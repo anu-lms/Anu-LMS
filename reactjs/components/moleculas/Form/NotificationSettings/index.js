@@ -48,7 +48,7 @@ class NotificationSettingsForm extends React.Component {
     console.log(this.state);
     return (
       <form className="notification-settings-form">
-        <fieldset>
+        <fieldset className="tagged-fieldset">
           <legend>Tagging</legend>
 
           <div className={classNames('checkbox', { 'disabled': isSending })}>
@@ -65,7 +65,7 @@ class NotificationSettingsForm extends React.Component {
           </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset className="replied-fieldset">
           <legend>Responses</legend>
 
           <div className={classNames('checkbox', { 'disabled': isSending })}>
