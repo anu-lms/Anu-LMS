@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Button = ({
-  type, size, block, active, disabled, onClick, loading, children,
+  type, size, block, active, disabled, onClick, loading, style, children,
 }) => {
   const classes = ['btn'];
 
@@ -32,6 +32,7 @@ const Button = ({
       onClick={onClick}
       className={classes.join(' ')}
       disabled={disabled || loading}
+      style={style}
     >
 
       {loading &&
@@ -57,6 +58,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   loading: PropTypes.bool,
   children: PropTypes.node,
+  style: PropTypes.object,
 };
 
 Button.defaultProps = {
@@ -67,6 +69,7 @@ Button.defaultProps = {
   disabled: false,
   loading: false,
   onClick: () => {},
+  style: {},
   children: {},
 };
 

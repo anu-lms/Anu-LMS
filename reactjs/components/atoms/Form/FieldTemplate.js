@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 // Custom JSON Schema field template with float labels. See:
@@ -11,6 +11,12 @@ const FieldTemplate = ({
 
   if (schema.type === 'string' || schema.type === 'number') {
     innerClasses += ' has-float-label';
+  }
+
+  if (schema.type === 'object') {
+    return (
+      <Fragment>{ children }</Fragment>
+    );
   }
 
   return (

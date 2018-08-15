@@ -51,6 +51,9 @@ textarea {
   padding-bottom: 1em;
   position: relative;
 
+  &.disabled {
+    opacity: 0.6;
+  }
   &:last-child {
     padding-bottom: 0;
   }
@@ -59,7 +62,8 @@ textarea {
   input[type="radio"] {
     display: none;
 
-    & + span {
+    & + span:before {
+      content: '';
       border-radius: 2px;
       display: inline-block;
       position: absolute;
@@ -75,7 +79,7 @@ textarea {
       transition: all .2s;
     }
 
-    &:checked + span {
+    &:checked + span:before {
       background: $anu-blue;
     }
   }
@@ -83,7 +87,7 @@ textarea {
   label {
     cursor: pointer;
     display: block;
-    margin-left: 3em;
+    padding-left: 3em;
   }
 
   svg {
