@@ -172,18 +172,28 @@ export const notebookListData = notebookDataObject =>
 /**
  * Internal helper to normalize User data from the backend.
  */
-export const userData = userDataObject => ({
-  uid: userDataObject.uid,
-  uuid: userDataObject.uuid,
-  name: userDataObject.name,
-  mail: userDataObject.mail,
-  status: userDataObject.status,
-  created: userDataObject.created,
-  changed: userDataObject.changed,
-  firstName: userDataObject.fieldFirstName ? userDataObject.fieldFirstName : '',
-  lastName: userDataObject.fieldLastName ? userDataObject.fieldLastName : '',
-  organization: userDataObject.fieldOrganization ? userDataObject.fieldOrganization : [],
-});
+export const userData = userDataObject => {
+  const user = {
+    uid: userDataObject.uid,
+    uuid: userDataObject.uuid,
+    name: userDataObject.name,
+    mail: userDataObject.mail,
+    status: userDataObject.status,
+    created: userDataObject.created,
+    changed: userDataObject.changed,
+    firstName: userDataObject.fieldFirstName ? userDataObject.fieldFirstName : '',
+    lastName: userDataObject.fieldLastName ? userDataObject.fieldLastName : '',
+    organization: userDataObject.fieldOrganization ? userDataObject.fieldOrganization : [],
+  };
+
+  if (userDataObject.fieldNotifyIfTagged !== undefined) {
+    user.notifyIfTagged = userDataObject.fieldNotifyIfTagged;
+  }
+  if (userDataObject.fieldNotifyIfReplied !== undefined) {
+    user.notifyIfReplied = userDataObject.fieldNotifyIfReplied;
+  }
+  return user;
+};
 
 /**
  * Internal helper to normalize Comment data from the backend.
