@@ -111,10 +111,16 @@ class UserEditForm extends React.Component {
       const { request } = await this.context.auth.getRequest();
       const { user } = this.state;
 
-      await userApi.update(
-        request,
-        user.uuid, formData.username, formData.email, formData.password,
-      );
+      await userApi.update(request, user.uuid, {
+        name: formData.username,
+        mail: formData.email,
+        pass: {
+          // TODO: bug or feature?
+          // To update user name ANY non-empty password can be sent.
+          // To update email only valid current password should be sent.
+          existing: formData.password || 'anypass',
+        },
+      });
 
       // Re-login required if user data has changed.
       await this.context.auth.refreshAuthenticationToken();
@@ -139,7 +145,7 @@ class UserEditForm extends React.Component {
       });
 
       // Update user data in application store.
-      this.props.dispatch(userActionHelpers.update({
+      this.props.dispatch(userActionHelpers.updateInStore({
         name: formData.username,
         mail: formData.email,
       }));
