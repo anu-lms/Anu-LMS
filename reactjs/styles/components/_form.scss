@@ -86,7 +86,7 @@ textarea {
     }
 
     &:checked + span:before {
-      background: $anu-blue;
+      background: $anu-blue url("/static/img/shape.svg") no-repeat center center;
     }
   }
 
