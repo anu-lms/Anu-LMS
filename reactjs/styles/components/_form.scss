@@ -53,6 +53,12 @@ textarea {
 
   &.disabled {
     opacity: 0.6;
+
+    label,
+    input[type="checkbox"] + span:before,
+    input[type="radio"] + span:before{
+      cursor: default;
+    }
   }
   &:last-child {
     padding-bottom: 0;
