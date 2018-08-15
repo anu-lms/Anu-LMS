@@ -43,6 +43,7 @@ class NotificationSettingsForm extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line camelcase
     const { isSending, notify_if_tagged, notify_if_replied } = this.state;
     console.log(this.props);
     console.log(this.state);
@@ -55,7 +56,7 @@ class NotificationSettingsForm extends React.Component {
             <label>
               <input
                 onChange={this.onChange}
-                checked={notify_if_tagged}
+                checked={notify_if_tagged} // eslint-disable-line camelcase
                 disabled={isSending}
                 type="checkbox"
                 name="notify_if_tagged"
@@ -72,7 +73,7 @@ class NotificationSettingsForm extends React.Component {
             <label>
               <input
                 onChange={this.onChange}
-                checked={notify_if_replied}
+                checked={notify_if_replied} // eslint-disable-line camelcase
                 disabled={isSending}
                 type="checkbox"
                 name="notify_if_replied"
@@ -91,6 +92,14 @@ NotificationSettingsForm.contextTypes = {
     getRequest: PropTypes.func,
     login: PropTypes.func,
   }),
+};
+
+NotificationSettingsForm.propTypes = {
+  user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+};
+
+NotificationSettingsForm.defaultProps = {
+  user: {},
 };
 
 export default NotificationSettingsForm;

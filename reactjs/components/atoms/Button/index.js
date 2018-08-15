@@ -58,7 +58,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   loading: PropTypes.bool,
   children: PropTypes.node,
-  style: PropTypes.object,
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 Button.defaultProps = {
