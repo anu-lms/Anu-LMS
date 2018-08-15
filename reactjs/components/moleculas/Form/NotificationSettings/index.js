@@ -7,6 +7,50 @@ import Button from '../../../atoms/Button';
 import * as lock from '../../../../utils/lock';
 import * as userApi from '../../../../api/user';
 import * as userActionHelpers from '../../../../actions/user';
+import PasswordWidget from '../../../atoms/Form/PasswordWidget';
+
+const schema = {
+  'type': 'object',
+  'properties': {
+    'tagging': {
+      'type': 'object',
+      'title': 'Tagging',
+      'properties': {
+        'notify_if_tagged': {
+          'name': 'notify_if_tagged',
+          'disabled': true,
+          'type': 'boolean',
+          'title': 'Notify me when someone tags me in a comment.',
+        },
+      },
+    },
+    'responses': {
+      'type': 'object',
+      'title': 'Responses',
+      'properties': {
+        'notify_if_replied': {
+          'name': 'notify_if_replied',
+          'disabled': true,
+          'type': 'boolean',
+          'title': 'Notify me when someone responds to my comment.',
+        },
+      },
+    },
+  },
+};
+
+const uiSchema = {
+  'tagging': {
+    'notify_if_tagged': {
+      // 'ui:disabled': true,
+    },
+  },
+  'responses': {
+    'notify_if_replied': {
+      // 'ui:disabled': true,
+    },
+  },
+};
 
 class NotificationSettingsForm extends React.Component {
   constructor(props, context) {
@@ -23,57 +67,45 @@ class NotificationSettingsForm extends React.Component {
   }
 
   async onChange(e) {
-    e.persist();
+    console.log(e);
+    // e.persist();
     const { user } = this.props;
 
-    this.setState({
-      isSending: e.target.name,
-      [e.target.name]: e.target.checked,
-    });
-
-    // Get superagent request with authentication.
-    const { request } = await this.context.auth.getRequest();
-
-    // Makes request to the backend to update notifiaction settings.
-    await userApi.update(request, user.uuid, {
-      [`field_${e.target.name}`]: e.target.checked,
-    });
-
-    this.setState({
-      isSending: null,
-    });
-
-    // Refresh authentication token because user data has changed.
-    await this.context.auth.refreshAuthenticationToken();
+    // this.setState({
+    //   isSending: e.target.name,
+    //   [e.target.name]: e.target.checked,
+    // });
+    //
+    // // Get superagent request with authentication.
+    // const { request } = await this.context.auth.getRequest();
+    //
+    // // Makes request to the backend to update notifiaction settings.
+    // await userApi.update(request, user.uuid, {
+    //   [`field_${e.target.name}`]: e.target.checked,
+    // });
+    //
+    // this.setState({
+    //   isSending: null,
+    // });
+    //
+    // // Refresh authentication token because user data has changed.
+    // await this.context.auth.refreshAuthenticationToken();
   }
 
   render() {
     console.log(this.props);
     console.log(this.state);
     return (
-      <form className="notification-settings-form">
-        <fieldset>
-          <legend>Tagging</legend>
-
-          <div className="checkbox">
-            <label>
-              <input onChange={this.onChange} checked={this.state.notify_if_tagged} type="checkbox" name="notify_if_tagged" />
-              <span />Notify me when someone tags me in a comment.
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Responses</legend>
-
-          <div className="checkbox">
-            <label>
-              <input onChange={this.onChange} checked={this.state.notify_if_replied} type="checkbox" name="notify_if_replied" />
-              <span />Notify me when someone responds to my comment.
-            </label>
-          </div>
-        </fieldset>
-      </form>
+      <Form
+        schema={schema}
+        uiSchema={uiSchema}
+        formData={this.state.formData}
+        onChange={this.onChange}
+        onSubmit={this.submitForm}
+        className="notification-settings-form"
+      >
+        <div />
+      </Form>
     );
   }
 }
