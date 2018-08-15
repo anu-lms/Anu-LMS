@@ -17,7 +17,7 @@ export function login(user) {
  * @param userData
  *   An object with user's data to update.
  */
-export function update(userData) {
+export function updateInStore(userData) {
   return {
     type: 'USER_UPDATE_DATA_IN_STORE',
     userData,
