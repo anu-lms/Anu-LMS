@@ -108,9 +108,6 @@ class Comment {
         'comment' => $comment['fieldCommentParagraph'] . '-' . $comment['id'],
       ],
     ]);
-    $notificationSettingsLink = Link::fromTextAndUrl('Manage email preferences',
-      Url::FromUri($frontend_domain . 'user/notifications', ['absolute' => TRUE]));
-
     // Prepares email subject.
     $params['subject'] = t("@triggerer_name $titleCopy @lesson_title", [
       '@triggerer_name' => $triggererName,
@@ -121,7 +118,6 @@ class Comment {
     $params['body'] = $params['subject'] . ':';
     $params['body'] .= '<br />"' . trim(strip_tags($commentBody)) . '"';
     $params['body'] .= '<br />' . $commentLink->toString();
-    $params['body'] .= '<br /><br />' . $notificationSettingsLink->toString();
 
     // Send an email to recipient.
     $recipient = User::load($message['recipient']);
