@@ -13,6 +13,7 @@ const FieldTemplate = ({
     innerClasses += ' has-float-label';
   }
 
+  // Don't wrap parent fieldset to the additional wrappers.
   if (schema.type === 'object') {
     return (
       <Fragment>{ children }</Fragment>
