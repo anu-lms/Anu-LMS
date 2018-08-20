@@ -132,8 +132,8 @@ class UserEditForm extends React.Component {
       await userApi.update(request, user.uuid, {
         name: formData.username,
         mail: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        field_first_name: formData.firstName,
+        field_last_name: formData.lastName,
         pass: {
           // TODO: bug or feature?
           // To update user name ANY non-empty password can be sent.

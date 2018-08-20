@@ -155,7 +155,7 @@ resourceFields:
     enhancer_label: ''
   field_first_name:
     fieldName: field_first_name
-    publicName: firstName
+    publicName: field_first_name
     enhancer:
       id: ''
     disabled: false
@@ -163,7 +163,7 @@ resourceFields:
     enhancer_label: ''
   field_last_name:
     fieldName: field_last_name
-    publicName: lastName
+    publicName: field_last_name
     enhancer:
       id: ''
     disabled: false
