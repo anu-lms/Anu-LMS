@@ -35,7 +35,7 @@ field_settings:
     label: 'Search api attachments: File'
     property_path: saa_field_paragraph_private_file
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
   field_comment_text:
     label: Text
     datasource_id: 'entity:paragraph_comment'
@@ -87,7 +87,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_lesson_blocks:entity:field_paragraph_text'
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
     dependencies:
       config:
         - field.storage.node.field_lesson_blocks
@@ -99,7 +99,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_lesson_blocks:entity:field_paragraph_title'
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
     dependencies:
       config:
         - field.storage.node.field_lesson_blocks
@@ -135,7 +135,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_lesson_blocks:entity:field_quiz_blocks:entity:field_paragraph_text'
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
     dependencies:
       config:
         - field.storage.node.field_lesson_blocks
@@ -149,7 +149,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_lesson_blocks:entity:field_quiz_blocks:entity:field_paragraph_title'
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
     dependencies:
       config:
         - field.storage.node.field_lesson_blocks
@@ -185,7 +185,7 @@ field_settings:
     datasource_id: 'entity:notebook'
     property_path: field_notebook_body
     type: text
-    boost: 0.79999999999995
+    boost: 0.8
     dependencies:
       config:
         - field.storage.notebook.field_notebook_body

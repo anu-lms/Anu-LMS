@@ -12,7 +12,7 @@ import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
-  'required': ['username', 'email'],
+  'required': ['username', 'email', 'firstName', 'lastName'],
   'properties': {
     'username': {
       'type': 'string',
@@ -43,6 +43,12 @@ const uiSchema = {
     'ui:placeholder': ' ',
   },
   'email': {
+    'ui:placeholder': ' ',
+  },
+  'firstName': {
+    'ui:placeholder': ' ',
+  },
+  'lastName': {
     'ui:placeholder': ' ',
   },
   'password': {
