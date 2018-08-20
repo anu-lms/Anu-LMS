@@ -24,10 +24,12 @@ class UserNotificationSettingsPage extends Component {
   }
 
   render() {
+    const { user } = this.props;
+    const statusCode = !user.uuid ? 403 : 200;
     return (
-      <SiteTemplate>
+      <SiteTemplate statusCode={statusCode}>
         <OneColumnLayout pageTitle="Email Notification Settings">
-          <NotificationSettingsForm user={this.props.user} />
+          <NotificationSettingsForm user={user} />
         </OneColumnLayout>
       </SiteTemplate>
     );
