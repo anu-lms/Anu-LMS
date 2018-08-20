@@ -12,11 +12,19 @@ import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
-  'required': ['username', 'email'],
+  'required': ['username', 'email', 'firstName', 'lastName'],
   'properties': {
     'username': {
       'type': 'string',
       'title': 'Username',
+    },
+    'firstName': {
+      'type': 'string',
+      'title': 'First Name',
+    },
+    'lastName': {
+      'type': 'string',
+      'title': 'Last Name',
     },
     'email': {
       'type': 'string',
@@ -35,6 +43,12 @@ const uiSchema = {
     'ui:placeholder': ' ',
   },
   'email': {
+    'ui:placeholder': ' ',
+  },
+  'firstName': {
+    'ui:placeholder': ' ',
+  },
+  'lastName': {
     'ui:placeholder': ' ',
   },
   'password': {
@@ -68,6 +82,8 @@ class UserEditForm extends React.Component {
       formData: {
         username: user.name,
         email: user.mail,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
       formKey: 0,
     };
@@ -86,6 +102,14 @@ class UserEditForm extends React.Component {
     let passwordRequired = false;
 
     if (formData.username !== user.name) {
+      isChanged = true;
+    }
+
+    if (formData.firstName !== user.firstName) {
+      isChanged = true;
+    }
+
+    if (formData.lastName !== user.lastName) {
       isChanged = true;
     }
 
@@ -114,6 +138,8 @@ class UserEditForm extends React.Component {
       await userApi.update(request, user.uuid, {
         name: formData.username,
         mail: formData.email,
+        field_first_name: formData.firstName,
+        field_last_name: formData.lastName,
         pass: {
           // TODO: bug or feature?
           // To update user name ANY non-empty password can be sent.
@@ -133,6 +159,8 @@ class UserEditForm extends React.Component {
         user: {
           ...user,
           name: formData.username,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           mail: formData.email,
         },
         formData: {
@@ -147,6 +175,8 @@ class UserEditForm extends React.Component {
       // Update user data in application store.
       this.props.dispatch(userActionHelpers.updateInStore({
         name: formData.username,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         mail: formData.email,
       }));
 
