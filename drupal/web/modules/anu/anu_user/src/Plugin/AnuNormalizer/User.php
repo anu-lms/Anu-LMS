@@ -28,7 +28,7 @@ class User extends AnuNormalizerBase {
    * {@inheritdoc}
    */
   public function normalize($entity, $include_fields = [
-    'uuid', 'mail', 'status', 'created', 'changed',
+    'uuid', 'mail', 'status', 'created', 'changed', 'field_notify_if_tagged', 'field_notify_if_replied',
   ]) {
     $output = NULL;
     if (!$this->shouldApply($entity)) {
@@ -44,6 +44,12 @@ class User extends AnuNormalizerBase {
         'fieldOrganization' => [],
       ];
 
+      if (in_array('field_notify_if_tagged', $include_fields)) {
+        $output['fieldNotifyIfTagged'] = (bool) $entity->field_notify_if_tagged->getString();
+      }
+      if (in_array('field_notify_if_replied', $include_fields)) {
+        $output['fieldNotifyIfReplied'] = (bool) $entity->field_notify_if_replied->getString();
+      }
       if (in_array('uuid', $include_fields)) {
         $output['uuid'] = $entity->uuid();
       }

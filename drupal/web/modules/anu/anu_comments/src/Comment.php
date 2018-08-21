@@ -3,6 +3,7 @@
 namespace Drupal\anu_comments;
 
 use Drupal\Core\Url;
+use Drupal\Core\Link;
 use Drupal\user\Entity\User;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Entity\EntityInterface;
@@ -107,16 +108,15 @@ class Comment {
         'comment' => $comment['fieldCommentParagraph'] . '-' . $comment['id'],
       ],
     ]);
-
     // Prepares email subject.
     $params['subject'] = t("@triggerer_name $titleCopy @lesson_title", [
       '@triggerer_name' => $triggererName,
-      '@lesson_title' => $lessonTitle
+      '@lesson_title' => $lessonTitle,
     ]);
 
     // Prepares email body.
     $params['body'] = $params['subject'] . ':';
-    $params['body'] .= '<br />"' . strip_tags($commentBody) . '"';
+    $params['body'] .= '<br />"' . trim(strip_tags($commentBody)) . '"';
     $params['body'] .= '<br />' . $commentLink->toString();
 
     // Send an email to recipient.
