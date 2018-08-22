@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.course.field_course_lessons
     - field.field.node.course.field_course_organisation
     - field.field.node.course.field_time_to_complete_minutes
+    - field.field.node.course.field_weight
     - node.type.course
   module:
     - image
@@ -72,6 +73,15 @@ content:
     region: content
   field_time_to_complete_minutes:
     weight: 6
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_weight:
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
