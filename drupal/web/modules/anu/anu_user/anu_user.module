@@ -139,9 +139,13 @@ function anu_user_user_update(EntityInterface $entity) {
 
     $origin_organization_ids = array_column($entity->original->field_organization->getValue(), 'target_id');
     $updated_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+    $full_diff = array_merge(
+      array_diff($origin_organization_ids, $updated_organization_ids),
+      array_diff($updated_organization_ids, $origin_organization_ids)
+    );
 
     // When the organization has changed, we should revoke user's access to the site.
-    if (!array_diff($origin_organization_ids, $updated_organization_ids)) {
+    if (count($full_diff) > 0) {
       $collector->deleteMultipleTokens($collector->collectForAccount($entity));
     }
   }

@@ -110,6 +110,7 @@ module:
   views: 0
   views_bulk_operations: 0
   views_ui: 0
+  weight: 0
   paragraphs: 11
   minimal: 1000
 theme:

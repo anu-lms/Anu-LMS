@@ -29,6 +29,7 @@ const DashboardTemplate = ({ classes, recentCourses }) => (
 
         <div className="row">
           {classItem.courses
+            .sort((a, b) => (a.weight - b.weight))
             .map(course => (
               <div key={course.id} className="col-12 col-md-6 col-lg-4 mb-5">
                 <Card course={course} />
