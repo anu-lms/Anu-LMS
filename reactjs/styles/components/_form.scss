@@ -6,6 +6,11 @@ fieldset {
   .field {
     margin-bottom: 1em;
   }
+  legend {
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: $carbon;
+  }
 }
 
 input[type="text"],
@@ -51,6 +56,15 @@ textarea {
   padding-bottom: 1em;
   position: relative;
 
+  &.disabled {
+    opacity: 0.6;
+
+    label,
+    input[type="checkbox"] + span:before,
+    input[type="radio"] + span:before{
+      cursor: default;
+    }
+  }
   &:last-child {
     padding-bottom: 0;
   }
@@ -59,7 +73,8 @@ textarea {
   input[type="radio"] {
     display: none;
 
-    & + span {
+    & + span:before {
+      content: '';
       border-radius: 2px;
       display: inline-block;
       position: absolute;
@@ -72,18 +87,22 @@ textarea {
       background: white left top no-repeat;
       border: 2px solid $anu-blue;
       cursor: pointer;
-      transition: all .2s;
+      transition: background-color .2s;
     }
 
     &:checked + span {
-      background: $anu-blue;
+      color: $anu-blue;
+      font-weight: bold;
+      &:before {
+        background: $anu-blue url("/static/img/shape.svg") no-repeat center center;
+      }
     }
   }
 
   label {
     cursor: pointer;
     display: block;
-    margin-left: 3em;
+    padding-left: 2.5em;
   }
 
   svg {

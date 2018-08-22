@@ -76,6 +76,9 @@ class ProfileMenu extends React.Component {
           <li className="edit-password" onClick={onItemClick} onKeyPress={onItemClick}> {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
             <Link to="/user/password"><a>Edit Password</a></Link>
           </li>
+          <li className="notification-settings" onClick={onItemClick} onKeyPress={onItemClick}> {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
+            <Link to="/user/notifications"><a>Notification Settings</a></Link>
+          </li>
           <li className="list-separator" />
           <li className="logout">
             <span onClick={onLogoutClick} onKeyPress={onLogoutClick}>Logout</span>
