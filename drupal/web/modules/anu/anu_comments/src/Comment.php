@@ -2,8 +2,12 @@
 
 namespace Drupal\anu_comments;
 
-use Drupal\anu_normalizer\AnuNormalizerBase;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Drupal\user\Entity\User;
+use Drupal\Core\Site\Settings;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\anu_normalizer\AnuNormalizerBase;
 
 /**
  * Helper service for comment entity.
@@ -67,6 +71,67 @@ class Comment {
           '@error' => $exception->getMessage(),
         ]);
     }
+  }
+
+  /**
+   * Sends an email notification to the recipient.
+   */
+  public function sendEmailNotification($message) {
+    $message = AnuNormalizerBase::normalizeEntity($message, ['lesson']);
+
+    // Prepares message title.
+    $titleCopy = 'replied to your comment in';
+    if ($message['bundle'] === 'add_comment_to_thread') {
+      $titleCopy = 'commented in your thread in';
+    }
+    elseif ($message['bundle'] === 'mentioned_in_comment') {
+      $titleCopy = 'mentioned you in a comment on';
+    }
+
+    // Prepares triggerer name.
+    $triggererName = $message['triggerer']['name'];
+    if (!empty($message['triggerer']['fieldFirstName']) && !empty($message['triggerer']['fieldLastName'])) {
+      $triggererName = $message['triggerer']['fieldFirstName'] . ' ' . $message['triggerer']['fieldLastName'];
+    }
+
+    // Preapares Comment link and body.
+    $comment = $message['comment'];
+    $commentBody = $comment['fieldCommentText']['value'];
+    $lessonTitle = $comment['lesson']['title'];
+    $lessonUrl = 'course' . $comment['lesson']['fieldLessonCourse']['path']['alias'] . $comment['lesson']['path']['alias'];
+    $frontend_domain = Settings::get('frontend_domain');
+
+    // Compose comment link.
+    $commentLink = Url::fromUri($frontend_domain . $lessonUrl, [
+      'absolute' => TRUE,
+      'query' => [
+        'comment' => $comment['fieldCommentParagraph'] . '-' . $comment['id'],
+      ],
+    ]);
+    // Prepares email subject.
+    $params['subject'] = t("@triggerer_name $titleCopy @lesson_title", [
+      '@triggerer_name' => $triggererName,
+      '@lesson_title' => $lessonTitle,
+    ]);
+
+    // Prepares email body.
+    $params['body'] = $params['subject'] . ':';
+    $params['body'] .= '<br />"' . trim(strip_tags($commentBody)) . '"';
+    $params['body'] .= '<br />' . $commentLink->toString();
+
+    // Send an email to recipient.
+    $recipient = User::load($message['recipient']);
+    $to = $recipient->getEmail();
+    $result = \Drupal::service('plugin.manager.mail')
+      ->mail('anu_events', 'comment_email_notification', $to, $recipient->getPreferredLangcode(), $params, NULL, TRUE);
+
+    // Returns an error in case of any issues.
+    if ($result['result'] != TRUE) {
+      \Drupal::logger('anu_comments_notifier')
+        ->error(t('There was a problem sending email notification to %email.', ['%email' => $to]));
+      return FALSE;
+    }
+    return TRUE;
   }
 
 }
