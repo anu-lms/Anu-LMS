@@ -29,13 +29,16 @@ class NotificationSettingsForm extends React.Component {
     // Get superagent request with authentication.
     const { request } = await this.context.auth.getRequest();
 
-    // Makes request to the backend to update notifiaction settings.
-    await userApi.update(request, user.uuid, {
-      [`field_${e.target.name}`]: e.target.checked,
-    });
-
-    // Refresh authentication token because user data has changed.
-    await this.context.auth.refreshAuthenticationToken();
+    // Makes request to the backend to update notification settings.
+    await userApi
+      .update(request, user.uuid, {
+        [`field_${e.target.name}`]: e.target.checked,
+      })
+      .catch(() => {
+        this.setState({
+          isSending: false,
+        });
+      });
 
     this.setState({
       isSending: false,
@@ -45,8 +48,7 @@ class NotificationSettingsForm extends React.Component {
   render() {
     // eslint-disable-next-line camelcase
     const { isSending, notify_if_tagged, notify_if_replied } = this.state;
-    console.log(this.props);
-    console.log(this.state);
+
     return (
       <form className="notification-settings-form">
         <fieldset className="tagged-fieldset">
