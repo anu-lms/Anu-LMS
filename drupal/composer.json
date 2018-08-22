@@ -67,7 +67,8 @@
     "drupal/simple_oauth": "3.x-dev#b07da37",
     "drupal/smtp": "^1.0@beta",
     "drupal/toolbar_themes": "^1.0@alpha",
-    "drupal/views_bulk_operations": "^2.0",
+    "drupal/views_bulk_operations": "^2.4",
+    "drupal/weight": "^3.1",
     "drush/drush": "~8.0",
     "webflo/drupal-finder": "^0|^1.0.0",
     "webmozart/path-util": "^2.3",
@@ -144,6 +145,12 @@
       },
       "drupal/search_api_attachments": {
         "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
+      },
+      "drupal/views_bulk_operations": {
+        "Conflict with other plugins": "https://www.drupal.org/files/issues/2018-08-13/views_bulk_operations-plugins_work-2992375-2.patch"
+      },
+      "drupal/weight": {
+        "Conflict with bulk operations": "https://www.drupal.org/files/issues/2018-08-13/weight-work_with_vbo-2865716-3.patch"
       },
       "drupal/jsonapi": {
         "Increase maximum size of page parameters from 50 to 100": "patches/jsonapi-increase_offsetpage_size_max.patch"

@@ -41,27 +41,19 @@ export const fetchTaggedUsers = (request, query, organizationId) => new Promise(
 /**
  * Update user data.
  */
-export const update = (request, uuid, username, email, password) => new Promise((resolve, reject) => { // eslint-disable-line max-len
+export const update = (request, uuid, data) => new Promise((resolve, reject) => {
   request
     .patch(`/jsonapi/user/user/${uuid}`)
     .send({
       data: {
         type: 'user--user',
         id: uuid,
-        attributes: {
-          name: username,
-          mail: email,
-          pass: {
-            // TODO: bug or feature?
-            // To update user name ANY non-empty password can be sent.
-            // To update email only valid current password should be sent.
-            existing: password || 'anypass',
-          },
-        },
+        attributes: data,
       },
     })
-    .then(() => {
-      resolve();
+    .then(response => {
+      const user = dataProcessors.userData(response.body.data);
+      resolve(user);
     })
     .catch(error => {
       console.error('Could not update user data.', error);
