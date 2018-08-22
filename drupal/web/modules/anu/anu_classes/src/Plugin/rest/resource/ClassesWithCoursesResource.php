@@ -133,6 +133,7 @@ class ClassesWithCoursesResource extends ResourceBase {
             'label' => $course->label(),
             'image' => $image_url,
             'path' => $path_alias,
+            'weight' => (int) $course->field_weight->getString(),
           ] + $course_progress;
         }
 
