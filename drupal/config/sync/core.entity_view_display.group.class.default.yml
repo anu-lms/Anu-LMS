@@ -3,12 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.class.field_organization
     - group.type.class
 id: group.class.default
 targetEntityType: group
 bundle: class
 mode: default
 content:
+  field_organization:
+    weight: -4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   label:
     label: hidden
     type: string
