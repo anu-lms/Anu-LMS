@@ -1,0 +1,3 @@
+services:
+  anu_group.group:
+      class: Drupal\anu_group\Group
