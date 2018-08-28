@@ -14,7 +14,7 @@ class Group {
   /**
    * Loads ids of group by given entity.
    */
-  function getGroupIdsByEntity($entity) {
+  public function getGroupIdsByEntity($entity) {
     $group_ids = [];
     $group_contents = GroupContent::loadByEntity($entity);
     foreach ($group_contents as $group_content) {
@@ -23,4 +23,5 @@ class Group {
 
     return $group_ids;
   }
+
 }
