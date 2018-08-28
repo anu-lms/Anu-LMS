@@ -5,6 +5,7 @@
  * Module implementation file.
  */
 
+use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -14,13 +15,13 @@ use Drupal\Core\Session\AccountInterface;
  */
 function anu_courses_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
   if ($entity->bundle() != 'course') {
-    AccessResult::neutral();
+    return AccessResult::neutral();
   }
 
   $entity_organization_ids = $account_organization_ids = [];
   // Get organization ids from given course.
-  if (!empty($entity->field_organization->getValue())) {
-    $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+  if (!empty($entity->field_course_organisation->getValue())) {
+    $entity_organization_ids = array_column($entity->field_course_organisation->getValue(), 'target_id');
   }
 
   // Get organization ids from current user.

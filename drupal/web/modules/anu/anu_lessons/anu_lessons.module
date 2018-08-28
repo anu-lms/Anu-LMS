@@ -14,7 +14,7 @@ use Drupal\Core\Session\AccountInterface;
  */
 function anu_lessons_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
   if ($entity->bundle() != 'lesson') {
-    AccessResult::neutral();
+    return AccessResult::neutral();
   }
 
   if ($entity->hasField('field_lesson_course')) {
