@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Module implementation file.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_courses_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($entity->bundle() != 'course') {
+    AccessResult::neutral();
+  }
+
+  $entity_organization_ids = $account_organization_ids = [];
+  // Get organization ids from given course.
+  if (!empty($entity->field_organization->getValue())) {
+    $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+  }
+
+  // Get organization ids from current user.
+  $account_entity = User::load($account->id());
+  if (!empty($account_entity->field_organization->getValue())) {
+    $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
+  }
+
+  // Users with organization can see courses from this organization.
+  $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
+  if (!empty($intersect)) {
+    return AccessResult::neutral();
+  }
+
+  return AccessResult::forbidden();
+}
