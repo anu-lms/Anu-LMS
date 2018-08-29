@@ -190,7 +190,7 @@ function anu_group_group_access(EntityInterface $entity, $operation, AccountInte
     $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
   }
 
-  // Users with organization can see other users with same organizations.
+  // Users with organization can see other classes with same organizations.
   $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
   if (!empty($intersect)) {
     return AccessResult::neutral();
