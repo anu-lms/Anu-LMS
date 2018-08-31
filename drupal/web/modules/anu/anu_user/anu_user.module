@@ -193,3 +193,14 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
 
   return AccessResult::neutral();
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Only users with special permissions should edit organization permissions.
+  if (!\Drupal::currentUser()->hasPermission('administer taxonomy')) {
+    $form['field_organization']['#access'] = FALSE;
+  }
+}
