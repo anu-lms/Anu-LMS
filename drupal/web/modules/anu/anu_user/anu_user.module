@@ -204,3 +204,52 @@ function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $
     $form['field_organization']['#access'] = FALSE;
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-user-list-page-1') {
+    $current_user = \Drupal::currentUser();
+    $account = User::load($current_user->id());
+
+    // User can filter views only by role he has an access to.
+    $role_options = [];
+    if (!empty($form['role']['#options']['All'])) {
+      $role_options['All'] = $form['role']['#options']['All'];
+    }
+    $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
+    $form['role']['#options'] = $role_options;
+
+    $org_options = [];
+    if (!empty($form['organization']['#options']['All'])) {
+      $org_options['All'] = $form['organization']['#options']['All'];
+    }
+
+    if (!$current_user->hasPermission('administer taxonomy')) {
+      $orgs = [];
+      // Get organization ids from current user.
+      if (!empty($account->field_organization->getValue())) {
+        $organizations = $account->field_organization->referencedEntities();
+        foreach ($organizations as $organization) {
+          $orgs[(int)$organization->id()] = $organization->getName();
+        }
+      }
+      $org_options += $orgs;
+      $form['organization']['#options'] = $org_options;
+    }
+  }
+
+  if (!$current_user->hasPermission('bypass group access')) {
+    $orgs = [];
+    // Get organization ids from current user.
+    if (!empty($account->field_organization->getValue())) {
+      $organizations = $account->field_organization->referencedEntities();
+      foreach ($organizations as $organization) {
+        $orgs[(int)$organization->id()] = $organization->getName();
+      }
+    }
+    $org_options += $orgs;
+    $form['organization']['#options'] = $org_options;
+  }
+}
