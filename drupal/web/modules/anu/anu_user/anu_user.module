@@ -221,12 +221,13 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
     $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
     $form['role']['#options'] = $role_options;
 
-    $org_options = [];
-    if (!empty($form['organization']['#options']['All'])) {
-      $org_options['All'] = $form['organization']['#options']['All'];
-    }
-
     if (!$current_user->hasPermission('administer taxonomy')) {
+
+      $org_options = [];
+      if (!empty($form['organization']['#options']['All'])) {
+        $org_options['All'] = $form['organization']['#options']['All'];
+      }
+
       $orgs = [];
       // Get organization ids from current user.
       if (!empty($account->field_organization->getValue())) {
@@ -240,16 +241,4 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
     }
   }
 
-  if (!$current_user->hasPermission('bypass group access')) {
-    $orgs = [];
-    // Get organization ids from current user.
-    if (!empty($account->field_organization->getValue())) {
-      $organizations = $account->field_organization->referencedEntities();
-      foreach ($organizations as $organization) {
-        $orgs[(int)$organization->id()] = $organization->getName();
-      }
-    }
-    $org_options += $orgs;
-    $form['organization']['#options'] = $org_options;
-  }
 }

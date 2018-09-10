@@ -26,4 +26,13 @@ function anu_user_views_data_alter(array &$data) {
     ],
   ];
 
+  $data['user__roles']['user_allowed_roles'] = [
+    'title' => t('Allowed roles'),
+    'filter' => [
+      'title' => t('Allowed roles'),
+      'help' => 'filters nodes on current domain',
+      'field' => 'roles_target_id',
+      'id' => 'user_allowed_roles',
+    ]
+  ];
 }
