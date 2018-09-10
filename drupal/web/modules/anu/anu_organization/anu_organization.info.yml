@@ -1,0 +1,7 @@
+name: Anu Organization
+type: module
+description: Provides features and enhancements for Organization.
+core: 8.x
+package: Anu
+dependencies:
+  - taxonomy
