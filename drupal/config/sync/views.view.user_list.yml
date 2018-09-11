@@ -203,37 +203,37 @@ display:
           clear_on_exposed: 0
           action_title: 'Select action'
           selected_actions:
-            anu_remove_group: anu_remove_group
             anu_assign_organization: anu_assign_organization
+            anu_remove_group: anu_remove_group
             anu_remove_organization: anu_remove_organization
             anu_assign_group: anu_assign_group
             pathauto_update_alias: 0
-            user_remove_role_action: user_remove_role_action
-            user_block_user_action: user_block_user_action
-            user_add_role_action: user_add_role_action
             user_unblock_user_action: user_unblock_user_action
-            views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
-            vbo_cancel_user_action: 0
+            user_block_user_action: user_block_user_action
+            user_remove_role_action: user_remove_role_action
+            user_add_role_action: user_add_role_action
+            vbo_cancel_user_action: vbo_cancel_user_action
+            views_bulk_operations_delete_entity: 0
             'entity:save_action:user': 0
           preconfiguration:
-            anu_remove_group:
-              label_override: ''
             anu_assign_organization:
+              label_override: ''
+            anu_remove_group:
               label_override: ''
             anu_remove_organization:
               label_override: ''
             anu_assign_group:
               label_override: ''
-            user_remove_role_action:
+            user_unblock_user_action:
               label_override: ''
             user_block_user_action:
               label_override: ''
+            user_remove_role_action:
+              label_override: ''
             user_add_role_action:
               label_override: ''
-            user_unblock_user_action:
-              label_override: ''
-            views_bulk_operations_delete_entity:
-              label_override: 'Delete selected users'
+            vbo_cancel_user_action:
+              label_override: 'Cancel selected users'
           plugin_id: views_bulk_operations_bulk_form
         name:
           id: name
