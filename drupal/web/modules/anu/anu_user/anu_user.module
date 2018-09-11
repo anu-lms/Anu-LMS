@@ -156,6 +156,11 @@ function anu_user_user_update(EntityInterface $entity) {
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_user_user_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  // User can see and update his own account.
+  if ($entity->id() == $account->id()) {
+    return AccessResult::neutral();
+  }
+
   // Forbid an access to view user profiles for users who shouldn't have an access to it.
   if ($operation == 'update') {
     $allowed_roles = \Drupal::service('delegatable_roles')->getAssignableRoles($account);
@@ -207,9 +212,31 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
  */
 function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-  // Only users with special permissions should edit organization permissions.
+  // Only users with special permissions should edit organizations.
   if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('administer taxonomy')) {
     $form['field_organization']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Only users with special permissions should edit organizations.
+  if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
+    $current_user = \Drupal::currentUser();
+    $account = User::load($current_user->id());
+
+    $orgs = [];
+    // Get organization ids from current user.
+    if (!empty($account->field_organization->getValue())) {
+      $organizations = $account->field_organization->referencedEntities();
+      foreach ($organizations as $organization) {
+        $orgs[(int)$organization->id()] = $organization->getName();
+      }
+    }
+    $form['field_organization']['widget']['#options'] = $orgs;
+    unset($form['field_organization']['widget']['#description']);
   }
 }
 
