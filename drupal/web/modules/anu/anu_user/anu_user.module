@@ -221,7 +221,7 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
     $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
     $form['role']['#options'] = $role_options;
 
-    if (!$current_user->hasPermission('administer taxonomy')) {
+    if (!$current_user->hasPermission('manage any organization')) {
 
       $org_options = [];
       if (!empty($form['organization']['#options']['All'])) {
