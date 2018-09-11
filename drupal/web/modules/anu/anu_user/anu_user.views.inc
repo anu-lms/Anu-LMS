@@ -26,11 +26,21 @@ function anu_user_views_data_alter(array &$data) {
     ],
   ];
 
+  $data['users']['assigned_organizations'] = [
+    'title' => t('Assigned organizations'),
+    'filter' => [
+      'title' => t('Assigned organizations'),
+      'help' => 'Filters users by groups they belong to', // @todo
+      'field' => 'uid',
+      'id' => 'anu_assigned_organizations',
+    ],
+  ];
+
   $data['user__roles']['user_allowed_roles'] = [
     'title' => t('Allowed roles'),
     'filter' => [
       'title' => t('Allowed roles'),
-      'help' => 'filters nodes on current domain',
+      'help' => 'filters nodes on current domain', // @todo
       'field' => 'roles_target_id',
       'id' => 'user_allowed_roles',
     ]
