@@ -1,0 +1,4 @@
+manage users from any organization:
+  title: 'Manage users from any organization'
+  description: 'Gain full control for users over organizations access.'
+  restrict access: TRUE
