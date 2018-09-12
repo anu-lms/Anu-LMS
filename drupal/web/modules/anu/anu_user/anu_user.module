@@ -242,7 +242,7 @@ function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form
     if (!empty($account->field_organization->getValue())) {
       $organizations = $account->field_organization->referencedEntities();
       foreach ($organizations as $organization) {
-        $orgs[(int)$organization->id()] = $organization->getName();
+        $orgs[(int) $organization->id()] = $organization->getName();
       }
     }
     $form['field_organization']['widget']['#options'] = $orgs;
@@ -278,7 +278,7 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
       if (!empty($account->field_organization->getValue())) {
         $organizations = $account->field_organization->referencedEntities();
         foreach ($organizations as $organization) {
-          $orgs[(int)$organization->id()] = $organization->getName();
+          $orgs[(int) $organization->id()] = $organization->getName();
         }
       }
       $org_options += $orgs;

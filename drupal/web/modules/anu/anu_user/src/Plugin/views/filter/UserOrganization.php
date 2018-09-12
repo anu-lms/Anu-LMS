@@ -96,7 +96,7 @@ class UserOrganization extends InOperator {
    */
   public function generateOptions() {
     return [
-      'assigned_organizations' => $this->t('Assigned organizations')
+      'assigned_organizations' => $this->t('Assigned organizations'),
     ];
   }
 

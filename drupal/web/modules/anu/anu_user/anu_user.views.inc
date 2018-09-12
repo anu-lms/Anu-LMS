@@ -30,7 +30,8 @@ function anu_user_views_data_alter(array &$data) {
     'title' => t('Assigned organizations'),
     'filter' => [
       'title' => t('Assigned organizations'),
-      'help' => 'Filters users by groups they belong to', // @todo
+  // @todo
+      'help' => 'Filters users by groups they belong to',
       'field' => 'uid',
       'id' => 'anu_assigned_organizations',
     ],
@@ -40,9 +41,10 @@ function anu_user_views_data_alter(array &$data) {
     'title' => t('Allowed roles'),
     'filter' => [
       'title' => t('Allowed roles'),
-      'help' => 'filters nodes on current domain', // @todo
+  // @todo
+      'help' => 'filters nodes on current domain',
       'field' => 'roles_target_id',
       'id' => 'user_allowed_roles',
-    ]
+    ],
   ];
 }

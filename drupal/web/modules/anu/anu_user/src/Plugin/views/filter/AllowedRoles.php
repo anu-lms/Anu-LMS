@@ -73,7 +73,7 @@ class AllowedRoles extends InOperator {
    */
   public function generateOptions() {
     return [
-      'allowed_roles' => $this->t('Allowed roles for current user')
+      'allowed_roles' => $this->t('Allowed roles for current user'),
     ];
   }
 
