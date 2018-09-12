@@ -15,7 +15,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *   label = @Translation("Remove Organizations from the selected users"),
  *   type = "user",
  *   requirements = {
- *     "_permission" = "administer users",
+ *     "_permission" = "manage users from any organization",
  *   },
  * )
  */
