@@ -161,12 +161,13 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
     return AccessResult::neutral();
   }
 
-  // Forbid an access to view user profiles for users who shouldn't have an access to it.
+  // User can update only accounts with allowed roles.
   if ($operation == 'update') {
     $allowed_roles = \Drupal::service('delegatable_roles')->getAssignableRoles($account);
     $allowed_roles['authenticated'] = 'authenticated';
     $user_entity_roles = $entity->getRoles();
 
+    // Forbid an access to update if account contains at least one not allowed role.
     foreach ($user_entity_roles as $user_entity_role) {
       if (!in_array($user_entity_role, array_keys($allowed_roles))) {
         return AccessResult::forbidden();
@@ -175,7 +176,7 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
   }
 
   // User should have an access to other profiles in following cases:
-  // - User is admin and has 'administer users' permissions.
+  // - User is admin and has 'manage users from any organization' permissions.
   // - User can see accounts of other users from the same organizations.
   $entity_organization_ids = $account_organization_ids = [];
 
@@ -212,7 +213,7 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
  */
 function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-  // Only users with special permissions should edit organizations.
+  // Only users with special permissions should edit organizations on user edit page.
   if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('administer taxonomy')) {
     $form['field_organization']['#access'] = FALSE;
   }
@@ -222,6 +223,7 @@ function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $
  * Implements hook_form_FORM_ID_alter().
  */
 function anu_user_form_views_bulk_operations_configure_action_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Limit allowed roles in 'Add/Remove a role' views bulk operation actions.
   if (!empty($form['rid'])) {
     $available_roles = \Drupal::service('delegatable_roles')->getAssignableRoles(\Drupal::currentUser());
     $form['rid']['#options'] = $available_roles;
@@ -232,11 +234,12 @@ function anu_user_form_views_bulk_operations_configure_action_alter(&$form, Form
  * Implements hook_form_FORM_ID_alter().
  */
 function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Only users with special permissions should edit organizations.
+  // Only users with special permissions should edit organizations on Add user page.
   if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
     $current_user = \Drupal::currentUser();
     $account = User::load($current_user->id());
 
+    // User can assign only allowed organizations on Add user page.
     $orgs = [];
     // Get organization ids from current user.
     if (!empty($account->field_organization->getValue())) {
@@ -254,11 +257,12 @@ function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form
  * Implements hook_form_FORM_ID_alter().
  */
 function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Exposed form filter fields on the user management page.
   if ($form['#id'] == 'views-exposed-form-user-list-page-1') {
     $current_user = \Drupal::currentUser();
     $account = User::load($current_user->id());
 
-    // User can filter views only by role he has an access to.
+    // Limit available roles in Role filter.
     $role_options = [];
     if (!empty($form['role']['#options']['All'])) {
       $role_options['All'] = $form['role']['#options']['All'];
@@ -266,6 +270,7 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
     $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
     $form['role']['#options'] = $role_options;
 
+    // Limit available organizations in Organization filter.
     if (!$current_user->hasPermission('manage any organization')) {
 
       $org_options = [];

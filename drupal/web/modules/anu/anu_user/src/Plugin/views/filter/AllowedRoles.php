@@ -8,7 +8,7 @@ use Drupal\views\Plugin\views\filter\InOperator;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 
 /**
- * Filter handler for user roles.
+ * Filter handler for users with allowed roles.
  *
  * @ingroup views_filter_handlers
  *
@@ -52,14 +52,17 @@ class AllowedRoles extends InOperator {
    * {@inheritdoc}
    */
   public function query() {
+    // Get allowed roles for the current user.
     $allowed_roles = \Drupal::service('delegatable_roles')->getAssignableRoles(\Drupal::currentUser());
 
+    // Join User roles table.
     $join = $this->getJoin();
     $join->type = 'LEFT';
     $this->query->addTable('user__roles', NULL, $join);
 
     $field = $this->table . '.' . $this->realField . ' ';
     $or = new Condition('OR');
+    // Show only users with allowed roles or authenticated users.
     if (!empty($allowed_roles)) {
       $or->condition($field, array_keys($allowed_roles), 'IN');
     }
