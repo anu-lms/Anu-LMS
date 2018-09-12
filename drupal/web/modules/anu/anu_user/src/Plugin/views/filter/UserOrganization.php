@@ -67,11 +67,12 @@ class UserOrganization extends InOperator {
       $account_organization_ids = array_column($account->field_organization->getValue(), 'target_id');
     }
 
+    // Don't apply filter if user has no organizations (every user should have organization).
     if (empty($account_organization_ids)) {
       return;
     }
 
-    // Join Group's table.
+    // Join Organization's table.
     $configuration = [
       'table' => 'user__field_organization',
       'field' => 'entity_id',
@@ -85,9 +86,9 @@ class UserOrganization extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $configuration);
 
-    // Filter by users in groups.
     $this->query->addRelationship('user__field_organization', $join, 'users');
 
+    // Filter users only with organizations assigned to the current user.
     $this->query->addWhere('AND', 'user__field_organization.field_organization_target_id', $account_organization_ids, 'IN');
   }
 

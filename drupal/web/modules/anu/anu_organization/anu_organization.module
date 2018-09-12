@@ -14,6 +14,7 @@ use Drupal\Core\Session\AccountInterface;
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_user_taxonomy_term_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  // Process only Organization taxonomy.
   if ($entity->bundle() != 'organisations') {
     return AccessResult::neutral();
   }
@@ -26,9 +27,11 @@ function anu_user_taxonomy_term_access(EntityInterface $entity, $operation, Acco
     $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
   }
 
+  // Allow an access to organization only for users assigned to it.
   if (in_array($entity->id(), $account_organization_ids)) {
     return AccessResult::neutral();
   }
 
+  // Forbid an access in any other cases.
   return AccessResult::forbidden();
 }
