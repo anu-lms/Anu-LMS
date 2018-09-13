@@ -2,6 +2,7 @@
   iframe {
     border: none;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.5) inset;
+    padding: 2px;
     width: 100%;
     height: 400px;
     @include media-breakpoint-up(sm) {
