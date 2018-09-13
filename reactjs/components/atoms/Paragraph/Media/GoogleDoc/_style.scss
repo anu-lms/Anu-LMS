@@ -1,5 +1,7 @@
 .paragraph.google-doc {
   iframe {
+    border: none;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5) inset;
     width: 100%;
     height: 400px;
     @include media-breakpoint-up(sm) {
@@ -13,6 +15,7 @@
   }
   &.type-presentation iframe {
     height: 240px;
+    box-shadow: none;
     @include media-breakpoint-up(sm) {
       height: 442px;
     }
