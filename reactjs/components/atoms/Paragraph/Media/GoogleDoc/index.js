@@ -72,7 +72,7 @@ GoogleDoc.defaultProps = {
   type: '',
   columnClasses: [],
   settings: {},
-  commentsAllowed: false,
+  commentsAllowed: true,
   handleParagraphLoaded: () => {},
 };
 
