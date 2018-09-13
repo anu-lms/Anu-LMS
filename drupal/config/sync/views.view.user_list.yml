@@ -37,7 +37,7 @@ display:
         type: views_query
         options:
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_comment: ''
           query_tags: {  }
@@ -203,37 +203,37 @@ display:
           clear_on_exposed: 0
           action_title: 'Select action'
           selected_actions:
-            anu_remove_group: anu_remove_group
             anu_assign_organization: anu_assign_organization
+            anu_remove_group: anu_remove_group
             anu_remove_organization: anu_remove_organization
             anu_assign_group: anu_assign_group
             pathauto_update_alias: 0
-            user_remove_role_action: user_remove_role_action
-            user_block_user_action: user_block_user_action
-            user_add_role_action: user_add_role_action
             user_unblock_user_action: user_unblock_user_action
-            views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
-            vbo_cancel_user_action: 0
+            user_block_user_action: user_block_user_action
+            user_remove_role_action: user_remove_role_action
+            user_add_role_action: user_add_role_action
+            vbo_cancel_user_action: vbo_cancel_user_action
+            views_bulk_operations_delete_entity: 0
             'entity:save_action:user': 0
           preconfiguration:
-            anu_remove_group:
-              label_override: ''
             anu_assign_organization:
+              label_override: ''
+            anu_remove_group:
               label_override: ''
             anu_remove_organization:
               label_override: ''
             anu_assign_group:
               label_override: ''
-            user_remove_role_action:
+            user_unblock_user_action:
               label_override: ''
             user_block_user_action:
               label_override: ''
+            user_remove_role_action:
+              label_override: ''
             user_add_role_action:
               label_override: ''
-            user_unblock_user_action:
-              label_override: ''
-            views_bulk_operations_delete_entity:
-              label_override: 'Delete selected users'
+            vbo_cancel_user_action:
+              label_override: 'Cancel selected users'
           plugin_id: views_bulk_operations_bulk_form
         name:
           id: name
@@ -975,6 +975,85 @@ display:
             group_items: {  }
           plugin_id: numeric
           entity_type: user
+        user_allowed_roles:
+          id: user_allowed_roles
+          table: user__roles
+          field: user_allowed_roles
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            allowed_roles: allowed_roles
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          entity_type: user
+          plugin_id: user_allowed_roles
+        assigned_organizations:
+          id: assigned_organizations
+          table: users
+          field: assigned_organizations
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            assigned_organizations: assigned_organizations
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: user
+          plugin_id: anu_assigned_organizations
       sorts:
         created:
           id: created

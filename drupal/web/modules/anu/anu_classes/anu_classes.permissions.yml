@@ -1,0 +1,4 @@
+manage classes from any organization:
+  title: 'Manage classes from any organization'
+  description: 'Gain full control over classes from any organization.'
+  restrict access: TRUE

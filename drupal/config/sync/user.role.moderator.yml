@@ -9,11 +9,8 @@ is_admin: null
 permissions:
   - 'access content overview'
   - 'access manager toolbar'
-  - 'administer node form display'
   - 'administer nodes'
-  - 'administer taxonomy'
   - 'administer users'
-  - 'assign moderator role'
   - 'assign teacher role'
   - 'bypass file access'
   - 'bypass group access'
