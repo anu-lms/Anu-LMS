@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import urlParse from 'url-parse';
+import classNames from 'classnames';
 import ShowCommentsCTA from '../../../../moleculas/Lesson/ShowCommentsCTA';
 
 class GoogleDoc extends React.Component {
@@ -19,19 +21,33 @@ class GoogleDoc extends React.Component {
 
   render() {
     const { gdoc_link, columnClasses, id, commentsAllowed } = this.props;
+
+    // Parse shared link to the document.
+    const parsedUrl = urlParse(gdoc_link.uri);
+    let parsedUrlArray = parsedUrl.pathname.split('/');
+    const docType = parsedUrlArray[1];
+
+    // Replaces last part of url (/edit) to preview to show document in preview mode.
+    parsedUrlArray[4] = docType === 'presentation' ? 'embed' : 'preview';
+
+    // Validate given link.
+    const linkIsValid = parsedUrl.host === 'docs.google.com' && parsedUrlArray[2] === 'd';
+
     return (
-      <div id={`paragraph-${id}`} className="container paragraph google-doc">
+      <div id={`paragraph-${id}`} className={classNames(['container', 'paragraph', 'google-doc', `type-${docType}`])}>
         <div className="row">
           <div className={columnClasses.join(' ')}>
-            <iframe
-              allowFullScreen=""
-              src={gdoc_link.uri}
-              tabIndex="-1"
-            />
+            {linkIsValid ? (
+              <Fragment>
+                <iframe allowFullScreen src={parsedUrl.origin + parsedUrlArray.join('/')} />
 
-            {commentsAllowed &&
-              <ShowCommentsCTA paragraphId={id} />
-            }
+                {commentsAllowed &&
+                  <ShowCommentsCTA paragraphId={id} />
+                }
+              </Fragment>
+            ) : (
+              <div>Link to the google document is broken, please contact site administrator.</div>
+            )}
           </div>
         </div>
       </div>
@@ -45,9 +61,8 @@ GoogleDoc.propTypes = {
   columnClasses: PropTypes.arrayOf(PropTypes.string),
   settings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleParagraphLoaded: PropTypes.func,
-  text: PropTypes.shape({
-    value: PropTypes.string,
-    format: PropTypes.string,
+  gdoc_link: PropTypes.shape({
+    uri: PropTypes.string,
   }).isRequired,
   commentsAllowed: PropTypes.bool,
 };
