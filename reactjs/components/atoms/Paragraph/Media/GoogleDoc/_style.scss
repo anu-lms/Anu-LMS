@@ -11,9 +11,6 @@
       height: 968px;
     }
   }
-  &.type-spreadsheets iframe {
-
-  }
   &.type-presentation iframe {
     height: 240px;
     @include media-breakpoint-up(sm) {
