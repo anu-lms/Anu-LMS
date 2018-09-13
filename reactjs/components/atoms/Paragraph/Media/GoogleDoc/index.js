@@ -20,6 +20,7 @@ class GoogleDoc extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line camelcase
     const { gdoc_link, columnClasses, id, commentsAllowed } = this.props;
 
     // Parse shared link to the document.
@@ -39,7 +40,7 @@ class GoogleDoc extends React.Component {
           <div className={columnClasses.join(' ')}>
             {linkIsValid ? (
               <Fragment>
-                <iframe allowFullScreen src={parsedUrl.origin + parsedUrlArray.join('/')} />
+                <iframe title="Google document" allowFullScreen src={parsedUrl.origin + parsedUrlArray.join('/')} />
 
                 {commentsAllowed &&
                   <ShowCommentsCTA paragraphId={id} />
