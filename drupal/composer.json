@@ -147,7 +147,8 @@
         "Non-overridable config": "https://www.drupal.org/files/issues/2908043-non_overridable_config-2.patch"
       },
       "drupal/views_bulk_operations": {
-        "Conflict with other plugins": "https://www.drupal.org/files/issues/2018-08-13/views_bulk_operations-plugins_work-2992375-2.patch"
+        "Conflict with other plugins": "https://www.drupal.org/files/issues/2018-08-13/views_bulk_operations-plugins_work-2992375-2.patch",
+        "Fatal errors in theme": "https://www.drupal.org/files/issues/2018-08-27/views_bulk_operations-theme_error-2952498-23.patch"
       },
       "drupal/weight": {
         "Conflict with bulk operations": "https://www.drupal.org/files/issues/2018-08-13/weight-work_with_vbo-2865716-3.patch"
