@@ -3,7 +3,6 @@
 namespace Drupal\anu_comments;
 
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 use Drupal\user\Entity\User;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Entity\EntityInterface;
