@@ -160,7 +160,6 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
   // User should have an access to other profiles in following cases:
   // - User is admin and has 'administer users' permissions.
   // - User can see accounts of other users from the same organizations.
-  // - If user wasn't assigned to any organization, he can see profiles of users without organizations as well.
   if ($operation == 'view') {
     $entity_organization_ids = $account_organization_ids = [];
 
@@ -173,15 +172,14 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
     if (!empty($entity->field_organization->getValue())) {
       $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
     }
+    else {
+      // Forbid an access to users without organizations.
+      return AccessResult::forbidden();
+    }
 
     // Get organization ids from current user.
     if (!empty($account_entity->field_organization->getValue())) {
       $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
-    }
-
-    // Users without organization can see other users without organizations.
-    if (empty($entity_organization_ids) && empty($account_organization_ids)) {
-      return AccessResult::neutral();
     }
 
     // Users with organization can see other users with same organizations.

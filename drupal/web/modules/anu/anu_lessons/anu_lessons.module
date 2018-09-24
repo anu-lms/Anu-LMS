@@ -6,6 +6,30 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_lessons_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($entity->bundle() != 'lesson') {
+    return AccessResult::neutral();
+  }
+
+  if ($entity->hasField('field_lesson_course')) {
+    $courses = $entity->get('field_lesson_course')->referencedEntities();
+    if (empty($courses)) {
+      return AccessResult::forbidden();
+    }
+
+    /** @var \Drupal\node\NodeInterface $course */
+    $course = array_shift($courses);
+    return $course->access($operation) ? AccessResult::neutral() : AccessResult::forbidden();
+  }
+
+  return AccessResult::forbidden();
+}
 
 /**
  * Implements hook_file_access().

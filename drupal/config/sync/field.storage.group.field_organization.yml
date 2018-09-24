@@ -1,19 +1,19 @@
-uuid: 8c3202fb-4a20-4a8a-8348-14c8a57b55b9
+uuid: a18bace4-b300-4914-bb35-37b5c2ae2e7a
 langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - group
     - taxonomy
-id: node.field_course_organisation
-field_name: field_course_organisation
-entity_type: node
+id: group.field_organization
+field_name: field_organization
+entity_type: group
 type: entity_reference
 settings:
   target_type: taxonomy_term
 module: core
 locked: false
-cardinality: -1
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

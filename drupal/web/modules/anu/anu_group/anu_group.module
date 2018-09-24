@@ -5,8 +5,11 @@
  * Module implementation file.
  */
 
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\user\Entity\User;
+use Drupal\Core\Access\AccessResult;
 use Drupal\group\Entity\GroupContent;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Component\Render\FormattableMarkup;
 
 /**
@@ -160,4 +163,38 @@ function anu_group_node_insert(EntityInterface $entity) {
     ]);
     \Drupal::logger('anu_group')->error($message);
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_group_group_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($entity->bundle() != 'class') {
+    return AccessResult::neutral();
+  }
+
+  $entity_organization_ids = $account_organization_ids = [];
+
+  $account_entity = User::load($account->id());
+  if ($account_entity->hasPermission('bypass group access')) {
+    return AccessResult::neutral();
+  }
+
+  // Get organization ids from given class.
+  if (!empty($entity->field_organization->getValue())) {
+    $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+  }
+
+  // Get organization ids from current user.
+  if (!empty($account_entity->field_organization->getValue())) {
+    $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
+  }
+
+  // Users with organization can see other classes with same organizations.
+  $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
+  if (!empty($intersect)) {
+    return AccessResult::neutral();
+  }
+
+  return AccessResult::forbidden();
 }
