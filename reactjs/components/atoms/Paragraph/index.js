@@ -20,6 +20,7 @@ const Paragraphs = dynamic({
       'media_audio': import('./Media/Audio'),
       'media_video': import('./Media/Video'),
       'media_resource': import('./Media/Resource'),
+      'media_google_document': import('./Media/GoogleDoc'),
       'divider_simple': import('./Divider/Divider'),
       'divider_numbered': import('./Divider/Divider'),
       'quiz_checkboxes': import('./Quiz/CheckBoxes'),
