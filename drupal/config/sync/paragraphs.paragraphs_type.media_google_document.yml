@@ -1,0 +1,9 @@
+uuid: 8cc0eb62-1ed0-4e95-946f-3846146b7869
+langcode: en
+status: true
+dependencies: {  }
+id: media_google_document
+label: 'Google document'
+icon_uuid: null
+description: 'Defines embedded Google document block on the page.'
+behavior_plugins: {  }

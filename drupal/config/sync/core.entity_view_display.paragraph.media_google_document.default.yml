@@ -1,0 +1,36 @@
+uuid: 8b78d32b-368f-4652-8bd3-21c957c90557
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_google_document.field_paragraph_gdoc_link
+    - field.field.paragraph.media_google_document.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_google_document
+  module:
+    - json_field
+    - link
+id: paragraph.media_google_document.default
+targetEntityType: paragraph
+bundle: media_google_document
+mode: default
+content:
+  field_paragraph_gdoc_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_paragraph_settings:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: json
+    region: content
+hidden: {  }

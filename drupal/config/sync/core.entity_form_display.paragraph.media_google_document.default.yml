@@ -1,0 +1,28 @@
+uuid: 09be96eb-9f91-4768-9ed3-1b98b5d07075
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_google_document.field_paragraph_gdoc_link
+    - field.field.paragraph.media_google_document.field_paragraph_settings
+    - paragraphs.paragraphs_type.media_google_document
+  module:
+    - link
+id: paragraph.media_google_document.default
+targetEntityType: paragraph
+bundle: media_google_document
+mode: default
+content:
+  field_paragraph_gdoc_link:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  field_paragraph_settings: true
+  status: true
+  uid: true
