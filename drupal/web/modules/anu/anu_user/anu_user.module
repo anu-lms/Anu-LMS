@@ -239,22 +239,3 @@ function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form
     unset($form['field_organization']['widget']['#description']);
   }
 }
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Exposed form filter fields on the user management page.
-  if ($form['#id'] == 'views-exposed-form-user-list-page-1') {
-    $current_user = \Drupal::currentUser();
-
-    // Limit available roles in Role filter.
-    $role_options = [];
-    if (!empty($form['role']['#options']['All'])) {
-      $role_options['All'] = $form['role']['#options']['All'];
-    }
-    $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
-    $form['role']['#options'] = $role_options;
-  }
-
-}
