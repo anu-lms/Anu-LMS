@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_course_organisation
     - node.type.course
-    - taxonomy.vocabulary.organisations
 id: node.course.field_course_organisation
 field_name: field_course_organisation
 entity_type: node
@@ -17,13 +16,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: views
   handler_settings:
-    target_bundles:
-      organisations: organisations
-    sort:
-      field: name
-      direction: asc
-    auto_create: true
-    auto_create_bundle: ''
+    view:
+      view_name: allowed_organizations
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference

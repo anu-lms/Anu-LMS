@@ -214,7 +214,7 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
 function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
   // Only users with special permissions should edit organizations on user edit page.
-  if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('administer taxonomy')) {
+  if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('manage any organization')) {
     $form['field_organization']['#access'] = FALSE;
   }
 }
@@ -236,19 +236,6 @@ function anu_user_form_views_bulk_operations_configure_action_alter(&$form, Form
 function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Only users with special permissions should edit organizations on Add user page.
   if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
-    $current_user = \Drupal::currentUser();
-    $account = User::load($current_user->id());
-
-    // User can assign only allowed organizations on Add user page.
-    $orgs = [];
-    // Get organization ids from current user.
-    if (!empty($account->field_organization->getValue())) {
-      $organizations = $account->field_organization->referencedEntities();
-      foreach ($organizations as $organization) {
-        $orgs[(int) $organization->id()] = $organization->getName();
-      }
-    }
-    $form['field_organization']['widget']['#options'] = $orgs;
     unset($form['field_organization']['widget']['#description']);
   }
 }
