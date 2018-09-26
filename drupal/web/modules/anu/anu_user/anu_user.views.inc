@@ -38,13 +38,13 @@ function anu_user_views_data_alter(array &$data) {
   ];
 
   // Custom filter to show users with allowed roles only.
-  $data['user__roles']['user_allowed_roles'] = [
-    'title' => t('Allowed roles'),
+  $data['user__roles']['user_roles'] = [
+    'title' => t('User roles'),
     'filter' => [
-      'title' => t('Allowed roles'),
+      'title' => t('User roles'),
       'help' => 'Filters users by allowed roles',
       'field' => 'roles_target_id',
-      'id' => 'user_allowed_roles',
+      'id' => 'anu_user_roles',
     ],
   ];
 }
