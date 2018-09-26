@@ -12,7 +12,7 @@ entity_type: group
 bundle: class
 label: Organization
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
