@@ -4,3 +4,14 @@
  * @file
  * Provides features and enhancements for Paragraphs.
  */
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_paragraph_entity_type_alter(array &$entity_types) {
+  // Additional validation for gdoc link field in google document paragraph entity.
+  if (!empty($entity_types['paragraph'])) {
+    $entity = $entity_types['paragraph'];
+    $entity->addConstraint('ParagraphGDoc', []);
+  }
+}

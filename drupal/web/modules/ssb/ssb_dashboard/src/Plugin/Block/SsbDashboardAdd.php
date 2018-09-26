@@ -24,7 +24,7 @@ class SsbDashboardAdd extends BlockBase {
 
     $node_types = $entityTypeManager->getStorage('node_type')->loadMultiple();
     foreach ($node_types as $entity) {
-      if ($entity->access('create')) {
+      if ($entityTypeManager->getAccessControlHandler('node')->createAccess($entity->id())) {
         $entities[] = [
           'url' => \Drupal\Core\Url::fromRoute('node.add', ['node_type' => $entity->id()])->toString(),
           'name' => $entity->get('name'),
