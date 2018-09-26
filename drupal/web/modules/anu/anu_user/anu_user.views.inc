@@ -27,13 +27,13 @@ function anu_user_views_data_alter(array &$data) {
   ];
 
   // Custom filter to filter views by assigned to current user organization.
-  $data['users']['assigned_organizations'] = [
-    'title' => t('Assigned organizations'),
+  $data['users']['user_organization'] = [
+    'title' => t('User organization'),
     'filter' => [
-      'title' => t('Assigned organizations'),
+      'title' => t('User organization'),
       'help' => 'Filters users by assigned to current user organization',
       'field' => 'uid',
-      'id' => 'anu_assigned_organizations',
+      'id' => 'anu_user_organization',
     ],
   ];
 
