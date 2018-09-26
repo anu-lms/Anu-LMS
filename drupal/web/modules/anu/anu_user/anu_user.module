@@ -234,7 +234,7 @@ function anu_user_form_views_bulk_operations_configure_action_alter(&$form, Form
  * Implements hook_form_FORM_ID_alter().
  */
 function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Only users with special permissions should edit organizations on Add user page.
+  // Hide descriptions for users who can't manage organizations.
   if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
     unset($form['field_organization']['widget']['#description']);
   }
@@ -247,7 +247,6 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
   // Exposed form filter fields on the user management page.
   if ($form['#id'] == 'views-exposed-form-user-list-page-1') {
     $current_user = \Drupal::currentUser();
-    $account = User::load($current_user->id());
 
     // Limit available roles in Role filter.
     $role_options = [];
@@ -256,26 +255,6 @@ function anu_user_form_views_exposed_form_alter(&$form, FormStateInterface $form
     }
     $role_options += \Drupal::service('delegatable_roles')->getAssignableRoles($current_user);
     $form['role']['#options'] = $role_options;
-
-    // Limit available organizations in Organization filter.
-    if (!$current_user->hasPermission('manage any organization')) {
-
-      $org_options = [];
-      if (!empty($form['organization']['#options']['All'])) {
-        $org_options['All'] = $form['organization']['#options']['All'];
-      }
-
-      $orgs = [];
-      // Get organization ids from current user.
-      if (!empty($account->field_organization->getValue())) {
-        $organizations = $account->field_organization->referencedEntities();
-        foreach ($organizations as $organization) {
-          $orgs[(int) $organization->id()] = $organization->getName();
-        }
-      }
-      $org_options += $orgs;
-      $form['organization']['#options'] = $org_options;
-    }
   }
 
 }
