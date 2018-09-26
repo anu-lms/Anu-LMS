@@ -113,12 +113,8 @@ function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
       $user = user_load_by_mail($name);
     }
 
-    if ($user) {
-      $administrative_roles = ['administrator', 'moderator'];
-      $user_roles = $user->getRoles();
-      if (!array_intersect($user_roles, $administrative_roles)) {
-        $form_state->setErrorByName('name', t('User @name is not allowed to access backend.', ['@name' => $name]));
-      }
+    if ($user && !$user->hasPermission('access backend')) {
+      $form_state->setErrorByName('name', t('User @name is not allowed to access backend.', ['@name' => $name]));
     }
   }
 }
