@@ -39,5 +39,13 @@ function anu_content_administration_views_data_alter(array &$data) {
       'id' => 'anu_course_lessons_filter',
     ],
   ];
+  $data['node']['course_organization'] = [
+    'title' => t('Course organization'),
+    'filter' => [
+      'title' => t('Course organization'),
+      'field' => 'nid',
+      'id' => 'anu_course_organization',
+    ],
+  ];
 
 }
