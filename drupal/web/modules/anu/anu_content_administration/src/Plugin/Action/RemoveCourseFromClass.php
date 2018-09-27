@@ -16,7 +16,7 @@ use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
  *   label = @Translation("Remove chosen courses from classes"),
  *   type = "node",
  *   requirements = {
- *     "_permission" = "administer nodes",
+ *     "_permission" = "add content to class",
  *   },
  * )
  */
@@ -48,7 +48,7 @@ class RemoveCourseFromClass extends ViewsBulkOperationsActionBase {
 
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if (!$group->access('update')) {
+      if (!$group->access('view')) {
         return FALSE;
       }
     }
@@ -67,7 +67,7 @@ class RemoveCourseFromClass extends ViewsBulkOperationsActionBase {
     $group_list = [];
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if ($group->access('update')) {
+      if ($group->access('view')) {
         $group_list[$group->id()] = $group->label();
       }
     }
