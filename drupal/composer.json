@@ -75,7 +75,7 @@
     "wisembly/elephant.io": "^3.3"
   },
   "require-dev": {
-    "drupal/coder": "~8.2",
+    "drupal/coder": "8.2.12",
     "drupal/devel": "^1.2",
     "drupal/devel_codemirror": "^1.0",
     "drupal/reroute_email": "^1.0@beta",
