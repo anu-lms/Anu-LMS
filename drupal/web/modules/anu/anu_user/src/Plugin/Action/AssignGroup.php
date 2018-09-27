@@ -27,13 +27,16 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
+    $user_roles = $entity->getRoles(true);
 
     $groups = \Drupal::entityTypeManager()
       ->getStorage('group')
       ->loadMultiple($this->configuration['classes']);
 
     foreach ($groups as $group) {
-      $group->addMember($entity);
+      // Assign teacher role inside the class if necessary.
+      $values = in_array('teacher', $user_roles) ? ['group_roles' => ['class-admin']] : [];
+      $group->addMember($entity, $values);
     }
   }
 
