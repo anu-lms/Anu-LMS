@@ -2,3 +2,9 @@ manage classes from any organization:
   title: 'Manage classes from any organization'
   description: 'Gain full control over classes from any organization.'
   restrict access: TRUE
+add content to class:
+  title: 'Add content to class'
+  description: 'Allow users to add content to classes'
+add members to class:
+  title: 'Add members to class'
+  description: 'Allow users to add members to classes'

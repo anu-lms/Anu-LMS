@@ -12,8 +12,8 @@ audience: member
 group_type: class
 permissions_ui: true
 permissions:
-  0: 'view group'
-  1: 'view group_node:course entity'
-  2: 'view group_node:lesson entity'
-  5: 'view group_node:course content'
-  7: 'view group_node:lesson content'
+  - 'view group'
+  - 'view group_node:course entity'
+  - 'view group_node:lesson entity'
+  - 'view group_node:course content'
+  - 'view group_node:lesson content'
