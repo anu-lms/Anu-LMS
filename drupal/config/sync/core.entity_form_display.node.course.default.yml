@@ -16,7 +16,6 @@ dependencies:
   module:
     - image
     - text
-    - weight
 id: node.course.default
 targetEntityType: node
 bundle: course
@@ -78,12 +77,6 @@ content:
     third_party_settings: {  }
     type: number
     region: content
-  field_weight:
-    weight: 26
-    settings: {  }
-    third_party_settings: {  }
-    type: weight_selector
-    region: content
   status:
     type: boolean_checkbox
     settings:
@@ -110,6 +103,7 @@ content:
     third_party_settings: {  }
 hidden:
   field_course_has_resources: true
+  field_weight: true
   langcode: true
   path: true
   promote: true
