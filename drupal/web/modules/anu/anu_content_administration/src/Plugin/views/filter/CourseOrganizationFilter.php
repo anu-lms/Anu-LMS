@@ -53,7 +53,6 @@ class CourseOrganizationFilter extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
-
     if ($this->options['exposed']) {
 
       // Filter by nodes in groups.

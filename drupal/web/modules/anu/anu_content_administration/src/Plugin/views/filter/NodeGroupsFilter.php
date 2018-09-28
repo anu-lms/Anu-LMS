@@ -81,7 +81,6 @@ class NodeGroupsFilter extends InOperator {
         $user_group_ids[] = $group_content->getGroup()->id();
       }
 
-      //
       if (empty($user_group_ids)) {
         return;
       }
