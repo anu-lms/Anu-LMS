@@ -50,7 +50,7 @@ class UserRolesFilter extends InOperator {
     $field = $this->table . '.' . $this->realField . ' ';
     $or = new Condition('OR');
 
-    // Show only users with allowed roles
+    // Show only users with allowed roles.
     if (!empty($allowed_roles)) {
       $values = $this->options['exposed'] ? $this->value : array_keys($allowed_roles);
       $or->condition($field, $values, 'IN');
