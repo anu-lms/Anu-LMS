@@ -78,10 +78,24 @@ DashboardTemplate.propTypes = {
   })).isRequired,
 };
 
-const mapStateToProps = ({ user }, { classes, recentCourses }) => ({
-  activeOrganization: user.activeOrganization,
-  orgClasses: classes.filter(classItem => classItem.organization === user.activeOrganization),
-  orgRecentCourses: recentCourses.filter(courseItem => _includes(courseItem.organization, user.activeOrganization)),
-});
+const mapStateToProps = ({ user }, { classes, recentCourses }) => {
+  const orgClasses = classes.filter(classItem => classItem.organization === user.activeOrganization);
+
+  // Collect course ids available for current organization.
+  let orgCourseIds = [];
+  orgClasses.forEach(orgClass => {
+    orgCourseIds += orgClass.courses.map(cource => cource.id);
+  });
+
+  // Filter recent courses to show only available recent courses for current organization.
+  const orgRecentCourses = recentCourses
+    .filter(courseItem => _includes(orgCourseIds, courseItem.id) && _includes(courseItem.organization, user.activeOrganization));
+
+  return {
+    activeOrganization: user.activeOrganization,
+    orgClasses,
+    orgRecentCourses,
+  };
+};
 
 export default connect(mapStateToProps)(DashboardTemplate);
