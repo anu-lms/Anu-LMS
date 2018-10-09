@@ -72,46 +72,4 @@ class OrganizationsCest {
     $I->dontSeeElement('#' . $this->comments[1]);
   }
 
-  /**
-   * @param \Step\Acceptance\Learner $I
-   * @throws \Exception
-   */
-  public function NoOrganization(\Step\Acceptance\Learner $I) {
-    $I->loginAsLearner4();
-    $I->seeElement('.site-logo.without-label');
-    $I->click('.icon-profile');
-    $I->waitForText('Test Learner 4');
-    $I->dontSee('Switch Organization');
-
-    // Add user to Test Organization.
-    $manager = $I->haveFriend('manager', 'AcceptanceTester');
-    $manager->does(function(\AcceptanceTester $I) {
-      $I->backendLogin('moderator.test', 'password', TRUE);
-      $I->amOnPage('/admin/user/999993/edit');
-      $I->waitForText('authenticated4.test');
-      $I->checkOption('input[value="9997"]');
-      $I->click('Save');
-      $I->waitForText('The changes have been saved.');
-    });
-
-    // Make sure user logged out.
-    $I->reloadPage();
-    $I->waitForText('Login');
-    $I->loginAsLearner4();
-
-    // Remove user from Test Organization.
-    $manager->does(function(\AcceptanceTester $I) {
-      $I->amOnPage('/admin/user/999993/edit');
-      $I->waitForText('authenticated4.test');
-      $I->uncheckOption('input[value="9997"]');
-      $I->click('Save');
-      $I->waitForText('The changes have been saved.');
-    });
-
-    // Make sure user logged out.
-    $I->reloadPage();
-    // @TODO: Uncomment line below once #159232824 is resolved.
-    //$I->waitForText('Login');
-  }
-
 }
