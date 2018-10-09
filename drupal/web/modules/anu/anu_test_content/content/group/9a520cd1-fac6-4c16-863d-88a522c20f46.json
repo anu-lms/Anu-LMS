@@ -1,0 +1,105 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/group\/99927?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/group\/class"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/uid": [
+            {
+                "href": "http:\/\/default\/user\/4?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 99927
+        }
+    ],
+    "uuid": [
+        {
+            "value": "9a520cd1-fac6-4c16-863d-88a522c20f46"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "class"
+        }
+    ],
+    "label": [
+        {
+            "value": "Test Class 2",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/4?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "e51bdacc-6329-461c-b53b-c1ce6c51fbed"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "026cac35-f55e-4b84-bb8a-7ebba5b898f0"
+                    }
+                ]
+            }
+        ]
+    },
+    "created": [
+        {
+            "value": "2018-10-09T19:05:43+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-10-09T19:05:43+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ]
+}

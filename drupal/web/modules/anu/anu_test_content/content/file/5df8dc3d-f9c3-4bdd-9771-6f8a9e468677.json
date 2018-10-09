@@ -1,14 +1,14 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/default\/file\/322?_format=hal_json"
+            "href": "http:\/\/default\/file\/999322?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/file\/resource"
         },
         "http:\/\/drupal.org\/rest\/relation\/file\/resource\/uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json"
+                "href": "http:\/\/default\/user\/999999?_format=hal_json"
             }
         ]
     },
@@ -37,7 +37,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"

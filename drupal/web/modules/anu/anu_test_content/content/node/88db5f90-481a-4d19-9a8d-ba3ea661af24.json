@@ -8,12 +8,12 @@
         },
         "http:\/\/drupal.org\/rest\/relation\/node\/lesson\/revision_uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json"
+                "href": "http:\/\/default\/user\/999999?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/lesson\/uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "href": "http:\/\/default\/user\/999999?_format=hal_json",
                 "lang": "en"
             }
         ],
@@ -92,7 +92,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -109,7 +109,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -324,7 +324,7 @@
     ],
     "changed": [
         {
-            "value": "2018-04-06T12:24:42+00:00",
+            "value": "2018-10-09T19:03:35+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
@@ -356,7 +356,7 @@
     "path": [
         {
             "alias": "\/lesson-1",
-            "pid": 1605,
+            "pid": 1676,
             "langcode": "en",
             "lang": "en"
         }
