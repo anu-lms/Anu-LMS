@@ -8,8 +8,13 @@
         },
         "http:\/\/drupal.org\/rest\/relation\/group\/class\/uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "href": "http:\/\/default\/user\/999999?_format=hal_json",
                 "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/field_organization": [
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
             }
         ]
     },
@@ -45,7 +50,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -58,6 +63,23 @@
                 ],
                 "lang": "en"
             }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/group\/class\/field_organization": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "dcba1a5a-895b-40b9-9bee-1091c666711d"
+                    }
+                ]
+            }
         ]
     },
     "created": [
@@ -69,7 +91,7 @@
     ],
     "changed": [
         {
-            "value": "2018-04-06T12:33:13+00:00",
+            "value": "2018-09-25T06:58:41+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
