@@ -8,18 +8,18 @@
         },
         "http:\/\/drupal.org\/rest\/relation\/paragraph\/media_resource\/uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "href": "http:\/\/default\/user\/999999?_format=hal_json",
                 "lang": "en"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/paragraph\/media_resource\/revision_uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json"
+                "href": "http:\/\/default\/user\/999999?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/paragraph\/media_resource\/field_paragraph_private_file": [
             {
-                "href": "http:\/\/default\/file\/322?_format=hal_json"
+                "href": "http:\/\/default\/file\/999322?_format=hal_json"
             }
         ]
     },
@@ -54,7 +54,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -72,7 +72,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -89,7 +89,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/file\/322?_format=hal_json"
+                        "href": "http:\/\/default\/file\/999322?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/file\/resource"

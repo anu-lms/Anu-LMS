@@ -8,23 +8,23 @@
         },
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/revision_uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json"
+                "href": "http:\/\/default\/user\/4?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/uid": [
             {
-                "href": "http:\/\/default\/user\/88?_format=hal_json",
+                "href": "http:\/\/default\/user\/999999?_format=hal_json",
                 "lang": "en"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_image": [
             {
-                "href": "http:\/\/default\/file\/318?_format=hal_json"
+                "href": "http:\/\/default\/file\/999318?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_instructors": [
             {
-                "href": "http:\/\/default\/user\/75?_format=hal_json"
+                "href": "http:\/\/default\/user\/999997?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_lessons": [
@@ -40,7 +40,10 @@
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/course\/field_course_organisation": [
             {
-                "href": "http:\/\/default\/taxonomy\/term\/7?_format=hal_json"
+                "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
+            },
+            {
+                "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
             }
         ]
     },
@@ -56,7 +59,7 @@
     ],
     "vid": [
         {
-            "value": 999631
+            "value": 999642
         }
     ],
     "langcode": [
@@ -72,7 +75,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2018-04-06T11:58:32+00:00",
+            "value": "2018-10-09T19:06:16+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -81,7 +84,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/4?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -89,7 +92,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "9f015f39-63aa-44c8-8b22-a6a58db5e1e8"
+                        "value": "e51bdacc-6329-461c-b53b-c1ce6c51fbed"
                     }
                 ]
             }
@@ -98,7 +101,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/88?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999999?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -116,7 +119,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/file\/318?_format=hal_json"
+                        "href": "http:\/\/default\/file\/999318?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
@@ -137,7 +140,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/user\/75?_format=hal_json"
+                        "href": "http:\/\/default\/user\/999997?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
@@ -201,7 +204,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/default\/taxonomy\/term\/7?_format=hal_json"
+                        "href": "http:\/\/default\/taxonomy\/term\/9997?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
@@ -210,6 +213,21 @@
                 "uuid": [
                     {
                         "value": "dcba1a5a-895b-40b9-9bee-1091c666711d"
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/taxonomy\/term\/9998?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/organisations"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "026cac35-f55e-4b84-bb8a-7ebba5b898f0"
                     }
                 ]
             }
@@ -236,7 +254,7 @@
     ],
     "changed": [
         {
-            "value": "2018-04-06T12:46:46+00:00",
+            "value": "2018-10-09T19:06:16+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
@@ -268,7 +286,7 @@
     "path": [
         {
             "alias": "\/test-course",
-            "pid": 1604,
+            "pid": 1678,
             "langcode": "en",
             "lang": "en"
         }
@@ -288,6 +306,11 @@
     "field_time_to_complete_minutes": [
         {
             "value": 20
+        }
+    ],
+    "field_weight": [
+        {
+            "value": 0
         }
     ]
 }
