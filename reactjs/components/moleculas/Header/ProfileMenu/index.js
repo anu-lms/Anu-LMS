@@ -37,7 +37,11 @@ class ProfileMenu extends React.Component {
   onOrganizationChange(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
     this.closePopup();
-    Router.replace('/');
+
+    // Redirect to the dashboard page.
+    if (Router.router.route !== '/dashboard') {
+      Router.replace('/dashboard');
+    }
   }
 
   togglePopup() {

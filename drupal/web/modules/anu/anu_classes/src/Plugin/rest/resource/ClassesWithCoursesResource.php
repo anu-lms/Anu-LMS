@@ -95,6 +95,7 @@ class ClassesWithCoursesResource extends ResourceBase {
         $response[$group->id()] = [
           'group_id' => $group->id(),
           'group_name' => $group->label(),
+          'organization' => (int) $group->field_organization->getString(),
         ];
 
         // Load all courses from the group.
@@ -133,6 +134,7 @@ class ClassesWithCoursesResource extends ResourceBase {
             'label' => $course->label(),
             'image' => $image_url,
             'path' => $path_alias,
+            'organization' => array_map('intval', array_column($course->field_course_organisation->getValue(), 'target_id')),
             'weight' => (int) $course->field_weight->getString(),
           ] + $course_progress;
         }
