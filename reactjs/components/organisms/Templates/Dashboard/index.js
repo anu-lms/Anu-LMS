@@ -58,7 +58,7 @@ const DashboardTemplate = ({ orgClasses, orgRecentCourses, activeOrganization })
 );
 
 DashboardTemplate.propTypes = {
-  classes: PropTypes.arrayOf(PropTypes.shape({
+  orgClasses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
     courses: PropTypes.arrayOf(PropTypes.shape({
@@ -69,17 +69,23 @@ DashboardTemplate.propTypes = {
       progress: PropTypes.number,
     })),
   })).isRequired,
-  recentCourses: PropTypes.arrayOf(PropTypes.shape({
+  orgRecentCourses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     imageUrl: PropTypes.string,
     imageAlt: PropTypes.string,
     progress: PropTypes.number,
   })).isRequired,
+  activeOrganization: PropTypes.number,
+};
+
+DashboardTemplate.defaultProps = {
+  activeOrganization: null,
 };
 
 const mapStateToProps = ({ user }, { classes, recentCourses }) => {
-  const orgClasses = classes.filter(classItem => classItem.organization === user.activeOrganization);
+  const orgClasses = classes
+    .filter(classItem => classItem.organization === user.activeOrganization);
 
   // Collect course ids available for current organization.
   let orgCourseIds = [];
@@ -89,7 +95,9 @@ const mapStateToProps = ({ user }, { classes, recentCourses }) => {
 
   // Filter recent courses to show only available recent courses for current organization.
   const orgRecentCourses = recentCourses
-    .filter(courseItem => _includes(orgCourseIds, courseItem.id) && _includes(courseItem.organization, user.activeOrganization));
+    .filter(courseItem =>
+      _includes(orgCourseIds, courseItem.id) &&
+      _includes(courseItem.organization, user.activeOrganization));
 
   return {
     activeOrganization: user.activeOrganization,
