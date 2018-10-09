@@ -67,7 +67,7 @@ class OrganizationsCest {
     $I->switchToOrganization('Test Organization');
 
     // Check comments visibility as user of Org 1.
-    $I->waitForElementLoaded('.add-new-comment');
+    $I->openVideoComments();
     $I->seeElement('#' . $this->comments[0]);
     $I->dontSeeElement('#' . $this->comments[1]);
   }
