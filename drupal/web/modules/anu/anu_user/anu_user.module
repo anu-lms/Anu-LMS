@@ -152,42 +152,13 @@ function anu_user_user_update(EntityInterface $entity) {
     }
 
     // Make updates if username has changed.
-    if ($entity->original->getAccountName() != $entity->getAccountName()) {
-      _update_user_mentions($entity);
+    $old_username = $entity->original->getAccountName();
+    $new_username = $entity->getAccountName();
+    if ($old_username != $new_username) {
+      \Drupal::service('anu_user.mentions')->update($entity->id(),$old_username, $new_username);
     }
   }
 
-}
-
-/**
- * Updates mentions in comments if username has changed.
- *
- * @param \Drupal\Core\Session\AccountInterface $user
- *   User account being updated.
- *
- * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
- * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
- * @throws \Drupal\Core\Entity\EntityStorageException
- */
-function _update_user_mentions(AccountInterface $user) {
-  // Check if someone already mentioned this user in comments.
-  $comment_ids = \Drupal::entityQuery('paragraph_comment')
-    ->condition('field_comment_mentions', $user->id(), 'IN')
-    ->execute();
-  if ($comment_ids) {
-    $controller = \Drupal::entityTypeManager()->getStorage('paragraph_comment');
-    $old_name = $user->original->getAccountName();
-    $new_name = $user->getAccountName();
-
-    $comments = $controller->loadMultiple($comment_ids);
-    /** @var Drupal\Core\Entity\EntityInterface $comment */
-    foreach ($comments as $comment) {
-      $comment_text = $comment->field_comment_text->getValue();
-      $comment_text[0]['value'] = str_replace("@$old_name", "@$new_name", $comment_text[0]['value']);
-      $comment->set('field_comment_text', $comment_text);
-      $controller->save($comment);
-    }
-  }
 }
 
 /**
