@@ -9,7 +9,7 @@ use Drupal\user\Entity\User;
 use Drupal\views\Views;
 
 /**
- * Filters content by groups they belong to.
+ * Filters classes by organization they belong to.
  *
  * @ingroup views_filter_handlers
  *
@@ -55,12 +55,13 @@ class ClassOrganizationFilter extends InOperator {
 
     if ($this->options['exposed']) {
 
-      // Filter by nodes in groups.
+      // Filter by organization in groups.
       $this->query->addRelationship('group__field_organization', $join, 'groups');
       $this->query->addWhere('AND', 'group__field_organization.field_organization_target_id', $this->value, 'IN');
     }
     else {
 
+      // Don't apply filter if user has 'manage any organization' permissions.
       $current_user = \Drupal::currentUser();
       if ($current_user->hasPermission('manage any organization')) {
         return;
@@ -79,7 +80,7 @@ class ClassOrganizationFilter extends InOperator {
         return;
       }
 
-      // Filter by nodes in groups.
+      // Filter by organizations in groups.
       $this->query->addRelationship('group__field_organization', $join, 'groups');
       $this->query->addWhere('AND', 'group__field_organization.field_organization_target_id', $account_organization_ids, 'IN');
     }
@@ -91,7 +92,7 @@ class ClassOrganizationFilter extends InOperator {
   public function generateOptions() {
     $organization_list = [];
 
-    // Only users with special permissions should edit organizations on Add user page.
+    // Load all list if user can manage any organization.
     if (\Drupal::currentUser()->hasPermission('manage any organization')) {
       $organizations = \Drupal::entityTypeManager()
         ->getStorage('taxonomy_term')
@@ -119,6 +120,7 @@ class ClassOrganizationFilter extends InOperator {
       }
     }
 
+    // Return list of available organizations for current user.
     return $organization_list;
   }
 
