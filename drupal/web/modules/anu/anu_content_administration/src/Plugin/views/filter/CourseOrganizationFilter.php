@@ -9,7 +9,7 @@ use Drupal\user\Entity\User;
 use Drupal\views\Views;
 
 /**
- * Filters content by groups they belong to.
+ * Filters courses by organization they belong to.
  *
  * @ingroup views_filter_handlers
  *
@@ -40,7 +40,7 @@ class CourseOrganizationFilter extends InOperator {
    */
   public function query() {
 
-    // Join Group's table.
+    // Join Course organization table.
     $join_configuration = [
       'table' => 'node__field_course_organisation',
       'field' => 'entity_id',
@@ -55,12 +55,13 @@ class CourseOrganizationFilter extends InOperator {
 
     if ($this->options['exposed']) {
 
-      // Filter by nodes in groups.
+      // Filter by organization in course.
       $this->query->addRelationship('node__field_course_organisation', $join, 'node');
       $this->query->addWhere('AND', 'node__field_course_organisation.field_course_organisation_target_id', $this->value, 'IN');
     }
     else {
 
+      // Don't apply filter if user has 'manage any organization' permissions.
       $current_user = \Drupal::currentUser();
       if ($current_user->hasPermission('manage any organization')) {
         return;
@@ -79,19 +80,19 @@ class CourseOrganizationFilter extends InOperator {
         return;
       }
 
-      // Filter by nodes in groups.
+      // Filter by organization in course.
       $this->query->addRelationship('node__field_course_organisation', $join, 'node');
       $this->query->addWhere('AND', 'node__field_course_organisation.field_course_organisation_target_id', $account_organization_ids, 'IN');
     }
   }
 
   /**
-   * Generate list of groups for filter.
+   * Generate list of available organizations for filter.
    */
   public function generateOptions() {
     $organization_list = [];
 
-    // Only users with special permissions should edit organizations on Add user page.
+    // Load all list if user can manage any organization.
     if (\Drupal::currentUser()->hasPermission('manage any organization')) {
       $organizations = \Drupal::entityTypeManager()
         ->getStorage('taxonomy_term')
@@ -107,10 +108,11 @@ class CourseOrganizationFilter extends InOperator {
       asort($organization_list);
     }
     else {
+      // Load only available for user organizations.
       $current_user = \Drupal::currentUser();
       $account = User::load($current_user->id());
 
-      // Get organization ids from current user.
+      // Get organizations from current user.
       if (!empty($account->field_organization->getValue())) {
         $organizations = $account->field_organization->referencedEntities();
         foreach ($organizations as $organization) {
@@ -119,6 +121,7 @@ class CourseOrganizationFilter extends InOperator {
       }
     }
 
+    // Return list of available organizations for current user.
     return $organization_list;
   }
 
