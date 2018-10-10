@@ -34,7 +34,7 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
       ->loadMultiple($this->configuration['classes']);
 
     foreach ($groups as $group) {
-      // Assign teacher role inside the class if necessary.
+      // Assign teacher role inside the class if user is a teacher.
       $values = in_array('teacher', $user_roles) ? ['group_roles' => ['class-admin']] : [];
       $group->addMember($entity, $values);
     }

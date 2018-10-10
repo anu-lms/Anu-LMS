@@ -52,6 +52,7 @@ class UserRolesFilter extends InOperator {
 
     // Show only users with allowed roles.
     if (!empty($allowed_roles)) {
+      // If filter used as exposed, use choosen value as param, otherwise use allowed roles for current user.
       $values = $this->options['exposed'] ? $this->value : array_keys($allowed_roles);
       $or->condition($field, $values, 'IN');
     }
@@ -66,7 +67,7 @@ class UserRolesFilter extends InOperator {
   }
 
   /**
-   * Generate list of groups for filter.
+   * Generate list of roles for filter.
    */
   public function generateOptions() {
     return \Drupal::service('delegatable_roles')->getAssignableRoles(\Drupal::currentUser());
