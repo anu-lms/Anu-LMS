@@ -95,7 +95,7 @@ function anu_lessons_file_access($entity, $operation) {
   return AccessResult::neutral();
 }
 
-// @codingStandardsIgnoreFile
+// @codingStandardsIgnoreStart
 // @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
 //
 // **
@@ -128,3 +128,4 @@ function anu_lessons_file_access($entity, $operation) {
 // function anu_lessons_form_node_course_delete_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 //  drupal_set_message(t('Children Lessons will be removed as well if you remove this Course.'), 'warning');
 // }
+// @codingStandardsIgnoreEnd
