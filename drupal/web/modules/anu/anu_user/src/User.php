@@ -14,7 +14,7 @@ class User {
   /**
    * Returns organization ids of given or current user.
    */
-  public function getOrganizationIds($account = null) {
+  public function getOrganizationIds($account = NULL) {
 
     // Get organization ids from the current user if param wasn't passed.
     if (!$account) {
@@ -33,7 +33,7 @@ class User {
   /**
    * Returns list of allowed organizations for given user.
    */
-  public function getAllowedOrganizationsList($account = null) {
+  public function getAllowedOrganizationsList($account = NULL) {
     $organization_list = [];
 
     // Get organization ids from the current user if param wasn't passed.

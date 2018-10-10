@@ -38,4 +38,5 @@ class OrganizationFilterBase extends InOperator {
   public function generateOptions() {
     return \Drupal::service('anu_user.user')->getAllowedOrganizationsList();
   }
+
 }
