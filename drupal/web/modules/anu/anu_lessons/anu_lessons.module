@@ -19,12 +19,14 @@ function anu_lessons_node_access(EntityInterface $entity, $operation, AccountInt
 
   if ($entity->hasField('field_lesson_course')) {
     $courses = $entity->get('field_lesson_course')->referencedEntities();
+    // Forbid an access to the lessons without courses.
     if (empty($courses)) {
       return AccessResult::forbidden();
     }
 
     /** @var \Drupal\node\NodeInterface $course */
     $course = array_shift($courses);
+    // Allow an access to the lesson if user has an access to the course.
     return $course->access($operation) ? AccessResult::neutral() : AccessResult::forbidden();
   }
 
