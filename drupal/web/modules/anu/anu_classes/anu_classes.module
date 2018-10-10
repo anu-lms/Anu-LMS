@@ -4,3 +4,15 @@
  * @file
  * Module implementation file.
  */
+
+use Drupal\Core\Form\FormState;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_classes_form_group_class_edit_form_alter(&$form, FormState $form_state, $form_id) {
+  // Only users with special permissions should edit organizations.
+  if (!empty($form['field_organization']) && !\Drupal::currentUser()->hasPermission('manage any organization')) {
+    $form['field_organization']['#access'] = FALSE;
+  }
+}
