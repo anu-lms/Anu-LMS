@@ -1,0 +1,3 @@
+services:
+  anu_user.user:
+      class: Drupal\anu_user\User
