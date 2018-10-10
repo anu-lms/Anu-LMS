@@ -55,7 +55,7 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['organization'] = [
-      '#title' => t('Choose the organization'),
+      '#title' => t('Choose organizations'),
       '#type' => 'checkboxes',
       '#options' => \Drupal::service('anu_user.user')->getAllowedOrganizationsList(),
     ];
