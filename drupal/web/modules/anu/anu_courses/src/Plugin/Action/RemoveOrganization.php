@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\anu_user\Plugin\Action;
+namespace Drupal\anu_courses\Plugin\Action;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
@@ -8,14 +8,14 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Remove organizations from a selected users.
+ * Remove a chosen courses from organizations.
  *
  * @Action(
- *   id = "anu_remove_organization",
- *   label = @Translation("Remove Organizations from the selected users"),
- *   type = "user",
+ *   id = "anu_course_remove_from_organization",
+ *   label = @Translation("Remove from Organizations"),
+ *   type = "node",
  *   requirements = {
- *     "_permission" = "manage users from any organization",
+ *     "_permission" = "manage any organization",
  *   },
  * )
  */
@@ -27,12 +27,12 @@ class RemoveOrganization extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-    $organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+    $organization_ids = array_column($entity->field_course_organisation->getValue(), 'target_id');
     // Removes ids of config orgs from array $organization_ids.
     $new_ids = array_diff($organization_ids, $this->configuration['organization']);
 
     if (count($organization_ids) != count($new_ids)) {
-      $entity->field_organization = $new_ids;
+      $entity->field_course_organisation = $new_ids;
       $entity->save();
     }
   }

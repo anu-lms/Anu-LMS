@@ -1,25 +1,25 @@
 <?php
 
-namespace Drupal\anu_user\Plugin\Action;
+namespace Drupal\anu_courses\Plugin\Action;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 
 /**
- * Remove organizations from a selected users.
+ * Assigns a chosen courses to organizations.
  *
  * @Action(
- *   id = "anu_remove_organization",
- *   label = @Translation("Remove Organizations from the selected users"),
- *   type = "user",
+ *   id = "anu_course_add_to_organization",
+ *   label = @Translation("Add to Organizations"),
+ *   type = "node",
  *   requirements = {
- *     "_permission" = "manage users from any organization",
+ *     "_permission" = "manage any organization",
  *   },
  * )
  */
-class RemoveOrganization extends ViewsBulkOperationsActionBase {
+class AssignOrganization extends ViewsBulkOperationsActionBase {
 
   use StringTranslationTrait;
 
@@ -27,12 +27,18 @@ class RemoveOrganization extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
-    $organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
-    // Removes ids of config orgs from array $organization_ids.
-    $new_ids = array_diff($organization_ids, $this->configuration['organization']);
+    $need_save = FALSE;
+    $organization_ids = array_column($entity->field_course_organisation->getValue(), 'target_id');
 
-    if (count($organization_ids) != count($new_ids)) {
-      $entity->field_organization = $new_ids;
+    foreach ($this->configuration['organization'] as $new_id) {
+      if ($new_id > 0 && !in_array($new_id, $organization_ids)) {
+        $organization_ids[] = $new_id;
+        $need_save = TRUE;
+      }
+    }
+
+    if ($need_save) {
+      $entity->field_course_organisation = $organization_ids;
       $entity->save();
     }
   }
