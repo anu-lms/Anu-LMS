@@ -5,6 +5,7 @@
  * Module implementation file.
  */
 
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -39,4 +40,14 @@ function anu_courses_node_access(EntityInterface $entity, $operation, AccountInt
   }
 
   return AccessResult::forbidden();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_courses_form_node_course_edit_form_alter(&$form, FormState $form_state, $form_id) {
+  // Only users with special permissions should edit organizations.
+  if (!empty($form['field_course_organisation']) && !\Drupal::currentUser()->hasPermission('manage any organization')) {
+    $form['field_course_organisation']['#access'] = FALSE;
+  }
 }
