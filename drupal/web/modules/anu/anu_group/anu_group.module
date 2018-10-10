@@ -5,6 +5,7 @@
  * Module implementation file.
  */
 
+use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Entity\EntityInterface;
@@ -172,7 +173,7 @@ function anu_group_group_access(EntityInterface $entity, $operation, AccountInte
     return AccessResult::neutral();
   }
 
-  if ($account->hasPermission('bypass group access')) {
+  if ($account->hasPermission('manage classes from any organization')) {
     return AccessResult::neutral();
   }
 
