@@ -42,14 +42,15 @@ class CourseOrganizationFilter extends OrganizationFilterBase {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
+    // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
       // Filter by organization in course.
       $this->query->addRelationship('node__field_course_organisation', $join, 'node');
       $this->query->addWhere('AND', 'node__field_course_organisation.field_course_organisation_target_id', $this->value, 'IN');
     }
+    // If filter simply added to the views, filter views results by organizations of current user.
     else {
-
       // Don't apply filter if user has 'manage any organization' permissions.
       $current_user = \Drupal::currentUser();
       if ($current_user->hasPermission('manage any organization')) {
@@ -62,7 +63,7 @@ class CourseOrganizationFilter extends OrganizationFilterBase {
         return;
       }
 
-      // Filter by organization in course.
+      // Filter courses by allowed for current user organizations.
       $this->query->addRelationship('node__field_course_organisation', $join, 'node');
       $this->query->addWhere('AND', 'node__field_course_organisation.field_course_organisation_target_id', $account_organization_ids, 'IN');
     }

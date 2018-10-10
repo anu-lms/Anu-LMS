@@ -23,13 +23,8 @@ function anu_user_taxonomy_term_access(EntityInterface $entity, $operation, Acco
     return AccessResult::neutral();
   }
 
-  $account_organization_ids = [];
-  $account_entity = User::load($account->id());
-
   // Get organization ids from current user.
-  if (!empty($account_entity->field_organization->getValue())) {
-    $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
-  }
+  $account_organization_ids = \Drupal::service('anu_user.user')->getOrganizationIds($account);
 
   // Allow an access to organization only for users assigned to it.
   if (in_array($entity->id(), $account_organization_ids)) {

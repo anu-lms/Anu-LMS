@@ -54,14 +54,16 @@ class NodeGroupsFilter extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $configuration);
 
+    // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
       // Filter by nodes in groups.
       $this->query->addRelationship('group_content_field_data', $join, 'node');
       $this->query->addWhere('AND', 'group_content_field_data.gid', $this->value, 'IN');
     }
+    // If filter simply added to the views, filter views results by groups of current user.
     else {
-
+      // Don't apply filter if user has 'administer nodes' permissions.
       if (\Drupal::currentUser()->hasPermission('administer nodes')) {
         return;
       }

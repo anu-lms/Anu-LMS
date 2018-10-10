@@ -173,22 +173,18 @@ function anu_group_group_access(EntityInterface $entity, $operation, AccountInte
     return AccessResult::neutral();
   }
 
-  $entity_organization_ids = $account_organization_ids = [];
-
-  $account_entity = User::load($account->id());
-  if ($account_entity->hasPermission('bypass group access')) {
+  if ($account->hasPermission('bypass group access')) {
     return AccessResult::neutral();
   }
 
   // Get organization ids from given class.
+  $entity_organization_ids = [];
   if (!empty($entity->field_organization->getValue())) {
     $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
   }
 
   // Get organization ids from current user.
-  if (!empty($account_entity->field_organization->getValue())) {
-    $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
-  }
+  $account_organization_ids = \Drupal::service('anu_user.user')->getOrganizationIds($account);
 
   // Users with organization can see other classes with same organizations.
   $intersect = array_intersect($entity_organization_ids, $account_organization_ids);

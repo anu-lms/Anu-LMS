@@ -42,14 +42,15 @@ class ClassOrganizationFilter extends OrganizationFilterBase {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
+    // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
       // Filter by organization in groups.
       $this->query->addRelationship('group__field_organization', $join, 'groups');
       $this->query->addWhere('AND', 'group__field_organization.field_organization_target_id', $this->value, 'IN');
     }
+    // If filter simply added to the views, filter views results by organizations of current user.
     else {
-
       // Don't apply filter if user has 'manage any organization' permissions.
       $current_user = \Drupal::currentUser();
       if ($current_user->hasPermission('manage any organization')) {

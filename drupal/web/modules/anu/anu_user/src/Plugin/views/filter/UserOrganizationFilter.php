@@ -2,10 +2,9 @@
 
 namespace Drupal\anu_user\Plugin\views\filter;
 
+use Drupal\anu_organization\Plugin\views\filter\OrganizationFilterBase;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\Plugin\views\filter\InOperator;
 use Drupal\views\ViewExecutable;
-use Drupal\user\Entity\User;
 use Drupal\views\Views;
 
 /**
@@ -15,7 +14,7 @@ use Drupal\views\Views;
  *
  * @ViewsFilter("anu_user_organization")
  */
-class UserOrganizationFilter extends InOperator {
+class UserOrganizationFilter extends OrganizationFilterBase {
 
   /**
    * {@inheritdoc}
@@ -23,16 +22,6 @@ class UserOrganizationFilter extends InOperator {
   public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
     parent::init($view, $display, $options);
     $this->valueTitle = t('User organization filter');
-    $this->definition['options callback'] = [$this, 'generateOptions'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validate() {
-    if (!empty($this->value)) {
-      parent::validate();
-    }
   }
 
   /**
@@ -40,7 +29,7 @@ class UserOrganizationFilter extends InOperator {
    */
   public function query() {
 
-    // Join Group's table.
+    // Join Organization's table.
     $join_configuration = [
       'table' => 'user__field_organization',
       'field' => 'entity_id',
@@ -54,73 +43,29 @@ class UserOrganizationFilter extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
+    // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
-      // Filter by nodes in groups.
+      // Filter by choosen organization.
       $this->query->addRelationship('user__field_organization', $join, 'users');
       $this->query->addWhere('AND', 'user__field_organization.field_organization_target_id', $this->value, 'IN');
     }
+    // If filter simply added to the views, filter views results by organizations of current user.
     else {
-
-      $current_user = \Drupal::currentUser();
-      if ($current_user->hasPermission('manage any organization')) {
+      if (\Drupal::currentUser()->hasPermission('manage any organization')) {
         return;
       }
 
-      $account = User::load($current_user->id());
-
-      $account_organization_ids = [];
-      // Get organization ids from current user.
-      if (!empty($account->field_organization->getValue())) {
-        $account_organization_ids = array_column($account->field_organization->getValue(), 'target_id');
-      }
-
+      $account_organization_ids = \Drupal::service('anu_user.user')->getOrganizationIds();
       // Don't apply filter if user has no organizations (every user should have organization).
       if (empty($account_organization_ids)) {
         return;
       }
 
-      // Filter by nodes in groups.
+      // Filter by organizations of current user.
       $this->query->addRelationship('user__field_organization', $join, 'users');
       $this->query->addWhere('AND', 'user__field_organization.field_organization_target_id', $account_organization_ids, 'IN');
     }
-  }
-
-  /**
-   * Generate list of groups for filter.
-   */
-  public function generateOptions() {
-    $organization_list = [];
-
-    // Only users with special permissions should edit organizations on Add user page.
-    if (\Drupal::currentUser()->hasPermission('manage any organization')) {
-      $organizations = \Drupal::entityTypeManager()
-        ->getStorage('taxonomy_term')
-        ->loadByProperties([
-          'vid' => 'organisations',
-        ]);
-
-      foreach ($organizations as $organization) {
-        $organization_list[$organization->id()] = $organization->label();
-      }
-
-      // Sort alphabetically by group label.
-      asort($organization_list);
-    }
-    else {
-      $current_user = \Drupal::currentUser();
-      $account = User::load($current_user->id());
-
-      // Get organization ids from current user.
-      if (!empty($account->field_organization->getValue())) {
-        $organizations = $account->field_organization->referencedEntities();
-        foreach ($organizations as $organization) {
-          $organization_list[(int) $organization->id()] = $organization->getName();
-        }
-      }
-    }
-
-    return $organization_list;
   }
 
 }

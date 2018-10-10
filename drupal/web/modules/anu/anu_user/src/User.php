@@ -41,7 +41,7 @@ class User {
       $account = EntityUser::load(\Drupal::currentUser()->id());
     }
 
-    // Load all list if user can manage any organization.
+    // Load all organizations if user can manage any organization.
     if ($account->hasPermission('manage any organization')) {
       $organizations = \Drupal::entityTypeManager()
         ->getStorage('taxonomy_term')

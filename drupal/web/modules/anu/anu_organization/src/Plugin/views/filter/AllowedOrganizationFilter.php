@@ -27,10 +27,12 @@ class AllowedOrganizationFilter extends OrganizationFilterBase {
    */
   public function query() {
 
+    // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
       $this->query->addWhere('AND', 'taxonomy_term_field_data.tid', $this->value, 'IN');
     }
+    // If filter simply added to the views, filter views results by organizations of current user.
     else {
 
       $current_user = \Drupal::currentUser();
