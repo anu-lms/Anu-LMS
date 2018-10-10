@@ -5,7 +5,6 @@
  * Module implementation file.
  */
 
-use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Entity\EntityInterface;
