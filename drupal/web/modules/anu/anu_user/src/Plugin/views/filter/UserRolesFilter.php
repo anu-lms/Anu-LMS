@@ -8,7 +8,7 @@ use Drupal\Core\Database\Query\Condition;
 use Drupal\views\ViewExecutable;
 
 /**
- * Filters content by groups they belong to.
+ * Filters users by roles.
  *
  * @ingroup views_filter_handlers
  *

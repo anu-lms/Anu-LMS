@@ -42,10 +42,10 @@ class CourseOrganizationFilter extends OrganizationFilterBase {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
-    // If filter used as exposed, use choosen value as param.
+    // If filter used as exposed, use chosen value as param.
     if ($this->options['exposed']) {
 
-      // Filter by organization in course.
+      // Filter courses by chosen organization.
       $this->query->addRelationship('node__field_course_organisation', $join, 'node');
       $this->query->addWhere('AND', 'node__field_course_organisation.field_course_organisation_target_id', $this->value, 'IN');
     }

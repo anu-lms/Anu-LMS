@@ -30,6 +30,7 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
     $need_save = FALSE;
     $organization_ids = array_column($entity->field_course_organisation->getValue(), 'target_id');
 
+    // Collect organization ids to add to the course.
     foreach ($this->configuration['organization'] as $new_id) {
       if ($new_id > 0 && !in_array($new_id, $organization_ids)) {
         $organization_ids[] = $new_id;

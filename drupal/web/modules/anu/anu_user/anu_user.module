@@ -208,7 +208,6 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
  * Implements hook_form_FORM_ID_alter().
  */
 function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
   // Only users with special permissions should edit organizations on user edit page.
   if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('manage any organization')) {
     $form['field_organization']['#access'] = FALSE;
