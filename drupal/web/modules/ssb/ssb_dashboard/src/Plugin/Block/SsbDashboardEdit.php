@@ -29,12 +29,12 @@ class SsbDashboardEdit extends BlockBase {
         'name' => t('Edit content'),
         'description' => t('Edit or delete existing content in the system.'),
       ];
-      $items[] = [
-        'url' => \Drupal\Core\Url::fromRoute('view.quiz_results.page_1')
-          ->toString(),
-        'name' => t('Quiz results'),
-        'description' => t('Review results of Quizzes.'),
-      ];
+//      $items[] = [
+//        'url' => \Drupal\Core\Url::fromRoute('view.quiz_results.page_1')
+//          ->toString(),
+//        'name' => t('Quiz results'),
+//        'description' => t('Review results of Quizzes.'),
+//      ];
     }
 
     if ($user->hasPermission('administer users')) {
