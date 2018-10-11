@@ -6,7 +6,7 @@ use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ViewExecutable;
 
 /**
- * Filters content by groups they belong to.
+ * Filters content by organizations they belong to.
  *
  * @ingroup views_filter_handlers
  *
@@ -26,15 +26,14 @@ class AllowedOrganizationFilter extends OrganizationFilterBase {
    * {@inheritdoc}
    */
   public function query() {
-
-    // If filter used as exposed, use choosen value as param.
+    // If filter used as exposed, use chosen value as param.
     if ($this->options['exposed']) {
 
+      // Filter groups by chosen organization.
       $this->query->addWhere('AND', 'taxonomy_term_field_data.tid', $this->value, 'IN');
     }
     // If filter simply added to the views, filter views results by organizations of current user.
     else {
-
       $current_user = \Drupal::currentUser();
       if ($current_user->hasPermission('manage any organization')) {
         return;
@@ -46,7 +45,7 @@ class AllowedOrganizationFilter extends OrganizationFilterBase {
         return;
       }
 
-      // Filter by nodes in groups.
+      // Filter groups by organizations of current user.
       $this->query->addWhere('AND', 'taxonomy_term_field_data.tid', $account_organization_ids, 'IN');
     }
   }

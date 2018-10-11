@@ -8,7 +8,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 
 /**
- * Filters content by groups they belong to.
+ * Filters users by organizations they belong to.
  *
  * @ingroup views_filter_handlers
  *
@@ -46,7 +46,7 @@ class UserOrganizationFilter extends OrganizationFilterBase {
     // If filter used as exposed, use choosen value as param.
     if ($this->options['exposed']) {
 
-      // Filter by choosen organization.
+      // Filter users by chosen organization.
       $this->query->addRelationship('user__field_organization', $join, 'users');
       $this->query->addWhere('AND', 'user__field_organization.field_organization_target_id', $this->value, 'IN');
     }
@@ -62,7 +62,7 @@ class UserOrganizationFilter extends OrganizationFilterBase {
         return;
       }
 
-      // Filter by organizations of current user.
+      // Filter users by organizations of current user.
       $this->query->addRelationship('user__field_organization', $join, 'users');
       $this->query->addWhere('AND', 'user__field_organization.field_organization_target_id', $account_organization_ids, 'IN');
     }

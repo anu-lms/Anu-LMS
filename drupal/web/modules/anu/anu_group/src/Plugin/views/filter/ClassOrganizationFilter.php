@@ -28,7 +28,6 @@ class ClassOrganizationFilter extends OrganizationFilterBase {
    * {@inheritdoc}
    */
   public function query() {
-
     // Join Group's table.
     $join_configuration = [
       'table' => 'group__field_organization',
@@ -42,10 +41,10 @@ class ClassOrganizationFilter extends OrganizationFilterBase {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $join_configuration);
 
-    // If filter used as exposed, use choosen value as param.
+    // If filter used as exposed, use chosen value as param.
     if ($this->options['exposed']) {
 
-      // Filter by organization in groups.
+      // Filter groups by given organization.
       $this->query->addRelationship('group__field_organization', $join, 'groups');
       $this->query->addWhere('AND', 'group__field_organization.field_organization_target_id', $this->value, 'IN');
     }
@@ -63,7 +62,7 @@ class ClassOrganizationFilter extends OrganizationFilterBase {
         return;
       }
 
-      // Filter by organizations in groups.
+      // Filter groups by organizations of current user.
       $this->query->addRelationship('group__field_organization', $join, 'groups');
       $this->query->addWhere('AND', 'group__field_organization.field_organization_target_id', $account_organization_ids, 'IN');
     }

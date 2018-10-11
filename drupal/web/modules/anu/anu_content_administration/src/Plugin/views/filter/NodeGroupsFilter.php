@@ -54,10 +54,10 @@ class NodeGroupsFilter extends InOperator {
     $join = Views::pluginManager('join')
       ->createInstance('standard', $configuration);
 
-    // If filter used as exposed, use choosen value as param.
+    // If filter used as exposed, use chosen value as param.
     if ($this->options['exposed']) {
 
-      // Filter by nodes in groups.
+      // Filter nodes by chosen group.
       $this->query->addRelationship('group_content_field_data', $join, 'node');
       $this->query->addWhere('AND', 'group_content_field_data.gid', $this->value, 'IN');
     }
@@ -86,7 +86,7 @@ class NodeGroupsFilter extends InOperator {
         return;
       }
 
-      // Filter by nodes in groups.
+      // Filter nodes by groups of current user.
       $this->query->addRelationship('group_content_field_data', $join, 'node');
       $this->query->addWhere('AND', 'group_content_field_data.gid', $user_group_ids, 'IN');
     }
