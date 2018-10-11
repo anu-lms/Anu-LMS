@@ -34,19 +34,14 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
     $group_org_ids = [];
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      // Add course to the choosen class.
+      // Add course to the chosen class.
       if (!$group->getContentByEntityId('group_node:course', $entity->id())) {
         $group->addContent($entity, 'group_node:course');
       }
 
       // Collect organizations of all groups to add course to the same orgs.
       if (!empty($group->field_organization->getValue())) {
-        $ids = array_column($group->field_organization->getValue(), 'target_id');
-        // Make sure we don't add same organizations twise.
-        $group_intersect = array_intersect($ids, $group_org_ids);
-        if (empty($group_intersect)) {
-          $group_org_ids = array_merge($group_org_ids, array_column($group->field_organization->getValue(), 'target_id'));
-        }
+        $group_org_ids[] = $group->field_organization->getString();
       }
     }
 
@@ -57,9 +52,17 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
     }
 
     // Add course to the same organizations as Class.
-    $intersect = array_intersect($course_org_ids, $group_org_ids);
-    if (empty($intersect)) {
-      $entity->field_course_organisation = array_merge($course_org_ids, $group_org_ids);
+    $need_update = FALSE;
+    foreach ($group_org_ids as $group_org_id) {
+      if (!in_array($group_org_id, $course_org_ids)) {
+        $course_org_ids[] = $group_org_id;
+        $need_update = TRUE;
+      }
+    }
+
+    // Update course organizations if needed.
+    if ($need_update) {
+      $entity->field_course_organisation = $course_org_ids;
       $entity->save();
     }
   }
