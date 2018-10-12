@@ -96,6 +96,12 @@ class SearchResults extends ResourceBase {
     $fulltext = NULL;
     $category = self::CATEGORY_ALL;
 
+    // Get organization id from the query params.
+    $organization = (int) $this->currentRequest->query->get('organization');
+    if (!$organization) {
+      return new ResourceResponse([], 200);
+    }
+
     // Get given query params.
     $filters = $this->currentRequest->query->get('filter');
     if ($filters != NULL) {
@@ -140,6 +146,7 @@ class SearchResults extends ResourceBase {
         ->addCondition('status', 1)
         ->addCondition('search_api_datasource', 'entity:node')
         ->addCondition('content_type', 'lesson')
+        ->addCondition('field_course_organisation', $organization)
         ->addCondition('content_paragraph_type', ['image_centered_caption', 'media_video'], 'IN');
     }
     elseif ($category == self::CATEGORY_RESOURCES) {
@@ -149,7 +156,8 @@ class SearchResults extends ResourceBase {
       ];
       $query
         ->addCondition('search_api_datasource', 'entity:paragraph')
-        ->addCondition('paragraph_type', 'media_resource');
+        ->addCondition('paragraph_type', 'media_resource')
+        ->addCondition('anu_resource_organization', $organization);
     }
     else {
       // Fields related to the all content.
@@ -159,6 +167,14 @@ class SearchResults extends ResourceBase {
         'field_paragraph_text_1', 'field_paragraph_title_1', 'field_notebook_body',
         'field_notebook_title', 'field_paragraph_private_file', 'field_resource_title',
       ];
+
+      // Filter by organization field.
+      $conditions = $query->createConditionGroup('OR')
+        ->addCondition('search_api_datasource', 'entity:notebook')
+        ->addCondition('field_comment_organization', $organization)
+        ->addCondition('field_course_organisation', $organization)
+        ->addCondition('anu_resource_organization', $organization);
+      $query->addConditionGroup($conditions);
     }
 
     // Defines fulltext search fields.
