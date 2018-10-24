@@ -130,7 +130,7 @@ jobs:
 
       - run:
           name: Install CodeSnippet packages
-          command: composer require drupal/coder:^8.2
+          command: composer require drupal/coder:8.2.12
 
       - run:
           name: Run CodeSnipper for the Custom Drupal code.
