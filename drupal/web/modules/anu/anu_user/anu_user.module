@@ -155,7 +155,7 @@ function anu_user_user_update(EntityInterface $entity) {
     $old_username = $entity->original->getAccountName();
     $new_username = $entity->getAccountName();
     if ($old_username != $new_username) {
-      \Drupal::service('anu_user.mentions')->update($entity->id(),$old_username, $new_username);
+      \Drupal::service('anu_user.mentions')->update($entity->id(), $old_username, $new_username);
     }
   }
 
