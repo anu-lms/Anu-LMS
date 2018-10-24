@@ -1,0 +1,3 @@
+services:
+  anu_user.mentions:
+    class: Drupal\anu_user\Mentions
