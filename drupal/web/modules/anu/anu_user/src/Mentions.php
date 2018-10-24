@@ -13,11 +13,11 @@ class Mentions {
   /**
    * Updates mentions in comments if username has changed.
    *
-   * @param $uid
+   * @param int $uid
    *   User ID.
-   * @param $old_username
+   * @param string $old_username
    *   Old name of a user.
-   * @param $new_username
+   * @param string $new_username
    *   Updated name of a user.
    */
   public function update($uid, $old_username, $new_username) {
