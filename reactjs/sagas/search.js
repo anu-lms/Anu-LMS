@@ -14,7 +14,7 @@ const backendSearchDelay = 350;
 /**
  * Fetch search results from the backend.
  */
-function* fetchSearch({ text, category }) {
+function* fetchSearch({ text, organization, category }) {
   try {
     let searchResults = [];
     if (text && text.length > 1) {
@@ -32,7 +32,7 @@ function* fetchSearch({ text, category }) {
       request.set('Authorization', `Bearer ${accessToken}`);
 
       // Makes request to the backend to fetch search results.
-      searchResults = yield call(api.fetch, request, text, category);
+      searchResults = yield call(api.fetch, request, text, organization, category);
     }
 
     // Let store know that search results were received.
@@ -57,10 +57,11 @@ function* loadMore() {
     // Get params from the applications store.
     const text = yield select(reduxStore => reduxStore.search.query);
     const category = yield select(reduxStore => reduxStore.search.category);
+    const activeOrganization = yield select(reduxStore => reduxStore.user.activeOrganization);
     const page = yield select(reduxStore => reduxStore.search.page);
 
     // Makes request to the backend to fetch search results.
-    const searchResults = yield call(api.fetch, request, text, category, page);
+    const searchResults = yield call(api.fetch, request, text, activeOrganization, category, page);
 
     // Let store know that search results were received.
     yield put(searchActions.receivedMore(searchResults));

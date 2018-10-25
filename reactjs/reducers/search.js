@@ -22,6 +22,7 @@ export default (state = {
       return {
         ...state,
         query: action.text,
+        organization: action.organization,
         category: action.category,
         page: 0,
         isFetching: true,
