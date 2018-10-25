@@ -28,8 +28,9 @@ class SearchBar extends Component {
   }
 
   onValueChange(event) {
+    const { activeOrganization, category } = this.props;
     this.setState({ value: event.target.value });
-    this.props.dispatch(searchActions.fetch(event.target.value, this.props.category));
+    this.props.dispatch(searchActions.fetch(event.target.value, activeOrganization, category));
   }
 
   onClearInputClick() {
@@ -74,17 +75,20 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   dispatch: PropTypes.func,
   isFetching: PropTypes.bool,
+  activeOrganization: PropTypes.number,
   category: PropTypes.oneOf(['all', 'media', 'resources']).isRequired,
 };
 
 SearchBar.defaultProps = {
   dispatch: () => {},
   isFetching: false,
+  activeOrganization: null,
 };
 
-const mapStateToProps = ({ search }) => ({
+const mapStateToProps = ({ search, user }) => ({
   isFetching: search.isFetching,
   category: search.category,
+  activeOrganization: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(SearchBar);
