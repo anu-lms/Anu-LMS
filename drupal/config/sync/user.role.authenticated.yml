@@ -10,7 +10,6 @@ weight: -9
 is_admin: false
 permissions:
   - 'access content'
-  - 'access devel information'
   - 'access manager toolbar'
   - 'access site-wide contact form'
   - 'access user profiles'
@@ -27,7 +26,6 @@ permissions:
   - 'edit own notebook entities'
   - 'edit own paragraph_comment entities'
   - 'edit own quiz_result entities'
-  - 'execute php code'
   - 'issue subrequests'
   - 'restful get classes_courses_resources'
   - 'restful get course_resources'
@@ -47,7 +45,6 @@ permissions:
   - 'restful post notifications_mark_all_as_read'
   - 'restful post quizzes_results'
   - 'restful post user_token_revoke'
-  - 'switch users'
   - 'update own simple_oauth entities'
   - 'use text format filtered_html'
   - 'view any paragraph_comment entities'
