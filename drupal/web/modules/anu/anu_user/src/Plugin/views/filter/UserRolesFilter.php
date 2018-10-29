@@ -76,7 +76,7 @@ class UserRolesFilter extends InOperator {
    * Generate list of roles for filter.
    */
   public function generateOptions() {
-    return \Drupal::service('delegatable_roles')->getAssignableRoles(\Drupal::currentUser());
+    return user_role_names(TRUE, 'access backend');
   }
 
 }
