@@ -133,4 +133,20 @@ class Comment {
     return TRUE;
   }
 
+  /**
+   * Checks if comment has replies.
+   *
+   * @param int $commentID
+   *   Comment identifier.
+   *
+   * @return bool
+   *   TRUE if there are replies, FALSE otherwise.
+   */
+  public function commentHasChildren($commentID) {
+    $children = \Drupal::entityQuery('paragraph_comment')
+      ->condition('field_comment_parent', $commentID)
+      ->execute();
+    return empty($children) ? FALSE : TRUE;
+  }
+
 }
