@@ -1,0 +1,5 @@
+services:
+  anu_content_administration.route_subscriber:
+    class: Drupal\anu_content_administration\Routing\AdminRouteSubscriber
+    tags:
+      - { name: event_subscriber }
