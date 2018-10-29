@@ -47,7 +47,7 @@ class NodeGroupsFilter extends InOperator {
       'field' => 'entity_id',
       'left_table' => 'node_field_data',
       'left_field' => 'nid',
-      'type' => 'INNER',
+      'type' => 'LEFT',
       'operator' => '=',
     ];
 
