@@ -15,4 +15,8 @@ function anu_classes_form_group_class_edit_form_alter(&$form, FormState $form_st
   if (!empty($form['field_organization']) && !\Drupal::currentUser()->hasPermission('manage any organization')) {
     $form['field_organization']['#access'] = FALSE;
   }
+
+  // Updates title of Class edit form.
+  $entity = $form_state->getFormObject()->getEntity();
+  $form['#title'] = t('Edit %name class', ['%name' => $entity->label()]);
 }
