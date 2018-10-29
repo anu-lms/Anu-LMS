@@ -46,24 +46,30 @@ class UserRolesFilter extends InOperator {
     $join = $this->getJoin();
     $join->type = 'LEFT';
     $this->query->addTable('user__roles', NULL, $join);
-
     $field = $this->table . '.' . $this->realField . ' ';
-    $or = new Condition('OR');
 
-    // Show only users with allowed roles.
-    if (!empty($allowed_roles)) {
-      // If filter used as exposed, use choosen value as param, otherwise use allowed roles for current user.
-      $values = $this->options['exposed'] ? $this->value : array_keys($allowed_roles);
-      $or->condition($field, $values, 'IN');
+    if ($this->options['exposed']) {
+      $this->query->addWhere($this->options['group'], $field, $this->value, 'IN');
     }
+    else {
+      // Skip filtration If it's normal filter and user can manage users with any role.
+      if ($current_user->hasPermission('manage users with any role')) {
+        return;
+      }
+      $or = new Condition('OR');
 
-    // Or authenticated users.
-    $or->isNull($field);
+      if (!empty($allowed_roles)) {
+        $or->condition($field, array_keys($allowed_roles), 'NOT IN');
+      }
 
-    // Or current user.
-    $or->condition('users_field_data.uid', $current_user->id());
+      // Or authenticated users.
+      $or->isNull($field);
 
-    $this->query->addWhere($this->options['group'], $or);
+      // Or current user.
+      $or->condition('users_field_data.uid', $current_user->id());
+
+      $this->query->addWhere($this->options['group'], $or);
+    }
   }
 
   /**
