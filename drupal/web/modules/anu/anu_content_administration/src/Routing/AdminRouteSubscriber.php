@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\anu_content_administration\Routing;
 
 use Symfony\Component\Routing\Route;
@@ -8,9 +9,14 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\RouteCollection;
 
-class AdminRouteSubscriber extends RouteSubscriberBase  {
+/**
+ * Listens to the dynamic route events.
+ */
+class AdminRouteSubscriber extends RouteSubscriberBase {
 
-  // Forbid an access to the default group admin pages.
+  /**
+   * Forbid an access to the default group admin pages.
+   */
   public function groupAccess(Route $route, RouteMatchInterface $route_match, AccountInterface $account) {
     return AccessResultAllowed::allowedIf($account->hasPermission('administer group'));
   }
@@ -34,4 +40,5 @@ class AdminRouteSubscriber extends RouteSubscriberBase  {
       }
     }
   }
+
 }
