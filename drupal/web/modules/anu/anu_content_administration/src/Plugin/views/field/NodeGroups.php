@@ -41,12 +41,16 @@ class NodeGroups extends FieldPluginBase {
 
     $groups = [];
     foreach ($results as $group) {
-      $edit_link = Link::fromTextAndUrl(
-        $this->t('[edit]'),
-        Url::fromUri('internal:/group/' . $group->id . '/edit', ['query' => \Drupal::destination()->getAsArray()])
-      );
+      $group_label = Html::escape($group->label);
 
-      $groups[] = ['#markup' => Html::escape($group->label) . ' ' . $edit_link->toString()];
+      if (\Drupal::currentUser()->hasPermission('bypass group access')) {
+        $group_label .= ' ' . Link::fromTextAndUrl(
+          $this->t('[edit]'),
+          Url::fromUri('internal:/group/' . $group->id . '/edit', ['query' => \Drupal::destination()->getAsArray()])
+        )->toString();
+      }
+
+      $groups[] = ['#markup' => $group_label];
     }
 
     if (count($groups) > 1) {
