@@ -86,9 +86,11 @@ class NodeGroupsFilter extends InOperator {
         return;
       }
 
-      // Filter nodes by groups of current user.
+      $gids = implode(', ', $user_group_ids);
+      $author_id = $user->id();
+      // Only course author or user within a group can see course.
       $this->query->addRelationship('group_content_field_data', $join, 'node');
-      $this->query->addWhere('AND', 'group_content_field_data.gid', $user_group_ids, 'IN');
+      $this->query->addWhereExpression('AND', "group_content_field_data.gid IN ($gids) OR node_field_data.uid = $author_id");
     }
   }
 
