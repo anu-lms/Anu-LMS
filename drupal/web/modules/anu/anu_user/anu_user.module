@@ -157,6 +157,11 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
     return AccessResult::neutral();
   }
 
+  $account_entity = User::load($account->id());
+  if ($account_entity->hasPermission('manage users from any organization')) {
+    return AccessResult::neutral();
+  }
+
   // User can update only accounts with allowed roles.
   if ($operation == 'update') {
     $allowed_roles = \Drupal::service('delegatable_roles')->getAssignableRoles($account);
@@ -175,11 +180,6 @@ function anu_user_user_access(EntityInterface $entity, $operation, AccountInterf
   // - User is admin and has 'manage users from any organization' permissions.
   // - User can see accounts of other users from the same organizations.
   $entity_organization_ids = $account_organization_ids = [];
-
-  $account_entity = User::load($account->id());
-  if ($account_entity->hasPermission('manage users from any organization')) {
-    return AccessResult::neutral();
-  }
 
   // Get organization ids from given user account.
   if (!empty($entity->field_organization->getValue())) {
