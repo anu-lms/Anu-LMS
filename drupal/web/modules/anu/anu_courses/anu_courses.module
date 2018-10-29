@@ -18,10 +18,12 @@ function anu_courses_node_access(EntityInterface $entity, $operation, AccountInt
     return AccessResult::neutral();
   }
 
-  // Forbid an access to the course not added to any group.
-  $group_ids = \Drupal::service('anu_group.group')->getGroupIdsByEntity($entity);
-  if (empty($group_ids)) {
-    return AccessResult::forbidden();
+  // Only course author or moderator from org can access courses not added to any group.
+  if ($entity->uid->getString() != $account->id() && !$account->hasPermission('manage any course within organization')) {
+    $group_ids = \Drupal::service('anu_group.group')->getGroupIdsByEntity($entity);
+    if (empty($group_ids)) {
+      return AccessResult::forbidden();
+    }
   }
 
   $entity_organization_ids = [];

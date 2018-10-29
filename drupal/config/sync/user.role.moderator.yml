@@ -69,6 +69,7 @@ permissions:
   - 'edit own quiz_result entities'
   - 'edit own resource files'
   - 'edit terms in tags'
+  - 'manage any course within organization'
   - 'use text format filtered_html'
   - 'use text format wysiwyg'
   - 'view any quiz_result entities'
