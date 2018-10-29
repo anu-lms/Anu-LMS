@@ -40,7 +40,7 @@ class SsbDashboardEdit extends BlockBase {
 
     if ($user->hasPermission('bypass group access')) {
       $items[] = [
-        'url' => \Drupal\Core\Url::fromUri('internal:/admin/admin/content/classes'),
+        'url' => \Drupal\Core\Url::fromUri('internal:/admin/content/classes'),
         'name' => t('Classes'),
         'description' => t('Create, edit or delete classes.'),
       ];
