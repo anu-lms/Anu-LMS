@@ -85,7 +85,7 @@ DashboardTemplate.defaultProps = {
 
 const mapStateToProps = ({ user }, { classes, recentCourses }) => {
   const orgClasses = classes
-    .filter(classItem => classItem.organization === user.activeOrganization);
+    .filter(classItem => _includes(classItem.organization, user.activeOrganization));
 
   // Collect course ids available for current organization.
   let orgCourseIds = [];

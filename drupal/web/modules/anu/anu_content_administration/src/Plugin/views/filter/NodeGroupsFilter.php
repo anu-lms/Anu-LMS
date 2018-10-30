@@ -49,6 +49,7 @@ class NodeGroupsFilter extends InOperator {
       'left_field' => 'nid',
       'type' => 'LEFT',
       'operator' => '=',
+      'extra' => 'group_content_field_data.type LIKE \'class-group_node%\'',
     ];
 
     $join = Views::pluginManager('join')

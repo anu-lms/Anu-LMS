@@ -70,13 +70,22 @@ display:
           description: ''
           columns:
             views_bulk_operations_bulk_form: views_bulk_operations_bulk_form
+            field_weight: field_weight
             status: status
             title: title
-            field_course_lessons: field_course_lessons
+            course_lessons: course_lessons
             node_groups: node_groups
+            field_course_organisation: field_course_organisation
             operations: operations
           info:
             views_bulk_operations_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_weight:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -95,7 +104,9 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_course_lessons:
+            course_lessons:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -103,6 +114,11 @@ display:
             node_groups:
               sortable: false
               default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_course_organisation:
               align: ''
               separator: ''
               empty_column: false
@@ -495,7 +511,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Organization
+          label: Organizations
           exclude: false
           alter:
             alter_text: false
@@ -547,7 +563,7 @@ display:
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: separator
+          multi_type: ul
           separator: ', '
           field_api_classes: false
           plugin_id: field

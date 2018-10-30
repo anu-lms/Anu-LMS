@@ -41,7 +41,7 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
 
       // Collect organizations of all groups to add course to the same orgs.
       if (!empty($group->field_organization->getValue())) {
-        $group_org_ids[] = $group->field_organization->getString();
+        $group_org_ids = array_merge($group_org_ids, array_column($group->field_organization->getValue(), 'target_id'));
       }
     }
 
