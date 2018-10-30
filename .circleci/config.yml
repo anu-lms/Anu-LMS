@@ -16,7 +16,7 @@
 defaults: &defaults
   working_directory: ~/anu-lms
   docker:
-    - image: circleci/php:7.1-cli-browsers
+    - image: circleci/php:7.1.17-cli-stretch
 
 # Step to install Platform.sh. Reusable across different jobs.
 install_platform_cli: &install_platform_cli
