@@ -22,8 +22,8 @@ class LoginCest {
     $I->click('Log in');
     $I->waitForText('Log Out');
 
-    $I->see('Add content', 'h2');
-    $I->see('Edit content', 'h2');
+    $I->see('Add new', 'h2');
+    $I->see('Manage', 'h2');
   }
 
   public function loginAsLearner(\AcceptanceTester $I) {
