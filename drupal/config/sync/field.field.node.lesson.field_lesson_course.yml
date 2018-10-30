@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_lesson_course
-    - node.type.course
     - node.type.lesson
 id: node.lesson.field_lesson_course
 field_name: field_lesson_course
@@ -17,12 +16,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: views
   handler_settings:
-    target_bundles:
-      course: course
-    sort:
-      field: _none
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: allowed_courses
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference
