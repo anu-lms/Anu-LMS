@@ -9,7 +9,7 @@ id: group.class.field_organization
 field_name: field_organization
 entity_type: group
 bundle: class
-label: Organization
+label: 'Available for organization'
 description: ''
 required: true
 translatable: false
