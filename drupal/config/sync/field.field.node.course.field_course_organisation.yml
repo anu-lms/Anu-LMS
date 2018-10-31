@@ -9,8 +9,8 @@ id: node.course.field_course_organisation
 field_name: field_course_organisation
 entity_type: node
 bundle: course
-label: Organization
-description: 'Create a new or pick one from suggestions.'
+label: 'Available for organization'
+description: 'Pick from suggestions.'
 required: true
 translatable: false
 default_value: {  }
