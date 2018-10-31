@@ -511,7 +511,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Organizations
+          label: 'Available for organization'
           exclude: false
           alter:
             alter_text: false
