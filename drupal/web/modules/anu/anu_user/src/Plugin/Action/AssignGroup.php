@@ -33,37 +33,10 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
       ->getStorage('group')
       ->loadMultiple($this->configuration['classes']);
 
-    $group_org_ids = [];
     foreach ($groups as $group) {
       // Assign teacher role inside the class if user is a teacher.
       $values = in_array('teacher', $user_roles) ? ['group_roles' => ['class-admin']] : [];
       $group->addMember($entity, $values);
-
-      // Collect organizations of all groups to add user to the same orgs.
-      if (!empty($group->field_organization->getValue())) {
-        $group_org_ids = array_merge($group_org_ids, array_column($group->field_organization->getValue(), 'target_id'));
-      }
-    }
-
-    $user_org_ids = [];
-    // Get organization ids from given user.
-    if (!empty($entity->field_organization->getValue())) {
-      $user_org_ids = array_column($entity->field_organization->getValue(), 'target_id');
-    }
-
-    // Add user to the same organizations as Class.
-    $need_update = FALSE;
-    foreach ($group_org_ids as $group_org_id) {
-      if (!in_array($group_org_id, $user_org_ids)) {
-        $user_org_ids[] = $group_org_id;
-        $need_update = TRUE;
-      }
-    }
-
-    // Update user organizations if needed.
-    if ($need_update) {
-      $entity->field_organization = $user_org_ids;
-      $entity->save();
     }
   }
 
