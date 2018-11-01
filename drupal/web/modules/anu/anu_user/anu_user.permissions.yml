@@ -1,0 +1,14 @@
+manage users with any role:
+  title: 'Manage users with any role'
+  description: 'Gain full control for users with any role.'
+  restrict access: TRUE
+
+manage users from any organization:
+  title: 'Manage users from any organization'
+  description: 'Gain full control for users over organizations access.'
+  restrict access: TRUE
+
+access backend:
+  title: 'Login and Access the backend'
+  description: 'Allow users to login to the backend.'
+  restrict access: TRUE

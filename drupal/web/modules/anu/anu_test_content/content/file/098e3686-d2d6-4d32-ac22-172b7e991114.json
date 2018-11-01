@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/default\/file\/321?_format=hal_json"
+            "href": "http:\/\/default\/file\/999321?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
@@ -58,8 +58,8 @@
     ],
     "uri": [
         {
-            "value": "public:\/\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680.jpg",
-            "url": "\/sites\/default\/files\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680.jpg"
+            "value": "public:\/\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680_21.jpg",
+            "url": "\/sites\/default\/files\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680_21.jpg"
         }
     ],
     "filemime": [
@@ -91,7 +91,7 @@
     ],
     "url": [
         {
-            "value": "\/sites\/default\/files\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680.jpg"
+            "value": "\/sites\/default\/files\/paragraphs\/2018-04\/material-design-5000x3000-android-stock-4k-680_21.jpg"
         }
     ],
     "data": [

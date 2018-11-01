@@ -26,14 +26,23 @@ class SsbDashboardEdit extends BlockBase {
       $items[] = [
         'url' => \Drupal\Core\Url::fromRoute('system.admin_content')
           ->toString(),
-        'name' => t('Edit content'),
+        'name' => t('Content'),
         'description' => t('Edit or delete existing content in the system.'),
       ];
+      // Uncomment when we fix quiz by organizations.
+//      $items[] = [
+//        'url' => \Drupal\Core\Url::fromRoute('view.quiz_results.page_1')
+//          ->toString(),
+//        'name' => t('Quiz results'),
+//        'description' => t('Review results of Quizzes.'),
+//      ];
+    }
+
+    if ($user->hasPermission('bypass group access')) {
       $items[] = [
-        'url' => \Drupal\Core\Url::fromRoute('view.quiz_results.page_1')
-          ->toString(),
-        'name' => t('Quiz results'),
-        'description' => t('Review results of Quizzes.'),
+        'url' => \Drupal\Core\Url::fromUri('internal:/admin/content/classes'),
+        'name' => t('Classes'),
+        'description' => t('Create, edit or delete classes.'),
       ];
     }
 
@@ -41,7 +50,7 @@ class SsbDashboardEdit extends BlockBase {
       $items[] = [
         'url' => \Drupal\Core\Url::fromRoute('entity.user.collection')
           ->toString(),
-        'name' => t('Manage people'),
+        'name' => t('Users'),
         'description' => t('Create, edit or delete users.'),
       ];
     }
@@ -49,21 +58,22 @@ class SsbDashboardEdit extends BlockBase {
     if ($user->hasPermission('administer taxonomy')) {
       $items[] = [
         'url' => \Drupal\Core\Url::fromUri('internal:/admin/structure/taxonomy/manage/organisations/overview'),
-        'name' => t('Manage Organizations'),
+        'name' => t('Organizations'),
         'description' => t('Create, edit or delete organizations.'),
       ];
     }
 
-    $group_entities = \Drupal::entityTypeManager()->getStorage('group')->loadMultiple();
-    foreach ($group_entities as $group) {
-      if ($group->access('update')) {
-        $items[] = [
-          'url' => \Drupal\Core\Url::fromRoute('entity.group.edit_form', ['group' => $group->id()]),
-          'name' => t('Edit %group', ['%group' => $group->label()]),
-          'description' => t('Change content of @group.', ['@group' => $group->bundle()]),
-        ];
-      }
-    }
+    // Uncomment if we need this part on the dashboard.
+//    $group_entities = \Drupal::entityTypeManager()->getStorage('group')->loadMultiple();
+//    foreach ($group_entities as $group) {
+//      if ($group->access('update')) {
+//        $items[] = [
+//          'url' => \Drupal\Core\Url::fromRoute('entity.group.edit_form', ['group' => $group->id()]),
+//          'name' => t('Edit %group', ['%group' => $group->label()]),
+//          'description' => t('Change content of @group.', ['@group' => $group->bundle()]),
+//        ];
+//      }
+//    }
 
     $build = [];
     $build['#items'] = $items;

@@ -34,6 +34,7 @@ class DashboardPage extends React.Component {
           let classItem = {};
           classItem.id = data.group_id ? parseInt(data.group_id, 10) : 0;
           classItem.label = data.group_name || '';
+          classItem.organization = data.organization;
 
           classItem.courses = [];
           if (data.courses) {

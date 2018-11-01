@@ -78,7 +78,7 @@ function anu_comments_paragraph_comment_access(EntityInterface $comment, $operat
   // We do not allow users from different organization has any access to the
   // comments from other organizations. In the other scenario we fallback to
   // other Drupal access checks.
-  return (empty($user_organizations) && empty($comment_organization)) || in_array($comment_organization, $user_organizations)
+  return in_array($comment_organization, $user_organizations)
     ? AccessResult::neutral()
     : AccessResult::forbidden();
 }

@@ -113,12 +113,8 @@ function _anu_backend_login_validate(&$form, FormStateInterface $form_state) {
       $user = user_load_by_mail($name);
     }
 
-    if ($user) {
-      $administrative_roles = ['administrator', 'moderator'];
-      $user_roles = $user->getRoles();
-      if (!array_intersect($user_roles, $administrative_roles)) {
-        $form_state->setErrorByName('name', t('User @name is not allowed to access backend.', ['@name' => $name]));
-      }
+    if ($user && !$user->hasPermission('access backend')) {
+      $form_state->setErrorByName('name', t('User @name is not allowed to access backend.', ['@name' => $name]));
     }
   }
 }
@@ -165,42 +161,85 @@ function anu_user_user_update(EntityInterface $entity) {
  * Implements hook_ENTITY_TYPE_access().
  */
 function anu_user_user_access(EntityInterface $entity, $operation, AccountInterface $account) {
-  // Forbid an access to view user profiles for users who shouldn't have an access to it.
+  // User can see and update his own account.
+  if ($entity->id() == $account->id()) {
+    return AccessResult::neutral();
+  }
+
+  $account_entity = User::load($account->id());
+  if ($account_entity->hasPermission('manage users from any organization')) {
+    return AccessResult::neutral();
+  }
+
+  // User can update only accounts with allowed roles.
+  if ($operation == 'update') {
+    $allowed_roles = \Drupal::service('delegatable_roles')->getAssignableRoles($account);
+    $allowed_roles['authenticated'] = 'authenticated';
+    $user_entity_roles = $entity->getRoles();
+
+    // Forbid an access to update if account contains at least one not allowed role.
+    foreach ($user_entity_roles as $user_entity_role) {
+      if (!in_array($user_entity_role, array_keys($allowed_roles))) {
+        return AccessResult::forbidden();
+      }
+    }
+  }
+
   // User should have an access to other profiles in following cases:
-  // - User is admin and has 'administer users' permissions.
+  // - User is admin and has 'manage users from any organization' permissions.
   // - User can see accounts of other users from the same organizations.
-  // - If user wasn't assigned to any organization, he can see profiles of users without organizations as well.
-  if ($operation == 'view') {
-    $entity_organization_ids = $account_organization_ids = [];
+  $entity_organization_ids = $account_organization_ids = [];
 
-    $account_entity = User::load($account->id());
-    if ($account_entity->hasPermission('administer users')) {
-      return AccessResult::neutral();
-    }
-
-    // Get organization ids from given user account.
-    if (!empty($entity->field_organization->getValue())) {
-      $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
-    }
-
-    // Get organization ids from current user.
-    if (!empty($account_entity->field_organization->getValue())) {
-      $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
-    }
-
-    // Users without organization can see other users without organizations.
-    if (empty($entity_organization_ids) && empty($account_organization_ids)) {
-      return AccessResult::neutral();
-    }
-
-    // Users with organization can see other users with same organizations.
-    $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
-    if (!empty($intersect)) {
-      return AccessResult::neutral();
-    }
-
+  // Get organization ids from given user account.
+  if (!empty($entity->field_organization->getValue())) {
+    $entity_organization_ids = array_column($entity->field_organization->getValue(), 'target_id');
+  }
+  else {
+    // Forbid an access to users without organizations.
     return AccessResult::forbidden();
   }
 
-  return AccessResult::neutral();
+  // Get organization ids from current user.
+  if (!empty($account_entity->field_organization->getValue())) {
+    $account_organization_ids = array_column($account_entity->field_organization->getValue(), 'target_id');
+  }
+
+  // Users with organization can see other users with same organizations.
+  $intersect = array_intersect($entity_organization_ids, $account_organization_ids);
+  if (!empty($intersect)) {
+    return AccessResult::neutral();
+  }
+
+  return AccessResult::forbidden();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Only users with special permissions should edit organizations on user edit page.
+  if ($form_id == 'user_form' && !\Drupal::currentUser()->hasPermission('manage any organization')) {
+    $form['field_organization']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_views_bulk_operations_configure_action_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Limit allowed roles in 'Add/Remove a role' views bulk operation actions.
+  if (!empty($form['rid'])) {
+    $available_roles = \Drupal::service('delegatable_roles')->getAssignableRoles(\Drupal::currentUser());
+    $form['rid']['#options'] = $available_roles;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Hide descriptions for users who can't manage organizations.
+  if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
+    unset($form['field_organization']['widget']['#description']);
+  }
 }

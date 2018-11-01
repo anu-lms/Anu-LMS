@@ -15,7 +15,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *   label = @Translation("Assign Classes to the selected users"),
  *   type = "user",
  *   requirements = {
- *     "_permission" = "administer users",
+ *     "_permission" = "add members to class",
  *   },
  * )
  */
@@ -27,13 +27,16 @@ class AssignGroup extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function execute($entity = NULL) {
+    $user_roles = $entity->getRoles(TRUE);
 
     $groups = \Drupal::entityTypeManager()
       ->getStorage('group')
       ->loadMultiple($this->configuration['classes']);
 
     foreach ($groups as $group) {
-      $group->addMember($entity);
+      // Assign teacher role inside the class if user is a teacher.
+      $values = in_array('teacher', $user_roles) ? ['group_roles' => ['class-admin']] : [];
+      $group->addMember($entity, $values);
     }
   }
 

@@ -15,7 +15,7 @@ use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
  *   label = @Translation("Add Course to Class"),
  *   type = "node",
  *   requirements = {
- *     "_permission" = "administer nodes",
+ *     "_permission" = "add content to class",
  *   },
  * )
  */
@@ -33,6 +33,7 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
 
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
+      // Add course to the chosen class.
       if (!$group->getContentByEntityId('group_node:course', $entity->id())) {
         $group->addContent($entity, 'group_node:course');
       }
@@ -49,7 +50,7 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
 
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if (!$group->access('update')) {
+      if (!$group->access('view')) {
         return FALSE;
       }
     }
@@ -66,7 +67,7 @@ class AddCourseToClass extends ViewsBulkOperationsActionBase {
     $group_list = [];
     /** @var \Drupal\group\Entity\GroupInterface $group */
     foreach ($groups as $group) {
-      if ($group->access('update')) {
+      if ($group->access('view')) {
         $group_list[$group->id()] = $group->label();
       }
     }

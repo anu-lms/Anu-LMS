@@ -245,6 +245,5 @@ export default function* lessonCommentsSagas() {
     yield takeLatest('LESSON_COMMENTS_MARK_AS_READ', markCommentsAsRead),
     yield takeLatest('LESSON_COMMENTS_REQUESTED', fetchComments),
     yield takeLatest('LESSON_SIDEBAR_OPEN', syncCommentsIfTabActive),
-    yield takeLatest('USER_SET_ORGANIZATION', syncCommentsIfTabActive),
   ]);
 }

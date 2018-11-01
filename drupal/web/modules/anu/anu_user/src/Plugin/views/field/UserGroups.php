@@ -28,21 +28,16 @@ class UserGroups extends FieldPluginBase {
   public function render(ResultRow $values) {
     $account = $values->_entity;
 
-    $connection = \Drupal::database();
-    $query = $connection->select('group_content_field_data', 'content');
-    $query->innerJoin('groups_field_data', 'data', 'data.id = content.gid');
-    $query->fields('data', ['label']);
-    $query->condition('content.entity_id', $account->id());
-    $query->condition('content.type', 'class-group_membership');
-
-    $results = $query->execute();
-
-    $groups = [];
-    foreach ($results as $group) {
-      $groups[] = Html::escape($group->label);
+    $groups_list = [];
+    $group_memberships = \Drupal::service('group.membership_loader')->loadByUser($account);
+    foreach ($group_memberships as $group_membership) {
+      $group = $group_membership->getGroup();
+      if ($group->access('view')) {
+        $groups_list[$group->id()] = Html::escape($group->label());
+      }
     }
 
-    return ['#markup' => implode(', ', $groups)];
+    return ['#markup' => implode(', ', $groups_list)];
   }
 
 }

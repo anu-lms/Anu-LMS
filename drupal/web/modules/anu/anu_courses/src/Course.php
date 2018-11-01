@@ -2,9 +2,9 @@
 
 namespace Drupal\anu_courses;
 
+use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Xss;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\node\Entity\Node;
 
 /**
  * Helper class for working with course nodes.

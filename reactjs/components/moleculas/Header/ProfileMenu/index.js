@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { Router } from '../../../../routes';
 import PageLoader from '../../../atoms/PageLoader';
 import HeaderIcon from '../../../atoms/HeaderIcon';
 import SlidingPanel from '../../../atoms/SlidingPanel';
@@ -36,6 +37,11 @@ class ProfileMenu extends React.Component {
   onOrganizationChange(organizationId) {
     this.props.dispatch(userActions.setOrganization(organizationId));
     this.closePopup();
+
+    // Redirect to the dashboard page.
+    if (Router.router.route !== '/dashboard') {
+      Router.replace('/dashboard');
+    }
   }
 
   togglePopup() {

@@ -96,8 +96,8 @@ class SearchResults extends React.Component {
    * Click tab link.
    */
   tabClick(category) {
-    const { query, dispatch } = this.props;
-    dispatch(searchActions.fetch(query, category));
+    const { query, dispatch, activeOrganization } = this.props;
+    dispatch(searchActions.fetch(query, activeOrganization, category));
   }
 
   /**
@@ -204,6 +204,7 @@ SearchResults.propTypes = {
   isError: PropTypes.bool,
   isLoadMoreFetching: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
+  activeOrganization: PropTypes.number,
 };
 
 SearchResults.defaultProps = {
@@ -214,9 +215,10 @@ SearchResults.defaultProps = {
   isFetched: false,
   isError: false,
   isLoadMoreFetching: false,
+  activeOrganization: null,
 };
 
-const mapStateToProps = ({ search }) => ({
+const mapStateToProps = ({ search, user }) => ({
   query: search.query,
   category: search.category,
   results: search.results,
@@ -224,6 +226,7 @@ const mapStateToProps = ({ search }) => ({
   isFetched: search.isFetched,
   isError: search.isError,
   isLoadMoreFetching: search.isLoadMoreFetching,
+  activeOrganization: user.activeOrganization,
 });
 
 export default connect(mapStateToProps)(SearchResults);

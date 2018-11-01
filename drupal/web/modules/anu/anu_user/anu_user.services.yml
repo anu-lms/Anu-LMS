@@ -1,3 +1,5 @@
 services:
+  anu_user.user:
+      class: Drupal\anu_user\User
   anu_user.mentions:
     class: Drupal\anu_user\Mentions
