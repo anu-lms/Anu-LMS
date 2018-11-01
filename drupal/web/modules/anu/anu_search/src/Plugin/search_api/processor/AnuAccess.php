@@ -503,6 +503,9 @@ class AnuAccess extends ContentAccess {
         $paragraph_id = $item->get('field_comment_paragraph')->getString();
         if (!empty($paragraph_id)) {
           $paragraph = Paragraph::load($paragraph_id);
+          if (empty($paragraph)) {
+            return NULL;
+          }
           return $paragraph->getParentEntity();
         }
       }
