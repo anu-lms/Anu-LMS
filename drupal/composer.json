@@ -55,7 +55,7 @@
     "drupal/module_filter": "^3.1",
     "drupal/page_manager": "4.x-dev#0ad8885",
     "drupal/panels": "^4.2",
-    "drupal/paragraphs": "^1.2",
+    "drupal/paragraphs": "^1.5",
     "drupal/pathauto": "^1.0",
     "drupal/raven": "^2.6",
     "drupal/require_login": "^1.10",
