@@ -15,7 +15,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *   label = @Translation("Assign Organizations to the selected users"),
  *   type = "user",
  *   requirements = {
- *     "_permission" = "administer users",
+ *     "_permission" = "manage users from any organization",
  *   },
  * )
  */
@@ -54,24 +54,10 @@ class AssignOrganization extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-
-    $organizations = \Drupal::entityTypeManager()
-      ->getStorage('taxonomy_term')
-      ->loadByProperties([
-        'vid' => 'organisations',
-      ]);
-
-    $organization_list = [];
-    foreach ($organizations as $organization) {
-      if ($organization->access('view')) {
-        $organization_list[$organization->id()] = $organization->label();
-      }
-    }
-
     $form['organization'] = [
-      '#title' => t('Choose the organization'),
+      '#title' => t('Choose organizations'),
       '#type' => 'checkboxes',
-      '#options' => $organization_list,
+      '#options' => \Drupal::service('anu_user.user')->getAllowedOrganizationsList(),
     ];
 
     return $form;

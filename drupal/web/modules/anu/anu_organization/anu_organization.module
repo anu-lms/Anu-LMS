@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Module implementation file.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_user_taxonomy_term_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  // Process only Organization taxonomy.
+  if ($entity->bundle() != 'organisations') {
+    return AccessResult::neutral();
+  }
+
+  if (\Drupal::currentUser()->hasPermission('manage any organization')) {
+    return AccessResult::neutral();
+  }
+
+  // Get organization ids from current user.
+  $account_organization_ids = \Drupal::service('anu_user.user')->getOrganizationIds($account);
+
+  // Allow an access to organization only for users assigned to it.
+  if (in_array($entity->id(), $account_organization_ids)) {
+    return AccessResult::neutral();
+  }
+
+  // Forbid an access in any other cases.
+  return AccessResult::forbidden();
+}

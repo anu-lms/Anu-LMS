@@ -1,0 +1,4 @@
+manage any organization:
+  title: 'Manage any organization'
+  description: 'Gain full control over organizations access.'
+  restrict access: TRUE

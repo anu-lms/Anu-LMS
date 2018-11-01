@@ -7,6 +7,20 @@ label: Teacher
 weight: -8
 is_admin: null
 permissions:
-  - 'create class group'
+  - 'access backend'
+  - 'access content overview'
+  - 'add content to class'
+  - 'create course content'
+  - 'create lesson content'
+  - 'delete any course content'
+  - 'delete any lesson content'
+  - 'delete own course content'
+  - 'delete own lesson content'
+  - 'dropzone upload files'
+  - 'edit any course content'
+  - 'edit any lesson content'
+  - 'edit own course content'
+  - 'edit own lesson content'
   - 'use text format filtered_html'
   - 'view own quiz_result entities'
+  - 'view own unpublished content'

@@ -10,7 +10,7 @@ field_name: field_course_instructors
 entity_type: node
 bundle: course
 label: 'Course instructors'
-description: 'Start typing teacher first/last name or email to find a user. Make an instructor has "teacher" role in the system.'
+description: 'Start typing teacher first/last name or username to find a user. Make an instructor has "teacher" role in the system.'
 required: false
 translatable: false
 default_value: {  }

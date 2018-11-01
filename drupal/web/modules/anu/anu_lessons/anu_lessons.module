@@ -6,6 +6,32 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function anu_lessons_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($entity->bundle() != 'lesson') {
+    return AccessResult::neutral();
+  }
+
+  if ($entity->hasField('field_lesson_course')) {
+    $courses = $entity->get('field_lesson_course')->referencedEntities();
+    // Forbid an access to the lessons without courses.
+    if (empty($courses)) {
+      return AccessResult::forbidden();
+    }
+
+    /** @var \Drupal\node\NodeInterface $course */
+    $course = array_shift($courses);
+    // Allow an access to the lesson if user has an access to the course.
+    return $course->access($operation) ? AccessResult::neutral() : AccessResult::forbidden();
+  }
+
+  return AccessResult::forbidden();
+}
 
 /**
  * Implements hook_file_access().
@@ -69,7 +95,7 @@ function anu_lessons_file_access($entity, $operation) {
   return AccessResult::neutral();
 }
 
-// @codingStandardsIgnoreFile
+// @codingStandardsIgnoreStart
 // @todo: Uncomment when we make a decidion if we should remove Lessons if Course removed.
 //
 // **
@@ -102,3 +128,4 @@ function anu_lessons_file_access($entity, $operation) {
 // function anu_lessons_form_node_course_delete_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 //  drupal_set_message(t('Children Lessons will be removed as well if you remove this Course.'), 'warning');
 // }
+// @codingStandardsIgnoreEnd

@@ -18,10 +18,6 @@ const CoursePageTemplate = ({ course, storeLessons, courseProgress }) => (
       <div className="col-md-6 course-header">
         <h4>{course.title}</h4>
 
-        {course.organisation.length > 0 &&
-        <p className="organisation">{course.organisation}</p>
-        }
-
         {course.instructors &&
         <Instructors instructors={course.instructors} />
         }

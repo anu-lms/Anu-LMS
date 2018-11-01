@@ -1,0 +1,25 @@
+uuid: 12913e2c-b2c8-499f-98ef-67a1cc3a1ddd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_organization
+    - group.type.class
+id: group.class.field_organization
+field_name: field_organization
+entity_type: group
+bundle: class
+label: 'Available for organization'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: allowed_organizations
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

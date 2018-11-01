@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.class.field_organization
     - group.type.class
   module:
     - path
@@ -11,6 +12,12 @@ targetEntityType: group
 bundle: class
 mode: default
 content:
+  field_organization:
+    weight: 31
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
   label:
     type: string_textfield
     weight: -5
