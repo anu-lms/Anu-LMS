@@ -58,6 +58,14 @@ function anu_comments_entity_presave(EntityInterface $entity) {
  */
 function anu_comments_paragraph_comment_access(EntityInterface $comment, $operation, AccountInterface $account) {
 
+  // If last comment in the thread is deleted, allow anyone to delete the thread.
+  $comment_deleted = $comment->get('field_comment_deleted')->getValue();
+  if ($operation == 'delete' && $comment_deleted) {
+    if (!\Drupal::service('anu_comments.comment')->commentHasChildren($comment->id())) {
+      return AccessResult::allowed();
+    }
+  }
+
   // Load the user object with all fields.
   $user = User::load($account->id());
 

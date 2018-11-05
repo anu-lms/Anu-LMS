@@ -126,8 +126,7 @@ class CommentsCest {
     $teacher->does(function(\Step\Acceptance\Teacher $I) {
       $I->openVideoComments();
       $I->deleteComment($this->comments[1]);
-      // @TODO: uncomment this once issue #157352838 is resolved.
-      //$I->dontSeeElement('.comments-list .comment.deleted');
+      $I->dontSeeElement('.comments-list .comment.deleted');
     });
   }
 
