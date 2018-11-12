@@ -1,0 +1,8 @@
+name: Anu Replicate
+type: module
+description: Helper functionality for replicate feature.
+core: 8.x
+package: Anu
+dependencies:
+  - replicate
+  - replicate_ui

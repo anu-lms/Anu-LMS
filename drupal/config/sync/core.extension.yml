@@ -20,6 +20,7 @@ module:
   anu_paragraph: 0
   anu_private_files: 0
   anu_quizzes: 0
+  anu_replicate: 0
   anu_search: 0
   anu_user: 0
   anu_websocket: 0
