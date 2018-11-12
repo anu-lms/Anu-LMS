@@ -58,6 +58,8 @@
     "drupal/paragraphs": "^1.5",
     "drupal/pathauto": "^1.0",
     "drupal/raven": "^2.6",
+    "drupal/replicate": "^1.0@alpha",
+    "drupal/replicate_ui": "^1.0@beta",
     "drupal/require_login": "^1.10",
     "drupal/restui": "^1.15",
     "drupal/role_delegation": "^1.0@alpha",

@@ -80,6 +80,8 @@ module:
   path: 0
   pathauto: 0
   raven: 0
+  replicate: 0
+  replicate_ui: 0
   rest: 0
   restui: 0
   role_delegation: 0
