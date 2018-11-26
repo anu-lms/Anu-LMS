@@ -8,27 +8,20 @@ dependencies:
     - group.type.class
   module:
     - path
-    - weight
 id: group.class.default
 targetEntityType: group
 bundle: class
 mode: default
 content:
   field_organization:
-    weight: 31
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
     region: content
-  field_weight:
-    weight: 32
-    settings: {  }
-    third_party_settings: {  }
-    type: weight_selector
-    region: content
   label:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -36,16 +29,17 @@ content:
     third_party_settings: {  }
   langcode:
     type: language_select
-    weight: 2
+    weight: 1
     region: content
     settings:
       include_locked: true
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_weight: true
   uid: true
