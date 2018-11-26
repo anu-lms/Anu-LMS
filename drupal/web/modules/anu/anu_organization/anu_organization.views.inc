@@ -26,4 +26,13 @@ function anu_organization_views_data_alter(array &$data) {
       'id' => 'anu_onboarding_link',
     ],
   ];
+  $data['taxonomy_term_field_data']['limit_info'] = [
+    'title' => t('Limit info'),
+    'field' => [
+      'title' => t('Limit info'),
+      'description' => t('Information about registered users and limit for organization'),
+      'field' => 'tid',
+      'id' => 'anu_limit_info',
+    ],
+  ];
 }
