@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.group.class.field_organization
+    - field.field.group.class.field_weight
     - group.type.class
   module:
     - path
+    - weight
 id: group.class.default
 targetEntityType: group
 bundle: class
@@ -17,6 +19,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
+    region: content
+  field_weight:
+    weight: 32
+    settings: {  }
+    third_party_settings: {  }
+    type: weight_selector
     region: content
   label:
     type: string_textfield
