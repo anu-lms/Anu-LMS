@@ -1,31 +1,32 @@
-uuid: 24fd6a97-9dab-4941-9096-a0c69c142360
+uuid: d7d9f5b2-7212-413b-aa80-deaffcfcb395
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.taxonomy_term.organisations.field_organization_limit
     - taxonomy.vocabulary.organisations
+  module:
+    - text
 id: taxonomy_term.organisations.default
 targetEntityType: taxonomy_term
 bundle: organisations
 mode: default
 content:
-  field_organization_limit:
-    weight: 1
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-    type: number
-    region: content
-  name:
-    type: string_textfield
+  description:
+    label: hidden
+    type: text_default
     weight: 0
     region: content
-    settings:
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
+  field_organization_limit:
+    weight: 1
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
 hidden:
-  description: true
   langcode: true
-  path: true
