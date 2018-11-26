@@ -8,7 +8,7 @@ use Drupal\replicate\Events\AfterSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- *
+ * The Event Subscriber for Replicated entities.
  */
 class CourseReplicateAfterSaveSubscriber implements EventSubscriberInterface {
 
@@ -32,10 +32,11 @@ class CourseReplicateAfterSaveSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    // Updates course field to the replicated course in recently
+    // Updates course field to the replicated course in recently.
     try {
       $replicated_course = $event->getEntity();
 
+      // Update course id to replicated course in every replicated lesson.
       foreach ($replicated_course->field_course_lessons as $course_lesson) {
         if (empty($course_lesson->entity)) {
           continue;
