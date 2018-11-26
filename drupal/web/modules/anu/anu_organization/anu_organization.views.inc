@@ -18,5 +18,12 @@ function anu_organization_views_data_alter(array &$data) {
       'id' => 'anu_allowed_organization',
     ],
   ];
-
+  $data['taxonomy_term_field_data']['onboarding_link'] = [
+    'title' => t('Onboarding link'),
+    'field' => [
+      'title' => t('Onboarding link'),
+      'field' => 'tid',
+      'id' => 'anu_onboarding_link',
+    ],
+  ];
 }
