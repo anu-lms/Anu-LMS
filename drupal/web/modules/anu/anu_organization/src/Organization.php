@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_organization;
 
-
 /**
  * Helper class for working with organizations.
  *
