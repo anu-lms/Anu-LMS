@@ -30,7 +30,9 @@ class OnboardingLink extends FieldPluginBase {
     $organization = $values->_entity;
 
     try {
-      $output = 'onboarding link ' . $organization->id();
+
+      $id = \Drupal::service('anu_organization.organization')->getOnboardingLink($organization);
+      $output = 'onboarding link ' . $id;
     }
     catch (\Exception $exception) {
       $message = new FormattableMarkup('Could not generate onboarding link for organization @id. Error: @error', [

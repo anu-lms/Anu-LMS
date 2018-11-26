@@ -7,7 +7,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\views\ResultRow;
 
 /**
- * Outputs information about registered users and limit for organization
+ * Outputs information about registered users and limit for organization.
  *
  * @ingroup views_field_handlers
  *
@@ -30,10 +30,14 @@ class LimitInfo extends FieldPluginBase {
     $organization = $values->_entity;
 
     try {
-      $output = 'Limit info for ' . $organization->id();
+      $limit = (int) $organization->field_organization_limit->getString();
+
+      $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
+
+      $output = $amount . ' / ' . $limit;
     }
     catch (\Exception $exception) {
-      $message = new FormattableMarkup('Could not generate onboarding link for organization @id. Error: @error', [
+      $message = new FormattableMarkup('Could not output limit info for organization @id. Error: @error', [
         '@id' => $organization->id(),
         '@error' => $exception->getMessage(),
       ]);

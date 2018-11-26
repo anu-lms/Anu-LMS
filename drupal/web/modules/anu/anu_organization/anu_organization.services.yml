@@ -1,0 +1,3 @@
+services:
+  anu_organization.organization:
+      class: Drupal\anu_organization\Organization
