@@ -21,6 +21,7 @@ permissions:
   - 'edit any lesson content'
   - 'edit own course content'
   - 'edit own lesson content'
+  - 'replicate entities'
   - 'use text format filtered_html'
   - 'view own quiz_result entities'
   - 'view own unpublished content'

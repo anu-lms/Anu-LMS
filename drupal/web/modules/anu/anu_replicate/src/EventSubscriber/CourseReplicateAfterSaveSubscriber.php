@@ -2,7 +2,7 @@
 
 namespace Drupal\anu_replicate\EventSubscriber;
 
-use \Drupal\replicate\Events\ReplicatorEvents;
+use Drupal\replicate\Events\ReplicatorEvents;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\replicate\Events\AfterSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,12 +17,12 @@ class CourseReplicateAfterSaveSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      ReplicatorEvents::AFTER_SAVE => 'onReplicateAfterSave'
+      ReplicatorEvents::AFTER_SAVE => 'onReplicateAfterSave',
     ];
   }
 
   /**
-   *
+   * This event is fired after the entire entity got replicated and saved.
    *
    * @param \Drupal\replicate\Events\AfterSaveEvent $event
    *   Event object.
@@ -32,6 +32,7 @@ class CourseReplicateAfterSaveSubscriber implements EventSubscriberInterface {
       return;
     }
 
+    // Updates course field to the replicated course in recently
     try {
       $replicated_course = $event->getEntity();
 

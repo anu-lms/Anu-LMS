@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_user;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Render\FormattableMarkup;
 
 /**

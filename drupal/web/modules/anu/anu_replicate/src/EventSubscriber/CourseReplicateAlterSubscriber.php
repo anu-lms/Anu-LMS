@@ -2,9 +2,9 @@
 
 namespace Drupal\anu_replicate\EventSubscriber;
 
-use \Drupal\replicate\Events\ReplicatorEvents;
+use Drupal\replicate\Events\ReplicatorEvents;
 use Drupal\Component\Render\FormattableMarkup;
-use \Drupal\replicate\Events\ReplicateAlterEvent;
+use Drupal\replicate\Events\ReplicateAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -17,7 +17,7 @@ class CourseReplicateAlterSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      ReplicatorEvents::REPLICATE_ALTER => 'onReplicateAlter'
+      ReplicatorEvents::REPLICATE_ALTER => 'onReplicateAlter',
     ];
   }
 
