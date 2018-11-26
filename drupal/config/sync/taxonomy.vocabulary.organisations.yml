@@ -2,7 +2,7 @@ uuid: 2d782d5b-014e-4f0b-a6b3-393549aabcf7
 langcode: en
 status: true
 dependencies: {  }
-name: Organisations
+name: Organizations
 vid: organisations
 description: ''
 hierarchy: 0
