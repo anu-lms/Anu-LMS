@@ -11,15 +11,18 @@ namespace Drupal\anu_organization;
 class Organization {
 
   /**
-   *
+   * Returns an amount of users from organization.
    */
   public function getRegisteredUsersAmount($organizationId) {
-
-    return $organizationId;
+    $amount = \Drupal::entityQuery('user')
+      ->condition('field_organization', $organizationId)
+      ->count()
+      ->execute();
+    return $amount;
   }
 
   /**
-   *
+   * Generates onboarding link.
    */
   public function getOnboardingLink($organization) {
 
