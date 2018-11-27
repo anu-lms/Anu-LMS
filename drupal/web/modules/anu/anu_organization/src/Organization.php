@@ -2,8 +2,10 @@
 
 namespace Drupal\anu_organization;
 
-use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Drupal\Core\Site\Settings;
+use Drupal\Component\Utility\UrlHelper;
 
 /**
  * Helper class for working with organizations.
@@ -24,15 +26,21 @@ class Organization {
   }
 
   /**
-   * Generates onboarding link.
+   * Generates onboarding link from given organization object.
+   *
+   * For current needs we generate onboarding link only based on organization uuid.
+   * In future we might need to include multiple organizations and classes to that link.
+   * We can include data in url and encrypt it for example:
+   * organization=6+9997&classes=12+34+54 => encrypt to => asd324fsasd235cssa23fasd3
    */
   public function getOnboardingLink($organization) {
-    // hash with stored in db keyword.
-    // organization=6+9997&classes=12+34+54 => hash to => asd324fsasd235cssa23fasd3
+    // Prepare url.
     $link = Url::fromUri(
-      'http://app.docker.localhost/user/register',
+      Settings::get('frontend_domain') . 'user/register',
       ['query' => ['token' => $organization->uuid()]]
     );
+
+    // Builds link.
     return Link::fromTextAndUrl(
       $link->toString(),
       $link
@@ -40,12 +48,20 @@ class Organization {
   }
 
   /**
-   * Returns organization id fetched from onboarding link.
+   * Returns organization object fetched from onboarding link.
+   *
+   * For current needs we includes organization uuid only to the onboarding link.
+   * In future we might need to get more information from that link.
    */
   public function getOrganizationFromOnboardingLink($link) {
-    $term = \Drupal::service('entity.repository')->loadEntityByUuid('taxonomy_term', '0d5ec336-2b88-446f-bdc7-0ea9a64f6152');
-    $organizationId = 9997;
-    return $organizationId;
+    $organization = NULL;
+
+    $url_parsed = UrlHelper::parse($link);
+    if (!empty($url_parsed['query']['token'])) {
+      $organization = \Drupal::service('entity.repository')->loadEntityByUuid('taxonomy_term', $url_parsed['query']['token']);
+    }
+
+    return $organization;
   }
 
 }
