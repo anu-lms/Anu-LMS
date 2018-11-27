@@ -31,10 +31,9 @@ class LimitInfo extends FieldPluginBase {
 
     try {
       $limit = (int) $organization->field_organization_limit->getString();
-
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
 
-      $output = $amount . ' / ' . $limit;
+      $output = "$amount / $limit";
     }
     catch (\Exception $exception) {
       $message = new FormattableMarkup('Could not output limit info for organization @id. Error: @error', [
