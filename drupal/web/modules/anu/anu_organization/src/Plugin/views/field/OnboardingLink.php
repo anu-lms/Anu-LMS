@@ -26,11 +26,16 @@ class OnboardingLink extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function render(ResultRow $values) {
-    $output = '';
+    $output = [];
     $organization = $values->_entity;
-
     try {
-      $output = \Drupal::service('anu_organization.organization')->getOnboardingLink($organization);
+      // Wrap onboarding link to the clipboardjs.
+      $output = [
+        '#theme' => 'clipboardjs',
+        '#alert_text' => t('The link has been copied into the clipboard.'),
+        '#text' => \Drupal::service('anu_organization.organization')->getOnboardingLink($organization),
+      ];
+      $output['#attached']['library'][] = 'anu_organization/onboarding-link';
     }
     catch (\Exception $exception) {
       $message = new FormattableMarkup('Could not generate onboarding link for organization @id. Error: @error', [

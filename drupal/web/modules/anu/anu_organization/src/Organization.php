@@ -34,17 +34,12 @@ class Organization {
    * organization=6+9997&classes=12+34+54 => encrypt to => asd324fsasd235cssa23fasd3
    */
   public function getOnboardingLink($organization) {
-    // Prepare url.
+    // Prepares onboarding url.
     $link = Url::fromUri(
       Settings::get('frontend_domain') . 'user/register',
       ['query' => ['token' => $organization->uuid()]]
     );
-
-    // Builds link.
-    return Link::fromTextAndUrl(
-      $link->toString(),
-      $link
-    )->toString();
+    return $link->toString();
   }
 
   /**
