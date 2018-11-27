@@ -28,6 +28,7 @@ module:
   cer: 0
   ckeditor: 0
   ckeditor_media_embed: 0
+  clipboardjs: 0
   config: 0
   config_filter: 0
   config_pages: 0
