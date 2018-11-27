@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "51f14323e17a566a3237d2e09bd2fea7",
+    "content-hash": "4a93b114656731886dfe70bf42df1a64",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1927,6 +1927,64 @@
             }
         },
         {
+            "name": "drupal/clipboardjs",
+            "version": "1.0.0-alpha3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/clipboardjs",
+                "reference": "8.x-1.0-alpha3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/clipboardjs-8.x-1.0-alpha3.zip",
+                "reference": "8.x-1.0-alpha3",
+                "shasum": "d352e7d50b850a625b37672beceebf2aae2f1d8a"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha3",
+                    "datestamp": "1521543484",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "kenianbei",
+                    "homepage": "https://www.drupal.org/user/778980"
+                },
+                {
+                    "name": "sanduhrs",
+                    "homepage": "https://www.drupal.org/user/28074"
+                }
+            ],
+            "description": "Clipboard.js",
+            "homepage": "https://www.drupal.org/project/clipboardjs",
+            "keywords": [
+                "Drupal",
+                "clipboard",
+                "clipboard.js",
+                "clipboardjs"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/clipboardjs",
+                "issues": "http://drupal.org/project/issues/clipboardjs"
+            }
+        },
+        {
             "name": "drupal/config_filter",
             "version": "1.2.0",
             "source": {
@@ -3749,7 +3807,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
-                    "datestamp": "1487932383",
+                    "datestamp": "1521463384",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -3758,7 +3816,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -11279,6 +11337,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/cer": 15,
+        "drupal/clipboardjs": 15,
         "drupal/consumer_image_styles": 5,
         "drupal/consumers": 10,
         "drupal/default_content": 15,
