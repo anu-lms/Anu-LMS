@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import ForgotPasswordForm from '../../../moleculas/Form/Password/Forgot';
+import UserRegisterForm from '../../../moleculas/Form/UserRegister';
 import OneColumnLayout from '../../../../components/organisms/Templates/OneColumnLayout';
 
 /* eslint-disable max-len */
@@ -28,7 +28,7 @@ class UserRegister extends React.Component {
           {!isEmailSent &&
             <Fragment>
               <div className="form-description">Enter your username or email address below, and we’ll send you an email with a link to reset your password.</div>
-              <ForgotPasswordForm recoveryEmailSent={this.recoveryEmailSent} />
+              <UserRegisterForm />
             </Fragment>
           }
 
