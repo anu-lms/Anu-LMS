@@ -59,27 +59,26 @@ class RegistrationTokenValidate extends ResourceBase {
   /**
    * Responds to GET requests.
    *
-   *
+   * Returns validation info for given token.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
   public function get($token) {
+    $error_message = $this->t('Registration link is not valid. Please contact site administrator.');
     $organization = \Drupal::service('anu_organization.organization')->getOrganizationFromToken($token);
 
     if ($organization) {
-      return new ResourceResponse([
-        'token' => $token,
-        'isValid' => true,
-        'errorMessage' => '',
-      ]);
-    }
+      $limit = (int) $organization->field_organization_limit->getString();
+      $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
 
+      $error_message = $amount >= $limit ? $this->t('Organization has reached limit of users.') : '';
+    }
 
     return new ResourceResponse([
       'token' => $token,
-      'isValid' => false,
-      'errorMessage' => 'Organization has reached limit of users.',
+      'isValid' => empty($error_message),
+      'errorMessage' => $error_message,
     ]);
   }
 
