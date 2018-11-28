@@ -87,3 +87,24 @@ export const updatePassword = (request, uuid, password, passwordNew) => new Prom
       reject(error);
     });
 });
+
+/**
+ * Validate registration token.
+ */
+export const validateRegistrationToken = (request, token) => new Promise((resolve, reject) => {
+  request
+    .get('/user/register/validate')
+    .query({ '_format': 'json' })
+    .then(response => {
+      const aa = {
+        token: token,
+        isValid: false,
+        errorMessage: 'Organization has reached limit of users.',
+      };
+      resolve(aa);
+    })
+    .catch(error => {
+      console.error('Could not validate registration link.', error);
+      reject(error);
+    });
+});

@@ -4,6 +4,7 @@ import withAuth from '../../auth/withAuth';
 import withRedux from '../../store/withRedux';
 import withSocket from '../../application/withSocket';
 import withSentry from '../../application/withSentry';
+import { validateRegistrationToken } from '../../api/user';
 import SiteTemplate from '../../components/organisms/Templates/SiteTemplate';
 import UserRegister from '../../components/organisms/User/Register';
 
@@ -13,7 +14,12 @@ class RegisterPage extends Component {
   static skipInitialAuthRedirect = true;
 
   // eslint-disable-next-line no-unused-vars
-  static async getInitialProps({ auth, res }) {
+  static async getInitialProps({ auth, res, request, query }) {
+    const errorResponse = {
+      token: null,
+      isValid: false,
+      errorMessage: 'Registration link is not valid.',
+    };
     // Don't allow Authentificated to access the page.
     if (auth.isLoggedIn()) {
       if (res) {
@@ -23,13 +29,31 @@ class RegisterPage extends Component {
         Router.replace('/');
       }
     }
-    return {};
+
+    if (!query.token) {
+      return {
+        tokenValidation: errorResponse,
+      };
+    }
+
+    const validationResponse = await validateRegistrationToken(request, query.token)
+      .catch(error => {
+        console.error('Could not validate registration token.', error);
+        errorResponse.token = query.token;
+        return {
+          tokenValidation: errorResponse
+        };
+      });
+
+    return {
+      tokenValidation: validationResponse,
+    };
   }
 
   render() {
     return (
       <SiteTemplate isHeaderEmpty className="page-user-registration">
-        <UserRegister />
+        <UserRegister tokenValidation={this.props.tokenValidation} />
       </SiteTemplate>
     );
   }
