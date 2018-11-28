@@ -5,12 +5,10 @@ import OneColumnLayout from '../../../../components/organisms/Templates/OneColum
 class UserRegister extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
     const tokenValidation = this.props.tokenValidation;
-    console.log(this.props);
     return (
       <div>
         <OneColumnLayout pageTitle="Registration" className="short">

@@ -15,11 +15,14 @@ class RegisterPage extends Component {
 
   // eslint-disable-next-line no-unused-vars
   static async getInitialProps({ auth, res, request, query }) {
-    const errorResponse = {
-      token: null,
-      isValid: false,
-      errorMessage: 'Registration link is not valid.',
+    const initialProps = {
+      tokenValidation: {
+        token: null,
+        isValid: false,
+        errorMessage: 'Registration link is not valid.',
+      }
     };
+
     // Don't allow Authentificated to access the page.
     if (auth.isLoggedIn()) {
       if (res) {
@@ -31,19 +34,19 @@ class RegisterPage extends Component {
     }
 
     if (!query.token) {
-      return {
-        tokenValidation: errorResponse,
-      };
+      return initialProps;
     }
 
     const validationResponse = await validateRegistrationToken(request, query.token)
       .catch(error => {
         console.error('Could not validate registration token.', error);
         errorResponse.token = query.token;
-        return {
-          tokenValidation: errorResponse
-        };
+        return initialProps;
       });
+
+    if (!validationResponse.token) {
+      return initialProps;
+    }
 
     return {
       tokenValidation: validationResponse,

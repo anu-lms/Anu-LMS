@@ -93,15 +93,10 @@ export const updatePassword = (request, uuid, password, passwordNew) => new Prom
  */
 export const validateRegistrationToken = (request, token) => new Promise((resolve, reject) => {
   request
-    .get('/user/register/validate')
+    .get('/user/register/validate/' + token)
     .query({ '_format': 'json' })
     .then(response => {
-      const aa = {
-        token: token,
-        isValid: false,
-        errorMessage: 'Organization has reached limit of users.',
-      };
-      resolve(aa);
+      resolve(response.body);
     })
     .catch(error => {
       console.error('Could not validate registration link.', error);
