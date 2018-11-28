@@ -22,7 +22,7 @@ class Organization {
       ->condition('field_organization', $organizationId)
       ->count()
       ->execute();
-    return $amount;
+    return (int) $amount;
   }
 
   /**
@@ -50,7 +50,6 @@ class Organization {
    */
   public function getOrganizationFromToken($token) {
     $organization = NULL;
-
     if (!empty($token)) {
       $organization = \Drupal::service('entity.repository')->loadEntityByUuid('taxonomy_term', $token);
     }
