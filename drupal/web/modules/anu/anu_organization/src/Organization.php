@@ -43,17 +43,16 @@ class Organization {
   }
 
   /**
-   * Returns organization object fetched from onboarding link.
+   * Returns organization object fetched from onboarding link token.
    *
    * For current needs we includes organization uuid only to the onboarding link.
    * In future we might need to get more information from that link.
    */
-  public function getOrganizationFromOnboardingLink($link) {
+  public function getOrganizationFromToken($token) {
     $organization = NULL;
 
-    $url_parsed = UrlHelper::parse($link);
-    if (!empty($url_parsed['query']['token'])) {
-      $organization = \Drupal::service('entity.repository')->loadEntityByUuid('taxonomy_term', $url_parsed['query']['token']);
+    if (!empty($token)) {
+      $organization = \Drupal::service('entity.repository')->loadEntityByUuid('taxonomy_term', $token);
     }
 
     return $organization;
