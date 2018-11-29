@@ -103,3 +103,23 @@ export const validateRegistrationToken = (request, token) => new Promise((resolv
       reject(error);
     });
 });
+
+/**
+ * Register a new user.
+ */
+export const registerUser = (request, data) => new Promise((resolve, reject) => {
+  request
+    .post('/user/register/register')
+    .set('Content-Type', 'application/json')
+    .query({ '_format': 'json' })
+    .send({
+      data,
+    })
+    .then(response => {
+      resolve(response.body);
+    })
+    .catch(error => {
+      console.error('Could register user.', error);
+      reject(error);
+    });
+});

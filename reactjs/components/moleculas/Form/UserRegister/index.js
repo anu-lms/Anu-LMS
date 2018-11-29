@@ -5,6 +5,10 @@ import Alert from 'react-s-alert';
 import Form from '../../../atoms/Form';
 import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
+import { Router } from '../../../../routes';
+import request from '../../../../utils/request';
+import * as dataProcessors from '../../../../utils/dataProcessors';
+import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
@@ -103,21 +107,51 @@ class UserRegisterForm extends React.Component {
   }
 
   async submitForm({ formData }) {
+    const { token }=  this.props;
+    if (formData.password !== formData.password_confirm) {
+      Alert.error("Password and Confirm Password fields don't match");
+      return;
+    }
     this.setState({
       isSending: true,
+      formData,
     });
-    console.log(formData);
-    try {
-      // Reset state after successful submit.
-      this.setState({
-        isSending: false,
-        canBeSubmited: false,
-      });
 
-      Alert.success('Your profile has been successfully updated.');
-    } catch (error) {
+    try {
+      const data = {
+        ...formData,
+        token
+      };
+
+      await request
+        .post('/user/registration')
+        .set('Content-Type', 'application/json')
+        .query({ '_format': 'json' })
+        .send({
+          ...data,
+        })
+        .then(response => {
+          const user = dataProcessors.userData(response.body);
+
+          // Store logged in user in application store.
+          this.props.dispatch(userActionHelpers.login(user));
+
+          // Re-login with new credentials.
+          this.context.auth.login(user.name, formData.password);
+        });
+
+      Router.replace('/dashboard');
+    }
+    catch (error) {
+      if (error.response && error.response.body && error.response.body.message) {
+        console.error(error.response);
+        Alert.error(error.response.body.message);
+      }
+      else {
+        Alert.error('Could not send a request. Please, try again.');
+        console.error(error);
+      }
       this.setState({ isSending: false });
-      Alert.error('We could not register user, please contact site administrator.');
     }
   }
 
@@ -145,6 +179,13 @@ class UserRegisterForm extends React.Component {
     );
   }
 }
+
+UserRegisterForm.contextTypes = {
+  auth: PropTypes.shape({
+    login: PropTypes.func,
+    getRequest: PropTypes.func,
+  }),
+};
 
 UserRegisterForm.propTypes = {
   dispatch: PropTypes.func.isRequired,

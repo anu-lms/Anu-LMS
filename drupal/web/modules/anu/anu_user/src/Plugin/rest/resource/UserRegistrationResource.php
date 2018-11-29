@@ -14,10 +14,10 @@ use Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait;
  * Provides a resource to validate reset password link and reset password.
  *
  * @RestResource(
- *   id = "user_registration",
+ *   id = "user_register",
  *   label = @Translation("User registration"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/user/register/register",
+ *     "https://www.drupal.org/link-relations/create" = "/user/registration",
  *   }
  * )
  */
@@ -124,7 +124,7 @@ class UserRegistrationResource extends ResourceBase {
       $user->enforceIsNew();
 
       // Make sure that the user entity is valid (email and name are valid).
-      $this->validate($user);
+      // $this->validate($user);
 
       $user->save();
 
