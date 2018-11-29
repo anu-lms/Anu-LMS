@@ -113,7 +113,7 @@ export const registerUser = (request, data) => new Promise((resolve, reject) => 
     .set('Content-Type', 'application/json')
     .query({ '_format': 'json' })
     .send({
-      data,
+      ...data,
     })
     .then(response => {
       resolve(response.body);
