@@ -7,6 +7,7 @@ import Button from '../../../atoms/Button';
 import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import { Router } from '../../../../routes';
 import request from '../../../../utils/request';
+import * as userApi from '../../../../api/user';
 import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as userActionHelpers from '../../../../actions/user';
 
@@ -123,22 +124,20 @@ class UserRegisterForm extends React.Component {
         token
       };
 
-      await request
-        .post('/user/registration')
-        .set('Content-Type', 'application/json')
-        .query({ '_format': 'json' })
-        .send({
-          ...data,
-        })
-        .then(response => {
-          const user = dataProcessors.userData(response.body);
+      // Make request to the backend to register new user.
+      const response = await userApi.registerUser(
+        request,
+        data,
+      );
 
-          // Store logged in user in application store.
-          this.props.dispatch(userActionHelpers.login(user));
+      // Normalizes user data.
+      const user = dataProcessors.userData(response.body);
 
-          // Re-login with new credentials.
-          this.context.auth.login(user.name, formData.password);
-        });
+      // Store logged in user in application store.
+      this.props.dispatch(userActionHelpers.login(user));
+
+      // Login to the site.
+      await this.context.auth.login(user.name, formData.password);
 
       Router.replace('/dashboard');
     }

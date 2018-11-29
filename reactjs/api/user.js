@@ -109,7 +109,7 @@ export const validateRegistrationToken = (request, token) => new Promise((resolv
  */
 export const registerUser = (request, data) => new Promise((resolve, reject) => {
   request
-    .post('/user/register/register')
+    .post('/user/registration')
     .set('Content-Type', 'application/json')
     .query({ '_format': 'json' })
     .send({
