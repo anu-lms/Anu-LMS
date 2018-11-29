@@ -14,7 +14,7 @@ class UserRegister extends React.Component {
         <OneColumnLayout pageTitle="Registration" className="short">
           {tokenValidation.isValid ? (
               <Fragment>
-                <div className="form-description">Enter your username or email address below, and we’ll send you an email with a link to reset your password.</div>
+                <div className="form-description">Registration form description.</div>
                 <UserRegisterForm />
               </Fragment>
             ) : (
