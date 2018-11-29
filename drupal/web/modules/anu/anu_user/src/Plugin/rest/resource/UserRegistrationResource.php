@@ -3,14 +3,12 @@
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Psr\Log\LoggerInterface;
-use Drupal\rest\ResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\user\UserStorageInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\anu_normalizer\AnuNormalizerBase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait;
 
 /**
  * Provides a resource to validate reset password link and reset password.
@@ -24,7 +22,6 @@ use Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait;
  * )
  */
 class UserRegistrationResource extends ResourceBase {
-  use EntityResourceValidationTrait;
 
   /**
    * Constructs a new UserRegistrationResource instance.
@@ -64,7 +61,7 @@ class UserRegistrationResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   *
+   * Creates user and add him to defined in token organization and classes.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
@@ -74,16 +71,15 @@ class UserRegistrationResource extends ResourceBase {
       // Retrieve organization from the token.
       $organization = \Drupal::service('anu_organization.organization')->getOrganizationFromToken($data['token']);
       if (empty($organization)) {
-        return new ResourceResponse([
-          'message' => $this->t('Registration link is not valid. Please contact site administrator.'),
-        ], 406);
+        throw new HttpException(406, $this->t('Registration link is not valid. Please contact site administrator.'));
       }
 
       // Check if organization has not reached the limit.
       $limit = (int) $organization->field_organization_limit->getString();
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
       if ($amount >= $limit) {
-        return new ResourceResponse([
+        return new ModifiedResourceResponse([
+          'error_type' => 'limit_reached',
           'message' => $this->t('Organization has reached limit of users. Please contact site administrator.'),
         ], 406);
       }
@@ -95,7 +91,8 @@ class UserRegistrationResource extends ResourceBase {
         ->count()
         ->execute();
       if ($email_taken) {
-        return new ResourceResponse([
+        return new ModifiedResourceResponse([
+          'error_type' => 'email_exists',
           'message' => $this->t('The email is already taken.'),
         ], 406);
       }
@@ -107,9 +104,7 @@ class UserRegistrationResource extends ResourceBase {
         ->count()
         ->execute();
       if ($username_taken) {
-        return new ResourceResponse([
-          'message' => $this->t('The username is already taken.'),
-        ], 406);
+        throw new HttpException(406, $this->t('The username @name is already taken.', ['@name' => $data['username']]));
       }
 
       // Create a new user.
@@ -131,6 +126,7 @@ class UserRegistrationResource extends ResourceBase {
         throw new HttpException(406, $violations->get(0)->getMessage());
       }
 
+      // Save the entity.
       $user->save();
 
       // Add user to classes.
@@ -157,6 +153,7 @@ class UserRegistrationResource extends ResourceBase {
       }
       $this->logger->critical($message);
       return new ModifiedResourceResponse([
+        'error_type' => 'validation',
         'message' => $message,
       ], 406);
     }
