@@ -18,7 +18,7 @@ permissions:
   - 'restful get registration_token_validate'
   - 'restful get user_reset_password'
   - 'restful post contact_message'
-  - 'restful post user_registration'
+  - 'restful post user_register'
   - 'restful post user_request_password'
   - 'restful post user_reset_password'
   - 'update own simple_oauth entities'

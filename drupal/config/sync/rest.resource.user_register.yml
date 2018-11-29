@@ -1,12 +1,13 @@
-uuid: 0d9298aa-c903-4dea-987e-cd7722dc0536
+uuid: ec21c219-84a7-44b9-acd9-c46a8512d124
 langcode: en
 status: true
 dependencies:
   module:
+    - anu_user
     - serialization
     - user
-id: user_registration
-plugin_id: user_registration
+id: user_register
+plugin_id: user_register
 granularity: resource
 configuration:
   methods:
