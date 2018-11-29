@@ -91,11 +91,12 @@ class UserRequestPasswordResource extends ResourceBase {
       if (empty($mail)) {
         $message = $this->t('Unable to send email. Contact the site administrator if the problem persists.');
         $this->logger->error($message);
+        return new ResourceResponse(['message' => $message], 406);
       }
       else {
         $this->logger->notice('Password reset instructions mailed to %name at %email.', ['%name' => $account->getAccountName(), '%email' => $account->getEmail()]);
+        return new ResourceResponse(['email' => $account->getEmail()]);
       }
-      return new ResourceResponse(['email' => $account->getEmail()]);
     }
     else {
       return new ResourceResponse([
