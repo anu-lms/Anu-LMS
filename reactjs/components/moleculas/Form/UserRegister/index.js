@@ -108,7 +108,7 @@ class UserRegisterForm extends React.Component {
   }
 
   async submitForm({ formData }) {
-    const { token }=  this.props;
+    const { token, onFormError }=  this.props;
     if (formData.password !== formData.password_confirm) {
       Alert.error("Password and Confirm Password fields don't match");
       return;
@@ -144,7 +144,12 @@ class UserRegisterForm extends React.Component {
     catch (error) {
       if (error.response && error.response.body && error.response.body.message) {
         console.error(error.response);
-        Alert.error(error.response.body.message);
+        if (error.response.body.error_type === 'email_exists') {
+          onFormError('The email is already taken.');
+        }
+        else {
+          Alert.error(error.response.body.message);
+        }
       }
       else {
         Alert.error('Could not send a request. Please, try again.');

@@ -78,10 +78,7 @@ class UserRegistrationResource extends ResourceBase {
       $limit = (int) $organization->field_organization_limit->getString();
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
       if ($amount >= $limit) {
-        return new ModifiedResourceResponse([
-          'error_type' => 'limit_reached',
-          'message' => $this->t('Organization has reached limit of users. Please contact site administrator.'),
-        ], 406);
+        throw new HttpException(406, $this->t('Organization has reached limit of users. Please contact site administrator.'));
       }
 
       // Check if email exists.
