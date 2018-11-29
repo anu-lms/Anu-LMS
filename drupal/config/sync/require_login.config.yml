@@ -1,5 +1,5 @@
 deny_message: 'You must login to use this site.'
-excluded_paths: "/router/translate-path\n/subrequests\n/jsonapi/*\n/user/me\n/user/reset/*\n/learner/progress\n/oauth/token\n/oauth/debug\n/quizzes/results\n/session/token\n/user/password/*\n/sites/default/files/styles/*\n"
+excluded_paths: "/router/translate-path\n/subrequests\n/jsonapi/*\n/user/me\n/user/reset/*\n/learner/progress\n/oauth/token\n/oauth/debug\n/quizzes/results\n/session/token\n/user/password/*\n/sites/default/files/styles/*\n/user/register\n/user/register/validate/*\n"
 auth_path: ''
 _core:
   default_config_hash: uYPEImLQVvH1hPPRNI1zlz1_7CBZt_A2gKHw1BJPfds
