@@ -3,10 +3,12 @@
 namespace Drupal\anu_user\Plugin\rest\resource;
 
 use Psr\Log\LoggerInterface;
-use Drupal\user\UserStorageInterface;
 use Drupal\rest\ResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
+use Drupal\user\UserStorageInterface;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\anu_normalizer\AnuNormalizerBase;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait;
 
@@ -124,7 +126,10 @@ class UserRegistrationResource extends ResourceBase {
       $user->enforceIsNew();
 
       // Make sure that the user entity is valid (email and name are valid).
-      // $this->validate($user);
+      $violations = $user->validate();
+      if (count($violations) > 0) {
+        throw new HttpException(406, $violations->get(0)->getMessage());
+      }
 
       $user->save();
 
@@ -142,8 +147,7 @@ class UserRegistrationResource extends ResourceBase {
         }
       }
 
-      // Return registered user.
-      return new ResourceResponse(AnuNormalizerBase::normalizeEntity($user), 200);
+      return new ModifiedResourceResponse(AnuNormalizerBase::normalizeEntity($user), 200);
     }
     catch (\Exception $e) {
       // Log an error.
@@ -152,7 +156,7 @@ class UserRegistrationResource extends ResourceBase {
         $message = $this->t('Could not register a user.');
       }
       $this->logger->critical($message);
-      return new ResourceResponse([
+      return new ModifiedResourceResponse([
         'message' => $message,
       ], 406);
     }
