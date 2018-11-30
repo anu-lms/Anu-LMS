@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Router } from '../../routes';
 import withAuth from '../../auth/withAuth';
 import withRedux from '../../store/withRedux';
@@ -15,7 +16,7 @@ class RegisterPage extends Component {
 
   // eslint-disable-next-line no-unused-vars
   static async getInitialProps({ auth, res, request, query }) {
-    const initialProps = {
+    let initialProps = {
       tokenValidation: {
         token: null,
         isValid: false,
@@ -40,7 +41,7 @@ class RegisterPage extends Component {
     const validationResponse = await validateRegistrationToken(request, query.token)
       .catch(error => {
         console.error('Could not validate registration token.', error);
-        errorResponse.token = query.token;
+        initialProps.token = query.token;
         return initialProps;
       });
 
@@ -61,5 +62,13 @@ class RegisterPage extends Component {
     );
   }
 }
+
+RegisterPage.propTypes = {
+  tokenValidation: PropTypes.shape({
+    token: PropTypes.string,
+    isValid: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }).isRequired,
+};
 
 export default withSentry(withSocket(withRedux(withAuth(RegisterPage))));
