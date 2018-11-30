@@ -8,17 +8,12 @@ import PasswordWidget from '../../../atoms/Form/PasswordWidget';
 import { Router } from '../../../../routes';
 import request from '../../../../utils/request';
 import * as userApi from '../../../../api/user';
-import * as dataProcessors from '../../../../utils/dataProcessors';
 import * as userActionHelpers from '../../../../actions/user';
 
 const schema = {
   'type': 'object',
   'required': ['username', 'email', 'firstName', 'lastName', 'password', 'password_confirm'],
   'properties': {
-    'username': {
-      'type': 'string',
-      'title': 'Username',
-    },
     'firstName': {
       'type': 'string',
       'title': 'First Name',
@@ -31,6 +26,10 @@ const schema = {
       'type': 'string',
       'format': 'email',
       'title': 'Email Address',
+    },
+    'username': {
+      'type': 'string',
+      'title': 'Username',
     },
     'password': {
       'type': 'string',
