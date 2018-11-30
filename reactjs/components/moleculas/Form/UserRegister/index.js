@@ -125,13 +125,10 @@ class UserRegisterForm extends React.Component {
       };
 
       // Make request to the backend to register new user.
-      const response = await userApi.registerUser(
+      const user = await userApi.registerUser(
         request,
         data,
       );
-
-      // Normalizes user data.
-      const user = dataProcessors.userData(response.body);
 
       // Store logged in user in application store.
       this.props.dispatch(userActionHelpers.login(user));

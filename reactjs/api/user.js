@@ -116,7 +116,8 @@ export const registerUser = (request, data) => new Promise((resolve, reject) => 
       ...data,
     })
     .then(response => {
-      resolve(response.body);
+      const user = dataProcessors.userData(response.body);
+      resolve(user);
     })
     .catch(error => {
       console.error('Could register user.', error);
