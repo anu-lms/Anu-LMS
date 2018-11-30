@@ -110,7 +110,7 @@ class UserRegisterForm extends React.Component {
   async submitForm({ formData }) {
     const { token, onFormError }=  this.props;
     if (formData.password !== formData.password_confirm) {
-      Alert.error("Password and Confirm Password fields don't match");
+      Alert.error('The specified passwords do not match.');
       return;
     }
     this.setState({

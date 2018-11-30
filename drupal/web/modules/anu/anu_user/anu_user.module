@@ -243,3 +243,14 @@ function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form
     unset($form['field_organization']['widget']['#description']);
   }
 }
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_user_entity_type_alter(array &$entity_types) {
+  // Adds an Organization user limit Validation for user entity.
+  if (!empty($entity_types['user'])) {
+    $entity = $entity_types['user'];
+    $entity->addConstraint('UserOrganizationLimit', []);
+  }
+}
