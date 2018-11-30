@@ -26,7 +26,7 @@ class UserRegister extends React.Component {
           {tokenValidation.isValid ? (
               <Fragment>
                 {formError &&
-                  <div className="form-error">{formError}</div>
+                  <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
                 }
                 <div className="form-description">Registration form description.</div>
                 <UserRegisterForm token={tokenValidation.token} onFormError={this.onFormError} />
