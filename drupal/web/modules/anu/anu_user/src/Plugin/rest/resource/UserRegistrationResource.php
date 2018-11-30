@@ -101,7 +101,10 @@ class UserRegistrationResource extends ResourceBase {
         ->count()
         ->execute();
       if ($username_taken) {
-        throw new HttpException(406, $this->t('The username @name is already taken.', ['@name' => $data['username']]));
+        return new ModifiedResourceResponse([
+          'error_type' => 'username_exists',
+          'message' => $this->t('The username @name is already taken.', ['@name' => $data['username']]),
+        ], 406);
       }
 
       // Create a new user.
