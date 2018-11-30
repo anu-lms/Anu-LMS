@@ -145,7 +145,7 @@ class UserRegisterForm extends React.Component {
       if (error.response && error.response.body && error.response.body.message) {
         console.error(error.response);
         if (error.response.body.error_type === 'email_exists') {
-          onFormError('The email is already taken.');
+          onFormError('The email is already taken. If you already registered please use <a href="/">sign in</a> form.');
         }
         else {
           Alert.error(error.response.body.message);
