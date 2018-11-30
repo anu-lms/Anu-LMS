@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import UserRegisterForm from '../../../moleculas/Form/UserRegister';
 import OneColumnLayout from '../../../../components/organisms/Templates/OneColumnLayout';
 
@@ -26,8 +27,9 @@ class UserRegister extends React.Component {
           {tokenValidation.isValid ? (
             <Fragment>
               {formError &&
-              <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
-                }
+                // eslint-disable-next-line react/no-danger
+                <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
+              }
               <div className="form-description">Registration form description.</div>
               <UserRegisterForm token={tokenValidation.token} onFormError={this.onFormError} />
             </Fragment>
@@ -40,5 +42,13 @@ class UserRegister extends React.Component {
     );
   }
 }
+
+UserRegister.propTypes = {
+  tokenValidation: PropTypes.shape({
+    token: PropTypes.string,
+    isValid: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }).isRequired,
+};
 
 export default UserRegister;
