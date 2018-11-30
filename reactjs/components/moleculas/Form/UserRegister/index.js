@@ -108,7 +108,7 @@ class UserRegisterForm extends React.Component {
   }
 
   async submitForm({ formData }) {
-    const { token, onFormError }=  this.props;
+    const { token, onFormError } = this.props;
     if (formData.password !== formData.password_confirm) {
       Alert.error('The specified passwords do not match.');
       return;
@@ -121,7 +121,7 @@ class UserRegisterForm extends React.Component {
     try {
       const data = {
         ...formData,
-        token
+        token,
       };
 
       // Make request to the backend to register new user.

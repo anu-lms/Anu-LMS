@@ -7,13 +7,13 @@ class UserRegister extends React.Component {
     super(props);
     this.state = {
       formError: '',
-    }
+    };
     this.onFormError = this.onFormError.bind(this);
   }
 
   onFormError(message) {
     this.setState({
-      formError: message
+      formError: message,
     });
   }
 
@@ -24,13 +24,13 @@ class UserRegister extends React.Component {
       <div>
         <OneColumnLayout pageTitle="Registration" className="short">
           {tokenValidation.isValid ? (
-              <Fragment>
-                {formError &&
-                  <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
+            <Fragment>
+              {formError &&
+              <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
                 }
-                <div className="form-description">Registration form description.</div>
-                <UserRegisterForm token={tokenValidation.token} onFormError={this.onFormError} />
-              </Fragment>
+              <div className="form-description">Registration form description.</div>
+              <UserRegisterForm token={tokenValidation.token} onFormError={this.onFormError} />
+            </Fragment>
             ) : (
               <div>{tokenValidation.errorMessage}</div>
             )
