@@ -38,6 +38,7 @@ class RegisterPage extends Component {
       return initialProps;
     }
 
+    // Makes request to the backend to check if token valid.
     const validationResponse = await validateRegistrationToken(request, query.token)
       .catch(error => {
         console.error('Could not validate registration token.', error);
