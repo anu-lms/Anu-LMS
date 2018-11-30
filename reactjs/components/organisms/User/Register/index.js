@@ -12,6 +12,9 @@ class UserRegister extends React.Component {
     this.onFormError = this.onFormError.bind(this);
   }
 
+  /**
+   * Invoked if register form has errors.
+   */
   onFormError(message) {
     this.setState({
       formError: message,
