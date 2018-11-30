@@ -30,7 +30,7 @@ class UserRegister extends React.Component {
                 // eslint-disable-next-line react/no-danger
                 <div className="form-error" dangerouslySetInnerHTML={{ __html: formError }} />
               }
-              <div className="form-description">Registration form description.</div>
+              <div className="form-description">Please enter your details and choose a username and password to register.</div>
               <UserRegisterForm token={tokenValidation.token} onFormError={this.onFormError} />
             </Fragment>
             ) : (

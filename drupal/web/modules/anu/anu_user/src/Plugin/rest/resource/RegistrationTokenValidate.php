@@ -72,7 +72,7 @@ class RegistrationTokenValidate extends ResourceBase {
       $limit = (int) $organization->field_organization_limit->getString();
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
 
-      $error_message = $amount >= $limit ? $this->t('Organization has reached limit of users.') : '';
+      $error_message = $amount >= $limit ? $this->t('Organization has reached limit of users. Please contact site administrator.') : '';
     }
 
     return new ResourceResponse([
