@@ -20,7 +20,7 @@ class RegisterPage extends Component {
         token: null,
         isValid: false,
         errorMessage: 'Registration link is not valid. Please contact site administrator.',
-      }
+      },
     };
 
     // Don't allow Authentificated to access the page.

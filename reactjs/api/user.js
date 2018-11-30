@@ -93,7 +93,7 @@ export const updatePassword = (request, uuid, password, passwordNew) => new Prom
  */
 export const validateRegistrationToken = (request, token) => new Promise((resolve, reject) => {
   request
-    .get('/user/register/validate/' + token)
+    .get(`/user/register/validate/${token}`)
     .query({ '_format': 'json' })
     .then(response => {
       resolve(response.body);
