@@ -254,3 +254,49 @@ function anu_user_entity_type_alter(array &$entity_types) {
     $entity->addConstraint('UserOrganizationLimit', []);
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add welcome new manager created by administrator email.
+ *
+ * @see \Drupal\user\AccountSettingsForm
+ */
+function anu_user_form_user_admin_settings_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::configFactory()->getEditable('anu_user.settings');
+  $form['email_admin_manager_created'] = [
+    '#type' => 'details',
+    '#title' => t('Welcome (new manager created by administrator)'),
+    '#open' => TRUE,
+    '#description' => t('Edit the welcome email messages sent to new member accounts created by an administrator.'),
+    '#group' => 'email',
+    '#weight' => 0,
+  ];
+  $form['email_admin_manager_created']['email_admin_manager_created_manager_created_subject'] = [
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => $config->get('manager_created_subject'),
+    '#maxlength' => 180,
+  ];
+  $form['email_admin_manager_created']['email_admin_manager_created_manager_created_body'] = [
+    '#type' => 'textarea',
+    '#title' => t('Body'),
+    '#default_value' => $config->get('manager_created_body'),
+    '#rows' => 15,
+  ];
+
+  // Add submit handler to save contact configuration.
+  $form['#submit'][] = 'anu_user_form_user_admin_settings_submit';
+}
+
+/**
+ * Form submission handler for user_admin_settings().
+ *
+ * @see anu_user_form_user_admin_settings_alter()
+ */
+function anu_user_form_user_admin_settings_submit($form, FormStateInterface $form_state) {
+  \Drupal::configFactory()->getEditable('anu_user.settings')
+    ->set('manager_created_subject', $form_state->getValue('email_admin_manager_created_manager_created_subject'))
+    ->set('manager_created_body', $form_state->getValue('email_admin_manager_created_manager_created_body'))
+    ->save();
+}
