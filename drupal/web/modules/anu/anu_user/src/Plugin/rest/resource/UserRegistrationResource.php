@@ -71,14 +71,14 @@ class UserRegistrationResource extends ResourceBase {
       // Retrieve organization from the token.
       $organization = \Drupal::service('anu_organization.organization')->getOrganizationFromToken($data['token']);
       if (empty($organization)) {
-        throw new HttpException(406, $this->t('Registration link is not valid. Please contact site administrator.'));
+        throw new HttpException(406, $this->t('Registration link is not valid. Please contact manager or site administrator.'));
       }
 
       // Check if organization has not reached the limit.
       $limit = (int) $organization->field_organization_limit->getString();
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
       if ($amount >= $limit) {
-        throw new HttpException(406, $this->t('Organization has reached limit of users. Please contact site administrator.'));
+        throw new HttpException(406, $this->t('Organization has reached limit of users. Please contact manager or site administrator.'));
       }
 
       // Check if email exists.

@@ -65,14 +65,14 @@ class RegistrationTokenValidate extends ResourceBase {
    *   Throws exception expected.
    */
   public function get($token) {
-    $error_message = $this->t('Registration link is not valid. Please contact site administrator.');
+    $error_message = $this->t('Registration link is not valid. Please contact manager or site administrator.');
     $organization = \Drupal::service('anu_organization.organization')->getOrganizationFromToken($token);
 
     if ($organization) {
       $limit = (int) $organization->field_organization_limit->getString();
       $amount = \Drupal::service('anu_organization.organization')->getRegisteredUsersAmount($organization->id());
 
-      $error_message = $amount >= $limit ? $this->t('Organization has reached limit of users. Please contact site administrator.') : '';
+      $error_message = $amount >= $limit ? $this->t('Organization has reached limit of users. Please contact manager or site administrator.') : '';
     }
 
     return new ResourceResponse([
