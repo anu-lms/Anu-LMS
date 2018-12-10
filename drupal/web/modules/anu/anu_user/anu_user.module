@@ -278,9 +278,12 @@ function anu_user_form_user_register_form_submit($form, FormStateInterface $form
     return;
   }
 
-  $account = User::load($form_state->getValue('uid'));
-  if (!$form_state->isValueEmpty('notify_manager') && _user_mail_notify('manager_created', $account)) {
-    drupal_set_message($this->t('A welcome message with further instructions has been emailed to the new user <a href=":url">%name</a>.', [':url' => $account->url(), '%name' => $account->getUsername()]));
+  // Send a welcome email to the created manager.
+  if (!$form_state->isValueEmpty('notify_manager')) {
+    $account = User::load($form_state->getValue('uid'));
+    if (_user_mail_notify('manager_created', $account)) {
+      drupal_set_message($this->t('A welcome message with further instructions has been emailed to the new user <a href=":url">%name</a>.', [':url' => $account->url(), '%name' => $account->getUsername()]));
+    }
   }
 }
 
