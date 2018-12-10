@@ -20,7 +20,7 @@ class RegisterPage extends Component {
       tokenValidation: {
         token: null,
         isValid: false,
-        errorMessage: 'Registration link is not valid. Please contact site administrator.',
+        errorMessage: 'Registration link is not valid. Please contact manager or site administrator.',
       },
     };
 
