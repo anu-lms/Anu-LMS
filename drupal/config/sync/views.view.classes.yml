@@ -9,6 +9,8 @@ dependencies:
     - anu_group
     - group
     - user
+    - views_bulk_operations
+    - weight
 id: classes
 label: Classes
 module: views
@@ -115,6 +117,118 @@ display:
       row:
         type: fields
       fields:
+        views_bulk_operations_bulk_form:
+          id: views_bulk_operations_bulk_form
+          table: views
+          field: views_bulk_operations_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Views bulk operations'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          batch: true
+          batch_size: 10
+          form_step: true
+          buttons: false
+          clear_on_exposed: 0
+          action_title: Action
+          selected_actions:
+            pathauto_update_alias: 0
+            views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
+            'entity:save_action:group': 0
+          preconfiguration:
+            views_bulk_operations_delete_entity:
+              label_override: 'Delete selected Classes'
+          plugin_id: views_bulk_operations_bulk_form
+        field_weight:
+          id: field_weight
+          table: group__field_weight
+          field: field_weight
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Weight Selector (field_weight)'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          range: '20'
+          plugin_id: weight_selector
         label:
           id: label
           table: groups_field_data
@@ -517,10 +631,10 @@ display:
           entity_type: group
           plugin_id: anu_class_organization
       sorts:
-        label:
-          id: label
-          table: groups_field_data
-          field: label
+        field_weight_value:
+          id: field_weight_value
+          table: group__field_weight
+          field: field_weight_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -528,8 +642,6 @@ display:
           exposed: false
           expose:
             label: ''
-          entity_type: group
-          entity_field: label
           plugin_id: standard
       title: Classes
       header:
@@ -552,7 +664,7 @@ display:
       arguments: {  }
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -579,7 +691,7 @@ display:
         context: '0'
         menu_name: main
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
