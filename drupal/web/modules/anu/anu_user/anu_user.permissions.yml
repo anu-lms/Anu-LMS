@@ -8,6 +8,10 @@ manage users from any organization:
   description: 'Gain full control for users over organizations access.'
   restrict access: TRUE
 
+skip organizations limit:
+  title: 'Skip organizations limit'
+  description: 'Allow to add users to organizations even if limit reached.'
+
 access backend:
   title: 'Login and Access the backend'
   description: 'Allow users to login to the backend.'

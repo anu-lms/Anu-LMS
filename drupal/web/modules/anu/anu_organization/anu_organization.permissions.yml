@@ -2,3 +2,6 @@ manage any organization:
   title: 'Manage any organization'
   description: 'Gain full control over organizations access.'
   restrict access: TRUE
+access organisations overview:
+  title: 'Access organisations overview page'
+  description: 'Allow to view available for user organizations.'
