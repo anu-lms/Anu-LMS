@@ -3,12 +3,20 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.organisations.field_organization_limit
     - taxonomy.vocabulary.organisations
 id: taxonomy_term.organisations.default
 targetEntityType: taxonomy_term
 bundle: organisations
 mode: default
 content:
+  field_organization_limit:
+    weight: 1
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
   name:
     type: string_textfield
     weight: 0

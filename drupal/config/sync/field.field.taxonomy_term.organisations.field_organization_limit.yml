@@ -1,0 +1,25 @@
+uuid: 68954b76-6c15-4884-857f-a219cb124c6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_organization_limit
+    - taxonomy.vocabulary.organisations
+id: taxonomy_term.organisations.field_organization_limit
+field_name: field_organization_limit
+entity_type: taxonomy_term
+bundle: organisations
+label: Limit
+description: 'An amount of users allowed to register in organization.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

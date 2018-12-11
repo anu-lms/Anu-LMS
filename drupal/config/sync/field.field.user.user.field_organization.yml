@@ -11,7 +11,7 @@ field_name: field_organization
 entity_type: user
 bundle: user
 label: Organization
-description: 'You can add or edit organizations <a href="/admin/admin/structure/taxonomy/manage/organisations/overview">here</a>.'
+description: 'You can add or edit organizations <a href="/admin/admin/content/organizations">here</a>.'
 required: true
 translatable: false
 default_value: {  }

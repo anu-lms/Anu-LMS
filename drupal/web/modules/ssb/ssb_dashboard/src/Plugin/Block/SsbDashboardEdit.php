@@ -55,11 +55,11 @@ class SsbDashboardEdit extends BlockBase {
       ];
     }
 
-    if ($user->hasPermission('administer taxonomy')) {
+    if ($user->hasPermission('access organisations overview')) {
       $items[] = [
-        'url' => \Drupal\Core\Url::fromUri('internal:/admin/structure/taxonomy/manage/organisations/overview'),
+        'url' => \Drupal\Core\Url::fromUri('internal:/admin/content/organizations'),
         'name' => t('Organizations'),
-        'description' => t('Create, edit or delete organizations.'),
+        'description' => t('Manage organizations.'),
       ];
     }
 

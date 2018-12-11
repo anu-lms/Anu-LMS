@@ -273,7 +273,7 @@ class LessonContent extends React.Component {
       Alert.success('Thank you, the assessment has been successfully submitted.');
     }
     else {
-      Alert.error('We could not submit your assessment. Please, contact site administrator.');
+      Alert.error('We could not submit your assessment. Please, contact manager or site administrator.');
     }
   }
 
@@ -292,7 +292,7 @@ class LessonContent extends React.Component {
       }
     }
     else {
-      Alert.error('We could not submit your data. Please, contact site administrator.');
+      Alert.error('We could not submit your data. Please, contact manager or site administrator.');
     }
   }
 
