@@ -10,6 +10,7 @@ permissions:
   - 'access backend'
   - 'access content overview'
   - 'access manager toolbar'
+  - 'access organisations overview'
   - 'add content to class'
   - 'add members to class'
   - 'administer nodes'

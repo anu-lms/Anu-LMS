@@ -1,0 +1,18 @@
+uuid: d6013dff-5d60-48b4-b742-e9cf1514978d
+langcode: en
+status: true
+dependencies:
+  module:
+    - anu_user
+    - serialization
+    - user
+id: registration_token_validate
+plugin_id: registration_token_validate
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

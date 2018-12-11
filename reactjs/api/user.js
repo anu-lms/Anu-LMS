@@ -87,3 +87,40 @@ export const updatePassword = (request, uuid, password, passwordNew) => new Prom
       reject(error);
     });
 });
+
+/**
+ * Validate registration token.
+ */
+export const validateRegistrationToken = (request, token) => new Promise((resolve, reject) => {
+  request
+    .get(`/user/register/validate/${token}`)
+    .query({ '_format': 'json' })
+    .then(response => {
+      resolve(response.body);
+    })
+    .catch(error => {
+      console.error('Could not validate registration link.', error);
+      reject(error);
+    });
+});
+
+/**
+ * Register a new user.
+ */
+export const registerUser = (request, data) => new Promise((resolve, reject) => {
+  request
+    .post('/user/registration')
+    .set('Content-Type', 'application/json')
+    .query({ '_format': 'json' })
+    .send({
+      ...data,
+    })
+    .then(response => {
+      const user = dataProcessors.userData(response.body);
+      resolve(user);
+    })
+    .catch(error => {
+      console.error('Could register user.', error);
+      reject(error);
+    });
+});

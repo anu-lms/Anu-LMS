@@ -152,7 +152,7 @@ jobs:
           name: Install PHP libzip-dev lib for codeception to get installed
           command: |
             sudo apt-get install -y libzip-dev
-            sudo docker-php-ext-install zip pcntl pdo_mysql
+            sudo -E docker-php-ext-install zip pcntl pdo_mysql
 
       - restore_cache:
           keys:
