@@ -1,0 +1,24 @@
+uuid: e6ebf842-f9da-4a4e-8768-deac9f4ff206
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_weight
+    - group.type.class
+  module:
+    - weight
+id: group.class.field_weight
+field_name: field_weight
+entity_type: group
+bundle: class
+label: Weight
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '0'
+default_value_callback: ''
+settings:
+  range: '20'
+field_type: weight

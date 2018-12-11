@@ -24,7 +24,7 @@ const DashboardTemplate = ({ orgClasses, orgRecentCourses, activeOrganization })
     </Fragment>
     }
 
-    {orgClasses.length > 0 && orgClasses.map(classItem => (
+    {orgClasses.length > 0 && orgClasses.sort((a, b) => (a.weight - b.weight)).map(classItem => (
       <Fragment key={classItem.id}>
 
         <h4>{classItem.label}</h4>

@@ -242,4 +242,108 @@ function anu_user_form_user_register_form_alter(&$form, FormStateInterface $form
   if (!\Drupal::currentUser()->hasPermission('manage any organization')) {
     unset($form['field_organization']['widget']['#description']);
   }
+
+  // Hide 'Notify user of new account' and show 'Notify manager of new account' if administrator assign "Manager" role
+  // to the created user. Separate email will be send to created Manager.
+  if (!empty($form['account']['roles']['#options']['moderator'])) {
+    $form['account']['notify']['#states']['invisible']['input[name="roles[moderator]"]']['checked'] = TRUE;
+    $form['account']['notify_manager'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Notify manager of new account'),
+      '#states' => [
+        'visible' => [
+          [
+            'input[name="roles[moderator]"]' => ['checked' => TRUE],
+          ],
+        ],
+        'checked' => [
+          [
+            'input[name="roles[moderator]"]' => ['checked' => TRUE],
+          ],
+        ],
+      ],
+    ];
+
+    $form['actions']['submit']['#submit'][] = 'anu_user_form_user_register_form_submit';
+  }
+}
+
+/**
+ * Form submission handler for user_register_form().
+ *
+ * @see anu_user_form_user_register_form_alter()
+ */
+function anu_user_form_user_register_form_submit($form, FormStateInterface $form_state) {
+  if ($form_state->isValueEmpty('uid')) {
+    return;
+  }
+
+  // Send a welcome email to the created manager.
+  if (!$form_state->isValueEmpty('notify_manager')) {
+    $account = User::load($form_state->getValue('uid'));
+    if (_user_mail_notify('manager_created', $account)) {
+      drupal_set_message(t('A welcome message with further instructions has been emailed to the new user <a href=":url">%name</a>.', [':url' => $account->url(), '%name' => $account->getUsername()]));
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function anu_user_entity_type_alter(array &$entity_types) {
+  // Adds an Organization user limit Validation for user entity.
+  if (!empty($entity_types['user'])) {
+    $entity = $entity_types['user'];
+    $entity->addConstraint('UserOrganizationLimit', []);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add welcome new manager created by administrator email.
+ *
+ * @see \Drupal\user\AccountSettingsForm
+ */
+function anu_user_form_user_admin_settings_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::configFactory()->getEditable('user.mail');
+  $form['email_admin_manager_created'] = [
+    '#type' => 'details',
+    '#title' => t('Welcome (new manager created by administrator)'),
+    '#open' => TRUE,
+    '#description' => t('Edit the welcome email messages sent to new member accounts created by an administrator.'),
+    '#group' => 'email',
+    '#weight' => 0,
+  ];
+  $form['email_admin_manager_created']['email_admin_manager_created_manager_created_subject'] = [
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => $config->get('manager_created.subject'),
+    '#maxlength' => 180,
+  ];
+  $form['email_admin_manager_created']['email_admin_manager_created_manager_created_body'] = [
+    '#type' => 'textarea',
+    '#title' => t('Body'),
+    '#default_value' => $config->get('manager_created.body'),
+    '#rows' => 15,
+  ];
+
+  // Add submit handler to save user configuration.
+  $form['#submit'][] = 'anu_user_form_user_admin_settings_submit';
+}
+
+/**
+ * Form submission handler for user_admin_settings().
+ *
+ * @see anu_user_form_user_admin_settings_alter()
+ */
+function anu_user_form_user_admin_settings_submit($form, FormStateInterface $form_state) {
+  \Drupal::configFactory()->getEditable('user.mail')
+    ->set('manager_created.subject', $form_state->getValue('email_admin_manager_created_manager_created_subject'))
+    ->set('manager_created.body', $form_state->getValue('email_admin_manager_created_manager_created_body'))
+    ->save();
+
+  \Drupal::configFactory()->getEditable('user.settings')
+    ->set('notify.manager_created', TRUE)
+    ->save();
 }

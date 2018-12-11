@@ -1,0 +1,8 @@
+input.clipboardjs {
+  min-height: 0;
+  width: calc(100% - 56px);
+}
+.ui-tooltip {
+  background-color: green !important;
+  color: white;
+}
