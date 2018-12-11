@@ -96,6 +96,7 @@ class ClassesWithCoursesResource extends ResourceBase {
           'group_id' => $group->id(),
           'group_name' => $group->label(),
           'organization' => array_map('intval', array_column($group->field_organization->getValue(), 'target_id')),
+          'weight' => (int) $group->field_weight->getString(),
         ];
 
         // Load all courses from the group.
