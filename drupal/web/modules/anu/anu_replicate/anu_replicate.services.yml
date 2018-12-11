@@ -1,0 +1,10 @@
+services:
+  anu_replicate.course_replicate_alter_subscriber:
+    class: Drupal\anu_replicate\EventSubscriber\CourseReplicateAlterSubscriber
+    tags:
+      - { name: 'event_subscriber' }
+
+  anu_replicate.course_replicate_after_save_subscriber:
+    class: Drupal\anu_replicate\EventSubscriber\CourseReplicateAfterSaveSubscriber
+    tags:
+      - { name: 'event_subscriber' }

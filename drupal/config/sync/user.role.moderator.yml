@@ -71,6 +71,7 @@ permissions:
   - 'edit own resource files'
   - 'edit terms in tags'
   - 'manage any course within organization'
+  - 'replicate entities'
   - 'use text format filtered_html'
   - 'use text format wysiwyg'
   - 'view any quiz_result entities'
