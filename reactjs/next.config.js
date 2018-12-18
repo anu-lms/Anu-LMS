@@ -36,6 +36,8 @@ module.exports = {
       GTM_ID: '',
       VIMEO_ACCESS_TOKEN: '',
       SENTRY_DSN: '',
+      CLIENT_ID: '',
+      CLIENT_SECRET: '',
     }));
 
     return config;
