@@ -118,7 +118,7 @@ hooks:
       # Adding Tika configuration. Tika is used to parse attached documents (pdf) and use it in search_api.
       # Based on https://thinktandem.io/blog/2017/11/10/apache-tika-on-platform-sh
       mkdir -p /app/srv/bin
-      cd /app/srv/bin && curl -OL http://download.nextag.com/apache/tika/tika-app-1.18.jar
+      cd /app/srv/bin && curl -OL http://archive.apache.org/dist/tika/tika-app-1.18.jar
 
     # The deploy hook runs after your application has been deployed and started.
     #deploy: |
