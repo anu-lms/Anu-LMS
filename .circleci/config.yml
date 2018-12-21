@@ -250,7 +250,7 @@ jobs:
           command: |
 
             # Configure git user.
-            git config --global user.email "circleci@systemseed.com"
+            git config --global user.email "admin@anu.solutions"
             git config --global user.name "Circle CI"
 
             # Find all variables set in CIRCLE CI starting with CLIENT_*.
