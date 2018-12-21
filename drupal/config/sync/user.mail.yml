@@ -30,4 +30,4 @@ _core:
   default_config_hash: m4J3ROov32OEquRYGLbx3SpdDGuqx9l_zJtNvihqdCg
 manager_created:
   subject: 'An administrator created an account for you at [site:name]'
-  body: "[user:display-name],\r\n\r\nA new account was created for you at [site:name]. You may now login at [site:frontend-url] using:\r\nusername: [user:name] or your email address\r\npassword: Your password\r\n\r\nIf you have any questions or concerns please don't hesitate to reach out to our support team at admin@anu.solutions.\r\n\r\nCheers!\r\n\r\n-- [site:name] team"
+  body: "[user:field_first_name] [user:field_last_name],\r\n\r\nA new account was created for you at [site:name]. You may now login at [site:login-url] using:\r\nusername: [user:name] or your email address\r\npassword: Your password\r\nOr follow this link to reset the password [user:one-time-login-url].\r\n\r\nOnce authenticated, go to [site:url]admin/content/organizations and use onboarding link to register other users form your organization.\r\n\r\nIf you have any questions or concerns please don't hesitate to reach out to our support team at admin@anu.solutions.\r\n\r\nCheers!\r\n\r\n-- [site:name] team"
