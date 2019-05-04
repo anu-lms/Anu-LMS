@@ -20,11 +20,24 @@ include .env
 docker-drupal = docker-compose exec -T --user=82:82 php time ${1}
 docker = docker-compose exec -T php time ${1}
 
+# Define 3 users with different permissions within the container.
+# docker-www-data is applicable only for php container.
+docker-www-data = docker-compose exec --user=82:82 $(firstword ${1}) time -f"%E" sh -c "$(filter-out $(firstword ${1}), ${1})"
+docker-wodby = docker-compose exec $(firstword ${1}) time -f"%E" sh -c "$(filter-out $(firstword ${1}), ${1})"
+docker-root = docker-compose exec --user=0:0 $(firstword ${1}) time -f"%E" sh -c "$(filter-out $(firstword ${1}), ${1})"
+
 # Defines colors for echo, eg: @echo "${GREEN}Hello World${COLOR_END}". More colors: https://stackoverflow.com/a/43670199/3090657
 YELLOW=\033[0;33m
 RED=\033[0;31m
 GREEN=\033[0;32m
 COLOR_END=\033[0;37m
+
+# Define function to highlight messages.
+# @see https://gist.github.com/leesei/136b522eb9bb96ba45bd
+cyan = \033[38;5;6m
+bold = \033[1m
+reset = \033[0m
+message = @echo "${cyan}${bold}${1}${reset}"
 
 default: up
 
@@ -71,24 +84,34 @@ en:
 	@echo "${YELLOW}Enabling $(ARGS) module...${COLOR_END}"
 	$(call docker-drupal, drush en $(ARGS) -y)
 
-prepare:
-	$(MAKE) -s prepare\:project
-	$(MAKE) -s prepare\:permissions
+########################
+# Project preparations #
+########################
 
-prepare\:project:
-	@echo "${YELLOW}Adding Platform.sh remote...${COLOR_END}"
-	-$(shell platform project:set-remote ${PLATFORM_PROJECT_ID})
+prepare\:backend:
+	$(call message,$(PROJECT_NAME): Installing/updating Drupal dependencies...)
+	-$(call docker-wodby, php composer install --no-suggest)
+	$(call message,$(PROJECT_NAME): Updating permissions for public files...)
+	$(call docker-root, php mkdir -p web/sites/default/files)
+	$(call docker-root, php chown -R www-data: web/sites/default/files)
+	$(call docker-root, php chmod 666 web/sites/default/settings.php)
 
-prepare\:permissions:
-	@echo "${YELLOW}Fixing directory permissions...${COLOR_END}"
-	$(shell chmod 777 \.\/public\/sites\/default\/files)
+prepare\:frontend:
+	$(call message,$(PROJECT_NAME): Installing dependencies for React.js application...)
+	docker-compose run --rm node yarn install
 
-# Install rule wasn't tested. @todo: review and improve this part.
+prepare\:platformsh:
+	$(call message,$(PROJECT_NAME): Setting Platform.sh git remote..)
+	platform project:set-remote $(PLATFORM_PROJECT_ID)
+
 install:
-	$(MAKE) -s prepare
-	$(MAKE) -s up
-	$(MAKE) -s db\:dump
-	$(MAKE) -s reinstall
+#	@$(MAKE) -s prepare\:frontend
+#	@$(MAKE) -s up
+#	@$(MAKE) -s prepare\:backend
+	$(call message,$(PROJECT_NAME): Installing Drupal)
+	$(call docker-www-data, php drush -r /var/www/html/web site-install minimal --existing-config \
+		--db-url=mysql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST)/$(DB_NAME) --site-name=$(PROJECT_NAME) --account-pass=admin --yes)
+	$(call message,Congratulations! You installed $(PROJECT_NAME)!)
 
 reinstall:
 	$(MAKE) -s db\:import

@@ -6,3 +6,4 @@ package: Anu
 dependencies:
   - anu_comments
   - anu_websocket
+  - message_notify
