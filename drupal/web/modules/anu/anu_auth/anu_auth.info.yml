@@ -4,4 +4,4 @@ description: Tweaks for authentication system.
 core: 8.x
 package: Anu
 dependencies:
-  - simple_oauth
+  - simple_oauth:simple_oauth

@@ -105,9 +105,9 @@ prepare\:platformsh:
 	platform project:set-remote $(PLATFORM_PROJECT_ID)
 
 install:
-#	@$(MAKE) -s prepare\:frontend
-#	@$(MAKE) -s up
-#	@$(MAKE) -s prepare\:backend
+	@$(MAKE) -s prepare\:frontend
+	@$(MAKE) -s up
+	@$(MAKE) -s prepare\:backend
 	$(call message,$(PROJECT_NAME): Installing Drupal)
 	$(call docker-www-data, php drush -r /var/www/html/web site-install minimal --existing-config \
 		--db-url=mysql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST)/$(DB_NAME) --site-name=$(PROJECT_NAME) --account-pass=admin --yes)
