@@ -95,8 +95,8 @@ prepare\:backend:
 	$(call docker-root, php mkdir -p web/sites/default/files)
 	$(call docker-root, php chown -R www-data: web/sites/default/files)
 	$(call docker-root, php chmod 666 web/sites/default/settings.php)
-	$(call docker-root, php chmod 600 web/keys/private.key)
-	$(call docker-root, php chmod 600 web/keys/public.key)
+	$(call docker-root, php chmod 600 keys/private.key)
+	$(call docker-root, php chmod 600 keys/public.key)
 
 prepare\:frontend:
 	$(call message,$(PROJECT_NAME): Installing dependencies for React.js application...)
