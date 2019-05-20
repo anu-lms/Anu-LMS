@@ -140,8 +140,7 @@
         "Refine cases when access token is revoked": "https://www.drupal.org/files/issues/simple_oauth-auth-revoke-2946882-11.patch"
       },
       "drupal/core": {
-        "Entity reference views": "https://www.drupal.org/files/issues/2018-03-09/drupal-use_view_output_for_entityreference_options-2174633-206.patch",
-        "Avoid bubbleable metadata issue with file_create_url()": "patches/core_2867355-collect_bubbleable_metadata_in_stream_wrappers-21.patch"
+        "Entity reference views": "https://www.drupal.org/files/issues/2018-03-09/drupal-use_view_output_for_entityreference_options-2174633-206.patch"
       },
       "drupal/message": {
         "Added a return for the Message save function": "https://patch-diff.githubusercontent.com/raw/Gizra/message/pull/220.patch"
