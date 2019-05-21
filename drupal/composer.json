@@ -31,8 +31,9 @@
     "drupal/consumer_image_styles": "^2.0@RC",
     "drupal/consumers": "^1.0@beta",
     "drupal/core": "~8.6.0",
-    "drush/drush": "^9.0.0",
     "drupal/default_content": "^1.0@alpha",
+    "drupal/devel": "2.1",
+    "drupal/devel_codemirror": "2.0",
     "drupal/double_field": "^3.1",
     "drupal/dropzonejs": "^2.0@alpha",
     "drupal/eck": "^1.0@alpha",
@@ -73,14 +74,13 @@
     "drupal/toolbar_themes": "^1.0@alpha",
     "drupal/views_bulk_operations": "^2.4",
     "drupal/weight": "^3.1",
+    "drush/drush": "^9.0.0",
     "webflo/drupal-finder": "^0|^1.0.0",
     "webmozart/path-util": "^2.3",
     "wisembly/elephant.io": "^3.3"
   },
   "require-dev": {
     "drupal/coder": "8.2.12",
-    "drupal/devel": "^1.2",
-    "drupal/devel_codemirror": "^1.0",
     "drupal/reroute_email": "^1.0@beta",
     "drupal/stage_file_proxy": "^1.0@alpha"
   },
