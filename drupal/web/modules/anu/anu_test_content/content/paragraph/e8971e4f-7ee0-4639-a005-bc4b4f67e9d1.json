@@ -109,11 +109,6 @@
             "value": "field_quiz_blocks"
         }
     ],
-    "behavior_settings": [
-        {
-            "value": "a:0:{}"
-        }
-    ],
     "default_langcode": [
         {
             "value": true,

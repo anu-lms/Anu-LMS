@@ -58,8 +58,8 @@
     ],
     "uri": [
         {
-            "value": "private:\/\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf",
-            "url": "\/system\/files\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf"
+            "value": "public:\/\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf",
+            "url": "\/sites\/default\/files\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf"
         }
     ],
     "filemime": [
@@ -91,7 +91,7 @@
     ],
     "url": [
         {
-            "value": "\/system\/files\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf"
+            "value": "\/sites\/default\/files\/paragraphs\/files\/2018-04\/sample-pdf-file.pdf"
         }
     ],
     "data": [
