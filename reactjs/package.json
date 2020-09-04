@@ -24,7 +24,7 @@
     "moment": "^2.20.1",
     "next": "^4.2.1",
     "next-routes": "^1.2.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.1",
     "node-sass-glob-importer": "^5.1.0",
     "nprogress": "^0.2.0",
     "platformsh": "^1.0.0",
