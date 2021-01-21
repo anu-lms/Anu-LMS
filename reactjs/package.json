@@ -60,7 +60,7 @@
     "slate-edit-list": "^0.11.2",
     "slate-html-serializer": "systemseed/slate-html-serializer#1bdf4b4",
     "slate-react": "systemseed/slate-react#c6ecd76",
-    "socket.io": "^2.1.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.1.0",
     "socket.io-react": "^1.2.0",
     "striptags": "2.2.1",
