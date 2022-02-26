@@ -70,7 +70,7 @@
     "superagent-jsonapify": "^1.4.5",
     "superagent-prefix": "^0.0.2",
     "tiny-emitter": "^2.0.2",
-    "url-parse": "^1.2.0",
+    "url-parse": "^1.5.8",
     "xss": "^0.3.8",
     "zxcvbn": "^4.4.2"
   },
