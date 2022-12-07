@@ -13,7 +13,7 @@
     "debug": "^3.1.0",
     "dotenv": "^4.0.0",
     "es6-shim": "^0.35.3",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "express-basic-auth": "^1.1.4",
     "express-request-proxy": "^2.1.0",
     "he": "^1.1.1",
